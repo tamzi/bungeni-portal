@@ -1,6 +1,8 @@
 # core software
 bungeni.server    https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
 bungeni.core      https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
+bungeni.models    https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
+bungeni.portal    https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
 bungeni.ui        https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 bungeni.theme.private        https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
 marginalia        https://bungeni-portal.googlecode.com/svn/marginalia/trunk

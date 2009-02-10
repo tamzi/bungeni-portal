@@ -10,8 +10,12 @@ from repoze.who.interfaces import IAuthenticator
 from repoze.who.interfaces import IMetadataProvider
 
 from ore.alchemist import Session
+from sqlalchemy.exc import UnboundExecutionError
 
 from bungeni.models.domain import User
+
+import logging
+log = logging.getLogger("bungeni.portal")
 
 class AlchemistWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
@@ -26,7 +30,13 @@ class AlchemistWhoPlugin(object):
             return identity['login']
             
     def get_user(self, login):
-        results = Session().query(User).filter_by(login=unicode(login)).all()
+        try:
+            session = Session()
+        except UnboundExecutionError, e:
+            log.warn(e)
+            return
+        
+        results = session.query(User).filter_by(login=unicode(login)).all()
 
         if len(results) != 1:
             return None

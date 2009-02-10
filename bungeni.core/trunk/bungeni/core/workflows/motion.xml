@@ -125,6 +125,7 @@
     permission="bungeni.motion.Submit"
     action="bungeni.core.workflows.motionactions.submit"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionSubmittedEvent"
   />
   
   <transition
@@ -136,6 +137,7 @@
     permission="bungeni.motion.Recieve"
     action="bungeni.core.workflows.motionactions.recieved_by_clerk"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionReceivedEvent"
   />
   <transition
     id="require-edit-by-mp"
@@ -146,6 +148,7 @@
     permission="bungeni.motion.clerk.Review"
     action="bungeni.core.workflows.motionactions.require_edit_by_mp"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"
   />
   <transition
     id="complete"
@@ -176,6 +179,7 @@
     permission="bungeni.motion.speaker.Review"
     action="bungeni.core.workflows.motionactions.reject"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionRejectedEvent"
   />
   <transition
     id="require-amendment"
@@ -206,6 +210,7 @@
     permission="bungeni.motion.clerk.Review"
     action="bungeni.core.workflows.motionactions.mp_clarify"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"    
   />
   <transition
     id="resubmit-clerk"
@@ -226,6 +231,7 @@
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.schedule"
     condition="bungeni.core.workflows.utils.getMotionSchedule"
+    event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"
   />
   <transition
     id="defer"
@@ -236,6 +242,7 @@
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.defer"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionDeferredEvent"
   />
   <transition
     id="elapse-defered"
@@ -256,6 +263,7 @@
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.schedule"
     condition="bungeni.core.workflows.utils.getMotionSchedule"
+    event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
   />
   <transition
     id="postpone"
@@ -266,6 +274,7 @@
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.postpone"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionPostponedEvent"
   />
   <transition
     id="debate"
@@ -276,6 +285,7 @@
     permission="bungeni.motion.Debate"
     action="bungeni.core.workflows.motionactions.debate"
     condition=""
+    event="bungeni.core.workflows.interfaces.IMotionDebatedEvent"
   />
   <transition
     id="schedule-postponed"
@@ -286,6 +296,7 @@
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.schedule"
     condition="bungeni.core.workflows.utils.getMotionSchedule"
+    event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
   />
   <transition
     id="elapse-postponed"

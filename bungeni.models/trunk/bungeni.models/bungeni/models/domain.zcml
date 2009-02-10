@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<configure
+ xmlns="http://namespaces.zope.org/zope">
+
+  <class class=".domain.Committee">
+    <require permission="zope.Public" attributes="files"/>
+  </class>
+  
+  <class class=".domain.Bill">
+    <require permission="zope.Public" attributes="files"/>
+    <require permission="bungeni.bill.view"
+             interface=".interfaces.IBill" />
+    <require permission="bungeni.bill.edit"
+             set_schema=".interfaces.IBill" />    
+  </class>
+  
+  <class class=".domain.Response">
+    <require permission="zope.Public" attributes="files"/>
+  </class>    
+
+  <class class=".domain.Question">
+    <require permission="bungeni.question.view"
+             interface=".interfaces.IQuestion" />
+    <require permission="bungeni.question.edit"
+             set_schema=".interfaces.IQuestion" />
+  </class>             
+
+  <class class=".domain.Motion">
+    <require permission="bungeni.motion.view"
+             interface=".interfaces.IMotion" />
+    <require permission="bungeni.motion.edit"
+             set_schema=".interfaces.IMotion" />
+  </class>             
+
+
+</configure>
+

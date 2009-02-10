@@ -18,11 +18,6 @@
     <require permission="zope.Public" attributes="files"/>
   </class>    
 
-  <class class=".files.ContainedDirectory">
-    <require permission="zope.Public" like_class="ore.svn.directory.SubversionDirectory"/>
-    <require permission="zope.Public" attributes="__call__ keys get getLog __getitem__ items files directories"/>
-  </class>
-
   <class class=".domain.Question">
     <require permission="bungeni.question.view"
              interface=".interfaces.IQuestion" />

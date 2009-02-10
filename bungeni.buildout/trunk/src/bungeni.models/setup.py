@@ -25,7 +25,8 @@ setup(
                          'zope.i18n',
                          'alchemist.catalyst',
                          'alchemist.security',
-                         'ore.alchemist'],
+                         'ore.alchemist',
+                         'ore.wsgiapp'],
     zip_safe = False,
     )
 

@@ -16,10 +16,10 @@ from ore.yuiwidget import calendar
 from alchemist.ui import widgets
 from bungeni.ui.login import check_email
 
-import vocabulary
 import domain
-from i18n import _
+import vocabulary
 
+from i18n import _
 
 
 ###

@@ -11,14 +11,14 @@ import md5, random, string
 
 from zope import interface, location, component
 from ore.alchemist import model, Session
-from ore.workflow.interfaces import IWorkflowInfo
+#from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.traversal.managed import one2many
 
+import files
 import logging
 import interfaces
-import files
 
-logger = logging.getLogger('bungeni.core')
+logger = logging.getLogger('bungeni.models')
 
 
 
@@ -89,7 +89,7 @@ class ParliamentMember( User ):
 
     # ministries
     
-    addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "user_id" )
+    addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}
     
@@ -122,8 +122,8 @@ class MemberOfParliament ( Entity ):
     """    
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name', 'constituency_id':'constituency'}    
-    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
-    party = one2many( "party", "bungeni.core.domain.MemberOfPartyContainer", "membership_id" )
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
+    party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -141,7 +141,7 @@ class Group( Entity ):
     """
     interface.implements( interfaces.IBungeniGroup )
 
-    users = one2many("users", "bungeni.core.domain.GroupMembershipContainer", "group_id")
+    users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     
 class GroupMembership( Entity ):
     """ a user's membership in a group
@@ -167,12 +167,12 @@ class CommitteeStaff( StaffGroupMembership ):
     """
     Comittee Staff
     """
-    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )    
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
         
 class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
-    attendance = one2many( "attendance", "bungeni.core.domain.GroupSittingAttendanceContainer", "sitting_id" )
+    attendance = one2many( "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id" )
 
     
     @property
@@ -204,36 +204,36 @@ class Government( Group ):
     """ a government
     """
     sort_on = 'start_date'
-    ministries = one2many("ministries", "bungeni.core.domain.MinistryContainer", "government_id")
+    ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "government_id")
     
 class Parliament( Group ):
     """ a parliament
     """    
     sort_on = 'start_date'
-    sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
-    committees = one2many("committees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
-    #mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
-    governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
+    sessions = one2many("sessions", "bungeni.models.domain.ParliamentSessionContainer", "parliament_id")
+    committees = one2many("committees", "bungeni.models.domain.CommitteeContainer", "parliament_id")
+    #mps = one2many("mps","bungeni.models.domain.GroupMembershipContainer", "group_id")
+    governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parliament_id")
     parliamentmembers = one2many("parliamentmembers", 
-                                 "bungeni.core.domain.MemberOfParliamentContainer", "group_id")
-    extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer",
+                                 "bungeni.models.domain.MemberOfParliamentContainer", "group_id")
+    extensionmembers = one2many("extensionmembers", "bungeni.models.domain.ExtensionGroupContainer",
                                  "parliament_id")
-    politicalparties = one2many("politicalparties", "bungeni.core.domain.PoliticalPartyContainer", "parliament_id")
-    bills = one2many("bills", "bungeni.core.domain.BillContainer", "parliament_id")
-    questions = one2many("questions", "bungeni.core.domain.QuestionContainer", "parliament_id")
-    motions = one2many("motions", "bungeni.core.domain.MotionContainer", "parliament_id")        
+    politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parliament_id")
+    bills = one2many("bills", "bungeni.models.domain.BillContainer", "parliament_id")
+    questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")
+    motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")        
 
     
 class PoliticalParty( Group ):
     """ a political party
     """
-    partymembers = one2many("partymembers","bungeni.core.domain.PartyMemberContainer", "group_id")
+    partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
 
 class PartyMember( UserGroupMembership ):
     """ 
     Member of a political party, defined by its group membership 
     """
-    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )   
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )   
     
 class MemberOfParty( UserGroupMembership ):
     """
@@ -244,14 +244,14 @@ class MemberOfParty( UserGroupMembership ):
 class Ministry( Group ):
     """ a government ministry
     """
-    #sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
-    ministers = one2many("ministers","bungeni.core.domain.MinisterContainer", "group_id")
+    #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
+    ministers = one2many("ministers","bungeni.models.domain.MinisterContainer", "group_id")
     
 class Minister( UserGroupMembership ):
     """ A Minister
     defined by its user_group_membership in a ministry (group)
     """    
-    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
     sort_replace = {'user_id': 'sort_by_name'}
     
 class Committee( Group ):
@@ -259,16 +259,16 @@ class Committee( Group ):
     """
     interface.implements( interfaces.IFileAttachments )
     
-    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
-    committeemembers = one2many("committeemembers", "bungeni.core.domain.CommitteeMemberContainer", "group_id")
-    committeestaff = one2many("committeestaff", "bungeni.core.domain.CommitteeStaffContainer", "group_id")
+    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
+    committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
+    committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")
     files = files.DirectoryDescriptor()
 
 class CommitteeMember( UserGroupMembership ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
 
-    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )  
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )  
     sort_replace = {'user_id': 'sort_by_name'}
     
 class CommitteeType( object):
@@ -276,7 +276,7 @@ class CommitteeType( object):
         
 class ExtensionGroup( Group ):
     """ Extend selectable users for a group membership """
-    extmembers = one2many("extmembers", "bungeni.core.domain.ExtensionMemberContainer", "group_id") 
+    extmembers = one2many("extmembers", "bungeni.models.domain.ExtensionMemberContainer", "group_id") 
     
 class ExtensionMember( UserGroupMembership ):
     """ Users for Extension group """    
@@ -333,9 +333,9 @@ class ParliamentaryItem( Entity ):
     # versions
 
     
-    @property
-    def workflow( self ):
-        return component.getAdapter( self, IWorkflowInfo )
+    #@property
+    #def workflow( self ):
+    #    return component.getAdapter( self, IWorkflowInfo )
 
 class AgendaItem( Entity ):    
     """
@@ -345,8 +345,8 @@ class AgendaItem( Entity ):
 class Question( ParliamentaryItem ):
 
     interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
-    responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "response_id")
-    supplementaryquestions = one2many("supplementaryquestions", "bungeni.core.domain.QuestionContainer", "supplement_parent_id")
+    responses = one2many("responses", "bungeni.models.domain.ResponseContainer", "response_id")
+    supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
     @property
     def short_name( self ):
         return ( self.subject )
@@ -377,7 +377,7 @@ ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")
 class Motion( ParliamentaryItem ):
     
     interface.implements( interfaces.IMotion )
-    motionamendment = one2many("motionamendment", "bungeni.core.domain.MotionAmendmentContainer", "motion_id")
+    motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
     @property
     def short_name( self ):
         return ( self.title ) 
@@ -404,8 +404,8 @@ class Bill( ParliamentaryItem ):
     interface.implements( interfaces.IBill, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
     
-    consignatory = one2many("consignatory", "bungeni.core.domain.BillConsignatoryContainer", "bill_id")
-    event = one2many("event", "bungeni.core.domain.EventItemContainer", "item_id" )
+    consignatory = one2many("consignatory", "bungeni.models.domain.BillConsignatoryContainer", "bill_id")
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
      
     @property
     def short_name( self ):
@@ -430,7 +430,7 @@ class ParliamentSession( Entity ):
     """
     """
     sort_on = 'start_date'
-    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
+    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "session_id")
     
 class Rota( object ):
     """
@@ -458,7 +458,7 @@ class ObjectSubscriptions( object ):
 class Constituency( Entity ):
     """ a locality region, which elects an MP 
     """
-    cdetail = one2many("cdetail", "bungeni.core.domain.ConstituencyDetailContainer", "constituency_id")
+    cdetail = one2many("cdetail", "bungeni.models.domain.ConstituencyDetailContainer", "constituency_id")
     
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
@@ -467,13 +467,13 @@ class Region( Entity ):
     """
     Region of the constituency
     """
-    constituencies = one2many( "constituencies", "bungeni.core.domain.ConstituencyContainer", "region" ) 
+    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "region" ) 
     
 class Province( Entity ):
     """
     Province of the Constituency
     """
-    constituencies = one2many( "constituencies", "bungeni.core.domain.ConstituencyContainer", "province" )
+    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "province" )
     
 class Country( object ):
     """
@@ -502,7 +502,7 @@ class MemberRoleTitle( Entity ):
     """
     The role title a member has in a specific context
     """    
-    addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "role_title_id" )    
+    addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "role_title_id" )    
     
 #####################
 # current parliament/gov/ministers/mps...

@@ -19,7 +19,8 @@ setup(
     package_data = { '': ['*.txt', '*.zcml'] },
     namespace_packages=['bungeni'],
     install_requires = [
-           'Deliverance',
+        'Deliverance',
+        'bungeni.models',
         ],
     entry_points = """\
     [paste.filter_app_factory]

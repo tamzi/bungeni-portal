@@ -13,6 +13,7 @@
   <include files="package-includes/*-configure.zcml" />
 
   <!-- Load package configuration -->
+  <include package="bungeni.portal" />
   <include package="collective.portlet.dropdownbox" />
   <include package="collective.facetednavigation" />
   <include package="collective.plonetruegallery" />

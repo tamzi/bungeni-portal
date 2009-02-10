@@ -9,7 +9,7 @@ from bungeni.core.i18n import _
 
 from ore.alchemist import Session
 
-import bungeni.core.schema
+import bungeni.models.schema
 import sqlalchemy.orm
 
 
@@ -19,7 +19,7 @@ import sqlalchemy.orm
 # object to get the connection from so we can execute a sql statement
 class _TmpSqlQuery( object):
     pass    
-sqlalchemy.orm.mapper( _TmpSqlQuery, bungeni.core.schema.parliaments )
+sqlalchemy.orm.mapper( _TmpSqlQuery, bungeni.models.schema.parliaments )
 
 def checkBySQL( sql_statement, check_dict):
     """

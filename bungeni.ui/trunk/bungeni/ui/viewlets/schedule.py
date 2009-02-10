@@ -24,8 +24,8 @@ from ore.workflow.interfaces import IWorkflowInfo
 
 from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalendar, IPlenaryCalendar
 from bungeni.ui.utils import getDisplayDate
-import bungeni.core.schema as schema
-import bungeni.core.domain as domain
+import bungeni.models.schema as schema
+import bungeni.models.domain as domain
 from bungeni.ui.browser import container
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state

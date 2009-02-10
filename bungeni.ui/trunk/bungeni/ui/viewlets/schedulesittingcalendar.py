@@ -20,8 +20,8 @@ import sqlalchemy.sql.expression as sql
 
 from ore.alchemist import Session
 
-import bungeni.core.schema as schema
-import bungeni.core.domain as domain
+import bungeni.models.schema as schema
+import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
 
 from bungeni.ui.utils import getDisplayDate

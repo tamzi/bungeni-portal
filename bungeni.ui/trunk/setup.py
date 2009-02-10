@@ -21,6 +21,7 @@ setup(
     namespace_packages=['bungeni'],
     install_requires = [ 'setuptools',
                          'bungeni.core',
+                         'bungeni.models',
                          'simplejson',
                          'zope.app.cache',
                          'plone.memoize',

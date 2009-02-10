@@ -4,7 +4,7 @@ from zope import schema, component
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.formlib import form
-from bungeni.core import domain, interfaces
+from bungeni.models import domain, interfaces
 from alchemist.ui import content
 
 import common, search

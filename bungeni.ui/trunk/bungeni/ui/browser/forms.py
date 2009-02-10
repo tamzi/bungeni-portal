@@ -28,19 +28,36 @@ from alchemist.ui.content import ContentAddForm, ContentDisplayForm
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
 from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
 
+import bungeni.models.vocabulary as vocabulary
+import bungeni.models.domain as domain
 
-import bungeni.core.vocabulary as vocabulary
-import bungeni.core.domain as domain
+from bungeni.models.interfaces import \
+     IGroupSitting, \
+     IParliamentSession, \
+     IMemberOfParliament, \
+     ICommittee, \
+     ICommitteeMember, \
+     IGovernment, \
+     IMinistry, \
+     IExtensionGroup, \
+     IMinister, \
+     IExtensionMember, \
+     IParliament, \
+     IGroupSittingAttendance, \
+     ICommitteeStaff, \
+     IMemberRoleTitle, \
+     IMemberOfParty, \
+     IPoliticalParty, \
+     IQuestion, \
+     IResponse
+
 from bungeni.core.i18n import _
-from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
-    ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
-    IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle, \
-    IMemberOfParty, IPoliticalParty, IQuestion, IResponse
-
 import bungeni.core.workflows.utils
 import bungeni.core.globalsettings as prefs
-import bungeni.core.schema as db_schema
-from bungeni.core.interfaces import IVersioned, IFileAttachments 
+import bungeni.models.schema as db_schema
+
+from bungeni.core.interfaces import IVersioned
+from bungeni.models.interfaces import IFileAttachments 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
@@ -474,8 +491,6 @@ class ExtensionGroupAdd( CustomAddForm ):
     Adapts = IExtensionGroup
     CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
  
-
-
 
 #XXX currently filters by "type" = 'memberofparliament' -> has to be replaced with all electable usertypes
 sql_addExtensionMember = """

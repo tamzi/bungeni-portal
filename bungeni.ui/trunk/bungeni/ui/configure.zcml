@@ -59,20 +59,20 @@
   
   <!-- Application UI -->
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      name="index"
      template="templates/app-index.pt"
      />
 
   <browser:defaultView
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      name="index"
      />
 
   <!-- Content Search Form -->
   <browser:page
-    for="bungeni.core.interfaces.IBungeniApplication"
+    for="bungeni.models.interfaces.IBungeniApplication"
     permission="zope.View"
     name="search"
     class=".search.Search"
@@ -80,7 +80,7 @@
 
   <!-- Similar Content -->
   <browser:page
-    for="bungeni.core.interfaces.IBungeniContent"
+    for="bungeni.models.interfaces.IBungeniContent"
     permission="zope.View"
     name="similar"
     class=".search.Similar"
@@ -89,7 +89,7 @@
   <!-- Setup Access to Browser Resources on the Application -->
   <browser:page
     name=""
-    for="bungeni.core.interfaces.IBungeniApplication"
+    for="bungeni.models.interfaces.IBungeniApplication"
     class="zope.app.publisher.browser.resources.Resources"
     permission="zope.Public"
     allowed_interface="zope.publisher.interfaces.browser.IBrowserPublisher"
@@ -97,42 +97,42 @@
 
   <!-- Login UI -->
     <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="signup"
      class=".login.SignUp"
      />
      
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="login"
      class=".login.Login"
      />
      
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="logout"
      class=".login.Logout"
      />     
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="workspace"
      class=".workspace.Workspace"
      />
 
    <!-- Marginalia Settings for bungeni types -->
-   <class class="bungeni.core.domain.Bill">
+   <class class="bungeni.models.domain.Bill">
     <implements
         interface="marginalia.interfaces.IMarginaliaAnnotatable"
         />
    </class>
 
    <adapter
-       for="bungeni.core.interfaces.IBill"
+       for="bungeni.models.interfaces.IBill"
        provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
        factory="bungeni.ui.adaptors.BillAnnotationAdaptor"
        />

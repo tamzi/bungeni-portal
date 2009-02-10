@@ -88,7 +88,7 @@
 
    <browser:menuItem
      menu="context_actions"
-     for="bungeni.core.interfaces.IFileAttachments"
+     for="bungeni.models.interfaces.IFileAttachments"
      action="files/"
      title="Files"
      />
@@ -109,14 +109,14 @@
      
    <browser:menuItem
      menu="context_actions"
-     for="bungeni.core.interfaces.IBungeniContent"
+     for="bungeni.models.interfaces.IBungeniContent"
      action="similar"
      title="Similar"
      />       
      
    <browser:menuItem
      menu="context_actions"
-     for="bungeni.core.interfaces.IBungeniContent"
+     for="bungeni.models.interfaces.IBungeniContent"
      action="workflow"
      title="Workflow"
      />           

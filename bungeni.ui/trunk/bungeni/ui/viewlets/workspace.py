@@ -12,8 +12,8 @@ from ore.alchemist import Session
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
-import bungeni.core.schema as schema
-import bungeni.core.domain as domain
+import bungeni.models.schema as schema
+import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
 
 from bungeni.ui.i18n import MessageFactory as _

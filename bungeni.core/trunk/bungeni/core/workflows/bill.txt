@@ -445,7 +445,7 @@ Vote - Approved/Rejected
 ------------------------
 either the bill gets approved:
   >>> bill_approve = copy.deepcopy(bill) 
-  >>> bill_approve.workflow.fireTransition('approve') 
+  >>> IWorkflowInfo(bill_approve).fireTransition('approve') 
   >>> transitions( bill_approve ) 
   ()
     

@@ -8,7 +8,9 @@ object.
 
 First some setup code..
 
-  >>> from bungeni.core import domain, interfaces
+  >>> from bungeni.models import domain
+  >>> import bungeni.models.interfaces as model_interfaces
+  >>> from bungeni.core import interfaces
   >>> from zope.component import getMultiAdapter
   >>> from ore.alchemist import Session
   >>> from datetime import datetime, date
@@ -53,7 +55,7 @@ To demonstrate let's create some groups and a content object which we'll attach 
 
 Now we can store attachements on some content
 
-  >>> files = interfaces.IDirectoryLocation( bill ).directory
+  >>> files = model_interfaces.IDirectoryLocation( bill ).directory
   >>> files
   <bungeni.core.files.ContainedDirectory object at ...>
   

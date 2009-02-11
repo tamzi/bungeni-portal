@@ -11,7 +11,7 @@ import unittest
 from zope.testing import doctest, doctestunit
 from zope.app.testing import placelesssetup
 from zope.configuration import xmlconfig
-from bungeni.core import metadata
+from bungeni.models import metadata
 
 import browser.test_dates
 
@@ -30,14 +30,14 @@ zcml_slug = """
      
   <db:bind
      engine="bungeni-db"
-     metadata="bungeni.core.metadata" />
+     metadata="bungeni.models.metadata" />
 
   <db:bind
      engine="bungeni-db"
      metadata="alchemist.security.metadata" />     
 
   <!-- Setup Core Model --> 
-  <include package="bungeni.core" file="catalyst.zcml"/>
+  <include package="bungeni.models" file="catalyst.zcml"/>
  
 </configure>
 """

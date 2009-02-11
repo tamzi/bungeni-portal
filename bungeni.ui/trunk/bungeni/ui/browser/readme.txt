@@ -7,7 +7,7 @@ some setup for tests
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import core as model
+   >>> from bungeni import models as model
    >>> import datetime
 
 Setting up Database Connection and Utilities:

@@ -6,11 +6,10 @@
   
   <rule>
     <replace content="children:title" theme="children:h1" />
-    <drop content="children:head" />
   </rule>
 
   <rule>
-    <append content="img" theme="body" />
+    <append content="children:body" theme="children:body" />
   </rule>
   
   

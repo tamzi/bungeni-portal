@@ -10,7 +10,7 @@ from repoze.who.interfaces import IAuthenticator
 from repoze.who.interfaces import IMetadataProvider
 
 from ore.alchemist import Session
-from sqlalchemy.exc import UnboundExecutionError
+from sqlalchemy.exceptions import UnboundExecutionError
 
 from bungeni.models.domain import User
 

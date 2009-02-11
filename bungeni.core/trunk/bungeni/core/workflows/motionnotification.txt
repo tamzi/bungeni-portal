@@ -18,7 +18,7 @@ Setup mock delivery component.
 
 Set up a user.
 
-  >>> from bungeni.core.domain import User
+  >>> from bungeni.models.domain import User
   >>> user = User()
   >>> user.first_name = u'John'
   >>> user.last_name = u'Doe'
@@ -33,7 +33,7 @@ Set up a user.
 Motions
 ---------
 
-  >>> from bungeni.core.domain import Motion
+  >>> from bungeni.models.domain import Motion
   >>> motion = Motion()
   >>> motion.title = u"My subject"
   >>> motion.owner_id = user.user_id

@@ -1,7 +1,7 @@
 Question workflow
 =================
 
-  >>> from bungeni.core.domain import Question
+  >>> from bungeni.models.domain import Question
 
 Setup
 -----
@@ -19,8 +19,8 @@ some setup for tests
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import core as model
-   >>> from bungeni.core import domain, schema
+   >>> from bungeni import models as model
+   >>> from bungeni.models import domain, schema
 
 
    
@@ -55,7 +55,7 @@ set up utilities
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
@@ -82,19 +82,19 @@ Security Adapters
   
   >>> component.provideAdapter(
   ...    alchemist.security.role.GlobalPrincipalRoleMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.permission.GlobalRolePermissionMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.role.LocalPrincipalRoleMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.permission.LocalRolePermissionMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
 
 In order to create a participation, we need a principal:

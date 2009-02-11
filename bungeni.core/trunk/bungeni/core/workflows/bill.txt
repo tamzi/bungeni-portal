@@ -6,7 +6,7 @@ The default bill workflow models the Westminister Tradition.
 Setup
 -----
 
-  >>> from bungeni.core.domain import Bill
+  >>> from bungeni.models.domain import Bill
   >>> from bungeni.core.workflows.bill import states
   >>> import bungeni.core.interfaces
   >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
@@ -16,7 +16,7 @@ Setup
   
 
   
-  >>> import bungeni.core as model
+  >>> import bungeni.models as model
   >>> import datetime
   
   some setup for tests
@@ -24,8 +24,8 @@ Setup
    >>> from zope import component
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
-   >>> from bungeni import core as model
-   >>> from bungeni.core import domain, schema
+   >>> from bungeni.models import domain, schema
+  
    
 Setting up Database Connection and Utilities:
 
@@ -41,7 +41,7 @@ Setting up Database Connection and Utilities:
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.bill.BillWorkflowAdapter,
@@ -66,19 +66,19 @@ Security Adapters
   
   >>> component.provideAdapter(
   ...    alchemist.security.role.GlobalPrincipalRoleMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.permission.GlobalRolePermissionMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.role.LocalPrincipalRoleMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.permission.LocalRolePermissionMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> import bungeni.core.version
   >>> component.provideAdapter(
@@ -172,14 +172,14 @@ Drafting A Bill
   >>> transitions( bill )
   (u'create-bill',)
     
-  >>> bill.workflow.fireTransition('create-bill')  
+  >>> IWorkflowInfo(bill).fireTransition('create-bill')  
 
   >>> transitions( bill )
    (u'submit-bill',)
    
 Publish Bill in gazette
 -----------------------
-  >>> bill.workflow.fireTransition('submit-bill')  
+  >>> IWorkflowInfo(bill).fireTransition('submit-bill')  
   >>> transitions( bill )
   (u'withdraw-submitted', u'schedule-first')
   
@@ -199,18 +199,18 @@ First step for a bill is to be scheduled for a public reading, the user interfac
 presents a transition specific ui viewlet to be used for scheduling the reading.
 
   >>> schedule_bill(bill.bill_id)
-  >>> bill.workflow.fireTransition('schedule-first')    
+  >>> IWorkflowInfo(bill).fireTransition('schedule-first')    
   >>> transitions( bill )
   (u'postpone-first', u'ma-schedule-second', u'withdraw-first-reading', u'select-first-committee')
   
 The first reading can be postponed:
 
-  >>> bill.workflow.fireTransition('postpone-first')    
+  >>> IWorkflowInfo(bill).fireTransition('postpone-first')    
   >>> transitions( bill )
   (u'reschedule-first',) 
 
 and rescheduled:
-  >>> bill.workflow.fireTransition('reschedule-first')    
+  >>> IWorkflowInfo(bill).fireTransition('reschedule-first')    
   >>> transitions( bill )
   (u'postpone-first', u'ma-schedule-second', u'withdraw-first-reading', u'select-first-committee')
 
@@ -263,13 +263,13 @@ viewlet for scheduling the bill.
  
 The Bill can be made available for scheduling from the 1st reading
 
-  >>> bill.workflow.fireTransition('ma-schedule-second')    
+  >>> IWorkflowInfo(bill).fireTransition('ma-schedule-second')    
   >>> transitions( bill ) 
   (u'schedule-second',) 
 
 and finally scheduled for the second reading
 
-  >>> bill.workflow.fireTransition('schedule-second')    
+  >>> IWorkflowInfo(bill).fireTransition('schedule-second')    
   >>> transitions( bill ) 
   (u'ma-schedule-whole-house', u'withdraw-second-reading', u'postpone-second')
 
@@ -284,12 +284,12 @@ A Bill can be withdrawn at (almost) any stage:
 
 The second reading can be postponed:
 
-  >>> bill.workflow.fireTransition('postpone-second')    
+  >>> IWorkflowInfo(bill).fireTransition('postpone-second')    
   >>> transitions( bill ) 
   (u'reschedule-second',)
 
 and rescheduled:
-  >>> bill.workflow.fireTransition('reschedule-second')    
+  >>> IWorkflowInfo(bill).fireTransition('reschedule-second')    
   >>> transitions( bill ) 
   (u'ma-schedule-whole-house', u'withdraw-second-reading', u'postpone-second')
 
@@ -298,13 +298,13 @@ Committee of the Whole House
 ----------------------------
 make the bill available for scheduling:
  
-  >>> bill.workflow.fireTransition('ma-schedule-whole-house')    
+  >>> IWorkflowInfo(bill).fireTransition('ma-schedule-whole-house')    
   >>> transitions( bill ) 
   (u'schedule-whole-house',)
 
 and schedule it:
 
-  >>> bill.workflow.fireTransition('schedule-whole-house')    
+  >>> IWorkflowInfo(bill).fireTransition('schedule-whole-house')    
   >>> transitions( bill ) 
    (u'select-second-committee', u'withdraw-whole-house', u'ma-schedule-third-reading', u'postpone-second-reading-and-whole-house', u'postpone-whole-house')
 
@@ -319,13 +319,13 @@ A Bill can be withdrawn at (almost) any stage:
 
 postpone whole house
 
-  >>> bill.workflow.fireTransition('postpone-whole-house')    
+  >>> IWorkflowInfo(bill).fireTransition('postpone-whole-house')    
   >>> transitions( bill ) 
   (u'reschedule-whole-house',)
 
 and reschedule whole house
 
-  >>> bill.workflow.fireTransition('reschedule-whole-house')    
+  >>> IWorkflowInfo(bill).fireTransition('reschedule-whole-house')    
   >>> transitions( bill ) 
    (u'select-second-committee', u'withdraw-whole-house', u'ma-schedule-third-reading', u'postpone-second-reading-and-whole-house', u'postpone-whole-house')
 
@@ -351,7 +351,7 @@ or it can be send to a second committee first.
 Second Committee:
 -----------------
 
-  >>> bill.workflow.fireTransition('select-second-committee')    
+  >>> IWorkflowInfo(bill).fireTransition('select-second-committee')    
   >>> transitions( bill ) 
   (u'withdraw-second-committee', u'ma-schedule-second-report-reading')
 
@@ -368,13 +368,13 @@ The report of the 2nd committee is to be read:
 ---------------------------------------------
 make available for scheduling 
 
-  >>> bill.workflow.fireTransition('ma-schedule-second-report-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('ma-schedule-second-report-reading')    
   >>> transitions( bill ) 
   (u'schedule-second-report-reading',)
   
 and schedule:
 
-  >>> bill.workflow.fireTransition('schedule-second-report-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('schedule-second-report-reading')    
   >>> transitions( bill ) 
   (u'ma-second-committee-schedule-third-reading', u'postpone-second-report-reading', u'recommit-second-committee', u'withdraw-report-reading')
 
@@ -389,13 +389,13 @@ A Bill can be withdrawn at (almost) any stage:
 
 The report reading can be postponed:
 
-  >>> bill.workflow.fireTransition('postpone-second-report-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('postpone-second-report-reading')    
   >>> transitions( bill ) 
   (u'reschedule-second-report-reading',)
   
 and rescheduled:
 
-  >>> bill.workflow.fireTransition('reschedule-second-report-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('reschedule-second-report-reading')    
   >>> transitions( bill ) 
   (u'ma-second-committee-schedule-third-reading', u'postpone-second-report-reading', u'recommit-second-committee', u'withdraw-report-reading')
   
@@ -408,7 +408,7 @@ After the reading the bill can be send back to the committee:
   (u'withdraw-second-committee', u'ma-schedule-second-report-reading')
   
 or made available for the 3rd reading:  
-  >>> bill.workflow.fireTransition(u'ma-second-committee-schedule-third-reading')    
+  >>> IWorkflowInfo(bill).fireTransition(u'ma-second-committee-schedule-third-reading')    
   >>> transitions( bill )   
   (u'second-committee-schedule-third-reading',)
   
@@ -416,7 +416,7 @@ Third Reading:
 --------------
 schedule it for the third reading:
 
-  >>> bill.workflow.fireTransition('second-committee-schedule-third-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('second-committee-schedule-third-reading')    
   >>> transitions( bill )   
   (u'withdraw-third-reading', u'reject', u'approve', u'postpone-third-reading')
 
@@ -431,12 +431,12 @@ A Bill can be withdrawn at (almost) any stage:
 
 the third reading can be postponed:
 
-  >>> bill.workflow.fireTransition('postpone-third-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('postpone-third-reading')    
   >>> transitions( bill )   
   (u'reschedule-third-reading',)
 
 and rescheduled:
-  >>> bill.workflow.fireTransition('reschedule-third-reading')    
+  >>> IWorkflowInfo(bill).fireTransition('reschedule-third-reading')    
   >>> transitions( bill )   
   (u'withdraw-third-reading', u'reject', u'approve', u'postpone-third-reading')
 
@@ -450,7 +450,7 @@ either the bill gets approved:
   ()
     
 or rejected:
-  >>> bill.workflow.fireTransition('reject')    
+  >>> IWorkflowInfo(bill).fireTransition('reject')    
   >>> transitions( bill ) 
   ()
   

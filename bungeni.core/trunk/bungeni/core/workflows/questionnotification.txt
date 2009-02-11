@@ -18,10 +18,10 @@ Setup mock delivery component.
 
 Set up a user.
 
-  >>> from bungeni import core as model
+  >>> from bungeni import models as model
   >>> from datetime import datetime
 
-  >>> from bungeni.core.domain import User
+  >>> from bungeni.models.domain import User
   >>> user = User()
   >>> user.first_name = u'John'
   >>> user.last_name = u'Doe'
@@ -36,7 +36,7 @@ Set up a user.
 we need a parliament, government ministry and ministers 
 to send the question notification to.
 
-  >>> from bungeni import core as model
+  >>> from bungeni import models as model
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
   >>> session.save(parliament)
   >>> session.flush()
@@ -99,7 +99,7 @@ to send the question notification to.
 Questions
 ---------
 
-  >>> from bungeni.core.domain import Question
+  >>> from bungeni.models.domain import Question
   >>> question = Question()
   >>> question.subject = u"My subject"
   >>> question.owner_id = user.user_id

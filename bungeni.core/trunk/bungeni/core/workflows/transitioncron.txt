@@ -4,8 +4,8 @@ some setup for tests
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import core as model
-   >>> from bungeni.core import domain, schema
+   >>> from bungeni import models as model
+   >>> from bungeni.models import domain, schema
    >>> from bungeni.core.workflows import dbutils
    >>> import datetime
    >>> import bungeni.core.workflows.question as question_workflow
@@ -29,7 +29,7 @@ set up utilities
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,

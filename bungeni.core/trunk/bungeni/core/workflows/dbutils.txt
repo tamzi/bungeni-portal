@@ -4,8 +4,8 @@ some setup for tests
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import core as model
-   >>> from bungeni.core import domain, schema
+   >>> from bungeni import models as model
+   >>> from bungeni.models import domain, schema
    >>> from bungeni.core.workflows import dbutils
 
    
@@ -45,7 +45,7 @@ Get question for response()
   >>> q1 = dbutils.getQuestion(response.response_id)
   
   >>> q1.__class__
-  <class 'bungeni.core.domain.Question'>
+  <class 'bungeni.models.domain.Question'>
    
   >>> q1.question_id
   1L

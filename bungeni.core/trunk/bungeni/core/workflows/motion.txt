@@ -1,8 +1,8 @@
 Motion workflow
 =================
 
-  >>> from bungeni.core.domain import Motion
-  >>> import bungeni.core as model
+  >>> from bungeni.models.domain import Motion
+  >>> import bungeni.models as model
   >>> import datetime
   
   some setup for tests
@@ -11,8 +11,7 @@ Motion workflow
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import core as model
-   >>> from bungeni.core import domain, schema
+   >>> from bungeni.models import domain, schema
    
 Setting up Database Connection and Utilities:
 
@@ -33,12 +32,13 @@ Setup
 
   >>> import bungeni.core.workflows.motion
   >>> import bungeni.core.interfaces
+  >>> import bungeni.models.interfaces  
   >>> import ore.workflow
   >>> import copy
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.motion.MotionWorkflowAdapter,
@@ -66,19 +66,19 @@ Security Adapters
   
   >>> component.provideAdapter(
   ...    alchemist.security.role.GlobalPrincipalRoleMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.permission.GlobalRolePermissionMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.role.LocalPrincipalRoleMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
   ...    alchemist.security.permission.LocalRolePermissionMap,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
+  ...    (bungeni.models.interfaces.IBungeniContent,))
 
   
 Transition events

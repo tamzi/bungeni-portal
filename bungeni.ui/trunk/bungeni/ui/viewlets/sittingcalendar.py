@@ -623,6 +623,10 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile ('templates/sitting_calendar_viewlet.pt')
     
+    
+    
+    
+    
 class AtomCalendar(BrowserView):
     """
     an atom view of the calendar - just to display in plone

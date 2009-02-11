@@ -11,8 +11,8 @@ import sqlalchemy.sql.expression as sql
 
 from ore.alchemist import Session
 
-import bungeni.core.domain as domain
-import bungeni.core.schema as schema
+import bungeni.models.domain as domain
+import bungeni.models.schema as schema
 import bungeni.core.audit as audit
 
 #import bungeni.core.workflows.question as question_workflow

@@ -380,13 +380,13 @@ class BillItemsViewlet( viewlet.ViewletBase ):
         session = Session()
         bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
                                                                                 bill_wf_state.first_reading_postponed ,
-                                                                                bill_wf_state.second_pending , 
+                                                                                bill_wf_state.second_reading_pending , 
                                                                                 bill_wf_state.second_reading_postponed , 
                                                                                 bill_wf_state.whole_house_postponed ,
                                                                                 bill_wf_state.house_pending ,
                                                                                 bill_wf_state.report_reading_postponed ,                                                                                
                                                                                 bill_wf_state.report_reading_pending , 
-                                                                                bill_wf_state.third_pending,
+                                                                                bill_wf_state.third_reading_pending,
                                                                                 bill_wf_state.third_reading_postponed ]
                                                                                 ))
         self.query = bills            

@@ -54,10 +54,53 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
     # initialize some variables
     Date = None
     monthcalendar = None
-    monthname =""
+    monthname = ""
+    yearname = ""
     weekcalendar = None
     no_of_columns = 0
     
+    def getNextMonth(self):
+        if self.Date.month == 12:
+            month = 1
+            year = self.Date.year + 1
+        else:
+            month = self.Date.month + 1
+            year = self.Date.year        
+        try:
+            nextdate = datetime.date(year,month,self.Date.day)
+        except:
+            # if we try to move from 31 of jan to 31 of feb or so
+            nextdate = datetime.date(year,month,15)   
+        return  '?date=' + datetime.date.strftime((nextdate),'%Y-%m-%d')
+        
+    def getPrevMonth(self):
+        if self.Date.month == 1:
+            month = 12
+            year = self.Date.year - 1
+        else:
+            month = self.Date.month -1
+            year = self.Date.year  
+        try:
+            prevdate = datetime.date(year,month,self.Date.day)
+        except:
+            # in case we try to move to Feb 31st (or so)                      
+            prevdate = datetime.date(year,month,15)            
+        return  '?date=' + datetime.date.strftime((prevdate),'%Y-%m-%d')     
+              
+    def getNextYear(self):
+        try:
+            d = datetime.date(self.Date.year + 1, self.Date.month, self.Date.day)
+        except:
+            d= datetime.date(self.Date.year + 1, self.Date.month, 15)
+        return  '?date=' + datetime.date.strftime((d),'%Y-%m-%d')   
+                   
+    def getPrevYear(self):
+        try:
+            d = datetime.date(self.Date.year - 1, self.Date.month, self.Date.day)
+        except:
+            d  = datetime.date(self.Date.year - 1, self.Date.month, 15)
+        return  '?date=' + datetime.date.strftime((d),'%Y-%m-%d')
+        
     def getNextWeek(self):
         td = datetime.timedelta(7)
         return '?date=' + datetime.date.strftime((self.Date + td),'%Y-%m-%d')
@@ -221,7 +264,8 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
         self.week_no = self.Date.isocalendar()[1]                                         
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
         self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
-        self.monthname = datetime.date.strftime(self.Date,'%B %Y')
+        self.monthname = datetime.date.strftime(self.Date,'%B')
+        self.yearname = datetime.date.strftime(self.Date,'%Y')        
         #self.Data = self.getData()
         self.weekcalendar = self.getWeek()
         self.sessions = self._getSessions()

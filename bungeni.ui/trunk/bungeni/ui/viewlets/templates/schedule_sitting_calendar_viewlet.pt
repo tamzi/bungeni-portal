@@ -4,7 +4,15 @@
         <theader>
           <tr>
           <th><a tal:attributes="href view/getPrevWeek">&lt;&lt;</a></th>
-          <th tal:attributes="colspan python:(view.no_of_columns -1)"> <strong tal:content="view/monthname"> Month - year </strong></th>
+          <th tal:attributes="colspan python:(view.no_of_columns -1)"> 
+          <a tal:attributes="href view/getPrevMonth">&lt;&lt;</a>
+          <strong tal:content="view/monthname"> Month </strong>
+          <a tal:attributes="href view/getNextMonth">&gt;&gt;</a>
+          -
+          <a tal:attributes="href view/getPrevYear">&lt;&lt;</a>
+          <strong tal:content="view/yearname"> year </strong>  
+          <a tal:attributes="href view/getNextYear">&gt;&gt;</a>        
+          </th>
           <th><a tal:attributes="href view/getNextWeek">&gt;&gt;</a></th>
           </tr>
           <tr>

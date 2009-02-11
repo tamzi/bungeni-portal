@@ -711,13 +711,13 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
             self.postponed_motion_ids.append(result.motion_id) 
         bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
                                                                                 bill_wf_state.first_reading_postponed ,
-                                                                                bill_wf_state.second_pending , 
+                                                                                bill_wf_state.second_reading_pending , 
                                                                                 bill_wf_state.second_reading_postponed , 
                                                                                 bill_wf_state.whole_house_postponed ,
                                                                                 bill_wf_state.house_pending ,
                                                                                 bill_wf_state.report_reading_postponed ,                                                                                
                                                                                 bill_wf_state.report_reading_pending , 
-                                                                                bill_wf_state.third_pending,
+                                                                                bill_wf_state.third_reading_pending,
                                                                                 bill_wf_state.third_reading_postponed ]
                                                                                 ))  
         results = bills.all()
@@ -1344,13 +1344,13 @@ class BillItemsViewlet( viewlet.ViewletBase ):
         session = Session()
         bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
                                                                                 bill_wf_state.first_reading_postponed ,
-                                                                                bill_wf_state.second_pending , 
+                                                                                bill_wf_state.second_reading_pending , 
                                                                                 bill_wf_state.second_reading_postponed , 
                                                                                 bill_wf_state.whole_house_postponed ,
                                                                                 bill_wf_state.house_pending ,
                                                                                 bill_wf_state.report_reading_postponed ,                                                                                
                                                                                 bill_wf_state.report_reading_pending , 
-                                                                                bill_wf_state.third_pending,
+                                                                                bill_wf_state.third_reading_pending,
                                                                                 bill_wf_state.third_reading_postponed ]
                                                                                 ))
         self.query = bills            
@@ -1729,13 +1729,13 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
             if sitting:   
                 if bill.status in [bill_wf_state.submitted , 
                     bill_wf_state.first_reading_postponed ,
-                    bill_wf_state.second_pending , 
+                    bill_wf_state.second_reading_pending , 
                     bill_wf_state.second_reading_postponed , 
                     bill_wf_state.whole_house_postponed ,
                     bill_wf_state.house_pending ,
                     bill_wf_state.report_reading_postponed ,                                                                                
                     bill_wf_state.report_reading_pending , 
-                    bill_wf_state.third_pending,
+                    bill_wf_state.third_reading_pending,
                     bill_wf_state.third_reading_postponed ]:
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = bill_id
@@ -1743,11 +1743,11 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
                     session.save(item_schedule) 
                     if bill.status in [bill_wf_state.submitted , bill_wf_state.first_reading_postponed]:
                         IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.first_reading, check_security=True)
-                    elif bill.status in [bill_wf_state.second_pending, bill_wf_state.second_reading_postponed ]:
+                    elif bill.status in [bill_wf_state.second_reading_pending, bill_wf_state.second_reading_postponed ]:
                         IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.second_reading, check_security=True)
                     elif bill.status in [bill_wf_state.report_reading_postponed ,bill_wf_state.report_reading_pending]:
                         IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.report_reading, check_security=True)
-                    elif bill.status in [bill_wf_state.third_pending, bill_wf_state.third_reading_postponed ]:
+                    elif bill.status in [bill_wf_state.third_reading_pending, bill_wf_state.third_reading_postponed ]:
                         IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.third_reading, check_security=True)
                     elif bill.status in [  bill_wf_state.house_pending, bill_wf_state.whole_house_postponed ]:
                         IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.whole_house, check_security=True)   

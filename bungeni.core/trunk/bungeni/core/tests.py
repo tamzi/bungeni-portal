@@ -11,7 +11,9 @@ from zope.testing import doctest, doctestunit
 from zope.app.testing import placelesssetup, ztapi
 from zope.configuration import xmlconfig
 
-from bungeni.core import metadata, interfaces
+from bungeni.models import metadata, interfaces
+from bungeni.core.interfaces import IAssignmentFactory, IContentAssignments, \
+    IContextAssignments, IVersionedFileRepository, IFilePathChooser
 
 zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -28,14 +30,14 @@ zcml_slug = """
      
   <db:bind
      engine="bungeni-db"
-     metadata="bungeni.core.metadata" />
+     metadata="bungeni.models.metadata" />
 
   <db:bind
      engine="bungeni-db"
      metadata="alchemist.security.metadata" />     
 
   <!-- Setup Core Model --> 
-  <include package="bungeni.core" file="catalyst.zcml"/>
+  <include package="bungeni.models" file="catalyst.zcml"/>
  
 </configure>
 """
@@ -54,15 +56,15 @@ def assignment_tests( ):
     def _setUp( test ):
         setUp( test )
         ztapi.provideAdapter( (interfaces.IBungeniContent, interfaces.IBungeniGroup ),
-                              interfaces.IAssignmentFactory,
+                              IAssignmentFactory,
                               assignment.GroupAssignmentFactory )
 
         ztapi.provideAdapter( interfaces.IBungeniContent,
-                              interfaces.IContentAssignments,
+                              IContentAssignments,
                               assignment.ContentAssignments )
 
         ztapi.provideAdapter( interfaces.IBungeniGroup,
-                              interfaces.IContextAssignments,
+                              IContextAssignments,
                               assignment.GroupContextAssignments )
         
     return doctestunit.DocFileSuite('assignment.txt',
@@ -89,14 +91,14 @@ def file_tests( ):
         import files
         files.setup()
         
-        ztapi.provideUtility( interfaces.IVersionedFileRepository, component=files.FileRepository )
+        ztapi.provideUtility( IVersionedFileRepository, component=files.FileRepository )
 
         ztapi.provideAdapter( interfaces.IBungeniContent,
                               interfaces.IDirectoryLocation,
                               files.location )
 
         ztapi.provideAdapter( interfaces.IBungeniContent,
-                              interfaces.IFilePathChooser,
+                              IFilePathChooser,
                               files.DefaultPathChooser )
 
     def _tearDown( test ):

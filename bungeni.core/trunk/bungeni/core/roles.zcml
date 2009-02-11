@@ -77,6 +77,10 @@
     <grant permission="bungeni.bill.edit" role="bungeni.Speaker" /> 
     <grant permission="bungeni.bill.view" role="bungeni.Speaker" /> 
     
+
+    <!--grant role="zope.Manager"
+	 principal="zope.anybody" /-->
+
           
     
     <!--

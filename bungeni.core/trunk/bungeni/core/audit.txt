@@ -2,7 +2,7 @@ Audit:
 
 in terms of a test plan, its a doc test, that creates a class, which
 implements the auditable interface, 
-see http://wiki.zope.org/zope3/events.html hoe to test events
+see http://wiki.zope.org/zope3/events.html hoew to test events
 Note: zope.app.event. was replaced with zope.lifecycleevent
 see audit.zcml
 
@@ -10,12 +10,12 @@ see audit.zcml
   >>> from datetime import datetime
   >>> metadata = rdb.MetaData()
   >>> from ore.alchemist import Session
-  >>> from bungeni.core.schema import make_changes_table
+  >>> from bungeni.models.schema import make_changes_table
   >>> from sqlalchemy.orm import mapper
   >>> import bungeni.core.audit as audit
   >>> import bungeni.core.interfaces
   >>> import zope.interface
-  >>> import bungeni.core.domain as domain
+  >>> import bungeni.models.domain as domain
   
 Note that the Primary key must be user_id (tablename -'s' + '_id')
 otherwise bungeni.core.schema.make_changes_table will fail
@@ -28,7 +28,7 @@ otherwise bungeni.core.schema.make_changes_table will fail
   ... )
 
   >>> class Users(object):
-  ...     zope.interface.implements(bungeni.core.interfaces.IBungeniContent)  
+  ...     zope.interface.implements(bungeni.models.interfaces.IBungeniContent)  
   
 
   >>> mapper(Users, users_table)
@@ -86,7 +86,7 @@ setting up the event subscribers/adapters:
   >>> component.provideAdapter(
   ...    audit.AuditorFactory,
   ...    (bungeni.core.interfaces.IAuditable,),
-  ...    bungeni.core.interfaces.IBungeniContent )
+  ...    bungeni.models.interfaces.IBungeniContent )
 
   >>> #domain.ItemLog.makeLogFactory( "UsersChange")
 

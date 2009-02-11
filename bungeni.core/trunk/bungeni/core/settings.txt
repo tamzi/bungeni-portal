@@ -23,11 +23,11 @@ are for user settings and and application settings so let's
 demonstrate against those two.
 
   >>> from bungeni.core.app import BungeniApp
-  >>> from bungeni.core.interfaces import IBungeniUser, IBungeniApplication
+  >>> from bungeni.models.interfaces import IBungeniUser, IBungeniApplication
 
 First we need to create and register the adapters
 
-  >>> from bungeni.core import settings
+  >>> from bungeni.models import settings
   >>> from zope import component
 
 One for global settings 

@@ -11,11 +11,11 @@ some setup for tests
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import core as model
+   >>> from bungeni import models as model
    >>> import datetime
 
    >>> from sqlalchemy.orm import mapper
-   >>> from bungeni.core import domain, schema
+   >>> from bungeni.models import domain, schema
 
    
    

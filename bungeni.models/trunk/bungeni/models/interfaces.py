@@ -136,6 +136,27 @@ class IAssignment( IAlchemistContent ):
     type = schema.TextLine(title=_(u"Assignment Type"), readonly=True)
     status = schema.TextLine(title=_(u"Status"), readonly=True)
     notes  = schema.Text( title=_(u"Notes"), description=_(u"Notes"))
+    
+class IContentAssignments( interface.Interface ):
+    """ assignments of this content to different contexts""" 
+
+    def __iter__(  ):
+        """ iterate over assignments for this context """
+
+class IContextAssignments( interface.Interface ):
+    """ content assignments for the given context/group """
+    
+    def __iter__(  ):
+        """ iterate over assignments for this context """
+
+class IAssignmentFactory( interface.Interface ):
+    """ assignment factory """
+    
+    def new( **kw ):
+        """
+        create a new assignment
+        """
+    
         
 class IFileAttachments( interface.Interface ):
     """

@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import bungeni.core.workflows.utils as utils
+import zope.securitypolicy.interfaces
 
 def denyAllWrites(question):
     """
@@ -23,10 +24,10 @@ def create(info,context):
     deny right to add supplementary questions.
     """
     utils.setQuestionDefaults(info, context)
-    #user_id = utils.getUserId()
-    #if not user_id:
-    #    user_id ='-'
-    #zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)     
+    user_id = utils.getUserId()
+    if not user_id:
+        user_id ='-'
+    zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)     
     #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( context )    
     #rpm.denyPermissionToRole( 'bungeni.question.add', u'bungeni.MP' )
         

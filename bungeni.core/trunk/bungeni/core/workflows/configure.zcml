@@ -30,11 +30,30 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".bill.BillWorkflowAdapter" />     
 
-  <!-- questions workflow -->
   <adapter
-     for="bungeni.models.domain.Question"
+     for="bungeni.models.interfaces.IBill"
+     provides="ore.workflow.interfaces.IWorkflowInfo"
+     factory="bungeni.core.workflow.StateWorkflowInfo"/>
+
+
+
+  <!-- questions workflow -->
+  
+  <!--adapter
+     for="bungeni.models.interfaces.IQuestion"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".WorkflowState" /-->
+  
+  <adapter
+     for="bungeni.models.interfaces.IQuestion"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".question.QuestionWorkflowAdapter" />
+
+  <adapter
+     for="bungeni.models.interfaces.IQuestion"
+     provides="ore.workflow.interfaces.IWorkflowInfo"
+     factory="bungeni.core.workflow.StateWorkflowInfo"/>
+
 
   <subscriber
      handler=".question.workflowTransitionEventDispatcher" />
@@ -44,9 +63,14 @@
 
   <!-- responses workflow -->
   <adapter
-     for="bungeni.models.domain.Response"
+     for="bungeni.models.interfaces.IResponse"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".response.ResponseWorkflowAdapter" />
+     
+  <adapter
+     for="bungeni.models.interfaces.IResponse"
+     provides="ore.workflow.interfaces.IWorkflowInfo"
+     factory="bungeni.core.workflow.StateWorkflowInfo"/>     
 
   <subscriber
      handler=".response.workflowTransitionEventDispatcher" />
@@ -54,9 +78,14 @@
 
   <!-- motion workflow -->
   <adapter
-     for="bungeni.models.domain.Motion"
+     for="bungeni.models.interfaces.IMotion"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".motion.MotionWorkflowAdapter" />
+     
+  <adapter
+     for="bungeni.models.interfaces.IMotion"
+     provides="ore.workflow.interfaces.IWorkflowInfo"
+     factory="bungeni.core.workflow.StateWorkflowInfo"/>        
 
   <subscriber
      handler=".motion.workflowTransitionEventDispatcher" />

@@ -41,8 +41,8 @@
   <include file="permissions.zcml" />
   <include file="roles.zcml" />
 
-  <!-- Assignment Infrastructure -->
-  <include file="assignment.zcml"/>
+  <!-- Assignment Infrastructure moved to bungeni.model -->
+  <!--include file="assignment.zcml"/-->
 
   <!-- Versioned File Infrastructure -->
   <include file="files.zcml" />

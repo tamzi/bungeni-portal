@@ -20,7 +20,7 @@ from ore.workflow import interfaces
 from zope.i18nmessageid import Message
 
 #import bungeni.core.interfaces
-
+import pdb
 
 trigger_value_map = {
     'manual':interfaces.MANUAL,
@@ -159,10 +159,10 @@ class StateWorkflowInfo( WorkflowInfo ):
     #interface.implements(interfaces.IWorkflowInfo)
 
     def _setState( self, state_id ):
-        wf = self.workflow()
-        if not isinstance( wf, StateWorkflow):
+        wf = self.workflow()        
+        if not isinstance( wf.workflow, StateWorkflow):
             return
-        state = wf.states.get( state_id )
+        state = wf.workflow.states.get( state_id )
         if state is None:
             return
         state.initialize( self.context )

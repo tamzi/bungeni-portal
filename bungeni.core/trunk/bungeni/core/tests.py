@@ -12,8 +12,7 @@ from zope.app.testing import placelesssetup, ztapi
 from zope.configuration import xmlconfig
 
 from bungeni.models import metadata, interfaces
-from bungeni.core.interfaces import IAssignmentFactory, IContentAssignments, \
-    IContextAssignments, IVersionedFileRepository, IFilePathChooser
+from bungeni.core.interfaces import IVersionedFileRepository, IFilePathChooser
 
 zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -51,27 +50,6 @@ def tearDown( test ):
     placelesssetup.tearDown()
     metadata.drop_all( checkfirst=True )
 
-def assignment_tests( ):
-    import assignment
-    def _setUp( test ):
-        setUp( test )
-        ztapi.provideAdapter( (interfaces.IBungeniContent, interfaces.IBungeniGroup ),
-                              IAssignmentFactory,
-                              assignment.GroupAssignmentFactory )
-
-        ztapi.provideAdapter( interfaces.IBungeniContent,
-                              IContentAssignments,
-                              assignment.ContentAssignments )
-
-        ztapi.provideAdapter( interfaces.IBungeniGroup,
-                              IContextAssignments,
-                              assignment.GroupContextAssignments )
-        
-    return doctestunit.DocFileSuite('assignment.txt',
-                                    setUp = _setUp,
-                                    tearDown = tearDown,
-                                    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                    )
 
 
 def file_setup( ):
@@ -138,7 +116,6 @@ def test_suite():
                                               optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS )
         test_suites.append( test_suite )
         
-    test_suites.append( assignment_tests() )
     test_suites.append( file_tests() )
 
     

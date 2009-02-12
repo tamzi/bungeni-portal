@@ -3,26 +3,8 @@ from zope.component.interfaces import IObjectEvent, ObjectEvent
 from zope.app.container.interfaces import IContainer
 
 from bungeni.models.interfaces import IVersion
+import ore.workflow.interfaces
 
-class IContentAssignments( interface.Interface ):
-    """ assignments of this content to different contexts""" 
-
-    def __iter__(  ):
-        """ iterate over assignments for this context """
-
-class IContextAssignments( interface.Interface ):
-    """ content assignments for the given context/group """
-    
-    def __iter__(  ):
-        """ iterate over assignments for this context """
-
-class IAssignmentFactory( interface.Interface ):
-    """ assignment factory """
-    
-    def new( **kw ):
-        """
-        create a new assignment
-        """
 
 ####################
 # Feature - Marker Interfaces 
@@ -129,3 +111,8 @@ class IVersionedFileRepository( interface.Interface ):
         fetch the versioned directory for the given repository
         path
         """
+#class IStateWorkflowInfo (ore.workflow.interfaces.IWorkflowInfo):
+#    """
+#    subclass IWorkflowInfo so that it implements security states
+#    """        
+    

@@ -19,8 +19,6 @@ from ore.workflow.workflow import Workflow, WorkflowInfo, Transition, NullCondit
 from ore.workflow import interfaces
 from zope.i18nmessageid import Message
 
-#import bungeni.core.interfaces
-import pdb
 
 trigger_value_map = {
     'manual':interfaces.MANUAL,

@@ -111,8 +111,4 @@ class IVersionedFileRepository( interface.Interface ):
         fetch the versioned directory for the given repository
         path
         """
-#class IStateWorkflowInfo (ore.workflow.interfaces.IWorkflowInfo):
-#    """
-#    subclass IWorkflowInfo so that it implements security states
-#    """        
-    
+

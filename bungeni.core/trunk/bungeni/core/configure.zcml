@@ -89,7 +89,7 @@
   <class class="bungeni.models.domain.ParliamentaryItem">
     <implements interface=".interfaces.IVersionable" />
   </class>
-  
+         
   <!-- Workflow -->
   <include package=".workflows" />
   

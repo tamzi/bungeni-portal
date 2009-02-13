@@ -1,0 +1,28 @@
+Versioning
+------------------------
+
+  >>> import bungeni.models.domain
+  
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)  
+
+
+
+  >>> question = bungeni.models.domain.Question()
+
+
+  >>> versions =  bungeni.core.interfaces.IVersioned(question)
+
+  >>> len(list(versions.values()))
+  0  
+  
+  
+  >>> versions.create('New version created ...')
+
+ >>> len(list(versions.values()))
+  1
+
+

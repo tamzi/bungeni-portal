@@ -94,7 +94,8 @@ def file_tests( ):
 
 def test_suite():
 
-    doctests = ('audit.txt',                
+    doctests = ('audit.txt',
+                'version.txt',                 
                 'workflows/questionnotification.txt', 
                 'workflows/motionnotification.txt',                 
                 'workflows/question.txt',

@@ -13,7 +13,9 @@
   <include files="package-includes/*-configure.zcml" />
 
   <!-- Load package configuration -->
+  <include package="cmf.pt" />
   <include package="bungeni.portal" />
+  <include package="plone.maintemplate" />
   <include package="collective.portlet.dropdownbox" />
   <include package="collective.facetednavigation" />
   <include package="collective.plonetruegallery" />

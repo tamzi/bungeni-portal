@@ -1,5 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
+           xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:db="http://namespaces.objectrealms.net/rdb"
            i18n_domain="bungeni">
 
@@ -21,4 +23,19 @@
      engine="bungeni-db"
      metadata="alchemist.security.schema.metadata" />
 
+  <configure zcml:condition="installed plone.maintemplate">
+
+    <utility
+       name="Bungeni"
+       provides="plone.maintemplate.interfaces.ILayout"
+       component=".maintemplate.bungeni" />
+
+    <browser:resourceDirectory 	   
+       name="portal"
+       directory="static/html/resources"
+       permission="zope2.Public"
+       />
+
+  </configure>
+  
 </configure>

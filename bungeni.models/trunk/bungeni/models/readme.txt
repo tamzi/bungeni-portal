@@ -34,7 +34,7 @@ get some values in those tables as they are needed later on
  >>> country = model.Country()
  >>> country.country_id = 'KE'
  >>> country.country_name = u"Kenya"
- >>> session.save(country)
+ >>> session.add(country)
  >>> session.flush()
  >>> country.country_id
  'KE'
@@ -45,13 +45,13 @@ Regions and provinces get their primary key with a db sequence:
  
  >>> region = model.Region()
  >>> region.region = u"Nairobi"
- >>> session.save(region)
+ >>> session.add(region)
  >>> session.flush() 
  >>> region.region_id
  1L
  >>> province = model.Province()
  >>> province.province= u"Central"
- >>> session.save(province)
+ >>> session.add(province)
  >>> session.flush()
  >>> province.province_id
  1L
@@ -101,17 +101,17 @@ they work.
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.datetime.now(), election_date=datetime.datetime.now())
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.datetime.now())
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.datetime.now())
-  >>> session.save( parliament )
-  >>> session.save(political_party_a)
-  >>> session.save(political_party_b)
-  >>> session.save( mp_1 )
-  >>> session.save( mp_2 )
-  >>> session.save( mp_3 )      
+  >>> session.add( parliament )
+  >>> session.add(political_party_a)
+  >>> session.add(political_party_b)
+  >>> session.add( mp_1 )
+  >>> session.add( mp_2 )
+  >>> session.add( mp_3 )      
   >>> session.flush()
   
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.datetime.now())
   >>> committee_a.parliament_id = parliament.parliament_id
-  >>> session.save(committee_a)
+  >>> session.add(committee_a)
   >>> session.flush()
     
 A user is associated to a group via a membership, where we can store additional properties, such
@@ -123,15 +123,15 @@ Let's create some memberships and see what we can do with them.
   ...    membership = model.GroupMembership()
   ...    membership.user = mp
   ...    membership.group = parliament
-  ...    session.save( membership )
+  ...    session.add( membership )
   ...    membership = model.GroupMembership()
   ...    membership.user = mp
   ...    membership.group = political_party_a
-  ...    session.save( membership )
+  ...    session.add( membership )
   
 
 
-  >>> session.save( membership )
+  >>> session.add( membership )
 
 Check that we can access the membership through the containment object
 
@@ -143,7 +143,7 @@ Government
 ----------
   >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.datetime.now())
   >>> gov.parliament_id = parliament.parliament_id
-  >>> session.save(gov)
+  >>> session.add(gov)
   >>> session.flush()  
 
 
@@ -151,7 +151,7 @@ Ministries
 -----------
   >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.datetime.now())
   >>> ministry.government_id = gov.government_id
-  >>> session.save(ministry)
+  >>> session.add(ministry)
   >>> session.flush()
   
 
@@ -167,7 +167,7 @@ Constituencies have a fk on regions and provinces:
  >>> constituency.province = 1
  >>> constituency.start_date = datetime.datetime.now()
 
- >>> session.save(constituency)
+ >>> session.add(constituency)
  >>> session.flush()
  
 check the pk if it was saved and pk sequence is working
@@ -185,7 +185,7 @@ Role title names
   >>> mrt1.user_role_name = u"President"
   >>> mrt1.user_unique = True
   >>> mrt1.sort_order = 10
-  >>> session.save(mrt1)
+  >>> session.add(mrt1)
   >>> session.flush()
     
  
@@ -200,7 +200,7 @@ the parliaments group and additional attributes.
   >>> mp4.start_date = datetime.datetime.now()
   >>> mp4.constituency_id = 1
   >>> mp4.elected_nominated = 'E'
-  >>> session.save(mp4)
+  >>> session.add(mp4)
   >>> session.flush()   
   >>> mp4.membership_id
   7L            
@@ -214,7 +214,7 @@ Members have a title in their groups
   >>> mt1.title_name_id = 1
   >>> mt1.start_date = datetime.datetime.now()
   >>> mt1.title_name_id = mrt1.user_role_type_id   
-  >>> session.save(mt1)
+  >>> session.add(mt1)
       
   
 Sittings
@@ -227,7 +227,7 @@ meeting of the group by the system.
  >>> st.sitting_type = u"morning"
  >>> st.start_time = datetime.time(8,30)
  >>> st.end_time = datetime.time(12,30)
- >>> session.save(st)
+ >>> session.add(st)
  >>> session.flush()
  
  >>> st.sitting_type_id
@@ -239,7 +239,7 @@ meeting of the group by the system.
  >>> sit.start_date = datetime.datetime.now()
  >>> sit.end_date = datetime.datetime.now()
  >>> sit.sitting_type = st.sitting_type_id
- >>> session.save(sit)
+ >>> session.add(sit)
  >>> session.flush() 
 
 Sitting attendance
@@ -249,14 +249,14 @@ the attendance of a member at a sitting.
 
  >>> at = model.AttendanceType()
  >>> at.attendance_type = u"present"
- >>> session.save(at)
+ >>> session.add(at)
  >>> session.flush()  
  
  >>> gsa = model.GroupSittingAttendance()
  >>> gsa.sitting_id = sit.sitting_id
  >>> gsa.member_id = mp_1.user_id
  >>> gsa.attendance_id = at.attendance_id
- >>> session.save(gsa)
+ >>> session.add(gsa)
  >>> session.flush() 
  
 Sessions
@@ -268,7 +268,7 @@ A parliamentary Session
  >>> sess.short_name = u"First Session"
  >>> sess.start_date = datetime.datetime.now()
  >>> sess.end_date = datetime.datetime.now()
- >>> session.save(sess)
+ >>> session.add(sess)
  >>> session.flush() 
  
  >>> sess.session_id
@@ -281,7 +281,7 @@ Sitting in this session
  >>> ssit.start_date = datetime.datetime.now()
  >>> ssit.end_date = datetime.datetime.now()
  >>> ssit.sitting_type = st.sitting_type_id
- >>> session.save(ssit)
+ >>> session.add(ssit)
  >>> session.flush() 
  
 Attendance
@@ -290,7 +290,7 @@ Attendance
  >>> sgsa.sitting_id = ssit.sitting_id
  >>> sgsa.member_id = mp_1.user_id
  >>> sgsa.attendance_id = at.attendance_id
- >>> session.save(sgsa)
+ >>> session.add(sgsa)
  >>> session.flush() 
 
 Motions
@@ -306,7 +306,7 @@ Note that the questions workflow is tested separated (see workflows/question.txt
 
   >>> question = model.Question()
   
-  >>> session.save(question)
+  >>> session.add(question)
   >>> session.flush()
   
   >>> question.question_id
@@ -318,7 +318,7 @@ Responses
 ---------
   >>> response = model.Response()
   >>> response.response_id = question.question_id
-  >>> session.save(response)
+  >>> session.add(response)
   >>> session.flush()
  
   
@@ -343,7 +343,7 @@ Debates
  >>> debate = model.Debate()
  >>> debate.short_name=u'Debate'
  >>> debate.sitting_id = ssit.sitting_id
- >>> session.save(debate)
+ >>> session.add(debate)
  >>> session.flush()
 
 Clean up commit outstanding transactions

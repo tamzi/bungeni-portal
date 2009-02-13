@@ -22,8 +22,10 @@ object, or against the application itself. The two primary use cases
 are for user settings and and application settings so let's
 demonstrate against those two.
 
-  >>> from bungeni.core.app import BungeniApp
   >>> from bungeni.models.interfaces import IBungeniUser, IBungeniApplication
+  >>> class BungeniApp( object ):
+  ...     interface.implements( IBungeniApplication )
+
 
 First we need to create and register the adapters
 

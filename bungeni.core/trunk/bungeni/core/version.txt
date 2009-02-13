@@ -10,19 +10,22 @@ Versioning
   ...    bungeni.core.interfaces.IVersioned)  
 
 
-
   >>> question = bungeni.models.domain.Question()
 
+alsopovides fixes the problem with adaptation
+  >>> from zope.interface import alsoProvides
+  >>> alsoProvides(question, bungeni.core.interfaces.IVersionable)
 
+check that there are no versions yet:
   >>> versions =  bungeni.core.interfaces.IVersioned(question)
 
   >>> len(list(versions.values()))
   0  
   
-  
+create a version:  
   >>> versions.create('New version created ...')
 
- >>> len(list(versions.values()))
+  >>> len(list(versions.values()))
   1
 
 

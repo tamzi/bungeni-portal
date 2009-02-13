@@ -98,6 +98,23 @@ public class Generator extends javax.swing.JFrame {
         }
      }
    
+    private OOComponentHelper openOOoFileAsTemplate(){
+        boolean bFiles = optionFile.isSelected();
+        File fileName= getFileFromChooser("/home/undesa/Documents", new ODTFileFilter(bFiles), JFileChooser.FILES_ONLY);
+        if (fileName == null) {
+           return null;
+        }
+        XComponent xComp;
+        xComp = OOComponentHelper.openTemplate(fileName.getAbsolutePath());
+        //XComponent xComp = newDocument(fileName.getAbsolutePath());
+        if (xComp == null) {
+            return null;
+        }
+        this.txtTemplate.setText(fileName.getAbsolutePath());
+       return new OOComponentHelper(xComp, openofficeObject.getComponentContext());
+        
+    }
+        
     private OOComponentHelper openOOoFile(){
         boolean bFiles = optionFile.isSelected();
         File fileName= getFileFromChooser("/home/undesa/Documents", new ODTFileFilter(bFiles), JFileChooser.FILES_ONLY);
@@ -389,8 +406,13 @@ private void optionFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 private void btnSelectDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectDocumentActionPerformed
 // TODO add your handling code here:
+        if (optionFile.isSelected())
         ooDocument = openOOoFile();//GEN-LAST:event_btnSelectDocumentActionPerformed
+        else
+        ooDocument = openOOoFileAsTemplate();
+        
         updateMetaModel();
+        
         if (ooDocument == null) {
             JOptionPane.showMessageDialog(null, "Unable to get handle to file!");
         }

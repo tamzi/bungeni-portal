@@ -20,6 +20,7 @@ Setup
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from bungeni.models import domain, schema
+   >>> import sqlalchemy as rdb
   
    
 Setting up Database Connection and Utilities:
@@ -124,18 +125,45 @@ Schedule Items for sitting
   >>> items.all()
   []
 
+  >>> #print str(items)
+
+
   >>> schedule_item(question.question_id, sit1.sitting_id)
   >>> schedule_item(bill.bill_id, sit1.sitting_id)
   >>> schedule_item(motion.motion_id, sit1.sitting_id)
-  >>> items.all()  
-    
+  >>> len(items.all())  
+  3  
+  
+  >>> items.filter(schema.items_schedule.c.active == False).all()
+  []
+      
+  >>> len(items.filter(schema.items_schedule.c.active == True).all())
+  3
+
+  >>> len(items.filter(schema.items_schedule.c.sitting_id == sit1.sitting_id).all())  
+  3      
+
+  >>> len (items.filter( rdb.and_(schema.items_schedule.c.sitting_id == sit1.sitting_id, schema.items_schedule.c.active == True) ).order_by(schema.items_schedule.c.order).all())
+  3
+
+  >>> len(items.filter(schema.items_schedule.c.sitting_id == sit2.sitting_id).all())  
+  0          
       
   >>> schedule_item(question.question_id, sit2.sitting_id)
   >>> schedule_item(bill.bill_id, sit2.sitting_id)
   >>> schedule_item(motion.motion_id, sit2.sitting_id)
-  >>> items.all()
-
-
+  >>> len(items.all())
+  6
+  
+  >>> len(items.filter(schema.items_schedule.c.sitting_id == sit2.sitting_id).all())  
+  3    
+  
+  
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()
   
   
   

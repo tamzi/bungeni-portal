@@ -23,6 +23,7 @@ setup(
         'ore.alchemist',
         'bungeni.models',
         'alchemist.security',
+        'chameleon.html',
         ],
     entry_points = """\
     [paste.filter_app_factory]

@@ -31,6 +31,10 @@ otherwise bungeni.core.schema.make_changes_table will fail
   ...     zope.interface.implements(bungeni.models.interfaces.IBungeniContent)  
   
 
+  >>> from zope.interface import classImplements
+  >>> classImplements( Users, bungeni.core.interfaces.IAuditable)
+
+
   >>> mapper(Users, users_table)
   <sqlalchemy.orm.mapper.Mapper object at ...
   

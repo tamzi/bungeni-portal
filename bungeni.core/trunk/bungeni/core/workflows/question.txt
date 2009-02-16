@@ -97,6 +97,9 @@ Security Adapters
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
 
+  >>> from zope.interface import classImplements
+  >>> classImplements( bungeni.models.domain.Question, bungeni.core.interfaces.IVersionable)
+
 In order to create a participation, we need a principal:
 
   >>> import zope.security.interfaces

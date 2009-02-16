@@ -11,6 +11,7 @@ import bungeni.core
 
 from zope.dottedname.resolve import resolve
 import zope.securitypolicy.interfaces
+from zope.security.proxy import removeSecurityProxy
 
 from zope import interface 
 
@@ -102,7 +103,8 @@ class State( object ):
 
     def initialize( self, context ):
         """ initialize content now in this state """
-        rpm = zope.securitypolicy.interfaces.IRolePermissionMap( context )
+        _context = removeSecurityProxy(context)
+        rpm = zope.securitypolicy.interfaces.IRolePermissionMap( _context )
         for action, permission, role in self.permissions:
             if action == GRANT:
                rpm.grantPermissionToRole( permission, role )

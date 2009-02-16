@@ -2,6 +2,10 @@
            xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="bungeni">
 
+  <include package="z3c.pt" />
+  <include package="z3c.ptcompat" file="meta.zcml" />
+  <include package="z3c.ptcompat.patches" />
+  
   <include package="repoze.whooze" file="integration.zcml" />
   <includeOverrides package="repoze.whooze" file="overrides.zcml" />
   <include package="zope.app.security" />

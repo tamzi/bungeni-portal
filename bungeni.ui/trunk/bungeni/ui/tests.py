@@ -52,7 +52,8 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
-    doctests = ( 'browser/readme.txt',  )
+    doctests = ( 'browser/readme.txt',
+                 'viewlets/schedule.txt'  )
 
     globs = dict(interface=interface, component=component)
     test_suites = []

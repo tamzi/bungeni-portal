@@ -78,7 +78,7 @@
     <implements interface="ore.xapian.interfaces.IIndexable" />
   </class>
   
-  <class class="bungeni.models.domain.ParliamentaryItem">
+  <!--class class="bungeni.models.domain.ParliamentaryItem">
     <implements interface="ore.xapian.interfaces.IIndexable" />
   </class>
 
@@ -88,6 +88,27 @@
 
   <class class="bungeni.models.domain.ParliamentaryItem">
     <implements interface=".interfaces.IVersionable" />
+  </class-->
+  
+  <class class="bungeni.models.domain.Question">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
+  </class>
+    <class class="bungeni.models.domain.Motion">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
+  </class>
+  <class class="bungeni.models.domain.Bill">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
+  </class>
+  <class class="bungeni.models.domain.Response">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
   </class>
          
   <!-- Workflow -->

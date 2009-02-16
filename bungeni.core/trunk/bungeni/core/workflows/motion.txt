@@ -81,6 +81,9 @@ Security Adapters
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   
+  >>> from zope.interface import classImplements
+  >>> classImplements( bungeni.models.domain.Motion, bungeni.core.interfaces.IVersionable)  
+  
 Transition events
 -----------------
 

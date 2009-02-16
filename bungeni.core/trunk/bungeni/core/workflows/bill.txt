@@ -86,6 +86,11 @@ Security Adapters
   ...    (bungeni.core.interfaces.IVersionable,),
   ...    bungeni.core.interfaces.IVersioned)
 
+
+  >>> from zope.interface import classImplements
+  >>> classImplements( bungeni.models.domain.Bill, bungeni.core.interfaces.IVersionable)
+
+
 Transition events
 -----------------
 

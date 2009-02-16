@@ -6,6 +6,15 @@
 
   <metal:portal-header fill-slot="plone.htmlhead">
     <metal:header define-slot="header" />
+
+    <!-- stylesheets -->
+    <div tal:replace="structure provider:plone-css" />
+    <div tal:replace="structure provider:yui.css" />
+
+    <!-- javascripts -->
+    <div tal:replace="structure provider:yui.js" />
+    <div tal:replace="structure provider:plone-js" />
+    
   </metal:portal-header>
 
   <div metal:fill-slot="plone.portaltop">

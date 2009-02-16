@@ -94,7 +94,7 @@
      class=".schedule.ScheduleCalendarItemsViewletManager"
      permission="zope.View"
      />         
-     
+               
   <browser:viewlet
     name="bungeni.schedule.admissible-questions"   
     manager=".interfaces.IScheduleItems"
@@ -145,7 +145,16 @@
     weight="28"
     />    
      
-     
+
+
+
+  <browser:viewlet
+    name="bungeni.schedule.calendar.submit"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.ScheduleSittingSubmitViewlet"
+    permission="zope.Public"
+    weight="05"
+  />   
      
   <browser:viewlet
     name="bungeni.schedule.calendar"   

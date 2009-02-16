@@ -86,11 +86,19 @@ class ScheduledItems ( object ):
     """
     all scheduled items 
     actually no items are returned by this query 
-    as schema.items_schedule.c.item_id cannot be null
     we only need it as a base class to inherit from         
     """
     
-_scheduled_items = rdb.select([schema.items_schedule], schema.items_schedule.c.item_id ==None).alias('no_scheduled_item')
+#_scheduled_items = rdb.select([schema.items_schedule], schema.items_schedule.c.item_id ==None).alias('no_scheduled_item')
+_scheduled_items = schema.items_schedule.join(schema.questions, 
+                    schema.questions.c.question_id == schema.items_schedule.c.item_id).join(
+                    schema.motions,
+                    schema.motions.c.motion_id == schema.questions.c.question_id).join(
+                    schema.bills,
+                    schema.bills.c.bill_id == schema.motions.c.motion_id).join(
+                    schema.agenda_items,
+                    schema.agenda_items.c.agenda_item_id == schema.bills.c.bill_id)
+
 
 class ScheduledQuestionItems( ScheduledItems ):
     """
@@ -131,6 +139,9 @@ _scheduled_agenda_items = rdb.join( schema.agenda_items, schema.items_schedule,
 #polymorphic join for Concrete Inheritance
 #to get all possible objects in one go.
 
+#_scheduled_items = rdb.select([_scheduled_agenda_items, _scheduled_questions, _scheduled_motions, _scheduled_bills], schema.items_schedule.c.item_id ==None).alias('no_scheduled_item')
+
+
 join_scheduled_items = polymorphic_union({
     'items': _scheduled_items,
     'questions': _scheduled_questions,
@@ -139,11 +150,16 @@ join_scheduled_items = polymorphic_union({
     'agendaitems':_scheduled_agenda_items}, 
     'type', 'join_scheduled_items')
 
+# XXX
+# polymorphic querying changed in versions 4.7/4.8 and 5.X
+# XXX
+
 scheduled_items = mapper(ScheduledItems,  _scheduled_items, 
-                        select_table=join_scheduled_items, 
+                        #select_table=join_scheduled_items, 
+                        with_polymorphic=('*', join_scheduled_items),
                         polymorphic_on=join_scheduled_items.c.type, polymorphic_identity='items')
 
-scheduled_questionss = mapper(ScheduledQuestionItems,  _scheduled_questions, inherits=scheduled_items, 
+scheduled_questions = mapper(ScheduledQuestionItems,  _scheduled_questions, inherits=scheduled_items, 
                         order_by=schema.questions.c.question_number,                        
                         concrete=True, polymorphic_identity='questions')                        
 scheduled_bills = mapper(ScheduledBillItems, _scheduled_bills, inherits=scheduled_items, 
@@ -1589,9 +1605,10 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
         """
         session = Session()
         active_sitting_items_filter = rdb.and_(schema.items_schedule.c.sitting_id == sitting_id, 
-                                                schema.items_schedule.c.active == True)
+                                                schema.items_schedule.c.active == True)                                                     
         items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
+        #pdb.set_trace() 
         results = items.all()
         q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
         for result in results:            
@@ -1662,6 +1679,28 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
 
        
        
+                  
+       
+    def update(self):
+        """
+        refresh the query
+        """                       
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date=datetime.date.today()                            
+        self.query, self.Date = current_sitting_query(self.Date)        
+        self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
+        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
+        self.monthname = datetime.date.strftime(self.Date,'%B %Y')
+        self.Data = self.getData()
+    
+    render = ViewPageTemplateFile ('templates/schedule_calendar_viewlet.pt')
+
+class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
+    """
+    this only gets the posted values and inserts them into the db           
+    and reports any errors the might occur
+    """
     def schedule_question(self, question_id, sitting_id, sort_id):        
         session = Session()
         item_schedule = domain.ItemSchedule()
@@ -1992,8 +2031,8 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
 #                if type(qids) in StringTypes:
 #                    if qids[:2] == 'q_':
 #                        question_id = long(qids[2:])
-#                        self.schedule_question(question_id, None, 0)                        
-       
+#                        self.schedule_question(question_id, None, 0)      
+
     def update(self):
         """
         refresh the query
@@ -2003,16 +2042,7 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
             if not self.request.form.has_key('cancel'):
                 self.insert_items(self.request.form) 
                 
-        self.Date = getDisplayDate(self.request)
-        if not self.Date:
-            self.Date=datetime.date.today()                            
-        self.query, self.Date = current_sitting_query(self.Date)        
-        self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
-        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
-        self.monthname = datetime.date.strftime(self.Date,'%B %Y')
-        self.Data = self.getData()
-    
-    render = ViewPageTemplateFile ('templates/schedule_calendar_viewlet.pt')
+    render =  ViewPageTemplateFile ('templates/schedule_sitting_submit_viewlet.pt')
     
 class SittingCalendarWeekViewlet(ScheduleCalendarViewlet):
     """

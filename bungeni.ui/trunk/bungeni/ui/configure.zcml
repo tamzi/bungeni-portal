@@ -20,9 +20,6 @@
   <!-- Site Skin Definition -->
   <include file="skin.zcml"/>  
 
-  <!-- Site Resource Viewlets -->
-  <include file="resources.zcml" />
-  
   <!-- Site Portlets -->
   <include package=".portlets" />
 

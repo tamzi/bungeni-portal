@@ -23,6 +23,9 @@
      engine="bungeni-db"
      metadata="alchemist.security.schema.metadata" />
 
+  <!-- The ``bungeni.portal`` package is shared between Bungeni (z3)
+       and Plone; part of the configuration is platform-dependent -->
+  
   <configure zcml:condition="installed plone.maintemplate">
 
     <utility
@@ -53,6 +56,11 @@
        layer="ploned.ui.interfaces.IPlonedSkin"
        permission="zope.View"
        />
+
+    <adapter
+       for="* zope.publisher.interfaces.browser.IHTTPRequest str"
+       provides="chameleon.html.interfaces.IResourceLocation"
+       factory=".layout.get_url" />
     
     <include package="ploned.ui" file="skin.zcml" />
    

@@ -158,10 +158,10 @@ function bungeniClickCreateAnnotation( event, id ) {
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
                  <tal:search tal:condition="view/isAdmin">
                    <option value="" tal:attributes="value authenticateduserid">Myself</option>
-                   <option value="select_all" selected>All</option>
+                   <option value="select_all" selected="selected">All</option>
                  </tal:search>
                  <tal:search tal:condition="not: view/isAdmin">
-                   <option value="" tal:attributes="value authenticateduserid" selected>Myself</option>
+                   <option value="" tal:attributes="value authenticateduserid" selected="selected">Myself</option>
                    <option value="select_all">All</option>
                  </tal:search>
                    <optgroup LABEL="Filter by User ">
@@ -173,7 +173,7 @@ function bungeniClickCreateAnnotation( event, id ) {
                    </optgroup> 
                  </select>
                  <select class="select_field" name="filter_group" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
-                   <option value="select_all" selected>All</option>
+                   <option value="select_all" selected="selected">All</option>
                    <optgroup LABEL="Filter by Group ">
                      <span tal:repeat="group group_names" tal:omit-tag="">
                        <option value="" tal:attributes="value python:group[0]" tal:content="python:group[1]">Managers</option>
@@ -181,7 +181,7 @@ function bungeniClickCreateAnnotation( event, id ) {
                    </optgroup> 
                  </select>
                  <select class="select_field" name="filter_type" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
-                   <option value="select_all" selected>All</option>
+                   <option value="select_all" selected="selected">All</option>
                    <option value="comment">Comment</option>
                    <option value="insert">Insert</option>
                    <option value="replace">Replace</option>
@@ -189,8 +189,8 @@ function bungeniClickCreateAnnotation( event, id ) {
                  </select>
                  <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
                  <br/>
-                 <input class="input_field" type="button" id="search" type="search" value="Search" onClick="filterAnnotations(this);"/>
-                 <input class="input_field" type="button" id="clear" type="clear" value="Clear Search" onClick="clearSearch(this);"/>
+                 <input class="input_field" type="button" id="search" value="Search" onClick="filterAnnotations(this);"/>
+                 <input class="input_field" type="button" id="clear" value="Clear Search" onClick="clearSearch(this);"/>
                  <input class="input_field" type="submit" value="Download" onClick="downloadAnnotations(this);" />
      	         <span id="loader" style="display:none;">
                   <img title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++imagesmarginalia/loader.gif" />

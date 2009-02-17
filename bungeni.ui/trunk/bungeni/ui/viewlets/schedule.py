@@ -345,7 +345,8 @@ class QuestionJSONValidation( BrowserView ):
                 elif qid[:5] == 'isid_':
                     schedule_id = long(qid[5:].split('_')[0])
                     item = getScheduledItem(schedule_id)
-                    schedule_sitting_id = item.sitting_id
+                    sitting = getSitting(schedule_id)
+                    schedule_sitting_id = sitting.sitting_id
                 elif qid[:2] == 'm_':                                         
                     motion_id = long(qid[2:].split('_')[0])
                     item = session.query(domain.Motion).get(motion_id)

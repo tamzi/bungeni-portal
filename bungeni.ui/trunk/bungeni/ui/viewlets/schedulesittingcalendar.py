@@ -27,8 +27,7 @@ import bungeni.core.globalsettings as prefs
 from bungeni.ui.utils import getDisplayDate
 
 import interfaces
-from schedule import makeList, ScheduledItems, ScheduledQuestionItems, ScheduledMotionItems, ScheduledBillItems, ScheduledAgendaItems
-
+from schedule import makeList
 import pdb
 
 

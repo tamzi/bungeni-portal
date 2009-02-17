@@ -13,11 +13,8 @@ from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
 import zope.interface
-from zope.security import proxy
-from zope.formlib import form
 from zope.traversing.browser.absoluteurl import absoluteURL
 
-from ore.alchemist.container import stringKey
 from zc.resourcelibrary import need
 from ore.alchemist import Session
 from ore.workflow.interfaces import IWorkflowInfo
@@ -26,7 +23,7 @@ from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalend
 from bungeni.ui.utils import getDisplayDate
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
-from bungeni.ui.browser import container
+
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
@@ -36,7 +33,6 @@ import bungeni.core.globalsettings as prefs
 
 import sqlalchemy.sql.expression as sql
 import sqlalchemy as rdb
-from sqlalchemy.orm import mapper, polymorphic_union
 
 import simplejson
 
@@ -82,94 +78,6 @@ import pdb
 # some joins to get the scheduled items (bills, motions and question) 
 # along with their scheduling information
 
-class ScheduledItems ( object ):
-    """
-    all scheduled items 
-    actually no items are returned by this query 
-    we only need it as a base class to inherit from         
-    """
-    
-#_scheduled_items = rdb.select([schema.items_schedule], schema.items_schedule.c.item_id ==None).alias('no_scheduled_item')
-_scheduled_items = schema.items_schedule.join(schema.questions, 
-                    schema.questions.c.question_id == schema.items_schedule.c.item_id).join(
-                    schema.motions,
-                    schema.motions.c.motion_id == schema.questions.c.question_id).join(
-                    schema.bills,
-                    schema.bills.c.bill_id == schema.motions.c.motion_id).join(
-                    schema.agenda_items,
-                    schema.agenda_items.c.agenda_item_id == schema.bills.c.bill_id)
-
-
-class ScheduledQuestionItems( ScheduledItems ):
-    """
-    Questions scheduled for a sitting
-    """
-    
-_scheduled_questions = rdb.join( schema.questions, schema.items_schedule, 
-                                schema.questions.c.question_id == schema.items_schedule.c.item_id )
-                                
-
-
-class ScheduledMotionItems ( ScheduledItems ):
-    """
-    Motions scheduled for a sitting
-    """
-    
-_scheduled_motions = rdb.join( schema.motions, schema.items_schedule, 
-                                schema.motions.c.motion_id == schema.items_schedule.c.item_id )
-                                
-
-
-class ScheduledBillItems( ScheduledItems ):
-    """
-    Bills scheduled for a sitting
-    """
-    
-_scheduled_bills = rdb.join( schema.bills, schema.items_schedule, 
-                                schema.bills.c.bill_id == schema.items_schedule.c.item_id )
-                                
-class ScheduledAgendaItems( ScheduledItems ):
-    """
-    agenda items for a sitting
-    """
-_scheduled_agenda_items = rdb.join( schema.agenda_items, schema.items_schedule, 
-                                schema.agenda_items.c.agenda_item_id == schema.items_schedule.c.item_id )
-
-
-#polymorphic join for Concrete Inheritance
-#to get all possible objects in one go.
-
-#_scheduled_items = rdb.select([_scheduled_agenda_items, _scheduled_questions, _scheduled_motions, _scheduled_bills], schema.items_schedule.c.item_id ==None).alias('no_scheduled_item')
-
-
-join_scheduled_items = polymorphic_union({
-    'items': _scheduled_items,
-    'questions': _scheduled_questions,
-    'motions': _scheduled_motions,
-    'bills': _scheduled_bills,
-    'agendaitems':_scheduled_agenda_items}, 
-    'type', 'join_scheduled_items')
-
-# XXX
-# polymorphic querying changed in versions 4.7/4.8 and 5.X
-# XXX
-
-scheduled_items = mapper(ScheduledItems,  _scheduled_items, 
-                        #select_table=join_scheduled_items, 
-                        with_polymorphic=('*', join_scheduled_items),
-                        polymorphic_on=join_scheduled_items.c.type, polymorphic_identity='items')
-
-scheduled_questions = mapper(ScheduledQuestionItems,  _scheduled_questions, inherits=scheduled_items, 
-                        order_by=schema.questions.c.question_number,                        
-                        concrete=True, polymorphic_identity='questions')                        
-scheduled_bills = mapper(ScheduledBillItems, _scheduled_bills, inherits=scheduled_items, 
-    concrete=True, polymorphic_identity='bills')
-scheduled_motions = mapper(ScheduledMotionItems, _scheduled_motions, inherits=scheduled_items, 
-    order_by= schema.motions.c.motion_number,
-    concrete=True, polymorphic_identity='motions')
-scheduled_agenda_items = mapper(ScheduledAgendaItems, _scheduled_agenda_items, inherits=scheduled_items, 
-    order_by= schema.agenda_items.c.agenda_item_id,
-    concrete=True, polymorphic_identity='agendaitems')
 
 
 def makeList( itemIds ):
@@ -182,14 +90,35 @@ def makeList( itemIds ):
     else:
          raise TypeError ("Form values must be of type string or list")
 
+def getParliamentaryItem(item_id):
+    """
+    rweturn the item for a item_id
+    """
+    session = Session()
+    scheduled_item = session.query(domain.Question).get(item_id)
+    if scheduled_item:
+        return scheduled_item
+    scheduled_item = session.query(domain.Motion).get(item_id)
+    if scheduled_item:
+        return scheduled_item
+    scheduled_item = session.query(domain.Bill).get(item_id)
+    if scheduled_item:
+        return scheduled_item
+    scheduled_item = session.query(domain.AgendaItem).get(item_id)
+    if scheduled_item:
+        return scheduled_item
+
 
 def getScheduledItem( schedule_id ):
     """
     return the item for a given schedule_id
     """
     session = Session()
-    scheduled_item = session.query(scheduled_items).filter(schema.items_schedule.c.schedule_id == schedule_id)[0]
-    return scheduled_item
+    item_schedule_item = session.query(domain.ItemSchedule).get(schedule_id)
+    pdb.set_trace()
+    #scheduled_item = session.query(scheduled_items).filter(schema.items_schedule.c.schedule_id == schedule_id)[0]
+    return getParliamentaryItem(item_schedule_item.item_id)
+
 
 
 class QuestionJSONValidation( BrowserView ):
@@ -472,11 +401,11 @@ class QuestionJSONValidation( BrowserView ):
                     elif qid[:5] == 'isid_':
                         isid = long(qid[5:].split('_')[0])
                         s_item = getScheduledItem(isid)                        
-                        if type(s_item) == ScheduledQuestionItems:
+                        if type(s_item) == domain.Question:
                             sitting_questions.append(s_item.question_id)
-                        elif type(s_item) == ScheduledMotionItems:
+                        elif type(s_item) == domain.Motion:
                             sitting_motions.append(s_item.motion_id)
-                        elif type(s_item) == ScheduledBillItems:                            
+                        elif type(s_item) == domain.Bill:                            
                             sitting_bills.append(s_item.bill_id)
                     elif qid[:2] == 'a_' :
                         sitting_agenda_items.append(long(qid[2:].split('_')[0]))        
@@ -494,7 +423,7 @@ class QuestionJSONValidation( BrowserView ):
             sitting = session.query(domain.GroupSitting).get(sitting_id)
         else:
             sitting = None    
-        if (type(item) == ScheduledQuestionItems) or (type(item) == domain.Question):
+        if (type(item) == domain.Question):
             question = item                
                 
             #result = self.moveScheduledQuestion ( sitting, question )    
@@ -519,7 +448,7 @@ class QuestionJSONValidation( BrowserView ):
             #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
-        elif (type(item) == ScheduledMotionItems) or (type(item) == domain.Motion):
+        elif (type(item) == domain.Motion):
             result = self.MotionScheduledInPast(sitting)
             if result:
                 errors.append(result)  
@@ -530,7 +459,7 @@ class QuestionJSONValidation( BrowserView ):
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
-        elif (type(item) == ScheduledBillItems) or (type(item) == domain.Bill):
+        elif (type(item) == domain.Bill):
             result = self.BillScheduledInPast(sitting)
             if result:
                 errors.append(result)  
@@ -543,7 +472,7 @@ class QuestionJSONValidation( BrowserView ):
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )   
-        elif (type(item) == ScheduledAgendaItems) or (type(item) == domain.AgendaItem):
+        elif (type(item) == domain.AgendaItem):
             #result = self.BillScheduledInPast(sitting)
             #if result:
             #    errors.append(result)  
@@ -744,12 +673,12 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         for result in results:
             self.sitting_ids.append(result.sitting_id)     
        
-        scheduled_items =  session.query(domain.ItemSchedule).filter( rdb.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
+        dd_scheduled_items =  session.query(domain.ItemSchedule).filter( rdb.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
                                                                     schema.items_schedule.c.active == True))
         
         
         
-        results = scheduled_items.all()
+        results = dd_scheduled_items.all()
         for result in results:
             self.scheduled_item_ids.append(result.schedule_id)    
         cal = calendar.Calendar(prefs.getFirstDayOfWeek())    
@@ -1606,41 +1535,42 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
         session = Session()
         active_sitting_items_filter = rdb.and_(schema.items_schedule.c.sitting_id == sitting_id, 
                                                 schema.items_schedule.c.active == True)                                                     
-        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        items = session.query(domain.ItemSchedule).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
         #pdb.set_trace() 
-        results = items.all()
+        results = items.all()        
         q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
-        for result in results:            
+        for iresult in results:            
             data ={}
+            result = getParliamentaryItem(iresult.item_id)
             #data['qid']= ( 'q_' + str(result.question_id) ) 
-            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
-            if type(result) == ScheduledQuestionItems:                       
+            data['schedule_id'] = ( 'isid_' + str(iresult.schedule_id) ) # isid for ItemSchedule ID             
+            if type(result) == domain.Question:                       
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10] + u'... '
                 data['title'] = result.subject
                 data['type'] = "question"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/questions/obj-' + str(result.question_id)
-            elif type(result) == ScheduledMotionItems:    
+            elif type(result) == domain.Motion:    
                 data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10] + u'... '
                 data['title'] = result.title
                 data['type'] = "motion"                
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
                 data['url'] = '/motions/obj-' + str(result.motion_id)
-            elif type(result) == ScheduledBillItems:    
+            elif type(result) == domain.Bill:    
                 data['subject'] = u"B " + result.title[:10]  + u'... '
                 data['title'] = result.title             
                 data['type'] = "bill"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/bills/obj-' + str(result.bill_id)
-            elif type(result) == ScheduledAgendaItems:    
+            elif type(result) == domain.AgendaItem:    
                 data['subject'] = u"" + result.title[:10]  + u'... '
                 data['title'] = result.title             
                 data['type'] = "agenda_item"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
                 data['url'] = '/agendaitems/obj-' + str(result.agenda_item_id)                
                 
-            data['status'] = result.status
+            data['status'] = iresult.status
             data_list.append(data)            
         return data_list
 
@@ -1651,23 +1581,24 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
         session = Session()
         active_sitting_items_filter = rdb.and_(schema.items_schedule.c.sitting_id == sitting_id, 
                                                 schema.items_schedule.c.active == False)
-        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        items = session.query(domain.ItemSchedule).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
         results = items.all()
-        for result in results:            
+        for iresult in results:            
             data ={}
-            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
-            if type(result) == ScheduledQuestionItems:                       
+            result = getParliamentaryItem(iresult.item_id)
+            data['schedule_id'] = ( 'isid_' + str(iresult.schedule_id) ) # isid for ItemSchedule ID 
+            if type(result) == domain.Question:                       
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
                 data['title'] = result.subject
                 data['type'] = "question"
                 data['url'] = '/questions/obj-' + str(result.question_id)                
-            elif type(result) == ScheduledMotionItems:    
+            elif type(result) == domain.Motion:    
                 data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
                 data['title'] = result.title 
                 data['type'] = "motion"
                 data['url'] = '/motions/obj-' + str(result.motion_id)
-            elif type(result) == ScheduledBillItems:    
+            elif type(result) == domain.Bill:    
                 data['subject'] = u"B " + result.title[:10]             
                 data['title'] = result.title 
                 data['type'] = "bill"
@@ -1870,22 +1801,6 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
             self.errors.append("Agenda Item could not be scheduled")             
         
     
-    def getScheduledItems( self, form ):
-        """
-        return all items currently scheduled on the calendar
-        """
-        sitting_ids = []
-        for target in form.keys():
-            if target[4:] == 'sid_':
-                #this is a sitting
-                sitting_ids.append(long(target[4:]))
-        if len(sitting_ids) > 0:
-            # there are sittings on the calendar
-            session = Session()
-            scheduled_items =  session.query(ScheduledItems).filter(schema.items_schedule.c.sitting_id.in_(sitting_ids))
-            return scheduled_items
-        else:
-            return None
     
     
     def insert_item_into_sitting( self, sitting_id, itemIds=[]):
@@ -1916,22 +1831,22 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
             elif item_id[:5] == 'isid_':
                 # a scheduled item to be rescheduled                    
                 scheduled_item_id = long(item_id[5:])
-                item = session.query(ScheduledItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
+                item = getScheduledItem(scheduled_item_id) # session.query(domainItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
                 if item.sitting_id == sitting_id:
                     #same sitting no workflow actions just update the sort_id
                     item.order = sort_id
                 else:
                     #item was moved from one sitting to another                     
                     raise NotImplementedError( "A scheduled item cannot be rescheduled" )
-                    if type(item) == ScheduledQuestionItems:
+                    if type(item) == domain.Question:
                         question_id = item.question_id
                         self.schedule_question(question_id, None, 0)
                         self.schedule_question(question_id, sitting_id, sort_id)
-                    elif type(item) == ScheduledBillItems:
+                    elif type(item) == domain.Bill:
                         bill_id = item.question_id
                         self.schedule_question(bill_id, None, 0)
                         self.schedule_bill(bill_id, sitting_id, sort_id)
-                    elif type(item) == ScheduledMotionItems:
+                    elif type(item) == domain.Motion:
                         motion_id = item.motion_id
                         self.schedule_motion(motion_id, None, 0)
                         self.schedule_motion(motion_id, sitting_id, sort_id)
@@ -1948,13 +1863,14 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
             if item_id[:5] == 'isid_':
                 raise NotImplementedError
                 scheduled_item_id = long(item_id[5:])
-                item = session.query(ScheduledItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
-                if type(item) == ScheduledQuestionItems:
+                item = getScheduledItem(scheduled_item_id) 
+                #item = session.query(ScheduledItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
+                if type(item) == domain.Question:
                     question_id = item.question_id
                     self.schedule_question(question_id, None, 0)
-                elif type(item) == ScheduledBillItems:
+                elif type(item) == domain.Bill:
                     pass
-                elif type(item) == ScheduledMotionItems:
+                elif type(item) == domain.Motion:
                      motion_id = item.motion_id   
                      self.schedule_motion(motion_id, None, 0)    
                 else:
@@ -2054,42 +1970,7 @@ class SittingCalendarWeekViewlet(ScheduleCalendarViewlet):
         for week in self.monthcalendar:
             if self.Date in week:
                 return week
-                
-
-class SittingCalendarAtomWeek(BrowserView):
-    """
-    just another template for display
-    """    
-    __call__ = ViewPageTemplateFile("templates/atom-calendar-view.pt")
-    def name(self):
-        return "Calendar"
-        if self.context.__parent__:
-            descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
-        if descriptor:
-            name = getattr( descriptor, 'display_name', None)
-        if not name:
-            name = getattr( self.context.__parent__.domain_model, '__name__', None)  
-        return name 
-           
-    def feedtitle(self):            
-        if self.form_name:
-            title = self.form_name
-        else:
-            title = self.name()
-        return title
-            
-    def feedUid(self):
-        return  absoluteURL( self.context, self.request ) + 'atom.xml'
-               
-    def uid(self):     
-        #XXX       
-        return "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
-        
-    def url(self):    
-        return absoluteURL( self.context, self.request )       
-        
-    def updated(self):
-        return datetime.datetime.now().isoformat()              
+                         
     
     
 class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):

@@ -1,9 +1,8 @@
 # encoding: utf-8
-import datetime, time
-from zope import component
+import datetime
 
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.traversing.browser.absoluteurl import absoluteURL
+
 from zope.viewlet import viewlet
 from zope.viewlet.manager import WeightOrderedViewletManager
 
@@ -16,9 +15,8 @@ import bungeni.models.schema as schema
 import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
 
-from bungeni.ui.i18n import MessageFactory as _
+#from bungeni.ui.i18n import MessageFactory as _
 
-#from bungeni.core.workflows.question import states
 
 class Manager(WeightOrderedViewletManager):
     """Workspace viewlet manager."""

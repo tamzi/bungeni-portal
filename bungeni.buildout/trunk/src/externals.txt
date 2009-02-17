@@ -8,7 +8,7 @@ bungeni.theme.private        https://bungeni-portal.googlecode.com/svn/bungeni.t
 marginalia        https://bungeni-portal.googlecode.com/svn/marginalia/trunk
 
 # plone 3 skin
-ploned.ui      https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
+ploned.ui        https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 
 # yui ajax libraries
 ore.yui        https://svn.objectrealms.net/svn/public/ore.yui/trunk
@@ -57,3 +57,4 @@ repoze.whooze -r3497 http://svn.repoze.org/repoze.whooze/trunk
 #svn://svn.zope.org/repos/main/lovely.responsecache/trunk
 # lovely.memcached
 
+bungenicms.theme https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk

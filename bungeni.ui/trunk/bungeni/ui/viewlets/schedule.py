@@ -38,7 +38,6 @@ import simplejson
 
 ### debug
 
-import pdb
 
 #Among the “admissible” questions the Speaker or the Clerk's office will select questions for scheduling for a specific sitting 
 #(please note, in many parliaments only a fraction of the approved questions are scheduled to be addressed in a sitting).
@@ -114,12 +113,14 @@ def getScheduledItem( schedule_id ):
     return the item for a given schedule_id
     """
     session = Session()
-    item_schedule_item = session.query(domain.ItemSchedule).get(schedule_id)
-    pdb.set_trace()
+    item_schedule_item = session.query(domain.ItemSchedule).get(schedule_id)   
     #scheduled_item = session.query(scheduled_items).filter(schema.items_schedule.c.schedule_id == schedule_id)[0]
     return getParliamentaryItem(item_schedule_item.item_id)
 
-
+def getSitting( schedule_id ):
+    session = Session()
+    item_schedule_item = session.query(domain.ItemSchedule).get(schedule_id)
+    return item_schedule_item
 
 class QuestionJSONValidation( BrowserView ):
     """
@@ -220,80 +221,88 @@ class QuestionJSONValidation( BrowserView ):
             return "A bill cannot be scheduled in the past"   
             
     def postponeQuestion(self, question):
-        if type(question) == ScheduledQuestionItems:
-            return "Questions cannot be postponed in the calendar, use the workflow of the question instead"     
-        if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
-            if question.status == question_wf_state.postponed:                
-                return
-            elif question.status == question_wf_state.scheduled:
-                return
-            else:
-                return "You cannot postpone this question"    
-        elif type(question) == ScheduledMotionItems or (type(question) == domain.Motion):
+        if (type(question) == domain.Question):
+            return "Questions cannot be postponed in the calendar, use the workflow of the question instead" 
+        #if type(question) == ScheduledQuestionItems:
+        #    return "Questions cannot be postponed in the calendar, use the workflow of the question instead"     
+        #if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
+        #    if question.status == question_wf_state.postponed:                
+        #        return
+        #    elif question.status == question_wf_state.scheduled:
+        #        return
+        #    else:
+        #        return "You cannot postpone this question"    
+        elif (type(question) == domain.Motion):
             return "To postpone a motion drag it to the 'postponed motions' area"
         else:
             return "Unknown Item Type - you cannot drag this thing here"
             
     def admitQuestion(self, question):
-        if type(question) == ScheduledQuestionItems:
-            return "Questions cannot be postponed in the calendar, use the workflow of the question instead" 
-        if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
-            if question.status == question_wf_state.postponed:                
-                return "This question is postponed, you can schedule it by dropping it on a sitting"
-            elif question.status == question_wf_state.scheduled:
-                return "To postpone a question drag it to the 'postponed questions' area"
-            elif question.status == question_wf_state.admissible:    
-                return
-            else:
-                return "You cannot make this question admissible"    
-        elif type(question) == ScheduledMotionItems or (type(question) == domain.Motion):
+        if (type(question) == domain.Question):
+            return "Questions cannot be postponed in the calendar, use the workflow of the question instead"
+        #if type(question) == ScheduledQuestionItems:
+        #    return "Questions cannot be postponed in the calendar, use the workflow of the question instead" 
+        #if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
+        #    if question.status == question_wf_state.postponed:                
+        #        return "This question is postponed, you can schedule it by dropping it on a sitting"
+        #    elif question.status == question_wf_state.scheduled:
+        #        return "To postpone a question drag it to the 'postponed questions' area"
+        #    elif question.status == question_wf_state.admissible:    
+        #        return
+        #    else:
+        #        return "You cannot make this question admissible"    
+        elif (type(question) == domain.Motion):
             return "To postpone a motion drag it to the 'postponed motions' area"
         else:
             return "Unknown Item Type - you cannot drag this thing here"
             
     def admitMotion(self, motion):
-        if type(motion) == ScheduledMotionItems:
-            return "Motions cannot be postponed in the calendar, use the workflow of the motion instead" 
-        if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
-            if motion.status == motion_wf_state.postponed:                
-                return "This motion is postponed, you can schedule it by dropping it on a sitting"
-            elif motion.status == motion_wf_state.scheduled:
-                return "To postpone a motion drag it to the 'postponed motions' area"
-            elif motion.status == motion_wf_state.admissible:  
-                return  
-            else:
-                return "You cannot make this motion admissible"    
-        elif type(motion) == ScheduledQuestionItems or (type(motion) == domain.Question):
+        if (type(motion) == domain.Motion):
+            return "Motions cannot be postponed in the calendar, use the workflow of the motion instead"
+        #if type(motion) == ScheduledMotionItems:
+        #    return "Motions cannot be postponed in the calendar, use the workflow of the motion instead" 
+        #if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
+        #    if motion.status == motion_wf_state.postponed:                
+        #        return "This motion is postponed, you can schedule it by dropping it on a sitting"
+        #    elif motion.status == motion_wf_state.scheduled:
+        #        return "To postpone a motion drag it to the 'postponed motions' area"
+        #    elif motion.status == motion_wf_state.admissible:  
+        #        return  
+        #    else:
+        #        return "You cannot make this motion admissible"    
+        elif (type(motion) == domain.Question):
             return "To postpone a question drag it to the 'postponed questions' area"
         else:
             return "Unknown Item Type - you cannot drag this thing here"            
         
     def postponeMotion(self, motion):  
-        if type(motion) == ScheduledMotionItems:
-            return "Motions cannot be postponed in the calendar, use the workflow of the motion instead"  
-        if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
-            if motion.status == motion_wf_state.postponed:                
-                return 
-            elif motion.status == motion_wf_state.scheduled:
-                return
-            else:
-                return "You cannot postpone this motion"    
-        elif type(motion) == ScheduledQuestionItems or (type(motion) == domain.Question):
+        if (type(motion) == domain.Motion):
+            return "Motions cannot be postponed in the calendar, use the workflow of the motion instead"          
+        #if type(motion) == ScheduledMotionItems:
+        #    return "Motions cannot be postponed in the calendar, use the workflow of the motion instead"  
+        #if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
+        #    if motion.status == motion_wf_state.postponed:                
+        #        return 
+        #    elif motion.status == motion_wf_state.scheduled:
+        #        return
+        #    else:
+        #        return "You cannot postpone this motion"    
+        elif (type(motion) == domain.Question):
             return "To postpone a Motion drag it to the 'postponed motions' area"
         else:
             return "Unknown Item Type - you cannot drag this thing here"
             
     def postponeAgendaItem(self, agendaitem):
-        if type(agendaitem) ==ScheduledAgendaItems:
-            return "AgendaItems cannot be postponed in the calendar"
-        elif type(agendaitem) == domain.AgendaItem:
+        #if type(agendaitem) ==ScheduledAgendaItems:
+        #    return "AgendaItems cannot be postponed in the calendar"
+        if type(agendaitem) == domain.AgendaItem:
             return
         else:
             return "Unknown Item Type - you cannot drag this thing here"                        
              
     def postponeBill(self, bill):  
-        if type(bill) == ScheduledBillItems:
-            return "Bills cannot be postponed in the calendar, use the workflow of the bill instead"  
+        #if type(bill) == ScheduledBillItems:
+        #    return "Bills cannot be postponed in the calendar, use the workflow of the bill instead"  
         if type(bill) == domain.Bill:
             return
         else:   
@@ -1832,7 +1841,8 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
                 # a scheduled item to be rescheduled                    
                 scheduled_item_id = long(item_id[5:])
                 item = getScheduledItem(scheduled_item_id) # session.query(domainItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
-                if item.sitting_id == sitting_id:
+                sitting = getSitting(scheduled_item_id)
+                if sitting.sitting_id == sitting_id:
                     #same sitting no workflow actions just update the sort_id
                     item.order = sort_id
                 else:

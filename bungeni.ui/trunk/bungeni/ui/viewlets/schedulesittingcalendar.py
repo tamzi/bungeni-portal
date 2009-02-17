@@ -27,8 +27,8 @@ import bungeni.core.globalsettings as prefs
 from bungeni.ui.utils import getDisplayDate
 
 import interfaces
-from schedule import makeList
-import pdb
+from schedule import makeList, getParliamentaryItem
+
 
 
 class ScheduleCalendarViewletManager( WeightOrderedViewletManager ):
@@ -660,40 +660,41 @@ class SittingItemsWeekCalendar( ScheduleSittingCalendar ):
         session = Session()
         active_sitting_items_filter = sql.and_(schema.items_schedule.c.sitting_id == sitting_id, 
                                                 schema.items_schedule.c.active == True)
-        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        items = session.query(domain.ItemSchedule).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
         results = items.all()
         q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
-        for result in results:            
+        for iresult in results: 
+            result = getParliamentaryItem(iresult.item_id)           
             data ={}
             #data['qid']= ( 'q_' + str(result.question_id) ) 
-            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
-            if type(result) == ScheduledQuestionItems:                       
+            data['schedule_id'] = ( 'isid_' + str(iresult.schedule_id) ) # isid for ItemSchedule ID 
+            if type(result) == domain.Question:                       
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10] + u'... '
                 data['title'] = result.subject
                 data['type'] = "question"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/questions/obj-' + str(result.question_id)
-            elif type(result) == ScheduledMotionItems:    
+            elif type(result) == domain.Motion:    
                 data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10] + u'... '
                 data['title'] = result.title
                 data['type'] = "motion"                
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
                 data['url'] = '/motions/obj-' + str(result.motion_id)
-            elif type(result) == ScheduledBillItems:    
+            elif type(result) == domain.Bill:    
                 data['subject'] = u"B " + result.title[:10]  + u'... '
                 data['title'] = result.title             
                 data['type'] = "bill"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/bills/obj-' + str(result.bill_id)
-            elif type(result) == ScheduledAgendaItems:    
+            elif type(result) == domain.AgendaItem:    
                 data['subject'] = u"" + result.title[:10]  + u'... '
                 data['title'] = result.title             
                 data['type'] = "agenda_item"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
                 data['url'] = '/agendaitems/obj-' + str(result.agenda_item_id)                
                 
-            data['status'] = result.status
+            data['status'] = iresult.status
             data_list.append(data)            
         return data_list    
         

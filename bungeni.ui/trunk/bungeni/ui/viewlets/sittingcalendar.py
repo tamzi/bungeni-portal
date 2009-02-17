@@ -13,7 +13,6 @@ from zc.resourcelibrary import need
 
 import sqlalchemy.sql.expression as sql
 
-from ore.alchemist.container import stringKey
 
 from ore.alchemist import Session
 
@@ -23,7 +22,7 @@ import bungeni.models.schema as schema
 import bungeni.models.domain as domain
 from bungeni.ui.browser import container
 import bungeni.core.globalsettings as prefs
-from schedule import makeList
+from schedule import makeList, getParliamentaryItem
 
 def start_DateTime( Date, context ):
     """
@@ -494,39 +493,40 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         session = Session()
         active_sitting_items_filter = sql.and_(schema.items_schedule.c.sitting_id == sitting_id, 
                                                 schema.items_schedule.c.active == True)
-        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        items = session.query(domain.ItemSchedule).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
         results = items.all()
         q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
-        for result in results:            
+        for iresult in results:            
             data ={}
+            result = getParliamentaryItem(iresult.item_id)
             #data['qid']= ( 'q_' + str(result.question_id) ) 
-            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
-            if type(result) == ScheduledQuestionItems:                       
+            data['schedule_id'] = ( 'isid_' + str(iresult.schedule_id) ) # isid for ItemSchedule ID 
+            if type(result) == domain.Question:                       
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
                 data['title'] = result.subject
                 data['type'] = "question"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/questions/obj-' + str(result.question_id)
-            elif type(result) == ScheduledMotionItems:    
+            elif type(result) == domain.Motion:    
                 data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
                 data['title'] = result.title
                 data['type'] = "motion"                
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
                 data['url'] = '/motions/obj-' + str(result.motion_id)
-            elif type(result) == ScheduledBillItems:    
+            elif type(result) == domain.Bill:    
                 data['subject'] = u"B " + result.title[:10]  
                 data['title'] = result.title             
                 data['type'] = "bill"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/bills/obj-' + str(result.bill_id)
-            elif type(result) == ScheduledAgendaItems:    
+            elif type(result) == domain.AgendaItem:    
                 data['subject'] = u"B " + result.title[:10]  
                 data['title'] = result.title             
                 data['type'] = "agenda-item"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
                 data['url'] = '/agendaitems/obj-' + str(result.agenda_item_id)                
-            data['status'] = result.status
+            data['status'] = iresult.status
             data_list.append(data)            
         return data_list       
        
@@ -637,14 +637,21 @@ class AtomCalendar(BrowserView):
         return "Sitting Calendar"
             
     def feedUid(self):
-        return  absoluteURL( self.context, self.request ) + '.xml'
+        pass
+        #return  absoluteURL( self.context, self.request ) + '.xml'
                
-    def uid(self):     
+    def uid(self): 
+        """
+        """ 
+        pass   
         #XXX       
-        return "urn:uuid:" + base64.urlsafe_b64encode('sitting-week-calendar:' + datetime.datetime.now().isoformat() )
+        #return "urn:uuid:" + base64.urlsafe_b64encode('sitting-week-calendar:' + datetime.datetime.now().isoformat() )
         
     def url(self):    
-        return absoluteURL( self.context, self.request )       
+        """
+        """
+        pass
+        #return absoluteURL( self.context, self.request )       
         
     def updated(self):
         return datetime.datetime.now().isoformat()    

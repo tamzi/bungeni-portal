@@ -2,8 +2,13 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="context/@@standard_macros/page">
 
+  <div metal:fill-slot="header" i18n:domain="bungeni">
+    <div metal:use-macro="context/@@amendment.html/index/macros/header">
+    </div>  
+  </div>
+  
   <div metal:fill-slot="body" i18n:domain="bungeni">
-    <div metal:use-macro="context/@@amendment.html/body">
+    <div metal:use-macro="context/@@amendment.html/index/macros/body">
     </div>  
   </div>
   

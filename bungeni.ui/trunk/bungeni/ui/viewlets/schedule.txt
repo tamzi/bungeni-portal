@@ -33,7 +33,7 @@ Setting up Database Connection and Utilities:
    >>> metadata.bind = db
    >>> metadata.create_all()  
    >>> session = Session()
-   >>> from bungeni.ui.viewlets.schedule import scheduled_items
+   >>> from bungeni.ui.viewlets.schedule import scheduled_items, ScheduledItems, getScheduledItem
 
 Sitting to schedule the bill:
 -----------------------------
@@ -97,17 +97,19 @@ Setup Items to be scheduled:
   >>> bill.title = u"New Bill"
   >>> session.save(bill)
   >>> session.flush()
+  >>> bill.bill_id
   
   >>> motion = model.Motion()
   >>> session.save(motion)
   >>> session.flush()
+  >>> motion.motion_id
   
   >>> question = model.Question()
   >>> question.subject = u"subject of the question"
   >>> question.question_text = u"The question"
   >>> session.save(question)
   >>> session.flush()    
-  
+  >>> question.question_id
   
 Schedule an item
 -------------------
@@ -122,18 +124,23 @@ Schedule Items for sitting
 --------------------------
 
   >>> items = session.query(scheduled_items)
+  >>> Items = session.query(ScheduledItems)
   >>> items.all()
   []
 
-  >>> #print str(items)
-
-
+  
+  
   >>> schedule_item(question.question_id, sit1.sitting_id)
   >>> schedule_item(bill.bill_id, sit1.sitting_id)
   >>> schedule_item(motion.motion_id, sit1.sitting_id)
   >>> len(items.all())  
   3  
   
+  >>> getScheduledItem(1)
+  
+  >>> getScheduledItem(3)
+  
+    
   >>> items.filter(schema.items_schedule.c.active == False).all()
   []
       
@@ -145,6 +152,12 @@ Schedule Items for sitting
 
   >>> len (items.filter( rdb.and_(schema.items_schedule.c.sitting_id == sit1.sitting_id, schema.items_schedule.c.active == True) ).order_by(schema.items_schedule.c.order).all())
   3
+
+  >>> len (Items.filter( rdb.and_(schema.items_schedule.c.sitting_id == sit1.sitting_id, schema.items_schedule.c.active == True) ).order_by(schema.items_schedule.c.order).all())
+  3
+
+
+
 
   >>> len(items.filter(schema.items_schedule.c.sitting_id == sit2.sitting_id).all())  
   0          

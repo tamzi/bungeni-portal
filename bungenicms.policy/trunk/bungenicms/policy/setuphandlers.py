@@ -45,13 +45,14 @@ def setup_members_folder(context):
     members = portal[
         portal.invokeFactory(
             "Large Plone Folder",
-            id="members",
-            title="Members",
-            description="Members of parliaments")]
+            id="members")]
     pt['Large Plone Folder'].global_allow = old_global_allow
+    
+    # set default properties
+    members.setTitle("Members")
+    members.setDescription("Members of parliaments")
+    members.reindexObject()    
 
     # set members folder
     pm = portal['portal_membership']
     pm.setMembersFolderById('members')
-
-

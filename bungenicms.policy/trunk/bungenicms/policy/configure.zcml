@@ -1,3 +1,18 @@
-<configure xmlns="http://namespaces.zope.org/zope">
-  
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:five="http://namespaces.zope.org/five"
+   xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+   i18n_domain="bungeni">
+
+  <five:registerPackage package="." />
+
+  <genericsetup:registerProfile
+     name="default"
+     title="Bungeni CMS policy"
+     description="This profile sets up custom site policies."
+     directory="profile"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+     />
+
 </configure>

@@ -58,3 +58,4 @@ repoze.whooze -r3497 http://svn.repoze.org/repoze.whooze/trunk
 # lovely.memcached
 
 bungenicms.theme https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk
+bungenicms.policy https://bungeni-portal.googlecode.com/svn/bungenicms.policy/trunk

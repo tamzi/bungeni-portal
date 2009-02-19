@@ -70,6 +70,29 @@
     weight="30"
     />    
 
+  <!-- Schedule calendar for groups TODO permissions ... -->
+  <browser:page
+     for="bungeni.models.interfaces.IGroupSittingContainer"
+     permission="zope.View"
+     name="group-schedule-calendar"
+     class=".schedule.ScheduleGroupCalendar"
+     />
+
+  <browser:viewletManager
+     name="bungeni.schedule-group-calendar.manager"
+     provides=".interfaces.IScheduleGroupCalendar"
+     class=".schedule.ScheduleGroupCalendarViewletManager"
+     permission="zope.View"
+     />  
+
+  <browser:viewlet
+    name="bungeni.schedule-group.calendar"   
+    manager=".interfaces.IScheduleGroupCalendar"
+    class=".schedule.WeeklyScheduleCalendarViewlet"
+    permission="zope.Public"
+    weight="30"
+    />  
+
 
   <!-- Question, Motion, Bill Schedule -->
   <browser:page
@@ -164,13 +187,13 @@
     weight="30"
     />    
     
-  <!--browser:viewlet
+  <browser:viewlet
     name="bungeni.schedule.week.calendar"   
     manager=".interfaces.IScheduleCalendar"
     class=".schedule.SittingCalendarWeekViewlet"
     permission="zope.Public"
     weight="40"
-    /-->        
+    />        
     
     
   <browser:viewlet
@@ -622,13 +645,13 @@
 
 
   <!-- schedule parliamentary items for a sitting --> 
-  <browser:page
+  <!--browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="schedule-sitting-items-calendar"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".scheduleitemscalendar.Calendar"
-     />    
+     /-->    
 
 
   <!-- Week calendar - whats on -->

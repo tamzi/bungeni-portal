@@ -19,7 +19,7 @@ from zc.resourcelibrary import need
 from ore.alchemist import Session
 from ore.workflow.interfaces import IWorkflowInfo
 
-from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalendar, IPlenaryCalendar
+from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalendar, IPlenaryCalendar, IScheduleGroupCalendar
 from bungeni.ui.utils import getDisplayDate
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
@@ -581,17 +581,59 @@ def current_sitting_query(date):
                 schema.sittings.c.session_id == session_id)                                        
     gsquery =  session.query(domain.GroupSitting).filter(gsfilter).order_by(schema.sittings.c.start_date)          
     return gsquery, date        
-            
 
-class Calendar(BrowserView):
+
+def getCurrentSittingsQuery(start_date, end_date, session_id = None, group_id = None):
+    """
+    get all sittings for a specific session or group between start and end date
+    """ 
+    session=Session()
+    start_datetime = datetime.datetime(start_date.year, start_date.month, start_date.day, 0,0,0)
+    end_datetime = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59 ,59)              
+    end_datetime
+    gsfilter = None
+    if session_id:
+        # a plenary session
+        if not(group_id is  None):
+            # you may either schedule for a group or a session not both!
+            raise NotImplementedError
+        gsfilter = sql.and_(
+                schema.sittings.c.start_date.between(start_datetime, end_datetime),
+                schema.sittings.c.session_id == session_id)        
+    if group_id:
+        # sittings for a group - committee, political group, ...        
+        if not(session_id is  None):
+            # you may either schedule for a group or a session not both!            
+            raise NotImplementedError
+        gsfilter = sql.and_(
+                schema.sittings.c.start_date.between(start_datetime, end_datetime),
+                schema.sittings.c.group_id == group_id)
+    if not gsfilter:            
+        # You must either schedule for a group or a session
+        raise NotImplementedError 
+    else:
+        return session.query(domain.GroupSitting).filter(gsfilter).order_by(schema.sittings.c.start_date)
+            
+            
+class Calendar( BrowserView ):
     __call__ = ViewPageTemplateFile("templates/schedule.pt")
 
+
+class ScheduleGroupCalendar( BrowserView ):
+    __call__ = ViewPageTemplateFile("templates/group_schedule.pt")
 
 class ScheduleCalendarViewletManager( WeightOrderedViewletManager ):
     """
     manage the viewlets that make up the calendar view
     """
     zope.interface.implements(IScheduleCalendar) 
+
+class ScheduleGroupCalendarViewletManager( WeightOrderedViewletManager ):
+    """
+    manage the viewlets that make up the calendar view
+    """
+    zope.interface.implements(IScheduleGroupCalendar) 
+
 
 
 class ScheduleCalendarItemsViewletManager( WeightOrderedViewletManager ):
@@ -1453,9 +1495,10 @@ class PlenarySittingCalendarViewlet( viewlet.ViewletBase ):
             data['sittingid']= ('sid_' + str(result.sitting_id) )     
             data['sid'] =  result.sitting_id                   
             data['short_name'] = ( datetime.datetime.strftime(result.start_date,'%H:%M')
+                                    + ' - ' + datetime.datetime.strftime(result.end_date,'%H:%M')
                                     + ' (' + sit_types[result.sitting_type] + ')')
-            data['start_date'] = str(result.start_date)
-            data['end_date'] = str(result.end_date)
+            data['start_date'] = result.start_date
+            data['end_date'] = result.end_date
             data['day'] = result.start_date.date()
             data['url']= ( path + 'obj-' + str(result.sitting_id) )   
             data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
@@ -1524,6 +1567,7 @@ class PlenarySittingCalendarViewlet( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile ('templates/plenary_calendar_viewlet.pt')
 
+    
     
     
 class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
@@ -1636,6 +1680,69 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
         self.Data = self.getData()
     
     render = ViewPageTemplateFile ('templates/schedule_calendar_viewlet.pt')
+
+
+class WeeklyScheduleCalendarViewlet( ScheduleCalendarViewlet ):
+    """
+    a weekly calendar to schedule itmes for plenary or group sittings
+    """
+    
+    def getDayHours(self):
+        return range(7,21)
+        
+    def getHourStyle(self, hour):
+        """
+        <div class="hour even" style="top: 4em; height: 4em;">    
+        """
+        top = 'top: ' + str((hour - 7) * 4) + 'em; '
+        height = 'height: 4em; position: absolute;'
+        return top + height
+            
+    def getEventStyle(self, start, end):
+        """
+        get start and duration for event to position it
+        style="top: 4em; height: 4em;
+        """    
+        top = 'top: ' + str( ((start.hour - 7) * 4) + ( start.minute / 15 ) ) + 'em; '
+        td = end - start
+        height = 'height: ' + str(td.seconds / 900) +  'em; position: absolute; background:blue;'
+        return top + height
+                
+    def getDay(self, day):
+        return datetime.date.strftime(day, '%A %d')
+    
+    def getWeek(self):
+        for week in self.monthcalendar:
+            if self.Date in week:
+                return week
+
+    def update(self):
+        """
+        refresh the query
+        """           
+        session_id = None
+        group_id = None            
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date=datetime.date.today()                            
+        self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
+        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
+        self.monthname = datetime.date.strftime(self.Date,'%B %Y')  
+        self.weekcalendar =  self.getWeek()
+        start_date = self.weekcalendar[0]      
+        end_date = self.weekcalendar[-1]
+        try:
+            if self.context.__parent__.session_id:
+                session_id = self.context.__parent__.session_id
+        except:                
+            if self.context.__parent__.group_id:
+                group_id = self.context.__parent__.group_id    
+        self.query = getCurrentSittingsQuery(start_date, end_date, session_id, group_id)
+        self.Data = self.getData()
+
+    render = ViewPageTemplateFile ('templates/schedule_week_calendar_viewlet.pt')
+
+
 
 class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
     """

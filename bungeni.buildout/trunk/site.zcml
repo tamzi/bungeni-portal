@@ -89,16 +89,10 @@
   <!-- Alchemist UI -->
   <include package="alchemist.ui" />
 
-  <!-- Application Theme -->
-  <include package="bungeni.theme.private" />
-
-  <!-- Setup Default Skin For Application -->
-  <!--browser:defaultSkin name="bungeni"/-->
-  
-  <browser:defaultSkin name="bungeni.theme.private"/> 
+  <!-- Default skin -->
+  <browser:defaultSkin name="bungeni" />
   
   <!-- App Security -->
-  
   <include file="security.zcml"/>
   <includeOverrides file="overrides.zcml" package="bungeni.core"/>
 </configure>

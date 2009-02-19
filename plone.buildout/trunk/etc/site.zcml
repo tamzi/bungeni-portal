@@ -14,8 +14,12 @@
 
   <!-- Load package configuration -->
   <include package="cmf.pt" />
-  <include package="bungeni.portal" />
   <include package="plone.maintemplate" />
+  
+  <include package="bungeni.portal" />
+  <include package="bungenicms.policy" />
+  <include package="bungenicms.theme" />
+  
   <include package="collective.portlet.dropdownbox" />
   <include package="collective.facetednavigation" />
   <include package="collective.plonetruegallery" />

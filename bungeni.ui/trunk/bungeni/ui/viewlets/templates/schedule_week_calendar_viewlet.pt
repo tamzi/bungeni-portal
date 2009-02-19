@@ -1,0 +1,57 @@
+<div class="listing">
+  <em> Sittings </em>
+  <table class="listing grid" style="width: 100%;">
+    <thead>
+      <tr>        
+        <!--th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th-->
+        <th colspan="8" tal:content="view/monthname"> month </th>
+        <!--th colspan="1" tal:content="structure view/next"> &gt;&gt; </th-->
+      </tr>
+      <tr>        
+        <th width="5%">  </th> 
+        <!--th width="14%"> Mon </th>
+        <th width="14%"> Tue </th>
+        <th width="14%"> Wed </th>
+        <th width="14%"> Thu </th>
+        <th width="14%"> Fri </th>
+        <th width="14%"> Sat </th>
+        <th width="11%"> Sun </th-->
+        <th tal:repeat="day view/weekcalendar">
+            <b tal:content="python: view.getDay(day)" />
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr tal:define="week view/weekcalendar"> <!--tal:repeat="week view/monthcalendar" class="colapse-calender-row"-->
+      <th tal:define="weekno python:view.getWeekNo(week[0])" tal:attributes="id string:calender-week-${weekno}"> <span tal:content="weekno"> 12</span>  </th>
+      <td tal:repeat="day view/weekcalendar" tal:attributes="id python:view.getTdId(day)"> 
+        <!--strong tal:content="python:day.day" tal:condition="day" tal:attributes="class python:view.getDayClass(day)"/>
+        <br /-->
+        <div tal:condition="day" style="position:relative; height:56em">
+        <div tal:repeat="hour view/getDayHours"  tal:attributes="style python:view.getHourStyle(hour);">
+           <span tal:content="string: ${hour}:00" />
+        </div>
+          <div tal:repeat="sitting python: view.getSittings4Day(day)" tal:attributes="style python:view.getEventStyle(sitting.start_date, sitting.end_date)" >
+            <h4> <a tal:content="sitting/short_name" tal:attributes="href sitting/url" /> </h4>
+            <ol tal:attributes="id sitting/sittingid; class string:draglist" tal:define="sid sitting/sid">
+                <li tal:repeat="question python: view.getActiveSittingItems(sid)"                  
+                 tal:attributes="id question/schedule_id; class question/schedule_date_class">
+                 <a tal:content="question/subject" tal:attributes="title question/title; href question/url" />
+                 </li>
+            </ol>
+            <ol tal:attributes="id sitting/sittingid; class string:inactive-list" tal:define="sid sitting/sid">
+                <li tal:repeat="question python: view.getInactiveSittingItems(sid)" 
+                 tal:content="question/subject"
+                 tal:attributes="id question/schedule_id; title question/title" />
+            </ol>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+    <!--div id = "bungeni-tabbed-nav" >
+        <div tal:replace="structure provider:bungeni.schedule-items.manager" />
+    </div-->  
+    

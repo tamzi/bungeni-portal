@@ -25,6 +25,11 @@ class IScheduleHolydayCalendar( IViewletManager ):
 class IScheduleSittingCalendar( IViewletManager ):    
     """ Schedule sittings for all sessions and committees viewlet manager """       
     
+class IScheduleGroupCalendar( IViewletManager ):
+    """
+    schedule items for group sittings
+    """    
+    
 class IScheduleItems( IViewletManager ):    
     """ Schedule Calendar items viewlet manager """    
 

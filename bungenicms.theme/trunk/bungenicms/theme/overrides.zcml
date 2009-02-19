@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <!-- The global sections -->
+  <browser:viewlet
+     name="plone.global_sections"
+     manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+     class=".navigation.GlobalSectionsViewlet"
+     permission="zope2.View" 
+     />
+
+</configure>

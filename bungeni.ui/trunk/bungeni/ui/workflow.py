@@ -51,7 +51,7 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     def update(self):
         has_wfstate = False
         try:
-            wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+            wf_state = interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()           
             has_wfstate = True
         except:
             wf_state = u'undefined'                        
@@ -162,7 +162,11 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
         super( WorkflowActionViewlet, self).update()
         self.setupActions()  # after we transition we have different actions      
         wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
-        self.wf_status = wf_state
+        #self.wf_status = wf_state
+        # return human readable workflow title
+        wf = interfaces.IWorkflowInfo(removeSecurityProxy(self.context))
+        self.wf_status = wf.workflow().workflow.states[wf_state].title       
+        
         if len(self.actions) ==0: #only display the notes field to comment if there is an action
             self.form_fields = self.form_fields.omit('notes')
         self.setUpWidgets()
@@ -190,7 +194,7 @@ class Workflow( BaseForm ):
         self.setupActions()   
         super( Workflow, self).update()
         self.setupActions()  # after we transition we have different actions      
-        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+        wf_state = interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
         self.wf_status = wf_state
         
     def setupActions( self ):

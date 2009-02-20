@@ -1705,7 +1705,7 @@ class WeeklyScheduleCalendarViewlet( ScheduleCalendarViewlet ):
         """    
         top = 'top: ' + str( ((start.hour - 7) * 4) + ( start.minute / 15 ) ) + 'em; '
         td = end - start
-        height = 'height: ' + str(td.seconds / 900) +  'em; position: absolute; background:blue;'
+        height = 'height: ' + str((float(td.seconds) / 900.0)) +  'em; position: absolute; background:blue;'
         return top + height
                 
     def getDay(self, day):

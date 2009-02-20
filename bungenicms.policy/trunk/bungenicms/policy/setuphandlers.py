@@ -56,3 +56,32 @@ def setup_members_folder(context):
     # set members folder
     pm = portal['portal_membership']
     pm.setMembersFolderById('members')
+
+def setup_application_folders(context):
+    """For each of the following applications, we set up top-level
+    folders that match the global routing table:
+
+    application    mount-point
+    ----------------------------------------------
+    Bungeni        /bungeni
+    Koha           /koha
+    DSpace         /dspace
+    ----------------------------------------------
+    """
+    
+    if context.readDataFile('marker.txt') is None:
+        return
+
+    portal = context.getSite()
+
+    items = (
+        ('bungeni', u'Bungeni', u'Parliament application'),
+        ('koha', u'Koha', u'Library system'),
+        ('dspace', u'DSpace', u'Digital document repository'))
+
+    for name, title, description in items:
+        if name not in portal.objectIds():
+            obj = portal[portal.invokeFactory("Folder", id=name)]
+            obj.setTitle(title)
+            obj.setDescription(description)
+            obj.reindexObject()

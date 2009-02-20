@@ -153,7 +153,7 @@ we need to have a question in this state (pending response) so that the actions 
 gets fired by the response transitions succeed.
 
   >>> question = domain.Question()
-  >>> question.status = u"Question pending response" #q_states.response_pending
+  >>> question.status = u"questionstates.response_pending"
   >>> session.save(question)
   >>> session.flush()
   
@@ -231,8 +231,8 @@ Transition events check
 -----------------------
 
   >>> print check_transition_events
-  {(u'response submitted', u'response complete'): True, 
-  (u'draft response', u'response submitted'): True}
+   {(u'responsestates.draft', u'responsestates.submitted'): True, 
+   (u'responsestates.submitted', u'responsestates.complete'): True}
 
 cleanup
 -------

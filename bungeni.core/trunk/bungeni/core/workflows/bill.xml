@@ -5,105 +5,105 @@
    description="A bill"
    initial_state="">
 
-  <state id="bungeni.core.workflows.wfstates.billstates.draft" title="draft bill">
+  <state id="billstates.draft" title="draft bill">
     <grant permission="bungeni.bill.edit" role="bungeni.Owner" />
     <grant permission="bungeni.bill.view" role="bungeni.Owner" />    
     <grant permission="bungeni.bill.delete" role="bungeni.Owner" />    
   </state>
   
-  <state id="bungeni.core.workflows.wfstates.billstates.submitted" title="bill published in gazette">
+  <state id="billstates.submitted" title="bill published in gazette">
     <deny permission="bungeni.bill.edit" role="bungeni.Owner" />
     <deny permission="bungeni.bill.delete" role="bungeni.Owner" />        
     <grant permission="bungeni.bill.view" role="bungeni.Clerk" />   
     <grant permission="bungeni.bill.edit" role="bungeni.Clerk" />                 
   </state>
 
-  <state id="bungeni.core.workflows.wfstates.billstates.first_reading" title="first reading">
+  <state id="billstates.first_reading" title="first reading">
 
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.first_reading_postponed" title="first reading postponed">
+  <state id="billstates.first_reading_postponed" title="first reading postponed">
  
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.second_reading_pending" title="second reading pending">
+  <state id="billstates.second_reading_pending" title="second reading pending">
 
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.second_reading" title="second reading">
+  <state id="billstates.second_reading" title="second reading">
   
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.second_reading_postponed" title="second reading postponed">
+  <state id="billstates.second_reading_postponed" title="second reading postponed">
  
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.house_pending" title="house pending">
+  <state id="billstates.house_pending" title="house pending">
   
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.whole_house" title="whole house">
+  <state id="billstates.whole_house" title="whole house">
 
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.whole_house_postponed" title="whole house postponed">
+  <state id="billstates.whole_house_postponed" title="whole house postponed">
 
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.second_committee" title="second committee">
+  <state id="billstates.second_committee" title="second committee">
    
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.report_reading_pending" title="report reading pending">
+  <state id="billstates.report_reading_pending" title="report reading pending">
  
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.report_reading" title="report reading">
+  <state id="billstates.report_reading" title="report reading">
     
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.report_reading_postponed" title="report reading postponed">
+  <state id="billstates.report_reading_postponed" title="report reading postponed">
   
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.third_reading_pending" title="third reading pending">
+  <state id="billstates.third_reading_pending" title="third reading pending">
    
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.third_reading" title="third reading">
+  <state id="billstates.third_reading" title="third reading">
       
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.third_reading_postponed" title="third reading postponed">
+  <state id="billstates.third_reading_postponed" title="third reading postponed">
 
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.withdrawn" title="bill withdrawn">
+  <state id="billstates.withdrawn" title="bill withdrawn">
     <deny permission="bungeni.bill.edit" role="bungeni.Clerk" />
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.approved" title="approved bill">
+  <state id="billstates.approved" title="approved bill">
     <deny permission="bungeni.bill.edit" role="bungeni.Clerk" />
   </state>
     
 
-  <state id="bungeni.core.workflows.wfstates.billstates.rejected" title="rejected bill">
+  <state id="billstates.rejected" title="rejected bill">
     <deny permission="bungeni.bill.edit" role="bungeni.Clerk" />
   </state>
     
@@ -114,7 +114,7 @@
     title="Create"
     trigger="automatic"
     source=""
-    destination="bungeni.core.workflows.wfstates.billstates.draft"
+    destination="billstates.draft"
     action="bungeni.core.workflows.billactions.create"
     condition=""
 />
@@ -122,8 +122,8 @@
     id="submit-bill"
     title="Publish in Gazette"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.draft"
-    destination="bungeni.core.workflows.wfstates.billstates.submitted"
+    source="billstates.draft"
+    destination="billstates.submitted"
     permission="bungeni.bill.Submit"
     action="bungeni.core.workflows.billactions.submit"
     condition=""
@@ -132,8 +132,8 @@
     id="schedule-first"
     title="Schedule First Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.submitted"
-    destination="bungeni.core.workflows.wfstates.billstates.first_reading"
+    source="billstates.submitted"
+    destination="billstates.first_reading"
     permission="bungeni.bill.Schedule"
     action="bungeni.core.workflows.billactions.schedule_first"
     condition="bungeni.core.workflows.utils.getBillSchedule"
@@ -142,8 +142,8 @@
     id="postpone-first"
     title="Postpone First Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.first_reading_postponed"
+    source="billstates.first_reading"
+    destination="billstates.first_reading_postponed"
     permission="bungeni.bill.Schedule"
     action="bungeni.core.workflows.billactions.postpone_first"
     condition=""
@@ -152,8 +152,8 @@
     id="reschedule-first"
     title="Reschedule First Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_reading_postponed"
-    destination="bungeni.core.workflows.wfstates.billstates.first_reading"
+    source="billstates.first_reading_postponed"
+    destination="billstates.first_reading"
     permission="bungeni.bill.Schedule"
     action="bungeni.core.workflows.billactions.schedule_first"
     condition=""
@@ -162,8 +162,8 @@
     id="select-first-committee"
     title="Send to Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.first_committee"
+    source="billstates.first_reading"
+    destination="billstates.first_committee"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -172,8 +172,8 @@
     id="schedule-second-from-first-committee"
     title="Second Reading schedule"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_committee"
-    destination="bungeni.core.workflows.wfstates.billstates.second_reading_pending"
+    source="billstates.first_committee"
+    destination="billstates.second_reading_pending"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -182,8 +182,8 @@
     id="schedule-second"
     title="Schedule Second Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_reading_pending"
-    destination="bungeni.core.workflows.wfstates.billstates.second_reading"
+    source="billstates.second_reading_pending"
+    destination="billstates.second_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -192,8 +192,8 @@
     id="ma-schedule-second"
     title="Schedule Second Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.second_reading_pending"
+    source="billstates.first_reading"
+    destination="billstates.second_reading_pending"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -202,8 +202,8 @@
     id="postpone-second"
     title="Postpone Second Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.second_reading_postponed"
+    source="billstates.second_reading"
+    destination="billstates.second_reading_postponed"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -212,8 +212,8 @@
     id="reschedule-second"
     title="Reschedule Second Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_reading_postponed"
-    destination="bungeni.core.workflows.wfstates.billstates.second_reading"
+    source="billstates.second_reading_postponed"
+    destination="billstates.second_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -222,8 +222,8 @@
     id="ma-schedule-whole-house"
     title="Schedule Whole House Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.house_pending"
+    source="billstates.second_reading"
+    destination="billstates.house_pending"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -232,8 +232,8 @@
     id="schedule-whole-house"
     title="Do Schedule Whole House Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.house_pending"
-    destination="bungeni.core.workflows.wfstates.billstates.whole_house"
+    source="billstates.house_pending"
+    destination="billstates.whole_house"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -242,8 +242,8 @@
     id="postpone-whole-house"
     title="Postpone Whole House Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.whole_house"
-    destination="bungeni.core.workflows.wfstates.billstates.whole_house_postponed"
+    source="billstates.whole_house"
+    destination="billstates.whole_house_postponed"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -252,8 +252,8 @@
     id="reschedule-whole-house"
     title="Reschedule Whole House Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.whole_house_postponed"
-    destination="bungeni.core.workflows.wfstates.billstates.whole_house"
+    source="billstates.whole_house_postponed"
+    destination="billstates.whole_house"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -262,8 +262,8 @@
     id="postpone-second-reading-and-whole-house"
     title="Postpone Second Reading and Whole House Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.whole_house"
-    destination="bungeni.core.workflows.wfstates.billstates.second_reading_postponed"
+    source="billstates.whole_house"
+    destination="billstates.second_reading_postponed"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -272,8 +272,8 @@
     id="select-second-committee"
     title="Send to Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.whole_house"
-    destination="bungeni.core.workflows.wfstates.billstates.second_committee"
+    source="billstates.whole_house"
+    destination="billstates.second_committee"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -282,8 +282,8 @@
     id="ma-schedule-second-report-reading"
     title="Schedule Report Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_committee"
-    destination="bungeni.core.workflows.wfstates.billstates.report_reading_pending"
+    source="billstates.second_committee"
+    destination="billstates.report_reading_pending"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -292,8 +292,8 @@
     id="schedule-second-report-reading"
     title="Schedule Report Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.report_reading_pending"
-    destination="bungeni.core.workflows.wfstates.billstates.report_reading"
+    source="billstates.report_reading_pending"
+    destination="billstates.report_reading"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -302,8 +302,8 @@
     id="postpone-second-report-reading"
     title="Postpone Report Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.report_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.report_reading_postponed"
+    source="billstates.report_reading"
+    destination="billstates.report_reading_postponed"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -312,8 +312,8 @@
     id="reschedule-second-report-reading"
     title="Reschedule Report Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.report_reading_postponed"
-    destination="bungeni.core.workflows.wfstates.billstates.report_reading"
+    source="billstates.report_reading_postponed"
+    destination="billstates.report_reading"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -322,8 +322,8 @@
     id="ma-second-committee-schedule-third-reading"
     title="Schedule Third Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.report_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.third_reading_pending"
+    source="billstates.report_reading"
+    destination="billstates.third_reading_pending"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -332,8 +332,8 @@
     id="second-committee-schedule-third-reading"
     title="Schedule Third Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.third_reading_pending"
-    destination="bungeni.core.workflows.wfstates.billstates.third_reading"
+    source="billstates.third_reading_pending"
+    destination="billstates.third_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -342,8 +342,8 @@
     id="recommit-second-committee"
     title="Recommit to 2nd Committee"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.report_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.second_committee"
+    source="billstates.report_reading"
+    destination="billstates.second_committee"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
@@ -352,8 +352,8 @@
     id="ma-schedule-third-reading"
     title="Schedule Third Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.whole_house"
-    destination="bungeni.core.workflows.wfstates.billstates.third_reading_pending"
+    source="billstates.whole_house"
+    destination="billstates.third_reading_pending"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -362,8 +362,8 @@
     id="postpone-third-reading"
     title="Postpone Third Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.third_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.third_reading_postponed"
+    source="billstates.third_reading"
+    destination="billstates.third_reading_postponed"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -372,8 +372,8 @@
     id="reschedule-third-reading"
     title="Postpone Third Reading"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.third_reading_postponed"
-    destination="bungeni.core.workflows.wfstates.billstates.third_reading"
+    source="billstates.third_reading_postponed"
+    destination="billstates.third_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
@@ -382,8 +382,8 @@
     id="reject"
     title="Rejected"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.third_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.rejected"
+    source="billstates.third_reading"
+    destination="billstates.rejected"
     permission="bungeni.bill.ChangeStatus"
     action=""
     condition=""
@@ -392,8 +392,8 @@
     id="approve"
     title="Approved"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.third_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.approved"
+    source="billstates.third_reading"
+    destination="billstates.approved"
     permission="bungeni.bill.ChangeStatus"
     action=""
     condition=""
@@ -402,8 +402,8 @@
     id="withdraw-submitted"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.submitted"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.submitted"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -412,8 +412,8 @@
     id="withdraw-first-reading"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.first_reading"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -422,8 +422,8 @@
     id="withdraw-first-committee"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.first_committee"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.first_committee"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -432,8 +432,8 @@
     id="withdraw-second-reading"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.second_reading"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -442,8 +442,8 @@
     id="withdraw-whole-house"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.whole_house"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.whole_house"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -452,8 +452,8 @@
     id="withdraw-second-committee"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.second_committee"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.second_committee"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -462,8 +462,8 @@
     id="withdraw-report-reading"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.report_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.report_reading"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""
@@ -472,8 +472,8 @@
     id="withdraw-third-reading"
     title="Withdraw"
     trigger="manual"
-    source="bungeni.core.workflows.wfstates.billstates.third_reading"
-    destination="bungeni.core.workflows.wfstates.billstates.withdrawn"
+    source="billstates.third_reading"
+    destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
     action="bungeni.core.workflows.billactions.withdraw"
     condition=""

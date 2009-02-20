@@ -9,6 +9,7 @@ from zope.publisher.interfaces import IRequest
 
 from zope import lifecycleevent
 
+from ore.workflow.interfaces import IWorkflowInfo
 from ore.alchemist.interfaces import IRelationChange
 from sqlalchemy import orm
 
@@ -79,8 +80,14 @@ class AuditorFactory( object ):
         comment = event.comment
         if comment is None:
             comment =u""
-        event_description={ 'source': event.source, 
-                            'destination': event.destination, 
+        wf = IWorkflowInfo(object)    
+        if event.source:
+            #get human readable titles for workflow state
+            event_title = wf.workflow().workflow.states[event.source].title
+        else:
+            event_title = 'new'   
+        event_description={ 'source': event_title, 
+                            'destination': wf.workflow().workflow.states[event.destination].title,  
                             'transition': event.transition.title,
                             'comment': comment }
         

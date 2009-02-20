@@ -193,7 +193,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-submitted')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
   
@@ -225,7 +225,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-first-reading')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 
@@ -239,7 +239,7 @@ sent to committee, it can be scheduled for a second reading
   >>> bill_1st_committee = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_1st_committee).fireTransition('select-first-committee')     
   >>> bill_1st_committee.status  
-  u'first committee'
+  u'billstates.first_committee'
   >>> transitions( bill_1st_committee ) 
   (u'withdraw-first-committee', u'schedule-second-from-first-committee')
   
@@ -248,7 +248,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill_1st_committee)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-first-committee')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 
@@ -256,7 +256,7 @@ or made avaliable for scheduling for the 2nd committee
 ------------------------------------------------------
   >>> result = IWorkflowInfo(bill_1st_committee).fireTransition('schedule-second-from-first-committee')     
   >>> bill_1st_committee.status  
-  u'second reading pending'
+  u'billstates.second_reading_pending'
   >>> transitions( bill_1st_committee ) 
   (u'schedule-second',)
 
@@ -283,7 +283,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-second-reading')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 
@@ -318,7 +318,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-whole-house')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 
@@ -365,7 +365,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-second-committee')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 
@@ -388,7 +388,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-report-reading')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 
@@ -430,7 +430,7 @@ A Bill can be withdrawn at (almost) any stage:
   >>> bill_withdraw = copy.deepcopy(bill)     
   >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-third-reading')     
   >>> bill_withdraw.status  
-  u'bill withdrawn'
+  u'billstates.withdrawn'
   >>> transitions( bill_withdraw ) 
   ()
 

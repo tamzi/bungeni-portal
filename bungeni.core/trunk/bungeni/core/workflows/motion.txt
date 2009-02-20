@@ -195,7 +195,7 @@ Let's examine the version.
 
   >>> version = list(versions.values())[0]
   >>> version.status
-  u'draft motion'
+  u'motionstates.draft'
 
 Submitted:
 
@@ -208,7 +208,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-submitted')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'  
+   u'motionstates.withdrawn'  
 
   >>> IWorkflowInfo(motion).fireTransition('received-by-clerk')
 
@@ -228,7 +228,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-received')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'  
+   u'motionstates.withdrawn'  
   
   
 
@@ -279,7 +279,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-complete')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'
+   u'motionstates.withdrawn'
 
 
 Reject the motion
@@ -337,7 +337,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-amend')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'
+   u'motionstates.withdrawn'
 
 
   >>> result = IWorkflowInfo(motion_amend).fireTransition('resubmit-clerk')  
@@ -373,7 +373,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-admissible')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'
+   u'motionstates.withdrawn'
 
 
 defer the motion
@@ -399,7 +399,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-deferred')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'  
+   u'motionstates.withdrawn'  
    
   >>> schedule_motion(motion_defer.motion_id)
   >>> result = IWorkflowInfo(motion_defer).fireTransition('schedule-deferred')   
@@ -421,7 +421,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-scheduled')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'
+   u'motionstates.withdrawn'
 
 postpone the motion
   
@@ -442,7 +442,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-postponed')   
 
   >>> motion_withdraw.status
-   u'Motion withdrawn'
+   u'motionstates.withdrawn'
 
 and reschedule it
 
@@ -465,20 +465,18 @@ The motion was debated
 Transition events check
 -----------------------
 
-  >>> check_transition_events == {(u'Motion received by clerks office', u'Motion needs clarification by MP'): True, 
-  ... (u'Motion complete', u'Motion inadmissible'): True, 
-  ... (u'Motion postponed', u'Motion scheduled'): True, 
-  ... (u'Motion scheduled', u'Motion debated'): True, 
-  ... (u'Motion needs clarification by Clerks Office', u'Motion needs clarification by MP'): True, 
-  ... (u'Motion scheduled', u'Motion postponed'): True, 
-  ... (u'Motion admissible', u'Motion deferred'): True, 
-  ... (u'draft motion', u'Motion submitted'): True, 
-  ... (u'Motion admissible', u'Motion scheduled'): True, 
-  ... (u'Motion deferred', u'Motion scheduled'): True,
-  ... (u'Motion submitted', u'Motion received by clerks office'): True}
+  >>> check_transition_events ==  {(u'motionstates.complete', u'motionstates.inadmissible'): True, 
+  ... (u'motionstates.admissible', u'motionstates.deferred'): True, 
+  ... (u'motionstates.admissible', u'motionstates.scheduled'): True, 
+  ... (u'motionstates.draft', u'motionstates.submitted'): True, 
+  ... (u'motionstates.submitted', u'motionstates.received'): True, 
+  ... (u'motionstates.scheduled', u'motionstates.debated'): True, 
+  ... (u'motionstates.postponed', u'motionstates.scheduled'): True, 
+  ... (u'motionstates.received', u'motionstates.clarify_mp'): True, 
+  ... (u'motionstates.clarify_clerk', u'motionstates.clarify_mp'): True, 
+  ... (u'motionstates.scheduled', u'motionstates.postponed'): True, 
+  ... (u'motionstates.deferred', u'motionstates.scheduled'): True}
   True
-  
-
   
 
 cleanup

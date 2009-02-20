@@ -71,10 +71,11 @@ FormTemplate = namedtemplate.NamedTemplateImplementation(
 def createVersion(context, comment = ''):
     """Create a new version of an object and return it."""
     instance = removeSecurityProxy(context)
-    versions = IVersioned(instance)
-    if not comment:
-        comment =''
-    versions.create(u'New version created upon edit.' + comment)
+    #XXX
+    #versions = IVersioned(instance)
+    #if not comment:
+    #    comment =''
+    #versions.create(u'New version created upon edit.' + comment)
 
 
 def getUserId( name ):

@@ -29,12 +29,12 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
     @property
     def extra(self):
         info = IWorkflowInfo(self.context)
-        state = info.state().getState()
-        
+        state = info.state().getState()            
+        stateTitle = info.workflow().workflow.states[state].title
         return {'id'         : 'plone-contentmenu-workflow',
                 'class'      : 'state-%s' % state,
                 'state'      : state,
-                'stateTitle' : state,} # TODO: should be translated
+                'stateTitle' : stateTitle,} # TODO: should be translated
 
     @property
     def description(self):

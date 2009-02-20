@@ -1254,7 +1254,8 @@ class PostponedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the postponed questions
     """    
-    name = state = question_wf_state[u"questionstates.postponed"].id   
+    name = question_wf_state[u"questionstates.postponed"].title
+    state = question_wf_state[u"questionstates.postponed"].id   
     list_id = "postponed_questions"    
     
     
@@ -1262,7 +1263,8 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state[u"questionstates.admissible"].id
+    name = question_wf_state[u"questionstates.admissible"].title
+    state = question_wf_state[u"questionstates.admissible"].id
     render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
     list_id = "admissible_questions"
  
@@ -1299,7 +1301,8 @@ class AdmissibleMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
-    name = state = motion_wf_state[u"motionstates.admissible"].id
+    name = motion_wf_state[u"motionstates.admissible"].title
+    state = motion_wf_state[u"motionstates.admissible"].id
     list_id = "admissible_motions"
     
 
@@ -1307,7 +1310,8 @@ class PostponedMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
-    name = state = motion_wf_state[u"motionstates.postponed"].id
+    name = motion_wf_state[u"motionstates.postponed"].title
+    state = motion_wf_state[u"motionstates.postponed"].id
     list_id = "postponed_motions"
 
 class BillItemsViewlet( viewlet.ViewletBase ): 

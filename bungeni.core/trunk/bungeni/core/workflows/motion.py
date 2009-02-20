@@ -17,7 +17,7 @@ import bungeni.core.workflows.interfaces as interfaces
 
 from bungeni.core.i18n import _
 
-from bungeni.core.workflows.wfstates import motionstates as states
+#from bungeni.core.workflows.wfstates import motionstates as states
 from bungeni.core.workflow import load
 
 path = os.path.split(os.path.abspath( __file__ ))[0] +  os.path.sep      
@@ -33,6 +33,7 @@ for t in wf._id_transitions.values():
         workflow_transition_event_map[(t.source, t.destination)] = t.event
 
 MotionWorkflowAdapter = workflow.AdaptedWorkflow( wf )
+states = wf.states
 
 @component.adapter(iworkflow.IWorkflowTransitionEvent)
 def workflowTransitionEventDispatcher(event):

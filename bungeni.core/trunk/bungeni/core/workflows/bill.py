@@ -12,7 +12,7 @@ from ore.workflow import interfaces as iworkflow
 
 from bungeni.core.i18n import _
 import bungeni.core.workflows.utils as utils
-from bungeni.core.workflows.wfstates import billstates as states
+#from bungeni.core.workflows.wfstates import billstates as states
 from bungeni.core.workflow import load
     
 path = os.path.split(os.path.abspath( __file__ ))[0] +  os.path.sep      
@@ -39,6 +39,7 @@ def workflowTransitionEventDispatcher(event):
         notify(transition_event)
 
 BillWorkflowAdapter = workflow.AdaptedWorkflow( wf )
+states = wf.states
 
 if __name__ == '__main__':
     #wf = BillWorkflow()

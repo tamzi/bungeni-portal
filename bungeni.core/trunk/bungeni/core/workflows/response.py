@@ -16,7 +16,7 @@ from bungeni.core.i18n import _
 from bungeni.core.workflow import load
 
 
-from bungeni.core.workflows.wfstates import responsestates as states
+#from bungeni.core.workflows.wfstates import responsestates as states
 
     
 
@@ -51,6 +51,7 @@ def workflowTransitionEventDispatcher(event):
         notify(transition_event)
 
 ResponseWorkflowAdapter = workflow.AdaptedWorkflow(wf)
+states = wf.states
 
 if __name__ == '__main__':
     #wf = ResponseWorkflow()

@@ -24,9 +24,9 @@ from bungeni.ui.utils import getDisplayDate
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
 
-from bungeni.core.workflows.question import states as question_wf_state
-from bungeni.core.workflows.motion import states as motion_wf_state
-from bungeni.core.workflows.bill import states as bill_wf_state
+from bungeni.core.workflows.question import states as question_wf_state #[u"questionstates
+from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionstates
+from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
 import bungeni.core.globalsettings as prefs
 
 
@@ -226,9 +226,9 @@ class QuestionJSONValidation( BrowserView ):
         #if type(question) == ScheduledQuestionItems:
         #    return "Questions cannot be postponed in the calendar, use the workflow of the question instead"     
         #if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
-        #    if question.status == question_wf_state.postponed:                
+        #    if question.status == question_wf_state[u"questionstates.postponed:                
         #        return
-        #    elif question.status == question_wf_state.scheduled:
+        #    elif question.status == question_wf_state[u"questionstates.scheduled:
         #        return
         #    else:
         #        return "You cannot postpone this question"    
@@ -243,11 +243,11 @@ class QuestionJSONValidation( BrowserView ):
         #if type(question) == ScheduledQuestionItems:
         #    return "Questions cannot be postponed in the calendar, use the workflow of the question instead" 
         #if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
-        #    if question.status == question_wf_state.postponed:                
+        #    if question.status == question_wf_state[u"questionstates.postponed:                
         #        return "This question is postponed, you can schedule it by dropping it on a sitting"
-        #    elif question.status == question_wf_state.scheduled:
+        #    elif question.status == question_wf_state[u"questionstates.scheduled:
         #        return "To postpone a question drag it to the 'postponed questions' area"
-        #    elif question.status == question_wf_state.admissible:    
+        #    elif question.status == question_wf_state[u"questionstates.admissible:    
         #        return
         #    else:
         #        return "You cannot make this question admissible"    
@@ -262,11 +262,11 @@ class QuestionJSONValidation( BrowserView ):
         #if type(motion) == ScheduledMotionItems:
         #    return "Motions cannot be postponed in the calendar, use the workflow of the motion instead" 
         #if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
-        #    if motion.status == motion_wf_state.postponed:                
+        #    if motion.status == motion_wf_state[u"motionstates.postponed:                
         #        return "This motion is postponed, you can schedule it by dropping it on a sitting"
-        #    elif motion.status == motion_wf_state.scheduled:
+        #    elif motion.status == motion_wf_state[u"motionstates.scheduled:
         #        return "To postpone a motion drag it to the 'postponed motions' area"
-        #    elif motion.status == motion_wf_state.admissible:  
+        #    elif motion.status == motion_wf_state[u"motionstates.admissible:  
         #        return  
         #    else:
         #        return "You cannot make this motion admissible"    
@@ -281,9 +281,9 @@ class QuestionJSONValidation( BrowserView ):
         #if type(motion) == ScheduledMotionItems:
         #    return "Motions cannot be postponed in the calendar, use the workflow of the motion instead"  
         #if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
-        #    if motion.status == motion_wf_state.postponed:                
+        #    if motion.status == motion_wf_state[u"motionstates.postponed:                
         #        return 
-        #    elif motion.status == motion_wf_state.scheduled:
+        #    elif motion.status == motion_wf_state[u"motionstates.scheduled:
         #        return
         #    else:
         #        return "You cannot postpone this motion"    
@@ -686,7 +686,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         if not self.Date:
             self.Date=datetime.date.today()                
         session = Session()
-        approved_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state.admissible ).distinct()
+        approved_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state[u"questionstates.admissible"].id ).distinct()
         results = approved_questions.all()
         for result in results:
             self.approved_question_ids.append(result.question_id)
@@ -694,28 +694,28 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = agenda_items.all()
         for result in results:
             self.agenda_item_ids.append(result.agenda_item_id)                
-        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state.postponed).distinct()
+        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state[u"questionstates.postponed"].id).distinct()
         results = postponed_questions.all()
         for result in results:
             self.postponed_question_ids.append(result.question_id)  
-        approved_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state.admissible).distinct()
+        approved_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state[u"motionstates.admissible"].id).distinct()
         results = approved_motions.all()
         for result in results:
             self.approved_motion_ids.append(result.motion_id) 
-        postponed_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state.postponed).distinct()
+        postponed_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state[u"motionstates.postponed"].id).distinct()
         results = postponed_motions.all()              
         for result in results:
             self.postponed_motion_ids.append(result.motion_id) 
-        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
-                                                                                bill_wf_state.first_reading_postponed ,
-                                                                                bill_wf_state.second_reading_pending , 
-                                                                                bill_wf_state.second_reading_postponed , 
-                                                                                bill_wf_state.whole_house_postponed ,
-                                                                                bill_wf_state.house_pending ,
-                                                                                bill_wf_state.report_reading_postponed ,                                                                                
-                                                                                bill_wf_state.report_reading_pending , 
-                                                                                bill_wf_state.third_reading_pending,
-                                                                                bill_wf_state.third_reading_postponed ]
+        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
+                                                                                bill_wf_state[u"billstates.first_reading_postponed"].id ,
+                                                                                bill_wf_state[u"billstates.second_reading_pending"].id , 
+                                                                                bill_wf_state[u"billstates.second_reading_postponed"].id , 
+                                                                                bill_wf_state[u"billstates.whole_house_postponed"].id ,
+                                                                                bill_wf_state[u"billstates.house_pending"].id ,
+                                                                                bill_wf_state[u"billstates.report_reading_postponed"].id ,                                                                                
+                                                                                bill_wf_state[u"billstates.report_reading_pending"].id , 
+                                                                                bill_wf_state[u"billstates.third_reading_pending"].id,
+                                                                                bill_wf_state[u"billstates.third_reading_postponed"].id ]
                                                                                 ))  
         results = bills.all()
         for result in results:
@@ -1254,7 +1254,7 @@ class PostponedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the postponed questions
     """    
-    name = state = question_wf_state.postponed   
+    name = state = question_wf_state[u"questionstates.postponed"].id   
     list_id = "postponed_questions"    
     
     
@@ -1262,7 +1262,7 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.admissible
+    name = state = question_wf_state[u"questionstates.admissible"].id
     render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
     list_id = "admissible_questions"
  
@@ -1299,7 +1299,7 @@ class AdmissibleMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
-    name = state = motion_wf_state.admissible
+    name = state = motion_wf_state[u"motionstates.admissible"].id
     list_id = "admissible_motions"
     
 
@@ -1307,7 +1307,7 @@ class PostponedMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
-    name = state = motion_wf_state.postponed
+    name = state = motion_wf_state[u"motionstates.postponed"].id
     list_id = "postponed_motions"
 
 class BillItemsViewlet( viewlet.ViewletBase ): 
@@ -1339,16 +1339,16 @@ class BillItemsViewlet( viewlet.ViewletBase ):
         refresh the query
         """
         session = Session()
-        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
-                                                                                bill_wf_state.first_reading_postponed ,
-                                                                                bill_wf_state.second_reading_pending , 
-                                                                                bill_wf_state.second_reading_postponed , 
-                                                                                bill_wf_state.whole_house_postponed ,
-                                                                                bill_wf_state.house_pending ,
-                                                                                bill_wf_state.report_reading_postponed ,                                                                                
-                                                                                bill_wf_state.report_reading_pending , 
-                                                                                bill_wf_state.third_reading_pending,
-                                                                                bill_wf_state.third_reading_postponed ]
+        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
+                                                                                bill_wf_state[u"billstates.first_reading_postponed"].id ,
+                                                                                bill_wf_state[u"billstates.second_reading_pending"].id , 
+                                                                                bill_wf_state[u"billstates.second_reading_postponed"].id , 
+                                                                                bill_wf_state[u"billstates.whole_house_postponed"].id ,
+                                                                                bill_wf_state[u"billstates.house_pending"].id ,
+                                                                                bill_wf_state[u"billstates.report_reading_postponed"].id ,                                                                                
+                                                                                bill_wf_state[u"billstates.report_reading_pending"].id , 
+                                                                                bill_wf_state[u"billstates.third_reading_pending"].id,
+                                                                                bill_wf_state[u"billstates.third_reading_postponed"].id ]
                                                                                 ))
         self.query = bills            
 
@@ -1768,7 +1768,7 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
                     item_schedule.item_id = question_id
                     item_schedule.order = sort_id
                     session.save(item_schedule)
-                    IWorkflowInfo(question).fireTransitionToward(question_wf_state.scheduled, check_security=True)
+                    IWorkflowInfo(question).fireTransitionToward(question_wf_state[u"questionstates.scheduled"].id, check_security=True)
                     item_schedule.status = IWorkflowInfo(question).state().getState()
                     session.commit()
                 except:
@@ -1777,18 +1777,18 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
                     session.close()
                     self.errors.append("Question could not be scheduled")  
                     
-                #if IWorkflowInfo(question).state().getState() == question_wf_state.admissible:
+                #if IWorkflowInfo(question).state().getState() == question_wf_state[u"questionstates.admissible:
                 #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
-                #elif IWorkflowInfo(question).state().getState() == question_wf_state.deferred:
+                #elif IWorkflowInfo(question).state().getState() == question_wf_state[u"questionstates.deferred:
                 #    IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
-                #elif IWorkflowInfo(question).state().getState() == question_wf_state.postponed:
+                #elif IWorkflowInfo(question).state().getState() == question_wf_state[u"questionstates.postponed:
                 #    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
                 #else:
                 #    print "invalid workflow state:", IWorkflowInfo(question).state().getState()
                         
 #                elif question.sitting_id != sitting_id:  
 #                    # a question with a sitting id is scheduled
-#                    assert IWorkflowInfo(question).state().getState() == question_wf_state.scheduled                  
+#                    assert IWorkflowInfo(question).state().getState() == question_wf_state[u"questionstates.scheduled                  
 #                    IWorkflowInfo(question).fireTransition('postpone', check_security=True)
 #                    #assert question.sitting_id is None
 #                    #question.sitting_id = sitting_id
@@ -1798,7 +1798,7 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
 #                    #print question.sitting_id == sitting_id
 #                    pass
             else:              
-                if IWorkflowInfo(question).state().getState() == question_wf_state.scheduled:
+                if IWorkflowInfo(question).state().getState() == question_wf_state[u"questionstates.scheduled"].id:
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                 else:
                     raise NotImplementedError     
@@ -1814,36 +1814,36 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
             else:
                 sitting = None                
             if sitting:   
-                if bill.status in [bill_wf_state.submitted , 
-                    bill_wf_state.first_reading_postponed ,
-                    bill_wf_state.second_reading_pending , 
-                    bill_wf_state.second_reading_postponed , 
-                    bill_wf_state.whole_house_postponed ,
-                    bill_wf_state.house_pending ,
-                    bill_wf_state.report_reading_postponed ,                                                                                
-                    bill_wf_state.report_reading_pending , 
-                    bill_wf_state.third_reading_pending,
-                    bill_wf_state.third_reading_postponed ]:
+                if bill.status in [bill_wf_state[u"billstates.submitted"].id , 
+                    bill_wf_state[u"billstates.first_reading_postponed"].id ,
+                    bill_wf_state[u"billstates.second_reading_pending"].id , 
+                    bill_wf_state[u"billstates.second_reading_postponed"].id , 
+                    bill_wf_state[u"billstates.whole_house_postponed"].id ,
+                    bill_wf_state[u"billstates.house_pending"].id ,
+                    bill_wf_state[u"billstates.report_reading_postponed"].id ,                                                                                
+                    bill_wf_state[u"billstates.report_reading_pending"].id , 
+                    bill_wf_state[u"billstates.third_reading_pending"].id,
+                    bill_wf_state[u"billstates.third_reading_postponed"].id ]:
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = bill_id
                     item_schedule.order = sort_id
                     session.save(item_schedule) 
-                    if bill.status in [bill_wf_state.submitted , bill_wf_state.first_reading_postponed]:
-                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.first_reading, check_security=True)
-                    elif bill.status in [bill_wf_state.second_reading_pending, bill_wf_state.second_reading_postponed ]:
-                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.second_reading, check_security=True)
-                    elif bill.status in [bill_wf_state.report_reading_postponed ,bill_wf_state.report_reading_pending]:
-                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.report_reading, check_security=True)
-                    elif bill.status in [bill_wf_state.third_reading_pending, bill_wf_state.third_reading_postponed ]:
-                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.third_reading, check_security=True)
-                    elif bill.status in [  bill_wf_state.house_pending, bill_wf_state.whole_house_postponed ]:
-                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.whole_house, check_security=True)   
+                    if bill.status in [bill_wf_state[u"billstates.submitted"].id , bill_wf_state[u"billstates.first_reading_postponed"].id]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state[u"billstates.first_reading"].id, check_security=True)
+                    elif bill.status in [bill_wf_state[u"billstates.second_reading_pending"].id, bill_wf_state[u"billstates.second_reading_postponed"].id ]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state[u"billstates.second_reading"].id, check_security=True)
+                    elif bill.status in [bill_wf_state[u"billstates.report_reading_postponed"].id ,bill_wf_state[u"billstates.report_reading_pending"].id]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state[u"billstates.report_reading"].id, check_security=True)
+                    elif bill.status in [bill_wf_state[u"billstates.third_reading_pending"].id, bill_wf_state[u"billstates.third_reading_postponed"].id ]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state[u"billstates.third_reading"].id, check_security=True)
+                    elif bill.status in [  bill_wf_state[u"billstates.house_pending"].id, bill_wf_state[u"billstates.whole_house_postponed"].id ]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state[u"billstates.whole_house"].id, check_security=True)   
                     item_schedule.status = bill.status                     
-                elif bill.status in [bill_wf_state.first_reading ,
-                    bill_wf_state.second_reading , 
-                    bill_wf_state.whole_house ,
-                    bill_wf_state.report_reading ,                                                                                
-                    bill_wf_state.third_reading]:
+                elif bill.status in [bill_wf_state[u"billstates.first_reading"].id ,
+                    bill_wf_state[u"billstates.second_reading"].id , 
+                    bill_wf_state[u"billstates.whole_house"].id ,
+                    bill_wf_state[u"billstates.report_reading"].id ,                                                                                
+                    bill_wf_state[u"billstates.third_reading"].id]:
                     # schedule on multiple days
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = bill_id
@@ -1875,9 +1875,9 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
                     item_schedule.item_id = motion_id
                     item_schedule.order = sort_id
                     session.save(item_schedule)  
-                    if IWorkflowInfo(motion).state().getState() != motion_wf_state.scheduled:              
+                    if IWorkflowInfo(motion).state().getState() != motion_wf_state[u"motionstates.scheduled"].id:              
                         # scheduling is possible for multipe sittings                    
-                        IWorkflowInfo(motion).fireTransitionToward(motion_wf_state.scheduled, check_security=True)   
+                        IWorkflowInfo(motion).fireTransitionToward(motion_wf_state[u"motionstates.scheduled"].id, check_security=True)   
                     item_schedule.status = IWorkflowInfo(motion).state().getState()
                     session.commit()
                 except:
@@ -1885,7 +1885,7 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
                     session.rollback()
                     session.close()
             else:
-                if IWorkflowInfo(motion).state().getState() == motion_wf_state.scheduled:
+                if IWorkflowInfo(motion).state().getState() == motion_wf_state[u"motionstates.scheduled"].id:
                       IWorkflowInfo(motion).fireTransition('postpone', check_security=True)
                 else:
                     raise NotImplementedError     

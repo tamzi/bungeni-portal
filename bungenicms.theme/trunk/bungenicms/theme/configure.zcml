@@ -7,7 +7,8 @@
   
   <includeOverrides file="overrides.zcml" />
   <include package="plone.app.layout.viewlets" />
-
+  <include package="Products.CMFPlone.browser" />
+  
   <include package="bungeni.portal" />
   
   <five:registerPackage package="." />

@@ -1,5 +1,5 @@
 <div class="listing">
-  <em> Sittings </em>
+  <em> Sittings </em>  
   <table class="listing grid" style="width: 100%;">
     <thead>
       <tr>        
@@ -29,7 +29,8 @@
         <br /-->
         <div tal:condition="day" style="position:relative; height:56em">
         <div tal:repeat="hour view/getDayHours"  tal:attributes="style python:view.getHourStyle(hour);">
-           <span tal:content="string: ${hour}:00" />
+           <span tal:content="string: ${hour}:00" 
+                tal:attributes="onclick string:javascript:newSitting('$day', $hour);;"/>
         </div>
           <div tal:repeat="sitting python: view.getSittings4Day(day)" tal:attributes="style python:view.getEventStyle(sitting.start_date, sitting.end_date)" >
             <h4> <a tal:content="sitting/short_name" tal:attributes="href sitting/url" /> </h4>
@@ -50,6 +51,73 @@
     </tr>
     </tbody>
   </table>
+  <script type="text/javascript">
+    <!--
+
+ function init() {
+ 
+    // Define various event handlers for Dialog
+    var handleSubmit = function() {
+	    this.submit();
+    };
+    var handleCancel = function() {
+	    this.cancel();
+    };
+
+   YAHOO.namespace("bungeni.container");        
+    // Instantiate the Dialog
+   YAHOO.bungeni.container.dialog = new YAHOO.widget.Dialog("addeditsittingdialog", 
+			{ width : "300px",
+			  fixedcenter : false,
+			  visible : false, 
+			  constraintoviewport : true,
+			  buttons : [ { text:"Submit", handler:handleSubmit, isDefault:true },
+						  { text:"Cancel", handler:handleCancel } ]
+			 } );
+
+   // Render the Dialog
+    YAHOO.bungeni.container.dialog.render();
+  }
+       
+    YAHOO.util.Event.onDOMReady(init);
+            
+    newSitting = function( sdate, stime ) {        
+        var Dom = YAHOO.util.Dom;
+        var s_date = Dom.get("form_sitting_date");
+        s_date.value = sdate;
+        var s_time = Dom.get("form_sitting_start");
+        s_time.value = stime + ":00"
+        var e_time = Dom.get("form_sitting_end");
+        e_time.value = stime + 2 + ":00"
+        var e_title = Dom.get("form_sitting_title");           
+        YAHOO.bungeni.container.dialog.show()  
+    }
+ 
+    -->
+  </script>
+  
+  <div id="addeditsittingdialog">
+    <form action="@@add-or-edit-sitting">
+      <input type="hidden" value="" id="form_sitting_id" name="form_sitting_id" />
+      <label for="form_sitting_type">Type:</label>      
+      <select size="1" name="form_sitting_type" id="form_sitting_type" tal:define="sittingtypes view/sitting_types">
+        <option tal:repeat="type sittingtypes" 
+                tal:attributes="value type" 
+                tal:content="python:sittingtypes[type]['type']">morning</option>
+      </select> <br />
+      <label for="form_sitting_title">Title:</label>
+      <input type="textbox" id="form_sitting_title" name="form_sitting_title" value="" />   
+      <br />      
+      <label for="form_sitting_date">Date:</label>         
+      <input type="textbox" id="form_sitting_date" name="form_sitting_date" value="1-1-00" />
+      <br />
+      <label for="form_sitting_start">Start:</label>               
+      <input type="textbox" id="form_sitting_start" name="form_sitting_start" value="08:00" />
+      <br />
+      <label for="form_sitting_end">End:</label>               
+      <input type="textbox" id="form_sitting_end" name="form_sitting_end" value="18:00" />     
+    </form>
+  </div>
 </div>
     <!--div id = "bungeni-tabbed-nav" >
         <div tal:replace="structure provider:bungeni.schedule-items.manager" />

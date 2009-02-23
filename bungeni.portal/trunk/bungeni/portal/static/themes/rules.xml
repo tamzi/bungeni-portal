@@ -2,15 +2,31 @@
 <ruleset>
   <theme href="/static/themes/layout.html" />
 
+  <!-- general utility blocks -->
+  
+  <rule>
+    <replace content="#portal-logo" theme="#portal-logo" />
+    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
+  </rule>
+
+  <!-- global navigation -->
+
+  <rule>
+    <drop theme="#portal-globalnav > ul.level0 > li" />
+    <prepend content="#portal-globalnav > li"
+            theme="children:#portal-globalnav > ul" />
+    <drop theme="children:#portal-globalnav > ul.level1" />
+    <append content="children:#portal-globalnav > ul"
+            theme="children:#portal-globalnav ul.level1" />
+  </rule>
+
   <!-- head section -->
   
   <rule>
     <replace content="children:title" theme="children:h1" />
+    <append content="head > link" theme="children:head" />
+    <append content="head > script" theme="children:head" />
+    <replace content="attributes:body" theme="attributes:body" />
   </rule>
 
-  <rule>
-    <append content="children:body" theme="children:body" />
-  </rule>
-  
-  
 </ruleset>

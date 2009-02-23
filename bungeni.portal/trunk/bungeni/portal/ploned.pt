@@ -19,7 +19,8 @@
 
   <div metal:fill-slot="plone.portaltop">
     <div tal:replace="structure provider:plone.portalheader" />
-    <div tal:replace="structure provider:plone.portaltools" />
+    <div tal:replace="structure context/@@globalnavigation" />
+    <div tal:replace="structure context/@@breadcrumbs" />
   </div>
 
   <metal:left-portlet fill-slot="column_one_slot">
@@ -60,7 +61,8 @@
             
             <a name="documentContent"></a>
             
-            <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontent" />
+            <div id="viewlet-above-content"
+                 tal:content="structure provider:plone.abovecontent" />
             
             <metal:slot metal:define-slot="body" />
             

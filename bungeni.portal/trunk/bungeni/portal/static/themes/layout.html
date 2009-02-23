@@ -6,12 +6,47 @@
           type="text/css" media="screen" />
   </head>
   <body>
-    <img src="/static/images/bungeni-logo.jpg" alt="The bungeni portal logo" />
+    <a id="portal-logo" href="#">
+      <img src="/static/images/bungeni-logo.jpg" alt="The bungeni portal logo" />
+    </a>
+
+    <!-- global navigation -->
     
-    <h1>Deliverance demonstration</h1>
-    
-    <div id="content">
-      <!-- this will be filled by the downstream application -->
+    <div id="portal-globalnav" i18n:domain="bungeni">
+      <ul class="level0">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About us</a></li>
+        
+        <li><span>Bungeni</span></li>
+        <ul class="level1">
+          <li><a href="#">Bills</a></li>
+          <li><span>Questions</span></li>
+          <li><a href="#">Parliaments</a></li>
+          <li><a href="#">Motions</a></li>
+        </ul>
+      </ul>
     </div>
+    <div id="portal-globalnav-bottom"><!-- nothing here --></div>
+
+    <!-- breadcrumbs -->
+    
+    <div id="portal-breadcrumbs">
+      <span id="breadcrumbs-you-are-here">You
+        are here:</span>
+      <a href="http://localhost:8080">Home</a>
+      <span class="breadcrumbSeparator">
+        &#8594;
+      </span>
+      <span dir="ltr">
+        <span>Bungeni</span>
+      </span>
+      <span class="breadcrumbSeparator">
+        &#8594;
+      </span>
+      <span dir="ltr">
+        <span>Questions</span>
+      </span>
+    </div>
+    
   </body>
 </html>

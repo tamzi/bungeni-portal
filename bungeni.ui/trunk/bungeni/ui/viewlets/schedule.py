@@ -1691,6 +1691,17 @@ class WeeklyScheduleCalendarViewlet( ScheduleCalendarViewlet ):
     a weekly calendar to schedule itmes for plenary or group sittings
     """
     
+    def _getSittingTypes(self):
+        session = Session()
+        sitting_types = session.query( domain.SittingType ).all()
+        data = {}
+        for sitting_type in sitting_types:
+            data[sitting_type.sitting_type_id] = {'start': sitting_type.start_time,
+                                                  'end': sitting_type.end_time,
+                                                  'type': sitting_type.sitting_type }
+        return data                               
+    
+    
     def getDayHours(self):
         return range(7,21)
         
@@ -1723,7 +1734,11 @@ class WeeklyScheduleCalendarViewlet( ScheduleCalendarViewlet ):
     def update(self):
         """
         refresh the query
-        """           
+        """      
+        need("yui-core")    
+        need("yui-container")
+        need("yui-button") 
+        need("yui-dragdrop")        
         session_id = None
         group_id = None            
         self.Date = getDisplayDate(self.request)
@@ -1743,6 +1758,7 @@ class WeeklyScheduleCalendarViewlet( ScheduleCalendarViewlet ):
                 group_id = self.context.__parent__.group_id    
         self.query = getCurrentSittingsQuery(start_date, end_date, session_id, group_id)
         self.Data = self.getData()
+        self.sitting_types = self._getSittingTypes()
 
     render = ViewPageTemplateFile ('templates/schedule_week_calendar_viewlet.pt')
 

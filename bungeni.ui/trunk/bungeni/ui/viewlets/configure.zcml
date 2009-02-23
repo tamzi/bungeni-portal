@@ -432,15 +432,25 @@
      /-->        
      
   <!-- Navigation Viewlets -->
+
   <browser:viewlet
     name="bungeni.navigation.breadcrumbs"
     for="*"
-    manager="ploned.ui.interfaces.IPortalToolsManager"
+    manager="ploned.ui.interfaces.IPortalHeaderManager"
     class=".navigation.BreadCrumbsViewlet"
     permission="zope.View"
     weight="60"
     />     
-    
+
+  <browser:viewlet
+     name="bungeni.navigation.globalsections"
+     for="*"
+     manager="ploned.ui.interfaces.IPortalHeaderManager"
+     class=".navigation.GlobalSectionsViewlet"
+     permission="zope.View"
+     weight="50"
+     />     
+
   <browser:viewlet
     name="bungeni.navigation.navtree"
     for="ore.alchemist.interfaces.IAlchemistContainer"         

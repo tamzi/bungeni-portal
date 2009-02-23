@@ -1,19 +1,38 @@
 # encoding: utf-8
 
+from zope import component
+from zope.security import proxy
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.security import proxy
-
+from zope.app.publisher.interfaces.browser import IBrowserMenu
+from zope.app.component.hooks import getSite
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from alchemist.traversal.managed import ManagedContainerDescriptor
-from bungeni.core.app import BungeniApp
+
 from bungeni.ui.utils import getDisplayDate
-import bungeni.core.globalsettings as prefs
+from bungeni.core.app import BungeniApp
+
 import datetime
-import urllib, simplejson
 from zope.traversing.browser import absoluteURL 
 
+class GlobalSectionsViewlet(viewlet.ViewletBase):
+    render = ViewPageTemplateFile( 'templates/sections.pt' )
+    selected_portal_tab = None
+    
+    def update(self):
+        base_url = absoluteURL(getSite(), self.request)
+        path = self.request['PATH_INFO']
+        menu = component.getUtility(IBrowserMenu, "site_actions")
+        
+        self.portal_tabs = []
+        for item in menu.getMenuItems(self.context, self.request):
+            item['url'] = base_url + item['action']
+            item['id'] = item['name'] = item['action'].strip('/')
+            self.portal_tabs.append(item)
+            if path.startswith(item['action']):
+                self.selected_portal_tab = item['id']
+        
 class BreadCrumbsViewlet( viewlet.ViewletBase ):
     """
     render the Breadcrumbs to show a user his current context
@@ -53,12 +72,6 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
                 name = getattr( context, '__name__', None)  
             path.append({'name' : name, 'url' : url} )                         
         return path
-        
-    #def getRootfolder(self):
-    #    m_url = prefs.getPloneMenuUrl()
-    #    r_url = '/'.join(m_url.split('/')[:-1])    
-    #    r_url = r_url + '/Members/' + self.user_name + '/index_html/view_main'
-    #    return r_url
         
     def update( self ):
         """
@@ -241,13 +254,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         path = self._get_object_path(context)
         items = self._append_child( path)
         return self._tree2html(items)
-        
-       
-    #def getRootfolder(self):
-    #    m_url = prefs.getPloneMenuUrl()
-    #    return '/'.join(m_url.split('/')[:-1])          
-        
-    
+               
     def update( self ):
         """
         prepare the data needed to render the viewlet.        

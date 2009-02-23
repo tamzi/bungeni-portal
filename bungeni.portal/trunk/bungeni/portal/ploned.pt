@@ -8,7 +8,6 @@
     <metal:header define-slot="header" />
 
     <!-- stylesheets -->
-    <div tal:replace="structure provider:plone-css" />
     <div tal:replace="structure provider:yui.css" />
 
     <!-- javascripts -->
@@ -19,8 +18,6 @@
 
   <div metal:fill-slot="plone.portaltop">
     <div tal:replace="structure provider:plone.portalheader" />
-    <div tal:replace="structure context/@@globalnavigation" />
-    <div tal:replace="structure context/@@breadcrumbs" />
   </div>
 
   <metal:left-portlet fill-slot="column_one_slot">

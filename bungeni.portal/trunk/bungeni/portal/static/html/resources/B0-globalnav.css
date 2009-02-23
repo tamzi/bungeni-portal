@@ -44,7 +44,7 @@
 #portal-globalnav ul.level0 a {
   background: #fff;
   border: 1px solid #aaa;
-  border-bottom: none;
+  border-bottom: 1px solid #666;
 }
 
 #portal-globalnav ul.level0 a:hover {
@@ -156,3 +156,4 @@ body.section-dspace #portal-globalnav-bottom {
   background: #9d1d07 !important;
   border-bottom-color: #9d1d07;
 }
+

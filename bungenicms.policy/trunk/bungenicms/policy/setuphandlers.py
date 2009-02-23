@@ -35,6 +35,13 @@ def setup_members_folder(context):
 
     portal = context.getSite()
 
+    for name in ('news', 'events'):
+        if name in portal.objectIds():
+            portal[name].setExcludeFromNav(True)
+
+    if 'Members' in portal.objectIds():
+        portal.manage_delObjects(ids=['Members'])
+
     if 'members' in portal.objectIds():
         return logging.warn("Members folder already exists.")
 

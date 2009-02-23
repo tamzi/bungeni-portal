@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
-  <theme href="/static/themes/layout.html" />
+  <theme if-condition="deliverance.subrequest_original_environ"
+         href="/static/themes/layout.html" />
 
-  <!-- general utility blocks -->
+  <match path="/bungeni" class="load-primary-navigation" />
+  <match path="/" class="primary" />
   
-  <rule>
-    <replace content="#portal-logo" theme="#portal-logo" />
-    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
-  </rule>
-
-  <!-- global navigation -->
-
-  <rule>
-    <drop theme="#portal-globalnav > ul.level0 > li" />
-    <prepend content="#portal-globalnav > li"
+  <rule class="load-primary-navigation">
+    <append href="/plone/bungeni"
+            content="#portal-globalnav > li"
             theme="children:#portal-globalnav > ul" />
-    <drop theme="children:#portal-globalnav > ul.level1" />
-    <append content="children:#portal-globalnav > ul"
+    
+    <append content="ul#portal-globalnav li"
             theme="children:#portal-globalnav ul.level1" />
   </rule>
-
-  <!-- head section -->
   
-  <rule>
-    <replace content="children:title" theme="children:h1" />
+  <rule class="primary">
     <append content="head > link" theme="children:head" />
     <append content="head > script" theme="children:head" />
+
+    <replace content="#portal-logo" theme="#portal-logo" />
+    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
+  
+    <prepend content="#portal-globalnav > li"
+             theme="children:#portal-globalnav > ul" />
+    <append content="children:#portal-globalnav > ul"
+            theme="children:#portal-globalnav ul.level1" />
+
+    <replace content="children:title" theme="children:h1" />
     <replace content="attributes:body" theme="attributes:body" />
   </rule>
-
+  
 </ruleset>

@@ -8,6 +8,13 @@ class PlonedLayout(object):
     
     def __init__(self, context, request):
         def render(**kwargs):
+
+            kwargs['attributes'] = {
+                'plone.body.attributes': {
+                    'class': "section-bungeni",
+                    }
+                }
+
             return layout.bungeni.render_macro(
                 "", global_scope=False, parameters=kwargs)
 

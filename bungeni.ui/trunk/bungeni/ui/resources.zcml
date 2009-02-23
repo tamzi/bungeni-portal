@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="bungeni">
+
+  <!-- Application JS -->
+  <browser:resourceDirectory
+     name="bungeni-js"
+     directory="js"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     />
+
+</configure>

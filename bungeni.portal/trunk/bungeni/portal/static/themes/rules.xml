@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
-  <theme if-condition="deliverance.subrequest_original_environ"
-         href="/static/themes/layout.html" />
+  <theme href="/static/themes/layout.html" />
 
   <match path="/bungeni" class="load-primary-navigation" />
   <match path="/" class="primary" />

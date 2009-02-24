@@ -5,9 +5,16 @@
   <browser:menu
      id="site_actions"
      title="Actions"
-     class=".menu.AppSectionsMenu"
+     class=".menu.PloneBrowserMenu"
      />
-     
+
+  <browser:menu
+     id="plone_contentmenu"
+     title="Content menu"
+     class=".menu.PloneBrowserMenu"
+     interface=".interfaces.IContentMenuItem"
+     />
+  
   <browser:viewletManager
      name="portal.personalbar.menu"
      provides=".interfaces.IPersonalBarMenu"
@@ -34,13 +41,5 @@
      provides="zope.contentprovider.interfaces.IContentProvider"
      />
 
-  <!-- Top level menu -->
-  <browser:menu
-     id="plone_contentmenu"
-     title="Content menu - contains contextual actions related to the content"
-     interface=".interfaces.IContentMenuItem"
-     />
-
-  
 </configure>
 

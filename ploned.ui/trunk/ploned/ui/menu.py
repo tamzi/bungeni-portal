@@ -12,7 +12,6 @@ Kapil Thangavelu
 
 
 import zope.component
-import zope.interface.interfaces
 
 from zope.security.proxy import removeSecurityProxy
 from zope.interface import providedBy, Interface
@@ -22,16 +21,14 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-class AppSectionsMenu( BrowserMenu ):
-
-
+class PloneBrowserMenu(BrowserMenu):
+    """This menu class implements the ``getMenuItems`` to conform with
+    Plone templates."""
+    
     def getMenuItems( self, object, request ):
-
-        result = []
-        for name, item in zope.component.getAdapters((object, request),
-                                                     self.getMenuItemType()):
-            #if item.available():
-            result.append(item)
+        menu = tuple(zope.component.getAdapters(
+            (object, request), self.getMenuItemType()))
+        result = [item for name, item in menu]
 
         # Now order the result. This is not as easy as it seems.
         #
@@ -61,13 +58,13 @@ class AppSectionsMenu( BrowserMenu ):
              'action': item.action,
              'selected': (self.selected(item) and u'selected') or u'',
              'icon': item.icon,
-             'extra': item.extra,
+             'extra': item.extra or {'id': item.action.strip('/').replace('/', '-')},
              'submenu': (IBrowserSubMenuItem.providedBy(item) and
                          getMenu(item.submenuId, object, request)) or None}
             for index, order, title, item in result]
 
         return result
-        
+    
     def selected( self, item ):
         request_url = item.request.getURL()
 

@@ -20,6 +20,7 @@
 
     <replace content="#portal-logo" theme="#portal-logo" />
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
+    <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
   
     <prepend content="#portal-globalnav > li"

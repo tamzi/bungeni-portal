@@ -19,7 +19,9 @@
      allowed_interface="zope.interface.common.mapping.IItemMapping"
      layer=".interfaces.IBungeniSkin"     
      />
-     
 
+  <subscriber
+     handler=".skin.handle_authenticated_principal_created_event"
+     for="zope.app.authentication.interfaces.IAuthenticatedPrincipalCreated" />
 
 </configure>

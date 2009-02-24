@@ -4,9 +4,12 @@ from zope.viewlet.interfaces import IViewletManager
 from ploned.ui.interfaces import IPlonedSkin
 from ore.yui.interfaces import IYUILayer
 
-class IBungeniSkin( IPlonedSkin, IYUILayer ):
-    """ skin for bungeni """
-    
+class IBungeniSkin(IPlonedSkin, IYUILayer):
+    """Bungeni application skin."""
+
+class IBungeniAuthenticatedSkin(IBungeniSkin):
+    """Skin for authenticated users."""
+
 class IWorkflowViewletManager( IViewletManager ):
     """
     Viewlet manager to display worflow history

@@ -19,8 +19,17 @@
   <browser:menuItem
      menu="site_actions"
      for="*"
-     action="/workspace"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     action="/"
      title="Workspace"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     layer=".interfaces.IBungeniSkin"
+     action="/"
+     title="Welcome"
      />
 
   <!--browser:menuItem

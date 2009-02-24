@@ -19,12 +19,16 @@
     <append content="head > script" theme="children:head" />
 
     <replace content="#portal-logo" theme="#portal-logo" />
+    <replace content="#portal-searchbox" theme="#portal-searchbox" />
     <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
   
     <prepend content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
     <append content="children:#portal-globalnav > ul"
             theme="children:#portal-globalnav ul.level1" />
+
+
+    <append content="#portal-columns" theme="children:body" />
 
     <replace content="children:title" theme="children:h1" />
     <replace content="attributes:body" theme="attributes:body" />

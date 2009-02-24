@@ -93,6 +93,16 @@
     weight="30"
     />  
 
+  <!-- schedule sittings Ajax -->
+  
+  <!-- JSON View to validate questions -->         
+  <browser:page
+     for="bungeni.models.interfaces.IGroupSittingContainer"
+     permission="bungeni.question.Schedule"
+     name="ajax-add-or-edit-sitting"
+     class=".schedule.ScheduleSittingWeekSubmit"
+     />
+
 
   <!-- Question, Motion, Bill Schedule -->
   <browser:page

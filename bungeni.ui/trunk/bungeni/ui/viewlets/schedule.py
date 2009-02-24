@@ -1503,6 +1503,8 @@ class PlenarySittingCalendarViewlet( viewlet.ViewletBase ):
                                     + ' (' + sit_types[result.sitting_type] + ')')
             data['start_date'] = result.start_date
             data['end_date'] = result.end_date
+            data['start_time'] = result.start_date.time()
+            data['end_time'] = result.end_date.time()            
             data['day'] = result.start_date.date()
             data['url']= ( path + 'obj-' + str(result.sitting_id) )   
             data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
@@ -1762,6 +1764,53 @@ class WeeklyScheduleCalendarViewlet( ScheduleCalendarViewlet ):
 
     render = ViewPageTemplateFile ('templates/schedule_week_calendar_viewlet.pt')
 
+class ScheduleSittingWeekSubmit( BrowserView ):
+    """
+    get the values of the Ajax sitting schedule
+    and schedule the sitting
+    """
+    
+    def editSitting(self, formdata):
+        session = Session()
+        sitting_id = long(formdata['form_sitting_id'])
+        sitting_type = long(formdata['form_sitting_type'])        
+        sitting = session.query(domain.GroupSitting).get(sitting_id)        
+        dt = time.strptime(formdata['form_sitting_date'],'%Y-%m-%d')
+        ds = time.strptime(formdata['form_sitting_start'],'%H:%M:%S')
+        de = time.strptime(formdata['form_sitting_end'],'%H:%M:%S')
+        sitting.start_date = datetime.datetime( dt[0], dt[1], dt[2], ds[3], ds[4] )
+        sitting.end_date = datetime.datetime( dt[0], dt[1], dt[2], de[3], de[4] )
+        
+    
+    
+    def addSitting(self, formdata):
+        session = Session()
+        sitting = domain.GroupSitting()
+        #sitting_type = long(formdata['form_sitting_type'])                
+        dt = time.strptime(formdata['form_sitting_date'],'%Y-%m-%d')
+        ds = time.strptime(formdata['form_sitting_start'],'%H:%M:%S')
+        de = time.strptime(formdata['form_sitting_end'],'%H:%M:%S')
+        sitting.start_date = datetime.datetime( dt[0], dt[1], dt[2], ds[3], ds[4] )
+        sitting.end_date = datetime.datetime( dt[0], dt[1], dt[2], de[3], de[4] )
+        sitting.sitting_type = 1L #sitting_type
+        sitting.group_id = self.context.__parent__.group_id
+        session.save(sitting)        
+        
+    def __call__( self ):
+        errors = []
+        warnings = []        
+        data = {'errors': errors, 'warnings': warnings}
+        form_data = self.request.form
+        print form_data
+        if form_data:
+            if form_data.has_key('form_sitting_id'):
+                if form_data['form_sitting_id']:
+                    self.editSitting(form_data) 
+                else:
+                    self.addSitting(form_data)    
+            else:
+                self.addSitting(form_data)   
+        
 
 
 class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):

@@ -54,7 +54,6 @@ div#portal-globalnav ul.level0 a:hover {
 }
 
 div#portal-globalnav ul.level0 li.selected a {
-  background-color: #fff;
   color: #000;
   font-weight: bold;
   border-bottom-color: #fff;

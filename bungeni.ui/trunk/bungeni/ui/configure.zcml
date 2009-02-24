@@ -29,9 +29,6 @@
   <!-- Site Viewlets -->
   <include package=".viewlets" />
 
-  <!-- Content Menu -->
-  <include package=".contentmenu" />
-  
   <!-- Calendar Widgets -->
   <include file="calendar.zcml" />
   

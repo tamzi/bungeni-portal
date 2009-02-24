@@ -1,11 +1,20 @@
+from zope import interface
+from zope import component
 
 from z3c.menu.ready2go import item
-from zope import component
-from zope.security.management import getInteraction
-from zope.app.component.hooks import getSite
 
+from zope.component.exceptions import ComponentLookupError
+from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
+from zope.app.publisher.browser.menu import BrowserSubMenuItem
+from zope.traversing.browser import absoluteURL
+
+from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
+
+from plone.memoize.instance import memoize
+
+from bungeni.ui.i18n import  _
 
 class GlobalMenuItem( item.GlobalMenuItem ):
     #cssActive = "menubarSelected"
@@ -81,3 +90,82 @@ class TaskMenu(BrowserMenu):
 #             (self.context, self.request, self.__parent__, self),
 #             interfaces.IViewlet)
         
+
+class WorkflowSubMenuItem(BrowserSubMenuItem):
+    title = _(u'label_state', default=u'State:')
+    submenuId = 'context_workflow'
+    order = 40
+
+
+    def __new__(cls, context, request):
+        # this is currently the only way to make sure this menu only
+        # 'adapts' to a workflowed context; the idea is that the
+        # component lookup will fail, which will propagate back to the
+        # original lookup request
+        workflow = IWorkflow(context, None)
+        if workflow is None:
+            return
+        return object.__new__(cls, context, request)
+
+    def __init__(self, context, request):
+        BrowserSubMenuItem.__init__(self, context, request)
+        self.context = context
+        self.url = absoluteURL(context, request)
+        
+    @property
+    def extra(self):
+        info = IWorkflowInfo(self.context, None)
+        if info is None:
+            return {'id': 'plone-contentmenu-workflow'}
+
+        state = info.state().getState()            
+        stateTitle = info.workflow().workflow.states[state].title
+        
+        return {'id'         : 'plone-contentmenu-workflow',
+                'class'      : 'state-%s' % state,
+                'state'      : state,
+                'stateTitle' : stateTitle,} # TODO: should be translated
+
+    @property
+    def description(self):
+        return u''
+
+    @property
+    def action(self):
+        return self.url + '/workflow'
+    
+    def selected(self):
+        return False
+
+class WorkflowMenu(BrowserMenu):
+    def getMenuItems(self, context, request):
+        """Return menu item entries in a TAL-friendly form."""
+
+        wf = IWorkflow(context, None)
+        if wf is None:
+            return ()
+        
+        state = IWorkflowInfo(context).state().getState()
+        transitions = wf.getTransitions(state)
+
+        url = absoluteURL(context, request)
+
+        results = []
+        for transition in transitions:
+            tid = transition.transition_id
+            transition_url = url + '/@@%s' % tid
+
+            extra = {'id': 'workflow-transition-%s' % tid,
+                     'separator': None,
+                     'class': ''}
+            
+            results.append(
+                dict(title=transition.title,
+                     description="",
+                     action=transition_url,
+                     selected=False,
+                     icon=None,
+                     extra=extra,
+                     submenu=None))
+                     
+        return results

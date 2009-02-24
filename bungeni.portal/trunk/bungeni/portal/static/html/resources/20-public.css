@@ -330,7 +330,7 @@ form.searchPage input.searchButton {
 }
 
 /* The global section tabs. */
-#portal-globalnav {
+ul#portal-globalnav {
     background-color: transparent;
     padding: 0em 0em 0em 2em;
     white-space: nowrap;
@@ -339,10 +339,10 @@ form.searchPage input.searchButton {
     height: auto;
     line-height: normal;
 }
-#portal-globalnav li {
+ul#portal-globalnav li {
     display: inline;
 }
-#portal-globalnav li a {
+ul#portal-globalnav li a {
     /* The normal, unselected tabs. They are all links */
     background-color: transparent;
     border-color: #8cacbb;
@@ -355,14 +355,14 @@ form.searchPage input.searchButton {
     text-decoration: none;
     text-transform: none;
 }
-#portal-globalnav li.selected a {
+ul#portal-globalnav li.selected a {
     /* The selected tab. There's only one of this */
     background-color: #dee7ec;
     border: 1px solid #8cacbb;
     border-bottom: #dee7ec 1px solid;
     color: #436976;
 }
-#portal-globalnav li a:hover {
+ul#portal-globalnav li a:hover {
     background-color: #dee7ec;
     border-color: #8cacbb;
     border-bottom-color: #dee7ec;
@@ -384,6 +384,7 @@ form.searchPage input.searchButton {
     text-align: right;
     text-transform: none;
     list-style: none;
+    clear: both;
 }
 #portal-personaltools .portalUser {
     background: transparent url(http://localhost:8082/site1/user.gif) center left no-repeat;
@@ -404,6 +405,9 @@ form.searchPage input.searchButton {
 #portal-personaltools li a {
     text-decoration: none;
     color: #436976;
+}
+#portal-personaltools li img {
+    display: inline;
 }
 #portal-personaltools .visualIconPadding {
     padding-left: 10px;

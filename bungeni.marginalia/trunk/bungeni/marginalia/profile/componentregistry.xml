@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<componentregistry>
+  <utilities>
+    <utility 
+       interface="bungeni.marginalia.interfaces.IMarginaliaTool"
+       object="portal_marginalia"/>
+  </utilities>
+</componentregistry>

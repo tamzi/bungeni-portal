@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:browser="http://namespaces.zope.org/browser"   
+    i18n_domain="bungeni.marginalia">
+  
+  <include package="Products.GenericSetup" />
+    
+  <!-- Register the installation GenericSetup extension profile -->
+  <genericsetup:registerProfile
+     name="default"
+     title="Bungeni Marginalia"
+     directory="profile"
+     description="Annotations and Amendments for Marginalia"
+     provides="Products.GenericSetup.interfaces.EXTENSION"
+     />
+
+  <browser:page
+     name="marginalia"
+     for="Products.ATContentTypes.content.document.ATDocument"
+     permission="cmf.ModifyPortalContent"
+     class=".browser.RESTView"
+     />
+  
+</configure>

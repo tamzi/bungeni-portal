@@ -18,6 +18,7 @@
 
   <div metal:fill-slot="plone.portaltop">
     <div tal:replace="structure provider:plone.portalheader" />
+    <div tal:replace="structure provider:plone.portaltools" />
   </div>
 
   <metal:left-portlet fill-slot="column_one_slot">

@@ -419,9 +419,6 @@
      weight="15"
      />    
           
-
-     
-
   <!--browser:viewlet
      name="bungeni.workspace.questions-submitted.mp"
      for="*"
@@ -448,7 +445,7 @@
      manager="ploned.ui.interfaces.IPortalHeaderManager"
      class=".navigation.GlobalSectionsViewlet"
      permission="zope.View"
-     weight="50"
+     weight="40"
      />     
 
   <browser:viewlet

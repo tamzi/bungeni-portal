@@ -4,9 +4,82 @@
 	   xmlns:z3c="http://namespaces.zope.org/z3c"
            i18n_domain="bungeni">
 
+  <!-- menus -->
+  
+  <browser:menu
+     id="context_workflow"
+     title="The 'workflow' menu - allows the user to execute workflow transitions"
+     class=".menu.WorkflowMenu"
+     />
+
+  <browser:menu
+     id="context_additems"
+     title="The 'add' menu - allows the user to add content"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+
   <browser:menu
      id="context_actions"
-     title="Context Actions"
+     title="The 'actions' menu - provides context-specific actions (views)"
+     />
+
+  <!-- content submenus -->
+
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="*"
+     title="Add parliamentary content..."
+     action="add_content"
+     permission="zope.ManageContent"
+     submenu="context_additems"
+     />
+
+  <adapter
+     for="* *"
+     name="plone.contentmenu.workflow"
+     factory=".menu.WorkflowSubMenuItem"
+     provides="ploned.ui.interfaces.IContentMenuItem" />
+
+  <!-- menu items -->
+  
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Bill"
+     action="/bills/add"
+     permission="zope.ManageContent"
+     />
+
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Motion"
+     action="/motions/add"
+     permission="zope.ManageContent"
+     />
+
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Agenda item"
+     action="/agendaitems/add"
+     permission="zope.ManageContent"
+     />
+
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Person"
+     action="/persons/add"
+     permission="zope.ManageContent"
+     />
+
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Question"
+     action="/questions/add"
+     permission="zope.ManageContent"
      />
 
   <browser:menuItem

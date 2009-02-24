@@ -26,9 +26,14 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
         menu = component.getUtility(IBrowserMenu, "site_actions")
         
         self.portal_tabs = []
+        seen = set()
         for item in menu.getMenuItems(self.context, self.request):
+            if item['action'] in seen:
+                continue
+            seen.add(item['action'])
             item['url'] = base_url + item['action']
-            item['id'] = item['name'] = item['action'].strip('/')
+            item['id'] = item['action'].strip('/')
+            item['name'] = item['title']
             self.portal_tabs.append(item)
             if path.startswith(item['action']):
                 self.selected_portal_tab = item['id']

@@ -1,7 +1,6 @@
 # encoding: utf-8
 from zope import interface
 from zope.viewlet import viewlet, manager
-from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 from zc.resourcelibrary import need
@@ -9,19 +8,11 @@ from zc.resourcelibrary import need
 from ore.alchemist import Session
 import bungeni.models.domain as domain
 
-import alchemist.ui.core
-import alchemist.ui.viewlet
-
-from bungeni.ui.i18n import _
-from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager, IAtomEntriesFormViewletManager, IAtomFormViewletManager
-
-class AttributesEditViewlet( alchemist.ui.core.DynamicFields, alchemist.ui.viewlet.EditFormViewlet ):
-
-    mode = "edit"
-    template = NamedTemplate('alchemist.subform')
-    form_name = _(u"General")
-    
-
+from interfaces import \
+     ISubFormViewletManager, \
+     IResponeQuestionViewletManager, \
+     IAtomEntriesFormViewletManager, \
+     IAtomFormViewletManager
     
 class SubFormViewletManager( manager.WeightOrderedViewletManager ):
     """
@@ -34,11 +25,6 @@ class SubFormViewletManager( manager.WeightOrderedViewletManager ):
          return [(name, viewlet)
                  for name, viewlet in viewlets
                  if viewlet.for_display == True]    
-    
-
-
-
-
     
 class NavigateAwayWarningViewlet( viewlet.ViewletBase ):
 

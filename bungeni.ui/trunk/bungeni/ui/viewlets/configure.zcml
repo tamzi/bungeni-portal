@@ -3,23 +3,13 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
-  <!-- redirect to current -->
+  <!-- viewlet managers -->
   
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
+  <browser:viewletManager
+     name="bungeni.yui-tab.manager"
+     provides=".interfaces.ITabManager"     
      permission="zope.View"
-     name="current"
-     class=".current.RedirectToCurrent"
-     />
-
-
-  <!-- schedule holidays-->
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="bungeni.question.Schedule"
-     name="schedule-holyday"
-     class=".schedule.HolydayCalendar"
-     />
+     />   
 
   <browser:viewletManager
      name="bungeni.schedule-holydaycalendar.manager"
@@ -28,6 +18,102 @@
      permission="zope.View"
      />    
 
+  <browser:viewletManager
+     name="bungeni.plenary-calendar.manager"
+     provides=".interfaces.IPlenaryCalendar"
+     class=".schedule.PlenaryCalendarViewletManager"
+     permission="zope.View"
+     />    
+
+  <browser:viewletManager
+     name="bungeni.schedule-group-calendar.manager"
+     provides=".interfaces.IScheduleGroupCalendar"
+     class=".schedule.ScheduleGroupCalendarViewletManager"
+     permission="zope.View"
+     />  
+
+  <browser:viewletManager
+     name="bungeni.schedule-calendar.manager"
+     provides=".interfaces.IScheduleCalendar"
+     class=".schedule.ScheduleCalendarViewletManager"
+     permission="zope.View"
+     />    
+     
+  <browser:viewletManager
+     name="bungeni.schedule-items.manager"
+     provides=".interfaces.IScheduleItems"
+     class=".schedule.ScheduleCalendarItemsViewletManager"
+     permission="zope.View"
+     />         
+               
+  <!--browser:viewletManager
+      name="bungeni.workspace"
+      provides=".interfaces.IWorkspace"
+      permission="zope.View"
+      /-->
+
+  <browser:viewletManager
+     name="bungeni.workspace"
+     provides=".interfaces.IWorkspace"
+     permission="zope.View"
+     class=".workspace.Manager"    
+     />    
+
+  <browser:viewletManager
+     name="bungeni.datechooser.manager"
+     provides=".interfaces.IDateChooser"     
+     permission="zope.View"
+     />
+
+    <browser:viewletManager
+     name="bungeni.current"
+     provides=".interfaces.ICurrent"
+     class=".current.CurrentViewletManager"
+     permission="zope.View"
+     />
+    
+  <browser:viewletManager
+     name="bungeni.current-ministries"
+     provides=".interfaces.ICurrentMinistries"    
+     permission="zope.View"
+     />
+
+  <browser:viewletManager
+     name="bungeni.sitting-calendar.manager"
+     provides=".interfaces.ISittingCalendar"
+     class=".sittingcalendar.SittingCalendarViewletManager"
+     permission="zope.View"
+     />    
+
+  <browser:viewletManager
+     name="bungeni.schedule-sitting-calendar.manager"
+     provides=".interfaces.IScheduleSittingCalendar"
+     class=".schedulesittingcalendar.ScheduleCalendarViewletManager"
+     permission="zope.View"
+     />  
+
+  <browser:viewletManager
+     name="bungeni.week-sitting-calendar.manager"
+     provides=".interfaces.IWeekSittingCalendar"
+     class=".schedulesittingcalendar.WeekCalendarViewletManager"
+     permission="zope.View"
+     />  
+
+  <browser:viewletManager
+     name="bungeni.current-government"
+     provides=".interfaces.ICurrentGovernment"
+     class=".current.CurrentGovernmentViewletManager"
+     permission="zope.View"
+     />
+  
+  <!-- schedule holidays-->
+  
+  <browser:page
+     for="bungeni.models.interfaces.IBungeniApplication"
+     permission="bungeni.question.Schedule"
+     name="schedule-holyday"
+     class=".schedule.HolydayCalendar"
+     />
 
   <browser:viewlet
     name="bungeni.schedule.holydaycalendar"   
@@ -55,13 +141,6 @@
      />
 
 
-  <browser:viewletManager
-     name="bungeni.plenary-calendar.manager"
-     provides=".interfaces.IPlenaryCalendar"
-     class=".schedule.PlenaryCalendarViewletManager"
-     permission="zope.View"
-     />    
-
   <browser:viewlet
     name="bungeni.plenary.calendar"   
     manager=".interfaces.IPlenaryCalendar"
@@ -71,19 +150,13 @@
     />    
 
   <!-- Schedule calendar for groups TODO permissions ... -->
+  
   <browser:page
      for="bungeni.models.interfaces.IGroupSittingContainer"
      permission="zope.View"
      name="group-schedule-calendar"
      class=".schedule.ScheduleGroupCalendar"
      />
-
-  <browser:viewletManager
-     name="bungeni.schedule-group-calendar.manager"
-     provides=".interfaces.IScheduleGroupCalendar"
-     class=".schedule.ScheduleGroupCalendarViewletManager"
-     permission="zope.View"
-     />  
 
   <browser:viewlet
     name="bungeni.schedule-group.calendar"   
@@ -93,9 +166,7 @@
     weight="30"
     />  
 
-  <!-- schedule sittings Ajax -->
-  
-  <!-- JSON View to validate questions -->         
+  <!-- JSON View to validate questions -->
   <browser:page
      for="bungeni.models.interfaces.IGroupSittingContainer"
      permission="bungeni.question.Schedule"
@@ -103,8 +174,8 @@
      class=".schedule.ScheduleSittingWeekSubmit"
      />
 
-
   <!-- Question, Motion, Bill Schedule -->
+  
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="bungeni.question.Schedule"
@@ -112,22 +183,6 @@
      class=".schedule.Calendar"
      />
      
-     
-     
-  <browser:viewletManager
-     name="bungeni.schedule-calendar.manager"
-     provides=".interfaces.IScheduleCalendar"
-     class=".schedule.ScheduleCalendarViewletManager"
-     permission="zope.View"
-     />    
-     
-  <browser:viewletManager
-     name="bungeni.schedule-items.manager"
-     provides=".interfaces.IScheduleItems"
-     class=".schedule.ScheduleCalendarItemsViewletManager"
-     permission="zope.View"
-     />         
-               
   <browser:viewlet
     name="bungeni.schedule.admissible-questions"   
     manager=".interfaces.IScheduleItems"
@@ -209,7 +264,7 @@
   <browser:viewlet
     name="bungeni.schedule.yui-dragdrop"   
     manager=".interfaces.IScheduleItems"
-    class=".schedule.YUIDragDropViewlet"
+    class=".schedule.ScheduleSittingDragDropViewlet"
     permission="zope.Public"
     weight="50"
     /> 
@@ -218,7 +273,7 @@
      name="bungeni.schedule.yui-tabs"
      for="*"
      manager=".interfaces.IScheduleItems"
-     class=".current.YUITabView"
+     class=".yui.YUITabView"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      weight="60"
@@ -242,18 +297,6 @@
          
   <!-- managers -->
   
-  <!--browser:viewletManager
-     name="bungeni.workspace"
-     provides=".interfaces.IWorkspace"
-     permission="zope.View"
-     /-->
-
- <browser:viewletManager
-     name="bungeni.workspace"
-     provides=".interfaces.IWorkspace"
-     permission="zope.View"
-     class=".workspace.Manager"    
-     />    
 
 
 
@@ -478,18 +521,12 @@
     
     
   <!--YUI Tabs -->
-  <browser:viewletManager
-     name="bungeni.yui-tab.manager"
-     provides=".interfaces.ITabManager"     
-     permission="zope.View"
-     />   
-
-
+  
  <browser:viewlet
      name="bungeni.yui-tabs"
      for="*"
      manager=".interfaces.ITabManager"
-     class=".current.YUITabView"
+     class=".yui.YUITabView"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
     />     
@@ -497,11 +534,6 @@
      
         
   <!-- Date Chooser -->      
-  <browser:viewletManager
-     name="bungeni.datechooser.manager"
-     provides=".interfaces.IDateChooser"     
-     permission="zope.View"
-     />
 
   <browser:viewlet
     name="bungeni.datechooser.viewlet"   
@@ -519,20 +551,6 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".current.Current"
      />
-
-  <browser:viewletManager
-     name="bungeni.current"
-     provides=".interfaces.ICurrent"
-     class=".current.CurrentViewletManager"
-     permission="zope.View"
-     />
-    
-  <browser:viewletManager
-     name="bungeni.current-ministries"
-     provides=".interfaces.ICurrentMinistries"    
-     permission="zope.View"
-     />
-
 
   <browser:viewlet
     name="bungeni.all.parliament"   
@@ -574,12 +592,6 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".sittingcalendar.Calendar"
      />    
-  <browser:viewletManager
-     name="bungeni.sitting-calendar.manager"
-     provides=".interfaces.ISittingCalendar"
-     class=".sittingcalendar.SittingCalendarViewletManager"
-     permission="zope.View"
-     />    
           
           
   
@@ -620,13 +632,6 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".schedulesittingcalendar.Calendar"
      />     
-
-  <browser:viewletManager
-     name="bungeni.schedule-sitting-calendar.manager"
-     provides=".interfaces.IScheduleSittingCalendar"
-     class=".schedulesittingcalendar.ScheduleCalendarViewletManager"
-     permission="zope.View"
-     />  
 
   <browser:viewlet
     name="bungeni.schedule-sitting.calendar"   
@@ -681,13 +686,6 @@
      class=".schedulesittingcalendar.WeekCalendar"
      />     
 
-  <browser:viewletManager
-     name="bungeni.week-sitting-calendar.manager"
-     provides=".interfaces.IWeekSittingCalendar"
-     class=".schedulesittingcalendar.WeekCalendarViewletManager"
-     permission="zope.View"
-     />  
-
   <browser:viewlet
     name="bungeni.week-sitting.calendar"   
     manager=".interfaces.IWeekSittingCalendar"
@@ -725,12 +723,6 @@
      class=".current.Government"
      />    
   
-    <browser:viewletManager
-     name="bungeni.current-government"
-     provides=".interfaces.ICurrentGovernment"
-     class=".current.CurrentGovernmentViewletManager"
-     permission="zope.View"
-     />
   
     
 
@@ -759,7 +751,6 @@
     for="bungeni.models.interfaces.IMemberOfParliament"
     permission="zope.Public"
     weight="40"
-    />
-  
+    />  
   
 </configure>

@@ -1,5 +1,3 @@
-import time
-
 from zope import schema, component
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
@@ -9,8 +7,6 @@ from alchemist.ui import content
 
 import common, search
 from zope.viewlet import viewlet
-
-from browser import table
 
 class Menu( viewlet.ViewletBase ):
 

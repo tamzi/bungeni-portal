@@ -20,7 +20,7 @@ from interfaces import ISittingCalendar
 from bungeni.ui.utils import getDisplayDate
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
-from bungeni.ui.browser import container
+from bungeni.ui.forms import container
 import bungeni.core.globalsettings as prefs
 from schedule import makeList, getParliamentaryItem
 

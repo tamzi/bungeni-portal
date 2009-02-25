@@ -1,25 +1,25 @@
 <?xml version="1.0" ?>
- <feed xmlns="http://www.w3.org/2005/Atom"       
-       xmlns:tal="http://xml.zope.org/namespaces/tal"
-       xmlns:metal="http://xml.zope.org/namespaces/metal"
-       xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+<feed xmlns="http://www.w3.org/2005/Atom"       
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n">
 
-   <title tal:content="view/feedtitle">Feed Title</title>    
-   <updated tal:content="view/updated">2003-12-13T18:30:02Z</updated>    
-   <id tal:content="view/feedUid">urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6</id>
+  <title tal:content="options/title">Feed Title</title>    
+  <updated tal:content="options/updated">2003-12-13T18:30:02Z</updated>    
+  <id tal:content="options/feed_url">
+    urn:uuid:60a76c80-d399-11d9-b93C-0003939e0af6
+  </id>
+  
+  <entry>
+    <title tal:content="options/title">Title of main page</title>    
+    <updated tal:content="options/updated">2003-12-13T18:30:02Z</updated>    
+    <id tal:content="options/uid">
+      urn:uuid:870a76c80-d399-11d9-b93C-0003939e0af6
+    </id>
 
-   <entry>
-
-       <title tal:content="view/feedtitle">Title of main page</title>    
-       <updated tal:content="view/updated">2003-12-13T18:30:02Z</updated>    
-       <id tal:content="view/uid">urn:uuid:870a76c80-d399-11d9-b93C-0003939e0af6</id>
-       <!-- recomended elements -->
-       <content type="html" tal:content="provider:bungeni.atom-form.manager">complete content</content>
-       <link rel="alternate" tal:attributes="href view/url" /> 
+    <content type="html" tal:content="structure options/content" />
     
-   </entry>
-   <!-- feedentries of subpages -->
-   <entries tal:replace="structure provider:bungeni.atom-subform.manager" />
-   
-   
- </feed>           
+    <link rel="alternate" tal:attributes="href options/url" /> 
+  </entry>
+
+</feed>

@@ -15,6 +15,7 @@ from alchemist.ui.core import DynamicFields
 
 from bungeni.ui.forms.workflow import bindTransitions
 from alchemist.ui.viewlet import DisplayFormViewlet
+from zc.resourcelibrary import need
 
 class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     mode = "view"
@@ -31,6 +32,7 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             pass
             
     def update( self ):
+        need("yui-tab")
         self.form_name = self.getform_name()
         self.setupActions()
         super(BungeniAttributeDisplay, self).update() 

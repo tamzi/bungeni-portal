@@ -1,4 +1,18 @@
 (function($) {
+  $.fn.yuiTabView = function(elements) {
+    var tab_view = new YAHOO.widget.TabView();
+    
+    $.each(elements, function(i, o) {
+        var label = YAHOO.util.Dom.getFirstChild(o)
+          tab_view.addTab(new YAHOO.widget.Tab({
+              labelEl : label, contentEl : o,
+                  }));
+      });
+
+    tab_view.appendTo($(this).get(0));
+    tab_view.set('activeTab', tab_view.getTab(0));
+  };
+  
   $.fn.yuiDataTable = function(context_name, link_url, data_url, fields, columns, table_id) {
 
     var datasource, columns, config;

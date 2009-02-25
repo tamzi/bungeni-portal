@@ -37,12 +37,7 @@ class IWeekSittingCalendar( IViewletManager ):
     """ Week Calendar show all items viewlet manager """        
     
 class IPlenaryCalendar( IViewletManager ):    
-    """ monthly Calendar show all plenary sittings viewlet manager """     
-
-
+    """ monthly Calendar show all plenary sittings viewlet manager """
     
 class ICurrentGovernment( IViewletManager ):    
     """ Current Government """
-
-class ITabManager( IViewletManager ):
-    """ Create YUI Tabs """        

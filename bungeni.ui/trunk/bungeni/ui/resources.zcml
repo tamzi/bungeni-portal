@@ -21,5 +21,15 @@
      weight="10"
      />
 
+  <browser:viewlet
+     name="bungeni-behavior"
+     for="*"
+     class=".js.Behavior"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="15"
+     />
+
   
 </configure>

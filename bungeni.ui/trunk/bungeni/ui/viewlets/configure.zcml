@@ -6,12 +6,6 @@
   <!-- viewlet managers -->
   
   <browser:viewletManager
-     name="bungeni.yui-tab.manager"
-     provides=".interfaces.ITabManager"     
-     permission="zope.View"
-     />   
-
-  <browser:viewletManager
      name="bungeni.schedule-holydaycalendar.manager"
      provides=".interfaces.IScheduleHolydayCalendar"
      class=".schedule.ScheduleHolydayCalendarViewletManager"
@@ -269,17 +263,6 @@
     weight="50"
     /> 
            
- <browser:viewlet
-     name="bungeni.schedule.yui-tabs"
-     for="*"
-     manager=".interfaces.IScheduleItems"
-     class=".yui.YUITabView"
-     permission="zope.View"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     weight="60"
-    />              
-         
-         
   <!-- JSON View to validate questions -->         
   <browser:page
      for="*"
@@ -520,19 +503,6 @@
     />        
     
     
-  <!--YUI Tabs -->
-  
- <browser:viewlet
-     name="bungeni.yui-tabs"
-     for="*"
-     manager=".interfaces.ITabManager"
-     class=".yui.YUITabView"
-     permission="zope.View"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-    />     
-     
-     
-        
   <!-- Date Chooser -->      
 
   <browser:viewlet

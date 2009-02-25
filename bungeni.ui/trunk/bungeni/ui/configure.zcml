@@ -5,7 +5,7 @@
 
   <!-- Alchemist UI overrides -->
   <include package="alchemist.ui" />
-  <includeOverrides package=".browser" file="overrides.zcml" />
+  <includeOverrides package=".forms" file="overrides.zcml" />
   
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>
@@ -48,7 +48,7 @@
   <include file="admin.zcml"/>
   
   <!-- Custom forms -->
-  <include package=".browser"/>  
+  <include package=".forms"/>  
 
   <!-- Javascript -->
   <include package="ore.yui"/>

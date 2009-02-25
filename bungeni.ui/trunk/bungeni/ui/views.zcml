@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="bungeni">
+
+  <browser:page
+     name="current"
+     for="bungeni.models.interfaces.IBungeniApplication"
+     permission="zope.View"
+     class=".redirect.RedirectToCurrent"
+     />
+
+</configure>

@@ -27,7 +27,7 @@ import bungeni.core.globalsettings as prefs
 from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 
-from interfaces import ICurrent, ICurrentGovernment, ITabManager
+from interfaces import ICurrent, ICurrentGovernment
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 import sqlalchemy.sql.expression as sql
@@ -61,39 +61,6 @@ class DateChooserViewletManager( interfaces.IViewletManager ):
 class CurrentGovernmentViewletManager( WeightOrderedViewletManager ):
     """Current viewlet manager."""
     zope.interface.implements(ICurrentGovernment)           
-    
-class TabManager( WeightOrderedViewletManager ):
-    """YUI Tab manager."""
-    zope.interface.implements(ITabManager) 
-    
-class YUITabView( viewlet.ViewletBase ):       
-    """
-    get the JS into the form
-    """
-    for_display = True
-    def render( self ):
-        zc.resourcelibrary.need("yui-tab")   
-        yuijs ="""
-             <script type="text/javascript">
-                (function() {
-                     var bungeni_tabView = new YAHOO.widget.TabView();
-                   	 var elements = YAHOO.util.Dom.getElementsByClassName('listing', 'div', 'bungeni-tabbed-nav' ); 
-                   	 
-                   	 for (i=0; i < elements.length; i++) 
-                   	    {
-                   	        tab_label = YAHOO.util.Dom.getFirstChild(elements[i])
-                   	        bungeni_tabView.addTab( new YAHOO.widget.Tab({ 
-                   	            labelEl : tab_label,
-                   	            contentEl : elements[i]
-                   	            }));
-                   	    };
-                   	        	    
-                   	 bungeni_tabView.appendTo('bungeni-tabbed-nav');    
-                   	 bungeni_tabView.set('activeTab', bungeni_tabView.getTab(0));
-                   	 })();
-             </script>    
-	       """     
-        return yuijs
     
 def getOrder( request, context_class ):
     """
@@ -663,7 +630,7 @@ class CurrentRootMenuTree( BrowserView):
             node = []
             node.append({'url' : url + '/committees/', 'name': 'Committee', 'node': None} )
             node.append({'url' : url + '/sessions/', 'name': 'Parliamentary Session', 'node': None} )
-            node.append({'url' : url + '/parliamentmembers/', 'name': 'Member of Parliament', 'node': None} )
+            node.append({'url' : url + '/parliamentmembers/', 'name': 'Member of Parliaoment', 'node': None} )
             node.append({'url' : url + '/extensionmembers/', 'name': 'Group extensions', 'node': None} )
             node.append({'url' : url + '/governments/', 'name': 'Government', 'node': None} )
             node.append({'url' : url + '/politicalparties/', 'name': 'Political Party', 'node': None })  
@@ -675,43 +642,3 @@ class CurrentRootMenuTree( BrowserView):
             return simplejson.dumps(data)          
            
                        
-class RedirectToCurrent( BrowserView ):
-    """
-    goto a url like
-    current/parliamentmembers or current/committees and you will be redirected to
-    the apropriate container
-    """
-    implements(IPublishTraverse)
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.traverse_subpath = []
-        self.currParliament = prefs.getCurrentParliamentId()
-
-    def publishTraverse(self, request, name):
-        self.traverse_subpath.append(name)
-        return self
-        
-    def __call__(self):
-        """redirect to container"""
-        #context = proxy.removeSecurityProxy( self.context )        
-        response = self.request.response
-        rooturl = absoluteURL( self.context, self.request )
-        #response.setHeader('Content-Type', 'application/octect-stream')
-        #if len(self.traverse_subpath) != 1:
-        #    return
-        #fname = self.traverse_subpath[0]     
-        qstr =  self.request['QUERY_STRING']
-        if 'date' not in self.request.form:
-            qstr = qstr + '&date=' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d')
-        url = rooturl + '/parliament/'
-        if len(self.traverse_subpath) >= 1:
-            # we have a traversal to redirect to
-            if self.traverse_subpath[0] == 'parliament':
-                url = rooturl + '/parliament/obj-' + str(self.currParliament) + '/' + '/'.join(self.traverse_subpath[1:]) +'?' + qstr
-        return response.redirect( url )   
-        
-                
-
-
-

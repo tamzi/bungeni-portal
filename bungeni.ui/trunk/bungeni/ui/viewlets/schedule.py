@@ -29,10 +29,10 @@ from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionst
 from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
 import bungeni.core.globalsettings as prefs
 
-
-
 import sqlalchemy.sql.expression as sql
 import sqlalchemy as rdb
+
+from z3c.pt.texttemplate import ViewTextTemplateFile
 
 import simplejson
 
@@ -655,567 +655,6 @@ class ScheduleHolydayCalendarViewletManager( WeightOrderedViewletManager ):
 
 
 
-class YUIDragDropViewlet( viewlet.ViewletBase ):
-    """
-    get the javascript for the YUI Drag and Drop
-    """    
-    approved_question_ids = []
-    postponed_question_ids =[]
-    approved_motion_ids = []
-    postponed_motion_ids =[] 
-    bill_ids = []   
-    scheduled_item_ids = []
-    sitting_ids =[]
-    table_date_ids = []
-    
-    
-    def update(self):
-        """
-        refresh the query
-        """
-        self.approved_question_ids = []
-        self.postponed_question_ids =[]
-        self.scheduled_item_ids = []
-        self.approved_motion_ids = []
-        self.postponed_motion_ids = []        
-        self.sitting_ids = []
-        self.bill_ids = []
-        self.table_date_ids = []
-        self.agenda_item_ids =[]
-        self.Date = getDisplayDate(self.request)
-        if not self.Date:
-            self.Date=datetime.date.today()                
-        session = Session()
-        approved_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state[u"questionstates.admissible"].id ).distinct()
-        results = approved_questions.all()
-        for result in results:
-            self.approved_question_ids.append(result.question_id)
-        agenda_items = session.query(domain.AgendaItem)
-        results = agenda_items.all()
-        for result in results:
-            self.agenda_item_ids.append(result.agenda_item_id)                
-        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state[u"questionstates.postponed"].id).distinct()
-        results = postponed_questions.all()
-        for result in results:
-            self.postponed_question_ids.append(result.question_id)  
-        approved_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state[u"motionstates.admissible"].id).distinct()
-        results = approved_motions.all()
-        for result in results:
-            self.approved_motion_ids.append(result.motion_id) 
-        postponed_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state[u"motionstates.postponed"].id).distinct()
-        results = postponed_motions.all()              
-        for result in results:
-            self.postponed_motion_ids.append(result.motion_id) 
-        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
-                                                                                bill_wf_state[u"billstates.first_reading_postponed"].id ,
-                                                                                bill_wf_state[u"billstates.second_reading_pending"].id , 
-                                                                                bill_wf_state[u"billstates.second_reading_postponed"].id , 
-                                                                                bill_wf_state[u"billstates.whole_house_postponed"].id ,
-                                                                                bill_wf_state[u"billstates.house_pending"].id ,
-                                                                                bill_wf_state[u"billstates.report_reading_postponed"].id ,                                                                                
-                                                                                bill_wf_state[u"billstates.report_reading_pending"].id , 
-                                                                                bill_wf_state[u"billstates.third_reading_pending"].id,
-                                                                                bill_wf_state[u"billstates.third_reading_postponed"].id ]
-                                                                                ))  
-        results = bills.all()
-        for result in results:
-            self.bill_ids.append(result.bill_id)                                                                                            
-        sittings, self.Date = current_sitting_query(self.Date)    
-        results = sittings.all()     
-        for result in results:
-            self.sitting_ids.append(result.sitting_id)     
-       
-        dd_scheduled_items =  session.query(domain.ItemSchedule).filter( rdb.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
-                                                                    schema.items_schedule.c.active == True))
-        
-        
-        
-        results = dd_scheduled_items.all()
-        for result in results:
-            self.scheduled_item_ids.append(result.schedule_id)    
-        cal = calendar.Calendar(prefs.getFirstDayOfWeek())    
-        for t_date in cal.itermonthdates(self.Date.year, self.Date.month):
-            self.table_date_ids.append('"tdid-' + datetime.date.strftime(t_date,'%Y-%m-%d"'))                 
-    
-    def render(self):
-        need('yui-dragdrop')
-        need('yui-animation')    
-        need('yui-logger')    #debug
-        need('yui-json')
-        JScript = """
-<div id="user_actions">
- 
-</div>
-<form name="make_schedule" method="POST" action="" enctype="multipart/form-data">
-  <input type="button" id="saveButton" value="Save" />
-  <input id="form.actions.cancel" class="context" type="submit" value="Cancel" name="cancel"/>
-</form>
-        
-<script type="text/javascript">
-<!--
-(function() {
-
-var Dom = YAHOO.util.Dom;
-var Event = YAHOO.util.Event;
-var DDM = YAHOO.util.DragDropMgr;
-
-
-//////////////////////////////////////////////////////////////////////////////
-// example app
-//////////////////////////////////////////////////////////////////////////////
-YAHOO.example.DDApp = {
-    init: function() {
-
-
-        %(DDTarget)s
-        %(DDList)s     
-        
-        Event.on("saveButton", "click", this.showOrder);     
-        YAHOO.widget.Logger.enableBrowserConsole();   
-    },
-
-    addLi: function(id) {
-       new YAHOO.example.DDList(id); 
-    },
-
-
-    showOrder: function() {
-        var parseList = function(ul) {
-            if (ul != null) {
-                var el_option;
-                var items = ul.getElementsByTagName("li");
-                var el_select = document.createElement('select');
-                el_select.multiple = "multiple";  
-                el_select.name = ul.id;                                 
-                Dom.setStyle(el_select, "display", "none");
-                for (i=0;i<items.length;i=i+1) {
-                   
-                    el_option=document.createElement("option");
-                    el_option.selected = "selected";
-                    el_option.value = items[i].id;
-                    el_select.appendChild(el_option);
-                }
-               
-                document.make_schedule.appendChild(el_select)
-                return;            
-            }
-        };
-
-       
-        var %(targetList)s;       
-         %(parseList)s           
-        document.make_schedule.submit("form.actions.save");
-    },
-
-
-};
-
-//////////////////////////////////////////////////////////////////////////////
-// custom drag and drop implementation
-//////////////////////////////////////////////////////////////////////////////
-
-YAHOO.example.DDList = function(id, sGroup, config) {
-
-    YAHOO.example.DDList.superclass.constructor.call(this, id, sGroup, config);
-
-    this.logger = this.logger || YAHOO;
-    var el = this.getDragEl();
-    Dom.setStyle(el, "opacity", 0.67); // The proxy is slightly transparent
-
-    this.goingUp = false;
-    this.lastY = 0;
-    this.originalEl = document.createElement('li');
-    this.originalEl.id = "original_proxy_id";
-    
-    this.tddArray =new Array(%(tddArray)s);
-    
-};
-
-YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
-        
-    get_random: function() {
-                var ranNum= Math.floor(Math.random()*1000);
-                return ranNum;
-            },
-    
-        
-        
-    getSchuleAfterId: function (obj) {
-                        
-                     if ( obj.className ) {
-                        // the classes are just a space separated list, so first get the list
-                        var arrList = obj.className.split(' ');
-                        this.logger.log(obj.className.substr(0,9) + " Class");
-                        for ( var i = 0; i < arrList.length; i++ ) {
-                                if (arrList[i].substr(0,9) == "sc-after-") {
-                                        return "tdid-" + arrList[i].substr(9,19)
-                                    }
-                            }
-                        }                                                    
-                    },
-    markScheduleDates: function (id) {
-                        var tdEl;                                      
-                        for ( var i = 0; i < this.tddArray.length; i++ ) {
-                            tdEl = document.getElementById(this.tddArray[i]);
-                            if (tdEl != null) {                               
-                                if (tdEl.id < id) {
-                                    Dom.addClass(tdEl.id, 'invalid-date')                                    
-                                }
-                                else {
-                                    Dom.removeClass(tdEl.id, 'invalid-date')                                
-                                }    
-                                    
-                            }
-                        }        
-                    },
-                    
-
-     
-    getQuestionValidation: function(url, passData) {
-          this.logger.log("data :" + passData);
-          if (window.XMLHttpRequest) {              
-            AJAX=new XMLHttpRequest();              
-          } else {                                  
-            AJAX=new ActiveXObject("Microsoft.XMLHTTP");
-          }
-          if (AJAX) {
-            // false for synchronus request!
-            //AJAX.open("POST", url, false);
-            AJAX.open("GET", url + "?"+passData, false);
-            AJAX.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-            //AJAX.send(passData);
-            AJAX.send(null);
-            return AJAX.responseText;                                         
-          } else {
-             return false;
-          }                                             
-        },
-
-    
-    
-    startDrag: function(x, y) {
-        this.logger.log(this.id + " startDrag");
-        // make the proxy look like the source element
-        var dragEl = this.getDragEl();
-        var clickEl = this.getEl();
-        var parentEl = clickEl.parentNode;    
-        var scheduleAfterId = this.getSchuleAfterId(clickEl);
-        var currentDateId = %(currentDateId)s;
-        if (scheduleAfterId < currentDateId) {
-            scheduleAfterId = currentDateId;
-            };
-        this.markScheduleDates(scheduleAfterId);      
-        // sometimes the proxy for the original element does
-        // not get removed properly onDragDrop :(
-        if (document.getElementById(this.originalEl.id) != null) {
-            var opEl = document.getElementById(this.originalEl.id);
-            var p_opEl = opEl.parentNode;
-            p_opEl.removeChild(opEl)
-            }
-        parentEl.insertBefore(this.originalEl, clickEl.nextSibling);         
-                         
-        Dom.setStyle(clickEl, "visibility", "hidden");
-
-        dragEl.innerHTML = clickEl.innerHTML;
-    
-        Dom.setStyle(dragEl, "color", Dom.getStyle(clickEl, "color"));
-        Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
-        Dom.setStyle(dragEl, "border", "2px solid gray");      
-        
-    },
-
-
-
-
-
-    onInvalidDrop: function(e) {
-        var srcEl = this.getEl();
-        var srcPEl = this.originalEl.parentNode;
-        srcPEl.insertBefore(srcEl, this.originalEl);                
-        srcPEl.removeChild(this.originalEl); 
-        },
-
-    endDrag: function(e) {
-        var srcEl = this.getEl();
-        var proxy = this.getDragEl();
-        //var srcPEl = this.originalEl.parentNode;
-        // Show the proxy element and animate it to the src element's location
-        Dom.setStyle(proxy, "visibility", "");
-        var a = new YAHOO.util.Motion( 
-            proxy, { 
-                points: { 
-                    to: Dom.getXY(srcEl)
-                }
-            }, 
-            0.2, 
-            YAHOO.util.Easing.easeOut 
-        )
-        var proxyid = proxy.id;
-        var thisid = this.id;      
-        // Hide the proxy and show the source element when finished with the animation
-        a.onComplete.subscribe(function() {
-                Dom.setStyle(proxyid, "visibility", "hidden");
-                Dom.setStyle(thisid, "visibility", "");
-            });
-        a.animate();
-        //srcPEl.removeChild(this.originalEl); 
-        this.markScheduleDates("tdid-0000-00-00");
-    },
-
-    onDragDrop: function(e, id) {
-
-        // If there is one drop interaction, the li was dropped either on the list,
-        // or it was dropped on the current location of the source element.
-        if (DDM.interactionInfo.drop.length === 1) {
-
-            // The position of the cursor at the time of the drop (YAHOO.util.Point)
-            var pt = DDM.interactionInfo.point; 
-
-            // The region occupied by the source element at the time of the drop
-            var region = DDM.interactionInfo.sourceRegion; 
-
-            //
-            var srcEl = this.getEl();
-            var destEl = Dom.get(id);
-            var destDD = DDM.getDDById(id); 
-            var srcPEl = this.originalEl.parentNode;
-            var valObject = { errors: [], warnings: []};
-            var hasErrors = false;
-            if ((destEl.nodeName.toLowerCase() == "ol") || (destEl.nodeName.toLowerCase() == "ul")) {                    
-                    var queryStr="";
-                    var items = destEl.getElementsByTagName("li");
-                    var sitting = {
-                        sitting_id : destEl.id,
-                        question_id : srcEl.id,
-                        }
-                    queryStr="sitting_id=" + destEl.id + "&question_id=" + srcEl.id    
-                    var sitting_questions=new Array();
-                    for (i=0;i<items.length;i=i+1) {
-                        sitting_questions[i] = items[i].id;
-                        if (sitting_questions[i] != srcEl.id) {
-                            queryStr = queryStr + "&q_id=" + items[i].id;
-                            }
-                        }
-                    sitting.questions = sitting_questions;  
-                    var jsonStr = YAHOO.lang.JSON.stringify(sitting);
-                    //alert(jsonStr); 
-                    var Validation=YAHOO.lang.JSON.parse(this.getQuestionValidation('./@@json_validate_question', queryStr));
-                    if (Validation.errors.length >0) {
-                        var errors = "" ;
-                        for (i=0;i<Validation.errors.length;i=i+1) {
-                            errors = errors + "\\n" + Validation.errors[i]
-                            }
-                        alert (errors);
-                        hasErrors = true;
-                        }
-                                               
-                    if (!(hasErrors)) {                    
-                        if (Validation.warnings.length >0) {
-                            var errors = "" ;
-                            for (i=0;i<Validation.warnings.length;i=i+1) {
-                                errors = errors + "\\n" + Validation.warnings[i]
-                                }
-                            errors = errors + "\\n" + "schedule anyway?"    
-                            hasErrors = !(confirm (errors));
-                            }                      
-                        }                        
-                    Dom.removeClass(id, 'dragover');    
-                    Dom.removeClass(id, 'invalid-dragover');                    
-                }
-                else {
-                    alert( srcEl.id + " -> " + destEl.id);
-                    }
-            if (destEl.nodeName.toLowerCase() == "li") {
-                var pEl = destEl.parentNode;
-                alert( srcEl.id + " -> " + destEl.id);
-                if (pEl.nodeName.toLowerCase() == "ol") {                   
-                    Dom.removeClass(pEl.id, 'dragover');
-                    Dom.removeClass(pEl.id, 'invalid-dragover');
-                    }
-                }
-            if (hasErrors) {
-                //alert ("invalid target");
-                //this.onInvalidDrop(e)
-                //this.invalidDropEvent.fire()
-                this.logger.log("proxy parent: " + srcPEl.id);
-                srcPEl.insertBefore(srcEl, this.originalEl);                
-            }           
-            else {
-                // get the srcElement and clone it if the 
-                // element can be scheduled multiple times
-                if ((srcEl.id.substr(0,2) == "m_") ||
-                    (srcEl.id.substr(0,2) == "b_")) {
-                    if (srcPEl != destEl) {
-                        // the element was NOT moved around (reordered) in the same list
-                        if ((destEl.id.substr(0,4) == "sid_") && (srcPEl.id.substr(0,4) != "sid_")) {
-                            // the destination is a sitting and the source is NOT a sitting
-                            var schedEl = srcEl.cloneNode(true);
-                            schedEl.id = srcEl.id + "_" + this.get_random();
-                            srcPEl.insertBefore(schedEl, this.originalEl);  
-                            //DDM.swapNode( srcEl, schedEl);    
-                            //alert (schedEl.id);             
-                            YAHOO.example.DDApp.addLi(schedEl.id);
-                            Dom.setStyle(schedEl, "visibility", "");
-                        }    
-                    }
-                }
-                
-                // Check to see if we are over the source element's location.  We will
-                // append to the bottom of the list once we are sure it was a drop in
-                // the negative space (the area of the list without any list items)
-                if (!region.intersect(pt)) {               
-                    destEl.appendChild(srcEl);
-                    destDD.isEmpty = false;                
-                } 
-                var lnk = srcEl.getElementsByTagName("a");
-                if (! lnk.length) {              
-                    srcEl.innerHTML = (srcEl.innerHTML.substr(0,15) + '...');               
-                    }
-            }      
-          srcPEl.removeChild(this.originalEl);        
-        }        
-        DDM.refreshCache(); 
-    },
-
-    onDrag: function(e) {
-
-        // Keep track of the direction of the drag for use during onDragOver
-        var y = Event.getPageY(e);
-
-        if (y < this.lastY) {
-            this.goingUp = true;
-        } else if (y > this.lastY) {
-            this.goingUp = false;
-        }
-
-        this.lastY = y;
-    },
-
-/////////////////////////////////////////////////
-/////////
-
-
-    onDragEnter: function(e, id) {        
-        var destEl = Dom.get(id);
-
-        if ((destEl.nodeName.toLowerCase() == "ol") ||
-            (destEl.nodeName.toLowerCase() == "ul")) {            
-            Dom.addClass(id, 'dragover');
-            }            
-        if (destEl.nodeName.toLowerCase() == "li") {
-            var pEl = destEl.parentNode;
-            if (pEl.nodeName.toLowerCase() == "ol") {                
-                Dom.addClass(pEl.id, 'dragover');
-                }
-            }
-        
-    },
-
-   
-   
-   onDragOut: function(e, id) {        
-        var destEl = Dom.get(id);
-
-         if ((destEl.nodeName.toLowerCase() == "ol")||
-            (destEl.nodeName.toLowerCase() == "ul")) {
-             Dom.removeClass(id, 'dragover');
-             Dom.removeClass(id, 'invalid-dragover');
-            }            
-        if (destEl.nodeName.toLowerCase() == "li") {
-            var pEl = destEl.parentNode;
-            if (pEl.nodeName.toLowerCase() == "ol") {
-                 //Dom.removeClass(pEl.id, 'dragover');
-                }
-            }        
-    },
-
-////////////
-///////////////////////////////////////////////
-
-    onDragOver: function(e, id) {
-        
-        var srcEl = this.getEl();
-        var destEl = Dom.get(id);
-        
-        // We are only concerned with list items, we ignore the dragover
-        // notifications for the list.
-        if (destEl.nodeName.toLowerCase() == "li") {
-            var p = destEl.parentNode;
-
-            if (this.goingUp) {
-                p.insertBefore(srcEl, destEl); // insert above
-            } else {
-               p.insertBefore(srcEl, destEl.nextSibling); // insert below
-            }
-
-            DDM.refreshCache();
-        }
-    }
-});
-
-Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
-
-})();
-
--->        
-</script>         
-        """
-        DDList = ""
-        for qid in self.approved_question_ids:            
-            #new YAHOO.example.DDList("li" + i + "_" + j);
-            DDList = DDList + 'new YAHOO.example.DDList("q_' + str(qid) +'"); \n'
-        for qid in self.postponed_question_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("q_' + str(qid) +'"); \n'
-        for mid in self.approved_motion_ids:            
-            DDList = DDList + 'new YAHOO.example.DDList("m_' + str(mid) +'"); \n'
-        for mid in self.postponed_motion_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("m_' + str(mid) +'"); \n'            
-        for qid in self.scheduled_item_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("isid_' + str(qid) +'"); \n'
-        for qid in self.bill_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("b_' + str(qid) +'"); \n'        
-        for qid in self.agenda_item_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("a_' + str(qid) +'"); \n'                   
-        DDTarget = ""    
-        for sid in self.sitting_ids:
-            #new YAHOO.util.DDTarget("ul"+i);
-            DDTarget = DDTarget + 'new YAHOO.util.DDTarget("sid_'  + str(sid) +'"); \n'
-        #add the hardcoded targets for postponed and admissable list
-        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_questions"); \n'
-        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_questions"); \n'
-        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_motions"); \n'
-        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_motions"); \n'
-        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_bills"); \n'
-        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_agenda_items"); \n'
-        t_list = ""
-        for sid in self.sitting_ids:
-            # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
-            t_list = t_list + ' sid_'+ str(sid) +'=Dom.get("sid_' + str(sid) + '"),'
-        t_list = t_list + 'admissible_questions=Dom.get("admissible_questions"),'
-        t_list = t_list + 'postponed_questions=Dom.get("postponed_questions"),'
-        t_list = t_list + 'admissible_motions=Dom.get("admissible_motions"),'
-        t_list = t_list + 'postponed_motions=Dom.get("postponed_motions")'
-        parseList =""
-        for sid in self.sitting_ids:
-            #parseList(ul1, "List 1") +
-            parseList = parseList + 'parseList(sid_'+ str(sid) + '); \n'
-        parseList = parseList +  'parseList(admissible_questions); \n'   
-        parseList = parseList +  'parseList(postponed_questions); \n'
-        parseList = parseList +  'parseList(admissible_motions); \n'   
-        parseList = parseList +  'parseList(postponed_motions); \n'        
-        maxQuestionsPerSitting = prefs.getMaxQuestionsPerSitting()
-        tddArray = ", ".join(self.table_date_ids)
-        currentDateId = '"tdid-' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d"')
-        js_inserts= {
-            'DDList':DDList,
-            'DDTarget':DDTarget,
-            'targetList': t_list,
-            'parseList': parseList,
-            'maxQuestionsPerSitting': maxQuestionsPerSitting,
-            'tddArray' : tddArray,
-            'currentDateId': currentDateId }
-        return JScript % js_inserts           
-        
         
 class QuestionInStateViewlet( viewlet.ViewletBase ):
     name = state = None
@@ -2255,4 +1694,142 @@ class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
         #self.Data = self.getData()
     
     render = ViewPageTemplateFile ('templates/schedule_holyday_calendar.pt')
+    
+
+class ScheduleSittingDragDropViewlet(viewlet.ViewletBase):
+    """Get the markup and javascript for the YUI Drag and Drop."""
+
+    template = ViewTextTemplateFile("templates/dragdrop.pt")
+    
+    def update(self):
+        need('yui-dragdrop')
+        need('yui-animation')
+        need('yui-json')
+
+        # for debugging
+        need('yui-logger')
+
+        self.approved_question_ids = []
+        self.postponed_question_ids =[]
+        self.scheduled_item_ids = []
+        self.approved_motion_ids = []
+        self.postponed_motion_ids = []        
+        self.sitting_ids = []
+        self.bill_ids = []
+        self.table_date_ids = []
+        self.agenda_item_ids =[]
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date=datetime.date.today()                
+        session = Session()
+        approved_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state[u"questionstates.admissible"].id ).distinct()
+        results = approved_questions.all()
+        for result in results:
+            self.approved_question_ids.append(result.question_id)
+        agenda_items = session.query(domain.AgendaItem)
+        results = agenda_items.all()
+        for result in results:
+            self.agenda_item_ids.append(result.agenda_item_id)                
+        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state[u"questionstates.postponed"].id).distinct()
+        results = postponed_questions.all()
+        for result in results:
+            self.postponed_question_ids.append(result.question_id)  
+        approved_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state[u"motionstates.admissible"].id).distinct()
+        results = approved_motions.all()
+        for result in results:
+            self.approved_motion_ids.append(result.motion_id) 
+        postponed_motions = session.query(domain.Motion).filter(schema.motions.c.status == motion_wf_state[u"motionstates.postponed"].id).distinct()
+        results = postponed_motions.all()              
+        for result in results:
+            self.postponed_motion_ids.append(result.motion_id) 
+        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
+                                                                                bill_wf_state[u"billstates.first_reading_postponed"].id ,
+                                                                                bill_wf_state[u"billstates.second_reading_pending"].id , 
+                                                                                bill_wf_state[u"billstates.second_reading_postponed"].id , 
+                                                                                bill_wf_state[u"billstates.whole_house_postponed"].id ,
+                                                                                bill_wf_state[u"billstates.house_pending"].id ,
+                                                                                bill_wf_state[u"billstates.report_reading_postponed"].id ,                                                                                
+                                                                                bill_wf_state[u"billstates.report_reading_pending"].id , 
+                                                                                bill_wf_state[u"billstates.third_reading_pending"].id,
+                                                                                bill_wf_state[u"billstates.third_reading_postponed"].id ]
+                                                                                ))  
+        results = bills.all()
+        for result in results:
+            self.bill_ids.append(result.bill_id)                                                                                            
+        sittings, self.Date = current_sitting_query(self.Date)    
+        results = sittings.all()     
+        for result in results:
+            self.sitting_ids.append(result.sitting_id)     
+       
+        dd_scheduled_items =  session.query(domain.ItemSchedule).filter( rdb.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
+                                                                    schema.items_schedule.c.active == True))
+        
+        
+        
+        results = dd_scheduled_items.all()
+        for result in results:
+            self.scheduled_item_ids.append(result.schedule_id)    
+        cal = calendar.Calendar(prefs.getFirstDayOfWeek())    
+        for t_date in cal.itermonthdates(self.Date.year, self.Date.month):
+            self.table_date_ids.append('"tdid-' + datetime.date.strftime(t_date,'%Y-%m-%d"'))                 
+
+    def render(self):
+        DDList = ""
+        for qid in self.approved_question_ids:            
+            #new YAHOO.example.DDList("li" + i + "_" + j);
+            DDList = DDList + 'new YAHOO.example.DDList("q_' + str(qid) +'"); \n'
+        for qid in self.postponed_question_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("q_' + str(qid) +'"); \n'
+        for mid in self.approved_motion_ids:            
+            DDList = DDList + 'new YAHOO.example.DDList("m_' + str(mid) +'"); \n'
+        for mid in self.postponed_motion_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("m_' + str(mid) +'"); \n'            
+        for qid in self.scheduled_item_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("isid_' + str(qid) +'"); \n'
+        for qid in self.bill_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("b_' + str(qid) +'"); \n'        
+        for qid in self.agenda_item_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("a_' + str(qid) +'"); \n'                   
+        DDTarget = ""    
+        for sid in self.sitting_ids:
+            #new YAHOO.util.DDTarget("ul"+i);
+            DDTarget = DDTarget + 'new YAHOO.util.DDTarget("sid_'  + str(sid) +'"); \n'
+        #add the hardcoded targets for postponed and admissable list
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_questions"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_questions"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_motions"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_motions"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_bills"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_agenda_items"); \n'
+        t_list = ""
+        for sid in self.sitting_ids:
+            # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
+            t_list = t_list + ' sid_'+ str(sid) +'=Dom.get("sid_' + str(sid) + '"),'
+        t_list = t_list + 'admissible_questions=Dom.get("admissible_questions"),'
+        t_list = t_list + 'postponed_questions=Dom.get("postponed_questions"),'
+        t_list = t_list + 'admissible_motions=Dom.get("admissible_motions"),'
+        t_list = t_list + 'postponed_motions=Dom.get("postponed_motions")'
+        parseList =""
+        for sid in self.sitting_ids:
+            #parseList(ul1, "List 1") +
+            parseList = parseList + 'parseList(sid_'+ str(sid) + '); \n'
+        parseList = parseList +  'parseList(admissible_questions); \n'   
+        parseList = parseList +  'parseList(postponed_questions); \n'
+        parseList = parseList +  'parseList(admissible_motions); \n'   
+        parseList = parseList +  'parseList(postponed_motions); \n'        
+        maxQuestionsPerSitting = prefs.getMaxQuestionsPerSitting()
+        tddArray = ", ".join(self.table_date_ids)
+        currentDateId = '"tdid-' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d"')
+        js_inserts= {
+            'DDList':DDList,
+            'DDTarget':DDTarget,
+            'targetList': t_list,
+            'parseList': parseList,
+            'maxQuestionsPerSitting': maxQuestionsPerSitting,
+            'tddArray' : tddArray,
+            'currentDateId': currentDateId
+            }
+
+        return self.template(**js_inserts)
+
     

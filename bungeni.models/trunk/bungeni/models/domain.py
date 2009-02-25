@@ -585,5 +585,15 @@ class HolyDay( object ):
 #    History of Sittings for which the question was scheduled
 #    """
     
-        
+class Resource ( object ):
+    """
+    A Resource that can be assigned to a sitting
+    """
+
+class ResourceBooking ( object ):
+    """
+    assign a resource to a sitting
+    """
+    
+           
     

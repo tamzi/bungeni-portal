@@ -330,6 +330,10 @@ mapper( domain.ParliamentSession, schema.parliament_sessions )
 mapper( domain.GroupSitting, schema.sittings )
 
 
+mapper( domain.Resource, schema.resources )
+mapper( domain.ResourceBooking, schema.resourcebookings)
+
+
 ##############################
 # Parliamentary Items
 

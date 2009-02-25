@@ -23,8 +23,8 @@ YAHOO.example.DDApp = {
     init: function() {
 
 
-        ${DDTarget}
-        ${DDList}
+        ${options/DDTarget}
+        ${options/DDList}
         
         Event.on("saveButton", "click", this.showOrder);     
         YAHOO.widget.Logger.enableBrowserConsole();   
@@ -58,8 +58,8 @@ YAHOO.example.DDApp = {
         };
 
        
-        var ${targetList};       
-         ${parseList}           
+        var ${options/targetList};       
+         ${options/parseList}           
         document.make_schedule.submit("form.actions.save");
     },
 
@@ -83,7 +83,7 @@ YAHOO.example.DDList = function(id, sGroup, config) {
     this.originalEl = document.createElement('li');
     this.originalEl.id = "original_proxy_id";
     
-    this.tddArray =new Array(${tddArray});
+    this.tddArray =new Array(${options/tddArray});
     
 };
 
@@ -156,7 +156,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         var clickEl = this.getEl();
         var parentEl = clickEl.parentNode;    
         var scheduleAfterId = this.getSchuleAfterId(clickEl);
-        var currentDateId = ${currentDateId};
+        var currentDateId = ${options/currentDateId};
         if (scheduleAfterId < currentDateId) {
             scheduleAfterId = currentDateId;
             };

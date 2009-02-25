@@ -466,6 +466,23 @@ debates = rdb.Table(
     rdb.Column( "body_text", rdb.UnicodeText),
     )
 
+# resources for sittings like rooms ...
+
+resources = rdb.Table(
+    "resources",
+    metadata,
+    rdb.Column( "resource_id", rdb.Integer, primary_key=True ),  
+    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),      
+    rdb.Column( "description", rdb.UnicodeText ),    
+    )
+
+resourcebookings = rdb.Table(
+    "resourcebookings",
+    metadata,
+    rdb.Column( "resource_id", rdb.Integer, rdb.ForeignKey('resources.resource_id'), primary_key=True ),  
+    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), primary_key=True ),    
+    )
+
 #######################
 # Parliament
 #######################   

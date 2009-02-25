@@ -1,0 +1,189 @@
+Setup
+-----
+
+  >>> from ore.alchemist import Session  
+  >>> import copy  
+ 
+  
+  >>> import bungeni.models as model
+  >>> import datetime
+  
+  some setup for tests
+
+
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from bungeni.models import domain, schema
+  
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all()
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()
+   
+Get some standard dates for testing   
+   >>> today = datetime.date.today()
+   >>> yesterday = today - datetime.timedelta(1)
+   >>> tomorrow = today + datetime.timedelta(1)
+   >>> dayat = today + datetime.timedelta(2)   
+
+setup parliament, gov and ministry
+----------------------------------
+  >>> parliament = domain.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
+  >>> session.save(parliament)
+  >>> session.flush()
+  
+  >>> gov = domain.Government(short_name=u"gov_1", start_date=yesterday)
+  >>> gov.parliament_id = parliament.parliament_id
+  >>> session.save(gov)
+  >>> session.flush()  
+  
+  >>> ministry = domain.Ministry(short_name=u"ministry", start_date=yesterday)
+  >>> ministry.government_id = gov.government_id
+  >>> session.save(ministry)
+  >>> session.flush()
+
+
+
+setup a sitting
+Sittings
+--------
+
+any group can schedule a sitting, a sitting is treated as a physical
+meeting of the group by the system. 
+
+  >>> st = domain.SittingType()
+  >>> st.sitting_type = u"morning"
+  >>> st.start_time = datetime.time(8,30)
+  >>> st.end_time = datetime.time(12,30) 
+  >>> session.save(st)
+  >>> session.flush()
+
+  >>> st.sitting_type_id
+  1L
+ 
+  >>> sit1 = domain.GroupSitting()
+  >>> sit1.start_date = datetime.datetime(2000,1,1,2,0)
+  >>> sit1.end_date = datetime.datetime(2000,1,1,4,0)
+  >>> sit1.sitting_type = st.sitting_type_id
+  >>> session.save(sit1)
+  >>> session.flush()   
+ 
+  >>> sit11 = domain.GroupSitting()
+  >>> sit11.start_date = datetime.datetime(2000,1,1,2,0)
+  >>> sit11.end_date = datetime.datetime(2000,1,1,4,0)
+  >>> sit11.sitting_type = st.sitting_type_id
+  >>> session.save(sit11)
+  >>> session.flush()  
+ 
+  >>> sit2 = domain.GroupSitting()
+  >>> sit2.start_date = datetime.datetime(2000,1,1,5,0)
+  >>> sit2.end_date = datetime.datetime(2000,1,1,8,0)
+  >>> sit2.sitting_type = st.sitting_type_id
+  >>> session.save(sit2)
+  >>> session.flush()   
+ 
+  >>> sit21 = domain.GroupSitting()
+  >>> sit21.start_date = datetime.datetime(2000,1,1,5,0)
+  >>> sit21.end_date = datetime.datetime(2000,1,1,8,0)
+  >>> sit21.sitting_type = st.sitting_type_id
+  >>> session.save(sit21)
+  >>> session.flush()   
+ 
+ 
+  >>> r1 = domain.Resource()
+  >>> r1.short_name = u"resource 1"
+  >>> session.save(r1)
+  >>> session.flush()
+ 
+  >>> r2 = domain.Resource()
+  >>> r2.short_name = u"resource 2"
+  >>> session.save(r2)
+  >>> session.flush()
+  
+  >>> r3 = domain.Resource()
+  >>> r3.short_name = u"resource 3"
+  >>> session.save(r3)
+  >>> session.flush()      
+
+  >>> import bungeni.models.resourcebooking as rb
+ 
+
+ 
+first confirm that all resources are available:
+   >>> rb.getAvailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   [r1,r2,r3]
+   
+   >>> rb.getUnavailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   []
+   
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r1)
+   []
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
+   []
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r3)
+   []
+   
+book resources:   
+   >>> rb.bookResource( sit1, r1 )
+   
+so r1 must not be available any more:
+
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,1,0), datetime.datetime(2000,1,1,3,0), r1)
+   [<bungeni.core.resourcebooking.BookedResources object at ...>]
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,5,0), datetime.datetime(2000,1,1,23,0), r1)   
+   []
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,3,50), datetime.datetime(2000,1,2,23,59), r1)   
+   [<bungeni.core.resourcebooking.BookedResources object at ...>]
+   >>> rb.getAvailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   [<bungeni.core.resourcebooking.BookedResources object at ...>]
+     
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
+   [] 
+       
+   >>> rb.bookResource( sit1, r2 )      
+   >>> rb.bookResource( sit1, r2 )   
+   allready booked
+      
+   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
+   [<bungeni.core.resourcebooking.BookedResources object at ...>]
+   
+   >>> rb.getAvailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   [r3,r4]      
+
+   >>> len(rb.getUnavailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) )
+   2 
+
+
+conflicting booking:
+   
+   >>> rb.bookResource(  sit11, r2 )  
+   not available    
+
+remove booking and try again:
+
+   >>> rb.unBookResource(  sit1, r2 )         
+   >>> rb.bookResource(  sit11, r2 )         
+   
+   >>> rb.bookResource(  sit2, r1 )     
+   >>> rb.bookResource( sit21, r2 )   
+      
+      
+   >>> len(rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r1))
+   2
+      
+   >>> len(rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2))
+   2
+   
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()   
+            

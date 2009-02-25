@@ -752,5 +752,14 @@
     permission="zope.Public"
     weight="40"
     />  
-  
+
+ 
+  <browser:viewlet
+     name="bungeni.datechooser.viewlet"
+     manager="ploned.ui.interfaces.IBelowContentManager"
+     class=".current.DateChooserViewlet"
+     permission="zope.Public"
+     weight="5"
+     />     
+
 </configure>

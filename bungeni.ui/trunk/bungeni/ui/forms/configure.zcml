@@ -5,12 +5,12 @@
   <!-- Expose form for use as macro -->
   
   <browser:page
-    for="*"
-    name="alchemist-form"
-    permission="zope.Public"
-    template="templates/form.pt"
-    layer="bungeni.ui.interfaces.IBungeniSkin"
-    />   
+     for="*"
+     name="alchemist-form"
+     permission="zope.Public"
+     template="templates/form.pt"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />   
 
   <!-- json view of containers-->
   
@@ -20,7 +20,7 @@
      name="jsonlisting"
      class=".container.ContainerJSONListing"
      />
-     
+  
   <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
      permission="zope.View"
@@ -40,454 +40,410 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
   
- <!-- Viewlet manager for subform -->
-  
-  <browser:viewletManager
-     name="bungeni.subform.manager"
-     provides=".interfaces.ISubFormViewletManager"
-     class=".viewlet.SubFormViewletManager"
-     permission="zope.View"
-     />
-
-
-  <browser:viewlet
-    name="bungeni.subform.datechooser.viewlet"   
-    manager=".interfaces.ISubFormViewletManager"
-    class="bungeni.ui.viewlets.current.DateChooserViewlet"
-    permission="zope.Public"
-    weight="5"
-    />     
-
-
-
-
- <!-- viewlet manager to display question in responses -->
+  <!-- viewlet manager to display question in responses -->
 
   <browser:viewletManager
      name="bungeni.response.question.manager"
      provides=".interfaces.IResponeQuestionViewletManager"
-     class=".viewlet.ResponseQuestionViewletManager"
+     class=".viewlets.ResponseQuestionViewletManager"
      permission="zope.View"
      />
 
   <browser:viewlet
-    name="bungeni.response.question.viewlet"   
-    manager=".interfaces.IResponeQuestionViewletManager"
-    class=".viewlet.ResponseQuestionViewlet"
-    permission="zope.Public"
-    weight="5"
-    />     
+     name="bungeni.response.question.viewlet"   
+     manager=".interfaces.IResponeQuestionViewletManager"
+     class=".viewlets.ResponseQuestionViewlet"
+     permission="zope.Public"
+     weight="5"
+     />     
 
 
-<!--
+  <!--
       allowed_interface="zope.formlib.interfaces.ISubPageForm"
       layer="bungeni.ui.interfaces.IBungeniSkin"            
--->  
+    -->  
 
   <!-- NavigateAwayWarningViewlet -->
 
-    <browser:viewlet
-      name="bungeni.navigate.away.warning"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".viewlet.NavigateAwayWarningViewlet"
-      for="ore.alchemist.interfaces.IAlchemistContent"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-       />
-    
-
-<!-- /View -->
-
-<browser:viewlet
-      name="bungeni.subform.member-addresses"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.AddressesViewlet"
-      for="bungeni.models.interfaces.IParliamentMember"
-      permission="zope.View"
-      weight="10"
-      /> 
-
-                 
-  <!-- GroupSittingAttendance Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IGroupSittingAttendanceContainer"
-      class=".forms.GroupSittingAttendanceAdd"              
-      permission="zope.View"
-      />
-
-    
-  <!-- GroupSittingAttendance Edit Form -->
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.GroupSittingAttendanceEdit"
-      for="bungeni.models.interfaces.IGroupSittingAttendance"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />
-      
-<!-- view forms:
   <browser:viewlet
-      name="alchemist.attributes.view"
-      manager=".interfaces.IContentViewManager"
-      class="XXX .viewlet.AttributesViewViewlet"
-      for="XXX ore.alchemist.interfaces.IAlchemistContent"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"
-      />
--->      
-      
-  <!-- GroupSitting Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IGroupSittingContainer"
-      class=".forms.GroupSittingAdd"              
-      permission="zope.View"
-      />      
-      
- <browser:viewlet
-      name="bungeni.subform.sittingscalendar"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.SittingsCalendarViewlet"
-      for="bungeni.models.interfaces.IGroupSitting"
-      permission="zope.View"
-      weight="10"
-      />      
-      
- <browser:viewlet
-      name="bungeni.subform.sittingattendance"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.SittingAttendanceViewlet"
-      for="bungeni.models.interfaces.IGroupSitting"
-      permission="zope.View"
-      weight="10"
-      />          
-      
-      
+     name="bungeni.navigate.away.warning"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".viewlets.NavigateAwayWarningViewlet"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />
+  
+  <browser:viewlet
+     name="bungeni.viewlet.member-addresses"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.AddressesViewlet"
+     for="bungeni.models.interfaces.IParliamentMember"
+     permission="zope.View"
+     weight="10"
+     /> 
+  
+  <!-- GroupSittingAttendance Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IGroupSittingAttendanceContainer"
+     class=".forms.GroupSittingAttendanceAdd"              
+     permission="zope.View"
+     />
 
-      
+  
+  <!-- GroupSittingAttendance Edit Form -->
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.GroupSittingAttendanceEdit"
+     for="bungeni.models.interfaces.IGroupSittingAttendance"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />
+    
+  <!-- GroupSitting Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IGroupSittingContainer"
+     class=".forms.GroupSittingAdd"              
+     permission="zope.View"
+     />      
+  
+  <browser:viewlet
+     name="bungeni.viewlet.sittingscalendar"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SittingsCalendarViewlet"
+     for="bungeni.models.interfaces.IGroupSitting"
+     permission="zope.View"
+     weight="10"
+     />      
+  
+  <browser:viewlet
+     name="bungeni.viewlet.sittingattendance"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SittingAttendanceViewlet"
+     for="bungeni.models.interfaces.IGroupSitting"
+     permission="zope.View"
+     weight="10"
+     />          
+  
   <!-- Session Edit Form -->
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.SessionsEdit"
-      for="bungeni.models.interfaces.IParliamentSession"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />     
-      
- <browser:viewlet
-      name="bungeni.subform.sittings"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.SittingsViewlet"
-      for="bungeni.models.interfaces.IParliamentSession"
-      permission="zope.View"
-      weight="10"
-      />
-            
-       
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.SessionsEdit"
+     for="bungeni.models.interfaces.IParliamentSession"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />     
+  
+  <browser:viewlet
+     name="bungeni.viewlet.sittings"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SittingsViewlet"
+     for="bungeni.models.interfaces.IParliamentSession"
+     permission="zope.View"
+     weight="10"
+     />
+  
   <!-- Session Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IParliamentSessionContainer"
-      class=".forms.SessionAdd"              
-      permission="zope.View"
-      />    
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IParliamentSessionContainer"
+     class=".forms.SessionAdd"              
+     permission="zope.View"
+     />    
   
   <!-- MP Edit Form -->
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.MemberOfParliamenEdit"
-      for="bungeni.models.interfaces.IMemberOfParliament"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />        
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.MemberOfParliamenEdit"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />        
   <!-- MP Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IMemberOfParliamentContainer"
-      class=".forms.MemberOfParliamentAdd"              
-      permission="zope.View"
-      />          
-      
- <browser:viewlet
-      name="bungeni.subform.mp-titles"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.TitleViewlet"
-      for="bungeni.models.interfaces.IMemberOfParliament"
-      permission="zope.View"
-      weight="10"
-      />
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IMemberOfParliamentContainer"
+     class=".forms.MemberOfParliamentAdd"              
+     permission="zope.View"
+     />          
+  
+  <browser:viewlet
+     name="bungeni.viewlet.mp-titles"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.TitleViewlet"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     permission="zope.View"
+     weight="10"
+     />
 
- <browser:viewlet
-      name="bungeni.subform.mp-personal-info"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PersonInfo"
-      for="bungeni.models.interfaces.IMemberOfParliament"
-      permission="zope.View"
-      weight="20"
-      />
+  <browser:viewlet
+     name="bungeni.viewlet.mp-personal-info"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.PersonInfo"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     permission="zope.View"
+     weight="20"
+     />
 
-
-
-
-
- <!--browser:viewlet
-      name="bungeni.subform.mp-partymembership"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PartyMembershipViewlet"
+  <!--browser:viewlet
+      name="bungeni.viewlet.mp-partymembership"
+      manager="alchemist.ui.interfaces.IContentViewManager"
+      class=".viewlets.PartyMembershipViewlet"
       for="bungeni.core.interfaces.IMemberOfParliament"
       permission="zope.View"
       weight="30"
       /-->
 
-      
+  
   <!-- Committee Edit Form --> 
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.CommitteeEdit"
-      for="bungeni.models.interfaces.ICommittee"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />          
-  <!-- Committee Add Form -->  
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.ICommitteeContainer"
-      class=".forms.CommitteeAdd"              
-      permission="zope.View"
-      />    
-      
- <browser:viewlet
-      name="bungeni.subform.committee-members"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.CommitteeMemberViewlet"
-      for="bungeni.models.interfaces.ICommittee"
-      permission="zope.View"
-      weight="10"
-      />
-      
- <browser:viewlet
-      name="bungeni.subform.committee-staff"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.CommitteeStaffViewlet"
-      for="bungeni.models.interfaces.ICommittee"
-      permission="zope.View"
-      weight="20"
-      />      
-      
- <browser:viewlet
-      name="bungeni.subform.comittee-sittings"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.SittingsViewlet"
-      for="bungeni.models.interfaces.ICommittee"
-      permission="zope.View"
-      weight="30"
-      />
-      
-            
-<!-- Committee Member Edit Form --> 
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.CommitteeMemberEdit"
-      for="bungeni.models.interfaces.ICommitteeMember"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />   
-      
-<!-- Edit Committee Staff  -->   
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.CommitteeStaffEdit"
-      for="bungeni.models.interfaces.ICommitteeStaff"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />   
-      
-<!-- Committee Member Add Form -->  
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.ICommitteeMemberContainer"
-      class=".forms.CommitteeMemberAdd"              
-      permission="zope.View"
-      />                    
-      
-<!-- Add Committee Staff  -->      
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.ICommitteeStaffContainer"
-      class=".forms.CommitteeStaffAdd" 
-      permission="zope.View"
-      />       
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.CommitteeEdit"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />
+  
+  <!-- Committee Add Form -->
+  
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.ICommitteeContainer"
+     class=".forms.CommitteeAdd"              
+     permission="zope.View"
+     />    
+  
+  <browser:viewlet
+     name="bungeni.viewlet.committee-members"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.CommitteeMemberViewlet"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     weight="10"
+     />
+  
+  <browser:viewlet
+     name="bungeni.viewlet.committee-staff"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.CommitteeStaffViewlet"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     weight="20"
+     />      
+  
+  <browser:viewlet
+     name="bungeni.viewlet.comittee-sittings"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SittingsViewlet"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     weight="30"
+     />
+  
+  <!-- Committee Member Edit Form --> 
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.CommitteeMemberEdit"
+     for="bungeni.models.interfaces.ICommitteeMember"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />   
+  
+  <!-- Edit Committee Staff  -->   
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.CommitteeStaffEdit"
+     for="bungeni.models.interfaces.ICommitteeStaff"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />   
+  
+  <!-- Committee Member Add Form -->  
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.ICommitteeMemberContainer"
+     class=".forms.CommitteeMemberAdd"              
+     permission="zope.View"
+     />                    
+  
+  <!-- Add Committee Staff  -->      
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.ICommitteeStaffContainer"
+     class=".forms.CommitteeStaffAdd" 
+     permission="zope.View"
+     />       
 
- <browser:viewlet
-      name="bungeni.subform.committee-member-titles"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.TitleViewlet"
-      for="bungeni.models.interfaces.ICommitteeMember"
-      permission="zope.View"
-      weight="10"
-      />
+  <browser:viewlet
+     name="bungeni.viewlet.committee-member-titles"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.TitleViewlet"
+     for="bungeni.models.interfaces.ICommitteeMember"
+     permission="zope.View"
+     weight="10"
+     />
 
- <browser:viewlet
-      name="bungeni.subform.comittee-member-personal-info"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PersonInfo"
-      for="bungeni.models.interfaces.ICommitteeMember"
-      permission="zope.View"
-      weight="20"
-      />
+  <browser:viewlet
+     name="bungeni.viewlet.comittee-member-personal-info"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.PersonInfo"
+     for="bungeni.models.interfaces.ICommitteeMember"
+     permission="zope.View"
+     weight="20"
+     />
 
- <browser:viewlet
-      name="bungeni.subform.committe-staff-titles"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.TitleViewlet"
-      for="bungeni.models.interfaces.ICommitteeStaff"
-      permission="zope.View"
-      weight="10"
-      />
+  <browser:viewlet
+     name="bungeni.viewlet.committe-staff-titles"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.TitleViewlet"
+     for="bungeni.models.interfaces.ICommitteeStaff"
+     permission="zope.View"
+     weight="10"
+     />
 
+  <!-- Government Edit Form -->     
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.GovernmentEdit"
+     for="bungeni.models.interfaces.IGovernment"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />         
+  <!-- Government Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IGovernmentContainer"
+     class=".forms.GovernmentAdd"              
+     permission="zope.View"
+     />                    
 
-<!-- Government Edit Form -->     
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.GovernmentEdit"
-      for="bungeni.models.interfaces.IGovernment"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />         
-<!-- Government Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IGovernmentContainer"
-      class=".forms.GovernmentAdd"              
-      permission="zope.View"
-      />                    
+  <browser:viewlet
+     name="bungeni.viewlet.minstries"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.MinistriesViewlet"
+     for="bungeni.models.interfaces.IGovernment"
+     permission="zope.View"
+     weight="10"
+     />   
 
- <browser:viewlet
-      name="bungeni.subform.minstries"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.MinistriesViewlet"
-      for="bungeni.models.interfaces.IGovernment"
-      permission="zope.View"
-      weight="10"
-      />   
+  <!-- Ministry Edit Form -->
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.MinistryEdit"
+     for="bungeni.models.interfaces.IMinistry"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />    
+  <!-- Ministry Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IMinistryContainer"
+     class=".forms.MinistryAdd"              
+     permission="zope.View"
+     />               
+  
+  
+  <browser:viewlet
+     name="bungeni.viewlet.minsters"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.MinistersViewlet"
+     for="bungeni.models.interfaces.IMinistry"
+     permission="zope.View"
+     weight="10"
+     />   
+  
+  <!-- Minister Edit Form -->  
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.MinisterEdit"
+     for="bungeni.models.interfaces.IMinister"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />        
+  <!-- Minister Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IMinisterContainer"
+     class=".forms.MinistersAdd"              
+     permission="zope.View"
+     /> 
+  
+  
+  <browser:viewlet
+     name="bungeni.viewlet.minister-titles"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.TitleViewlet"
+     for="bungeni.models.interfaces.IMinister"
+     permission="zope.View"
+     weight="10"
+     />
 
-<!-- Ministry Edit Form -->
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.MinistryEdit"
-      for="bungeni.models.interfaces.IMinistry"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />    
-<!-- Ministry Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IMinistryContainer"
-      class=".forms.MinistryAdd"              
-      permission="zope.View"
-      />               
-      
-      
- <browser:viewlet
-      name="bungeni.subform.minsters"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.MinistersViewlet"
-      for="bungeni.models.interfaces.IMinistry"
-      permission="zope.View"
-      weight="10"
-      />   
-            
-<!-- Minister Edit Form -->  
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.MinisterEdit"
-      for="bungeni.models.interfaces.IMinister"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />        
-<!-- Minister Add Form -->
- <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IMinisterContainer"
-      class=".forms.MinistersAdd"              
-      permission="zope.View"
-      /> 
-      
-      
- <browser:viewlet
-      name="bungeni.subform.minister-titles"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.TitleViewlet"
-      for="bungeni.models.interfaces.IMinister"
-      permission="zope.View"
-      weight="10"
-      />
+  <browser:viewlet
+     name="bungeni.viewlet.minister-personal-info"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.PersonInfo"
+     for="bungeni.models.interfaces.IMinister"
+     permission="zope.View"
+     weight="20"
+     />      
 
- <browser:viewlet
-      name="bungeni.subform.minister-personal-info"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PersonInfo"
-      for="bungeni.models.interfaces.IMinister"
-      permission="zope.View"
-      weight="20"
-      />      
-
-      
-<!-- Extension Group Edit Form -->  
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.ExtensionGroupEdit"
-      for="bungeni.models.interfaces.IExtensionGroup"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />    
-    
-<!-- Extension Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IExtensionGroupContainer"
-      class=".forms.ExtensionGroupAdd"              
-      permission="zope.View"
-      />  
-      
-<!-- Extension Group Member Edit Form -->   
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.ExtensionMemberEdit"
-      for="bungeni.models.interfaces.IExtensionMember"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />         
-<!-- Extension Group Member Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IExtensionMemberContainer"
-      class=".forms.ExtensionMemberAdd"              
-      permission="zope.View"
-      />    
-<!-- Parliament Edit Form -->  
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.ParliamentEdit"
-      for="bungeni.models.interfaces.IParliament"
-      permission="bungeni.parliament.edit"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />          
-      
-<!-- Question view form -->
+  
+  <!-- Extension Group Edit Form -->  
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.ExtensionGroupEdit"
+     for="bungeni.models.interfaces.IExtensionGroup"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />    
+  
+  <!-- Extension Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IExtensionGroupContainer"
+     class=".forms.ExtensionGroupAdd"              
+     permission="zope.View"
+     />  
+  
+  <!-- Extension Group Member Edit Form -->   
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.ExtensionMemberEdit"
+     for="bungeni.models.interfaces.IExtensionMember"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />         
+  <!-- Extension Group Member Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IExtensionMemberContainer"
+     class=".forms.ExtensionMemberAdd"              
+     permission="zope.View"
+     />    
+  <!-- Parliament Edit Form -->  
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.ParliamentEdit"
+     for="bungeni.models.interfaces.IParliament"
+     permission="bungeni.parliament.edit"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />          
+  
+  <!-- Question view form -->
   <!--browser:viewlet
       name="bungeni.question.view"
       manager="alchemist.ui.interfaces.IContentViewManager"
@@ -498,248 +454,247 @@
       layer="bungeni.ui.interfaces.IBungeniSkin"      
       /-->
 
- <browser:viewlet
-      name="bungeni.subform.responses"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.ResponseViewlet"
-      for="bungeni.models.interfaces.IQuestion"
-      permission="bungeni.response.view"
-      weight="10"
-      />      
+  <browser:viewlet
+     name="bungeni.viewlet.responses"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.ResponseViewlet"
+     for="bungeni.models.interfaces.IQuestion"
+     permission="bungeni.response.view"
+     weight="10"
+     />      
 
-<browser:viewlet
-      name="bungeni.subform.supplementaryquestions"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.SupplementaryQuestionsViewlet"
-      for="bungeni.models.interfaces.IQuestion"
-      permission="bungeni.question.view"
-      weight="20"
-      />           
+  <browser:viewlet
+     name="bungeni.viewlet.supplementaryquestions"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SupplementaryQuestionsViewlet"
+     for="bungeni.models.interfaces.IQuestion"
+     permission="bungeni.question.view"
+     weight="20"
+     />           
 
-<browser:viewlet
-      name="bungeni.subform.initialquestion"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.InitialQuestionsViewlet"
-      for="bungeni.models.interfaces.IQuestion"
-      permission="bungeni.question.view"
-      weight="5"
-      />      
+  <browser:viewlet
+     name="bungeni.viewlet.initialquestion"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.InitialQuestionsViewlet"
+     for="bungeni.models.interfaces.IQuestion"
+     permission="bungeni.question.view"
+     weight="5"
+     />      
 
 
 
-<!-- Question add form -->
+  <!-- Question add form -->
 
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IQuestionContainer"
-      class=".forms.QuestionAdd"              
-      permission="bungeni.question.add"
-      />          
-      
-      
-<!-- Question Edit Form -->  
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.QuestionEdit"
-      for="bungeni.models.interfaces.IQuestion"
-      permission="bungeni.question.edit"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />         
-      
-<!-- Response Add Form -->        
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IResponseContainer"
-      class=".forms.ResponseAdd"              
-      permission="bungeni.response.add"
-      />      
-      
-<!-- Response Edit Form -->  
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.ResponseEdit"
-      for="bungeni.models.interfaces.IResponse"
-      permission="bungeni.response.edit"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />        
-            
-<!-- Parliament Add Form -->
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IParliamentContainer"
-      class=".forms.ParliamentAdd"              
-      permission="bungeni.parliament.add"
-      />      
- 
- 
- <browser:viewlet
-      name="bungeni.subform.committees"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.CommitteesViewlet"
-      for="bungeni.models.interfaces.IParliament"
-      permission="zope.View"
-      weight="10"
-      />      
-      
- <browser:viewlet
-      name="bungeni.subform.member-of-parliament"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.MemberOfParliamentViewlet"
-      for="bungeni.models.interfaces.IParliament"
-      permission="zope.View"
-      weight="20"
-      />            
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IQuestionContainer"
+     class=".forms.QuestionAdd"              
+     permission="bungeni.question.add"
+     />          
+  
+  
+  <!-- Question Edit Form -->  
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.QuestionEdit"
+     for="bungeni.models.interfaces.IQuestion"
+     permission="bungeni.question.edit"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />         
+  
+  <!-- Response Add Form -->        
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IResponseContainer"
+     class=".forms.ResponseAdd"              
+     permission="bungeni.response.add"
+     />      
+  
+  <!-- Response Edit Form -->  
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.ResponseEdit"
+     for="bungeni.models.interfaces.IResponse"
+     permission="bungeni.response.edit"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />        
+  
+  <!-- Parliament Add Form -->
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IParliamentContainer"
+     class=".forms.ParliamentAdd"              
+     permission="bungeni.parliament.add"
+     />      
+  
+  
+  <browser:viewlet
+     name="bungeni.viewlet.committees"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.CommitteesViewlet"
+     for="bungeni.models.interfaces.IParliament"
+     permission="zope.View"
+     weight="10"
+     />      
+  
+  <browser:viewlet
+     name="bungeni.viewlet.member-of-parliament"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.MemberOfParliamentViewlet"
+     for="bungeni.models.interfaces.IParliament"
+     permission="zope.View"
+     weight="20"
+     />            
 
- <browser:viewlet
-      name="bungeni.subform.political-parties"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PoliticalPartyViewlet"
-      for="bungeni.models.interfaces.IParliament"
-      permission="zope.View"
-      weight="30"
-      />                  
+  <browser:viewlet
+     name="bungeni.viewlet.political-parties"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.PoliticalPartyViewlet"
+     for="bungeni.models.interfaces.IParliament"
+     permission="zope.View"
+     weight="30"
+     />                  
+  
+  <browser:viewlet
+     name="bungeni.viewlet.government"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.GovernmentViewlet"
+     for="bungeni.models.interfaces.IParliament"
+     permission="zope.View"
+     weight="40"
+     />                  
 
-                 
- <browser:viewlet
-      name="bungeni.subform.government"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.GovernmentViewlet"
-      for="bungeni.models.interfaces.IParliament"
-      permission="zope.View"
-      weight="40"
-      />                  
+  <browser:viewlet
+     name="bungeni.viewlet.session"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SessionViewlet"
+     for="bungeni.models.interfaces.IParliament"
+     permission="zope.View"
+     weight="50"
+     />                  
 
- <browser:viewlet
-      name="bungeni.subform.session"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.SessionViewlet"
-      for="bungeni.models.interfaces.IParliament"
-      permission="zope.View"
-      weight="50"
-      />                  
-
-                  
+  
   <!-- GroupSitting Edit Form -->
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.GroupSittingEdit"
-      for="bungeni.models.interfaces.IGroupSitting"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />      
-    
-    
-    
-    
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.GroupSittingEdit"
+     for="bungeni.models.interfaces.IGroupSitting"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />      
+  
+  
+  
+  
   <!-- Member Role Title -->    
   
-   <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IMemberRoleTitleContainer"
-      class=".forms.MemberTitleAdd"              
-      permission="zope.View"
-      />    
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IMemberRoleTitleContainer"
+     class=".forms.MemberTitleAdd"              
+     permission="zope.View"
+     />    
   
-    <browser:viewlet
-      name="alchemist.attributes.edit"
-      manager="alchemist.ui.interfaces.IContentEditManager"
-      class=".forms.MemberTitleEdit"
-      for="bungeni.models.interfaces.IMemberRoleTitle"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />    
+  <browser:viewlet
+     name="alchemist.attributes.edit"
+     manager="alchemist.ui.interfaces.IContentEditManager"
+     class=".forms.MemberTitleEdit"
+     for="bungeni.models.interfaces.IMemberRoleTitle"
+     permission="zope.View"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+     />    
 
- <browser:viewlet
-      name="bungeni.subform.title-addresses"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.AddressesViewlet"
-      for="bungeni.models.interfaces.IMemberRoleTitle"
-      permission="zope.View"
-      weight="10"
-      />         
-      
+  <browser:viewlet
+     name="bungeni.viewlet.title-addresses"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.AddressesViewlet"
+     for="bungeni.models.interfaces.IMemberRoleTitle"
+     permission="zope.View"
+     weight="10"
+     />         
+  
 
-      
+  
   <!-- Political Party -->
-    <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IPoliticalPartyContainer"
-      class=".forms.PoliticalPartyAdd"              
-      permission="zope.View"
-      /> 
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IPoliticalPartyContainer"
+     class=".forms.PoliticalPartyAdd"              
+     permission="zope.View"
+     /> 
 
- <browser:viewlet
-      name="bungeni.subform.party-members"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PartyMemberViewlet"
-      for="bungeni.models.interfaces.IPoliticalParty"
-      permission="zope.View"
-      weight="10"
-      />    
-      
+  <browser:viewlet
+     name="bungeni.viewlet.party-members"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.PartyMemberViewlet"
+     for="bungeni.models.interfaces.IPoliticalParty"
+     permission="zope.View"
+     weight="10"
+     />    
+  
   <!-- bills -->
-        
-   <browser:viewlet
-      name="bungeni.subform.bill-consignatory"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.ConsignatoryViewlet"
-      for="bungeni.models.interfaces.IBill"
-      permission="zope.View"
-      weight="10"
-      />    
   
-     <browser:viewlet
-      name="bungeni.subform.bill-timeline"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.BillTimeLineViewlet"
-      for="bungeni.models.interfaces.IBill"
-      permission="zope.View"
-      weight="20"
-      />  
+  <browser:viewlet
+     name="bungeni.viewlet.bill-consignatory"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.ConsignatoryViewlet"
+     for="bungeni.models.interfaces.IBill"
+     permission="zope.View"
+     weight="10"
+     />    
   
-   <browser:page
-       name="event-rss.xml"
-       for="bungeni.models.interfaces.IBill"
-       class=".forms.BungeniRSSEventView"
-       permission="zope.View"
-       />  
+  <browser:viewlet
+     name="bungeni.viewlet.bill-timeline"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.BillTimeLineViewlet"
+     for="bungeni.models.interfaces.IBill"
+     permission="zope.View"
+     weight="20"
+     />  
+  
+  <browser:page
+     name="event-rss.xml"
+     for="bungeni.models.interfaces.IBill"
+     class=".forms.BungeniRSSEventView"
+     permission="zope.View"
+     />  
   
   <!-- Partymembership -->
-     <browser:view
-      name="add"
-      for="bungeni.models.interfaces.IMemberOfPartyContainer"
-      class=".forms.MemberOfPartyAdd"              
-      permission="zope.View"
-      /> 
-   
-     <!--browser:view
+  <browser:view
+     name="add"
+     for="bungeni.models.interfaces.IMemberOfPartyContainer"
+     class=".forms.MemberOfPartyAdd"              
+     permission="zope.View"
+     /> 
+  
+  <!--browser:view
       name="add"
       for="bungeni.models.interfaces.I....Container"
       class=".forms.PartyMemberAdd"              
       permission="zope.View"
       /-->   
   
-   <browser:viewlet
-      name="bungeni.subform.party-member-titles"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.TitleViewlet"
-      for="bungeni.models.interfaces.IPartyMember"
-      permission="zope.View"
-      weight="10"
-      />
+  <browser:viewlet
+     name="bungeni.viewlet.party-member-titles"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.TitleViewlet"
+     for="bungeni.models.interfaces.IPartyMember"
+     permission="zope.View"
+     weight="10"
+     />
   
   
   <!-- Version -->
   
-    <browser:page
-       name="index.html"
-       for="bungeni.core.interfaces.IVersion"
-       class=".versions.BaseView"
-       permission="zope.View"
-       />
+  <browser:page
+     name="index.html"
+     for="bungeni.core.interfaces.IVersion"
+     class=".versions.BaseView"
+     permission="zope.View"
+     />
 
   <!-- Container UI -->
   <browser:page
@@ -752,13 +707,13 @@
      class=".container.ContainerListing"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
-    
+  
   <browser:view
-    for="ore.alchemist.interfaces.IAlchemistContent"
-    permission="zope.View"
-    name="file-image"
-    class=".fileimage.RawView"
-  />    
- 
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     permission="zope.View"
+     name="file-image"
+     class=".fileimage.RawView"
+     />    
+  
 
 </configure>

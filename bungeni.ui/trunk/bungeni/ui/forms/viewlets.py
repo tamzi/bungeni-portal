@@ -1,27 +1,105 @@
-# utf-8
-import datetime
-import base64
-
-from zope.viewlet import viewlet
+# encoding: utf-8
+from zope import interface
+from zope.viewlet import viewlet, manager
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.traversing.browser import absoluteURL 
-from zope.security.proxy import removeSecurityProxy
-from zope.formlib import form
+
+from zc.resourcelibrary import need
 
 from ore.alchemist import Session
-from ore.alchemist.model import queryModelDescriptor
-from ore.alchemist.container import stringKey
-
-
-
 import bungeni.models.domain as domain
-from bungeni.core.i18n import _
-from bungeni.core.workflows.question import states as qw_state
 
+from alchemist import ui
+from zope.formlib.namedtemplate import NamedTemplate
+from bungeni.ui.i18n import _
+
+from interfaces import \
+     ISubFormViewletManager, \
+     IResponeQuestionViewletManager
+
+
+from zope.traversing.browser import absoluteURL 
+from zope.formlib import form
+
+
+from ore.alchemist.model import queryModelDescriptor
+
+from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
 from fields import BungeniAttributeDisplay
 from table import AjaxContainerListing
+
+
+class SubFormViewletManager( manager.WeightOrderedViewletManager ):
+    """
+    display subforms
+    """
+    interface.implements(ISubFormViewletManager)   
+      
+    def filter(self, viewlets):
+         viewlets = super(SubFormViewletManager, self).filter(viewlets)
+         return [(name, viewlet)
+                 for name, viewlet in viewlets
+                 if viewlet.for_display == True]    
+    
+class NavigateAwayWarningViewlet( viewlet.ViewletBase ):
+
+    def render(self):
+        need('yui-core')
+        #warningMessage = _(u"""'You have unsaved data on this page, leave this page? Clicking “yes” to continue will loose your changes forever.'""")
+        msg = u"""<script>
+        YAHOO.util.Event.addListener(window, 'beforeunload', function(e) {
+        //confirm('navigate away: ' + e.target.tagName)
+        if (!e.target || (e.target.tagName.upperCase() != 'FORM')) {		        
+		        YAHOO.util.Event.stopEvent(e);
+	      }
+        });    
+        </script>""" # % warningMessage
+
+        return msg
+        
+class ResponseQuestionViewletManager( manager.WeightOrderedViewletManager ):
+    """
+    display subforms
+    """
+    interface.implements(IResponeQuestionViewletManager)         
+    
+
+class ResponseQuestionViewlet( viewlet.ViewletBase ):    
+    """
+    Display the question when adding/editing a response
+    """
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+        self.subject = ''
+        self.question_text = ''
+    
+    def update(self):
+        if self.context.__class__ == domain.Response:
+            #edit response
+            question_id = self.context.response_id
+            session = Session()
+            return session.query(domain.Question).get(question_id)
+            self.subject = self.context.__parent__.__parent__.subject
+            self.question_text = self.context.__parent__.__parent__.question_text
+        else:
+            # add a response
+            if self.context.__parent__.__class__ == domain.Question:
+                self.subject = self.context.__parent__.subject
+                self.question_text = self.context.__parent__.question_text
+
+    render = ViewPageTemplateFile ('templates/question.pt')  
+    
+    
+class AttributesEditViewlet(ui.core.DynamicFields, ui.viewlet.EditFormViewlet):
+    mode = "edit"
+    template = NamedTemplate('alchemist.subform')
+    form_name = _(u"General")
 
 class SubformViewlet ( AjaxContainerListing ):
     """
@@ -252,7 +330,7 @@ class PersonInfo( BungeniAttributeDisplay ):
     """
     for_display = True    
     mode = "view"
-    template = ViewPageTemplateFile('templates/display_subform.pt')        
+
     form_name = _(u"Personal Info")   
     
     def __init__( self,  context, request, view, manager ):        
@@ -295,7 +373,7 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
 
 class InitialQuestionsViewlet( BungeniAttributeDisplay ):
     form_name = (u"Initial Questions")
-    template = ViewPageTemplateFile('templates/display_subform.pt')    
+
     
     @property
     def for_display(self):
@@ -333,7 +411,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
     Response to Question
     """
     mode = "view"
-    template = ViewPageTemplateFile('templates/display_subform.pt')        
+
     form_name = _(u"Response")   
     addurl = 'add'
     add_action = form.Actions( form.Action(_(u'add response'), success='handle_response_add_action'), )
@@ -374,14 +452,11 @@ class ResponseViewlet( BungeniAttributeDisplay ):
             self.actions = self.add_action.actions
         super( ResponseViewlet, self).update()
 
-
-
-
-
-            
+        
 class BillTimeLineViewlet( viewlet.ViewletBase ):
     """
     tracker/timeline view:
+
     Chronological changes are aggregated from : bill workflow, bill
     audit, bill scheduling and bill event records. 
     """

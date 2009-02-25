@@ -41,6 +41,9 @@
   <!-- Include Workflow UI -->
   <include file="workflow.zcml" />
 
+  <!-- Include Views -->
+  <include file="views.zcml" />
+
   <!-- Admin UI -->
   <include file="admin.zcml"/>
   

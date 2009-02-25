@@ -19,6 +19,13 @@
      permission="zope.Public"
      provides="zope.traversing.browser.interfaces.IAbsoluteURL"
      />
+
+  <browser:page
+     name="plone"
+     for="*"
+     permission="zope.View"
+     class=".browser.PloneView"
+     />
   
   <!-- Site Skin Definition -->
   <include file="skin.zcml"/>  

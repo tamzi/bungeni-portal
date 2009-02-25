@@ -47,7 +47,7 @@ ore.library    https://svn.objectrealms.net/svn/public/ore.library/trunk
 ore.metamime  https://svn.objectrealms.net/svn/public/ore.metamime/trunk
 
 # repoze.whooze z3 authentication
-repoze.whooze -r3497 http://svn.repoze.org/repoze.whooze/trunk
+repoze.whooze -r3763 http://svn.repoze.org/repoze.whooze/trunk
 
 # lovely memcached
 # lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/

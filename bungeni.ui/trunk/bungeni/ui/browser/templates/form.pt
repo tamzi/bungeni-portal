@@ -72,7 +72,7 @@
                      odd repeat/widget/odd;
                      changed widget/changed | nothing"
          tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even');
-                         id python: widget.name.replace('_', '-')">
+                         id python: 'widget-'+widget.name.replace('_', '-')">
          <td>
           <label tal:attributes="for widget/name">
             <span i18n:translate=""

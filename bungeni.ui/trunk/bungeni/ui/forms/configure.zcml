@@ -3,6 +3,7 @@
            xmlns:browser="http://namespaces.zope.org/browser" >
 
   <!-- Expose form for use as macro -->
+  
   <browser:page
     for="*"
     name="alchemist-form"
@@ -11,8 +12,8 @@
     layer="bungeni.ui.interfaces.IBungeniSkin"
     />   
 
-
-<!-- json view of containers-->
+  <!-- json view of containers-->
+  
   <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
      permission="zope.View"
@@ -27,42 +28,18 @@
      class=".container.ContainerJSONTableHeaders"
      />     
 
-<!-- Atom View of content -->
-
-  <browser:page
+  <!-- content display viewlets -->
+  
+  <browser:viewlet
+     name="alchemist.attributes.view"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".fields.BungeniAttributeDisplay"
      for="ore.alchemist.interfaces.IAlchemistContent"
      permission="zope.View"
-     name="atom.xml"
-     class=".forms.BungeniAtomDisplay"
+     allowed_interface="zope.formlib.interfaces.ISubPageForm"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
      />
-
-  <browser:viewletManager
-     name="bungeni.atom-form.manager"
-     provides=".interfaces.IAtomFormViewletManager"
-     class=".viewlet.AtomFormViewletManager"
-     permission="zope.View"
-     />
-
-
-  <browser:viewlet
-    name="bungeni.atom.main-content.viewlet"   
-    manager=".interfaces.IAtomFormViewletManager"
-    class=".forms.BungeniAtomDisplayMainViewlet"
-    permission="zope.Public"
-    for="ore.alchemist.interfaces.IAlchemistContent"
-    weight="1"
-    />     
-
-
-  <browser:viewletManager
-     name="bungeni.atom-subform.manager"
-     provides=".interfaces.IAtomEntriesFormViewletManager"
-     class=".viewlet.AtomEntriesFormViewletManager"
-     permission="zope.View"
-     />
-
-
-
+  
  <!-- Viewlet manager for subform -->
   
   <browser:viewletManager
@@ -116,25 +93,12 @@
       for="ore.alchemist.interfaces.IAlchemistContent"
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />
-
-<!-- View -->
-  <browser:viewlet
-      name="alchemist.attributes.view"
-      manager="alchemist.ui.interfaces.IContentViewManager"
-      class=".forms.BungeniAttributeDisplay"
-      for="ore.alchemist.interfaces.IAlchemistContent"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"
-      layer="bungeni.ui.interfaces.IBungeniSkin"      
-      />
-
-
-
+       />
+    
 
 <!-- /View -->
 
- <browser:viewlet
+<browser:viewlet
       name="bungeni.subform.member-addresses"
       manager=".interfaces.ISubFormViewletManager"
       class=".subforms.AddressesViewlet"
@@ -268,17 +232,6 @@
 
 
 
- <!--AtomPersonInfo -->
-
-
-  <browser:viewlet
-      name="bungeni.subform.mp-atom-personal-info"
-      manager=".interfaces.IAtomEntriesFormViewletManager"
-      class=".subforms.AtomPersonInfo"
-      for="bungeni.models.interfaces.IMemberOfParliament"
-      permission="zope.View"
-      weight="10"
-      />      
 
 
  <!--browser:viewlet
@@ -316,18 +269,6 @@
       permission="zope.View"
       weight="10"
       />
-      
- <browser:viewlet
-      name="bungeni.subform.atom-committee-members"
-      manager=".interfaces.IAtomEntriesFormViewletManager"
-      class=".subforms.CommitteeMemberAtomViewlet"
-      for="bungeni.models.interfaces.ICommittee"
-      permission="zope.View"
-      weight="10"
-      />      
-      
-      
-      
       
  <browser:viewlet
       name="bungeni.subform.committee-staff"
@@ -765,19 +706,6 @@
        class=".forms.BungeniRSSEventView"
        permission="zope.View"
        />  
-  
-  
-  <!-- PartyMemberAtomViewlet -->
-  
-   <browser:viewlet
-      name="bungeni.subform.atom-party-members"
-      manager=".interfaces.IAtomEntriesFormViewletManager"
-      class=".subforms.PartyMemberAtomViewlet"
-      for="bungeni.models.interfaces.IPoliticalParty"
-      permission="zope.View"
-      weight="10"
-      />      
-  
   
   <!-- Partymembership -->
      <browser:view

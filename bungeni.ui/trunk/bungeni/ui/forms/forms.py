@@ -31,6 +31,8 @@ from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
 import bungeni.models.vocabulary as vocabulary
 import bungeni.models.domain as domain
 
+from bungeni.ui.forms.workflow import bindTransitions
+
 from bungeni.models.interfaces import \
      IGroupSitting, \
      IParliamentSession, \
@@ -56,7 +58,7 @@ import bungeni.core.workflows.utils
 import bungeni.core.globalsettings as prefs
 import bungeni.models.schema as db_schema
 
-from bungeni.core.interfaces import IVersioned
+
 from bungeni.models.interfaces import IFileAttachments 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
@@ -68,14 +70,6 @@ FormTemplate = namedtemplate.NamedTemplateImplementation(
     ViewPageTemplateFile('templates/form.pt')
     )
 
-def createVersion(context, comment = ''):
-    """Create a new version of an object and return it."""
-    instance = removeSecurityProxy(context)
-    #XXX
-    #versions = IVersioned(instance)
-    #if not comment:
-    #    comment =''
-    #versions.create(u'New version created upon edit.' + comment)
 
 
 def getUserId( name ):
@@ -88,63 +82,6 @@ def getUserId( name ):
         user_id = None
     return user_id                
 
-
-#################################
-# workflow transition 2 formlib action bindings
-class TransitionHandler( object ):
-
-    def __init__( self, transition_id, wf_name=None):
-        self.transition_id = transition_id
-        self.wf_name = wf_name
-
-
-    def __call__( self, form, action, data ):
-        """
-        save data make version and fire transition
-        """
-        context = getattr( form.context, '_object', form.context )
-        notes = None
-        if self.wf_name:
-            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
-        else:
-            info = interfaces.IWorkflowInfo( context ) 
-        if data.has_key('note'):
-            notes = data['note']     
-        else:
-            notes=''            
-        result = handle_edit_action( form, action, data )
-        if form.errors: 
-            return result
-        else:         
-            createVersion(form.context, notes)                                                        
-            info.fireTransition( self.transition_id, notes )       
-            url = absoluteURL( form.context, form.request )  
-            return form.request.response.redirect( url )             
-        #form.setupActions()
-
-def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
-    """ bind workflow transitions into formlib actions 
-    """
-
-    if wf_name:
-        success_factory = lambda tid: TransitionHandler( tid, wf_name )
-    else:
-        success_factory = TransitionHandler
-
-    actions = []
-    for tid in transitions:
-        d = {}
-        if success_factory:
-            d['success'] = success_factory( tid )
-        if wf is not None:
-            action = form.Action( _(unicode(wf.getTransitionById( tid ).title)), **d )
-        else:
-            action = form.Action( tid, **d )
-        action.form = form_instance
-        action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
-        
-        actions.append( action )  
-    return actions
 
 
 
@@ -159,49 +96,6 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
 
 
         
-class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
-    
-    mode = "view"
-    template = ViewPageTemplateFile('templates/display_form.pt')        
-    form_name = _(u"General")    
-    has_data = True
-
-
-    def setupActions( self ):
-        try:
-            self.wf = interfaces.IWorkflowInfo( self.context )
-            transitions = self.wf.getManualTransitionIds()
-            self.actions = tuple(bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) ) )  
-        except:
-            pass
-            
-    def update( self ):
-        self.form_name = self.getform_name()
-        self.setupActions() 
-        super( BungeniAttributeDisplay, self).update() 
-        self.setupActions()  # after we transition we have different actions  
-        try:
-            wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
-            self.wf_status = wf_state  
-        except:
-            pass
-               
-    def getform_name( self ):
-        try:
-            if self.context.__parent__:
-                descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
-            else:
-                return self.form_name
-        except:
-            return self.form_name                        
-        if descriptor:
-            name = getattr( descriptor, 'display_name', None)
-        if not name:
-            name = getattr( self.context.__parent__.domain_model, '__name__', None)                
-        return name #"%s %s"%(name, self.mode.title())
-
-
-
 
 #questions
 #class QuestionDisplay( BungeniAttributeDisplay ):
@@ -232,42 +126,6 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 
        
 
-class BungeniAtomDisplay(BrowserView):   
-    __call__ = ViewPageTemplateFile('templates/atom-feed.pt') 
-    form_name = None  
-
-    
-    def name(self):
-        if self.context.__parent__:
-            descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
-        if descriptor:
-            name = getattr( descriptor, 'display_name', None)
-        if not name:
-            name = getattr( self.context.__parent__.domain_model, '__name__', None)  
-        return name 
-           
-    def feedtitle(self):            
-        if self.form_name:
-            title = self.form_name
-        else:
-            title = self.name()
-        return title
-            
-    def feedUid(self):
-        return  absoluteURL( self.context, self.request ) + 'atom.xml'
-               
-    def uid(self):     
-        #XXX       
-        return "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
-        
-    def url(self):    
-        return absoluteURL( self.context, self.request )       
-        
-    def updated(self):
-        return datetime.datetime.now().isoformat()          
-            
-class BungeniAtomDisplayMainViewlet( BungeniAttributeDisplay ): 
-    template = ViewPageTemplateFile('templates/display_atom_form.pt')
    
 #############
 ## ADD 

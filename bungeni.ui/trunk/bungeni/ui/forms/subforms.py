@@ -20,8 +20,7 @@ from bungeni.core.workflows.question import states as qw_state
 
 from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
-from forms import BungeniAttributeDisplay
-from container import AtomContainerListing
+from fields import BungeniAttributeDisplay
 from table import AjaxContainerListing
 
 class SubformViewlet ( AjaxContainerListing ):
@@ -30,12 +29,6 @@ class SubformViewlet ( AjaxContainerListing ):
     """
     render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
     for_display = True
-
-class AtomSubformViewlet( AtomContainerListing ):
-    """
-    """
-    for_display = True        
-
 
 class SessionViewlet( SubformViewlet ):
 
@@ -196,17 +189,6 @@ class CommitteeMemberViewlet( SubformViewlet ):
         self.query = None
 
 
-class CommitteeMemberAtomViewlet( AtomSubformViewlet ):
-
-    def __init__( self,  context, request, view, manager ):        
-
-        self.context = context.committeemembers                     
-        self.request = request
-        self.__parent__= context
-        self.manager = manager
-        self.query = None
-
-    
 class TitleViewlet ( SubformViewlet ):
 
     def __init__( self,  context, request, view, manager ):        
@@ -245,19 +227,6 @@ class PartyMemberViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
         
-class PartyMemberAtomViewlet( AtomSubformViewlet ):
-    """
-    """        
-    def __init__( self,  context, request, view, manager ):        
-
-        self.context = context.partymembers
-        self.request = request
-        self.__parent__= context
-        self.manager = manager
-        self.query = None
-            
-        
-    
 class PartyMembershipViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
 
@@ -306,29 +275,6 @@ class PersonInfo( BungeniAttributeDisplay ):
         self.context = self.query.all()[0]
         self.context.__parent__= parent
         super( PersonInfo, self).update()
-
-class AtomPersonInfo( PersonInfo ):
-    template = ViewPageTemplateFile('templates/generic-atom-container.pt')
-    
-    def name(self):
-        return self.form_name
-        
-    def listing(self):
-        return  ViewPageTemplateFile('templates/display_atom_form.pt').__call__(self)
-        
-    def uid(self):     
-        #XXX       
-        return "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
-        
-    def url(self):    
-        return absoluteURL( self.context, self.request )       
-        
-    def updated(self):
-        return datetime.datetime.now().isoformat()          
-                       
-    def update(self):    
-        super( AtomPersonInfo, self).update()
-        self.form_name = _(u"Bio Info")
 
 class SupplementaryQuestionsViewlet( SubformViewlet ):
     form_name = (u"Supplementary Questions")    

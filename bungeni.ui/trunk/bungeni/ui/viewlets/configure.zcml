@@ -105,7 +105,7 @@
      class=".current.CurrentGovernmentViewletManager"
      permission="zope.View"
      />
-  
+
   <!-- schedule holidays-->
   
   <browser:page
@@ -746,7 +746,7 @@
   
  <browser:viewlet
     name="bungeni.current.partymembership"   
-    manager="bungeni.ui.browser.interfaces.ISubFormViewletManager"
+    manager="bungeni.ui.forms.interfaces.ISubFormViewletManager"
     class=".current.CurrentPartymemberships"
     for="bungeni.models.interfaces.IMemberOfParliament"
     permission="zope.Public"

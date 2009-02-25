@@ -8,11 +8,13 @@ from zc.resourcelibrary import need
 from ore.alchemist import Session
 import bungeni.models.domain as domain
 
+from alchemist import ui
+from zope.formlib.namedtemplate import NamedTemplate
+from bungeni.ui.i18n import _
+
 from interfaces import \
      ISubFormViewletManager, \
-     IResponeQuestionViewletManager, \
-     IAtomEntriesFormViewletManager, \
-     IAtomFormViewletManager
+     IResponeQuestionViewletManager
     
 class SubFormViewletManager( manager.WeightOrderedViewletManager ):
     """
@@ -80,10 +82,7 @@ class ResponseQuestionViewlet( viewlet.ViewletBase ):
     render = ViewPageTemplateFile ('templates/question.pt')  
     
     
-class AtomFormViewletManager ( manager.WeightOrderedViewletManager ):
-    interface.implements(IAtomFormViewletManager)
-
-class AtomEntriesFormViewletManager ( manager.WeightOrderedViewletManager ):   
-    interface.implements(IAtomEntriesFormViewletManager)
-    
-    
+class AttributesEditViewlet(ui.core.DynamicFields, ui.viewlet.EditFormViewlet):
+    mode = "edit"
+    template = NamedTemplate('alchemist.subform')
+    form_name = _(u"General")

@@ -233,7 +233,7 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
        
 
 class BungeniAtomDisplay(BrowserView):   
-    __call__ = ViewPageTemplateFile('templates/atom-content-view.pt') 
+    __call__ = ViewPageTemplateFile('templates/atom-feed.pt') 
     form_name = None  
 
     

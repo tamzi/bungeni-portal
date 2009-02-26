@@ -58,11 +58,20 @@
   <include package="ore.library"/>
   
   <!-- Application UI -->
+  
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      name="index"
      template="templates/app-index.pt"
+     />
+
+  <browser:page
+     for="bungeni.models.interfaces.IBungeniApplication"
+     permission="zope.View"
+     name="index"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     template="templates/app-workspace.pt"
      />
 
   <browser:defaultView

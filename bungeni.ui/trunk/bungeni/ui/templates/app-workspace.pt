@@ -3,7 +3,7 @@
       metal:use-macro="context/@@standard_macros/page">
 
   <div metal:fill-slot="body">
-    <h1>Welcome to Bungeni</h1>
+    <h1>Bungeni Workspace</h1>
   </div>
 
 </html>

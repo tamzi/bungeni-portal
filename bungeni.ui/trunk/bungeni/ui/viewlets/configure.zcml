@@ -726,6 +726,7 @@
  
   <browser:viewlet
      name="bungeni.datechooser.viewlet"
+     for="bungeni.models.interfaces.IBungeniContent"
      manager="ploned.ui.interfaces.IBelowContentManager"
      class=".current.DateChooserViewlet"
      permission="zope.Public"

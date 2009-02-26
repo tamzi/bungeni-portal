@@ -49,12 +49,9 @@ def getAvailableResources( start, end ):
     """ % start_end 
     
     sql_resources = """
-    SELECT resources.resource_id AS resources_resource_id, 
-        resources.short_name AS resources_short_name, 
-        resources.description AS resources_description 
-    FROM resources 
-    WHERE resources.resource_id NOT IN ( %s ) 
-    ORDER BY resources.resource_id
+    SELECT resources_1.resource_id AS resources_1_resource_id
+    FROM resources AS resources_1
+    WHERE resources_1.resource_id NOT IN ( %s ) 
     """ % sql_booked_resources
     connection = session.connection( domain.Resource )                                              
     query = connection.execute(sql_resources)

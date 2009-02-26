@@ -14,15 +14,6 @@
       allowed_interface="zope.contentprovider.interfaces.IContentProvider"
       /-->
 
-  <!--browser:viewlet
-     name="bungeni.taskmenu"
-     for="*"
-     layer="..interfaces.IBungeniSkin"
-     permission="zope.View"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".taskmenu.TaskMenuViewlet"
-     /-->  
-
  <!--browser:viewlet
      name="bungeni.taskmenu"
      for="bungeni.core.interfaces.IGovernment"
@@ -32,31 +23,4 @@
      class=".staticbungeninavigation.StaticViewletBungeniNavigation"
      /-->  
      
- <browser:viewlet
-     name="bungeni.taskmenu.clerk"
-     for="*"
-     layer="..interfaces.IBungeniSkin"
-     permission="bungeni.Clerk"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".taskmenu.ClerksTaskMenuViewlet"
-     />  
-
- <browser:viewlet
-     name="bungeni.taskmenu.mp"
-     for="*"
-     layer="..interfaces.IBungeniSkin"
-     permission="bungeni.MP"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".taskmenu.MpsTaskMenuViewlet"
-     />       
-
- <browser:viewlet
-     name="bungeni.taskmenu.speaker"
-     for="*"
-     layer="..interfaces.IBungeniSkin"
-     permission="bungeni.Speaker"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".taskmenu.SpeakersTaskMenuViewlet"
-     />   
-
 </configure>

@@ -17,14 +17,6 @@
     <role id="bungeni.Admin" title="Bungeni Admin"/>
     <role id="bungeni.Anonymous" title="Bungeni Admin"/>
 
-    <grant permission="bungeni.Speaker" role="bungeni.Speaker" />
-    <grant permission="bungeni.Clerk" role="bungeni.Clerk"  />
-    <grant permission="bungeni.MP" role="bungeni.MP" />
-    <grant permission="bungeni.Admin" role="bungeni.Admin" />
-    <grant permission="bungeni.Anonymous" role="bungeni.Anonymous" />
-   
-   
-      
     <!-- the role grants are for testing only! to be removed! -->
    
     <!--grant role="bungeni.MP" principal="zope.Authenticated" />

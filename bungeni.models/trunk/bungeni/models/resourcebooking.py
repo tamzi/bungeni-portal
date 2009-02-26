@@ -13,8 +13,8 @@ from bungeni.models import domain, schema
 from i18n import _ 
 
 
-bookedresources = rdb.outerjoin(schema.resources, schema.resourcebookings, 
-                            schema.resources.c.resource_id == schema.resourcebookings.c.resource_id).outerjoin(
+bookedresources = rdb.join(schema.resources, schema.resourcebookings, 
+                            schema.resources.c.resource_id == schema.resourcebookings.c.resource_id).join(
                             schema.sittings, 
                             schema.resourcebookings.c.sitting_id == schema.sittings.c.sitting_id)
 
@@ -39,18 +39,31 @@ def getAvailableResources( start, end ):
     assert( type(start) == datetime.datetime )
     assert( type(end) == datetime.datetime )  
     session = Session()
-    r_filter = sql.or_(
-                sql.not_(sql.or_( sql.between(schema.sittings.c.start_date, start, end), 
-                        sql.between(schema.sittings.c.end_date, start, end)
-                        )),                                          
-                schema.sittings.c.sitting_id == None)        
-    query = session.query( BookedResources ).filter(r_filter)
-    #print str(query)
-    return query.all()                    
+    start_end={'start': start, 'end':end}
+    sql_booked_resources =  """
+    SELECT resources.resource_id AS resources_resource_id
+    FROM resources JOIN resourcebookings ON resources.resource_id = resourcebookings.resource_id 
+                   JOIN group_sittings ON resourcebookings.sitting_id = group_sittings.sitting_id 
+    WHERE group_sittings.start_date BETWEEN '%(start)s' AND '%(end)s' 
+          OR group_sittings.end_date BETWEEN '%(start)s' AND '%(end)s'     
+    """ % start_end 
+    
+    sql_resources = """
+    SELECT resources.resource_id AS resources_resource_id, 
+        resources.short_name AS resources_short_name, 
+        resources.description AS resources_description 
+    FROM resources 
+    WHERE resources.resource_id NOT IN ( %s ) 
+    ORDER BY resources.resource_id
+    """ % sql_booked_resources
+    connection = session.connection( domain.Resource )                                              
+    query = connection.execute(sql_resources)
+    #query = session.query( domain.Resource ).filter(sql.not_(domain.Resource.resource_id.in_([1,2]) ) )       
+    return query.fetchall()                   
 
 def getUnavailableResources( start, end ):
     """
-    get all resources that are  booked for a sitting
+    get all resources that are  booked 
     in the given time period
     """
     assert( type(start) == datetime.datetime )
@@ -61,7 +74,7 @@ def getUnavailableResources( start, end ):
                     sql.between(schema.sittings.c.end_date, start, end)
                     )
                     
-    query = session.query(BookedResources).filter(b_filter)    
+    query = session.query(BookedResources).filter(b_filter)       
     return query.all()                        
     
 def checkBookings( start, end, resource ):

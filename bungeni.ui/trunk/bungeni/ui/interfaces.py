@@ -1,5 +1,5 @@
-
 from zope.viewlet.interfaces import IViewletManager
+from zope.publisher.interfaces.browser import IBrowserView
 
 from ploned.ui.interfaces import IPlonedSkin
 from ore.yui.interfaces import IYUILayer
@@ -24,3 +24,20 @@ class IVersionViewletManager( IViewletManager ):
 # 
 # class IMinisterMemberTaskMenu( interface.Interface ):
 #     """ viewlet manager for ministry """
+
+class ISpeakerWorkspace(IBrowserView):
+    """Speaker's workspace."""
+
+class IClerkWorkspace(IBrowserView):
+    """Clerk's workspace."""
+
+class IAdministratorWorkspace(IBrowserView):
+    """Administrator's workspace."""
+
+class IMinisterWorkspace(IBrowserView):
+    """Minister's workspace."""
+
+class IMPWorkspace(IBrowserView):
+    """MP's workspace."""
+
+

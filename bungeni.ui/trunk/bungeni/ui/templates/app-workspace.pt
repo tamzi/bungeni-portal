@@ -4,6 +4,8 @@
 
   <div metal:fill-slot="body">
     <h1>Bungeni Workspace</h1>
+
+    <div tal:replace="structure provider:bungeni.workspace" />
   </div>
 
 </html>

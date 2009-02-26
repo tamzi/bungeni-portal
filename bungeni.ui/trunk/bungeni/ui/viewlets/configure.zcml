@@ -32,14 +32,14 @@
      class=".schedule.ScheduleCalendarViewletManager"
      permission="zope.View"
      />    
-     
+  
   <browser:viewletManager
      name="bungeni.schedule-items.manager"
      provides=".interfaces.IScheduleItems"
      class=".schedule.ScheduleCalendarItemsViewletManager"
      permission="zope.View"
      />         
-               
+  
   <!--browser:viewletManager
       name="bungeni.workspace"
       provides=".interfaces.IWorkspace"
@@ -59,13 +59,13 @@
      permission="zope.View"
      />
 
-    <browser:viewletManager
+  <browser:viewletManager
      name="bungeni.current"
      provides=".interfaces.ICurrent"
      class=".current.CurrentViewletManager"
      permission="zope.View"
      />
-    
+  
   <browser:viewletManager
      name="bungeni.current-ministries"
      provides=".interfaces.ICurrentMinistries"    
@@ -110,12 +110,12 @@
      />
 
   <browser:viewlet
-    name="bungeni.schedule.holydaycalendar"   
-    manager=".interfaces.IScheduleHolydayCalendar"
-    class=".schedule.ScheduleHolyDaysViewlet"
-    permission="zope.Public"
-    weight="30"
-    />    
+     name="bungeni.schedule.holydaycalendar"   
+     manager=".interfaces.IScheduleHolydayCalendar"
+     class=".schedule.ScheduleHolyDaysViewlet"
+     permission="zope.Public"
+     weight="30"
+     />    
 
   <!-- plenary calendar -->
 
@@ -136,12 +136,12 @@
 
 
   <browser:viewlet
-    name="bungeni.plenary.calendar"   
-    manager=".interfaces.IPlenaryCalendar"
-    class=".schedule.PlenarySittingCalendarViewlet"
-    permission="zope.Public"
-    weight="30"
-    />    
+     name="bungeni.plenary.calendar"   
+     manager=".interfaces.IPlenaryCalendar"
+     class=".schedule.PlenarySittingCalendarViewlet"
+     permission="zope.Public"
+     weight="30"
+     />    
 
   <!-- Schedule calendar for groups TODO permissions ... -->
   
@@ -153,12 +153,12 @@
      />
 
   <browser:viewlet
-    name="bungeni.schedule-group.calendar"   
-    manager=".interfaces.IScheduleGroupCalendar"
-    class=".schedule.WeeklyScheduleCalendarViewlet"
-    permission="zope.Public"
-    weight="30"
-    />  
+     name="bungeni.schedule-group.calendar"   
+     manager=".interfaces.IScheduleGroupCalendar"
+     class=".schedule.WeeklyScheduleCalendarViewlet"
+     permission="zope.Public"
+     weight="30"
+     />  
 
   <!-- JSON View to validate questions -->
   <browser:page
@@ -176,93 +176,93 @@
      name="schedule"
      class=".schedule.Calendar"
      />
-     
+  
   <browser:viewlet
-    name="bungeni.schedule.admissible-questions"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.AdmissibleQuestionViewlet"
-    permission="zope.Public"
-    weight="20"
-    />       
-    
+     name="bungeni.schedule.admissible-questions"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.AdmissibleQuestionViewlet"
+     permission="zope.Public"
+     weight="20"
+     />       
+  
   <browser:viewlet
-    name="bungeni.schedule.postponed-questions"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.PostponedQuestionViewlet"
-    permission="zope.Public"
-    weight="21"
-    />        
-     
+     name="bungeni.schedule.postponed-questions"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.PostponedQuestionViewlet"
+     permission="zope.Public"
+     weight="21"
+     />        
+  
   <browser:viewlet
-    name="bungeni.schedule.admissible-motions"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.AdmissibleMotionViewlet"
-    permission="zope.Public"
-    weight="25"
-    />         
-     
+     name="bungeni.schedule.admissible-motions"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.AdmissibleMotionViewlet"
+     permission="zope.Public"
+     weight="25"
+     />         
+  
   <browser:viewlet
-    name="bungeni.schedule.postponed-motions"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.PostponedMotionViewlet"
-    permission="zope.Public"
-    weight="26"
-    />
-   
+     name="bungeni.schedule.postponed-motions"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.PostponedMotionViewlet"
+     permission="zope.Public"
+     weight="26"
+     />
+  
 
 
   <browser:viewlet
-    name="bungeni.schedule.bills"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.BillItemsViewlet"
-    permission="zope.Public"
-    weight="27"
-    />
-     
- <browser:viewlet
-    name="bungeni.schedule.agenda-items"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.AgendaItemsViewlet"
-    permission="zope.Public"
-    weight="28"
-    />    
-     
+     name="bungeni.schedule.bills"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.BillItemsViewlet"
+     permission="zope.Public"
+     weight="27"
+     />
+  
+  <browser:viewlet
+     name="bungeni.schedule.agenda-items"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.AgendaItemsViewlet"
+     permission="zope.Public"
+     weight="28"
+     />    
+  
 
 
 
   <browser:viewlet
-    name="bungeni.schedule.calendar.submit"   
-    manager=".interfaces.IScheduleCalendar"
-    class=".schedule.ScheduleSittingSubmitViewlet"
-    permission="zope.Public"
-    weight="05"
-  />   
-     
+     name="bungeni.schedule.calendar.submit"   
+     manager=".interfaces.IScheduleCalendar"
+     class=".schedule.ScheduleSittingSubmitViewlet"
+     permission="zope.Public"
+     weight="05"
+     />   
+  
   <browser:viewlet
-    name="bungeni.schedule.calendar"   
-    manager=".interfaces.IScheduleCalendar"
-    class=".schedule.ScheduleCalendarViewlet"
-    permission="zope.Public"
-    weight="30"
-    />    
-    
+     name="bungeni.schedule.calendar"   
+     manager=".interfaces.IScheduleCalendar"
+     class=".schedule.ScheduleCalendarViewlet"
+     permission="zope.Public"
+     weight="30"
+     />    
+  
   <browser:viewlet
-    name="bungeni.schedule.week.calendar"   
-    manager=".interfaces.IScheduleCalendar"
-    class=".schedule.SittingCalendarWeekViewlet"
-    permission="zope.Public"
-    weight="40"
-    />        
-    
-    
+     name="bungeni.schedule.week.calendar"   
+     manager=".interfaces.IScheduleCalendar"
+     class=".schedule.SittingCalendarWeekViewlet"
+     permission="zope.Public"
+     weight="40"
+     />        
+  
+  
   <browser:viewlet
-    name="bungeni.schedule.yui-dragdrop"   
-    manager=".interfaces.IScheduleItems"
-    class=".schedule.ScheduleSittingDragDropViewlet"
-    permission="zope.Public"
-    weight="50"
-    /> 
-           
+     name="bungeni.schedule.yui-dragdrop"   
+     manager=".interfaces.IScheduleItems"
+     class=".schedule.ScheduleSittingDragDropViewlet"
+     permission="zope.Public"
+     weight="50"
+     /> 
+  
   <!-- JSON View to validate questions -->         
   <browser:page
      for="*"
@@ -270,14 +270,14 @@
      name="json_validate_question"
      class=".schedule.QuestionJSONValidation"
      />
-         
+  
   <browser:page
      for="*"
      permission="zope.View"
      name="json_root_navigation"
      class=".current.CurrentRootMenuTree"
      />         
-         
+  
   <!-- managers -->
   
 
@@ -286,45 +286,46 @@
   <!-- workspace viewlets -->
 
   <!--browser:viewlet
-     name="bungeni.workspace.questions-in-draft-state"
-     for="*"
-     manager=".interfaces.IWorkspace"
-     class=".question.Draft"
-     permission="zope.View"
-     />
+      name="bungeni.workspace.questions-in-draft-state"
+      for="*"
+      manager=".interfaces.IWorkspace"
+      class=".question.Draft"
+      permission="zope.View"
+      />
 
-  <browser:viewlet
-     name="bungeni.workspace.questions-submitted-to-clerk"
-     for="*"
-     manager=".interfaces.IWorkspace"
-     class=".question.Submitted"
-     permission="zope.View"
-     />
+      <browser:viewlet
+         name="bungeni.workspace.questions-submitted-to-clerk"
+         for="*"
+         manager=".interfaces.IWorkspace"
+         class=".question.Submitted"
+         permission="zope.View"
+         />
 
-  <browser:viewlet
-     name="bungeni.workspace.questions-archive"
-     for="*"
-     manager=".interfaces.IWorkspace"
-     class=".question.Archive"
-     permission="zope.View"
-     /-->
-     
+      <browser:viewlet
+         name="bungeni.workspace.questions-archive"
+         for="*"
+         manager=".interfaces.IWorkspace"
+         class=".question.Archive"
+         permission="zope.View"
+         /-->
+  
   <!--browser:viewlet
-     name="bungeni.workspace.questions-draft"
-     for="*"
-     manager=".interfaces.IWorkspace"
-     class=".workspace.DraftQuestionViewlet"
-     permission="bungeni.MP"
-     weight="60"
-     /-->   
+      name="bungeni.workspace.questions-draft"
+      for="*"
+      manager=".interfaces.IWorkspace"
+      class=".workspace.DraftQuestionViewlet"
+      permission="bungeni.MP"
+      weight="60"
+      /-->   
 
-<!-- MPs Workspace -->
+  <!-- MPs Workspace -->
   <browser:viewlet
      name="bungeni.workspace.questions-mp-clarify"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.ClarifyMPQuestionViewlet"
-     permission="bungeni.MP"
+     view="..interfaces.IMPWorkspace"
+     permission="zope.View"
      weight="10"
      />  
 
@@ -333,7 +334,8 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.MyQuestionsViewlet"
-     permission="bungeni.MP"
+     view="..interfaces.IMPWorkspace"
+     permission="zope.View"
      weight="20"
      />   
 
@@ -342,28 +344,31 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.MyMotionsViewlet"
-     permission="bungeni.MP"
+     view="..interfaces.IMPWorkspace"
+     permission="zope.View"
      weight="70"
      />   
 
 
-<!-- clerks workspace -->
+  <!-- clerks workspace -->
 
   <browser:viewlet
      name="bungeni.workspace.questions-submitted.clerk"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.SubmittedQuestionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="10"
-     /> 
-     
+     />
+  
   <browser:viewlet
      name="bungeni.workspace.questions-recieved"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.ReceivedQuestionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="20"
      />      
 
@@ -372,35 +377,38 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.ClarifyClerkQuestionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="5"
      />  
-     
-     
+  
   <browser:viewlet
      name="bungeni.workspace.questions-clerk-deferred"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.DeferredQuestionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="40"
      />       
-     
+  
   <browser:viewlet
      name="bungeni.workspace.questions-clerk-responded"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.RespondedQuestionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="50"
      />         
-     
+  
   <browser:viewlet
      name="bungeni.workspace.questions-postponed"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.PostponedQuestionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="35"
      />    
 
@@ -410,7 +418,8 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.SubmittedMotionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="60"
      />    
 
@@ -419,7 +428,8 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.ReceivedMotionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="70"
      />  
 
@@ -428,52 +438,52 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.ClarifyClerkMotionViewlet"
-     permission="bungeni.Clerk"
+     view="..interfaces.IClerkWorkspace"
+     permission="zope.View"
      weight="80"
      />  
 
-
-
-
-<!-- speakers workspace -->
+  <!-- speakers workspace -->
 
   <browser:viewlet
      name="bungeni.workspace.questions-complete"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.CompleteQuestionViewlet"
-     permission="bungeni.Speaker"
+     view="..interfaces.ISpeakerWorkspace"
+     permission="zope.View"
      weight="10"
      />    
-          
+  
   <browser:viewlet
      name="bungeni.workspace.motions-complete"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.CompleteMotionViewlet"
-     permission="bungeni.Speaker"
+     view="..interfaces.ISpeakerWorkspace"
+     permission="zope.View"
      weight="15"
      />    
-          
+  
   <!--browser:viewlet
-     name="bungeni.workspace.questions-submitted.mp"
-     for="*"
-     manager=".interfaces.IWorkspace"
-     class=".workspace.SubmittedQuestionViewlet"
-     permission="bungeni.MP"
-     weight="10"
-     /-->        
-     
+      name="bungeni.workspace.questions-submitted.mp"
+      for="*"
+      manager=".interfaces.IWorkspace"
+      class=".workspace.SubmittedQuestionViewlet"
+      permission="bungeni.MP"
+      weight="10"
+      /-->        
+  
   <!-- Navigation Viewlets -->
 
   <browser:viewlet
-    name="bungeni.navigation.breadcrumbs"
-    for="*"
-    manager="ploned.ui.interfaces.IPortalHeaderManager"
-    class=".navigation.BreadCrumbsViewlet"
-    permission="zope.View"
-    weight="60"
-    />     
+     name="bungeni.navigation.breadcrumbs"
+     for="*"
+     manager="ploned.ui.interfaces.IPortalHeaderManager"
+     class=".navigation.BreadCrumbsViewlet"
+     permission="zope.View"
+     weight="60"
+     />     
 
   <browser:viewlet
      name="bungeni.navigation.globalsections"
@@ -485,33 +495,33 @@
      />     
 
   <browser:viewlet
-    name="bungeni.navigation.navtree"
-    for="ore.alchemist.interfaces.IAlchemistContainer"         
-    manager="ploned.ui.interfaces.ILeftColumnManager"
-    class=".navigation.NavigationTreeViewlet"
-    permission="zope.View"
-    weight="1"
-    />    
-    
-<browser:viewlet
-    name="bungeni.navigation.navtree"
-    for="ore.alchemist.interfaces.IAlchemistContent"         
-    manager="ploned.ui.interfaces.ILeftColumnManager"
-    class=".navigation.NavigationTreeViewlet"
-    permission="zope.View"
-    weight="1"
-    />        
-    
-    
+     name="bungeni.navigation.navtree"
+     for="ore.alchemist.interfaces.IAlchemistContainer"         
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".navigation.NavigationTreeViewlet"
+     permission="zope.View"
+     weight="1"
+     />    
+  
+  <browser:viewlet
+     name="bungeni.navigation.navtree"
+     for="ore.alchemist.interfaces.IAlchemistContent"         
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".navigation.NavigationTreeViewlet"
+     permission="zope.View"
+     weight="1"
+     />        
+  
+  
   <!-- Date Chooser -->      
 
   <browser:viewlet
-    name="bungeni.datechooser.viewlet"   
-    manager=".interfaces.IDateChooser"
-    class=".current.DateChooserViewlet"
-    permission="zope.Public"
-    />     
-    
+     name="bungeni.datechooser.viewlet"   
+     manager=".interfaces.IDateChooser"
+     class=".current.DateChooserViewlet"
+     permission="zope.Public"
+     />     
+  
   <!-- current parliament -->    
 
   <browser:page
@@ -523,37 +533,37 @@
      />
 
   <browser:viewlet
-    name="bungeni.all.parliament"   
-    manager=".interfaces.ICurrent"
-    class=".current.AllParliamentsViewlet"
-    permission="zope.Public"
-    weight="2"
-    />
+     name="bungeni.all.parliament"   
+     manager=".interfaces.ICurrent"
+     class=".current.AllParliamentsViewlet"
+     permission="zope.Public"
+     weight="2"
+     />
 
   <!--browser:viewlet
-    name="bungeni.current.government"   
-    manager=".interfaces.ICurrent"
-    class=".current.CurrentParliamentGovernmentViewlet"
-    permission="zope.Public"
-    weight="4"
-    />
-    
-    
-  <browser:viewlet
-    name="bungeni.current.ministries"   
-    manager=".interfaces.ICurrentMinistries"
-    class=".current.CurrentMinistriesViewlet"
-    permission="zope.Public"
-    weight="5"
-    />    
-  
-  <browser:viewlet
-    name="bungeni.current.committees"   
-    manager=".interfaces.ICurrent"
-    class=".current.CurrentCommitteesViewlet"
-    permission="zope.Public"
-    weight="3"
-    /-->      
+      name="bungeni.current.government"   
+      manager=".interfaces.ICurrent"
+      class=".current.CurrentParliamentGovernmentViewlet"
+      permission="zope.Public"
+      weight="4"
+      />
+      
+      
+      <browser:viewlet
+         name="bungeni.current.ministries"   
+         manager=".interfaces.ICurrentMinistries"
+         class=".current.CurrentMinistriesViewlet"
+         permission="zope.Public"
+         weight="5"
+         />    
+      
+      <browser:viewlet
+         name="bungeni.current.committees"   
+         manager=".interfaces.ICurrent"
+         class=".current.CurrentCommitteesViewlet"
+         permission="zope.Public"
+         weight="3"
+         /-->      
   <!-- sittings -->
   <browser:page
      for="bungeni.models.interfaces.IGroupSittingContainer"
@@ -562,34 +572,34 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".sittingcalendar.Calendar"
      />    
-          
-          
+  
+  
   
   <!--browser:viewlet
-    name="bungeni.sitting.types"   
-    manager=".interfaces.ISittingCalendar"
-    class=".sittingcalendar.SittingSessionTypesViewlet"
-    permission="zope.Public"
-    weight="2"
-    /-->    
+      name="bungeni.sitting.types"   
+      manager=".interfaces.ISittingCalendar"
+      class=".sittingcalendar.SittingSessionTypesViewlet"
+      permission="zope.Public"
+      weight="2"
+      /-->    
   
   
   
   <browser:viewlet
-    name="bungeni.sitting.calendar"   
-    manager=".interfaces.ISittingCalendar"
-    class=".sittingcalendar.SittingCalendarViewlet"
-    permission="zope.Public"
-    weight="3"
-    />        
+     name="bungeni.sitting.calendar"   
+     manager=".interfaces.ISittingCalendar"
+     class=".sittingcalendar.SittingCalendarViewlet"
+     permission="zope.Public"
+     weight="3"
+     />        
 
   <!--browser:viewlet
-    name="bungeni.sitting.yuidd-schedulesitting"   
-    manager=".interfaces.ISittingCalendar"
-    class=".sittingcalendar.SittingScheduleDDViewlet"
-    permission="zope.Public"
-    weight="3"
-    /-->       
+      name="bungeni.sitting.yuidd-schedulesitting"   
+      manager=".interfaces.ISittingCalendar"
+      class=".sittingcalendar.SittingScheduleDDViewlet"
+      permission="zope.Public"
+      weight="3"
+      /-->       
 
 
 
@@ -604,46 +614,46 @@
      />     
 
   <browser:viewlet
-    name="bungeni.schedule-sitting.calendar"   
-    manager=".interfaces.IScheduleSittingCalendar"
-    class=".schedulesittingcalendar.ScheduleSittingCalendar"
-    permission="zope.Public"
-    weight="10"
-    />     
+     name="bungeni.schedule-sitting.calendar"   
+     manager=".interfaces.IScheduleSittingCalendar"
+     class=".schedulesittingcalendar.ScheduleSittingCalendar"
+     permission="zope.Public"
+     weight="10"
+     />     
   
   <browser:viewlet
-    name="bungeni.schedule-sittingtype.calendar"   
-    manager=".interfaces.IScheduleSittingCalendar"
-    class=".schedulesittingcalendar.ScheduleSittingTypeViewlet"
-    permission="zope.Public"
-    weight="20"
-    />     
+     name="bungeni.schedule-sittingtype.calendar"   
+     manager=".interfaces.IScheduleSittingCalendar"
+     class=".schedulesittingcalendar.ScheduleSittingTypeViewlet"
+     permission="zope.Public"
+     weight="20"
+     />     
   
   <browser:viewlet
-    name="bungeni.schedule-sitting.yuidd-schedulesitting"   
-    manager=".interfaces.IScheduleSittingCalendar"
-    class=".schedulesittingcalendar.SittingScheduleDDViewlet"
-    permission="zope.Public"
-    weight="30"
-    />         
+     name="bungeni.schedule-sitting.yuidd-schedulesitting"   
+     manager=".interfaces.IScheduleSittingCalendar"
+     class=".schedulesittingcalendar.SittingScheduleDDViewlet"
+     permission="zope.Public"
+     weight="30"
+     />         
 
   <browser:viewlet
-    name="bungeni.schedule-sitting.submit-schedulesitting"   
-    manager=".interfaces.IScheduleSittingCalendar"
-    class=".schedulesittingcalendar.ScheduleSittingSubmitViewlet"
-    permission="zope.Public"
-    weight="1"
-    />         
+     name="bungeni.schedule-sitting.submit-schedulesitting"   
+     manager=".interfaces.IScheduleSittingCalendar"
+     class=".schedulesittingcalendar.ScheduleSittingSubmitViewlet"
+     permission="zope.Public"
+     weight="1"
+     />         
 
 
   <!-- schedule parliamentary items for a sitting --> 
   <!--browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.Public"
-     name="schedule-sitting-items-calendar"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".scheduleitemscalendar.Calendar"
-     /-->    
+      for="bungeni.models.interfaces.IBungeniApplication"
+      permission="zope.Public"
+      name="schedule-sitting-items-calendar"
+      layer="bungeni.ui.interfaces.IBungeniSkin"
+      class=".scheduleitemscalendar.Calendar"
+      /-->    
 
 
   <!-- Week calendar - whats on -->
@@ -657,12 +667,12 @@
      />     
 
   <browser:viewlet
-    name="bungeni.week-sitting.calendar"   
-    manager=".interfaces.IWeekSittingCalendar"
-    class=".schedulesittingcalendar.SittingItemsWeekCalendar"
-    permission="zope.Public"
-    weight="10"
-    />     
+     name="bungeni.week-sitting.calendar"   
+     manager=".interfaces.IWeekSittingCalendar"
+     class=".schedulesittingcalendar.SittingItemsWeekCalendar"
+     permission="zope.Public"
+     weight="10"
+     />     
 
   <!-- Atom view of Week calendar - whats on -->
   
@@ -686,44 +696,44 @@
 
   <!-- Government -->  
   <!--browser:page
-     for="bungeni.core.interfaces.IGovernmentContainer"
-     permission="zope.Public"
-     name="index"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".current.Government"
-     />    
-  
-  
-    
+      for="bungeni.core.interfaces.IGovernmentContainer"
+      permission="zope.Public"
+      name="index"
+      layer="bungeni.ui.interfaces.IBungeniSkin"
+      class=".current.Government"
+      />    
+      
+      
+      
 
-    
-   <browser:viewlet
-    name="bungeni.current-gov.government"   
-    manager=".interfaces.ICurrentGovernment"
-    class=".current.CurrentGovernmentViewlet"
-    permission="zope.Public"
-    weight="4"
-    />
-    
-    
+      
+      <browser:viewlet
+         name="bungeni.current-gov.government"   
+         manager=".interfaces.ICurrentGovernment"
+         class=".current.CurrentGovernmentViewlet"
+         permission="zope.Public"
+         weight="4"
+         />
+      
+      
+      <browser:viewlet
+         name="bungeni.current-gov.ministries"   
+         manager=".interfaces.ICurrentGovernment"
+         class=".current.CurrentMinistriesViewlet"
+         permission="zope.Public"
+         weight="5"
+         /-->    
+  
   <browser:viewlet
-    name="bungeni.current-gov.ministries"   
-    manager=".interfaces.ICurrentGovernment"
-    class=".current.CurrentMinistriesViewlet"
-    permission="zope.Public"
-    weight="5"
-    /-->    
-  
- <browser:viewlet
-    name="bungeni.current.partymembership"   
-    manager="bungeni.ui.forms.interfaces.ISubFormViewletManager"
-    class=".current.CurrentPartymemberships"
-    for="bungeni.models.interfaces.IMemberOfParliament"
-    permission="zope.Public"
-    weight="40"
-    />  
+     name="bungeni.current.partymembership"   
+     manager="bungeni.ui.forms.interfaces.ISubFormViewletManager"
+     class=".current.CurrentPartymemberships"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     permission="zope.Public"
+     weight="40"
+     />  
 
- 
+  
   <browser:viewlet
      name="bungeni.datechooser.viewlet"
      for="bungeni.models.interfaces.IBungeniContent"

@@ -71,6 +71,7 @@
      permission="zope.View"
      name="index"
      layer=".interfaces.IBungeniAuthenticatedSkin"
+     class=".workspace.WorkspaceView"
      template="templates/app-workspace.pt"
      />
 
@@ -125,13 +126,6 @@
      name="logout"
      class=".login.Logout"
      />     
-
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.Public"
-     name="workspace"
-     class=".workspace.Workspace"
-     />
 
    <!-- Marginalia Settings for bungeni types -->
    <class class="bungeni.models.domain.Bill">

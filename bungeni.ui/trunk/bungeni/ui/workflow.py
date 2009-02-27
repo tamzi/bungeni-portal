@@ -1,30 +1,19 @@
-"""
-workflow ui components
-"""
-
-from zope import component
 from alchemist.ui.core import BaseForm
 from zope.security.proxy import removeSecurityProxy
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.publisher.browser import BrowserPage
+
 from ore.workflow import interfaces
 from bungeni.core.i18n import _
 from zope.formlib import form
-from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
-import zope.interface, zope.schema
-from interfaces import IWorkflowViewletManager
+import zope.interface
 
 from bungeni.core import audit
 from sqlalchemy import orm
 from zc.table import batching, column
 import sqlalchemy as rdb
 
-class WorkflowViewletManager( WeightOrderedViewletManager ):
-    """
-    implements the Workflowviewlet
-    """
-    zope.interface.implements(IWorkflowViewletManager)
+from bungeni.ui.forms.workflow import TransitionHandler
 
 class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     """
@@ -95,29 +84,6 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
         content_changes = query.execute( content_id = content_id )
         return map( dict, content_changes)
     
-        
-
-#################################
-# workflow transition 2 formlib action bindings
-class TransitionHandler( object ):
-
-    def __init__( self, transition_id, wf_name=None):
-        self.transition_id = transition_id
-        self.wf_name = wf_name
-
-
-    def __call__( self, form, action, data ):
-        context = getattr( form.context, '_object', form.context )
-        notes = None
-        if self.wf_name:
-            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
-        else:
-            info = interfaces.IWorkflowInfo( context ) 
-        if data.has_key('note'):
-            notes = data['note']             
-        info.fireTransition( self.transition_id, notes )        
-        form.setupActions()
-
 def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
     """ bind workflow transitions into formlib actions """
 
@@ -184,22 +150,27 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
             self.form_fields, self.prefix, self.context, self.request,
             ignore_request = ignore_request )            
 
-class Workflow( BaseForm ):
-    
+class WorkflowView(BaseForm):
     template = ViewPageTemplateFile('templates/workflow.pt')
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
     
     def update( self ):
         self.setupActions()   
-        super( Workflow, self).update()
+        super(WorkflowView, self).update()
         self.setupActions()  # after we transition we have different actions      
-        wf_state = interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
-        self.wf_status = wf_state
+        self.wf_state = interfaces.IWorkflowState(
+            removeSecurityProxy(self.context) ).getState()
+
+        self.history_viewlet = WorkflowHistoryViewlet(
+            self.context, self.request, self, None)
+        self.action_viewlet = WorkflowActionViewlet(
+            self.context, self.request, self, None)
+
+        self.history_viewlet.update()
+        self.action_viewlet.update()
         
     def setupActions( self ):
         self.wf = interfaces.IWorkflowInfo( self.context )
         transitions = self.wf.getManualTransitionIds()
         self.actions = bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) )
-
-        

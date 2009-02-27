@@ -3,9 +3,12 @@
       metal:use-macro="context/@@standard_macros/page">
 
   <div metal:fill-slot="body" i18n:domain="bungeni">
-                 
-     <div tal:content="structure provider:workflow.manager"> Workflow History </div>
-     
+
+    <h1>Workflow</h1>
+    
+    <div tal:replace="structure view/history_viewlet/render" />
+    <div tal:replace="structure view/action_viewlet/render" />
+    
   </div>
   
 </html>  

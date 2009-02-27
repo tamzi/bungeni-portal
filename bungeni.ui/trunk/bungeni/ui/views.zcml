@@ -26,7 +26,15 @@
      name="workflow"
      class=".workflow.WorkflowView"
      permission="zope.Public"/>
+
+  <!-- versions -->
   
+  <browser:page 
+     for="bungeni.core.interfaces.IVersionable"
+     name="versions"
+     class=".versions.VersionLogView"
+     permission="zope.Public"/>
+
   <!-- json view of containers-->
   
   <browser:page

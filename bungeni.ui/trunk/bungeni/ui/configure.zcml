@@ -54,77 +54,13 @@
   <!-- Include Repository UI -->
   <include package="ore.library"/>
   
-  <!-- Application UI -->
-  
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.View"
-     name="index"
-     template="templates/app-index.pt"
-     />
-
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.View"
-     name="index"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".workspace.WorkspaceView"
-     template="templates/app-workspace.pt"
-     />
-
   <browser:defaultView
      for="bungeni.models.interfaces.IBungeniApplication"
      name="index"
      />
 
-  <!-- Content Search Form -->
-  <browser:page
-    for="bungeni.models.interfaces.IBungeniApplication"
-    permission="zope.View"
-    name="search"
-    class=".search.Search"
-    />
-
-  <!-- Similar Content -->
-  <browser:page
-    for="bungeni.models.interfaces.IBungeniContent"
-    permission="zope.View"
-    name="similar"
-    class=".search.Similar"
-    />
-    
-  <!-- Setup Access to Browser Resources on the Application -->
-  <browser:page
-    name=""
-    for="bungeni.models.interfaces.IBungeniApplication"
-    class="zope.app.publisher.browser.resources.Resources"
-    permission="zope.Public"
-    allowed_interface="zope.publisher.interfaces.browser.IBrowserPublisher"
-    />
-
-  <!-- Login UI -->
-    <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.Public"
-     name="signup"
-     class=".login.SignUp"
-     />
-     
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.Public"
-     name="login"
-     class=".login.Login"
-     />
-     
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.Public"
-     name="logout"
-     class=".login.Logout"
-     />     
-
-   <!-- Marginalia Settings for bungeni types -->
+  <!-- Marginalia Settings for bungeni types -->
+  
    <class class="bungeni.models.domain.Bill">
     <implements
         interface="marginalia.interfaces.IMarginaliaAnnotatable"

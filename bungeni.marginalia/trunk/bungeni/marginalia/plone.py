@@ -28,7 +28,8 @@ from zope import interface
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes import atapi
-from Products.CMFCore.utils import UniqueObject
+from Products.CMFCore.utils import UniqueObject, getToolByName
+
 
 from OFS.SimpleItem import SimpleItem
 
@@ -84,6 +85,7 @@ class MarginaliaTool(UniqueObject, atapi.BaseBTreeFolder):
 
     _at_rename_after_creation = True
 
+
     schema = Annotations_schema
 
     def at_post_edit_script(self):
@@ -97,11 +99,14 @@ class MarginaliaTool(UniqueObject, atapi.BaseBTreeFolder):
         path = self.getPhysicalPath()
         annotation = Annotation(id_, path, **kw)
     
-        self._setObject(id_, annotation)
-
+        self._set
+        Object(id_, annotation)
+        
         # todo: we'll need to add this to the catalog
         # catalog.catalog_object(annotation)
-
+        
+        catalog = getToolByName(context, 'marginalia_catalog')
+        catalog.catalog_object(id_)
 
 atapi.registerType(MarginaliaTool, config.PROJECTNAME)
 

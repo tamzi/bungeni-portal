@@ -24,20 +24,54 @@
 from zope import interface
 
 class IAnnotation(interface.Interface):
-    start_xrange = interface.Attribute(
+    url = interface.Attribute(
         """Hello, world!""")
-    
-    block_range = interface.Attribute(
+
+    start_block = interface. Attribute(
         """Hello, world!""")
-    
-    xpath_range = interface.Attribute(
+
+    start_xpath = interface.Attribute(
         """Hello, world!""")
-    
+
+    start_word = interface.Attribute(
+        """Hello, world!""")
+
+    start_char = interface.Attribute(
+        """Hello, world!""")
+
+    end_block = interface.Attribute(
+        """Hello, world!""")
+
+    end_xpath = interface.Attribute(
+        """Hello, world!""")
+
+    end_word = interface.Attribute(
+        """Hello, world!""")
+
+    end_char = interface.Attribute(
+        """Hello, world!""")
+
     note = interface.Attribute(
         """Hello, world!""")
-    
-    access = interface.Attribute(
-        """Hello, world!""") 
+
+    edit_type = interface.Attribute(
+        """Hello, world!""")
+
+    quote = interface.Attribute(
+        """Hello, world!""")
+
+    quote_title = interface.Attribute(
+        """Hello, world!""")
+
+    quote_author = interface.Attribute(
+        """Hello, world!""")
+
+    quote_authorid = interface.Attribute(
+        """Hello, world!""")
+
+    link_title = interface.Attribute(
+        """Hello, world!""")
+
 
 class IMarginaliaTool(interface.Interface):
     def create_annotation(self, **kw):

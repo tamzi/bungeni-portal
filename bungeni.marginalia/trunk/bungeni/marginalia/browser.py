@@ -2,11 +2,12 @@ from zope import component
 
 from Products.Five.browser import BrowserView
 
-from bungeni.marginalia.tools import SequenceRange, SequencePoint
+from bungeni.marginalia.tools import SequenceRange
 from bungeni.marginalia.tools import XPathRange
-from bungeni.marginalia.tools import RangeInfo, mergeRangeInfos
+
 
 import interfaces
+import datetime
 
 class RESTView(BrowserView):
     def __call__(self, **kw):
@@ -23,10 +24,12 @@ class RESTView(BrowserView):
     def tool(self):
         return component.getUtility(interfaces.IMarginaliaTool)
     
-    def _createAnnotation(self, url=None, block_range=None, xpath_range=None,
-                          note=None, access=None, status=None, action=None,
-                          quote=None, quote_title=None, quote_author=None,
-                          quote_authorid=None, link=None, sequence_range=None):
+    def _createAnnotation(self, url=None, start_block=None, start_xpath=None,
+                          start_word=None, start_char=None, end_block=None,
+                          end_xpath=None, end_word=None, end_char=None,
+                          note=None, edit_type=None, quote=None,
+                          quote_title=None, quote_author=None,
+                          quote_authorid=None, link_title=None):
         """Create an annotation from the POST request."""
     
         # TODO: do something useful with 'access'. Plone already
@@ -35,19 +38,18 @@ class RESTView(BrowserView):
         # with the 'Anonymous' role, though a more restrictive
         # implementation such as 'Member' or 'MemberOfParliament'
         # probably makes more sense.
-        
-        sequenceRange = SequenceRange(sequence_range)
-        xpathRange = XPathRange(xpath_range)
 
+        import pdb; pdb.set_trace()
+        
         params = {}
-        params['start_block'] = sequenceRange.start.getPaddedPathStr()
-        params['start_xpath'] = xpathRange.start.getPathStr()
-        params['start_word'] = xpathRange.start.words
-        params['start_char'] = xpathRange.start.chars
-        params['end_block'] = sequenceRange.end.getPaddedPathStr()
-        params['end_xpath'] = xpathRange.end.getPathStr()
-        params['end_word'] = xpathRange.end.words
-        params['end_char'] = xpathRange.end.chars
+        params['start_block'] = SequenceRange.start.getPaddedPathStr()
+        params['start_xpath'] = XPathRange.start.getPathStr()
+        params['start_word'] = XPathRange.start.words
+        params['start_char'] = XPathRange.start.chars
+        params['end_block'] = SequenceRange.end.getPaddedPathStr()
+        params['end_xpath'] = XPathRange.end.getPathStr()
+        params['end_word'] = XPathRange.end.words
+        params['end_char'] = XPathRange.end.chars
         params['modified'] = datetime.now()
         params['quote_author'] = self._get_authenticated_user()
         params['quote_authorid'] = self._get_authenticated_userid()

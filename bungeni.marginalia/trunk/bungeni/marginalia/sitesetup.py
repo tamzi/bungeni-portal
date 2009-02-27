@@ -1,7 +1,6 @@
 #
 # File: catalog.py
 #
-# Copyright (c) 2009 by Millie Ngoka
 #
 # GNU General Public License (GPL)
 #
@@ -32,29 +31,24 @@ from Products.ZCatalog.ZCatalog import ZCatalog
 from Products.ZCTextIndex.Lexicon import CaseNormalizer
 from Products.ZCTextIndex.Lexicon import Splitter
 from Products.ZCTextIndex.Lexicon import StopWordRemover
-from Products.ZCTextIndex.ZCTextIndex import PLexiconl
+from Products.ZCTextIndex.ZCTextIndex import PLexicon
 
 from Products.CMFCore.utils import SimpleRecord
 from Products.CMFCore import utils as cmfutils
 
 import interfaces
 
-EXTENSION_PROFILES = ('bungeni.marginalia',)
+def setup_catalog(context):
+    portal = context.getSite()
 
-def setup_portal(portal):
-    out = StringIO()
-    setup_annotations_catalog(portal, out)
-    return out.getvalue()
-
-def setup_annotations_catalog(portal, out):
     catalog_name = 'marginalia_catalog'
     try:
         catalog = cmfutils.getToolByName(portal, catalog_name)
     except AttributeError:
         # register catalog
-        catalog = ZCatalog(catalog_name, u'Marginalia annotation catalog', None, portal)
+        catalog = ZCatalog(catalog_name, u'Marginalia catalog', None, portal)
         portal._setObject(catalog_name, catalog)
-
+            
     # add indexes and columns
     plaintext_extra = SimpleRecord(lexicon_id='plaintext_lexicon',
                                    index_type='Okapi BM25 Rank')
@@ -70,19 +64,9 @@ def setup_annotations_catalog(portal, out):
         catalog._setObject(_id, lexicon)
 
         for indexName, indexType, extra in (
-            ('title', 'FieldIndex', None),
-
+            ('edit_type', 'FieldIndex', None),
+            ('note', 'ZCTextIndex', plaintext_extra),
+            ('link_title', 'FieldIndex', None)):      
+            
             if indexName not in indexes:
                 catalog.addIndex(indexName, indexType, extra=extra)
-
-    def setup_gs_profile(portal, out):
-        setup_tool = cmfutils.getToolByName(portal, 'portal_setup')
-        for extension_id in EXTENSION_PROFILES:
-            try:
-                setup_tool.setImportContext('profile-%s' % extension_id)
-                setup_tool.runAllImportSteps()
-            except Exception, e:
-                print >> out, "error while trying to GS import %s (%s, %s)" \
-                      % (extension_id, repr(e), str(e))
-        setup_tool.setImportContext('profile-marginalia.bungeni')
-                    

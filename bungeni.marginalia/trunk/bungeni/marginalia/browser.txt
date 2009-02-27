@@ -1,0 +1,38 @@
+Functional tests
+================
+
+We'll extend Five's test-browser with the ability to do the full REST
+protocol.
+
+  >>> import mechanize
+  >>> class Request(mechanize.Request):
+  ...     def __init__(self, *args, **kwargs):
+  ...         self._request_method = kwargs.pop('request_method', 'GET')
+  ...         mechanize.Request.__init__(self, *args, **kwargs)
+  ...
+  ...     def get_method(self):
+  ...         return self._request_method
+
+  >>> from Products.Five.testbrowser import Browser
+  >>> browser = Browser()
+
+  >>> from Testing.ZopeTestCase import user_password
+
+Authenticate.
+  
+  >>> browser.addHeader('Authorization',
+  ...                   'Basic %s:%s' % ('portal_owner', user_password))
+
+  >>> request = Request(
+  ...    "%s/front-page/@@marginalia" % portal.absolute_url(),
+  ...    request_method='PUT')
+  
+  >>> browser.mech_browser.open(request)
+    
+  >>> browser.contents
+  
+
+  
+  
+
+

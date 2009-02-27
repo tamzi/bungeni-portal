@@ -17,6 +17,7 @@ from Products.GenericSetup import EXTENSION, profile_registry
 
 def initialize(context):
     import plone
+    import sitesetup
 
     # initialize portal tools
     tools = [plone.AnnotationTool]

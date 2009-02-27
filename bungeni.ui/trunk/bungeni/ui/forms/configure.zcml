@@ -39,41 +39,8 @@
      allowed_interface="zope.formlib.interfaces.ISubPageForm"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
-  
-  <!-- viewlet manager to display question in responses -->
-
-  <browser:viewletManager
-     name="bungeni.response.question.manager"
-     provides=".interfaces.IResponeQuestionViewletManager"
-     class=".viewlets.ResponseQuestionViewletManager"
-     permission="zope.View"
-     />
-
-  <browser:viewlet
-     name="bungeni.response.question.viewlet"   
-     manager=".interfaces.IResponeQuestionViewletManager"
-     class=".viewlets.ResponseQuestionViewlet"
-     permission="zope.Public"
-     weight="5"
-     />     
 
 
-  <!--
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"
-      layer="bungeni.ui.interfaces.IBungeniSkin"            
-    -->  
-
-  <!-- NavigateAwayWarningViewlet -->
-
-  <browser:viewlet
-     name="bungeni.navigate.away.warning"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".viewlets.NavigateAwayWarningViewlet"
-     for="ore.alchemist.interfaces.IAlchemistContent"
-     permission="zope.View"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />
-  
   <browser:viewlet
      name="bungeni.viewlet.member-addresses"
      manager="alchemist.ui.interfaces.IContentViewManager"
@@ -84,6 +51,7 @@
      /> 
   
   <!-- GroupSittingAttendance Add Form -->
+  
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IGroupSittingAttendanceContainer"
@@ -111,15 +79,6 @@
      />      
   
   <browser:viewlet
-     name="bungeni.viewlet.sittingscalendar"
-     manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.SittingsCalendarViewlet"
-     for="bungeni.models.interfaces.IGroupSitting"
-     permission="zope.View"
-     weight="10"
-     />      
-  
-  <browser:viewlet
      name="bungeni.viewlet.sittingattendance"
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.SittingAttendanceViewlet"
@@ -137,15 +96,6 @@
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
      />     
-  
-  <browser:viewlet
-     name="bungeni.viewlet.sittings"
-     manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.SittingsViewlet"
-     for="bungeni.models.interfaces.IParliamentSession"
-     permission="zope.View"
-     weight="10"
-     />
   
   <!-- Session Add Form -->
   <browser:view
@@ -236,15 +186,6 @@
      permission="zope.View"
      weight="20"
      />      
-  
-  <browser:viewlet
-     name="bungeni.viewlet.comittee-sittings"
-     manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.SittingsViewlet"
-     for="bungeni.models.interfaces.ICommittee"
-     permission="zope.View"
-     weight="30"
-     />
   
   <!-- Committee Member Edit Form --> 
   <browser:viewlet

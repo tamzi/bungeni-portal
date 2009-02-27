@@ -38,10 +38,14 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
             if path.startswith(item['action']):
                 self.selected_portal_tab = item['id']
         
-class BreadCrumbsViewlet( viewlet.ViewletBase ):
+class BreadCrumbsViewlet(viewlet.ViewletBase):
+    """Breadcrumbs.
+    
+    Render the breadcrumbs to show a user his current location.
     """
-    render the Breadcrumbs to show a user his current context
-    """
+
+    render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )        
+
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -79,25 +83,18 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
         return path
         
     def update( self ):
-        """
-        prepare the data needed to render the viewlet.        
-        """
         self.path = self._get_path(self.context)    
         try:
             self.user_name = self.request.principal.login          
         except:
             pass
-                        
         
-    render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )        
-    
 class NavigationTreeViewlet( viewlet.ViewletBase ):
-    """
-    render a navigation tree
-    
-    """ 
+    """Render a navigation tree."""
+
+    render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
     template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt')
-        
+
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -107,8 +104,6 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         self.name  =''
         self.tree = []
         
-
-   
     def _get_object_path(self, context, url=''):
         """
         traverse up the tree 
@@ -124,8 +119,6 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         return path
    
    
-        
-        
     def _append_child( self, path):
         """
         build the navigation tree
@@ -260,16 +253,5 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         items = self._append_child( path)
         return self._tree2html(items)
                
-    def update( self ):
-        """
-        prepare the data needed to render the viewlet.        
-        """       
+    def update(self):
         self.tree = self._get_tree(self.context)  
-    
-    
-    render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
-
-        
-        
-
-        

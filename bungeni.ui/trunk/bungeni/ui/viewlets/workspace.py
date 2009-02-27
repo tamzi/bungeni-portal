@@ -4,7 +4,6 @@ import datetime
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 from zope.viewlet import viewlet
-from zope.viewlet.manager import WeightOrderedViewletManager
 
 from ore.alchemist import Session
 
@@ -16,11 +15,6 @@ import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
 
 #from bungeni.ui.i18n import MessageFactory as _
-
-
-class Manager(WeightOrderedViewletManager):
-    """Workspace viewlet manager."""
-
 
 class QuestionInStateViewlet( viewlet.ViewletBase ):
     name = state = None

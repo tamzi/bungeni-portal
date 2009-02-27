@@ -2,9 +2,6 @@
 
 #import pdb
 
-import datetime
-import base64
-
 from zope import component
 from zope.formlib import form, namedtemplate
 from zope import schema, interface
@@ -12,21 +9,18 @@ from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
 from zope.security.proxy import removeSecurityProxy
-from zope.security.permission import checkPermission
+
 import zope.security.management
 from zope.publisher.browser import BrowserView
 
 from ore.alchemist.vocabulary import DatabaseSource
-from ore.alchemist.model import queryModelDescriptor
+
 from ore.alchemist import Session
-from ore.alchemist.container import stringKey
+
 from ore.workflow import interfaces
 
 from ore.yuiwidget import calendar
 
-from alchemist.ui.content import ContentAddForm, ContentDisplayForm
-from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
-from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
 
 import bungeni.models.vocabulary as vocabulary
 import bungeni.models.domain as domain
@@ -55,7 +49,7 @@ from bungeni.models.interfaces import \
      IResponse
 
 from bungeni.core.i18n import _
-import bungeni.core.workflows.utils
+
 import bungeni.core.globalsettings as prefs
 import bungeni.models.schema as db_schema
 

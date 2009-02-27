@@ -4,7 +4,7 @@ import datetime
 from zope.security import proxy
 from zc.table import  table, column
 from zope.formlib import form
-from zope import schema
+
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
 
@@ -15,7 +15,7 @@ from zope.securitypolicy.interfaces import IPrincipalRoleMap
 
 from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
-import alchemist.ui.core
+
 from ore.alchemist.container import stringKey, contained
 #from ore import yuiwidget
 from zope.traversing.browser import absoluteURL
@@ -155,21 +155,6 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         grants = self.nearest_prm(self.context)
         roles = grants.getRolesForPrincipal(pn)
         return roles
-
-class AtomContainerListing( ContainerListing ):
-    uid = ""
-    updated = ""
-    render =  ViewPageTemplateFile('templates/generic-atom-container.pt')
-    
-    def update( self ):
-        super( ContainerListing, self).update()
-        context = proxy.removeSecurityProxy( self.context )
-        columns = alchemist.ui.core.setUpColumns( context.domain_model )        
-        self.columns = columns
-        self.uid = "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + ( absoluteURL( self.context, self.request ) ) )        
-        self.updated = datetime.datetime.now().isoformat()
-
-
 
 class ContainerJSONTableHeaders( BrowserView ):
 

@@ -1,7 +1,9 @@
 # encoding: utf-8
 
 from ore.yuiwidget.table import BaseDataTableFormatter
-import container
+
+from bungeni.ui import container
+
 from zope.traversing.browser import absoluteURL
 from zope.security import proxy
 from zc.resourcelibrary import need

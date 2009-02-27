@@ -5,9 +5,6 @@
    xmlns:xapian="http://namespaces.objectrealms.net/xapian"
    i18n_domain="bungeni">
 
-  <!-- Catalyze Domain Models -->
-  <include file="catalyst.zcml"/>
-  
   <!-- Include Domain Models Custom Security/Interfaces -->
   <include file="domain.zcml"/>
 

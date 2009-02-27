@@ -12,22 +12,6 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />   
 
-  <!-- json view of containers-->
-  
-  <browser:page
-     for="ore.alchemist.interfaces.IAlchemistContainer"
-     permission="zope.View"
-     name="jsonlisting"
-     class=".container.ContainerJSONListing"
-     />
-  
-  <browser:page
-     for="ore.alchemist.interfaces.IAlchemistContainer"
-     permission="zope.View"
-     name="jsontableheaders"
-     class=".container.ContainerJSONTableHeaders"
-     />     
-
   <!-- content display viewlets -->
   
   <browser:viewlet
@@ -611,13 +595,6 @@
      permission="zope.View"
      /> 
   
-  <!--browser:view
-      name="add"
-      for="bungeni.models.interfaces.I....Container"
-      class=".forms.PartyMemberAdd"              
-      permission="zope.View"
-      /-->   
-  
   <browser:viewlet
      name="bungeni.viewlet.party-member-titles"
      manager="alchemist.ui.interfaces.IContentViewManager"
@@ -636,25 +613,5 @@
      class=".versions.BaseView"
      permission="zope.View"
      />
-
-  <!-- Container UI -->
-  <browser:page
-     for="ore.alchemist.interfaces.IAlchemistContainer"
-     permission="zope.View"
-     name="index"
-     menu="context_actions"
-     title="Listing"
-     template="templates/generic-container.pt"
-     class=".container.ContainerListing"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     />
-  
-  <browser:view
-     for="ore.alchemist.interfaces.IAlchemistContent"
-     permission="zope.View"
-     name="file-image"
-     class=".fileimage.RawView"
-     />    
-  
 
 </configure>

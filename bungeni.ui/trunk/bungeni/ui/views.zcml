@@ -12,4 +12,40 @@
      class=".redirect.RedirectToCurrent"
      />
 
+  <browser:view
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     permission="zope.View"
+     name="file-image"
+     class=".file.RawView"
+     />    
+
+  <!-- json view of containers-->
+  
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.View"
+     name="jsonlisting"
+     class=".container.ContainerJSONListing"
+     />
+  
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.View"
+     name="jsontableheaders"
+     class=".container.ContainerJSONTableHeaders"
+     />     
+
+  <!-- container UI -->
+  
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.View"
+     name="index"
+     menu="context_actions"
+     title="Listing"
+     template="templates/generic-container.pt"
+     class=".container.ContainerListing"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />  
+
 </configure>

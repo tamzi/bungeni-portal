@@ -1,36 +1,24 @@
 # encoding: utf-8
-from zope import interface
-from zope.viewlet import viewlet, manager
+from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
-
-from zc.resourcelibrary import need
-
-from ore.alchemist import Session
-import bungeni.models.domain as domain
-
-from alchemist import ui
 from zope.formlib.namedtemplate import NamedTemplate
-from bungeni.ui.i18n import _
-
-from interfaces import \
-     ISubFormViewletManager, \
-     IResponeQuestionViewletManager
-
-
 from zope.traversing.browser import absoluteURL 
 from zope.formlib import form
 
+from alchemist import ui
 
+from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 
+import bungeni.models.domain as domain
+
+from bungeni.ui.i18n import _
 from bungeni.core.workflows.question import states as qw_state
+from bungeni.ui.table import AjaxContainerListing
 
 from fields import BungeniAttributeDisplay
-from table import AjaxContainerListing
 
-
-
-class ResponseQuestionViewlet( viewlet.ViewletBase ):    
+class ResponseQuestionViewlet(viewlet.ViewletBase):    
     """
     Display the question when adding/editing a response
     """

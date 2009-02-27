@@ -3,6 +3,9 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- Catalyze Domain Models -->
+  <include file="catalyst.zcml"/>
+  
   <!-- Alchemist UI overrides -->
   <include package="alchemist.ui" />
   <includeOverrides package=".forms" file="overrides.zcml" />

@@ -11,19 +11,10 @@ class IBungeniAuthenticatedSkin(IBungeniSkin):
     """Skin for authenticated users."""
 
 class IWorkflowViewletManager( IViewletManager ):
-    """
-    Viewlet manager to display worflow history
-    """
-class IVersionViewletManager( IViewletManager ):
-    """
-    Viewletmanager to display the versions
-    """
+    """Viewlet manager to display worflow history."""
 
-# class IParliamentMemberTaskMenu( interface.Interface ):
-#     """ viewlet manager for member of parliament """
-# 
-# class IMinisterMemberTaskMenu( interface.Interface ):
-#     """ viewlet manager for ministry """
+class IVersionViewletManager( IViewletManager ):
+    """Viewletmanager to display the versions."""
 
 class ISpeakerWorkspace(IBrowserView):
     """Speaker's workspace."""

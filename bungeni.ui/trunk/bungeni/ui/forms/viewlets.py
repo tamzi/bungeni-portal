@@ -24,46 +24,11 @@ from zope.formlib import form
 from ore.alchemist.model import queryModelDescriptor
 
 from bungeni.core.workflows.question import states as qw_state
-from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
 from fields import BungeniAttributeDisplay
 from table import AjaxContainerListing
 
 
-class SubFormViewletManager( manager.WeightOrderedViewletManager ):
-    """
-    display subforms
-    """
-    interface.implements(ISubFormViewletManager)   
-      
-    def filter(self, viewlets):
-         viewlets = super(SubFormViewletManager, self).filter(viewlets)
-         return [(name, viewlet)
-                 for name, viewlet in viewlets
-                 if viewlet.for_display == True]    
-    
-class NavigateAwayWarningViewlet( viewlet.ViewletBase ):
-
-    def render(self):
-        need('yui-core')
-        #warningMessage = _(u"""'You have unsaved data on this page, leave this page? Clicking “yes” to continue will loose your changes forever.'""")
-        msg = u"""<script>
-        YAHOO.util.Event.addListener(window, 'beforeunload', function(e) {
-        //confirm('navigate away: ' + e.target.tagName)
-        if (!e.target || (e.target.tagName.upperCase() != 'FORM')) {		        
-		        YAHOO.util.Event.stopEvent(e);
-	      }
-        });    
-        </script>""" # % warningMessage
-
-        return msg
-        
-class ResponseQuestionViewletManager( manager.WeightOrderedViewletManager ):
-    """
-    display subforms
-    """
-    interface.implements(IResponeQuestionViewletManager)         
-    
 
 class ResponseQuestionViewlet( viewlet.ViewletBase ):    
     """
@@ -154,40 +119,6 @@ class MemberOfParliamentViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
 
-
-class SittingsCalendarViewlet( SittingCalendarViewlet ):
-    """
-    sittingcalendar displayed for a sitting
-    """
-    for_display = True    
-    
-    def __init__( self,  context, request, view, manager ):        
-
-        self.context = context.__parent__                  
-        self.request = request
-        self.__parent__= context
-        self.manager = manager
-        self.query = None
-        super( SittingsCalendarViewlet, self).__init__(self.context, request, view, manager)
-
-class SittingsViewlet( SittingCalendarViewlet ):
-    """
-    sittingcalendar for a session or group
-    """
-    for_display = True
-        
-    def __init__( self,  context, request, view, manager ):        
-
-        self.context = context.sittings                  
-        self.request = request
-        self.__parent__= context
-        self.manager = manager
-        self.query = None
-#        self.Date=datetime.date.today()
-#        self.Data = []
-#        session = Session()
-#        self.type_query = session.query(domain.SittingType)
-        super( SittingsViewlet, self).__init__(self.context, request, view, manager)
 
 
 class SittingAttendanceViewlet( SubformViewlet ):

@@ -3,39 +3,13 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- redirects -->
+  
   <browser:page
      name="current"
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      class=".redirect.RedirectToCurrent"
-     />
-
-  <browser:page
-     for="ore.alchemist.interfaces.IAlchemistContent"
-     permission="zope.View"
-     name="atom.xml"
-     class=".feeds.AtomFeedView"
-     />
-
-  <browser:page
-     for="bungeni.models.interfaces.IMemberOfParliament"
-     permission="zope.View"
-     name="atom.xml"
-     class=".feeds.AtomPersonFeedView"
-     />
-
-  <browser:page
-     for="bungeni.models.interfaces.IPoliticalParty"
-     permission="zope.View"
-     name="atom.xml"
-     class=".feeds.AtomPartyFeedView"
-     />
-
-  <browser:page
-     for="bungeni.models.interfaces.ICommittee"
-     permission="zope.View"
-     name="atom.xml"
-     class=".feeds.AtomCommitteeFeedView"
      />
 
 </configure>

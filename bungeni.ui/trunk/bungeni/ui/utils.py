@@ -2,6 +2,16 @@
 
 import datetime
 
+def makeList( itemIds ):
+
+    if type(itemIds) == ListType:
+        return itemIds            
+    elif type(itemIds) in StringTypes:
+        # only one item in this list
+        return [itemIds,]
+    else:
+         raise TypeError ("Form values must be of type string or list")
+
 def getDisplayDate(request):   
     """
     get the date for which to display the data.

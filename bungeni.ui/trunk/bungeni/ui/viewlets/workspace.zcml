@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="bungeni">
+
+  <browser:viewletManager
+     name="bungeni.workspace"
+     provides=".interfaces.IWorkspaceManager"
+     permission="zope.View"
+     class="zope.viewlet.manager.WeightOrderedViewletManager"
+     />    
+
+  <!-- MPs Workspace -->
+  
+  <browser:viewlet
+     name="bungeni.workspace.questions-mp-clarify"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ClarifyMPQuestionViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="10"
+     />  
+
+  <browser:viewlet
+     name="bungeni.workspace.my-questions"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.MyQuestionsViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="20"
+     />   
+
+  <browser:viewlet
+     name="bungeni.workspace.my-motions"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.MyMotionsViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="70"
+     />   
+
+
+  <!-- clerks workspace -->
+
+  <browser:viewlet
+     name="bungeni.workspace.questions-submitted.clerk"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.SubmittedQuestionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="10"
+     />
+  
+  <browser:viewlet
+     name="bungeni.workspace.questions-recieved"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ReceivedQuestionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="20"
+     />      
+
+  <browser:viewlet
+     name="bungeni.workspace.questions-clerk-clarify"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ClarifyClerkQuestionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="5"
+     />  
+  
+  <browser:viewlet
+     name="bungeni.workspace.questions-clerk-deferred"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.DeferredQuestionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="40"
+     />       
+  
+  <browser:viewlet
+     name="bungeni.workspace.questions-clerk-responded"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.RespondedQuestionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="50"
+     />         
+  
+  <browser:viewlet
+     name="bungeni.workspace.questions-postponed"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.PostponedQuestionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="35"
+     />    
+
+
+  <browser:viewlet
+     name="bungeni.workspace.motions-submitted"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.SubmittedMotionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="60"
+     />    
+
+  <browser:viewlet
+     name="bungeni.workspace.motions-recieved"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ReceivedMotionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="70"
+     />  
+
+  <browser:viewlet
+     name="bungeni.workspace.motions-clarify-clerk"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ClarifyClerkMotionViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="80"
+     />  
+
+  <!-- speakers workspace -->
+
+  <browser:viewlet
+     name="bungeni.workspace.questions-complete"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.CompleteQuestionViewlet"
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"
+     permission="zope.View"
+     weight="10"
+     />    
+  
+</configure>

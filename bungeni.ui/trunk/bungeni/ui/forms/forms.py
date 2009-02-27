@@ -32,6 +32,7 @@ import bungeni.models.vocabulary as vocabulary
 import bungeni.models.domain as domain
 
 from bungeni.ui.forms.workflow import bindTransitions
+from bungeni.ui.forms.workflow import createVersion
 
 from bungeni.models.interfaces import \
      IGroupSitting, \
@@ -61,8 +62,8 @@ import bungeni.models.schema as db_schema
 
 from bungeni.models.interfaces import IFileAttachments 
 
-from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
-from bungeni.ui import widget
+from bungeni.ui.widgets import  SelectDateTimeWidget, SelectDateWidget
+from bungeni.ui import widgets
 
 import validations
 
@@ -206,7 +207,7 @@ class ParliamentAdd( CustomAddForm ):
     form_fields["start_date"].custom_widget = calendar.CalendarWidget
     #form_fields["end_date"].custom_widget = SelectDateWidget  
     form_fields["election_date"].custom_widget = calendar.CalendarWidget
-    form_fields["description"].custom_widget=widget.RichTextEditor
+    form_fields["description"].custom_widget=widgets.RichTextEditor
     Adapts = IParliament
     CustomValidation = validations.CheckParliamentDatesAdd  
     
@@ -217,7 +218,7 @@ class PoliticalPartyAdd( CustomAddForm ):
     form_fields = form.Fields( IPoliticalParty )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget  
-    form_fields["description"].custom_widget=widget.RichTextEditor
+    form_fields["description"].custom_widget=widgets.RichTextEditor
     Adapts = IPoliticalParty
     CustomValidation = validations.checkPartyDates
 
@@ -239,7 +240,7 @@ class MemberOfPartyAdd( CustomAddForm ):
     form_fields = form.Fields( IMemberOfParty )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widget.RichTextEditor
+    form_fields["notes"].custom_widget=widgets.RichTextEditor
     Adapts = IMemberOfParty    
     CustomValidation = validations.checkPartyMembershipDates
 
@@ -319,7 +320,7 @@ class MinistersAdd( CustomAddForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widget.RichTextEditor
+    form_fields["notes"].custom_widget=widgets.RichTextEditor
     Adapts = IMinisterAdd
     CustomValidation =   validations.CheckMinisterDatesInsideMinistryDatesAdd    
                        
@@ -393,7 +394,7 @@ class ExtensionMemberAdd( CustomAddForm ):
     form_fields = form.Fields( IExtensionMemberAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widget.RichTextEditor
+    form_fields["notes"].custom_widget=widgets.RichTextEditor
     Adapts = IExtensionMemberAdd
     CustomValidation =  validations.CheckExtensionMemberDatesInsideParentDatesAdd    
                       
@@ -460,7 +461,7 @@ class CommitteeMemberAdd( CustomAddForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widget.RichTextEditor
+    form_fields["notes"].custom_widget=widgets.RichTextEditor
     Adapts = ICommitteeMemberAdd
     CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd     
                       
@@ -502,7 +503,7 @@ class CommitteeStaffAdd( CustomAddForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widget.RichTextEditor
+    form_fields["notes"].custom_widget=widgets.RichTextEditor
     Adapts = ICommitteeStaffAdd
     CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd   
 
@@ -564,7 +565,7 @@ class MemberOfParliamentAdd( CustomAddForm ):
     form_fields["start_date"].field.description = _(u"Begin of the parliamentary mandate")
     #form_fields["start_date"].field.title = _(u"Beginn of the parliamentary mandate")    
     form_fields["election_nomination_date"].custom_widget = SelectDateWidget   
-    form_fields["notes"].custom_widget=widget.RichTextEditor 
+    form_fields["notes"].custom_widget=widgets.RichTextEditor 
     Adapts = IMemberOfParliamentAdd
     CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
     
@@ -725,8 +726,8 @@ class QuestionAdd( CustomAddForm ):
 
     Adapts = IQuestionAdd
     CustomValidation =  validations.QuestionAdd 
-    form_fields["note"].custom_widget = widget.OneTimeEditor
-    form_fields["question_text"].custom_widget = widget.RichTextEditor 
+    form_fields["note"].custom_widget = widgets.OneTimeEditor
+    form_fields["question_text"].custom_widget = widgets.RichTextEditor 
     #getUserId( name )
     
     def update( self ):      
@@ -812,11 +813,10 @@ class ResponseAdd( CustomAddForm ):
     """
     form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
     Adapts = IResponse
-    form_fields["response_text"].custom_widget=widget.RichTextEditor 
+    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
     #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
     CustomValidation =  validations.ResponseAdd
-    template = ViewPageTemplateFile('templates/response-add.pt')     
-        
+
 ##############
 # Edit forms      
 ##############
@@ -826,11 +826,12 @@ class ResponseAdd( CustomAddForm ):
 
 
 def hasDeletePermission(context):
-    """"
-    generic check if the user has rights to delete the object
-    the permission must follow the convention:
-    bungeni.classname.delete where classname is the lowercase of the name of the python class
     """
+    generic check if the user has rights to delete the object the
+    permission must follow the convention: bungeni.classname.delete
+    where classname is the lowercase of the name of the python class
+    """
+    
     interaction = zope.security.management.getInteraction()
     class_name = context.__class__.__name__ 
     permission_name = 'bungeni.' + class_name.lower() +'.delete'
@@ -1006,7 +1007,7 @@ class ParliamentEdit( CustomEditForm ):
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget  
     form_fields["election_date"].custom_widget = SelectDateWidget  
-    form_fields["description"].custom_widget=widget.RichTextEditor   
+    form_fields["description"].custom_widget=widgets.RichTextEditor   
     Adapts = IParliament
     CustomValidations = validations.CheckParliamentDatesEdit
    
@@ -1021,7 +1022,7 @@ class GovernmentEdit( CustomEditForm ):
     form_fields = form.Fields( IGovernment )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["description"].custom_widget=widget.RichTextEditor      
+    form_fields["description"].custom_widget=widgets.RichTextEditor      
     Adapts = IGovernment
     CustomValidations = validations.CheckGovernmentsDateInsideParliamentsDatesEdit
     
@@ -1073,7 +1074,7 @@ class SessionsEdit ( CustomEditForm ):
     form_fields = form.Fields( IParliamentSession )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widget.RichTextEditor      
+    form_fields["notes"].custom_widget=widgets.RichTextEditor      
     Adapts = IParliamentSession
     CustomValidations = validations.CheckSessionDatesEdit    
 
@@ -1120,7 +1121,7 @@ class MemberOfParliamenEdit( CustomEditForm ):
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     form_fields["election_nomination_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widget.RichTextEditor          
+    form_fields["notes"].custom_widget=widgets.RichTextEditor          
     CustomValidations = validations.CheckMemberDatesEdit         
 
 class CommitteeEdit ( CustomEditForm ):
@@ -1129,7 +1130,7 @@ class CommitteeEdit ( CustomEditForm ):
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget     
     form_fields["reinstatement_date"].custom_widget = SelectDateWidget  
-    form_fields["description"].custom_widget=widget.RichTextEditor            
+    form_fields["description"].custom_widget=widgets.RichTextEditor            
     CustomValidations = validations.CheckCommitteeDatesEdit 
 
 class ICommitteeMemberEdit( ICommitteeMember ):
@@ -1152,7 +1153,7 @@ class CommitteeMemberEdit( CustomEditForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widget.RichTextEditor         
+    form_fields["notes"].custom_widget=widgets.RichTextEditor         
     CustomValidations = validations.CommitteeMemberDatesEdit
 
 class ICommitteeStaffEdit ( ICommitteeStaff ):
@@ -1178,7 +1179,7 @@ class CommitteeStaffEdit( CustomEditForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widget.RichTextEditor 
+    form_fields["notes"].custom_widget=widgets.RichTextEditor 
     Adapts = ICommitteeStaffEdit
     CustomValidation =  validations.CommitteeMemberDatesEdit   
 
@@ -1188,7 +1189,7 @@ class MinistryEdit( CustomEditForm ):
     form_fields = form.Fields( IMinistry )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["description"].custom_widget=widget.RichTextEditor         
+    form_fields["description"].custom_widget=widgets.RichTextEditor         
     CustomValidations = validations.MinistryDatesEdit
 
 class IMinisterEdit( IMinister ):
@@ -1210,7 +1211,7 @@ class MinisterEdit( CustomEditForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widget.RichTextEditor         
+    form_fields["notes"].custom_widget=widgets.RichTextEditor         
     CustomValidations = validations.MinisterDatesEdit
     
 class ExtensionGroupEdit( CustomEditForm ):
@@ -1218,7 +1219,7 @@ class ExtensionGroupEdit( CustomEditForm ):
     form_fields = form.Fields( IExtensionGroup )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["description"].custom_widget=widget.RichTextEditor         
+    form_fields["description"].custom_widget=widgets.RichTextEditor         
     CustomValidations = validations.ExtensionGroupDatesEdit    
         
 class IExtensionMemberEdit( IExtensionMember ):
@@ -1240,7 +1241,7 @@ class ExtensionMemberEdit( CustomEditForm ):
                     'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget         
-    form_fields["notes"].custom_widget=widget.RichTextEditor 
+    form_fields["notes"].custom_widget=widgets.RichTextEditor 
     CustomValidations = validations.ExtensionMemberDatesEdit    
  
 sql_EditMemberTitle = '''
@@ -1307,13 +1308,13 @@ class QuestionEdit( CustomEditForm ):
                                                     
                                                     
     Adapts = IQuestionEdit
-    form_fields["note"].custom_widget = widget.OneTimeEditor
-    form_fields["question_text"].custom_widget = widget.RichTextEditor 
+    form_fields["note"].custom_widget = widgets.OneTimeEditor
+    form_fields["question_text"].custom_widget = widgets.RichTextEditor 
     form_fields['submission_date'].for_display = True
     form_fields['approval_date'].for_display = True    
-    #form_fields['supplement_parent_id'].custom_widget = widget.SupplementaryQuestionDisplay
+    #form_fields['supplement_parent_id'].custom_widget = widgets.SupplementaryQuestionDisplay
 #    form_fields['notes_display'].for_display = True  
-#    form_fields['notes_display'].custom_widget = widget.HTMLDisplay  
+#    form_fields['notes_display'].custom_widget = widgets.HTMLDisplay  
     CustomValidations =  validations.QuestionEdit
     
 #    default_actions = form.Actions(
@@ -1412,11 +1413,10 @@ class ResponseEdit ( CustomEditForm ):
     """
     form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
     Adapts = IResponse
-    form_fields["response_text"].custom_widget=widget.RichTextEditor 
-    #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
+    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
+    #form_fields["response_type"].custom_widget=widgets.CustomRadioWidget
     CustomValidations =  validations.ResponseEdit
-    template = ViewPageTemplateFile('templates/response-edit.pt')        
-
+    
 
 class BungeniRSSEventView(BrowserView):   
     __call__ = ViewPageTemplateFile('templates/rss-event-view.pt') 

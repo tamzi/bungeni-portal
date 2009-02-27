@@ -1,6 +1,7 @@
 from zope import component
 from zope.formlib import form
 from bungeni.ui.i18n import _
+from bungeni.core.interfaces import IVersioned
 
 from ore.workflow import interfaces
 from alchemist.ui.core import handle_edit_action
@@ -34,15 +35,14 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
 def createVersion(context, comment = ''):
     """Create a new version of an object and return it."""
     instance = removeSecurityProxy(context)
-    #XXX
-    #versions = IVersioned(instance)
-    #if not comment:
-    #    comment =''
-    #versions.create(u'New version created upon edit.' + comment)
 
-#################################
-# workflow transition 2 formlib action bindings
+    versions = IVersioned(instance)
+    if not comment:
+       comment =''
+    versions.create(u'New version created upon edit.' + comment)
+
 class TransitionHandler( object ):
+    """Workflow transition 2 formlib action bindings."""
 
     def __init__( self, transition_id, wf_name=None):
         self.transition_id = transition_id

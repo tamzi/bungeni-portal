@@ -19,6 +19,14 @@
      class=".file.RawView"
      />    
 
+  <!-- workflow view -->
+  
+  <browser:page 
+     for="bungeni.models.interfaces.IBungeniContent"
+     name="workflow"
+     class=".workflow.WorkflowView"
+     permission="zope.Public"/>
+  
   <!-- json view of containers-->
   
   <browser:page

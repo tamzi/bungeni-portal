@@ -38,12 +38,6 @@
   <!-- Include Auditing UI-->
   <include file="audit.zcml" />
 
-  <!-- Include Versioning UI -->
-  <include file="version.zcml" />
-
-  <!-- Include Workflow UI -->
-  <include file="workflow.zcml" />
-
   <!-- Include Views -->
   <include file="views.zcml" />
 

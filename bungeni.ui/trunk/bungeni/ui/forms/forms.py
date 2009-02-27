@@ -2,6 +2,9 @@
 
 #import pdb
 
+import datetime
+import base64
+
 from zope import component
 from zope.formlib import form, namedtemplate
 from zope import schema, interface
@@ -9,18 +12,21 @@ from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
 from zope.security.proxy import removeSecurityProxy
-
+from zope.security.permission import checkPermission
 import zope.security.management
 from zope.publisher.browser import BrowserView
 
 from ore.alchemist.vocabulary import DatabaseSource
-
+from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist import Session
-
+from ore.alchemist.container import stringKey
 from ore.workflow import interfaces
 
 from ore.yuiwidget import calendar
 
+from alchemist.ui.content import ContentAddForm, ContentDisplayForm
+from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
+from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
 
 import bungeni.models.vocabulary as vocabulary
 import bungeni.models.domain as domain
@@ -51,11 +57,7 @@ from bungeni.models.interfaces import \
 from bungeni.core.i18n import _
 
 import bungeni.core.globalsettings as prefs
-import bungeni.models.schema as db_schema
-
-
 from bungeni.models.interfaces import IFileAttachments 
-
 from bungeni.ui.widgets import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widgets
 
@@ -64,72 +66,6 @@ import validations
 FormTemplate = namedtemplate.NamedTemplateImplementation(
     ViewPageTemplateFile('templates/form.pt')
     )
-
-
-
-def getUserId( name ):
-    session = Session()
-    userq = session.query(domain.User).filter(db_schema.users.c.login == name )
-    results = userq.all()
-    if results:
-        user_id = results[0].user_id
-    else:
-        user_id = None
-    return user_id                
-
-
-
-
-
-
-#############
-## VIEW
-
-
-#############
-# Generic Custom View form
-
-
-        
-
-#questions
-#class QuestionDisplay( BungeniAttributeDisplay ):
-    
-#    respond_action = form.Actions( form.Action( _(u"Respond"), success='handle_respond_action'), )
-    
-#    def handle_respond_action( self, action, data ):
-#        """ the respond action will create a response to the question"""
-#        url = absoluteURL( self.context, self.request )  + '/responses/add'
-#        return self.request.response.redirect( url )
-    
-#    def update( self ):
-#        """
-#        if the question is in the state 'Question pending response' 
-#        display a create answer button
-#        """
-#        if self.context.status == question_states.response_pending :
-#            self.actions = self.respond_action
-#        super(QuestionDisplay, self).update()
-
-#    def update( self ):
-#        self.setupActions()  
-#        super( QuestionDisplay, self).update()
-#        self.setupActions()  # after we transition we have different actions      
-#        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
-#        self.wf_status = wf_state            
-        
-
-       
-
-   
-#############
-## ADD 
-
-##################
-
-
-#####################
-# Generic Custom Add Form
 
 class CustomAddForm( ContentAddForm ):
     """

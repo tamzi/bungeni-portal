@@ -1,90 +1,47 @@
-
-  <dl class="portlet portletNavigationTree">
-   
-    <dt class="portletHeader">
-        <span class="portletTopLeft"></span>
-        
-       <div class="tile" href="http://localhost:8180/bungeni-public/sitemap">Bungeni Portal</div>
-        <span class="portletTopRight"></span>
-    </dt>
-    <dd class="portletItem lastItem">
-      <ul class="portletNavigationTree navTreeLevel0">
-        <!--li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a tiptitle=
-            "parliamentary activities at the plenary and committees level"
-            href=
-            "http://localhost:8180/bungeni-public/parliamentary-business"
-            class=
-            "state-published navTreeFolderish"><span>business</span></a>
-          </div>
-        </li-->
-        <!-- this constructs the local navigationtree -->
-        <li tal:replace="structure view/tree" tal:on-error="nothing"/>
-        <!--
-        this was the code copied over from plone navigation tree
-        li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a href=
-            "http://localhost:8180/bungeni-public/parliaments"
-            class="state-published navTreeFolderish" title=
-            ""><span>parliaments</span></a>
-          </div>
-        </li-->
-
-        <!--li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a tiptitle=
-            "member of parliaments and political parties represented in parliament"
-            href=
-            "http://localhost:8180/bungeni-public/mps-and-political-grops"
-            class=
-            "state-published navTreeFolderish"><span>members</span></a>
-          </div>
-        </li>
-
-        <li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a href=
-            "http://localhost:8180/bungeni-public/how-parliament-works"
-            class="state-published navTreeFolderish" title=
-            ""><span>how we work</span></a>
-          </div>
-        </li>
-
-        <li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a tiptitle=
-            "Find out about the administrative makeup of parliament - our structure, our corporate documents, and job opportunities with us."
-            href=
-            "http://localhost:8180/bungeni-public/organisation"
-            class=
-            "state-published navTreeFolderish"><span>organisation</span></a>
-          </div>
-        </li>
-
-        <li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a tiptitle=
-            "Find out how to visit parliament or take a look at our picture gallery."
-            href=
-            "http://localhost:8180/bungeni-public/visit-parliament"
-            class="state-published navTreeFolderish"><span>visit
-            parliament</span></a>
-          </div>
-        </li>
-
-        <li class="navTreeItem visualNoMarker navTreeFolderish">
-          <div>
-            <a tiptitle=
-            "Useful reference material such as glossaries and faqs. Also included here are interactivity tools such as chat, polls, surveys."
-            href=
-            "http://localhost:8180/bungeni-public/resources"
-            class=
-            "state-published navTreeFolderish"><span>resources</span></a>
-          </div>
-        </li-->
-      </ul>
-    </dd>
-  </dl>
+<dl class="portlet portletNavigationTree">
+  
+  <dt class="portletHeader">
+    <span class="portletTopLeft"></span>
+    <a class="tile" href="http://localhost:8180/bungeni-public/sitemap">
+      Bungeni Portal
+    </a>
+    <span class="portletTopRight"></span>
+  </dt>
+  
+  <dd class="portletItem lastItem">
+    
+    <tal:ignore condition="False">
+      <metal:subtree define-macro="subtree">
+        <tal:block define="is_folderish exists: node/node">
+          
+          <li class="navTreeItem visualNoMarker">
+            <div>
+              <a tal:attributes="href node/url">
+                <span tal:content="node/name" />
+              </a>
+            </div>
+            
+            <ul tal:condition="is_folderish"
+                tal:attributes="class string:navTree navTreeLevel${nesting_level}">
+              <tal:nesting define="nesting_level python: nesting_level + 1">
+                <tal:children repeat="node node/node">
+                  <div metal:use-macro="template/macros/subtree" />
+                </tal:children>
+              </tal:nesting>
+            </ul>
+          </li>
+          
+        </tal:block>
+      </metal:subtree>
+    </tal:ignore>
+    
+    <ul tal:define="global nesting_level python: 0">
+      <tal:node tal:repeat="node view/nodes">
+        <li metal:use-macro="template/macros/subtree" />
+      </tal:node>
+    </ul>
+    
+  </dd>
+  
+</dl>
 

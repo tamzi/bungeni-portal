@@ -162,7 +162,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                 domain_model = path[0]['obj']._class 
                 descriptor = queryModelDescriptor( domain_model )
                 if descriptor:
-                    name = getattr( descriptor, 'display_name', None)
+                    name = getattr( descriptor, 'container_name', None)
                 if not name:
                     name = getattr( domain_model, '__name__', None) 
                 item = { 'name' : name,

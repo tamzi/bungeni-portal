@@ -274,7 +274,9 @@ class MemberDescriptor( UserDescriptor ):
 #        ])
 
 class StaffMemberDescriptor( UserDescriptor ):
-    display_name = _(u"Staff Members")
+    display_name = _(u"Staff member")
+    container_name = _(u"Staff members")
+    
     fields = deepcopy( UserDescriptor.fields )	        
         
 class HansardReporterDescriptor( UserDescriptor ):
@@ -340,7 +342,9 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 
 
 class MpDescriptor ( ModelDescriptor ):
-    display_name = _(u"Member of Parliament")
+    display_name = _(u"Member of parliament")
+    container_name = _(u"Members of parliament")
+    
     fields = deepcopy(GroupMembershipDescriptor.fields)    
     constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
     #mpTypeSource= ['E', 'N', 'O']
@@ -359,7 +363,9 @@ class MpDescriptor ( ModelDescriptor ):
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
     
 class PartyMemberDescriptor( ModelDescriptor ):
-    display_name=_(u"Party Member")
+    display_name=_(u"Party member")
+    container_name=_(u"Party members")
+    
     fields = deepcopy(GroupMembershipDescriptor.fields)
     #fields.extend([
     #     dict( name="user_id",
@@ -370,9 +376,12 @@ class PartyMemberDescriptor( ModelDescriptor ):
     #        ])
 
 class MemberOfPartyDescriptor( ModelDescriptor ):
-    """ describes the partymembership of a user rather then the 
-    membership of a user in a party """
-    display_name=_(u"Partymembership")
+    """Describes the partymembership of a user rather then the
+    membership of a user in a party."""
+    
+    display_name = _(u"Party membership")
+    container_name = _(u"Party memberships")
+    
     partySource=DatabaseSource(domain.PoliticalParty,  'short_name', 'party_id')
     fields = [
         dict( name="user_id", omit=True),                 
@@ -403,7 +412,9 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]
 
 class ExtensionMemberDescriptor( ModelDescriptor ):
-    display_name =_(u"Additional members")
+    display_name =_(u"Additional member")
+    container_name =_(u"Additional members")
+    
     fields = deepcopy(GroupMembershipDescriptor.fields)
     #fields.extend([
     #     dict( name="user_id",
@@ -436,9 +447,11 @@ class GroupDescriptor( ModelDescriptor ):
         ]
 
     schema_invariants = [EndAfterStart]
-                        
+
 class ParliamentDescriptor( GroupDescriptor ):
-    display_name = _(u"Parliament")    
+    display_name = _(u"Parliament")
+    container_name = _(u"Parliaments")
+    
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="parliament_id", omit=True ),
@@ -482,7 +495,9 @@ class ParliamentDescriptor( GroupDescriptor ):
     schema_invariants = [EndAfterStart, ElectionAfterStart]
             
 class CommitteeDescriptor( GroupDescriptor ):
-    display_name = _(u"Committee")    
+    display_name = _(u"Committee")
+    container_name = _(u"Committees")
+    
     fields = deepcopy( GroupDescriptor.fields )
     typeSource = DatabaseSource(domain.CommitteeType, 'committee_type', 'committee_type_id')
     fields.extend([
@@ -507,7 +522,9 @@ class CommitteeDescriptor( GroupDescriptor ):
     schema_invariants = [EndAfterStart,] # DissolutionAfterReinstatement]
     
 class CommitteeMemberDescriptor( ModelDescriptor ):
-    display_name = _(u"Committee Members")
+    display_name = _(u"Committee member")
+    container_name = _(u"Committee members")
+    
     fields = deepcopy(GroupMembershipDescriptor.fields)
 #    membersVocab = vocabulary.QuerySource(vocabulary.mp_committees, 
 #                                          token_field='fullname', 
@@ -526,7 +543,9 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]
     
 class MemberRoleTitleDescriptor( ModelDescriptor ):
-    display_name= _(u"Titles")
+    display_name= _(u"Title")
+    container_name= _(u"Titles")
+    
     fields = [
         dict( name='role_title_id', omit=True),
         dict( name='membership_id', omit=True),
@@ -547,13 +566,17 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]     
     
 class CommitteeStaffDescriptor( ModelDescriptor ):
-    display_name = _(u"Committee Staff")
+    display_name = _(u"Committee staff")
+    container_name = _(u"Committee staff members")
+    
     fields = deepcopy(GroupMembershipDescriptor.fields)     
     
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]     
         
 class PoliticalPartyDescriptor( GroupDescriptor ):
-    display_name = _(u"Political Party")     
+    display_name = _(u"Political party")
+    container_name = _(u"Political parties")
+    
     fields = deepcopy( GroupDescriptor.fields )    
     #fields.extend([
     #    dict( name='logo', label=_(u"Logo"),  )
@@ -569,7 +592,9 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
     schema_invariants = [EndAfterStart]
     
 class ExtensionGroupDescriptor( GroupDescriptor ):
-    display_name = _(u"Group extensions")
+    display_name = _(u"Group extension")
+    container_name = _(u"Group extensions")
+    
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
         dict(name="group_type", listing=True,
@@ -581,6 +606,8 @@ class ExtensionGroupDescriptor( GroupDescriptor ):
      
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")
+    container_name = _(u"Ministries")
+    
     fields = deepcopy( GroupDescriptor.fields )       
     fields.extend([
         dict( name='ministry_id', omit=True ),
@@ -592,6 +619,8 @@ class MinistryDescriptor( GroupDescriptor ):
     
 class MinisterDescriptor( ModelDescriptor ):    
     display_name = _(u"Minister")
+    container_name = _(u"Ministers")
+    
     fields = deepcopy(GroupMembershipDescriptor.fields)
    # membersVocab = vocabulary.QuerySource(vocabulary.mp_ministers, 
    #                                       token_field='fullname', 
@@ -610,7 +639,9 @@ class MinisterDescriptor( ModelDescriptor ):
     schema_invariants = [ActiveAndSubstituted,SubstitudedEndDate,InactiveNoEndDate]
     
 class ParliamentSession( ModelDescriptor ):
-    display_name = _(u"Parliamentary Session")    
+    display_name = _(u"Parliamentary session")
+    container_name = _(u"Parliamentary sessions")
+    
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name="session_id", omit=True ),
@@ -629,8 +660,9 @@ class ParliamentSession( ModelDescriptor ):
     schema_invariants = [EndAfterStart]        
         
 class GovernmentDescriptor( ModelDescriptor ):
-    
     display_name = _(u"Government")
+    container_name = _(u"Governments")
+    
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="short_name", label=_(u"Name"), description=_(u"Name of the Head of Government"), listing=True),
@@ -653,8 +685,8 @@ class GovernmentDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]    
     
 class MotionDescriptor( ModelDescriptor ):
-    
     display_name = _(u"Motion")
+    container_name = _(u"Motions")
     
     fields = [
         dict( name="motion_id", omit=True ),
@@ -696,8 +728,9 @@ class MotionDescriptor( ModelDescriptor ):
 
 
 class MotionAmendmentDescriptor( ModelDescriptor ):
+    display_name = _(u"Motion amendment")
+    container_name = _(u"Motion amendments")
     
-    display_name = _(u"Motion Amendment")
     fields = [
         dict( name="amendment_id", omit=True ),
         dict( name="motion_id", omit=True ),
@@ -715,8 +748,8 @@ class MotionAmendmentDescriptor( ModelDescriptor ):
         dict( name="accepted_p",  label=_(u"Accepted")),
         ]
 class SittingDescriptor( ModelDescriptor ):
-    
-    display_name = _(u"Sittings")
+    display_name = _(u"Sitting")
+    container_name = _(u"Sittings")
     
     fields = [
         dict( name="sitting_id", omit=True ),
@@ -738,8 +771,8 @@ class SittingDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]
     
 class SessionDescriptor( ModelDescriptor ):
-    
-    display_name = _(u"Parliamentary Session")
+    display_name = _(u"Parliamentary session")
+    container_name = _(u"Parliamentary sessions")
     
     fields = [
         dict( name="session_id", omit=True),
@@ -757,7 +790,9 @@ class SessionDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]
             
 class DebateDescriptor ( ModelDescriptor ):
-    display_name = _(u"Debates")
+    display_name = _(u"Debate")
+    container_name = _(u"Debate")
+    
     fields = [
         dict( name="sitting_id", omit=True ), 
         dict( name="debate_id", omit=True ),                
@@ -772,7 +807,9 @@ class DebateDescriptor ( ModelDescriptor ):
         ]             
         
 class AttendanceDescriptor( ModelDescriptor ):
-    display_name =_(u"Sitting Attendance")
+    display_name =_(u"Sitting attendance")
+    container_name =_(u"Sitting attendances")
+    
     attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )                                                                    
     fields = [
         dict( name="sitting_id", omit=True ),
@@ -786,7 +823,8 @@ class AttendanceDescriptor( ModelDescriptor ):
         ]
         
 class AttendanceTypeDescriptor( ModelDescriptor ):        
-    display_name =_(u"Sitting Attendance")
+    display_name =_(u"Sitting attendance")
+    container_name =_(u"Sitting attendances")
     
     fields = [
         dict (name="attendance_id", omit=True ),
@@ -794,8 +832,8 @@ class AttendanceTypeDescriptor( ModelDescriptor ):
         ]
         
 class BillDescriptor( ModelDescriptor ):
-    
     display_name = _(u"Bill")
+    container_name = _(u"Bills")
     
     fields = [
         dict( name="files", omit=True),
@@ -850,6 +888,7 @@ class BillDescriptor( ModelDescriptor ):
 
 class BillConsignatoryDescriptor( ModelDescriptor ):
     display_name = _(u"Consignatory")
+    container_name = _(u"Consignatories")
     
     fields = [
         dict(name="bill_id", omit = True),
@@ -861,9 +900,9 @@ class BillConsignatoryDescriptor( ModelDescriptor ):
     ]
 
 class QuestionDescriptor( ModelDescriptor ):
-
     display_name = _(u"Question")
-    
+    container_name = _(u"Questions")
+        
     fields = [
         dict( name="question_id", omit=True),
         dict( name="supplement_parent_id",label=_(u"Initial/supplementary question"), view_widget=SupplementaryQuestionDisplay),
@@ -915,6 +954,7 @@ class QuestionDescriptor( ModelDescriptor ):
         
 class ResponseDescriptor( ModelDescriptor ):
     display_name = _(u"Response")
+    container_name = _(u"Responses")
     
     fields = [
         dict( name="response_id", omit=True ),
@@ -989,14 +1029,18 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
         ]
 
 class AddressTypeDescriptor( ModelDescriptor ):
-    display_name =_(u"Address Type")
+    display_name =_(u"Address type")
+    container_name =_(u"Address types")
+    
     fields = [
         dict( name="address_type_id", omit=True ),
         dict( name="address_type_name", label=_(u"Address Type") ),
     ]
         
 class AddressDescriptor ( ModelDescriptor ):
-    display_name = _(u"Address")     
+    display_name = _(u"Address")
+    container_name = _(u"Addresses")
+    
     fields = [        
         dict( name="address_id", omit=True ),
         dict( name="role_title_id", omit=True ),
@@ -1090,6 +1134,8 @@ class RotaDescriptor( ModelDescriptor ):
 
 class EventItemDescriptor( ModelDescriptor ):
     display_name =_(u"Event")
+    container_name =_(u"Events")
+    
     fields = [
         dict( name="event_item_id", omit=True ),
         dict( name="item_id", omit=True ),
@@ -1100,14 +1146,18 @@ class EventItemDescriptor( ModelDescriptor ):
     ]
  
 class DocumentSourceDescriptor( ModelDescriptor ): 
-    display_name =_(u"Document Source")
+    display_name =_(u"Document source")
+    container_name =_(u"Document sources")
+    
     fields = [
         dict( name="document_source_id", omit=True ),
         dict( name="document_source", label=_(u"Document Souce") ),
     ] 
     
 class TabledDocumentDescriptor( ModelDescriptor): 
-    display_name =_(u"Tabled Document")
+    display_name =_(u"Tabled document")
+    container_name =_(u"Tabled documents")
+    
     fields = [
         dict( name="tabled_document_id", omit=True ),
         dict( name="title", label=_(u"Title"), listing=True ),
@@ -1123,7 +1173,9 @@ class TabledDocumentDescriptor( ModelDescriptor):
     ]
 
 class AgendaItemDescriptor( ModelDescriptor): 
-    display_name =_(u"Agenda Items")
+    display_name =_(u"Agenda item")
+    container_name =_(u"Agenda items")
+    
     fields = [
         dict( name="agenda_item_id", omit=True ),
        dict( name="owner_id", 

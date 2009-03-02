@@ -16,9 +16,12 @@ import bungeni.core.globalsettings as prefs
 
 #from bungeni.ui.i18n import MessageFactory as _
 
-class QuestionInStateViewlet( viewlet.ViewletBase ):
+class ViewletBase(viewlet.ViewletBase):
+    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')
+    
+class QuestionInStateViewlet( ViewletBase ):
     name = state = None
-    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')    
+
     list_id = "_questions"    
     def getData(self):
         """
@@ -36,7 +39,7 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
             else:
                 data['subject'] = result.subject
             data['title'] = result.subject
-            data['schedule_date_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data['url'] = '/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
@@ -52,9 +55,8 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         questions = session.query(domain.Question).filter(qfilter)
         self.query = questions        
 
-class MyQuestionsViewlet( viewlet.ViewletBase ):
+class MyQuestionsViewlet( ViewletBase ):
     name = u"My Questions"
-    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')    
     list_id = "my_questions"    
     def getData(self):
         """
@@ -72,7 +74,7 @@ class MyQuestionsViewlet( viewlet.ViewletBase ):
             else:
                 data['subject'] = result.subject + ' (' + result.status + ')'
             data['title'] = result.subject + ' (' + result.status + ')'
-            data['schedule_date_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data['url'] = '/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
@@ -92,9 +94,8 @@ class MyQuestionsViewlet( viewlet.ViewletBase ):
         questions = session.query(domain.Question).filter(qfilter).order_by(schema.questions.c.question_id.desc())
         self.query = questions        
             
-class MyMotionsViewlet( viewlet.ViewletBase ):
+class MyMotionsViewlet( ViewletBase ):
     name = "My Motions"
-    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')    
     list_id = "my_motions"    
     def getData(self):
         """
@@ -111,7 +112,7 @@ class MyMotionsViewlet( viewlet.ViewletBase ):
             else:
                 data['subject'] =  result.title  + ' (' + result.status + ')'
             data['title'] = result.title  + ' (' + result.status + ')'
-            data['schedule_date_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            data['result_item_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             data['url'] = '/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
@@ -264,9 +265,8 @@ class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
 
 
  
-class MotionInStateViewlet( viewlet.ViewletBase ):  
+class MotionInStateViewlet( ViewletBase ):  
     name = state = None
-    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
     list_id = "_motions"    
     def getData(self):
         """
@@ -280,7 +280,7 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
             data['qid']= ( 'm_' + str(result.motion_id) )                         
             data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title
             data['title'] = result.title
-            data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             data['url'] = '/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
@@ -365,13 +365,12 @@ class PostponedMotionViewlet( MotionInStateViewlet ):
     state = motion_wf_state[u"motionstates.postponed"].id
     list_id = "postponed_motions"
 
-class BillItemsViewlet( viewlet.ViewletBase ): 
+class BillItemsViewlet( ViewletBase ): 
     """
     Display all bills that can be scheduled for a parliamentary sitting
     """  
     name  = u"Bills"
-    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
-    list_id = "schedule_bills"    
+    list_id = "schedule_bills"
     def getData(self):
         """
         return the data of the query
@@ -384,7 +383,7 @@ class BillItemsViewlet( viewlet.ViewletBase ):
             data['qid']= ( 'b_' + str(result.bill_id) )                         
             data['subject'] = u'B ' + result.title
             data['title'] = result.title
-            data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.publication_date, '%Y-%m-%d')
+            data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.publication_date, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
     

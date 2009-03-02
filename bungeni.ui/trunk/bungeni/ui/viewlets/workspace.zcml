@@ -8,6 +8,7 @@
      provides=".interfaces.IWorkspaceManager"
      permission="zope.View"
      class="zope.viewlet.manager.WeightOrderedViewletManager"
+     template="templates/workspace.pt"
      />    
 
   <!-- MPs Workspace -->

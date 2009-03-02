@@ -1,20 +1,22 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
-      i18n_domain="bungeni.ui">
+      tal:omit-tag="">
 
-  <div class="workspace-viewlet listing"
-       tal:define="results view/getData"
-       tal:attributes="id string:workspace-viewlet-${view/name}">
-    <h4 i18n:translate="" tal:content="view/name" />
+  <dl class="portlet workspace-viewlet listing"
+      tal:define="results view/getData"
+      tal:attributes="id string:workspace-viewlet-${view/name}">
+
+    <dt class="portletHeader">
+      <span i18n:translate="" tal:content="view/name" />
+    </dt>
+
+    <dd class="portletItem">
+      <ul tal:attributes="id view/list_id; class string:draglist">
+        <li tal:repeat="result results" tal:attributes="id result/qid; class result/result_item_class; title result/title">
+          <a tal:content="result/subject" tal:attributes="href result/url" />       
+        </li>
+      </ul>
+    </dd>
+  </dl>
   
-    <ul tal:attributes="id view/list_id; class string:draglist">
-      <li tal:repeat="result results" tal:attributes="id result/qid; class result/schedule_date_class; title result/title">
-         <a tal:content="result/subject" tal:attributes="href result/url" />       
-      </li>
-    </ul>
-
-    <!--p tal:condition="not: results" i18n:translate="">
-      No items.
-    </p-->
-  </div> 
 </html>

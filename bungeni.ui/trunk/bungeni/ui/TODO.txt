@@ -4,7 +4,11 @@ To-Do
 Navigate away warning
 ---------------------
 
-This was removed, but needs to be reinserted.
+This was removed, but may be re-added (to js/behavior.js), e.g.
+
+  $(window).unload(function () {
+     alert("Bye now!");
+  });
 
 Response add/edit
 -----------------

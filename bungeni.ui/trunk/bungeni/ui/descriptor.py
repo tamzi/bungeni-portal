@@ -773,26 +773,13 @@ class DebateDescriptor ( ModelDescriptor ):
         
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting Attendance")
-    attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )
-#    membersVocab = vocabulary.QuerySource(vocabulary.mps_sitting, 
-#                                          token_field='fullname', 
-#                                          value_field='user_id', 
-#                                          filter_field='sitting_id', 
-#                                          filter_value=None, 
-#                                          order_by_field='last_name',
-#                                          title_field='fullname' )      
-    
-    sql_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
-                      "users"."user_id" 
-                       FROM  "public"."users" 
-                       WHERE  "users"."user_id" = %(member_id)s                                                                  
-                    '''
-    membersVocab = vocabulary.SQLQuerySource( sql_members, 'user_name', 'user_id', {'member_id':'$member_id'} )                                                                        
+    attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )                                                                    
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
-                property = schema.Choice(title=_(u"Attendance"), source=membersVocab, ),
-              listing_column=member_fk_column("member_id", _(u'<a href="?order_by=short_name">Member of Parliament</a>') ) ),
+                property = schema.Choice(title=_(u"Attendance"), source=DatabaseSource(domain.Person,  title_field='fullname', token_field='user_id', value_field = 'user_id')), 
+              listing_column=member_fk_column("member_id", _(u'<a href="?order_by=short_name">Member of Parliament</a>') ) 
+              ),
         dict( name="attendance_id", listing=True, 
                 property = schema.Choice( title=_(u"Attendance"), source=attendanceVocab, required=True),
                 listing_column = vocab_column("attendance_id", _(u'<a href="?order_by=attendance_id">Attendance</a>'), attendanceVocab )),            

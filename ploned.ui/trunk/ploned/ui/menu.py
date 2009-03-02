@@ -21,6 +21,13 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 
+def action_to_id(action):
+    return action.\
+           strip('/').\
+           replace('/', '-').\
+           replace('.', '').\
+           strip('-')
+    
 class PloneBrowserMenu(BrowserMenu):
     """This menu class implements the ``getMenuItems`` to conform with
     Plone templates."""
@@ -58,7 +65,7 @@ class PloneBrowserMenu(BrowserMenu):
              'action': item.action,
              'selected': (self.selected(item) and u'selected') or u'',
              'icon': item.icon,
-             'extra': item.extra or {'id': item.action.strip('/').replace('/', '-')},
+             'extra': item.extra or {'id': action_to_id(item.action)},
              'submenu': (IBrowserSubMenuItem.providedBy(item) and
                          getMenu(item.submenuId, object, request)) or None}
             for index, order, title, item in result]

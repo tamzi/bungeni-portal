@@ -117,10 +117,10 @@ div#portal-globalnav-bottom {
 
 /* custom navigation tab styles */
 
-div#portal-globalnav ul.level0 li#portaltab-bungeni a,
-div#portal-globalnav ul.level0 li#portaltab-members a,
-div#portal-globalnav ul.level0 li#portaltab-koha a,
-div#portal-globalnav ul.level0 li#portaltab-dspace a,
+div#portal-globalnav ul.level0 li#portaltab-bungeni.selected a,
+div#portal-globalnav ul.level0 li#portaltab-members.selected a,
+div#portal-globalnav ul.level0 li#portaltab-koha.selected a,
+div#portal-globalnav ul.level0 li#portaltab-dspace.selected a,
 body.section-bungeni #portal-globalnav ul.level1 li span,
 body.section-bungeni #portal-globalnav ul.level1 li a,
 body.section-members #portal-globalnav ul.level1 li span,
@@ -133,26 +133,47 @@ body.section-dspace #portal-globalnav ul.level1 li a {
 }
 
 div#portal-globalnav ul.level0 li#portaltab-bungeni a,
-body.section-bungeni #portal-globalnav-bottom {
-  background: #3415ca !important;
-  border-bottom-color: #3415ca;
-}
-
 div#portal-globalnav ul.level0 li#portaltab-members a,
-body.section-members #portal-globalnav-bottom {
-  background: #4c5ee2 !important;
-  border-bottom-color: #4c5ee2;
-}
-
 div#portal-globalnav ul.level0 li#portaltab-koha a,
-body.section-koha #portal-globalnav-bottom {
-  background: #00800d !important;
-  border-bottom-color: #00800d;
+div#portal-globalnav ul.level0 li#portaltab-dspace a {
+  border-bottom-width: 4px;
+  border-bottom-style: solid;
+  height: 1.2em;
 }
 
-div#portal-globalnav ul.level0 li#portaltab-dspace a,
+div#portal-globalnav ul.level0 li#portaltab-members a {
+  border-bottom-color: #4c72e2 !important;
+}
+
+li#portaltab-members.selected a,
+body.section-members #portal-globalnav-bottom {
+  background: #4c72e2 !important;
+}
+
+div#portal-globalnav ul.level0 li#portaltab-bungeni a {
+  border-bottom-color: #153bca !important;
+}
+
+li#portaltab-bungeni.selected a,
+body.section-bungeni #portal-globalnav-bottom {
+  background: #153bca !important;
+}
+
+div#portal-globalnav ul.level0 li#portaltab-koha a {
+  border-bottom-color: #a8ca09 !important;
+}
+
+li#portaltab-koha.selected a,
+body.section-koha #portal-globalnav-bottom {
+  background: #a8ca09 !important;
+}
+
+div#portal-globalnav ul.level0 li#portaltab-dspace a {
+  border-bottom-color: #9d0907 !important;
+}
+
+li#portaltab-dspace.selected a,
 body.section-dspace #portal-globalnav-bottom {
-  background: #9d1d07 !important;
-  border-bottom-color: #9d1d07;
+  background: #9d0907 !important;
 }
 

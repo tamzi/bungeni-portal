@@ -27,11 +27,59 @@
 
   <browser:subMenuItem
      menu="plone_contentmenu"
-     for="*"
+     for="bungeni.models.interfaces.IBungeniApplication"
      title="Add parliamentary content..."
      action="add_content"
      permission="zope.ManageContent"
      submenu="context_additems"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.QuestionContainer"
+     title="Add question..."
+     action="/questions/add"
+     permission="bungeni.question.add"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.Question"
+     title="Add new question..."
+     action="/questions/add"
+     permission="bungeni.question.add"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.BillContainer"
+     title="Add bill..."
+     action="/bills/add"
+     permission="bungeni.bill.add"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.Bill"
+     title="Add new bill..."
+     action="/bills/add"
+     permission="bungeni.bill.add"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MotionContainer"
+     title="Add motion..."
+     action="/motions/add"
+     permission="bungeni.motion.add"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.Motion"
+     title="Add new motion..."
+     action="/motions/add"
+     permission="bungeni.motion.add"
      />
 
   <adapter
@@ -78,7 +126,7 @@
      menu="context_additems"
      for="*"
      title="Question"
-     action="/questions/add"
+     action="./questions/add"
      permission="zope.ManageContent"
      />
 

@@ -163,7 +163,7 @@
   <browser:menuItem
      menu="site_actions"
      for="*"
-     action="/parliament"
+     action="/parliaments"
      title="Parliaments"
      />
 

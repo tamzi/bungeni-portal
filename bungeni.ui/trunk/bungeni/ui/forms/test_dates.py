@@ -1,6 +1,6 @@
 import unittest
 import datetime
-from bungeni.ui.browser.validations import checkStartDate, checkEndDate
+from bungeni.ui.forms.validations import checkStartDate, checkEndDate
 
 
 # get some simple dates for comparisions

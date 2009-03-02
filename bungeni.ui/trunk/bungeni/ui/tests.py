@@ -13,7 +13,7 @@ from zope.app.testing import placelesssetup
 from zope.configuration import xmlconfig
 from bungeni.models import metadata
 
-import browser.test_dates
+import forms.test_dates
 
 zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -52,8 +52,9 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
-    doctests = ( 'browser/readme.txt',
-                 'viewlets/schedule.txt'  )
+    doctests = ( 'viewlets/schedule.txt',
+                #'browser/readme.txt',
+                 'sqlexpressions/sqlstatements.txt'  )
 
     globs = dict(interface=interface, component=component)
     test_suites = []
@@ -67,7 +68,7 @@ def test_suite():
                                  )
         test_suites.append( test_suite )                                 
 
-    test_suites.append(browser.test_dates.test_suite())                                
+    test_suites.append(forms.test_dates.test_suite())                                
     return unittest.TestSuite( test_suites )
 
 if __name__ == '__main__':

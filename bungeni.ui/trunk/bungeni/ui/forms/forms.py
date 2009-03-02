@@ -21,8 +21,10 @@ from alchemist.ui.viewlet import EditFormViewlet
 from alchemist.ui.core import null_validator
 from alchemist.ui.core import handle_edit_action
 
-import bungeni.models.vocabulary as vocabulary
+import bungeni.ui.queries.utils as sqlutils 
 import bungeni.models.domain as domain
+
+from bungeni.ui.queries import sqlstatements
 
 from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.ui.forms.workflow import createVersion
@@ -184,44 +186,8 @@ class MinistryAdd( BungeniAddForm ):
 #ministers
 
 
-sql_addMinister = """
-                SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
-                        "users"."user_id", "users"."last_name" 
-                FROM "public"."ministries", "public"."government", "public"."parliaments", 
-                    "public"."user_group_memberships", "public"."users" 
-                WHERE ( "ministries"."government_id" = "government"."government_id" 
-                    AND "government"."parliament_id" = "parliaments"."parliament_id" 
-                    AND "user_group_memberships"."group_id" = "parliaments"."parliament_id" 
-                    AND "user_group_memberships"."user_id" = "users"."user_id" ) 
-                    AND ( "user_group_memberships"."active_p" = True AND "ministries"."ministry_id" = %(primary_key)s )
-                    AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    ) 
-                UNION
-                SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
-                        "users"."user_id", "users"."last_name" 
-                FROM "public"."ministries", "public"."government", "public"."groups", 
-                    "public"."extension_groups", "public"."user_group_memberships", "public"."users" 
-                WHERE ( "ministries"."government_id" = "government"."government_id" 
-                    AND "ministries"."ministry_id" = "groups"."group_id" 
-                    AND "extension_groups"."group_type" = "groups"."type" 
-                    AND "extension_groups"."extension_type_id" = "user_group_memberships"."group_id" 
-                    AND "user_group_memberships"."user_id" = "users"."user_id" 
-                    AND "extension_groups"."parliament_id" = "government"."parliament_id" ) 
-                    AND ( "user_group_memberships"."active_p" = True AND "ministries"."ministry_id" = %(primary_key)s )
-                    AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    )                                     
-                ORDER BY "last_name"
-                """
 
-qryAddMinisterVocab = vocabulary.SQLQuerySource(sql_addMinister, 'fullname', 'user_id')
+qryAddMinisterVocab = sqlutils.SQLQuerySource(sqlstatements.sql_addMinister, 'fullname', 'user_id')
 
 class IMinisterAdd( IMinister ):
     """
@@ -275,29 +241,8 @@ class ExtensionGroupAdd( BungeniAddForm ):
     CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
  
 
-#XXX currently filters by "type" = 'memberofparliament' -> has to be replaced with all electable usertypes
-sql_addExtensionMember = """
-                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
-                        "users"."user_id", "users"."last_name" 
-                        FROM "public"."users" 
-                        WHERE ( ( "active_p" = 'A' AND "type" = 'memberofparliament' )
-                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    )
-                                AND ( "users"."user_id" NOT IN (SELECT "user_group_memberships"."user_id" 
-                                                                FROM "public"."user_group_memberships", "public"."extension_groups" 
-                                                                WHERE ( "user_group_memberships"."group_id" = "extension_groups"."parliament_id" ) 
-                                                                AND ( "extension_groups"."extension_type_id" = %(primary_key)s  
-                                                                        AND "active_p" = True) 
-                                                                )
-                                    )         
-                               )                    
-                        ORDER BY "last_name"
-                        """
-qryAddExtensionMemberVocab = vocabulary.SQLQuerySource(sql_addExtensionMember, 'fullname', 'user_id')
+
+qryAddExtensionMemberVocab = sqlutils.SQLQuerySource(sqlstatements. sql_addExtensionMember, 'fullname', 'user_id')
 
 class IExtensionMemberAdd( IExtensionMember ):
     """
@@ -326,45 +271,8 @@ class ExtensionMemberAdd( BungeniAddForm ):
 
 
 
-sql_AddCommitteeMember = """
-                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
-                        "users"."user_id", "users"."last_name" 
-                        FROM "public"."user_group_memberships", "public"."users", 
-                             "public"."extension_groups", "public"."groups", 
-                             "public"."committees", "public"."parliaments" 
-                        WHERE ( "user_group_memberships"."user_id" = "users"."user_id" 
-                                AND "extension_groups"."extension_type_id" = "user_group_memberships"."group_id" 
-                                AND "extension_groups"."group_type" = "groups"."type" 
-                                AND "committees"."committee_id" = "groups"."group_id" 
-                                AND "committees"."parliament_id" = "parliaments"."parliament_id" 
-                                AND "extension_groups"."parliament_id" = "parliaments"."parliament_id" ) 
-                                AND ( "committees"."committee_id" = %(primary_key)s  AND "user_group_memberships"."active_p" = True )
-                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    ) 
-                        UNION
-                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname,  
-                        "users"."user_id", "users"."last_name" 
-                        FROM "public"."committees", "public"."parliaments", "public"."groups", 
-                            "public"."user_group_memberships", "public"."users" 
-                        WHERE ( "committees"."parliament_id" = "parliaments"."parliament_id" 
-                                AND "parliaments"."parliament_id" = "groups"."group_id" 
-                                AND "user_group_memberships"."group_id" = "groups"."group_id" 
-                                AND "user_group_memberships"."user_id" = "users"."user_id" ) 
-                                AND ( "user_group_memberships"."active_p" = True AND "committees"."committee_id" = %(primary_key)s )
-                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    )
-                        ORDER BY "last_name"
-                        """
 
-qryAddCommitteeMemberVocab = vocabulary.SQLQuerySource(sql_AddCommitteeMember, 'fullname', 'user_id')
+qryAddCommitteeMemberVocab = sqlutils.SQLQuerySource(sqlstatements. sql_AddCommitteeMember, 'fullname', 'user_id')
 
 class ICommitteeMemberAdd ( ICommitteeMember ):
     """
@@ -390,22 +298,9 @@ class CommitteeMemberAdd( BungeniAddForm ):
                       
 # committee staff
 
-sql_AddCommitteeStaff = """                        
-                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
-                        "users"."user_id", "users"."last_name" 
-                        FROM "public"."users" 
-                        WHERE ( ( "active_p" = 'A' AND "type" = 'staff' )
-                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    )                                   
-                               )                    
-                        ORDER BY "last_name"                       
-                        """
+
                         
-qryAddCommitteeStaffVocab = vocabulary.SQLQuerySource(sql_AddCommitteeStaff, 'fullname', 'user_id')
+qryAddCommitteeStaffVocab = sqlutils.SQLQuerySource(sqlstatements.sql_AddCommitteeStaff, 'fullname', 'user_id')
 
 class ICommitteeStaffAdd ( ICommitteeStaff ):
     """
@@ -450,20 +345,8 @@ class CommitteeAdd( BungeniAddForm ):
 
 
 
-sql_AddMemberOfParliament = """
-                            SELECT "titles" ||' ' || "first_name" || ' ' || "middle_name" || ' ' || "last_name" as fullname, "user_id" 
-                            FROM "public"."users" 
-                            WHERE ( ( "active_p" = 'A' ) 
-                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
-                                                                FROM "public"."user_group_memberships" 
-                                                                WHERE ( "group_id"  = %(primary_key)s 
-                                                                        AND "active_p" = True) 
-                                                                )                                           
-                                    )
-                                )
-                            ORDER BY "users"."last_name"  
-                            """
-qryAddMemberOfParliamentVocab = vocabulary.SQLQuerySource(sql_AddMemberOfParliament, 'fullname', 'user_id')  
+
+qryAddMemberOfParliamentVocab = sqlutils.SQLQuerySource(sqlstatements.sql_AddMemberOfParliament, 'fullname', 'user_id')  
 
 class IMemberOfParliamentAdd ( IMemberOfParliament ):
     """ Custom schema to override some autogenerated fields"""
@@ -534,22 +417,8 @@ class GroupSittingAdd( BungeniAddForm ):
         
      
 
-sql_add_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
-                    "users"."user_id", "group_sittings"."sitting_id" 
-                    FROM "public"."group_sittings", "public"."sessions", 
-                    "public"."user_group_memberships", "public"."users" 
-                    WHERE ( "group_sittings"."session_id" = "sessions"."session_id" 
-                        AND "user_group_memberships"."group_id" = "sessions"."parliament_id" 
-                        AND "user_group_memberships"."user_id" = "users"."user_id" )
-                        AND ( "user_group_memberships"."active_p" = True )
-                        AND ("group_sittings"."sitting_id" = %(primary_key)s)
-                        AND ( "users"."user_id" NOT IN (SELECT member_id 
-                                                        FROM sitting_attendance 
-                                                        WHERE sitting_id = %(primary_key)s )                                           
-                            )
-                    ORDER BY "users"."last_name"                    
-                    '''
-membersAddVocab = vocabulary.SQLQuerySource(sql_add_members, 'user_name', 'user_id')      
+
+membersAddVocab = sqlutils.SQLQuerySource(sqlstatements.sql_add_members, 'user_name', 'user_id')      
 attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )
 
 # Sitting Attendance
@@ -588,16 +457,9 @@ class GroupSittingAttendanceAdd( ContentAddForm ):
         """
         self.adapters = { IGroupSittingAttendanceAdd : ob }
 
-sql_addMemberTitle = '''
-                        SELECT "user_role_types"."sort_order" || ' - ' || "user_role_types"."user_role_name" AS "ordered_title", 
-                        "user_role_types"."user_role_type_id"
-                        FROM "public"."user_role_types", "public"."user_group_memberships" 
-                        WHERE ( "user_role_types"."user_type" = "user_group_memberships"."membership_type" ) 
-                            AND ( ( "user_group_memberships"."membership_id" = %(primary_key)s ) ) 
-                        ORDER BY "user_role_types"."sort_order" ASC
-                       '''
+
                                   
-titleAddVocab =  vocabulary.SQLQuerySource(sql_addMemberTitle, 'ordered_title', 'user_role_type_id')
+titleAddVocab =  sqlutils.SQLQuerySource(sqlstatements.sql_addMemberTitle, 'ordered_title', 'user_role_type_id')
 
 # Titles / Roles
 
@@ -623,17 +485,8 @@ class MemberTitleAdd( BungeniAddForm ):
 #        )
 
 
-sql_select_question_ministry_add = """
-            SELECT "groups"."short_name", "groups"."full_name", "groups"."group_id"  
-            FROM "public"."ministries" AS "ministries", "public"."groups" AS "groups" 
-            WHERE "ministries"."ministry_id" = "groups"."group_id"
-            AND ( (current_date between "groups"."start_date" and  "groups"."end_date")
-                 OR ( ("groups"."start_date" < current_date) AND ("groups"."end_date" IS NULL))
-                 )
-            ORDER BY short_name
-        """
-        
-qryAddQuestionMinistryVocab = vocabulary.SQLQuerySource(sql_select_question_ministry_add, 'full_name', 'group_id')
+
+qryAddQuestionMinistryVocab = sqlutils.SQLQuerySource(sqlstatements.sql_select_question_ministry_add, 'full_name', 'group_id')
         
 class IQuestionAdd ( IQuestion ):
     """ Custom schema to override some autogenerated fields"""
@@ -910,16 +763,8 @@ class CustomEditForm ( EditFormViewlet ):
             return self.request.response.redirect( url  )    
                         
                       
-#################
-# return only current member
-# Members should not be editable (exchanged) once they were added
 
-sql_edit_members = '''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
-                      "users"."user_id" 
-                       FROM  "public"."users" 
-                       WHERE  "users"."user_id" = %(member_id)s                                                                  
-                    '''            
-membersEditVocab = vocabulary.SQLQuerySource(sql_edit_members, 'user_name', 'user_id', {'member_id':'$member_id'} )      
+membersEditVocab = sqlutils.SQLQuerySource(sqlstatements.sql_edit_members, 'user_name', 'user_id', {'member_id':'$member_id'} )      
   
 # Parliament
 class ParliamentEdit( CustomEditForm ):
@@ -1001,26 +846,11 @@ class SessionsEdit ( CustomEditForm ):
     Adapts = IParliamentSession
     CustomValidations = validations.CheckSessionDatesEdit    
 
-membersEditVocab = vocabulary.SQLQuerySource(sql_edit_members, 'user_name', 'user_id', {'member_id':'$user_id'} )  
+membersEditVocab = sqlutils.SQLQuerySource(sqlstatements.sql_edit_members, 'user_name', 'user_id', {'member_id':'$user_id'} )  
 
-sql_editSubstitution = """
-                        SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name,        
-                                "users"."user_id" , "users"."last_name"
-                        FROM "public"."user_group_memberships", "public"."users" 
-                        WHERE ( "user_group_memberships"."user_id" = "users"."user_id" ) 
-                            AND ( ( "user_group_memberships"."group_id" = %(group_id)s 
-                                AND "user_group_memberships"."user_id" != %(user_id)s 
-                                AND "user_group_memberships"."active_p" = True ) ) 
-                        UNION
-                        SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name,        
-                                "users"."user_id" , "users"."last_name"
-                        FROM  "public"."user_group_memberships", "public"."users"
-                        WHERE (( "user_group_memberships"."replaced_id" = "users"."user_id" ) 
-                            AND "user_group_memberships"."user_id" = %(user_id)s )                             
-                        ORDER BY "last_name" ASC
-                        """
 
-substitutionsEditVocab = vocabulary.SQLQuerySource(sql_editSubstitution, 'user_name', 'user_id', 
+
+substitutionsEditVocab = sqlutils.SQLQuerySource(sqlstatements.sql_editSubstitution, 'user_name', 'user_id', 
                                                     {'user_id':'$user_id', 'group_id' : '$group_id'} )  
     
 class IMemberOfParliamentEdit( IMemberOfParliament ):
@@ -1167,16 +997,8 @@ class ExtensionMemberEdit( CustomEditForm ):
     form_fields["notes"].custom_widget=widgets.RichTextEditor 
     CustomValidations = validations.ExtensionMemberDatesEdit    
  
-sql_EditMemberTitle = '''
-                        SELECT "user_role_types"."sort_order" || ' - ' || "user_role_types"."user_role_name" AS "ordered_title", 
-                        "user_role_types"."user_role_type_id"
-                        FROM "public"."user_role_types", "public"."user_group_memberships" 
-                        WHERE ( "user_role_types"."user_type" = "user_group_memberships"."membership_type" ) 
-                            AND ( ( "user_group_memberships"."membership_id" = %(primary_key)s ) ) 
-                        ORDER BY "user_role_types"."sort_order" ASC
-                       '''
-                                  
-titleEditVocab =  vocabulary.SQLQuerySource(sql_EditMemberTitle, 'ordered_title', 'user_role_type_id')
+
+titleEditVocab =  sqlutils.SQLQuerySource(sqlstatements.sql_EditMemberTitle, 'ordered_title', 'user_role_type_id')
      
 class IMemberRoleTitleEdit( IMemberRoleTitle ):
     title_name_id = schema.Choice( title=_(u"Title"),  
@@ -1195,19 +1017,8 @@ class MemberTitleEdit( CustomEditForm ):
 
 
 
-sql_select_question_ministry_edit = """
-        SELECT "groups"."short_name", "groups"."full_name", "groups"."group_id"
-        FROM "public"."ministries" AS "ministries", "public"."groups" AS "groups", "public"."government" AS "government" 
-        WHERE "ministries"."ministry_id" = "groups"."group_id" 
-            AND "ministries"."government_id" = "government"."government_id" 
-            AND "government"."parliament_id" = 9
-            AND ( (current_date between "groups"."start_date" and  "groups"."end_date")
-                 OR ( ("groups"."start_date" < current_date) AND ("groups"."end_date" IS NULL))
-                 )
-        ORDER BY short_name
-        """
-        
-qryEditQuestionMinistryVocab = vocabulary.SQLQuerySource(sql_select_question_ministry_edit, 'full_name', 'group_id', 
+
+qryEditQuestionMinistryVocab = sqlutils.SQLQuerySource(sqlstatements.sql_select_question_ministry_edit, 'full_name', 'group_id', 
                                                             {'parliament_id':'$parliament_id',})
         
 class IQuestionEdit ( IQuestion ):
@@ -1240,11 +1051,7 @@ class QuestionEdit( CustomEditForm ):
 #    form_fields['notes_display'].custom_widget = widgets.HTMLDisplay  
     CustomValidations =  validations.QuestionEdit
     
-#    default_actions = form.Actions(
-#             form.Action(_(u'Save'), success='handle_edit_action'),
-#             form.Action(_(u'Cancel'), success= 'handle_cancel_action'), #, condition='can_delete'),
-#             form.Action(_(u'Delete'), success= 'handle_delete_action')
-#             )
+
     
     
 
@@ -1346,30 +1153,7 @@ class BungeniRSSEventView(BrowserView):
     form_name = None  
 
 
-    _sql_timeline = """
-         SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
-            FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 
-            WHERE "items_schedule"."sitting_id" = "group_sittings"."sitting_id" 
-            AND "items_schedule"."active" = True
-            AND "items_schedule"."item_id" = %(item_id)s
-         UNION
-            SELECT 'event' AS "atype", "item_id", "title", "event_date" AS "adate" 
-            FROM "public"."event_items" AS "event_items"
-            WHERE "item_id" = %(item_id)s
-         UNION
-            SELECT "action" as "atype", "content_id" AS "item_id", "description" AS "title", "date" AS "adate" 
-            FROM "public"."bill_changes" AS "bill_changes" 
-            WHERE "action" = 'workflow'
-            AND "content_id" = %(item_id)s
-         UNION
-            SELECT 'version' AS "atype", "bill_changes"."change_id" AS "item_id", 
-                "bill_changes"."description" AS "title", "bill_changes"."date" AS "adate" 
-            FROM "public"."bill_versions" AS "bill_versions", "public"."bill_changes" AS "bill_changes" 
-            WHERE "bill_versions"."change_id" = "bill_changes"."change_id" 
-            AND "bill_versions"."manual" = True           
-            AND "bill_changes"."content_id" = %(item_id)s   
-         ORDER BY adate DESC
-                """
+
 
 
     # Required channel elements:
@@ -1418,7 +1202,7 @@ class BungeniRSSEventView(BrowserView):
         session = Session()
         bill_id = self.context.bill_id
         connection = session.connection(domain.Bill)
-        results = connection.execute( self._sql_timeline % {'item_id' : bill_id} )       
+        results = connection.execute( sqlstatements.sql_bill_timeline % {'item_id' : bill_id} )       
         path = absoluteURL( self.context, self.request ) 
         rlist = []
         for result in results:

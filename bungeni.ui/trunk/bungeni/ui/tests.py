@@ -37,7 +37,7 @@ zcml_slug = """
      metadata="alchemist.security.metadata" />     
 
   <!-- Setup Core Model --> 
-  <include package="bungeni.models" file="catalyst.zcml"/>
+  <include package="bungeni.ui" file="catalyst.zcml"/>
  
 </configure>
 """
@@ -52,9 +52,8 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
-    doctests = ( 'viewlets/schedule.txt',
-                #'browser/readme.txt',
-                 'sqlexpressions/sqlstatements.txt'  )
+    doctests = ( 'queries/sqlstatements.txt',
+                'forms/readme.txt'  )
 
     globs = dict(interface=interface, component=component)
     test_suites = []

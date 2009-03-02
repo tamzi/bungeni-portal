@@ -59,18 +59,24 @@ class PloneBrowserMenu(BrowserMenu):
                   for item in result]
         result.sort()
 
-        result = [
-            {'title': title,
-             'description': item.description,
-             'action': item.action,
-             'selected': (self.selected(item) and u'selected') or u'',
-             'icon': item.icon,
-             'extra': item.extra or {'id': action_to_id(item.action)},
-             'submenu': (IBrowserSubMenuItem.providedBy(item) and
-                         getMenu(item.submenuId, object, request)) or None}
-            for index, order, title, item in result]
+        items = []
+        for index, order, title, item in result:
+            extra = item.extra or {'id': action_to_id(item.action)}
+            submenu = (IBrowserSubMenuItem.providedBy(item) and
+                       getMenu(item.submenuId, object, request)) or None
+            if submenu is None:
+                extra['hideChildren'] = True
 
-        return result
+            items.append({
+                'title': title,
+                'description': item.description,
+                'action': item.action,
+                'selected': (self.selected(item) and u'selected') or u'',
+                'icon': item.icon,
+                'extra': extra,
+                'submenu': submenu})
+
+        return items
     
     def selected( self, item ):
         request_url = item.request.getURL()

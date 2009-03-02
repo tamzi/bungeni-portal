@@ -177,3 +177,8 @@ body.section-dspace #portal-globalnav-bottom {
   background: #9d0907 !important;
 }
 
+li#portaltab-index_html a {
+  background: url(./home-logo.png) no-repeat !important;
+  padding-left: 30px !important;
+  margin-left: 20px !important;
+}

@@ -18,6 +18,8 @@ from zope.interface import providedBy, Interface
 from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
 from zope.app.publisher.browser.menu import BrowserMenu, getMenu
 from zope.app.publisher.interfaces.browser import IBrowserMenu
+from zope.app.component.hooks import getSite
+from zope.traversing.browser import absoluteURL
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 
@@ -27,12 +29,21 @@ def action_to_id(action):
            replace('/', '-').\
            replace('.', '').\
            strip('-')
+
+def make_absolute(action, local_url, site_url):
+    if action.startswith('http://') or action.startswith('https://'):
+        return action
+    if action.startswith('.'):
+        return "%s/%s" % (local_url, action[1:].lstrip('/'))
+    if action.startswith('/'):
+        return "%s/%s" % (site_url, action[1:])
+    return "%s/%s" % (local_url, action)
     
 class PloneBrowserMenu(BrowserMenu):
     """This menu class implements the ``getMenuItems`` to conform with
     Plone templates."""
     
-    def getMenuItems( self, object, request ):
+    def getMenuItems(self, object, request):
         menu = tuple(zope.component.getAdapters(
             (object, request), self.getMenuItemType()))
         result = [item for name, item in menu]
@@ -59,6 +70,10 @@ class PloneBrowserMenu(BrowserMenu):
                   for item in result]
         result.sort()
 
+        
+        local_url = absoluteURL(object, request)
+        site_url = absoluteURL(getSite(), request)
+        
         items = []
         for index, order, title, item in result:
             extra = item.extra or {'id': action_to_id(item.action)}
@@ -67,10 +82,18 @@ class PloneBrowserMenu(BrowserMenu):
             if submenu is None:
                 extra['hideChildren'] = True
 
+            url = make_absolute(item.action, local_url, site_url)
+            
+            if submenu:
+                for menu in submenu:
+                    menu['url'] = make_absolute(
+                        menu['action'], local_url, site_url)
+
             items.append({
                 'title': title,
                 'description': item.description,
                 'action': item.action,
+                'url': url,
                 'selected': (self.selected(item) and u'selected') or u'',
                 'icon': item.icon,
                 'extra': extra,

@@ -15,7 +15,7 @@
               tal:omit-tag="menuItem/extra/hideChildren | nothing">
             <a href="#"
                tal:omit-tag="not:menuItem/action"
-               tal:attributes="href menuItem/action;
+               tal:attributes="href menuItem/url|menuItem/action;
                                title menuItem/description"
                i18n:attributes="title;">
                 <img width="16"
@@ -46,7 +46,7 @@
                   <li tal:attributes="class subMenuItem/extra/separator|string:separator">
                     <a href="#"
                        tal:condition="subMenuItem/action"
-                       tal:attributes="href subMenuItem/action;
+                       tal:attributes="href subMenuItem/url|subMenuItem/action;
                                        title subMenuItem/description;
                                        id subMenuItem/extra/id | nothing;
                                        class subMenuItem/extra/class | nothing"

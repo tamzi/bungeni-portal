@@ -15,3 +15,17 @@ table.diff td {
 label.discreet {
     line-height: 2em;
 }
+
+#bungeni-workspace .item {
+  width: 50%;
+  float: left;
+  background: transparent;
+}
+
+#bungeni-workspace .even .portlet {
+  margin-right: 5px;
+}
+
+#bungeni-workspace .odd .portlet {
+  margin-left: 5px;
+}

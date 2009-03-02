@@ -1,0 +1,115 @@
+  some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session     
+   >>> from bungeni.models import domain, schema
+   >>> import bungeni.models as model
+   >>> import bungeni.ui.sqlexpressions.sqlstatements as s   
+   >>> import bungeni.ui.sqlexpressions.sqlvalidation as sv      
+  
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all()
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()
+
+   >>> connection = db.connect()
+
+   
+   
+call all the sql statments to make sure that the syntax is correct:
+
+   >>> connection.execute(s.sql_addMinister % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_addExtensionMember % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_AddCommitteeMember % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_AddCommitteeStaff % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_AddMemberOfParliament % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_add_members % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_addMemberTitle % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_select_question_ministry_add  % {'parliament_id' : 1})
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_edit_members % {'member_id' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_editSubstitution % {'group_id' : 1 , 'user_id' : 1})
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_EditMemberTitle % {'primary_key' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_select_question_ministry_edit % {'parliament_id' : 1})
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   >>> connection.execute(s.sql_bill_timeline % { 'item_id' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...>
+   
+   
+   >>> connection.execute(sv.checkSessionInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkSittingSessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkSittingGroupInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkGovernmentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...>         
+   >>> connection.execute(sv.checkParliamentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkForOpenParliamentInterval)
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkForOpenSessionInterval % {'parliament_id' : 1})
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkForOpenPartymembership % {'user_id' : 1})
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkPartymembershipInterval  % {'user_id' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMemberTitleDuplicates % { 'membership_id' : 1, 'title_name_id' :1,  'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMemberTitleUnique % { 'title_name_id' : 1, 'group_id' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMySittingSessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMySittingGroupInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMySessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMyGovernmentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMyParliamentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkForMyOpenParliamentInterval  % {'parent_key' : 1})
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkForMyOpenPartymembership  % {'parent_key' : 1, 'user_id' : 1 })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMyPartymembershipInterval  % {'parent_key' : 1, 'user_id' : 1 , 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMyMemberTitleDuplicates  % {'title_name_id' : 1, 'membership_id' : 1 , 'role_title_id' : 1, 'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+   >>> connection.execute(sv.checkMyMemberTitleUnique % {'title_name_id' : 1, 'group_id' : 1 , 'role_title_id' : 1,  'date': '2000-01-01' })
+   <sqlalchemy.engine.base.ResultProxy object at ...> 
+
+
+
+
+  
+cleanup
+-------
+   >>> connection.close()
+   >>> session.flush()
+   >>> session.commit()
+   >>> session.close()
+  
+     
+   
+   
+

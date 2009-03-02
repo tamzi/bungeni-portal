@@ -15,6 +15,8 @@ import bungeni.models.domain as domain
 from bungeni.ui.i18n import _
 from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.table import AjaxContainerListing
+from bungeni.ui.queries import sqlstatements
+
 
 from fields import BungeniAttributeDisplay
 
@@ -382,30 +384,7 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
     add_action = form.Actions( form.Action(_(u'add event'), success='handle_event_add_action'), )
     for_display = True    
     # sqlalchemy give me a rough time sorting a union, with hand coded sql it is much easier.
-    _sql_timeline = """
-            SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
-            FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 
-            WHERE "items_schedule"."sitting_id" = "group_sittings"."sitting_id" 
-            AND "items_schedule"."active" = True
-            AND "items_schedule"."item_id" = %(item_id)s
-         UNION
-            SELECT 'event' AS "atype", "item_id", "title", "event_date" AS "adate" 
-            FROM "public"."event_items" AS "event_items"
-            WHERE "item_id" = %(item_id)s
-         UNION
-            SELECT "action" as "atype", "content_id" AS "item_id", "description" AS "title", "date" AS "adate" 
-            FROM "public"."bill_changes" AS "bill_changes" 
-            WHERE "action" = 'workflow'
-            AND "content_id" = %(item_id)s
-         UNION
-            SELECT 'version' AS "atype", "bill_changes"."change_id" AS "item_id", 
-                "bill_changes"."description" AS "title", "bill_changes"."date" AS "adate" 
-            FROM "public"."bill_versions" AS "bill_versions", "public"."bill_changes" AS "bill_changes" 
-            WHERE "bill_versions"."change_id" = "bill_changes"."change_id" 
-            AND "bill_versions"."manual" = True           
-            AND "bill_changes"."content_id" = %(item_id)s            
-         ORDER BY adate DESC
-                """
+ 
                 
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -424,7 +403,7 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         session = Session()
         bill_id = self.context.bill_id
         connection = session.connection(domain.Bill)
-        self.results = connection.execute( self._sql_timeline % {'item_id' : bill_id} )       
+        self.results = connection.execute( sqlstatements.sql_bill_timeline % {'item_id' : bill_id} )       
         path = absoluteURL( self.context, self.request ) 
         self.addurl = '%s/event/add' %( path )
          

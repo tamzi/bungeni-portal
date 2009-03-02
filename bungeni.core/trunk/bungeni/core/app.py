@@ -54,7 +54,7 @@ class AppSetup( object ):
         #self.context['governments'] = governments
         
         parliaments = domain.ParliamentContainer()
-        self.context['parliament'] = parliaments
+        self.context['parliaments'] = parliaments
         
         #committees = domain.CommitteeContainer()
         #self.context['committees'] = committees

@@ -3,9 +3,22 @@
 from zope import interface
 from zope.schema.interfaces import IContextSourceBinder
 
+from ore.alchemist import Session
+
 import bungeni.models.domain as domain
 from bungeni.ui.i18n import _
+import bungeni.models.schema as db_schema
 
+
+def get_user_id( name ):
+    session = Session()
+    userq = session.query(domain.User).filter(db_schema.users.c.login == name )
+    results = userq.all()
+    if results:
+        user_id = results[0].user_id
+    else:
+        user_id = None
+    return user_id      
 
 
 def checkBySQL( sql_statement, check_dict):

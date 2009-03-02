@@ -15,9 +15,6 @@ Versioning
   >>> from zope.interface import classImplements
   >>> classImplements( bungeni.models.domain.Question, bungeni.core.interfaces.IVersionable)
 
-alsopovides fixes the problem with adaptation
-  >>> #from zope.interface import alsoProvides
-  >>> #alsoProvides(question, bungeni.core.interfaces.IVersionable)
 
 check that there are no versions yet:
   >>> versions =  bungeni.core.interfaces.IVersioned(question)

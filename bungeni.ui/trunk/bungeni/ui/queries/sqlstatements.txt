@@ -6,8 +6,8 @@
    >>> from ore.alchemist import Session     
    >>> from bungeni.models import domain, schema
    >>> import bungeni.models as model
-   >>> import bungeni.ui.sqlexpressions.sqlstatements as s   
-   >>> import bungeni.ui.sqlexpressions.sqlvalidation as sv      
+   >>> import bungeni.ui.queries.sqlstatements as s   
+   >>> import bungeni.ui.queries.sqlvalidation as sv      
   
    
 Setting up Database Connection and Utilities:

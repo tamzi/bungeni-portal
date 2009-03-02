@@ -31,7 +31,7 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
             if item['action'] in seen:
                 continue
             seen.add(item['action'])
-            item['url'] = base_url + item['action']
+            item['url'] = item.setdefault('url', base_url + item['action'])
             item['id'] = item['action'].strip('/')
             item['name'] = item['title']
             self.portal_tabs.append(item)

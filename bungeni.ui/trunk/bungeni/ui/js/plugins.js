@@ -1,5 +1,8 @@
 (function($) {
   $.fn.yuiTabView = function(elements) {
+    if (!YAHOO.widget.TabView) {
+      return console.log("Warning: YAHOO.widget.TabView module not loaded.")
+    }
     var tab_view = new YAHOO.widget.TabView();
     
     $.each(elements, function(i, o) {
@@ -14,6 +17,9 @@
   };
   
   $.fn.yuiDataTable = function(context_name, link_url, data_url, fields, columns, table_id) {
+    if (!YAHOO.widget.DataTable) {
+      return console.log("Warning: YAHOO.widget.DataTable module not loaded.")
+    }
 
     var datasource, columns, config;
     

@@ -225,33 +225,10 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         else:
             return url                    
 
-            
-    def _tree2html(self, items, level = 0):
-        #level = level +1
-        if level >= 0:
-            htmlstr = '<ul class="navTree navTreeLevel' + str(level) + '">'
-        else:
-            #if item['script']:
-            #    htmlstr = '<noscript>'
-            #else:                
-            htmlstr = '' 
-        for item in items:
-            htmlstr = htmlstr + '<li class="navTreeItem ' + item['current'] +'" >'
-            htmlstr = htmlstr + '<div><a href="' + self._appendSortFilter2URL(item['url']) + '"' + ' class="'  + item['current'] +'" >'
-            htmlstr = htmlstr + str( item['name'] )   
-            htmlstr = htmlstr + '</a></div>'           
-            if item['node']:
-                htmlstr = htmlstr + self._tree2html(item['node'], level + 1) 
-            htmlstr = htmlstr +  '</li>'           
-        if level >= 0:
-            htmlstr = htmlstr +  '</ul>'
-        return htmlstr
-                    
-    def _get_tree ( self, context, url = ''):
+    def _get_nodes(self, context, url = ''):
         items = []
         path = self._get_object_path(context)
-        items = self._append_child( path)
-        return self._tree2html(items)
-               
+        return self._append_child(path)
+
     def update(self):
-        self.tree = self._get_tree(self.context)  
+        self.nodes = self._get_nodes(self.context)  

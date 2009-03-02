@@ -148,7 +148,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                             name = domain_model.__name__                            
                         i = { 'name' : name,
                               'current' : '',
-                              'url'  :  k, 
+                              'url'  :  "%s/%s" % (url.rstrip('/'), k), 
                               'node' : None,
                               'script': True }                                          
                         if domain_model == context_class: 

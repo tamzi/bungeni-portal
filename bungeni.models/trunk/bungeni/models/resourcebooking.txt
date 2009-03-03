@@ -117,71 +117,71 @@ meeting of the group by the system.
 
  
 first confirm that all resources are available:
-   >>> rb.getAvailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   >>> rb.get_available_resources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
    [(1,), (2,), (3,)]
    
-   >>> rb.getUnavailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   >>> rb.get_unavailable_resources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
    []
    
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r1)
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r1)
    []
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
    []
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r3)
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r3)
    []
    
 book resources:   
-   >>> rb.bookResource( sit1, r1 )
+   >>> rb.book_resource( sit1, r1 )
    
 so r1 must not be available any more:
 
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,1,0), datetime.datetime(2000,1,1,3,0), r1)
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,1,0), datetime.datetime(2000,1,1,3,0), r1)
    [<bungeni.models.resourcebooking.BookedResources object at ...>]
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,5,0), datetime.datetime(2000,1,1,23,0), r1)   
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,5,0), datetime.datetime(2000,1,1,23,0), r1)   
    []
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,3,50), datetime.datetime(2000,1,2,23,59), r1)   
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,3,50), datetime.datetime(2000,1,2,23,59), r1)   
    [<bungeni.models.resourcebooking.BookedResources object at ...>]
-   >>> rb.getAvailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   >>> rb.get_available_resources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
    [(2,), (3,)]
      
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
    [] 
        
-   >>> rb.bookResource( sit1, r2 )      
-   >>> rb.bookResource( sit1, r2 )   
+   >>> rb.book_resource( sit1, r2 )      
+   >>> rb.book_resource( sit1, r2 )   
    allready booked
       
-   >>> rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
+   >>> rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2)
    [<bungeni.models.resourcebooking.BookedResources object at ...>]
    
-   >>> rb.getAvailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
+   >>> rb.get_available_resources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) 
    [(3,)]
 
-   >>> len(rb.getUnavailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) )
+   >>> len(rb.get_unavailable_resources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) )
    2 
 
 
 conflicting booking:
    
-   >>> rb.bookResource(  sit11, r2 )  
+   >>> rb.book_resource(  sit11, r2 )  
    not available    
 
 remove booking and try again:
 
-   >>> rb.unBookResource(  sit1, r2 )         
-   >>> rb.bookResource(  sit11, r2 )         
+   >>> rb.unbook_resource(  sit1, r2 )         
+   >>> rb.book_resource(  sit11, r2 )         
    
-   >>> rb.bookResource(  sit2, r1 )     
-   >>> rb.bookResource( sit21, r2 )   
+   >>> rb.book_resource(  sit2, r1 )     
+   >>> rb.book_resource( sit21, r2 )   
       
       
-   >>> len(rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r1))
+   >>> len(rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r1))
    2
       
-   >>> len(rb.checkBookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2))
+   >>> len(rb.check_bookings( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59), r2))
    2
    
-   >>> len(rb.getUnavailableResources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) )   
+   >>> len(rb.get_unavailable_resources( datetime.datetime(2000,1,1,0,0), datetime.datetime(2000,1,2,23,59) ) )   
    4
    
    

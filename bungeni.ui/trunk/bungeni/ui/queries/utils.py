@@ -26,7 +26,7 @@ def get_user_id( name ):
 
 def checkBySQL( sql_statement, check_dict):
     """
-    run SQL with variables in the dict
+    Run SQL with variables in the dict
     """
     session = Session()
     sql_text = sql_statement % (check_dict)
@@ -40,7 +40,7 @@ def checkBySQL( sql_statement, check_dict):
 
 def checkDateInInterval( pp_key, checkDate, sql_statement):
     """
-    check if the checkDate is inside one of its 'peers'
+    Check if the checkDate is inside one of its 'peers'
     the passed sql statement must follow the restrictions:
     %(date)s is the date to check (must be present!)
     %(parent_key)s is usually the parents primary key (can be omitted to check all)
@@ -53,7 +53,8 @@ def checkDateInInterval( pp_key, checkDate, sql_statement):
 
 
 def checkStartEndDatesInInterval( pp_key, data, sql_statement):
-    """ Check if start and end dates are not overlapping with a prior or later peer
+    """ 
+    Check if start and end dates are not overlapping with a prior or later peer
     """
     errors =[]    
     overlaps = checkDateInInterval(pp_key, data['start_date'], sql_statement)
@@ -67,7 +68,8 @@ def checkStartEndDatesInInterval( pp_key, data, sql_statement):
 
 
 class SQLQuerySource ( object ):
-    """ call with a SQL Statement and the rows which make up the vocabulary
+    """ 
+    Call with a SQL Statement and the rows which make up the vocabulary
     note that a % wildcard for sql LIKEs must be escaped as %%
    
     Values passed in the filter dictionary can be either constant strings or they can refer
@@ -80,11 +82,14 @@ class SQLQuerySource ( object ):
     needs to have a context i.e, you can call it on edit/view for any object. If you want to add an object
     it must be a childobject of something.
     """
+    
     interface.implements( IContextSourceBinder )   
 
         
     def getValueKey(self, context):
-        """iterate through the parents until you get a valueKey """
+        """
+        Iterate through the parents until you get a valueKey 
+        """
         if context.__parent__ is None:
             return None
         else:            

@@ -66,7 +66,7 @@ class User( Entity ):
         self.salt = self._makeSalt()
     
     def _makeSalt( self ):
-        return ''.join( random.sample( string.letters, 12) )
+        return ''.join( random.sample( string.letters[:52], 12) )
         
     def setPassword( self, password ):
         self.password = self.encode( password )

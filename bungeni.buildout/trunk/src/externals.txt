@@ -46,6 +46,9 @@ ore.library    https://svn.objectrealms.net/svn/public/ore.library/trunk
 # mime type classification and metadata extraction
 ore.metamime  https://svn.objectrealms.net/svn/public/ore.metamime/trunk
 
+# transforms
+ore.transforms https://svn.objectrealms.net/svn/public/ore.transforms/trunk
+
 # repoze.whooze z3 authentication
 repoze.whooze -r3763 http://svn.repoze.org/repoze.whooze/trunk
 

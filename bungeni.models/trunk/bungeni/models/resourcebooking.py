@@ -26,7 +26,7 @@ class BookedResources( object ):
 mapper( BookedResources, bookedresources) 
 
 
-def getAvailableResources( start, end ):
+def get_available_resources( start, end ):
     """
     get all resources that are not booked for a sitting
     in the given time period
@@ -58,7 +58,7 @@ def getAvailableResources( start, end ):
     #query = session.query( domain.Resource ).filter(sql.not_(domain.Resource.resource_id.in_([1,2]) ) )       
     return query.fetchall()                   
 
-def getUnavailableResources( start, end ):
+def get_unavailable_resources( start, end ):
     """
     get all resources that are  booked 
     in the given time period
@@ -74,7 +74,7 @@ def getUnavailableResources( start, end ):
     query = session.query(BookedResources).filter(b_filter)       
     return query.all()                        
     
-def checkBookings( start, end, resource ):
+def check_bookings( start, end, resource ):
     """
     return all sittings a resource is booked for
     in the period
@@ -94,7 +94,7 @@ def checkBookings( start, end, resource ):
     return query.all()
 
                     
-def checkAvailability( start, end, resource):
+def check_availability( start, end, resource):
     """
     check if the resource is available 
     in the given period
@@ -102,9 +102,9 @@ def checkAvailability( start, end, resource):
     assert( type(resource) == domain.Resource )
     assert( type(start) == datetime.datetime )
     assert( type(end) == datetime.datetime ) 
-    return checkBookings( start, end, resource ) == []    
+    return check_bookings( start, end, resource ) == []    
 
-def bookResource( sitting, resource ):
+def book_resource( sitting, resource ):
     """
     book a resource for a sitting,
     check if the resource is available first
@@ -121,7 +121,7 @@ def bookResource( sitting, resource ):
         return
         #nothing to do here it is already booked            
     
-    if checkAvailability( sitting.start_date, sitting.end_date, resource):
+    if check_availability( sitting.start_date, sitting.end_date, resource):
         booking = domain.ResourceBooking()
         booking.resource_id = resource.resource_id
         booking.sitting_id = sitting.sitting_id 
@@ -132,7 +132,7 @@ def bookResource( sitting, resource ):
         print "not available"
                         
 
-def unBookResource( sitting, resource ):
+def unbook_resource( sitting, resource ):
     """
     remove a resource from a sitting
     """

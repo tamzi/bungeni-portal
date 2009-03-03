@@ -54,7 +54,7 @@ call all the sql statments to make sure that the syntax is correct:
    >>> connection.execute(s.sql_bill_timeline % { 'item_id' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
    
-   
+the sql statements used in the validations:   
    >>> connection.execute(sv.checkSessionInterval % {'parent_key' : 1, 'date': '2000-01-01' })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
    >>> connection.execute(sv.checkSittingSessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })

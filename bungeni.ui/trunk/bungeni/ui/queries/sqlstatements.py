@@ -213,6 +213,14 @@ sql_select_question_ministry_edit = """
         """
 
 
+# timeline for a bill
+# select all relevant events:
+# sittings for which this bill was scheduled,
+# manually created events,
+# workflow changes, 
+# manually created versions.
+
+
 sql_bill_timeline = """
          SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
             FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 

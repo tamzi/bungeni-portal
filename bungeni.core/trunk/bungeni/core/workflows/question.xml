@@ -9,6 +9,7 @@
     <grant permission="bungeni.question.edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.view" role="bungeni.Owner" />    
     <grant permission="bungeni.question.delete" role="bungeni.Owner" />    
+    <deny permission="bungeni.question.add" role="bungeni.MP" />        
   </state>
 
   <state id="questionstates.submitted" title="Question submitted to clerk">
@@ -28,6 +29,7 @@
 
   <state id="questionstates.admissible" title="admissible Question">
     <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
+    <!-- TODO permissions for the ministry the question is directed to, maybe to be set in the action? -->    
   </state>
 
   <state id="questionstates.inadmissible" title="inadmissible Question">
@@ -46,10 +48,16 @@
 
   <state id="questionstates.scheduled" title="Question scheduled">
     <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
+    <grant permission="bungeni.response.add" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
+    <grant permission="bungeni.response.view" role="bungeni.Clerk" />         
   </state>
 
   <state id="questionstates.response_pending" title="Question pending response">
-    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />    
+    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
+    <grant permission="bungeni.response.add" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
+    <grant permission="bungeni.response.view" role="bungeni.Clerk" />        
   </state>
 
   <state id="questionstates.deferred" title="Question deferred">
@@ -65,6 +73,7 @@
   </state>
 
   <state id="questionstates.answered" title="Question answered">
+    <grant permission="bungeni.question.add" role="bungeni.MP" />    
   </state>
 
   <state id="questionstates.withdrawn" title="Question withdrawn">

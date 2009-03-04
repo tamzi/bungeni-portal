@@ -325,18 +325,17 @@ class InitialQuestionsViewlet( BungeniAttributeDisplay ):
             
         super( InitialQuestionsViewlet, self).update()
 
-
-
 class ResponseViewlet( BungeniAttributeDisplay ):
-    """
-    Response to Question
-    """
-    mode = "view"
+    """Response to question."""
 
-    form_name = _(u"Response")   
-    addurl = 'add'
-    add_action = form.Actions( form.Action(_(u'add response'), success='handle_response_add_action'), )
+    mode = "view"
     for_display = True
+    
+    form_name = _(u"Response")   
+    
+    add_action = form.Actions(
+        form.Action(_(u'Add response'), success='handle_response_add_action'),
+        )
     
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -346,33 +345,30 @@ class ResponseViewlet( BungeniAttributeDisplay ):
         self.query = None
         md = queryModelDescriptor(domain.Response)          
         self.form_fields=md.fields
-
-    def handle_response_add_action( self, action, data ):
-        self.request.response.redirect(self.addurl)
-
- 
+        self.add_url = '%s/responses/add' % absoluteURL(
+            self.context, self.request)
+        
+    def handle_response_add_action(self, action, data):
+        self.request.response.redirect(self.add_url)
         
     def update(self):
-        """
-        refresh the query
-        """       
-        session = Session()
-        question_id = self.context.question_id
-        self.query = session.query(domain.Response).filter(domain.Response.c.response_id == question_id) 
-        results = self.query.all() 
-        #self.context = self.query.all()[0]
-        path = absoluteURL( self.context, self.request ) 
-        self.addurl = '%s/responses/add' %( path )
-        if results:
-            self.context = results[0]
-            self.context.__parent__=None
+        context = self.context
+        responses = context.responses
+        
+        if len(responses):
+            self.context = tuple(responses.values())[0]
             self.has_data = True
         else:
             self.context =  domain.Response()
-            self.has_data = False             
+            self.has_data = False
+            
+        super(ResponseViewlet, self).update()
+        
+    def setupActions(self):
+        if self.has_data:
+            super(ResponseViewlet, self).setupActions()
+        else:
             self.actions = self.add_action.actions
-        super( ResponseViewlet, self).update()
-
         
 class BillTimeLineViewlet( viewlet.ViewletBase ):
     """

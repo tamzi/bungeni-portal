@@ -52,13 +52,6 @@
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
-     name="signup"
-     class=".login.SignUp"
-     />
-     
-  <browser:page
-     for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.Public"
      name="login"
      class=".login.Login"
      />

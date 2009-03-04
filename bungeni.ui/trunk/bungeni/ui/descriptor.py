@@ -20,7 +20,7 @@ from ore.yuiwidget import calendar
 
 
 from alchemist.ui import widgets
-from bungeni.ui.login import check_email
+from bungeni.ui.constraints import check_email
 
 from bungeni.models import domain
 from bungeni.models import vocabulary

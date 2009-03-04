@@ -74,6 +74,7 @@
 
   <state id="questionstates.answered" title="Question answered">
     <grant permission="bungeni.question.add" role="bungeni.MP" />    
+    <grant permission="bungeni.response.view" role="bungeni.Everybody" />            
   </state>
 
   <state id="questionstates.withdrawn" title="Question withdrawn">

@@ -6,7 +6,7 @@ from zope import component
 from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 
-from ore.workflow.interfaces import IWorkflowInfo
+from ore.workflow.interfaces import IWorkflowInfo, InvalidTransitionError
 import ore.workflow.workflow
 
 import bungeni.core.interfaces
@@ -97,10 +97,8 @@ def submitResponse( info, context ):
 
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
-    if question.status == u"questionstates.response_pending":   
-        IWorkflowInfo(question).fireTransition('respond-writing')
-    if question.status ==  u"questionstates.scheduled":
-        IWorkflowInfo(question).fireTransition('respond-sitting')
+    IWorkflowInfo(question).fireTransitionToward(u"questionstates.responded")
+     
 
 def publishResponse( info, context ):
     """The Response was reviewed by the clerks office, the questions

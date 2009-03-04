@@ -91,8 +91,7 @@ def setBillPublicationDate( info, context ):
     instance.publication_date = datetime.date.today()
 
 def submitResponse( info, context ):
-    """
-    A Response to a question is submitted to the clerks office,
+    """A Response to a question is submitted to the clerks office,
     the questions status is set to responded
     """
 
@@ -104,8 +103,7 @@ def submitResponse( info, context ):
         IWorkflowInfo(question).fireTransition('respond-sitting')
 
 def publishResponse( info, context ):
-    """
-    The Response was reviewed by the clerks office, the questions
+    """The Response was reviewed by the clerks office, the questions
     status is set to answered
     """
     instance = removeSecurityProxy(context)
@@ -122,6 +120,23 @@ def setParliamentId( info, context):
         parliamentId = prefs.getCurrentParliamentId()
         instance.parliament_id = parliamentId
     
-    
-  
+def resonse_allow_submit(info, context):
+    instance = removeSecurityProxy(context)
+    question = dbutils.getQuestion(instance.response_id)
+    if ((question.status == u"questionstates.response_pending")
+        or (question.status ==  u"questionstates.scheduled")):
+        return True
+    else:
+        return False        
+
+def response_allow_complete(info, context):
+    instance = removeSecurityProxy(context)
+    question = dbutils.getQuestion(instance.response_id)
+    if (question.status == u"questionstates.responded"):
+        return True
+    else:
+        return False        
+            
+             
+          
     

@@ -39,6 +39,7 @@
      source="responsestates.draft"
      destination="responsestates.submitted"
      permission="bungeni.response.Submit" 
+     condition="bungeni.core.workflows.utils.resonse_allow_submit"
      action="bungeni.core.workflows.responseactions.submit"
      event="bungeni.core.workflows.interfaces.IResponseSubmittedEvent"
      />
@@ -50,6 +51,7 @@
      source="responsestates.submitted"
      destination="responsestates.complete"
      permission="bungeni.response.Complete" 
+     condition="bungeni.core.workflows.utils.response_allow_complete"
      action="bungeni.core.workflows.responseactions.complete"
      event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"     
      />

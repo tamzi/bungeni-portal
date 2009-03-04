@@ -262,16 +262,6 @@
      />
 
    <browser:viewlet
-     name="signup"
-     for="*"
-     class=".menu.LoginAction"
-     manager="ploned.ui.interfaces.IPersonalBarMenu"
-     permission="zope.Public"
-     viewName="signup"
-     weight="25"
-     />
-
-   <browser:viewlet
      name="dashboard"
      for="*"
      class=".menu.DashboardAction"

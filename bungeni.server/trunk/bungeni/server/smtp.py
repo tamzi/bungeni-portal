@@ -1,6 +1,6 @@
 import smtplib
 import zope.interface
-import zope.sendmail
+import zope.sendmail.interfaces
 import logging
 
 class SMTPMailer(object):

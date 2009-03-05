@@ -115,7 +115,7 @@
     trigger="automatic"
     source=""
     destination="billstates.draft"
-    action="bungeni.core.workflows.billactions.create"
+    action="bungeni.core.workflows.bill.actions.create"
     condition=""
 />
 <transition
@@ -125,7 +125,7 @@
     source="billstates.draft"
     destination="billstates.submitted"
     permission="bungeni.bill.Submit"
-    action="bungeni.core.workflows.billactions.submit"
+    action="bungeni.core.workflows.bill.actions.submit"
     condition=""
 />
 <transition
@@ -135,7 +135,7 @@
     source="billstates.submitted"
     destination="billstates.first_reading"
     permission="bungeni.bill.Schedule"
-    action="bungeni.core.workflows.billactions.schedule_first"
+    action="bungeni.core.workflows.bill.actions.schedule_first"
     condition="bungeni.core.workflows.utils.getBillSchedule"
 />
 <transition
@@ -145,7 +145,7 @@
     source="billstates.first_reading"
     destination="billstates.first_reading_postponed"
     permission="bungeni.bill.Schedule"
-    action="bungeni.core.workflows.billactions.postpone_first"
+    action="bungeni.core.workflows.bill.actions.postpone_first"
     condition=""
 />
 <transition
@@ -155,7 +155,7 @@
     source="billstates.first_reading_postponed"
     destination="billstates.first_reading"
     permission="bungeni.bill.Schedule"
-    action="bungeni.core.workflows.billactions.schedule_first"
+    action="bungeni.core.workflows.bill.actions.schedule_first"
     condition=""
 />
 <transition
@@ -405,7 +405,7 @@
     source="billstates.submitted"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -415,7 +415,7 @@
     source="billstates.first_reading"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -425,7 +425,7 @@
     source="billstates.first_committee"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -435,7 +435,7 @@
     source="billstates.second_reading"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -445,7 +445,7 @@
     source="billstates.whole_house"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -455,7 +455,7 @@
     source="billstates.second_committee"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -465,7 +465,7 @@
     source="billstates.report_reading"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
 <transition
@@ -475,7 +475,7 @@
     source="billstates.third_reading"
     destination="billstates.withdrawn"
     permission="bungeni.bill.Withdraw"
-    action="bungeni.core.workflows.billactions.withdraw"
+    action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
   

@@ -17,7 +17,7 @@
     <!-- cascade for automatic transitions on content -->
   
   <subscriber
-     handler=".fireAutomaticTransitions"
+     handler=".events.fireAutomaticTransitions"
      for="bungeni.models.interfaces.IBungeniContent
           ore.workflow.interfaces.IWorkflowTransitionEvent"
      />
@@ -26,13 +26,13 @@
   
   <utility
      provides="ore.workflow.interfaces.IWorkflowVersions"
-     factory=".NullVersions"
+     factory=".states.NullVersions"
      />
 
   <!-- generic workflow initialization for content -->
   
   <subscriber
-     handler=".initializeWorkflow"
+     handler=".events.initializeWorkflow"
      for="bungeni.models.interfaces.IBungeniContent
           zope.lifecycleevent.IObjectCreatedEvent"
      />
@@ -42,7 +42,7 @@
   <adapter
      for="bungeni.models.interfaces.IBungeniContent"
      provides="ore.workflow.interfaces.IWorkflowState"
-     factory=".WorkflowState" />
+     factory=".states.WorkflowState" />
 
   <adapter
      for="bungeni.models.interfaces.IBungeniContent"
@@ -59,7 +59,7 @@
   <adapter
      for="bungeni.models.interfaces.IBill"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".bill.WorkflowAdapter" />     
+     factory=".adapters.BillWorkflowAdapter" />     
 
   <adapter
      for="bungeni.models.interfaces.IBill"
@@ -71,7 +71,7 @@
   <adapter
      for="bungeni.models.interfaces.IQuestion"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".question.WorkflowAdapter" />
+     factory=".adapters.QuestionWorkflowAdapter" />
 
   <adapter
      for="bungeni.models.interfaces.IQuestion"
@@ -95,7 +95,7 @@
   <adapter
      for="bungeni.models.interfaces.IResponse"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".response.WorkflowAdapter" />
+     factory=".adapters.ResponseWorkflowAdapter" />
      
   <adapter
      for="bungeni.models.interfaces.IResponse"
@@ -107,7 +107,7 @@
   <adapter
      for="bungeni.models.interfaces.IMotion"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".motion.WorkflowAdapter" />
+     factory=".adapters.MotionWorkflowAdapter" />
      
   <adapter
      for="bungeni.models.interfaces.IMotion"

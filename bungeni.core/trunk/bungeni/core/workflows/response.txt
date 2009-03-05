@@ -10,18 +10,18 @@ the response workflow.
 Setup
 -----
 
-  >>> import bungeni.core.workflows.response
+  >>> import bungeni.core.workflows.adapters
   >>> import bungeni.models.interfaces
   >>> import bungeni.core.interfaces  
   >>> import ore.workflow
   >>> import copy
   
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.WorkflowState,
+  ...    bungeni.core.workflows.states.WorkflowState,
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.response.WorkflowAdapter,
+  ...    bungeni.core.workflows.adapters.ResponseWorkflowAdapter,
   ...    (Response,))
 
   >>> component.provideAdapter(
@@ -64,14 +64,14 @@ Security Adapters
 question setup
 
   >>> from bungeni.models.domain import Question
-  >>> import bungeni.core.workflows.question
+  >>> import bungeni.core.workflows.adapters
   
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.WorkflowState,
+  ...    bungeni.core.workflows.states.WorkflowState,
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.question.WorkflowAdapter,
+  ...    bungeni.core.workflows.adapters.QuestionWorkflowAdapter,
   ...    (Question,))
 
   >>> component.provideAdapter(

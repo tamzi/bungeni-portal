@@ -1,23 +1,136 @@
 # encoding: utf-8
 
-import os
-
 from zope import component
-from ore.workflow import workflow
-from bungeni.core.workflows import events
-from bungeni.core.workflows.xmlimport import load
 from bungeni.core.workflows.notification import Notification
 from bungeni.core.workflows import interfaces
 from bungeni.core import globalsettings as prefs
-
 from bungeni.core.i18n import _
+import zope.securitypolicy.interfaces
+import bungeni.core.workflows.utils as utils
 
-path = os.path.split(os.path.abspath( __file__ ))[0]
-wf = load("%s/motion.xml" % path)
+class actions:
+    @staticmethod
+    def denyAllWrites(motion):
+        """
+        remove all rights to change the question from all involved roles
+        """
+    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.MP' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Clerk' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Speaker' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.MP' )    
 
-events.register_workflow_transitions(wf)
-WorkflowAdapter = workflow.AdaptedWorkflow(wf)
-states = wf.states
+    @staticmethod
+    def postpone(info,context):
+        utils.setMotionHistory(info,context)
+
+    @staticmethod
+    def create( info, context ):
+        user_id = utils.getUserId()
+        if not user_id:
+            user_id ='-'
+        zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)   
+        utils.setParliamentId(info, context)
+
+    @staticmethod
+    def submit( info, context ):
+        utils.setSubmissionDate(info, context)
+    #    motion = removeSecurityProxy(context)
+    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    #    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Clerk' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
+
+    @staticmethod
+    def recieved_by_clerk( info, context ):
+        utils.createVersion(info, context)   
+    #    motion = removeSecurityProxy(context)     
+    #    zope.securitypolicy.interfaces.IRolePermissionMap( motion ).grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
+
+    @staticmethod
+    def require_edit_by_mp( info, context ):
+        utils.createVersion(info,context)
+    #    motion = removeSecurityProxy(context)
+    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    #    rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )   
+
+    @staticmethod
+    def complete( info, context ):
+        utils.createVersion(info,context)
+    #    motion = removeSecurityProxy(context)
+    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    #    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Speaker' )
+    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )     
+
+    @staticmethod
+    def approve( info, context ):
+        #motion = removeSecurityProxy(context)
+        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )    
+        #rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' )
+        #rpm.grantPermissionToRole( 'zope.View', u'zope.Anybody')
+        #rpm.grantPermissionToRole( 'bungeni.motion.view', u'zope.Everybody')
+        utils.setApprovalDate(info,context)
+
+    @staticmethod
+    def reject( info, context ):
+        #motion = removeSecurityProxy(context)
+        #denyAllWrites(motion)
+        pass
+
+    @staticmethod
+    def require_amendment( info, context ):
+        utils.createVersion(info,context)
+        #motion = removeSecurityProxy(context)
+        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+        #rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
+        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' ) 
+
+    @staticmethod
+    def complete_clarify( info, context ):
+        utils.createVersion(info,context)
+        #motion = removeSecurityProxy(context)
+        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+        #rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Speaker' )
+        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' ) 
+
+    @staticmethod
+    def mp_clarify( info, context ):
+        utils.createVersion(info,context)
+        #motion = removeSecurityProxy(context)
+        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+        #rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )   
+
+    @staticmethod
+    def schedule( info, context ):
+        pass
+
+    @staticmethod
+    def defer( info, context):
+        pass
+
+    @staticmethod
+    def elapse( info, context ):
+        pass
+
+    @staticmethod
+    def schedule( info, context ):
+        pass
+
+    @staticmethod
+    def debate( info, context ):
+        pass
+
+    @staticmethod
+    def withdraw( info, context ):
+        #motion = removeSecurityProxy(context)
+        #denyAllWrites(motion)    
+        pass
 
 class SendNotificationToMemberUponReceipt(Notification):
     component.adapts(interfaces.IMotionReceivedEvent)

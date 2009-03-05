@@ -1,16 +1,48 @@
+import zope.interface
 import zope.securitypolicy.interfaces
+
 from zope.security.proxy import removeSecurityProxy
 
 from ore.workflow.workflow import Workflow
 from ore.workflow.workflow import WorkflowInfo
+from ore.workflow.workflow import WorkflowVersions
 from ore.workflow.workflow import Transition
 from ore.workflow.workflow import NullCondition
 from ore.workflow.workflow import NullAction
 from ore.workflow.workflow import MANUAL
 from ore.workflow.workflow import CheckerPublic
+from ore.workflow.interfaces import IWorkflowState
 
 GRANT = 1
 DENY  = 0
+
+class WorkflowState( object ):
+    zope.interface.implements(IWorkflowState)
+    
+    __slots__ = 'context',
+    
+    def __init__( self, context ):
+        self.context = context
+        
+    def initialize(self):
+        return
+        
+    def setState( self, state):
+        if state != self.getState():
+            context = removeSecurityProxy(self.context)
+            context.status = state
+            
+    def setId( self, id ):
+        pass # print "setting id", id
+        
+    def getState( self ):
+        return self.context.status
+        
+    def getId( self ):
+        return "1"
+
+class NullVersions(WorkflowVersions):
+    def hasVersionId( self, id): return False
 
 class State( object ):
     def __init__( self, id, title, permissions ):

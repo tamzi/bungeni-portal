@@ -5,6 +5,7 @@ from zope import component
 from zope.event import notify
 from zope.component.interfaces import ObjectEvent
 from ore.workflow import interfaces
+from ore.workflow.interfaces import IWorkflowInfo
 
 # global workflow transition event map
 workflow_transition_event_map = {}
@@ -31,4 +32,15 @@ def workflowTransitionEventDispatcher(event):
         transition_event = ObjectEvent(event.object)
         interface.alsoProvides(transition_event, iface)
         notify(transition_event)
+
+def initializeWorkflow( object, event):
+    """ in response to object created events """
+    workflow = IWorkflowInfo( object )
+    workflow.fireAutomatic()
+
+def fireAutomaticTransitions( object, event ):
+    """ fire automatic transitions for a new state """
+    workflow = IWorkflowInfo( object )
+    workflow.fireAutomatic()
+
 

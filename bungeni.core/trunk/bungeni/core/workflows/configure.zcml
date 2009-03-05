@@ -104,6 +104,13 @@
      provides="ore.workflow.interfaces.IWorkflowInfo"
      factory="bungeni.core.workflows.states.StateWorkflowInfo"/>        
 
-  <include file="motionnotification.zcml" />
-     
+  <subscriber handler=".motion.SendNotificationToMemberUponReceipt" /> 
+  <subscriber handler=".motion.SendNotificationToClerkUponSubmit" />
+  <subscriber handler=".motion.SendNotificationToMemberUponReject" />
+  <subscriber handler=".motion.SendNotificationToMemberUponNeedsClarification" />
+  <subscriber handler=".motion.SendNotificationToMemberUponDeferred" />
+  <subscriber handler=".motion.SendNotificationToMemberUponSchedule" />    
+  <subscriber handler=".motion.SendNotificationToMemberUponPostponed" />
+  <subscriber handler=".motion.SendNotificationToMemberUponDebated" />                
+
 </configure>    

@@ -30,18 +30,18 @@ Setting up Database Connection and Utilities:
 Setup
 -----
 
-  >>> import bungeni.core.workflows.motion
+  >>> import bungeni.core.workflows.adapters
   >>> import bungeni.core.interfaces
   >>> import bungeni.models.interfaces  
   >>> import ore.workflow
   >>> import copy
   
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.WorkflowState,
+  ...    bungeni.core.workflows.states.WorkflowState,
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.motion.WorkflowAdapter,
+  ...    bungeni.core.workflows.adapters.MotionWorkflowAdapter,
   ...    (Motion,))
 
   >>> component.provideAdapter(

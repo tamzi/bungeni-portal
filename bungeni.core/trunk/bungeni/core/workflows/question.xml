@@ -89,7 +89,7 @@
      trigger="automatic"
      source=""
      destination="questionstates.draft"
-     action="bungeni.core.workflows.questionactions.create"
+     action="bungeni.core.workflows.question.actions.create"
      condition=""
      />
 
@@ -100,7 +100,7 @@
      source="questionstates.draft"
      destination="questionstates.submitted"
      permission="bungeni.question.Submit"
-     action="bungeni.core.workflows.questionactions.submitToClerk"
+     action="bungeni.core.workflows.question.actions.submitToClerk"
      condition=""
      event=".interfaces.IQuestionSubmittedEvent"
      />
@@ -111,7 +111,7 @@
      source="questionstates.submitted"
      destination="questionstates.received"
      permission="bungeni.question.Recieve"
-     action="bungeni.core.workflows.questionactions.recievedByClerk"
+     action="bungeni.core.workflows.question.actions.recievedByClerk"
      condition=""
      event=".interfaces.IQuestionReceivedEvent"
      />
@@ -129,7 +129,7 @@
      source="questionstates.received"
      destination="questionstates.clarify_mp"
      permission="bungeni.question.clerk.Review"
-     action="bungeni.core.workflows.questionactions.requireEditByMp"
+     action="bungeni.core.workflows.question.actions.requireEditByMp"
      condition=""
      event=".interfaces.IQuestionClarifyEvent"
      />
@@ -150,7 +150,7 @@
      source="questionstates.received"
      destination="questionstates.complete"
      permission="bungeni.question.clerk.Review"
-     action="bungeni.core.workflows.questionactions.complete"
+     action="bungeni.core.workflows.question.actions.complete"
      condition=""
      event=".interfaces.IQuestionCompleteEvent"
      />
@@ -170,7 +170,7 @@
      source="questionstates.complete"
      destination="questionstates.admissible"
      permission="bungeni.question.speaker.Review"
-     action="bungeni.core.workflows.questionactions.approve"
+     action="bungeni.core.workflows.question.actions.approve"
      condition=""
      event=""
      />
@@ -181,7 +181,7 @@
      source="questionstates.complete"
      destination="questionstates.inadmissible"
      permission="bungeni.question.speaker.Review"
-     action="bungeni.core.workflows.questionactions.reject"
+     action="bungeni.core.workflows.question.actions.reject"
      condition=""
      event=".interfaces.IQuestionRejectedEvent"
      />
@@ -192,7 +192,7 @@
      source="questionstates.complete"
      destination="questionstates.clarify_clerk"
      permission="bungeni.question.speaker.Review"
-     action="bungeni.core.workflows.questionactions.requireAmendment"
+     action="bungeni.core.workflows.question.actions.requireAmendment"
      condition=""
      event=""
      />
@@ -209,7 +209,7 @@
      source="questionstates.clarify_clerk"
      destination="questionstates.complete"
      permission="bungeni.question.clerk.Review"
-     action="bungeni.core.workflows.questionactions.completeClarify"
+     action="bungeni.core.workflows.question.actions.completeClarify"
      condition=""
      event=""
      />
@@ -224,7 +224,7 @@
      source="questionstates.clarify_clerk"
      destination="questionstates.clarify_mp"
      permission="bungeni.question.clerk.Review"
-     action="bungeni.core.workflows.questionactions.mpClarify"
+     action="bungeni.core.workflows.question.actions.mpClarify"
      condition=""
      event=""
      />
@@ -240,7 +240,7 @@
      source="questionstates.clarify_mp"
      destination="questionstates.submitted"
      permission="bungeni.question.Submit"
-     action="bungeni.core.workflows.questionactions.submitToClerk"
+     action="bungeni.core.workflows.question.actions.submitToClerk"
      condition=""
      event=""
      />
@@ -259,7 +259,7 @@
      source="questionstates.admissible"
      destination="questionstates.scheduled"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.schedule"
+     action="bungeni.core.workflows.question.actions.schedule"
      condition=".utils.getQuestionSchedule"
      event=".interfaces.IQuestionScheduledEvent"
      />
@@ -276,7 +276,7 @@
      source="questionstates.admissible"
      destination="questionstates.response_pending"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.sendToMinistry"
+     action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
@@ -292,7 +292,7 @@
      source="questionstates.response_pending"
      destination="questionstates.response_pending"
      permission="bungeni.question.Write_answer"
-     action="bungeni.core.workflows.questionactions.sendToMinistry"
+     action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
@@ -306,7 +306,7 @@
      source="questionstates.response_pending"
      destination="questionstates.responded"
      permission="bungeni.question.Write_answer"
-     action="bungeni.core.workflows.questionactions.respondWriting"
+     action="bungeni.core.workflows.question.actions.respondWriting"
      condition=""
      event=""
      />
@@ -319,7 +319,7 @@
      source="questionstates.response_pending"
      destination="questionstates.elapsed"
      permission="bungeni.question.Write_answer"
-     action="bungeni.core.workflows.questionactions.elapse"
+     action="bungeni.core.workflows.question.actions.elapse"
      condition=""
      event=""
      />
@@ -336,7 +336,7 @@
      source="questionstates.admissible"
      destination="questionstates.deferred"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.defer"
+     action="bungeni.core.workflows.question.actions.defer"
      condition=""
      event=".interfaces.IQuestionDeferredEvent"
      />
@@ -347,7 +347,7 @@
      source="questionstates.deferred"
      destination="questionstates.elapsed"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.elapse"
+     action="bungeni.core.workflows.question.actions.elapse"
      condition=""
      event=""
      />
@@ -363,7 +363,7 @@
      source="questionstates.deferred"
      destination="questionstates.response_pending"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.sendToMinistry"
+     action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
@@ -379,7 +379,7 @@
      source="questionstates.deferred"
      destination="questionstates.scheduled"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.schedule"
+     action="bungeni.core.workflows.question.actions.schedule"
      condition=".utils.getQuestionSchedule"
      event=""
      />
@@ -395,7 +395,7 @@
      source="questionstates.scheduled"
      destination="questionstates.postponed"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.postpone"
+     action="bungeni.core.workflows.question.actions.postpone"
      condition=""
      event=".interfaces.IQuestionPostponedEvent"
      />          
@@ -406,7 +406,7 @@
      source="questionstates.scheduled"
      destination="questionstates.responded"
      permission="bungeni.question.Respond"
-     action="bungeni.core.workflows.questionactions.respondSitting"
+     action="bungeni.core.workflows.question.actions.respondSitting"
      condition=""
      event=""
      />
@@ -422,7 +422,7 @@
      source="questionstates.postponed"
      destination="questionstates.scheduled"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.schedule"
+     action="bungeni.core.workflows.question.actions.schedule"
      condition=".utils.getQuestionSchedule"
      event=".interfaces.IQuestionScheduledEvent"
      />
@@ -438,7 +438,7 @@
      source="questionstates.postponed"
      destination="questionstates.elapsed"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.elapse"
+     action="bungeni.core.workflows.question.actions.elapse"
      condition=""
      event=""
      />
@@ -454,7 +454,7 @@
      source="questionstates.postponed"
      destination="questionstates.response_pending"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.questionactions.sendToMinistry"
+     action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
@@ -471,7 +471,7 @@
      source="questionstates.responded"
      destination="questionstates.answered"
      permission="bungeni.question.Answer"
-     action="bungeni.core.workflows.questionactions.answer"
+     action="bungeni.core.workflows.question.actions.answer"
      condition=""
      event=".interfaces.IQuestionAnsweredEvent"
      />
@@ -488,7 +488,7 @@
      source="questionstates.submitted"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -499,7 +499,7 @@
      source="questionstates.received"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -510,7 +510,7 @@
      source="questionstates.complete"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -521,7 +521,7 @@
      source="questionstates.admissible"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -532,7 +532,7 @@
      source="questionstates.clarify_mp"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -543,7 +543,7 @@
      source="questionstates.scheduled"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -554,7 +554,7 @@
      source="questionstates.deferred"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />
@@ -566,7 +566,7 @@
      source="questionstates.postponed"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.questionactions.withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
      event=""
      />

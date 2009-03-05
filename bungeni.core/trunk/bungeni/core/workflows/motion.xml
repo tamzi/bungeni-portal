@@ -92,7 +92,7 @@
     source=""
     destination="motionstates.draft"
     permission=""
-    action="bungeni.core.workflows.motionactions.create"
+    action="bungeni.core.workflows.motion.actions.create"
     condition=""
   />
   <!--transition
@@ -123,7 +123,7 @@
     source="motionstates.draft"
     destination="motionstates.submitted"
     permission="bungeni.motion.Submit"
-    action="bungeni.core.workflows.motionactions.submit"
+    action="bungeni.core.workflows.motion.actions.submit"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionSubmittedEvent"
   />
@@ -135,7 +135,7 @@
     source="motionstates.submitted"
     destination="motionstates.received"
     permission="bungeni.motion.Recieve"
-    action="bungeni.core.workflows.motionactions.recieved_by_clerk"
+    action="bungeni.core.workflows.motion.actions.recieved_by_clerk"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionReceivedEvent"
   />
@@ -146,7 +146,7 @@
     source="motionstates.received"
     destination="motionstates.clarify_mp"
     permission="bungeni.motion.clerk.Review"
-    action="bungeni.core.workflows.motionactions.require_edit_by_mp"
+    action="bungeni.core.workflows.motion.actions.require_edit_by_mp"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"
   />
@@ -157,7 +157,7 @@
     source="motionstates.received"
     destination="motionstates.complete"
     permission="bungeni.motion.clerk.Review"
-    action="bungeni.core.workflows.motionactions.complete"
+    action="bungeni.core.workflows.motion.actions.complete"
     condition=""
   />
   <transition
@@ -167,7 +167,7 @@
     source="motionstates.complete"
     destination="motionstates.admissible"
     permission="bungeni.motion.speaker.Review"
-    action="bungeni.core.workflows.motionactions.approve"
+    action="bungeni.core.workflows.motion.actions.approve"
     condition=""
   />
   <transition
@@ -177,7 +177,7 @@
     source="motionstates.complete"
     destination="motionstates.inadmissible"
     permission="bungeni.motion.speaker.Review"
-    action="bungeni.core.workflows.motionactions.reject"
+    action="bungeni.core.workflows.motion.actions.reject"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionRejectedEvent"
   />
@@ -188,7 +188,7 @@
     source="motionstates.complete"
     destination="motionstates.clarify_clerk"
     permission="bungeni.motion.speaker.Review"
-    action="bungeni.core.workflows.motionactions.require_amendment"
+    action="bungeni.core.workflows.motion.actions.require_amendment"
     condition=""
   />
   <transition
@@ -208,7 +208,7 @@
     source="motionstates.clarify_clerk"
     destination="motionstates.clarify_mp"
     permission="bungeni.motion.clerk.Review"
-    action="bungeni.core.workflows.motionactions.mp_clarify"
+    action="bungeni.core.workflows.motion.actions.mp_clarify"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"    
   />
@@ -219,7 +219,7 @@
     source="motionstates.clarify_mp"
     destination="motionstates.submitted"
     permission="bungeni.motion.Submit"
-    action="bungeni.core.workflows.motionactions.submit"
+    action="bungeni.core.workflows.motion.actions.submit"
     condition=""
   />
   <transition
@@ -229,7 +229,7 @@
     source="motionstates.admissible"
     destination="motionstates.scheduled"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.schedule"
+    action="bungeni.core.workflows.motion.actions.schedule"
     condition="bungeni.core.workflows.utils.getMotionSchedule"
     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"
   />
@@ -240,7 +240,7 @@
     source="motionstates.admissible"
     destination="motionstates.deferred"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.defer"
+    action="bungeni.core.workflows.motion.actions.defer"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionDeferredEvent"
   />
@@ -251,7 +251,7 @@
     source="motionstates.deferred"
     destination="motionstates.elapsed"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.elapse"
+    action="bungeni.core.workflows.motion.actions.elapse"
     condition=""
   />
   <transition
@@ -261,7 +261,7 @@
     source="motionstates.deferred"
     destination="motionstates.scheduled"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.schedule"
+    action="bungeni.core.workflows.motion.actions.schedule"
     condition="bungeni.core.workflows.utils.getMotionSchedule"
     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
   />
@@ -272,7 +272,7 @@
     source="motionstates.scheduled"
     destination="motionstates.postponed"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.postpone"
+    action="bungeni.core.workflows.motion.actions.postpone"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionPostponedEvent"
   />
@@ -283,7 +283,7 @@
     source="motionstates.scheduled"
     destination="motionstates.debated"
     permission="bungeni.motion.Debate"
-    action="bungeni.core.workflows.motionactions.debate"
+    action="bungeni.core.workflows.motion.actions.debate"
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionDebatedEvent"
   />
@@ -294,7 +294,7 @@
     source="motionstates.postponed"
     destination="motionstates.scheduled"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.schedule"
+    action="bungeni.core.workflows.motion.actions.schedule"
     condition="bungeni.core.workflows.utils.getMotionSchedule"
     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
   />
@@ -305,7 +305,7 @@
     source="motionstates.postponed"
     destination="motionstates.elapsed"
     permission="bungeni.motion.Schedule"
-    action="bungeni.core.workflows.motionactions.elapse"
+    action="bungeni.core.workflows.motion.actions.elapse"
     condition=""
   />
   <transition
@@ -315,7 +315,7 @@
     source="motionstates.submitted"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -325,7 +325,7 @@
     source="motionstates.received"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -335,7 +335,7 @@
     source="motionstates.complete"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -345,7 +345,7 @@
     source="motionstates.admissible"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -355,7 +355,7 @@
     source="motionstates.clarify_mp"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -365,7 +365,7 @@
     source="motionstates.scheduled"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -375,7 +375,7 @@
     source="motionstates.deferred"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   <transition
@@ -385,7 +385,7 @@
     source="motionstates.postponed"
     destination="motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
-    action="bungeni.core.workflows.motionactions.withdraw"
+    action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
   

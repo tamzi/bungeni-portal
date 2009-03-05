@@ -1,12 +1,30 @@
-import os
+from bungeni.core.workflows import utils
 
-from ore.workflow import workflow
-from bungeni.core.workflows import events
-from bungeni.core.workflows.xmlimport import load
+class actions:
+    @staticmethod
+    def create(info, context):
+        utils.setBillSubmissionDate( info, context )
+        utils.setParliamentId(info, context)
 
-path = os.path.split(os.path.abspath( __file__ ))[0]
-wf = load("%s/bill.xml" % path)
+    @staticmethod
+    def submit(info, context):
+        utils.setBillPublicationDate( info, context )
+        utils.setSubmissionDate(info, context)
+        #bill = removeSecurityProxy(context)
+        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( bill )
+        #rpm.grantPermissionToRole( 'bungeni.bill.view', u'bungeni.Everybody' )
+        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+        #rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
 
-events.register_workflow_transitions(wf)
-WorkflowAdapter = workflow.AdaptedWorkflow(wf)
-states = wf.states
+    @staticmethod
+    def withdraw(info, context):
+        pass
+
+    @staticmethod
+    def schedule_first(info, context):
+        pass
+
+    @staticmethod
+    def postpone_first(info, context):
+        pass
+

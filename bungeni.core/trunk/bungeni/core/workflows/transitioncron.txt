@@ -28,7 +28,7 @@ set up utilities
   
   
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.WorkflowState,
+  ...    bungeni.core.workflows.states.WorkflowState,
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(

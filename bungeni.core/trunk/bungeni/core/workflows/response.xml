@@ -29,7 +29,7 @@
      trigger="automatic"
      source=""
      destination="responsestates.draft"
-     action="bungeni.core.workflows.responseactions.create"
+     action="bungeni.core.workflows.response.actions.create"
      />
 
   <transition 
@@ -40,7 +40,7 @@
      destination="responsestates.submitted"
      permission="bungeni.response.Submit" 
      condition="bungeni.core.workflows.utils.resonse_allow_submit"
-     action="bungeni.core.workflows.responseactions.submit"
+     action="bungeni.core.workflows.response.actions.submit"
      event="bungeni.core.workflows.interfaces.IResponseSubmittedEvent"
      />
 
@@ -52,11 +52,9 @@
      destination="responsestates.complete"
      permission="bungeni.response.Complete" 
      condition="bungeni.core.workflows.utils.response_allow_complete"
-     action="bungeni.core.workflows.responseactions.complete"
+     action="bungeni.core.workflows.response.actions.complete"
      event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"     
      />
-     
-   
 
 </workflow>
 

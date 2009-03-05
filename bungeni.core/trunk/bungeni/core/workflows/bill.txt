@@ -7,6 +7,7 @@ Setup
 -----
 
   >>> from bungeni.models.domain import Bill
+  >>> import bungeni.core.workflows.adapters
   >>> from bungeni.core.workflows.bill import states
   >>> import bungeni.core.interfaces
   >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
@@ -40,11 +41,11 @@ Setting up Database Connection and Utilities:
    >>> i = 0  
   
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.WorkflowState,
+  ...    bungeni.core.workflows.states.WorkflowState,
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.bill.WorkflowAdapter,
+  ...    bungeni.core.workflows.adapters.BillWorkflowAdapter,
   ...    (Bill,))
 
   >>> component.provideAdapter(

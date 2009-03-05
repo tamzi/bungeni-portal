@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 import os
 
 from zope import component
@@ -119,7 +121,7 @@ class SendNotificationToMemberUponDeferred(Notification):
     
     @property
     def from_address(self):
-        return prefs.getClerksOfficeEmail()
+        return prefs.getSpeakersOfficeEmail()
 
 class SendNotificationToMemberUponSchedule(Notification):
     """Issued when a motion was scheduled by Speakers office.
@@ -172,7 +174,7 @@ class SendNotificationToMemberUponDebated(Notification):
              default=u"Motion was debated.")
     @property
     def subject(self):
-        return u'Motion debated: %s' % self.context.title
+        return u'Motion was debated: %s' % self.context.title
 
     @property
     def condition(self):

@@ -78,8 +78,6 @@ def test_suite():
 
     doctests = ('audit.txt',
                 'version.txt',                 
-                'workflows/questionnotification.txt', 
-                'workflows/motionnotification.txt',                 
                 'workflows/question.txt',
                 'workflows/response.txt',               
                 'workflows/motion.txt',

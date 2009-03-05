@@ -1,5 +1,5 @@
 Motion workflow
-=================
+===============
 
   >>> from bungeni.models.domain import Motion
   >>> import bungeni.models as model
@@ -473,7 +473,107 @@ Transition events check
   True
   
 
-cleanup
+Notifications
+-------------
+
+  >>> from bungeni.core.workflows import motion as notification
+  >>> from zope.component.interfaces import ObjectEvent
+
+Setup mock delivery component.
+
+  >>> import zope.sendmail.interfaces
+  
+  >>> class MockMailDelivery(object):
+  ...     interface.implements(zope.sendmail.interfaces.IMailDelivery)
+  ...
+  ...     def send(self, *args):
+  ...         print "From: %s\nTo: %s\n\n%s" % args
+
+  >>> component.provideUtility(MockMailDelivery())
+
+Set up a user.
+
+  >>> from bungeni.models.domain import User
+  >>> user = User()
+  >>> user.first_name = u'John'
+  >>> user.last_name = u'Doe'
+  >>> user.email = 'john.doe@localhost'
+  >>> user.owner_id = 1
+  
+  >>> from ore.alchemist import Session
+  >>> session = Session()
+  >>> session.save(user)
+  >>> session.flush()
+  
+  >>> from bungeni.models.domain import Motion
+  >>> motion = Motion()
+  >>> motion.title = u"My subject"
+  >>> motion.owner_id = user.user_id
+  >>> motion.receive_notification = False
+  
+Motion received.
+  
+  >>> notification.SendNotificationToMemberUponReceipt(ObjectEvent(motion))
+
+Let's change our setting for receive notification so an email message
+is dispatched.
+
+  >>> motion.receive_notification = True
+  >>> notification.SendNotificationToMemberUponReceipt(ObjectEvent(motion))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost>...
+  Subject: Motion received: My subject...
+  
+Send notification to Clerk's office upon submit.
+#XXX
+Note that the notification setting for the clerks office are
+HARDCODED in the preferences so we cannot test this yet!
+
+    >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(motion))
+    From: "John Doe" <john.doe@localhost>
+    To: clerks.office@parliament.go.tld ...
+    Subject: Motion submitted: My subject ...
+
+  
+A motion was rejected by the speakers office.
+    >>> notification.SendNotificationToMemberUponReject(ObjectEvent(motion))
+    From: speakers.office@parliament.go.tld
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Motion rejected: My subject ...
+  
+
+A motion needs clarification by the MP
+    >>> notification.SendNotificationToMemberUponNeedsClarification(ObjectEvent(motion))
+    From: clerks.office@parliament.go.tld
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Motion needs clarification: My subject ...
+
+
+A motion was deferred by Clerk's office.
+    >>> notification.SendNotificationToMemberUponDeferred(ObjectEvent(motion))
+    From: speakers.office@parliament.go.tld
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Motion deferred: My subject ...
+
+A motion was scheduled by Speakers office.
+    >>> notification.SendNotificationToMemberUponSchedule(ObjectEvent(motion))
+    From: clerks.office@parliament.go.tld
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Motion scheduled: My subject ...
+
+A motion was postponed by the speakers office.
+    >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(motion))  
+    From: clerks.office@parliament.go.tld
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Motion postponed: My subject ...
+  
+A motions answer was debated.
+    >>> notification.SendNotificationToMemberUponDebated(ObjectEvent(motion))  
+    From: clerks.office@parliament.go.tld
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Motion was debated: My subject ...
+
+Cleanup
 -------
   >>> session.flush()
   >>> session.commit()

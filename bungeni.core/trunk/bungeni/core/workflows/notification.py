@@ -15,7 +15,9 @@ class Notification(object):
     def __new__(cls, event):
         notification = object.__new__(cls)
         notification.__init__(event.object)
-        notification()
+
+        if notification.condition:
+            notification()
         
     def __init__(self, context):
         self.context = context

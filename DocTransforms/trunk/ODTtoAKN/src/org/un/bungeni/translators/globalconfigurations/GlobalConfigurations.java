@@ -9,6 +9,9 @@ public class GlobalConfigurations
 	//the prefix for all the application path
 	private static String applicationPathPrefix = "";
 	
+	//the path of the configuration file to be used for the translation 
+	private static String configurationFilePath = "";
+	
 	/**
 	 * Set the application path prefix to the given one
 	 * @param anApplicationPathPrefix the new application path prefix
@@ -27,5 +30,25 @@ public class GlobalConfigurations
 	{
 		//return the application path prefix
 		return GlobalConfigurations.applicationPathPrefix;
+	}
+
+	/**
+	 * Set the configuration file path to the given one
+	 * @param aConfigurationFilePath the new configuration file path
+	 */
+	public static void setConfigurationFilePath(String aConfigurationFilePath)
+	{
+		//change the configuration file path
+		GlobalConfigurations.configurationFilePath = aConfigurationFilePath;
+	}
+	
+	/**
+	 * Return the configuration file path
+	 * @return the configuration file path
+	 */
+	public static String getConfigurationFilePath()
+	{
+		//return the configuration file path
+		return GlobalConfigurations.configurationFilePath;
 	}
 }

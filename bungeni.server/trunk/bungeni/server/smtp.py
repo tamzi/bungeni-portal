@@ -1,9 +1,7 @@
 import smtplib
-import email.Message
-
 import zope.interface
-import zope.component
-import zope.sendmail.interfaces
+import zope.sendmail
+import logging
 
 class SMTPMailer(object):
     """A direct mailer for use with zope.sendmail."""
@@ -24,6 +22,15 @@ class SMTPMailer(object):
         connection.sendmail(fromaddr, toaddrs, message)
         connection.quit()
 
+class DummySMTPMailer(object):
+    """A dummy direct mailer for use with zope.sendmail."""
+
+    zope.interface.implements(zope.sendmail.interfaces.ISMTPMailer)
+
+    def send(self, fromaddr, toaddrs, message):
+        logging.getLogger("bungeni.server").info(
+            "%s -> %s: %s." % (fromaddr, toaddrs, repr(message)))
+        
 def dispatch(msg):
     delivery = zope.component.getUtility(zope.sendmail.interfaces.IMailDelivery)
     delivery.send(msg['From'], msg['To'], msg.as_string())

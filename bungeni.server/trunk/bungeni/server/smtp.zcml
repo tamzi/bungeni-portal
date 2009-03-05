@@ -1,6 +1,7 @@
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:mail="http://namespaces.zope.org/mail"
+   xmlns:zcml="http://namespaces.zope.org/zcml"
    i18n_domain="bungeni.messaging">
 
   <!-- ``zope.sendmail`` is a dependency for sending mail -->
@@ -9,11 +10,20 @@
 
   <!-- We define our own ISMTPMailer utility that fetches settings
        from the portal -->
-  <utility name="bungeni.smtp" factory=".smtp.SMTPMailer" />
+
+  <utility
+     zcml:condition="not-have devmode"
+     name="bungeni.smtp"
+     factory=".smtp.SMTPMailer" />
+
+  <utility
+     zcml:condition="have devmode"
+     name="bungeni.smtp"
+     factory=".smtp.DummySMTPMailer" />
   
   <mail:directDelivery 
      name=""
      mailer="bungeni.smtp"
      permission="zope.Public" />
-
+  
 </configure>

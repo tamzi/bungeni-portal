@@ -1,6 +1,7 @@
 from alchemist.ui.core import BaseForm
 from zope.security.proxy import removeSecurityProxy
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.publisher.browser import BrowserView
 
 from ore.workflow import interfaces
 from bungeni.core.i18n import _
@@ -113,6 +114,8 @@ class IWorkflowComment( zope.interface.Interface ):
     """           
     note = zope.schema.Text(title=_("Comment on workflow change"), required=False )
 
+class WorkflowComment(object):
+    note = u""
     
 class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
     """
@@ -124,6 +127,10 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
     render = ViewPageTemplateFile ('templates/workflowaction_viewlet.pt')
     
     def update( self ):
+        self.adapters = {
+            IWorkflowComment: WorkflowComment(),
+            }
+
         self.setupActions()   
         super( WorkflowActionViewlet, self).update()
         self.setupActions()  # after we transition we have different actions      
@@ -145,32 +152,40 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
         
     def setUpWidgets( self , ignore_request=False):
         # setup widgets in data entry mode not bound to context
-        self.adapters = {}
         self.widgets = form.setUpDataWidgets(
             self.form_fields, self.prefix, self.context, self.request,
             ignore_request = ignore_request )            
 
-class WorkflowView(BaseForm):
+class WorkflowView(BrowserView):
     template = ViewPageTemplateFile('templates/workflow.pt')
-    form_name = "Workflow"
-    form_fields = form.Fields(IWorkflowComment)
-    
-    def update( self ):
-        self.setupActions()   
-        super(WorkflowView, self).update()
-        self.setupActions()  # after we transition we have different actions      
-        self.wf_state = interfaces.IWorkflowState(
-            removeSecurityProxy(self.context) ).getState()
 
+    def __call__(self):
+        self.update()
+        return self.template()
+
+    def update(self):
         self.history_viewlet = WorkflowHistoryViewlet(
             self.context, self.request, self, None)
         self.action_viewlet = WorkflowActionViewlet(
             self.context, self.request, self, None)
-
         self.history_viewlet.update()
         self.action_viewlet.update()
+
+    
+class WorkflowChangeStateView(WorkflowView):
+    def __call__(self, transition=None):
+        if transition and self.request['REQUEST_METHOD'] == 'POST':
+            self.update()
+            actions = bindTransitions(
+                self.action_viewlet, (transition,), None, 
+                interfaces.IWorkflow(self.context))
+            assert len(actions) == 1
+
+            # execute action
+            return actions[0].success({})
+
+        return super(WorkflowChangeStateView, self).__call__()
+
+
         
-    def setupActions( self ):
-        self.wf = interfaces.IWorkflowInfo( self.context )
-        transitions = self.wf.getManualTransitionIds()
-        self.actions = bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) )
+

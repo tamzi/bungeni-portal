@@ -89,6 +89,12 @@
      class=".workflow.WorkflowView"
      permission="zope.Public"/>
 
+  <browser:page 
+     for="bungeni.models.interfaces.IBungeniContent"
+     name="change_workflow_state"
+     class=".workflow.WorkflowChangeStateView"
+     permission="zope.ManageContent"/>
+
   <!-- versions -->
   
   <browser:page 

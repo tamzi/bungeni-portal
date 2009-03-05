@@ -102,41 +102,16 @@ Security Adapters
 
 In order to create a participation, we need a principal:
 
-  >>> import zope.security.interfaces
-  >>> import zope.interface 
-  >>> class Bob:
-  ...     zope.interface.implements(zope.security.interfaces.IPrincipal)
-  ...     id = 'bob'
-  ...     title = description = ''
-  >>> bob = Bob()
+  >>> from bungeni.core.testing import create_principal, create_participation
+  >>> import zope.security.management
+  >>> zope.security.management.endInteraction()
 
-Now we can create a participation:
-
-  >>> import zope.publisher.interfaces
-  >>> class Participation(object):
-  ...     zope.interface.implements(
-  ...         zope.security.interfaces.IParticipation,
-  ...         zope.publisher.interfaces.IRequest)
-  ...     interaction = principal = None
-  ...
-  ...     def __init__(self, principal):
-  ...         self.principal = principal
-  ...
-  ...     def __repr__(self):
-  ...         return '<%s %r>' %(self.__class__.__name__, self.principal)
-
-
-  >>> import zope.securitypolicy.interfaces
-
-  >>> from zope.publisher.browser import TestRequest
-  >>> from zope.app.security.interfaces import IUnauthenticatedPrincipal  
-  >>> from zope.app.security.principalregistry import UnauthenticatedPrincipal
-
-  
-
+  >>> bob = create_principal("bob", "Bob", ("bungeni.Clerk",))
+  >>> zope.security.management.newInteraction(create_participation(bob))
 
 setup parliament, gov and ministry
 ----------------------------------
+
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
   >>> session.save(parliament)
   >>> session.flush()
@@ -248,10 +223,6 @@ set up a security mapping
 
   >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
  
-  >>> import zope.security.management
-  >>> #zope.security.management.endInteraction()
-  >>> #zope.security.management.newInteraction(Participation(bob))
-
 just a variable to count the versions:
   >>> i = 0
  
@@ -285,7 +256,6 @@ The question is now in a draft state.
 
 the question does not yet have a submitted date
    >>> question.submission_date 
-   
    
 When we submit the question, a new version is created.
   
@@ -702,3 +672,5 @@ cleanup
   >>> session.flush()
   >>> session.commit()
   >>> session.close()  
+
+  >>> zope.security.management.endInteraction()

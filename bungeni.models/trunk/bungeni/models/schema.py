@@ -120,10 +120,6 @@ users = rdb.Table(
 #    rdb.Column( "type", rdb.Unicode(16) ),   
 #    )
 
-users_changes = make_changes_table(users, metadata)
-
-   
-
 # specific user classes
 parliament_members = rdb.Table(
    "parliament_members",

@@ -18,26 +18,8 @@ zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:db="http://namespaces.objectrealms.net/rdb">
 
-  <include package="ore.alchemist" file="meta.zcml"/>
-  <include package="alchemist.catalyst" file="meta.zcml"/>
-
-  <!-- Setup Database Connection -->
-  <db:engine
-     name="bungeni-db"
-     url="postgres://localhost/bungeni-test"
-     />
-     
-  <db:bind
-     engine="bungeni-db"
-     metadata="bungeni.models.metadata" />
-
-  <db:bind
-     engine="bungeni-db"
-     metadata="alchemist.security.metadata" />     
-
-  <!-- Setup Core Model --> 
-  <include package="bungeni.ui" file="catalyst.zcml"/>
- 
+  <include package="bungeni.core" file="ftesting.zcml" />
+  
 </configure>
 """
 

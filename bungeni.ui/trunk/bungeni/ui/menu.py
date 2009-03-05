@@ -153,7 +153,7 @@ class WorkflowMenu(BrowserMenu):
         results = []
         for transition in transitions:
             tid = transition.transition_id
-            transition_url = url + '/@@%s' % tid
+            transition_url = url + '/@@change_workflow_state?transition=%s' % tid
 
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,

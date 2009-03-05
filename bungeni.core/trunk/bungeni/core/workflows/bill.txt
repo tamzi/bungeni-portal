@@ -44,7 +44,7 @@ Setting up Database Connection and Utilities:
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.bill.BillWorkflowAdapter,
+  ...    bungeni.core.workflows.bill.WorkflowAdapter,
   ...    (Bill,))
 
   >>> component.provideAdapter(
@@ -97,7 +97,10 @@ Transition events
 We set up event subscribers to make sure all registered transition
 events are called.
 
-#XXX
+  >>> from bungeni.core.workflows import testing
+  >>> check_transition_events = testing.provide_transition_events_check(
+  ...     bungeni.core.workflows.bill.wf)
+
   
 Permissions
 -----------

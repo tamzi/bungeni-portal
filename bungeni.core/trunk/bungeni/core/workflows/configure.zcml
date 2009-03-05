@@ -2,13 +2,43 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
   <!-- workflow permissions -->
+  
   <include file="permissions.zcml" />
   
   <!-- grant workflow permissions to roles -->
+  
   <include file="grants.zcml" />
 
+  <!-- general transition event dispatcher -->
+  
+  <subscriber
+     handler=".events.workflowTransitionEventDispatcher" />
+
+    <!-- cascade for automatic transitions on content -->
+  
+  <subscriber
+     handler=".fireAutomaticTransitions"
+     for="bungeni.models.interfaces.IBungeniContent
+          ore.workflow.interfaces.IWorkflowTransitionEvent"
+     />
+
+  <!-- silly versioning thingy for wf runtime-->
+  
+  <utility
+     provides="ore.workflow.interfaces.IWorkflowVersions"
+     factory=".NullVersions"
+     />
+
+  <!-- generic workflow initialization for content -->
+  
+  <subscriber
+     handler=".initializeWorkflow"
+     for="bungeni.models.interfaces.IBungeniContent
+          zope.lifecycleevent.IObjectCreatedEvent"
+     />
 
   <!-- content workflow -->
+  
   <adapter
      for="bungeni.models.interfaces.IBungeniContent"
      provides="ore.workflow.interfaces.IWorkflowState"
@@ -22,97 +52,58 @@
   <adapter
      for="bungeni.models.interfaces.IBungeniContent"
      provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflow.StateWorkflowInfo"/>
+     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
 
   <!-- bill workflow -->
+  
   <adapter
      for="bungeni.models.interfaces.IBill"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".bill.BillWorkflowAdapter" />     
+     factory=".bill.WorkflowAdapter" />     
 
   <adapter
      for="bungeni.models.interfaces.IBill"
      provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflow.StateWorkflowInfo"/>
-
-
+     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
 
   <!-- questions workflow -->
   
-  <!--adapter
-     for="bungeni.models.interfaces.IQuestion"
-     provides="ore.workflow.interfaces.IWorkflowState"
-     factory=".WorkflowState" /-->
-  
   <adapter
      for="bungeni.models.interfaces.IQuestion"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".question.QuestionWorkflowAdapter" />
+     factory=".question.WorkflowAdapter" />
 
   <adapter
      for="bungeni.models.interfaces.IQuestion"
      provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflow.StateWorkflowInfo"/>
+     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
 
-
-  <subscriber
-     handler=".question.workflowTransitionEventDispatcher" />
-
-  <!-- question Notifications -->
   <include file="questionnotification.zcml" />
 
   <!-- responses workflow -->
+  
   <adapter
      for="bungeni.models.interfaces.IResponse"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".response.ResponseWorkflowAdapter" />
+     factory=".response.WorkflowAdapter" />
      
   <adapter
      for="bungeni.models.interfaces.IResponse"
      provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflow.StateWorkflowInfo"/>     
-
-  <subscriber
-     handler=".response.workflowTransitionEventDispatcher" />
-
+     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>     
 
   <!-- motion workflow -->
+  
   <adapter
      for="bungeni.models.interfaces.IMotion"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".motion.MotionWorkflowAdapter" />
+     factory=".motion.WorkflowAdapter" />
      
   <adapter
      for="bungeni.models.interfaces.IMotion"
      provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflow.StateWorkflowInfo"/>        
+     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>        
 
-  <subscriber
-     handler=".motion.workflowTransitionEventDispatcher" />
-
-  <!-- Motion Notifications -->
   <include file="motionnotification.zcml" />
-
-
-
-  <!-- Generic Workflow Initialization For Content -->
-  <subscriber
-     handler=".initializeWorkflow"
-     for="bungeni.models.interfaces.IBungeniContent
-          zope.lifecycleevent.IObjectCreatedEvent"
-     />
-     
-  <!-- Cascade for Automatic Transitions on Content -->
-  <subscriber
-     handler=".fireAutomaticTransitions"
-     for="bungeni.models.interfaces.IBungeniContent
-          ore.workflow.interfaces.IWorkflowTransitionEvent"
-     />
-
-  <!-- silly versioning thingy for wf runtime-->
-  <utility
-     provides="ore.workflow.interfaces.IWorkflowVersions"
-     factory=".NullVersions"
-     />
      
 </configure>    

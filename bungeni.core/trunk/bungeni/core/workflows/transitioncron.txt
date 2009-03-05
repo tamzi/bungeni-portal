@@ -25,14 +25,15 @@ set up utilities
 ---------------  
   
   >>> today = datetime.date.today()
-  
+  >>> import bungeni.core.workflows.states
+  >>> import bungeni.core.workflows.adapters
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.states.WorkflowState,
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
+  ...    bungeni.core.workflows.adapters.QuestionWorkflowAdapter,
   ...    (domain.Question,))
 
   >>> component.provideAdapter(
@@ -40,7 +41,7 @@ set up utilities
   ...    (domain.Question,))
 
   >>> component.provideHandler(
-  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
 
 
    

@@ -131,8 +131,9 @@ class AuditorFactory( object ):
             if IRequest.providedBy(participation):
                 return participation.principal.id
         raise RuntimeError(_("No IRequest in interaction"))    
-        
-BillAuditor = AuditorFactory( schema.bill_changes )        
+
+UsersAuditor = AuditorFactory( schema.users_changes )
+BillAuditor = AuditorFactory( schema.bill_changes )
 MotionAuditor = AuditorFactory( schema.motion_changes )
 QuestionAuditor = AuditorFactory( schema.question_changes )
 ResponseAuditor =  AuditorFactory( schema.response_changes )

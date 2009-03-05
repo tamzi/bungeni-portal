@@ -39,7 +39,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 
 	/* The path of the AKOMA NTOSO schema*/
 	private String akomantosoSchemaPath;
-
+	
 	/**
 	 * Private constructor used to create the Translator instance
 	 * @throws IOException 
@@ -51,8 +51,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
-	
+		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + GlobalConfigurations.getConfigurationFilePath());
+		
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
 		

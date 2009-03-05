@@ -21,7 +21,7 @@ Setup
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.response.ResponseWorkflowAdapter,
+  ...    bungeni.core.workflows.response.WorkflowAdapter,
   ...    (Response,))
 
   >>> component.provideAdapter(
@@ -29,7 +29,7 @@ Setup
   ...    (Response,))
 
   >>> component.provideHandler(
-  ...    bungeni.core.workflows.response.workflowTransitionEventDispatcher)
+  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
 
   >>> import bungeni.core.version
   >>> component.provideAdapter(
@@ -71,7 +71,7 @@ question setup
   ...    (bungeni.models.interfaces.IBungeniContent,))
 
   >>> component.provideAdapter(
-  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
+  ...    bungeni.core.workflows.question.WorkflowAdapter,
   ...    (Question,))
 
   >>> component.provideAdapter(
@@ -79,7 +79,7 @@ question setup
   ...    (Question,))
 
   >>> component.provideHandler(
-  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
   
 
 
@@ -114,15 +114,9 @@ Transition events
 We set up event subscribers to make sure all registered transition
 events are called.
 
-  >>> map = bungeni.core.workflows.response.workflow_transition_event_map
-  >>> check_transition_events = dict((states, False) for states in map.keys())
-
-  >>> for states, iface in map.items():
-  ...     def generate(key):
-  ...         def handler(event):
-  ...             check_transition_events[key] = True
-  ...         return handler
-  ...     component.provideHandler(generate(states), adapts=(iface,))
+  >>> from bungeni.core.workflows import testing
+  >>> check_transition_events = testing.provide_transition_events_check(
+  ...     bungeni.core.workflows.response.wf)
   
 Workflow
 --------
@@ -231,8 +225,9 @@ Transition events check
 -----------------------
 
   >>> print check_transition_events
-   {(u'responsestates.draft', u'responsestates.submitted'): True, 
-   (u'responsestates.submitted', u'responsestates.complete'): True}
+    {(u'responsestates.draft', u'responsestates.submitted'): True,
+     (u'responsestates.submitted', u'responsestates.complete'): True,
+     (u'questionstates.responded', u'questionstates.answered'): True}
 
 cleanup
 -------

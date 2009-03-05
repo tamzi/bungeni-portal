@@ -8,23 +8,18 @@
   <include package="zope.component" file="meta.zcml" />
   <include package="zope.app.component" file="meta.zcml" />
 
+  <include package="zope.security" file="meta.zcml" />
+  
+  <securityPolicy 
+      component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
+
   <include package="ore.alchemist" file="meta.zcml"/>
-  <include package="ore.alchemist" />
-
   <include package="alchemist.catalyst" file="meta.zcml"/>
-
-  <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
-
-  <include package="bungeni.core.workflows" />
-
-  <!-- Authentication Utility -->
   
-  <include file="auth.zcml" />
-  <include file="version.zcml"/>
-  <include file="catalyst.zcml"/>
-  
-  <!-- Setup Database Connection -->
+  <include package="ore.alchemist" />
+  <include package="ore.xapian" />
+
   <db:engine
      name="bungeni-db"
      url="postgres://localhost/bungeni-test"
@@ -32,36 +27,12 @@
      
   <db:bind
      engine="bungeni-db"
-     metadata="bungeni.core.metadata" />
+     metadata="bungeni.models.metadata" />
 
-  <!-- Bind Security Model to Database (role, permission maps) -->
   <db:bind
      engine="bungeni-db"
-     metadata="alchemist.security.schema.metadata" />
+     metadata="alchemist.security.metadata" />
 
-  <!-- Searching -->
-  <utility component=".testing.searcher" />
-
-  <adapter
-     for=".interfaces.IBungeniContent"
-     factory=".index.ContentIndexer" />
-      
-  <utility factory=".index.ContentResolver" />
-
-  <xapian:queue
-     indexer=".testing.indexer" />
-
-  <!-- Pluggable Traversal for Parliamentary Content -->
-  <adapter
-      for=".interfaces.IBungeniContent
-           zope.publisher.interfaces.IPublisherRequest"
-      factory="z3c.traverser.traverser.PluggableTraverser"
-      provides="zope.publisher.interfaces.IPublishTraverse"/>
-
-  <!-- Application setup -->
-  <class 
-     class=".app.BungeniApp">
-     <allow interface="zope.app.container.interfaces.IReadContainer" />
-  </class>
-
+  <include package="bungeni.ui" file="catalyst.zcml" />
+           
 </configure>

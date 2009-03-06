@@ -19,6 +19,7 @@ setup(
     package_data = { '': ['*.txt', '*.zcml'] },
     namespace_packages=['bungenicms'],
     install_requires = [
+        'Products.whoopass',
         ],
     zip_safe = False,
     )

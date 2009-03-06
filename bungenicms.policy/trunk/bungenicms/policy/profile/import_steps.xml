@@ -8,4 +8,8 @@
                handler="bungenicms.policy.setuphandlers.setup_application_folders"
                title="Set up application folders">
   </import-step>
+  <import-step id="bungenicms.policy.setup_who_authentication" version="1"
+               handler="bungenicms.policy.setuphandlers.setup_who_authentication"
+               title="Set up ``repoze.who`` authentication">
+  </import-step>
 </import-steps>

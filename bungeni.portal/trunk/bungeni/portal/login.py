@@ -7,12 +7,10 @@ except ImportError:
 
 from paste.httpexceptions import HTTPFound
 from paste.httpexceptions import HTTPUnauthorized
-from paste.request import construct_url, resolve_relative_url, \
-                          parse_dict_querystring, parse_formvars
-from paste.response import replace_header, header_value
+from paste.request import parse_dict_querystring
+from paste.request import parse_formvars
 
 from zope.interface import implements
-
 from repoze.who.plugins.form import FormPluginBase
 from repoze.who.interfaces import IChallenger
 from repoze.who.interfaces import IIdentifier
@@ -42,14 +40,14 @@ class FormAuthPlugin(FormPluginBase):
         query = parse_dict_querystring(environ)
 
         # we've been asked to perform a logout
-        if path_info == self.logout_handler_path:
+        if path_info.endswith(self.logout_handler_path):
             form = parse_formvars(environ)
             form.update(query)
             environ['repoze.who.application'] = HTTPUnauthorized()
             return None
 
         # we've been asked to perform a login
-        if path_info == self.login_handler_path:
+        if path_info.endswith(self.login_handler_path):
             body = environ['wsgi.input'].read()
             stream = environ['wsgi.input'] = StringIO(body)
             form = parse_formvars(environ)
@@ -82,7 +80,7 @@ class FormAuthPlugin(FormPluginBase):
 
         # if the current path matches the logout handler path, log out
         # the user without challenging.
-        if environ['PATH_INFO'] == self.logout_handler_path:
+        if environ['PATH_INFO'].endswith(self.logout_handler_path):
             came_from = environ.get('came_from')
             script_path = environ.get('SCRIPT_PATH', '')
             

@@ -59,10 +59,10 @@ class GlobalAuthWhoPlugin(object):
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
             return None
-        
+
         principal = self.get_principal_by_login(identity['login'])
         if principal and principal.validate(identity['password']):
-            return principal.id
+            return identity['login']
 
     def get_principal(self, id):
         try:
@@ -81,10 +81,11 @@ class GlobalAuthWhoPlugin(object):
             pass
 
     def add_metadata(self, environ, identity):
-        userid = identity.get('repoze.who.userid')
-        principal = self.get_principal(userid)
+        login = identity.get('repoze.who.userid')
+        principal = self.get_principal_by_login(login)
 
         if principal is not None:
             identity.update({
-                'title': principal.title
+                'title': principal.title,
+                'groups': tuple(principal.groups) + (principal.id,),
                 })

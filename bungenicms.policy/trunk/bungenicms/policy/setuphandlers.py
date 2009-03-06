@@ -1,4 +1,5 @@
 import logging
+from Products.PluggableAuthService.interfaces.plugins import *
 
 def setup_members_folder(context):
     """Set up the members folder at <root>/members.
@@ -92,3 +93,21 @@ def setup_application_folders(context):
             obj.setTitle(title)
             obj.setDescription(description)
             obj.reindexObject()
+
+def setup_who_authentication(context):
+    if context.readDataFile('marker.txt') is None:
+        return
+
+    portal = context.getSite()
+    pas = portal.acl_users
+    if getattr(pas, 'who', None) is not None:
+        return
+    
+    pas.manage_addProduct['whoopass'].manage_addWhoPlugin('who')
+
+    plugins = pas.plugins
+    plugins.activatePlugin(IExtractionPlugin, 'who')
+    plugins.activatePlugin(IAuthenticationPlugin, 'who')
+    plugins.activatePlugin(IGroupsPlugin, 'who')
+    plugins.activatePlugin(IPropertiesPlugin, 'who')
+    plugins.activatePlugin(IRolesPlugin, 'who')

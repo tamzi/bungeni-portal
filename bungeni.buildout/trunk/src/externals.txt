@@ -50,7 +50,7 @@ ore.metamime  https://svn.objectrealms.net/svn/public/ore.metamime/trunk
 ore.transforms https://svn.objectrealms.net/svn/public/ore.transforms/trunk
 
 # repoze.whooze z3 authentication
-repoze.whooze -r3763 http://svn.repoze.org/repoze.whooze/trunk
+repoze.whooze -r3893 http://svn.repoze.org/repoze.whooze/trunk
 
 # lovely memcached
 # lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/

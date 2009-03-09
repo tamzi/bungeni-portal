@@ -2,6 +2,11 @@ import index
 import zope.interface
 import zope.publisher.interfaces
 import zope.security.testing
+from alchemist.security.schema import metadata  
+from ore.alchemist.interfaces import IDatabaseEngine
+from sqlalchemy import create_engine
+from zope import component
+from bungeni import models as model
 
 def setup_indexer():
     store_dir = index.setupStorageDirectory() + '-test'
@@ -27,3 +32,18 @@ def create_participation(principal=None):
         participation, zope.publisher.interfaces.IRequest)
 
     return participation
+    
+def setup_db():
+    db = create_engine('postgres://localhost/bungeni-test', echo=False)
+    component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+    model.metadata.bind = db 
+    model.metadata.drop_all()     
+    model.metadata.create_all()
+    model.schema.QuestionSequence.create(db) 
+    model.schema.MotionSequence.create(db)     
+    metadata.bind = db
+    metadata.drop_all()     
+    metadata.create_all()  
+
+        
+    

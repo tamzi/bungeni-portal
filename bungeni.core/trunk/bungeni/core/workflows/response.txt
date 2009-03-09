@@ -10,85 +10,32 @@ the response workflow.
 Setup
 -----
 
-  >>> import bungeni.core.workflows.adapters
-  >>> import bungeni.models.interfaces
-  >>> import bungeni.core.interfaces  
   >>> import ore.workflow
   >>> import copy
+  >>> from ore.alchemist import Session  
   
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.states.WorkflowState,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
+Setting up Database Connection and Utilities:
 
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.adapters.ResponseWorkflowAdapter,
-  ...    (Response,))
+   >>> import bungeni.core.testing as testing
+   >>> testing.setup_db()  
+   >>> session = Session()   
+  
+  
+   >>> import bungeni.core.workflows.testing
+   >>> bungeni.core.workflows.testing.setup_adapters()
+  
 
-  >>> component.provideAdapter(
-  ...    ore.workflow.workflow.WorkflowInfo,
-  ...    (Response,))
-
-  >>> component.provideHandler(
-  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
-
-  >>> import bungeni.core.version
-  >>> component.provideAdapter(
-  ...    bungeni.core.version.ContextVersioned,
-  ...    (bungeni.core.interfaces.IVersionable,),
-  ...    bungeni.core.interfaces.IVersioned)
-
+  
 Security Adapters
 
-  >>> import alchemist.security.permission
-  >>> import alchemist.security.role
+  >>> bungeni.core.workflows.testing.setup_security_adapters() 
 
-  
-  >>> component.provideAdapter(
-  ...    alchemist.security.role.GlobalPrincipalRoleMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.permission.GlobalRolePermissionMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.role.LocalPrincipalRoleMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.permission.LocalRolePermissionMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-
-  
-question setup
-
-  >>> from bungeni.models.domain import Question
-  >>> import bungeni.core.workflows.adapters
-  
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.states.WorkflowState,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.adapters.QuestionWorkflowAdapter,
-  ...    (Question,))
-
-  >>> component.provideAdapter(
-  ...    ore.workflow.workflow.WorkflowInfo,
-  ...    (Question,))
-
-  >>> component.provideHandler(
-  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
-  
 
 
   
 some setup for tests
 
-   >>> from zope import component
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
+
    >>> from ore.alchemist import Session
    >>> from bungeni import models as model
    >>> from bungeni.models import domain, schema
@@ -96,16 +43,6 @@ some setup for tests
 
    
    
-Setting up Database Connection and Utilities:
-
-   >>> db = create_engine(u'postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
-   >>> model.metadata.create_all()    
-   >>> from alchemist.security.schema import metadata  
-   >>> metadata.bind = db
-   >>> metadata.create_all()  
-   >>> session = Session()   
 
      
 Transition events
@@ -122,22 +59,7 @@ Workflow
 --------
 
   >>> from ore.workflow.interfaces import IWorkflow , IWorkflowInfo
-  >>> #from bungeni.core.interfaces import IStateWorkflowInfo
-
-  >>> def transitions(response):
-  ...     wf = IWorkflow(response)
-  ...     info = IWorkflowInfo(response)
-  ...     state = info.state().getState()
-  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
-
-
-Permissions
------------
-  >>> def permission(response):
-  ...   wf = IWorkflow(response)
-  ...   info = IWorkflowInfo(response)
-  ...   state = info.state().getState()
-  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+  >>> from bungeni.core.workflows.testing import transitions, permission
 
 
 

@@ -14,15 +14,8 @@ Motion workflow
    >>> from bungeni.models import domain, schema
    
 Setting up Database Connection and Utilities:
-
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
-   >>> model.metadata.create_all()
-   >>> schema.MotionSequence.create(db) 
-   >>> from alchemist.security.schema import metadata  
-   >>> metadata.bind = db
-   >>> metadata.create_all()  
+   >>> import bungeni.core.testing as testing
+   >>> testing.setup_db()   
    >>> session = Session()
    >>> i = 0
 
@@ -36,49 +29,9 @@ Setup
   >>> import ore.workflow
   >>> import copy
   
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.states.WorkflowState,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.adapters.MotionWorkflowAdapter,
-  ...    (Motion,))
-
-  >>> component.provideAdapter(
-  ...    ore.workflow.workflow.WorkflowInfo,
-  ...    (Motion,))
-
-  >>> component.provideHandler(
-  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
-
-  >>> import bungeni.core.version
-  >>> component.provideAdapter(
-  ...    bungeni.core.version.ContextVersioned,
-  ...    (bungeni.core.interfaces.IVersionable,),
-  ...    bungeni.core.interfaces.IVersioned)
-  
-    
-Security Adapters
-
-  >>> import alchemist.security.permission
-  >>> import alchemist.security.role
-
-  
-  >>> component.provideAdapter(
-  ...    alchemist.security.role.GlobalPrincipalRoleMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.permission.GlobalRolePermissionMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.role.LocalPrincipalRoleMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.permission.LocalRolePermissionMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
+  >>> import bungeni.core.workflows.testing
+  >>> bungeni.core.workflows.testing.setup_adapters()
+  >>> bungeni.core.workflows.testing.setup_security_adapters()
 
   
   >>> from zope.interface import classImplements
@@ -98,30 +51,9 @@ Workflow
 --------
 
   >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
-
-  >>> def transitions(motion):
-  ...     wf = IWorkflow(motion)
-  ...     info = IWorkflowInfo(motion)
-  ...     state = info.state().getState()
-  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
+  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item
 
 
-Permissions
------------
-  >>> def permission(motion):
-  ...   wf = IWorkflow(motion)
-  ...   info = IWorkflowInfo(motion)
-  ...   state = info.state().getState()
-  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
-
-Schedule a motion
--------------------
-  >>> def schedule_motion(motion_id):
-  ...   item_schedule = domain.ItemSchedule()
-  ...   item_schedule.sitting_id = sit1.sitting_id
-  ...   item_schedule.item_id = motion.motion_id
-  ...   session.save(item_schedule)
-  ...   session.flush()   
 
 Sitting to schedule the motion:
 -----------------------------
@@ -395,7 +327,7 @@ A motion can be withdrawn at (almost) any stage
   >>> motion_withdraw.status
    u'motionstates.withdrawn'  
    
-  >>> schedule_motion(motion_defer.motion_id)
+  >>> schedule_item(motion_defer, sit1)
   >>> result = IWorkflowInfo(motion_defer).fireTransition('schedule-deferred')   
   >>> transitions(motion_defer)     
   (u'postpone', u'debate', u'withdraw-scheduled')
@@ -403,7 +335,7 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_defer).fireTransition('postpone')   
 
 schedule the motion
-  >>> schedule_motion(motion.motion_id)
+  >>> schedule_item(motion, sit1)
   >>> result = IWorkflowInfo(motion).fireTransition('schedule')  
   
   >>> transitions(motion)
@@ -440,7 +372,7 @@ A motion can be withdrawn at (almost) any stage
 
 and reschedule it
 
-  >>> schedule_motion(motion.motion_id)
+  >>> schedule_item(motion, sit1)
   >>> result = IWorkflowInfo(motion).fireTransition('schedule-postponed')  
   
   >>> transitions(motion)

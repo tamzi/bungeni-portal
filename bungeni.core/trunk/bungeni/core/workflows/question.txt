@@ -6,18 +6,19 @@ Question workflow
 Setup
 -----
 
-  >>> import bungeni.core.workflows.adapters
+
+  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
   >>> import bungeni.core.interfaces
   >>> import ore.workflow
   >>> import copy
   >>> import datetime
+  >>> import bungeni.core.testing as testing
   
   
 some setup for tests
 
    >>> from zope import component
    >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
    >>> from bungeni import models as model
    >>> from bungeni.models import domain, schema
@@ -27,16 +28,7 @@ some setup for tests
    
 Setting up Database Connection and Utilities:
 
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db 
-   >>> model.metadata.drop_all()     
-   >>> model.metadata.create_all()
-   >>> schema.QuestionSequence.create(db) 
-   >>> from alchemist.security.schema import metadata  
-   >>> metadata.bind = db
-   >>> metadata.drop_all()     
-   >>> metadata.create_all()  
+   >>> testing.setup_db()
    >>> session = Session()
 
 
@@ -51,56 +43,14 @@ Get some standard dates for testing
 
 set up utilities
 ---------------  
+  >>> import bungeni.core.workflows.testing
+  >>> bungeni.core.workflows.testing.setup_adapters()
   
-  >>> today = datetime.date.today()
-  
-  
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.states.WorkflowState,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
 
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.adapters.QuestionWorkflowAdapter,
-  ...    (Question,))
-
-  >>> component.provideAdapter(
-  ...    ore.workflow.workflow.WorkflowInfo,
-  ...    (Question,))
-
-  >>> component.provideHandler(
-  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
-
-  >>> import bungeni.core.version
-  >>> component.provideAdapter(
-  ...    bungeni.core.version.ContextVersioned,
-  ...    (bungeni.core.interfaces.IVersionable,),
-  ...    bungeni.core.interfaces.IVersioned)
   
 Security Adapters
 
-  >>> import alchemist.security.permission
-  >>> import alchemist.security.role
-  >>> import zope.securitypolicy.interfaces
-
-
-  >>> gsm =component.getGlobalSiteManager()
-
-  >>> gsm.registerAdapter(alchemist.security.role.GlobalPrincipalRoleMap,
-  ...     (bungeni.models.interfaces.IBungeniApplication, ),
-  ...     zope.securitypolicy.interfaces.IPrincipalRoleMap)
-
-  >>> gsm.registerAdapter(alchemist.security.permission.GlobalRolePermissionMap,
-  ...     (bungeni.models.interfaces.IBungeniApplication, ),
-  ...     zope.securitypolicy.interfaces.IRolePermissionMap)     
-  
-  
-  >>> gsm.registerAdapter(alchemist.security.role.LocalPrincipalRoleMap,
-  ...     (bungeni.models.interfaces.IBungeniContent, ),
-  ...     zope.securitypolicy.interfaces.IPrincipalRoleMap)  
-    
-  >>> gsm.registerAdapter(alchemist.security.permission.LocalRolePermissionMap,
-  ...     (bungeni.models.interfaces.IBungeniContent, ),
-  ...     zope.securitypolicy.interfaces.IRolePermissionMap) 
+  >>> bungeni.core.workflows.testing.setup_security_adapters()
   
   >>> from bungeni.core.app import BungeniApp
   >>> app = BungeniApp()
@@ -191,31 +141,8 @@ events are called.
 Workflow
 --------
 
-  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
-
-  >>> def transitions(question):
-  ...     wf = IWorkflow(question)
-  ...     info = IWorkflowInfo(question)
-  ...     state = info.state().getState()
-  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
-
-
-Permissions
------------
-  >>> def permission(question):
-  ...   wf = IWorkflow(question)
-  ...   info = IWorkflowInfo(question)
-  ...   state = info.state().getState()
-  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
-
-Schedule a question
--------------------
-  >>> def schedule_question(question_id):
-  ...   item_schedule = domain.ItemSchedule()
-  ...   item_schedule.sitting_id = sit1.sitting_id
-  ...   item_schedule.item_id = question.question_id
-  ...   session.save(item_schedule)
-  ...   session.flush()   
+  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item
+   
 
 
 Add question to db
@@ -249,7 +176,7 @@ First we initialize the workflow.
 
   >>> zope.security.management.newInteraction(create_participation(member))
   >>> list( prm.getRolesForPrincipal(u'member') )
-  [(u'bungeni.MP', PermissionSetting: Allow)]
+  []
 
 
   >>> IWorkflowInfo(question).fireTransition('create')
@@ -261,9 +188,7 @@ First we initialize the workflow.
   False
 
   >>> list( prm.getRolesForPrincipal(u'member') )
-  [(u'bungeni.Owner', PermissionSetting: Allow), (u'bungeni.MP', PermissionSetting: Allow)]
-   
-  >>> list( rpm.getPermissionsForRole(u'bungeni.Owner') ) 
+  [(u'bungeni.Owner', PermissionSetting: Allow)]
    
 
 The question is now in a draft state.
@@ -277,8 +202,7 @@ The question is now in a draft state.
 
   >>> list( prm.getRolesForPrincipal(u'member') )
   [(u'bungeni.Owner', PermissionSetting: Allow)]
-  
-  >>> list( rpm.getPermissionsForRole(u'bungeni.Owner') ) 
+
 
 the question does not yet have a submitted date
    >>> question.submission_date 
@@ -658,7 +582,7 @@ Reschedule the deferred question
   >>> zope.security.management.endInteraction()
   >>> zope.security.management.newInteraction(create_participation(clerk))  
   
-  >>> schedule_question(question.question_id)
+  >>> schedule_item(question, sit1)
 
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
   >>> transitions(question_defer)     
@@ -673,7 +597,7 @@ schedule the question
   >>> zope.security.management.endInteraction()
   >>> zope.security.management.newInteraction(create_participation(speaker))  
 
-  >>> schedule_question(question.question_id)
+  >>> schedule_item(question, sit1)
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
   
@@ -696,7 +620,7 @@ postpone the question
   >>> zope.security.management.endInteraction()
   >>> zope.security.management.newInteraction(create_participation(clerk))  
 
-  >>> schedule_question(question.question_id) 
+  >>> schedule_item(question, sit1) 
   
   >>> result = IWorkflowInfo(question).fireTransition('postpone')  
   >>> transitions(question)
@@ -725,7 +649,7 @@ and reschedule it for the second sitting
   >>> zope.security.management.endInteraction()
   >>> zope.security.management.newInteraction(create_participation(clerk))  
 
-  >>> schedule_question(question.question_id)  
+  >>> schedule_item(question, sit1)  
 
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  

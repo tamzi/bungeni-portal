@@ -14,34 +14,13 @@ some setup for tests
    >>> import ore.workflow   
    
 Setting up Database Connection and Utilities:
-
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
-   >>> model.metadata.create_all() 
+   >>> import bungeni.core.testing as testing
+   >>> testing.setup_db()  
+   >>> import bungeni.core.workflows.testing
+   >>> bungeni.core.workflows.testing.setup_adapters()
+   >>> bungeni.core.workflows.testing.setup_security_adapters()
    >>> session = Session()
    
-set up utilities
----------------  
-  
-  >>> today = datetime.date.today()
-  >>> import bungeni.core.workflows.states
-  >>> import bungeni.core.workflows.adapters
-  
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.states.WorkflowState,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.adapters.QuestionWorkflowAdapter,
-  ...    (domain.Question,))
-
-  >>> component.provideAdapter(
-  ...    ore.workflow.workflow.WorkflowInfo,
-  ...    (domain.Question,))
-
-  >>> component.provideHandler(
-  ...    bungeni.core.workflows.events.workflowTransitionEventDispatcher)
 
 
    

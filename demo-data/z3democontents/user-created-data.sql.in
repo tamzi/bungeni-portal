@@ -1,0 +1,26 @@
+COPY public.bills (bill_id, parliament_id, bill_type_id, ministry_id, owner_id, identifier, summary, title, long_title, body_text, submission_date, publication_date, status) 
+from '%(directory)s/data/demodata/bills.csv'
+csv ; 
+
+
+copy public.bill_changes (change_id, content_id, action, date, description, notes, user_id)
+from '%(directory)s/data/demodata/bill_changes.csv'
+csv ; 
+
+COPY public.questions (question_id, question_number, session_id, submission_date, approval_date, ministry_submit_date, question_type, response_type, owner_id, parliament_id, subject, question_text, status, note, supplement_parent_id, sitting_time, receive_notification, ministry_id) 
+from '%(directory)s/data/demodata/questions.csv'
+csv ; 
+
+COPY public.question_changes (change_id, content_id, action, date, description, notes, user_id)
+from '%(directory)s/data/demodata/question_changes.csv'
+csv ; 
+      
+
+COPY public.motions (motion_id, parliament_id, motion_number, session_id, submission_date, approval_date, public, title, owner_id, seconder_id, body_text, entered_by, party_id, notice_date, receive_notification, status)
+from '%(directory)s/data/demodata/motions.csv'
+csv ; 
+
+
+COPY public.motion_changes (change_id, content_id, action, date, description, notes, user_id) 
+from '%(directory)s/data/demodata/motion_changes.csv'
+csv ; 

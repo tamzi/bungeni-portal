@@ -22,11 +22,14 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
     
     def update(self):
         base_url = absoluteURL(getSite(), self.request)
-        path = self.request['PATH_INFO']
-        menu = component.getUtility(IBrowserMenu, "site_actions")
-        
+        item_url = self.request.getURL()
+
+        assert item_url.startswith(base_url)
+        path = item_url[len(base_url):]
+
         self.portal_tabs = []
         seen = set()
+        menu = component.getUtility(IBrowserMenu, "site_actions")
         for item in menu.getMenuItems(self.context, self.request):
             if item['action'] in seen:
                 continue

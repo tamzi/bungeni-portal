@@ -153,6 +153,13 @@
      title="Welcome"
      />
 
+   <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/calendar"
+     title="Calendar"
+     />
+
   <!--browser:menuItem
      menu="site_actions"
      for="*"

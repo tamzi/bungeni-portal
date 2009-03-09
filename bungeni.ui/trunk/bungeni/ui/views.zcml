@@ -63,7 +63,7 @@
      class=".login.Logout"
      />     
 
-<!-- Content Search Form -->
+  <!-- Content Search Form -->
   
   <browser:page
     for="bungeni.models.interfaces.IBungeniApplication"
@@ -72,6 +72,15 @@
     class=".search.Search"
     />
 
+  <!-- Calendar -->
+  
+  <browser:page
+     for="bungeni.models.interfaces.IBungeniApplication"
+     permission="zope.View"
+     name="calendar"
+     class=".calendar.browser.CalendarView"
+    />
+  
   <!-- Similar Content -->
   
   <browser:page

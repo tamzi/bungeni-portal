@@ -1,0 +1,16 @@
+Bungeni calendar
+================
+
+The calendaring facilities in the Bungeni portal are used to schedule
+events in the context of a parliamentary items.
+
+An event is a composite of an item scheduling and a group sitting. The
+former details the item of interest and in which order it appears
+within the sitting. The sitting details the start- and end date of the
+event as well as the attendence.
+
+Context
+-------
+
+The calendar is shown in either a global context or in the context of
+a particular principal group.

@@ -1,4 +1,5 @@
 import events
+import datetime
 import zope.component
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 import ore.workflow.workflow
@@ -27,7 +28,6 @@ def provide_transition_events_check(wf):
     return event_map
     
     
-
 
 def transitions(item):
     wf = IWorkflow(item)
@@ -122,4 +122,24 @@ def schedule_item(item, sitting):
         item_schedule.item_id = item.motion_id   
     session.save(item_schedule)
     session.flush()   
+    
+def create_sitting():    
+    """Sitting to schedule motion/question/bill"""
+    session = Session()
+    
+    st = domain.SittingType()
+    st.sitting_type = u"morning"
+    st.start_time = datetime.time(8,30)
+    st.end_time = datetime.time(12,30)  
+    session.save(st)
+    session.flush()
 
+    sitting = domain.GroupSitting()
+    sitting.start_date = datetime.datetime.now()
+    sitting.end_date = datetime.datetime.now()
+    sitting.sitting_type = st.sitting_type_id
+    session.save(sitting)
+    session.flush()     
+    
+    return sitting
+    

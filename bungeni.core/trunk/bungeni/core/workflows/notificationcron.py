@@ -10,8 +10,6 @@
 #       (questions that in the opinion of the Speaker are of an urgent nature) is scheduled for reply.
 
 # Notifications will be sent to the Speaker and the Clerk listing all questions that have exceeded the limits stated above. 
-import pdb
-
 import sys
 import datetime
 

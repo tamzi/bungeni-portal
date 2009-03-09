@@ -18,7 +18,6 @@ Setup
 some setup for tests
 
    >>> from zope import component
-   >>> from sqlalchemy import create_engine
    >>> from ore.alchemist import Session
    >>> from bungeni import models as model
    >>> from bungeni.models import domain, schema
@@ -94,39 +93,6 @@ setup parliament, gov and ministry
   >>> session.save(ministry)
   >>> session.flush()
 
-
-
-
-setup a sitting
-Sittings
---------
-
-any group can schedule a sitting, a sitting is treated as a physical
-meeting of the group by the system. 
-
- >>> st = model.SittingType()
- >>> st.sitting_type = u"morning"
- >>> st.start_time = datetime.time(8,30)
- >>> st.end_time = datetime.time(12,30) 
- >>> session.save(st)
- >>> session.flush()
-
- >>> st.sitting_type_id
- 1L
- 
- >>> sit1 = model.GroupSitting()
- >>> sit1.start_date = datetime.datetime.now()
- >>> sit1.end_date = datetime.datetime.now()
- >>> sit1.sitting_type = st.sitting_type_id
- >>> session.save(sit1)
- >>> session.flush()   
- 
- >>> sit2 = model.GroupSitting()
- >>> sit2.start_date = datetime.datetime.now()
- >>> sit2.end_date = datetime.datetime.now()
- >>> sit2.sitting_type = st.sitting_type_id
- >>> session.save(sit2)
- >>> session.flush()   
  
 Transition events
 -----------------
@@ -141,9 +107,9 @@ events are called.
 Workflow
 --------
 
-  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item
+  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item, create_sitting
    
-
+  >>> sit1 = create_sitting()
 
 Add question to db
 ------------------
@@ -157,7 +123,6 @@ Add question to db
   >>> question.__parent__ = app
   
 set up a security mapping
-#XXX permisssion as yet untested 
 
   >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
   >>> prm = zope.securitypolicy.interfaces.IPrincipalRoleMap ( question )
@@ -808,9 +773,6 @@ is dispatched.
   Subject: Question received: My subject...
   
 Send notification to Clerk's office upon submit.
-#XXX
-Note that the notification setting for the clerks office are
-HARDCODED in the preferences so we cannot test this yet!
 
     >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(question))
     From: "John Doe" <john.doe@localhost>

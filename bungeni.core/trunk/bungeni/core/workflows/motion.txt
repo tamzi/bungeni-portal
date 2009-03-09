@@ -7,9 +7,6 @@ Motion workflow
   
   some setup for tests
 
-   >>> from zope import component
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
    >>> from bungeni.models import domain, schema
    
@@ -23,10 +20,6 @@ Setting up Database Connection and Utilities:
 Setup
 -----
 
-  >>> import bungeni.core.workflows.adapters
-  >>> import bungeni.core.interfaces
-  >>> import bungeni.models.interfaces  
-  >>> import ore.workflow
   >>> import copy
   
   >>> import bungeni.core.workflows.testing
@@ -51,28 +44,13 @@ Workflow
 --------
 
   >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
-  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item
+  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item, create_sitting
 
 
 
 Sitting to schedule the motion:
 -----------------------------
-  >>> st = model.SittingType()
-  >>> st.sitting_type = u"morning"
-  >>> st.start_time = datetime.time(8,30)
-  >>> st.end_time = datetime.time(12,30)  
-  >>> session.save(st)
-  >>> session.flush()
-
-  >>> st.sitting_type_id
-  1L
- 
-  >>> sit1 = model.GroupSitting()
-  >>> sit1.start_date = datetime.datetime.now()
-  >>> sit1.end_date = datetime.datetime.now()
-  >>> sit1.sitting_type = st.sitting_type_id
-  >>> session.save(sit1)
-  >>> session.flush() 
+  >>> sit1 = create_sitting()
 
   >>> motion = Motion()
   >>> session.save(motion)
@@ -457,9 +435,6 @@ is dispatched.
   Subject: Motion received: My subject...
   
 Send notification to Clerk's office upon submit.
-#XXX
-Note that the notification setting for the clerks office are
-HARDCODED in the preferences so we cannot test this yet!
 
     >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(motion))
     From: "John Doe" <john.doe@localhost>

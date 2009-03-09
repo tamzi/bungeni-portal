@@ -7,11 +7,7 @@ Setup
 -----
 
   >>> from bungeni.models.domain import Bill
-
-  >>> from bungeni.core.workflows.bill import states
-
-  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
-  >>> import ore.workflow
+  >>> from ore.workflow.interfaces import IWorkflowInfo
   >>> from ore.alchemist import Session  
   >>> import copy  
   
@@ -23,8 +19,6 @@ Setup
   some setup for tests
 
    >>> from zope import component
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from bungeni.models import domain, schema
   
    
@@ -55,27 +49,14 @@ events are called.
   ...     bungeni.core.workflows.bill.wf)
 
   
-  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item
+  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item, create_sitting
     
 
 Sitting to schedule the bill:
 -----------------------------
-  >>> st = model.SittingType()
-  >>> st.sitting_type = u"morning"
-  >>> st.start_time = datetime.time(8,30)
-  >>> st.end_time = datetime.time(12,30)  
-  >>> session.save(st)
-  >>> session.flush()
-
-  >>> st.sitting_type_id
-  1L
  
-  >>> sit1 = model.GroupSitting()
-  >>> sit1.start_date = datetime.datetime.now()
-  >>> sit1.end_date = datetime.datetime.now()
-  >>> sit1.sitting_type = st.sitting_type_id
-  >>> session.save(sit1)
-  >>> session.flush() 
+  >>> sit1 = create_sitting()
+
   
 Owner of the bill
 -----------------

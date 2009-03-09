@@ -170,10 +170,13 @@ class CommitteeStaff( StaffGroupMembership ):
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
         
 class GroupSitting( Entity ):
-    """ a scheduled meeting for a group (parliament, committee, etc)
-    """
-    attendance = one2many( "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id" )
+    """Scheduled meeting for a group (parliament, committee, etc)"""
+    
+    attendance = one2many(
+        "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id" )
 
+    items = one2many(
+        "items", "bungeni.models.domain.ItemScheduleContainer", "sitting_id")
     
     @property
     def short_name( self ):

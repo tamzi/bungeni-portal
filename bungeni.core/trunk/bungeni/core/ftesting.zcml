@@ -13,6 +13,16 @@
   <securityPolicy 
       component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
 
+  <include package="zope.app.securitypolicy" file="meta.zcml" />
+  
+
+  
+  <include package="bungeni.core" file="roles.zcml" />  
+  <include package="bungeni.core" file="permissions.zcml" />  
+  <include package="bungeni.core.workflows" file="grants.zcml" />  
+  <include package="bungeni.core.workflows" file="permissions.zcml" />
+
+
   <include package="ore.alchemist" file="meta.zcml"/>
   <include package="alchemist.catalyst" file="meta.zcml"/>
   <include package="ore.xapian" file="meta.zcml" />
@@ -33,6 +43,13 @@
      engine="bungeni-db"
      metadata="alchemist.security.metadata" />
 
+
+
   <include package="bungeni.ui" file="catalyst.zcml" />
+  
+  <!--include package="zope.app.security" />
+  <include package="zope.app.securitypolicy" file="meta.zcml" />
+  <include package="zope.app.securitypolicy" /-->
+
            
 </configure>

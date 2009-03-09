@@ -4,6 +4,10 @@
    i18n_domain="bungeni">
    
    
+  <role id="zope.Manager" title="Site Manager" />
+  <role id="zope.Member" title="Site Member" />
+   
+   
    <!-- permissions for workflow are defined in bungeni.core.workflow 
    roles / permissions -->
    
@@ -17,21 +21,7 @@
     <role id="bungeni.Admin" title="Bungeni Admin"/>
     <role id="bungeni.Anonymous" title="Bungeni Visitor"/>
 
-    <!-- the role grants are for testing only! to be removed! -->
-   
-    <!--grant role="bungeni.MP" principal="zope.Authenticated" />
-    <grant role="bungeni.Owner" principal="zope.Authenticated" />
-    <grant role="bungeni.Minister" principal="zope.Authenticated" />
-    <grant role="bungeni.Clerk" principal="zope.Authenticated" /-->
-    
-    
-    <grant role="bungeni.Anonymous" principal="zope.anybody" />
-    <grant role="bungeni.Everybody" principal="zope.Anybody" />
-    <grant role="bungeni.Everybody" principal="zope.Authenticated" />        
-    
-    <grant permission="zope.View" role="bungeni.MP" />
-    <grant permission="zope.View" role="bungeni.Clerk" />
-    <grant permission="zope.View" role="bungeni.Speaker" /> 
+
     
     <grant permission="bungeni.question.add" role="bungeni.MP" />    
     <grant permission="bungeni.question.edit" role="bungeni.Owner" />

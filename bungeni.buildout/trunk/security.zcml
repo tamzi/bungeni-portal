@@ -2,12 +2,14 @@
            xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="bungeni">
 
-  <!-- Initial administrator account.  Disable this for production -->
+  <!-- Administrator account; we do not authenticate against this
+       principal which is why the password is intentionally left blank -->
+  
   <principal id="zope.manager"
              title="Manager"
              login="admin"
              password_manager="Plain Text"
-             password="admin"
+             password=""
              />
 
   <!-- Replace the following directive if you don't want public access -->

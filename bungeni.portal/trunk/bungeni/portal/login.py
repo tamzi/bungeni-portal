@@ -1,3 +1,6 @@
+import re
+import webob
+
 from urlparse import urlparse, urlunparse
 from urllib import urlencode
 try:
@@ -12,42 +15,54 @@ from paste.request import parse_formvars
 
 from zope.interface import implements
 from repoze.who.plugins.form import FormPluginBase
-from repoze.who.interfaces import IChallenger
 from repoze.who.interfaces import IIdentifier
-
+from repoze.who.interfaces import IChallenger
+from repoze.who.interfaces import IChallengeDecider
 from cStringIO import StringIO
+
+def matcher(string):
+    return re.compile(string).search
 
 class FormAuthPlugin(FormPluginBase):
     """This plugin supports an application-based login procedure."""
     
-    implements(IChallenger, IIdentifier)
+    implements(IChallenger, IIdentifier, IChallengeDecider)
 
     username = "login", "__ac_name"
     password = "password", "__ac_password"
     
-    def __init__(self, login_form_url, login_handler_path,
-                 logout_handler_path, rememberer_name,
-                 post_logout_url=None, reason_param='reason'):
-        self.login_form_url = login_form_url
-        self.login_handler_path = login_handler_path
-        self.logout_handler_path = logout_handler_path
+    def __init__(self, login_handler_path, logout_handler_path,
+                 forgetter_name=None, post_logout_url=None,
+                 rememberer_name=None):
+        self.login_handler_match = matcher(login_handler_path)
+        self.logout_handler_match = matcher(logout_handler_path)
         self.post_logout_url = post_logout_url
+        self.forgetter_name = forgetter_name
         self.rememberer_name = rememberer_name
-        self.reason_param = reason_param
         
+    def __call__(self, environ, status, headers):
+        """The challenger decider will match the logout handler and
+        forget credentials if matched.
+
+        Only on a '401 Unauthorized' will we invoke the challenger.
+        """
+
+        if status.startswith('401 '):
+            return True
+        
+        if self.logout_handler_match(environ['PATH_INFO']):
+            headers.extend(
+                environ['repoze.who.plugins'][self.forgetter_name].forget(
+                    environ, None))
+
+        return False
+
     def identify(self, environ):
         path_info = environ['PATH_INFO']
         query = parse_dict_querystring(environ)
 
-        # we've been asked to perform a logout
-        if path_info.endswith(self.logout_handler_path):
-            form = parse_formvars(environ)
-            form.update(query)
-            environ['repoze.who.application'] = HTTPUnauthorized()
-            return None
-
         # we've been asked to perform a login
-        if path_info.endswith(self.login_handler_path):
+        if self.login_handler_match(path_info):
             body = environ['wsgi.input'].read()
             stream = environ['wsgi.input'] = StringIO(body)
             form = parse_formvars(environ)
@@ -80,10 +95,8 @@ class FormAuthPlugin(FormPluginBase):
 
         # if the current path matches the logout handler path, log out
         # the user without challenging.
-        if environ['PATH_INFO'].endswith(self.logout_handler_path):
+        if self.logout_handler_match(environ['PATH_INFO']):
             came_from = environ.get('came_from')
-            script_path = environ.get('SCRIPT_PATH', '')
-            
             if self.post_logout_url:
                 # redirect to a predefined "post logout" URL.
                 destination = self._get_full_path(
@@ -92,12 +105,11 @@ class FormAuthPlugin(FormPluginBase):
                 if came_from:
                     destination = self._insert_qs_variable(
                                   destination, 'came_from', came_from)
-            else:
-                # redirect to the referrer URL.
-                destination = came_from or script_path or '/'
 
-            return HTTPFound(destination, headers=forget_headers)
+                return HTTPFound(destination, headers=forget_headers)
 
+            return HTTPFound(webob.Request(environ).url, headers=forget_headers)
+        
         return HTTPFound(headers=forget_headers)
     
     def _get_full_path(self, path, environ):

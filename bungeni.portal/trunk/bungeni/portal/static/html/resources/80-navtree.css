@@ -35,6 +35,9 @@
 .navTree li {
     margin-bottom: 1px;
 }
+.navTreeItem span {
+    padding-left: 5px;
+}
 .navTreeItem {
     display: block;
     padding: 0;

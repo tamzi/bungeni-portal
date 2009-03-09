@@ -29,11 +29,13 @@ Setting up Database Connection and Utilities:
 
    >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
+   >>> model.metadata.bind = db 
+   >>> model.metadata.drop_all()     
    >>> model.metadata.create_all()
    >>> schema.QuestionSequence.create(db) 
    >>> from alchemist.security.schema import metadata  
    >>> metadata.bind = db
+   >>> metadata.drop_all()     
    >>> metadata.create_all()  
    >>> session = Session()
 
@@ -78,24 +80,30 @@ Security Adapters
 
   >>> import alchemist.security.permission
   >>> import alchemist.security.role
+  >>> import zope.securitypolicy.interfaces
 
+
+  >>> gsm =component.getGlobalSiteManager()
+
+  >>> gsm.registerAdapter(alchemist.security.role.GlobalPrincipalRoleMap,
+  ...     (bungeni.models.interfaces.IBungeniApplication, ),
+  ...     zope.securitypolicy.interfaces.IPrincipalRoleMap)
+
+  >>> gsm.registerAdapter(alchemist.security.permission.GlobalRolePermissionMap,
+  ...     (bungeni.models.interfaces.IBungeniApplication, ),
+  ...     zope.securitypolicy.interfaces.IRolePermissionMap)     
   
-  >>> component.provideAdapter(
-  ...    alchemist.security.role.GlobalPrincipalRoleMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.permission.GlobalRolePermissionMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.role.LocalPrincipalRoleMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
-  >>> component.provideAdapter(
-  ...    alchemist.security.permission.LocalRolePermissionMap,
-  ...    (bungeni.models.interfaces.IBungeniContent,))
-
+  
+  >>> gsm.registerAdapter(alchemist.security.role.LocalPrincipalRoleMap,
+  ...     (bungeni.models.interfaces.IBungeniContent, ),
+  ...     zope.securitypolicy.interfaces.IPrincipalRoleMap)  
+    
+  >>> gsm.registerAdapter(alchemist.security.permission.LocalRolePermissionMap,
+  ...     (bungeni.models.interfaces.IBungeniContent, ),
+  ...     zope.securitypolicy.interfaces.IRolePermissionMap) 
+  
+  >>> from bungeni.core.app import BungeniApp
+  >>> app = BungeniApp()
 
   >>> from zope.interface import classImplements
   >>> classImplements( bungeni.models.domain.Question, bungeni.core.interfaces.IVersionable)
@@ -106,8 +114,18 @@ In order to create a participation, we need a principal:
   >>> import zope.security.management
   >>> zope.security.management.endInteraction()
 
-  >>> bob = create_principal("bob", "Bob", ("bungeni.Clerk",))
-  >>> zope.security.management.newInteraction(create_participation(bob))
+  >>> member = create_principal("member", "Member", ())
+  >>> clerk = create_principal("clerk", "Clerk", ())
+  >>> speaker = create_principal("speaker", "Speaker", ())    
+  >>> minister = create_principal("minister", "Minister", ())      
+
+
+  >>> global_prm = zope.securitypolicy.interfaces.IPrincipalRoleMap(app)
+  >>> global_prm.assignRoleToPrincipal( u'bungeni.MP', 'member')
+  >>> global_prm.assignRoleToPrincipal( u'bungeni.Clerk', 'clerk')
+  >>> global_prm.assignRoleToPrincipal( u'bungeni.Speaker', 'speaker')
+  >>> global_prm.assignRoleToPrincipal( u'bungeni.Minister', 'minister')      
+
 
 setup parliament, gov and ministry
 ----------------------------------
@@ -209,10 +227,13 @@ Add question to db
   >>> session.save(question)
   >>> session.flush()
 
+  >>> question.__parent__ = app
+  
 set up a security mapping
 #XXX permisssion as yet untested 
 
   >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+  >>> prm = zope.securitypolicy.interfaces.IPrincipalRoleMap ( question )
  
 just a variable to count the versions:
   >>> i = 0
@@ -226,6 +247,11 @@ First we initialize the workflow.
   >>> permission(question)
   (Global(CheckerPublic,zope.security.checker),)
 
+  >>> zope.security.management.newInteraction(create_participation(member))
+  >>> list( prm.getRolesForPrincipal(u'member') )
+  [(u'bungeni.MP', PermissionSetting: Allow)]
+
+
   >>> IWorkflowInfo(question).fireTransition('create')
 
   >>> question.question_id == None
@@ -234,8 +260,14 @@ First we initialize the workflow.
   >>> question.parliament_id == None
   False
 
+  >>> list( prm.getRolesForPrincipal(u'member') )
+  [(u'bungeni.Owner', PermissionSetting: Allow), (u'bungeni.MP', PermissionSetting: Allow)]
+   
+  >>> list( rpm.getPermissionsForRole(u'bungeni.Owner') ) 
+   
 
 The question is now in a draft state.
+
 
   >>> transitions(question)
    (u'submit-to-clerk',)
@@ -243,7 +275,10 @@ The question is now in a draft state.
   >>> permission(question)
   (u'bungeni.question.Submit',)
 
-
+  >>> list( prm.getRolesForPrincipal(u'member') )
+  [(u'bungeni.Owner', PermissionSetting: Allow)]
+  
+  >>> list( rpm.getPermissionsForRole(u'bungeni.Owner') ) 
 
 the question does not yet have a submitted date
    >>> question.submission_date 
@@ -289,6 +324,8 @@ A question can be withdrawn at (almost) any stage
   >>> question_withdraw.status
   u'questionstates.withdrawn'  
 
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
 
   >>> i = i + 1
@@ -303,6 +340,9 @@ Received:
 
 A question can be withdrawn at (almost) any stage  
   
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
+
   >>> question_withdraw = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-received')   
 
@@ -313,6 +353,8 @@ A question can be withdrawn at (almost) any stage
 
   
 If it needs clarification this sets it back to draft and it must be submitted again  
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
   
   >>> result = IWorkflowInfo(question).fireTransition('require-edit-by-mp')
   
@@ -324,7 +366,9 @@ If it needs clarification this sets it back to draft and it must be submitted ag
   >>> len(list(versions.values())) == i
   True
 
-    
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))      
+  
   >>> result = IWorkflowInfo(question).fireTransition('resubmit-clerk')
   
 versioned again
@@ -333,7 +377,10 @@ versioned again
   >>> len(list(versions.values())) == i
   True
      
-    
+  
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
+      
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
     
   >>> i = i + 1
@@ -352,10 +399,17 @@ complete the question
   
 The speakers office now has to review the question
 
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(speaker))  
+
+
   >>> transitions(question)
   (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
 A question can be withdrawn at (almost) any stage  
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
   
   >>> question_withdraw = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-complete')   
@@ -365,6 +419,9 @@ A question can be withdrawn at (almost) any stage
 
 
 Reject the question
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(speaker))  
 
   >>> question_reject = copy.deepcopy(question)
   >>> transitions(question_reject)
@@ -377,6 +434,8 @@ Reject the question
 
 If the questions requires amendment it is sent back to the owner
 and has to be resubmitted 
+
+
 
   >>> transitions(question)
   (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
@@ -394,6 +453,9 @@ it gets versioned before amendment
   (u'complete-clarify', u'mp-clarify')
 
 The clerks office can resubmit the question
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
 
   >>> question_clerk_resubmit = copy.deepcopy(question_amend)
   >>> result = IWorkflowInfo(question_clerk_resubmit).fireTransition('complete-clarify')    
@@ -419,6 +481,9 @@ or the question can be send back to the mp for further clarification
 
 A question can be withdrawn at (almost) any stage  
   
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
+  
   >>> question_withdraw = copy.deepcopy(question_amend)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-amend')   
 
@@ -438,12 +503,19 @@ it gets versioned by resubmitting after amendment
 
 clerks recieves it
 
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
+
   >>> result = IWorkflowInfo(question_amend).fireTransition('received-by-clerk')  
 
 
   
 Appove the question and set the approval date and serial number
 
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(speaker))  
+  
   >>> transitions(question)
   (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
@@ -466,7 +538,8 @@ Appove the question and set the approval date and serial number
 
 A question can be withdrawn at (almost) any stage  
   
-  
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
   
   >>> question_withdraw = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-admissible')   
@@ -476,6 +549,9 @@ A question can be withdrawn at (almost) any stage
 
 
 A written response to the question
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
 
   >>> question_written_response = copy.deepcopy(question)
 
@@ -493,6 +569,9 @@ A written response to the question
    (u'elapse-pending', u'respond-writing', u'forward-ministry')
    
 The question can be forwarded to another ministry.
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(minister))  
 
   >>> result = IWorkflowInfo(question_written_response).fireTransition('forward-ministry')  
   
@@ -518,6 +597,9 @@ Or the question can be responded to in writing
   (u'answer',)  
 
 defer the question
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
+
 
   >>> question_defer = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
@@ -538,6 +620,9 @@ A deferred question can be assigned to a ministry for a written response
   >>> question_defer_response.ministry_submit_date  == today
   True
   
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(minister))   
+  
   >>> transitions(question_defer_response)
   (u'elapse-pending', u'respond-writing', u'forward-ministry')  
 
@@ -548,6 +633,9 @@ A deferred question can be assigned to a ministry for a written response
   
   
 A queston can elapse if no answer is given
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))   
+
   >>> question_elapse_defered = copy.deepcopy(question_defer)
   
   >>> result = IWorkflowInfo(question_elapse_defered).fireTransition('elapse-defered')    
@@ -555,7 +643,10 @@ A queston can elapse if no answer is given
   ()
 
 A question can be withdrawn at (almost) any stage  
-  
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
+    
   >>> question_withdraw = copy.deepcopy(question_defer)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-deferred')   
 
@@ -563,6 +654,10 @@ A question can be withdrawn at (almost) any stage
   u'questionstates.withdrawn'  
 
 Reschedule the deferred question
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
+  
   >>> schedule_question(question.question_id)
 
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
@@ -575,6 +670,9 @@ and postpone it to make sure it is out of the calendar schedule
 
 schedule the question
 
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(speaker))  
+
   >>> schedule_question(question.question_id)
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
@@ -583,6 +681,9 @@ schedule the question
   (u'postpone', u'withdraw-scheduled', u'respond-sitting')
 
 A question can be withdrawn at (almost) any stage  
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
   
   >>> question_withdraw = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-scheduled')   
@@ -591,6 +692,9 @@ A question can be withdrawn at (almost) any stage
   u'questionstates.withdrawn'
 
 postpone the question
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
 
   >>> schedule_question(question.question_id) 
   
@@ -607,6 +711,9 @@ A question can elapse without an answer
   
 A question can be withdrawn at (almost) any stage  
   
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(member))  
+  
   >>> question_withdraw = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-postponed')   
 
@@ -614,6 +721,9 @@ A question can be withdrawn at (almost) any stage
   u'questionstates.withdrawn'
 
 and reschedule it for the second sitting
+
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))  
 
   >>> schedule_question(question.question_id)  
 

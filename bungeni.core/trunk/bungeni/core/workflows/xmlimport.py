@@ -22,7 +22,6 @@ trigger_value_map = {
     }
 
 def load( uri ):
-    #print uri
     doc = parse( uri )
     
     return _load( doc.workflow )
@@ -46,17 +45,17 @@ def _load( workflow ):
             permissions.append(
                 (DENY, d.permission, d.role )
                 )
-        state_id  = s.id #=  resolve( s.id , 'bungeni.core.workflows' )       
+        state_id  = s.id 
         states.append( State( state_id, Message(s.title, domain), permissions ) )
     
     for t in workflow.transition:
         try:
             source = t.source and t.source or None
             if source:
-                tsource = source #resolve( source , 'bungeni.core.workflows' )  
+                tsource = source 
             else:
                 tsource = None       
-            tdestination = t.destination #resolve( t.destination , 'bungeni.core.workflows' )         
+            tdestination = t.destination    
             args = ( t.id, Message( t.title, domain), tsource, tdestination )
             kw = {}
         except AttributeError:

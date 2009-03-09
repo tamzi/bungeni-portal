@@ -1,0 +1,42 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:translate="bungeni">
+
+  <div metal:define-macro="weekly">
+    <div class="listing">
+      <em>Weekly</em>
+      
+      <p tal:content="options/formatted_date"
+         i18n:translate="">
+        Showing the week starting on 1/1-2009.
+      </p>
+      
+      <table class="listing grid">
+        <thead>
+          <tr>
+            <td colspan="8"
+                i18n:translate="" tal:content="options/formatted_month" />
+          </tr>
+          <tr>        
+            <th>
+              <span tal:content="options/week_no" />
+            </th>
+            <th tal:repeat="day options/days"
+                tal:attributes="id string:tdid-${day/id}">
+              <b tal:content="day/formatted" />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="hour options/hours">
+            <td tal:content="string: ${hour}:00" />
+            <td tal:repeat="day options/days">
+
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+</html>  

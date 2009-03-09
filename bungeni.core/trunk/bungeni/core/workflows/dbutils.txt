@@ -1,10 +1,7 @@
 some setup for tests
 
-   >>> from zope import component
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
+ 
    >>> from ore.alchemist import Session
-   >>> from bungeni import models as model
    >>> from bungeni.models import domain, schema
    >>> from bungeni.core.workflows import dbutils
 
@@ -12,10 +9,8 @@ some setup for tests
    
 Setting up Database Connection and Utilities:
 
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
-   >>> model.metadata.create_all() 
+   >>> import bungeni.core.testing as testing
+   >>> testing.setup_db()  
    >>> session = Session()
 
 Questions

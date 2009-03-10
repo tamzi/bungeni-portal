@@ -1,6 +1,7 @@
 from zope import interface, schema, lifecycleevent
 from zope.component.interfaces import IObjectEvent, ObjectEvent
 from zope.app.container.interfaces import IContainer
+from zope.location.interfaces import ILocation
 
 from bungeni.models.interfaces import IVersion
 import ore.workflow.interfaces
@@ -112,3 +113,11 @@ class IVersionedFileRepository( interface.Interface ):
         path
         """
 
+class ISchedulingContext(ILocation):
+    """A context for which events may be scheduled.
+
+    This may be a committee or the plenary.
+    """
+
+    def get_sittings():
+        """Return sittings defined for this context."""

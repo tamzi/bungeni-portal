@@ -11,6 +11,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 
 from zc.resourcelibrary import need
 
+from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 
@@ -21,8 +22,10 @@ class CalendarView(BrowserView):
     _macros = ViewPageTemplateFile("macros.pt")
 
     def __init__(self, context, request):
+        context = ISchedulingContext(context)
+        context.__name__ = self.__name__
         super(CalendarView, self).__init__(context, request)
-    
+        
     def __call__(self, timestamp=None):
         if timestamp is None:
             # start the week on the first weekday (e.g. Monday)

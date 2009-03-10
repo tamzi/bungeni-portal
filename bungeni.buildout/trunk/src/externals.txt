@@ -9,6 +9,7 @@ marginalia        https://bungeni-portal.googlecode.com/svn/marginalia/trunk
 
 # plone 3 skin
 ploned.ui        https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
+plone.maintemplate https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
 
 # yui ajax libraries
 ore.yui        https://svn.objectrealms.net/svn/public/ore.yui/trunk

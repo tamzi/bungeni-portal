@@ -1,3 +1,4 @@
+from time import mktime
 from datetime import datetime
 
 class datetimedict(datetime):
@@ -6,7 +7,7 @@ class datetimedict(datetime):
         return datetimedict(
             dt.year, dt.month, dt.day,
             dt.hour, dt.minute, dt.second)
-        
+
     def __getitem__(self, key):
         """Standard `strftime()` substitutions."""
 
@@ -34,3 +35,7 @@ class datetimedict(datetime):
         except KeyError:
             return default
 
+    def totimestamp(self):
+        return mktime(self.timetuple())
+
+    

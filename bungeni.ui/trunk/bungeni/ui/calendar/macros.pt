@@ -3,19 +3,31 @@
       i18n:translate="bungeni">
 
   <div metal:define-macro="weekly">
-    <div class="listing">
+    <div id="weekly-calendar" class="listing">
       <em>Weekly</em>
       
       <p tal:content="options/formatted_date"
          i18n:translate="">
         Showing the week starting on 1/1-2009.
       </p>
-      
+
       <table class="listing grid">
         <thead>
           <tr>
-            <td colspan="8"
-                i18n:translate="" tal:content="options/formatted_month" />
+            <td colspan="8">
+              <a class="previous-link"
+                 tal:attributes="href options/links/previous_week"
+                 i18n:translate="">
+                &larr;
+              </a>
+              <a class="next-link"
+                 tal:attributes="href options/links/next_week"
+                 i18n:translate="">
+                &rarr;
+              </a>
+              <span i18n:translate=""
+                    tal:content="options/formatted_month" />
+            </td>
           </tr>
           <tr>        
             <th>

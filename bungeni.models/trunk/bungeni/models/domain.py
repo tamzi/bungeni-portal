@@ -226,7 +226,7 @@ class Parliament( Group ):
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")
     motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")        
 
-    
+
 class PoliticalParty( Group ):
     """ a political party
     """
@@ -242,8 +242,7 @@ class MemberOfParty( UserGroupMembership ):
     """
     Membership of a user in a political party 
     """         
-    
-    
+
 class Ministry( Group ):
     """ a government ministry
     """
@@ -520,7 +519,7 @@ class MinistryInParliament( object ):
     auxilliary class to get the parliament and government for a ministry
     """
     
-class ItemSchedule(object):
+class ItemSchedule(Entity):
     """
     for which sitting was a parliamentary item scheduled
     """ 

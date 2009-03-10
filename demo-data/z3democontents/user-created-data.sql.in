@@ -24,3 +24,11 @@ csv ;
 COPY public.motion_changes (change_id, content_id, action, date, description, notes, user_id) 
 from '%(directory)s/data/demodata/motion_changes.csv'
 csv ; 
+
+SELECT setval('motion_changes_change_id_seq', 2000);
+
+SELECT setval('bill_changes_change_id_seq', 2000);
+
+SELECT setval('question_changes_change_id_seq', 2000);
+
+SELECT setval('item_sequence', 2000);

@@ -15,6 +15,43 @@ from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 
+def create_sittings_map(sittings):
+    """Returns a dictionary that maps:
+
+      (day, hour) -> {
+         record  : sitting database record,
+         span    : span
+         }
+         
+      (day, hour) -> ``None``
+
+    If the mapped value is a sitting, then a sitting begins on that
+    day and hour, if it's ``None``, then a sitting is reaching into
+    this day and hour.
+
+    The utility of the returned structure is to aid rendering a
+    template with columns spanning several rows.
+    """
+
+    mapping = {}
+    for sitting in sittings:
+        day = sitting.start_date.weekday()
+        hour = sitting.start_date.hour
+        mapping[day, hour] = {
+            'record': sitting,
+            'span': sitting.end_date.hour - sitting.start_date.hour
+            }
+
+        # make sure start- and end-date is the same year
+        assert (sitting.start_date.day == sitting.end_date.day) and \
+               (sitting.start_date.month == sitting.end_date.month) and \
+               (sitting.start_date.year == sitting.end_date.year)
+
+        for hour in range(sitting.start_date.hour+1, sitting.end_date.hour):
+            mapping[day, hour] = None
+
+    return mapping
+
 class CalendarView(BrowserView):
     """Main calendar view."""
 
@@ -44,6 +81,11 @@ class CalendarView(BrowserView):
         calendar_url = self.request.getURL()
         date = date - timedelta(days=date.weekday())
         days = tuple(date + timedelta(days=d) for d in range(7))
+
+        sittings = self.context.get_sittings(
+            start_date=date,
+            end_date=days[-1],
+            )
         
         return self.template(
             display="weekly",
@@ -71,6 +113,7 @@ class CalendarView(BrowserView):
                 'next_month': "%s?timestamp=%s" % (
                     calendar_url, (date + timedelta(days=32)).totimestamp()),
                 },
+            sittings_map = create_sittings_map(sittings),
             )
 
     @property

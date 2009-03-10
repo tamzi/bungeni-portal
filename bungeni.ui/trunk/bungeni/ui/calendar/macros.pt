@@ -39,12 +39,21 @@
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody tal:define="sittings_map options/sittings_map">
           <tr tal:repeat="hour options/hours">
             <td tal:content="string: ${hour}:00" />
-            <td tal:repeat="day options/days">
-
-            </td>
+            <tal:column repeat="day python: range(7)">
+              <td tal:define="sitting python: sittings_map.get((day, hour), False)"
+                  tal:attributes="rowspan sitting/span|nothing"
+                  tal:condition="python: sitting is not None">
+                <tal:sitting condition="sitting">
+                  <div tal:define="items sitting/record/items"
+                       tal:repeat="item python: items.values()">
+                    id: <span tal:replace="item/schedule_id" />
+                  </div>
+                </tal:sitting>
+              </td>
+            </tal:column>
           </tr>
         </tbody>
       </table>

@@ -80,17 +80,17 @@ setup parliament, gov and ministry
 ----------------------------------
 
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
-  >>> session.save(parliament)
+  >>> session.add(parliament)
   >>> session.flush()
   
   >>> gov = model.Government(short_name=u"gov_1", start_date=yesterday)
   >>> gov.parliament_id = parliament.parliament_id
-  >>> session.save(gov)
+  >>> session.add(gov)
   >>> session.flush()  
   
   >>> ministry = model.Ministry(short_name=u"ministry", start_date=yesterday)
   >>> ministry.government_id = gov.government_id
-  >>> session.save(ministry)
+  >>> session.add(ministry)
   >>> session.flush()
 
  
@@ -117,7 +117,7 @@ Add question to db
   >>> question = Question()
   >>> question.subject = u"subject of the question"
   >>> question.question_text = u"The question"
-  >>> session.save(question)
+  >>> session.add(question)
   >>> session.flush()
 
   >>> question.__parent__ = app
@@ -687,7 +687,7 @@ Set up a user.
   
   >>> from ore.alchemist import Session
   >>> session = Session()
-  >>> session.save(user)
+  >>> session.add(user)
   >>> session.flush()
 
 We need a parliament, government ministry and ministers to send the
@@ -695,21 +695,21 @@ question notification to.
 
   >>> from bungeni import models as model
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
-  >>> session.save(parliament)
+  >>> session.add(parliament)
   >>> session.flush()
   
   >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.now())
   >>> gov.parliament_id = parliament.parliament_id
-  >>> session.save(gov)
+  >>> session.add(gov)
   >>> session.flush()  
   
   >>> country = model.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
-  >>> session.save(country)
+  >>> session.add(country)
   >>> ministry = model.Ministry(short_name=u"A ministry", start_date=datetime.now())
   >>> ministry.government_id = gov.government_id
-  >>> session.save(ministry)
+  >>> session.add(ministry)
   >>> session.flush()
 
 
@@ -735,22 +735,22 @@ question notification to.
   ...        email=u"mp3@example.com", 
   ...        gender='F')      
 
-  >>> session.save( mp_1 )
-  >>> session.save( mp_2 )
-  >>> session.save( mp_3 )      
+  >>> session.add( mp_1 )
+  >>> session.add( mp_2 )
+  >>> session.add( mp_3 )      
   >>> session.flush()
 
   >>> minister = model.Minister()
   >>> minister.group_id = ministry.group_id
   >>> minister.user_id = mp_1.user_id
-  >>> session.save(minister)
+  >>> session.add(minister)
   >>> session.flush()
   
   
   >>> minister2 = model.Minister()
   >>> minister2.group_id = ministry.group_id
   >>> minister2.user_id = mp_2.user_id
-  >>> session.save(minister2)
+  >>> session.add(minister2)
   >>> session.flush()  
   
   >>> from bungeni.models.domain import Question

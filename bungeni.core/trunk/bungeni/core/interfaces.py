@@ -119,5 +119,5 @@ class ISchedulingContext(ILocation):
     This may be a committee or the plenary.
     """
 
-    def get_sittings():
+    def get_sittings(start_date=None, end_date=None):
         """Return sittings defined for this context."""

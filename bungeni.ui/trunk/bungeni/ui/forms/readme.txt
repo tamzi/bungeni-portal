@@ -34,7 +34,7 @@ Parliaments
 -----------   
    
    >>> parliament = model.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
-   >>> session.save( parliament)
+   >>> session.add( parliament)
    >>> session.flush()
    
    >>> parliament.parliament_id 
@@ -59,7 +59,7 @@ Before you can add a new parliament all others must be closed
    
 Add a new (open ended) parliament
    >>> parliament2 = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
-   >>> session.save( parliament2)
+   >>> session.add( parliament2)
    >>> session.flush()   
    
 Note that the date yesterday is well ouside our p_2 so it does not matter.   
@@ -91,7 +91,7 @@ Add a governmemt:
 
    >>> gov = model.Government(short_name=u"gov_1", start_date=today, end_date=tomorrow )
    >>> gov.parliament_id = parliament.parliament_id  
-   >>> session.save( gov )
+   >>> session.add( gov )
    >>> session.flush() 
  
    >>> validations.checkDateInInterval( parliament.parliament_id, yesterday, sql.checkGovernmentInterval)
@@ -108,7 +108,7 @@ Add a second government
 
    >>> gov2 = model.Government(short_name=u"gov_2", start_date=tomorrow, end_date=dayat )
    >>> gov2.parliament_id = parliament.parliament_id  
-   >>> session.save( gov2 )
+   >>> session.add( gov2 )
    >>> session.flush()       
 
    >>> validations.checkDateInInterval( gov2.government_id, yesterday, sql.checkMyGovernmentInterval)
@@ -135,7 +135,7 @@ A parliamentary Session
    >>> sess.short_name = u"First Session"
    >>> sess.start_date = yesterday
    >>> sess.end_date = today
-   >>> session.save(sess)
+   >>> session.add(sess)
    >>> session.flush() 
  
    >>> sess.session_id
@@ -159,7 +159,7 @@ A second session
    >>> sess2.short_name = u"2nd Session"
    >>> sess2.start_date = tomorrow
    >>> sess2.end_date = dayat
-   >>> session.save(sess2)
+   >>> session.add(sess2)
    >>> session.flush()  
  
    >>> validations.checkDateInInterval( sess.session_id, yesterday, sql.checkMySessionInterval) 
@@ -189,7 +189,7 @@ Sittings
     >>> ssit.session_id = sess.session_id
     >>> ssit.start_date = today
     >>> ssit.end_date = tomorrow
-    >>> session.save(ssit)
+    >>> session.add(ssit)
     >>> session.flush()    
 
 Just check if we get something back because the return value depends on the times
@@ -212,7 +212,7 @@ For Edit we need to be sure we do not check for the current data itself.
     >>> ssit2.session_id = sess.session_id
     >>> ssit2.start_date = yesterday
     >>> ssit2.end_date = today
-    >>> session.save(ssit2)
+    >>> session.add(ssit2)
     >>> session.flush()    
    
 Just a quick check that the above validation for yesterday now fails   
@@ -238,12 +238,12 @@ Regions and provinces get their primary key with a db sequence:
  
  >>> region = model.Region()
  >>> region.region = u"Nairobi"
- >>> session.save(region)
+ >>> session.add(region)
  >>> session.flush() 
 
  >>> province = model.Province()
  >>> province.province= u"Central"
- >>> session.save(province)
+ >>> session.add(province)
  >>> session.flush()
 
  >>> constituency = model.Constituency()
@@ -252,7 +252,7 @@ Regions and provinces get their primary key with a db sequence:
  >>> constituency.province = 1
  >>> constituency.start_date = today
 
- >>> session.save(constituency)
+ >>> session.add(constituency)
  >>> session.flush()
 
 add some users:
@@ -268,8 +268,8 @@ add some users:
     ...        date_of_birth=today,
     ...        email=u"mp2@example.com",
     ...        gender='M')
-    >>> session.save(mp_1)
-    >>> session.save(mp_2)
+    >>> session.add(mp_1)
+    >>> session.add(mp_2)
     >>> session.flush()
     
     >>> mp1 = model.MemberOfParliament()
@@ -278,7 +278,7 @@ add some users:
     >>> mp1.start_date = today
     >>> mp1.constituency_id = 1
     >>> mp1.elected_nominated = "E"
-    >>> session.save(mp1)
+    >>> session.add(mp1)
     >>> session.flush()
     
     >>> mp2 = model.MemberOfParliament()
@@ -287,7 +287,7 @@ add some users:
     >>> mp2.start_date = today
     >>> mp2.constituency_id = 1
     >>> mp2.elected_nominated = "N"
-    >>> session.save(mp2)
+    >>> session.add(mp2)
     >>> session.flush()
 
 titles     
@@ -298,7 +298,7 @@ titles
     >>> mrt1.user_role_name = u"President"
     >>> mrt1.user_unique = True
     >>> mrt1.sort_order = 10
-    >>> session.save(mrt1)
+    >>> session.add(mrt1)
     >>> session.flush()
     
     >>> mrt2 = model.MemberTitle()
@@ -306,7 +306,7 @@ titles
     >>> mrt2.user_role_name = u"Member"
     >>> mrt2.user_unique = False
     >>> mrt2.sort_order = 20
-    >>> session.save(mrt2)
+    >>> session.add(mrt2)
     >>> session.flush()
     
     
@@ -316,7 +316,7 @@ titles
     >>> mt1.title_name_id = mrt1.user_role_type_id
     >>> mt1.start_date = today
     >>> mt1.title_name_id = mrt1.user_role_type_id   
-    >>> session.save(mt1)
+    >>> session.add(mt1)
     >>> session.flush()
 
 A (group) member can only hold the same title once at a time
@@ -348,7 +348,7 @@ Some titles must be unique inside a group
     >>> mt2.membership_id = mp1.membership_id
     >>> mt2.title_name_id = mrt2.user_role_type_id
     >>> mt2.start_date = today
-    >>> session.save(mt2)
+    >>> session.add(mt2)
     >>> session.flush()     
    
 second check for same title at a time
@@ -381,7 +381,8 @@ Membership in a political group
 clean up - commit open transactions
 ---------------------------------
 
-   >>> session.flush()   
+   >>> session.flush()  
+   >>> session.close() 
          
          
    

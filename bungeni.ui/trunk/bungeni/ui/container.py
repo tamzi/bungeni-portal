@@ -12,6 +12,8 @@ import simplejson
 import sqlalchemy.sql.expression as sql
 #from zope.app.securitypolicy.interfaces import IPrincipalRoleManager, IPrincipalRoleMap
 from zope.securitypolicy.interfaces import IPrincipalRoleMap
+from zope.security import canAccess, canWrite
+from zope.security.proxy import ProxyFactory
 
 from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
@@ -79,7 +81,9 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
             )
         self.columns = columns
         self.actionUrl = '%s/' % ( absoluteURL( self.context, self.request ) )
-        #print self.getRoles()
+        
+        for role in self.getRoles():
+            print role
 
         
     @property
@@ -139,21 +143,29 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
           while p:
              yield p
              p = p.__parent__
+          else:
+            yield None                
 
     def nearest_prm( self, ctx ):
         prm = IPrincipalRoleMap( ctx, None )
-        if prm: return prm
+        if prm: return prm        
         for p in self.parents( ctx ):
-            prm = IPrincipalRoleMap( ctx, None )
+            try:
+                prm = IPrincipalRoleMap( p, None )            
+            except:
+                prm = None                
             if prm: return prm
-        raise AttributeError("Invalid Containment Chain")
+        #raise AttributeError("Invalid Containment Chain")
+        print "Invalid Containment Chain"
 
 
     def getRoles(self):
         #XXX
-        pn = self.request.principal.__name__ 
+        pn = self.request.principal.id
         grants = self.nearest_prm(self.context)
-        roles = grants.getRolesForPrincipal(pn)
+        roles = None
+        if grants:
+            roles = grants.getRolesForPrincipal(pn)
         return roles
 
 class ContainerJSONTableHeaders( BrowserView ):
@@ -241,6 +253,25 @@ class ContainerJSONListing( BrowserView ):
         batch = self._jsonValues( nodes, fields, self.context )
         return batch
 
+
+    #XXX just proof of concept! to be removed!
+    def canView(self, node, field, context):
+            # set the node's parent to the context for security checks
+            node.__parent__= self.context
+            pn = self.request.principal.id
+            grants = IPrincipalRoleMap( node, None )
+            roles = grants.getRolesForPrincipal(pn)
+            for role in roles:
+                print role
+            w_node = ProxyFactory(node)
+            can_view = canAccess(w_node, field)
+            print pn
+            print field, can_view
+            print canWrite(w_node, field)
+            print canWrite(node, field)            
+            return can_view
+            
+
     def _jsonValues( self, nodes, fields, context):
         """
         filter values from the nodes to respresent in json, currently
@@ -270,7 +301,9 @@ class ContainerJSONListing( BrowserView ):
                     d[f] = v.strftime('%F %I:%M %p')
                 elif isinstance( v, datetime.date ):
                     d[f] = v.strftime('%F')
-                d['object_id'] =   stringKey(n)  
+                d['object_id'] =   stringKey(n)
+                
+                self.canView(n, f, context) #XXX look at the permissions  
             values.append( d )
         return values
         
@@ -278,6 +311,8 @@ class ContainerJSONListing( BrowserView ):
         start, limit = self.getOffsets( )
         sort_clause = self.getSort()
         batch = self.getBatch( start, limit, sort_clause )
+        #XXX does not work with filtered listings!
+        # use the query instead
         set_size = len( self.context )
         data = dict( length=set_size,
                      start=start,

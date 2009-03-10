@@ -27,14 +27,8 @@ mapper( BookedResources, bookedresources)
 
 
 def get_available_resources( start, end ):
-    """
-    get all resources that are not booked for a sitting
-    in the given time period
-    select * from resources where resource_id not in (
-        select resource_id from resourceboookings, sittings
-        where resourcebookings.sitting_id = sittings.sitting_id
-        and (?start between sitting.start_date and sitting.end_date
-            or ?end between sitting.start_date and sitting.end_date)   
+    """get all resources that are not booked for a sitting
+    in the given time period 
     """
     assert( type(start) == datetime.datetime )
     assert( type(end) == datetime.datetime )  
@@ -125,7 +119,7 @@ def book_resource( sitting, resource ):
         booking = domain.ResourceBooking()
         booking.resource_id = resource.resource_id
         booking.sitting_id = sitting.sitting_id 
-        session.save(booking)
+        session.add(booking)
         session.flush()
         
     else:

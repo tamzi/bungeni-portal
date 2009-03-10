@@ -36,17 +36,17 @@ Get some standard dates for testing
 setup parliament, gov and ministry
 ----------------------------------
   >>> parliament = domain.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
-  >>> session.save(parliament)
+  >>> session.add(parliament)
   >>> session.flush()
   
   >>> gov = domain.Government(short_name=u"gov_1", start_date=yesterday)
   >>> gov.parliament_id = parliament.parliament_id
-  >>> session.save(gov)
+  >>> session.add(gov)
   >>> session.flush()  
   
   >>> ministry = domain.Ministry(short_name=u"ministry", start_date=yesterday)
   >>> ministry.government_id = gov.government_id
-  >>> session.save(ministry)
+  >>> session.add(ministry)
   >>> session.flush()
 
 
@@ -62,7 +62,7 @@ meeting of the group by the system.
   >>> st.sitting_type = u"morning"
   >>> st.start_time = datetime.time(8,30)
   >>> st.end_time = datetime.time(12,30) 
-  >>> session.save(st)
+  >>> session.add(st)
   >>> session.flush()
 
   >>> st.sitting_type_id
@@ -72,44 +72,44 @@ meeting of the group by the system.
   >>> sit1.start_date = datetime.datetime(2000,1,1,2,0)
   >>> sit1.end_date = datetime.datetime(2000,1,1,4,0)
   >>> sit1.sitting_type = st.sitting_type_id
-  >>> session.save(sit1)
+  >>> session.add(sit1)
   >>> session.flush()   
  
   >>> sit11 = domain.GroupSitting()
   >>> sit11.start_date = datetime.datetime(2000,1,1,2,0)
   >>> sit11.end_date = datetime.datetime(2000,1,1,4,0)
   >>> sit11.sitting_type = st.sitting_type_id
-  >>> session.save(sit11)
+  >>> session.add(sit11)
   >>> session.flush()  
  
   >>> sit2 = domain.GroupSitting()
   >>> sit2.start_date = datetime.datetime(2000,1,1,5,0)
   >>> sit2.end_date = datetime.datetime(2000,1,1,8,0)
   >>> sit2.sitting_type = st.sitting_type_id
-  >>> session.save(sit2)
+  >>> session.add(sit2)
   >>> session.flush()   
  
   >>> sit21 = domain.GroupSitting()
   >>> sit21.start_date = datetime.datetime(2000,1,1,5,0)
   >>> sit21.end_date = datetime.datetime(2000,1,1,8,0)
   >>> sit21.sitting_type = st.sitting_type_id
-  >>> session.save(sit21)
+  >>> session.add(sit21)
   >>> session.flush()   
  
  
   >>> r1 = domain.Resource()
   >>> r1.short_name = u"resource 1"
-  >>> session.save(r1)
+  >>> session.add(r1)
   >>> session.flush()
  
   >>> r2 = domain.Resource()
   >>> r2.short_name = u"resource 2"
-  >>> session.save(r2)
+  >>> session.add(r2)
   >>> session.flush()
   
   >>> r3 = domain.Resource()
   >>> r3.short_name = u"resource 3"
-  >>> session.save(r3)
+  >>> session.add(r3)
   >>> session.flush()      
 
   >>> import bungeni.models.resourcebooking as rb

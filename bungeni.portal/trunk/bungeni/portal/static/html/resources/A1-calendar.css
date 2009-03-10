@@ -1,0 +1,11 @@
+#weekly-calendar thead td a.previous-link {
+  float: left;
+}
+
+#weekly-calendar thead td a.next-link {
+  float: right;
+}
+
+#weekly-calendar thead td {
+  text-align: center;
+}

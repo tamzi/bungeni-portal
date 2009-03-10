@@ -353,8 +353,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
         
     def update(self):
         context = self.context
-        responses = context.responses
-        
+        responses = context.responses        
         if len(responses):
             self.context = tuple(responses.values())[0]
             self.has_data = True

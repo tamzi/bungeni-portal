@@ -50,7 +50,8 @@ class AlchemistWhoPlugin(object):
         if user is not None:
             identity.update({
                 'email': user.email,
-                'title': u"%s, %s" % (user.last_name, user.first_name)
+                'title': u"%s, %s" % (user.last_name, user.first_name),
+                'type': user.type,
                 })
 
 class GlobalAuthWhoPlugin(object):

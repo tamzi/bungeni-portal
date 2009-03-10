@@ -1192,3 +1192,6 @@ class AgendaItemDescriptor( ModelDescriptor):
               add_widget=RichTextEditor        
             ),       
     ]
+
+class ItemScheduleDescriptor(ModelDescriptor):
+    pass

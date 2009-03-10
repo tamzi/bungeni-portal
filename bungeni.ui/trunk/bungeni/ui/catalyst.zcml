@@ -167,6 +167,7 @@
     ui_module="bungeni.ui.content" 
     echo="False"   
     />
+  
   <db:catalyst
     class="bungeni.models.domain.EventItem"
     descriptor=".descriptor.EventItemDescriptor"
@@ -359,5 +360,15 @@
      ui_module="bungeni.ui.content"
      echo="False"
     /-->   
-        
+
+ <!-- scheduling -->
+ 
+ <db:catalyst
+    class="bungeni.models.domain.ItemSchedule"
+     descriptor=".descriptor.ItemScheduleDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+    />       
+ 
 </configure>

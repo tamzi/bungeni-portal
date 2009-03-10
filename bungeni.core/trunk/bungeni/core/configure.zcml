@@ -148,4 +148,8 @@
      <allow interface="zope.app.container.interfaces.IReadContainer" />
   </class>
 
+  <!-- scheduling -->
+
+  <adapter factory=".schedule.PlenarySchedulingContext" />
+  
 </configure>

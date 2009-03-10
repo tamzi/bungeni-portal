@@ -70,7 +70,7 @@ gets fired by the response transitions succeed.
 
   >>> question = domain.Question()
   >>> question.status = u"questionstates.response_pending"
-  >>> session.save(question)
+  >>> session.add(question)
   >>> session.flush()
   
   >>> question.question_id
@@ -80,7 +80,7 @@ Responses
 
   >>> response = domain.Response()
   >>> response.response_id = question.question_id
-  >>> session.save(response)
+  >>> session.add(response)
   >>> session.flush()
  
   >>> question.question_id

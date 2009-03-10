@@ -63,7 +63,7 @@ Owner of the bill
   >>> country = model.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
-  >>> session.save(country)
+  >>> session.add(country)
   >>> session.flush()
  
   >>> mp_1 = model.ParliamentMember(u"mp_1", 
@@ -74,14 +74,14 @@ Owner of the bill
   ...        date_of_birth=datetime.datetime.now(),
   ...        gender='M') 
   
-  >>> session.save(mp_1)
+  >>> session.add(mp_1)
   >>> session.flush()
 
 Bill Types
 ----------
   >>> bt = model.BillType()
   >>> bt.bill_type_name = u"Private Bill"
-  >>> session.save(bt)
+  >>> session.add(bt)
   >>> session.flush()
 
 
@@ -89,7 +89,7 @@ Bill Types
   >>> bill.bill_type_id = bt.bill_type_id
   >>> bill.owner_id = mp_1.user_id
   >>> bill.title = u"New Bill"
-  >>> session.save(bill)
+  >>> session.add(bill)
   >>> session.flush()
 
 

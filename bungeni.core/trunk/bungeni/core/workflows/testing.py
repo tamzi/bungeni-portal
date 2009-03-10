@@ -120,7 +120,7 @@ def schedule_item(item, sitting):
         item_schedule.item_id = item.bill_id
     elif type(item) == domain.Motion:
         item_schedule.item_id = item.motion_id   
-    session.save(item_schedule)
+    session.add(item_schedule)
     session.flush()   
     
 def create_sitting():    
@@ -131,14 +131,14 @@ def create_sitting():
     st.sitting_type = u"morning"
     st.start_time = datetime.time(8,30)
     st.end_time = datetime.time(12,30)  
-    session.save(st)
+    session.add(st)
     session.flush()
 
     sitting = domain.GroupSitting()
     sitting.start_date = datetime.datetime.now()
     sitting.end_date = datetime.datetime.now()
     sitting.sitting_type = st.sitting_type_id
-    session.save(sitting)
+    session.add(sitting)
     session.flush()     
     
     return sitting

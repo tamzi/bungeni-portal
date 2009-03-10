@@ -53,7 +53,7 @@ Sitting to schedule the motion:
   >>> sit1 = create_sitting()
 
   >>> motion = Motion()
-  >>> session.save(motion)
+  >>> session.add(motion)
   >>> session.flush()
 
 First we initialize the workflow.
@@ -412,7 +412,7 @@ Set up a user.
   
   >>> from ore.alchemist import Session
   >>> session = Session()
-  >>> session.save(user)
+  >>> session.add(user)
   >>> session.flush()
   
   >>> from bungeni.models.domain import Motion

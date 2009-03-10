@@ -20,11 +20,11 @@ First some setup code..
 To demonstrate let's create some groups and a content object which we'll attach files to.
   >>> session = Session()
   >>> parliament = domain.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
-  >>> session.save( parliament )
+  >>> session.add( parliament )
   >>> country = domain.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
-  >>> session.save(country)
+  >>> session.add(country)
   >>> session.flush() 
   >>> mp_1 = domain.ParliamentMember(u"mp_1", 
   ...        first_name=u"a", 
@@ -33,11 +33,11 @@ To demonstrate let's create some groups and a content object which we'll attach 
   ...        email=u"mp1@example.com", 
   ...        date_of_birth=datetime.now(),
   ...        gender='M') 
- >>> session.save(mp_1)   
+  >>> session.add(mp_1)   
   >>> billtype = domain.BillType()
   >>> billtype.bill_type_id = 1 
   >>> billtype.bill_type_name="private"
-  >>> session.save(billtype)  
+  >>> session.add(billtype)  
   >>> session.flush()
   >>> bill = domain.Bill( title=u"terra")
   >>> bill.bill_type_id = 1

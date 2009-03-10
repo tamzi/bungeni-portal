@@ -29,7 +29,7 @@ Questions
   >>> question = domain.Question()
   >>> question.approval_date = datetime.date.today() - datetime.timedelta(5)
   >>> question.status ="questionstates.admissible"  
-  >>> session.save(question)
+  >>> session.add(question)
   >>> session.flush()
   
   >>> question.question_id
@@ -38,14 +38,14 @@ Questions
   >>> question2 = domain.Question()
   >>> question2.approval_date = datetime.date.today() - datetime.timedelta(1)
   >>> question2.status = "questionstates.admissible"  
-  >>> session.save(question2)
+  >>> session.add(question2)
   >>> session.flush()
   
     
   >>> question3 = domain.Question()
   >>> question3.approval_date = datetime.date.today() - datetime.timedelta(1)
   >>> question3.status = "questionstates.complete"  
-  >>> session.save(question3)
+  >>> session.add(question3)
   >>> session.flush()
   
 get the questions that are in the workflow state:

@@ -49,7 +49,7 @@ class Versioned( container.PartialContainer ):
         
         # save our new version to the db
         session = Session()
-        session.save( version )
+        session.add( version )
         
     def revert( self, version, message ):
         """

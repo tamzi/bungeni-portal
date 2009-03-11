@@ -37,13 +37,14 @@ SittingTypes = DatabaseSource( domain.SittingType, 'sitting_type', 'sitting_type
 class mps_sitting( object ):
     """ returns the mps for a sitting """
     
+
 _mp_sitting = rdb.join(
-    schema.sittings, schema.parliament_sessions,
-    schema.sittings.c.group_id == schema.parliament_sessions.c.parliament_id).join(
+    schema.sittings, 
     schema.user_group_memberships,
-    schema.parliament_sessions.c.parliament_id == schema.user_group_memberships.c.group_id).join(
+    schema.sittings.c.group_id == schema.user_group_memberships.c.group_id).join(
     schema.users,
     schema.user_group_memberships.c.user_id == schema.users.c.user_id)
+
                                                                 
 mapper( mps_sitting, _mp_sitting,
           properties={

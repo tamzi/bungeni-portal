@@ -58,6 +58,11 @@
   
   <adapter
      for="bungeni.models.interfaces.IBill"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
+
+  <adapter
+     for="bungeni.models.interfaces.IBill"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.BillWorkflowAdapter" />     
 
@@ -67,6 +72,11 @@
      factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
 
   <!-- questions workflow -->
+
+  <adapter
+     for="bungeni.models.interfaces.IQuestion"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
   
   <adapter
      for="bungeni.models.interfaces.IQuestion"
@@ -91,6 +101,10 @@
   <subscriber handler=".question.SendNotificationToMemberUponComplete" /> 
 
   <!-- responses workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IResponse"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
   
   <adapter
      for="bungeni.models.interfaces.IResponse"
@@ -103,6 +117,10 @@
      factory="bungeni.core.workflows.states.StateWorkflowInfo"/>     
 
   <!-- motion workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IMotion"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
   
   <adapter
      for="bungeni.models.interfaces.IMotion"

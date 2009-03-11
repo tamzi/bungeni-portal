@@ -29,6 +29,7 @@ Questions
   >>> question = domain.Question()
   >>> question.approval_date = datetime.date.today() - datetime.timedelta(5)
   >>> question.status ="questionstates.admissible"  
+  >>> question.short_name ="question 1"
   >>> session.add(question)
   >>> session.flush()
   
@@ -38,13 +39,15 @@ Questions
   >>> question2 = domain.Question()
   >>> question2.approval_date = datetime.date.today() - datetime.timedelta(1)
   >>> question2.status = "questionstates.admissible"  
+  >>> question2.short_name ="question 2"  
   >>> session.add(question2)
   >>> session.flush()
   
     
   >>> question3 = domain.Question()
   >>> question3.approval_date = datetime.date.today() - datetime.timedelta(1)
-  >>> question3.status = "questionstates.complete"  
+  >>> question3.status = "questionstates.complete" 
+  >>> question3.short_name ="question 3"   
   >>> session.add(question3)
   >>> session.flush()
   

@@ -20,6 +20,8 @@ class Versioned( container.PartialContainer ):
     
     def _copyFields( self, source, dest, iface ):
         for field in schema.getFields( iface ).values():
+            #import pdb; pdb.set_trace()
+            #print field.__name__
             value = field.query( source ) 
             if value is None:
                 continue

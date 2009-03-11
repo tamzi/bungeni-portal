@@ -115,8 +115,8 @@ Add question to db
 ------------------
 
   >>> question = Question()
-  >>> question.subject = u"subject of the question"
-  >>> question.question_text = u"The question"
+  >>> question.short_name = u"subject of the question"
+  >>> question.body_text = u"The question"
   >>> session.add(question)
   >>> session.flush()
 

@@ -6,6 +6,7 @@ import response
 import events
 import xmlimport
 
+
 from ore.workflow import workflow
 
 path = os.path.split(os.path.abspath(__file__))[0]
@@ -22,3 +23,4 @@ QuestionWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(question))
 MotionWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(motion))
 BillWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(bill))
 ResponseWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(response))
+

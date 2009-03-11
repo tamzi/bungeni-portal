@@ -65,7 +65,9 @@
     <!--grant role="zope.Manager"
 	 principal="zope.anybody" /-->
 
-          
+     <grant permission="zope.View" role="bungeni.MP" />
+     <grant permission="zope.View" role="bungeni.Clerk" />      
+     <grant permission="zope.View" role="bungeni.Speaker" />
     
     <!--
     TODO:

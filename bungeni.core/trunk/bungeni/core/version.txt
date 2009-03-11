@@ -11,6 +11,8 @@ Versioning
 
 
   >>> question = bungeni.models.domain.Question()
+  >>> question.short_name = "A question"
+  >>> question.type ="question"
 
   >>> from zope.interface import classImplements
   >>> classImplements( bungeni.models.domain.Question, bungeni.core.interfaces.IVersionable)

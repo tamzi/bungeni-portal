@@ -130,10 +130,9 @@ sql_AddMemberOfParliament = """
                             
 sql_add_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
                     "users"."user_id", "group_sittings"."sitting_id" 
-                    FROM "public"."group_sittings", "public"."sessions", 
+                    FROM "public"."group_sittings",  
                     "public"."user_group_memberships", "public"."users" 
-                    WHERE ( "group_sittings"."session_id" = "sessions"."session_id" 
-                        AND "user_group_memberships"."group_id" = "sessions"."parliament_id" 
+                    WHERE ("user_group_memberships"."group_id" = "group_sittings"."group_id" 
                         AND "user_group_memberships"."user_id" = "users"."user_id" )
                         AND ( "user_group_memberships"."active_p" = True )
                         AND ("group_sittings"."sitting_id" = %(primary_key)s)

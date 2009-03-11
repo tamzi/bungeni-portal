@@ -18,7 +18,7 @@ checkSessionInterval = """
 checkSittingSessionInterval = """
                         SELECT "start_date" || ' - ' || "end_date" AS interval
                         FROM "public"."group_sittings" 
-                        WHERE ( ( "session_id" = %(parent_key)s )
+                        WHERE ( ( "group_id" = %(parent_key)s )
                                  
                                 AND ( '%(date)s' 
                                     BETWEEN "start_date" AND "end_date") )
@@ -146,8 +146,7 @@ checkMySessionInterval = """
 checkMySittingSessionInterval = """
                             SELECT "group_sittings_1"."start_date"  || ' - ' ||  "group_sittings_1"."end_date" AS interval
                             FROM "public"."group_sittings" ,  "public"."group_sittings" AS  "group_sittings_1"
-                            WHERE ((("group_sittings_1"."session_id" = "group_sittings"."session_id" ) 
-                                        AND ( "group_sittings"."sitting_id" = %(parent_key)s ) )
+                            WHERE (( ( "group_sittings"."sitting_id" = %(parent_key)s ) )
                                     AND ( "group_sittings_1"."sitting_id" !=  %(parent_key)s )
                                     AND ( '%(date)s' 
                                         BETWEEN  "group_sittings_1"."start_date" AND  "group_sittings_1"."end_date"))

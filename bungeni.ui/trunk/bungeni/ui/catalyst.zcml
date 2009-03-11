@@ -121,6 +121,15 @@
      />
 
   <!-- Content -->
+  
+  <db:catalyst
+     class="bungeni.models.domain.ParliamentaryItem"
+     descriptor=".descriptor.ParliamentaryItemDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+     />  
+  
   <db:catalyst
      class="bungeni.models.domain.Bill"
      descriptor=".descriptor.BillDescriptor"
@@ -152,21 +161,21 @@
     echo="False"   
     />
     
-  <db:catalyst
+  <!--db:catalyst
     class="bungeni.models.domain.TabledDocument"
     descriptor=".descriptor.TabledDocumentDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
     echo="False"   
-    />
+    /-->
     
-  <db:catalyst
+  <!--db:catalyst
     class="bungeni.models.domain.DocumentSource"
     descriptor=".descriptor.DocumentSourceDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
     echo="False"   
-    />
+    /-->
   
   <db:catalyst
     class="bungeni.models.domain.EventItem"

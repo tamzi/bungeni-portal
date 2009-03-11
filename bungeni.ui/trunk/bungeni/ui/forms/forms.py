@@ -497,13 +497,13 @@ class IQuestionAdd ( IQuestion ):
 
 class QuestionAdd( BungeniAddForm ):
     form_fields = form.Fields( IQuestionAdd ).select('question_type', 'response_type', 'owner_id', 'ministry_id',
-                                                    'subject', 'question_text',                                                                  
+                                                    'short_name', 'body_text',                                                                  
                                                     'note', 'receive_notification' )
 
     Adapts = IQuestionAdd
     CustomValidation =  validations.QuestionAdd 
     form_fields["note"].custom_widget = widgets.OneTimeEditor
-    form_fields["question_text"].custom_widget = widgets.RichTextEditor 
+    form_fields["body_text"].custom_widget = widgets.RichTextEditor 
     #getUserId( name )
     
     def update( self ):      
@@ -1035,7 +1035,7 @@ class QuestionEdit( CustomEditForm ):
     default save and cancel buttons
     """
     form_fields = form.Fields( IQuestionEdit ).select('question_type', 'response_type', 'owner_id', 'ministry_id',
-                                                    'subject', 'question_text', 
+                                                    'short_name', 'body_text', 
                                                     'submission_date', 'approval_date',                                                    
                                                     'note', 'receive_notification' )
                     
@@ -1043,7 +1043,7 @@ class QuestionEdit( CustomEditForm ):
                                                     
     Adapts = IQuestionEdit
     form_fields["note"].custom_widget = widgets.OneTimeEditor
-    form_fields["question_text"].custom_widget = widgets.RichTextEditor 
+    form_fields["body_text"].custom_widget = widgets.RichTextEditor 
     form_fields['submission_date'].for_display = True
     form_fields['approval_date'].for_display = True    
     #form_fields['supplement_parent_id'].custom_widget = widgets.SupplementaryQuestionDisplay

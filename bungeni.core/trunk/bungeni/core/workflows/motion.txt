@@ -53,6 +53,7 @@ Sitting to schedule the motion:
   >>> sit1 = create_sitting()
 
   >>> motion = Motion()
+  >>> motion.short_name = u"A Motion"
   >>> session.add(motion)
   >>> session.flush()
 

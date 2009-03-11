@@ -16,7 +16,7 @@ Setting up Database Connection and Utilities:
 Questions
 
   >>> question = domain.Question()
-  
+  >>> question.short_name = u"question"
   >>> session.add(question)
   >>> session.flush()
   

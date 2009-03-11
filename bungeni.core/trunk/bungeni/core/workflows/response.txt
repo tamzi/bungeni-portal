@@ -69,6 +69,7 @@ we need to have a question in this state (pending response) so that the actions 
 gets fired by the response transitions succeed.
 
   >>> question = domain.Question()
+  >>> question.short_name = u" A Question"
   >>> question.status = u"questionstates.response_pending"
   >>> session.add(question)
   >>> session.flush()

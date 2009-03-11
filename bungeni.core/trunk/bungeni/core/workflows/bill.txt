@@ -88,7 +88,7 @@ Bill Types
   >>> bill = Bill()
   >>> bill.bill_type_id = bt.bill_type_id
   >>> bill.owner_id = mp_1.user_id
-  >>> bill.title = u"New Bill"
+  >>> bill.short_name = u"New Bill"
   >>> session.add(bill)
   >>> session.flush()
 

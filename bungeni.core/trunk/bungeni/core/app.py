@@ -68,11 +68,11 @@ class AppSetup( object ):
         questions = domain.QuestionContainer()
         self.context['questions'] = questions
         
-        tableddocuments = domain.TabledDocumentContainer()        
-        self.context['tableddocuments'] = tableddocuments
+        #tableddocuments = domain.TabledDocumentContainer()        
+        #self.context['tableddocuments'] = tableddocuments
         
-        documentsources = domain.DocumentSourceContainer() 
-        self.context['documentsources'] = documentsources    
+        #documentsources = domain.DocumentSourceContainer() 
+        #self.context['documentsources'] = documentsources    
         
         #users = domain.UsersContainer()
         #self.context['users'] = users

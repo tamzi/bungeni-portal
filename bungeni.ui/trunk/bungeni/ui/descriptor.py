@@ -754,7 +754,6 @@ class SittingDescriptor( ModelDescriptor ):
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
-        dict( name="session_id", omit=True ),
         dict( name="start_date", label=_(u"Start Date"),  
             listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')),
             edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),

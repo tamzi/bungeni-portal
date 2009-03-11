@@ -1,3 +1,16 @@
+#weekly-calendar table {
+  width: 100%;
+}
+
+#weekly-calendar table th {
+  text-align: center;
+}
+
+#weekly-calendar table td.hour {
+  text-align: center;
+  font-weight: bold;
+}
+
 #weekly-calendar thead td a.previous-link {
   float: left;
 }

@@ -50,6 +50,9 @@
                                   class sitting/class|nothing"
                   tal:condition="python: sitting is not None">
                 <tal:sitting condition="sitting">
+                  <span class="sitting-type"
+                        tal:content="sitting/record/type/sitting_type" />
+                  
                   <div tal:define="items sitting/record/items"
                        tal:repeat="item python: items.values()">
                     id: <span tal:replace="item/schedule_id" />

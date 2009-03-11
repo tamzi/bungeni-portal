@@ -6,6 +6,7 @@ from zope import component
 from zope import schema
 
 from zope.location.interfaces import ILocation
+from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
 
@@ -13,6 +14,7 @@ from zc.resourcelibrary import need
 
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
+from bungeni.ui.proxy import ShortNameProxy
 from bungeni.ui.i18n import _
 
 def create_sittings_map(sittings):
@@ -58,10 +60,16 @@ class CalendarView(BrowserView):
     template = ViewPageTemplateFile("main.pt")
     _macros = ViewPageTemplateFile("macros.pt")
 
+    short_name = u"Calendar"
+    
     def __init__(self, context, request):
-        context = ISchedulingContext(context)
-        context.__name__ = self.__name__
-        super(CalendarView, self).__init__(context, request)
+        super(CalendarView, self).__init__(
+            ISchedulingContext(context), request)
+        self.context.__name__ = self.__name__
+        self.context.title = self.short_name
+        interface.alsoProvides(self.context, ILocation)
+        interface.alsoProvides(self.context, IDCDescriptiveProperties)
+        self.__parent__ = context
         
     def __call__(self, timestamp=None):
         if timestamp is None:
@@ -76,7 +84,34 @@ class CalendarView(BrowserView):
             date = utils.datetimedict.fromtimestamp(timestamp)
 
         return self.render_weekly(date)
-    
+
+    def publishTraverse(self, request, name):
+        try:
+            method = getattr(self, 'get_%s' % name)
+        except AttributeError:
+            return super(CalendarView, self).publishTraverse(request, name)
+
+        obj = method()
+        obj.__name__ = name
+        return obj
+        
+    def get_sittings(self):
+        group = self.context.get_group()
+        group.__name__ = self.__name__
+        group.__parent__ = self.__parent__
+        group = ShortNameProxy(group, short_name=self.short_name)
+
+        container = self.context.get_sittings_container()
+        container.__parent__ = group
+
+        return container
+
+    def render_add_sitting_form(self):
+        
+        view = component.getMultiAdapter(
+            (sittings, self.request), name="add")
+        return view()
+
     def render_weekly(self, date):
         calendar_url = self.request.getURL()
         date = date - timedelta(days=date.weekday())

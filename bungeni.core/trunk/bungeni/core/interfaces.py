@@ -119,5 +119,8 @@ class ISchedulingContext(ILocation):
     This may be a committee or the plenary.
     """
 
+    group_id = interface.Attribute(
+        """Group identifier.""")
+        
     def get_sittings(start_date=None, end_date=None):
         """Return sittings defined for this context."""

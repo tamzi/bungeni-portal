@@ -7,6 +7,7 @@ from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.globalsettings import getCurrentParliamentId
 from bungeni.models.interfaces import IBungeniApplication
 from bungeni.models.domain import GroupSitting
+from bungeni.models.domain import Group
 
 from ore.alchemist import Session
 
@@ -20,6 +21,16 @@ class PrincipalGroupSchedulingContext(object):
 
     def __init__(self, context):
         self.__parent__ = context
+
+    def get_group(self):
+        session = Session()
+
+        return session.query(Group).filter_by(
+            group_id=self.group_id)[0]
+
+    def get_sittings_container(self):
+        group = self.get_group()
+        return group.sittings
 
     def get_sittings(self, start_date=None, end_date=None):
         session = Session()

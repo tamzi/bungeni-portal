@@ -240,10 +240,9 @@ def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
-    if getattr(context.__parent__, 'session_id', None):
-        errors = checkStartEndDatesInInterval(context.__parent__.session_id, data, sql.checkSittingSessionInterval)
-    elif getattr(context.__parent__, 'group_id', None):          
-        errors = checkStartEndDatesInInterval(context.__parent__.group_id, data, sql.checkSittingGroupInterval)
+    errors = checkStartEndDatesInInterval(
+        context.__parent__.group_id, data, sql.checkSittingGroupInterval)
+        
     if context.__parent__.start_date > data['start_date'].date():
         errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)") % context.__parent__.start_date, "start_date" ) )
     if context.__parent__.end_date is not None:

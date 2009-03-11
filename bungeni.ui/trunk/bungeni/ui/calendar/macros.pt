@@ -31,7 +31,9 @@
           </tr>
           <tr>        
             <th>
-              <span tal:content="options/week_no" />
+              <span i18n:translate="">
+                Week <span i18n:name="week_no" tal:replace="options/week_no" />
+              </span>
             </th>
             <th tal:repeat="day options/days"
                 tal:attributes="id string:tdid-${day/id}">
@@ -41,7 +43,7 @@
         </thead>
         <tbody tal:define="sittings_map options/sittings_map">
           <tr tal:repeat="hour options/hours">
-            <td tal:content="string: ${hour}:00" />
+            <td class="hour" tal:content="string: ${hour}:00" />
             <tal:column repeat="day python: range(7)">
               <td tal:define="sitting python: sittings_map.get((day, hour), False)"
                   tal:attributes="rowspan sitting/span|nothing"

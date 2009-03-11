@@ -21,7 +21,8 @@ def create_sittings_map(sittings):
     """Returns a dictionary that maps:
 
       (day, hour) -> {
-         record  : sitting database record,
+         record  : sitting database record
+         class   : 'sitting'
          span    : span
          }
          
@@ -41,6 +42,7 @@ def create_sittings_map(sittings):
         hour = sitting.start_date.hour
         mapping[day, hour] = {
             'record': sitting,
+            'class': u"sitting",
             'span': sitting.end_date.hour - sitting.start_date.hour
             }
 

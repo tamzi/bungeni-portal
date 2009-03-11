@@ -22,3 +22,7 @@
 #weekly-calendar thead td {
   text-align: center;
 }
+
+#weekly-calendar td.sitting {
+  background: yellow;
+}

@@ -324,7 +324,8 @@ class ItemVotes( object ):
     """
     
 class ParliamentaryItem( Entity ):
-
+    """
+    """
     interface.implements( interfaces.IBungeniContent )
     # votes
 
@@ -335,24 +336,24 @@ class ParliamentaryItem( Entity ):
     # versions
 
     
-    #@property
-    #def workflow( self ):
-    #    return component.getAdapter( self, IWorkflowInfo )
+    @property
+    def workflow( self ):
+        return component.getAdapter( self, IWorkflowInfo )
 
-class AgendaItem( Entity ):    
+#ParliamentaryItemChange = ItemLog.makeLogFactory( "ParliamentaryItemChange")
+#ParliamentaryItemVersions = ItemVersions.makeVersionFactory("ParliamentaryItemVersion")
+
+class AgendaItem( ParliamentaryItem ):    
     """
     Generic Agenda Item that can be scheduled on a sitting
     """
 
 class Question( ParliamentaryItem ):
 
-    interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
+    #interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
     responses = one2many("responses", "bungeni.models.domain.ResponseContainer", "response_id")
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
-    @property
-    def short_name( self ):
-        return ( self.subject )
-
+    
     
     def getParentQuestion( self ):
         if self.supplement_parent_id:
@@ -370,7 +371,7 @@ class Response( ParliamentaryItem ):
     """
     Response to a Question
     """
-    interface.implements( interfaces.IResponse, interfaces.IFileAttachments )
+    #interface.implements( interfaces.IResponse, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
     
 ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
@@ -378,14 +379,9 @@ ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")
 
 class Motion( ParliamentaryItem ):
     
-    interface.implements( interfaces.IMotion )
+    #interface.implements( interfaces.IMotion )
     motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
-    @property
-    def short_name( self ):
-        return ( self.title ) 
-    @property
-    def subject( self ):
-        return ( self.title ) 
+
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
 
@@ -403,19 +399,12 @@ class BillType(object):
     """
 
 class Bill( ParliamentaryItem ):
-    interface.implements( interfaces.IBill, interfaces.IFileAttachments )
+    #interface.implements( interfaces.IBill, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
     
     consignatory = one2many("consignatory", "bungeni.models.domain.BillConsignatoryContainer", "bill_id")
     event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
      
-    @property
-    def short_name( self ):
-        return ( self.title ) 
-        
-    @property
-    def subject( self ):
-        return ( self.title ) 
 
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
@@ -544,15 +533,15 @@ class TabledDocument( object):
 
     It must be possible to schedule a tabled document for a sitting.
     """
-    interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
-    files = files.DirectoryDescriptor()     
+    #interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
+    #files = files.DirectoryDescriptor()     
     
 class DocumentSource( object ):
     """
     Document source for a tabled document
     """
 
-class EventItem( object ):
+class EventItem( ParliamentaryItem ):
     """
     Bill events with dates and possiblity to upload files.
 
@@ -571,9 +560,9 @@ class EventItem( object ):
     All these "events" they may be listed together, in that case the "workflow" once should be ... e.g. in bold.
     """    
 
-class HolyDay( object ):
+class HoliDay( object ):
     """
-    is this day a holyday?
+    is this day a holiday?
     if a date in in the table it is otherwise not
     """
 

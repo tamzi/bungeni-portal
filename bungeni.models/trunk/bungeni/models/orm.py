@@ -12,8 +12,7 @@ mapper ( domain.Person, schema.users,
                  (schema.users.c.first_name + u" " + 
                   schema.users.c.middle_name + u" " + 
                   schema.users.c.last_name).label('fullname')
-                 ),
-             'user_description':schema.users.c.description,
+                 ),            
              },
  )
 
@@ -340,25 +339,78 @@ mapper( domain.ResourceBooking, schema.resourcebookings)
 ##############################
 # Parliamentary Items
 
+mapper( domain.ParliamentaryItem, schema.parliamentary_items,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='item',   
+
+         )
+#mapper( domain.ParliamentaryItemChange, schema.parliamentary_item_changes )
+#mapper( domain.ParliamentaryItemVersions, schema.parliamentary_item_versions,
+#            properties= {'change':relation( domain.ParliamentaryItemChange, uselist=False ) })
+
+
+mapper( domain.Question, schema.questions,
+        inherits=domain.ParliamentaryItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='question',
+        properties = {
+             'versions':relation( domain.QuestionVersion, backref='question'),
+             'changes':relation( domain.QuestionChange, backref='question'),                                   
+             }
+        )
+        
 mapper( domain.QuestionChange, schema.question_changes )
 mapper( domain.QuestionVersion, schema.question_versions,
         properties= {'change':relation( domain.QuestionChange, uselist=False ) }
         )
-mapper( domain.Question, schema.questions,
+
+
+
+
+mapper( domain.Motion, schema.motions,
+        inherits=domain.ParliamentaryItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='motion',
         properties = {
-             'versions':relation( domain.QuestionVersion, backref='question'),
-             'changes':relation( domain.QuestionChange, backref='question'),                                   
-             
+             'versions':relation( domain.MotionVersion, backref='motion'),
+             'changes':relation( domain.MotionChange, backref='motion'),
              }
         )
+        
+mapper( domain.MotionChange, schema.motion_changes )
+mapper( domain.MotionVersion, schema.motion_versions,
+        properties= {'change':relation( domain.MotionChange, uselist=False)}
+        )
 
-#_question_schedules_history = rdb.join ( schema.question_schedules, schema.sittings,
-#                            schema.question_schedules.c.sitting_id == schema.sittings.c.sitting_id )
+        
+mapper( domain.Bill, schema.bills,
+        inherits=domain.ParliamentaryItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='bill',
+        properties = {
+             'versions':relation( domain.BillVersion, backref='bill'),
+             'changes':relation( domain.BillChange, backref='bill')
+             }
+        )
+mapper( domain.BillChange, schema.bill_changes )
+mapper( domain.BillVersion, schema.bill_versions, 
+        properties= {'change':relation( domain.BillChange, uselist=False)}
+        )
 
-#mapper( domain.QuestionScheduleHistory, _question_schedules_history )
-#mapper (domain.QuestionSchedule, schema.question_schedules)
 
-mapper( domain.ItemSchedule, schema.items_schedule )
+mapper( domain.EventItem, schema.event_items, 
+        inherits=domain.ParliamentaryItem,
+        inherit_condition=(
+                    schema.event_items.c.event_item_id == 
+                    schema.parliamentary_items.c.parliamentary_item_id),
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='event')
+
+mapper( domain.AgendaItem, schema.agenda_items, 
+        inherits=domain.ParliamentaryItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='agendaitem')
+
 
 mapper( domain.ResponseChange, schema.response_changes )
 mapper( domain.ResponseVersion, schema.response_versions,
@@ -371,45 +423,19 @@ mapper( domain.Response, schema.responses,
              }
         )
 
-mapper( domain.MotionChange, schema.motion_changes )
-mapper( domain.MotionVersion, schema.motion_versions,
-        properties= {'change':relation( domain.MotionChange, uselist=False)}
-        )
-mapper( domain.Motion, schema.motions,
-        properties = {
-             'versions':relation( domain.MotionVersion, backref='motion'),
-             'changes':relation( domain.MotionChange, backref='motion'),
-#             'session':relation( domain.ParliamentSession )
-             }
-        )
-
+        
+mapper( domain.ItemSchedule, schema.items_schedule )        
+mapper( domain.BillConsignatory, schema.bill_consignatories)
 mapper( domain.Debate, schema.debates )
 
 mapper( domain.MotionAmendment, schema.motion_amendments)
 
-mapper( domain.BillType, schema.bill_types )
+mapper( domain.BillType, schema.bill_types )        
+#mapper( domain.DocumentSource, schema.document_sources )
+#mapper( domain.TabledDocument, schema.tabled_documents )
 
-mapper( domain.BillChange, schema.bill_changes )
-mapper( domain.BillVersion, schema.bill_versions, 
-        properties= {'change':relation( domain.BillChange, uselist=False)}
-        )
-mapper( domain.Bill, schema.bills,
-        properties = {
-             'versions':relation( domain.BillVersion, backref='bill'),
-             'changes':relation( domain.BillChange, backref='bill')
-             }
-        )
-        
-        
-mapper( domain.BillConsignatory, schema.bill_consignatories)
-        
-mapper( domain.DocumentSource, schema.document_sources )
-mapper( domain.TabledDocument, schema.tabled_documents )
-mapper( domain.EventItem, schema.event_items )
 
-mapper( domain.AgendaItem, schema.agenda_items )
-
-mapper( domain.HolyDay, schema.holydays )
+mapper( domain.HoliDay, schema.holidays )
         
 ######################
 #

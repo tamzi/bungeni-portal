@@ -46,7 +46,8 @@
             <td class="hour" tal:content="string: ${hour}:00" />
             <tal:column repeat="day python: range(7)">
               <td tal:define="sitting python: sittings_map.get((day, hour), False)"
-                  tal:attributes="rowspan sitting/span|nothing"
+                  tal:attributes="rowspan sitting/span|nothing;
+                                  class sitting/class|nothing"
                   tal:condition="python: sitting is not None">
                 <tal:sitting condition="sitting">
                   <div tal:define="items sitting/record/items"

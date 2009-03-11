@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 from zope import component
+from zope.location.interfaces import ILocation
+from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.security import proxy
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
@@ -55,23 +57,31 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         self.__parent__= view
         self.manager = manager
         self.path = []
-        self.navigation_root_url ='/'
+        self.site_url = absoluteURL(getSite(), self.request)
         self.user_name = ''
 
-    def _get_path( self, context, url = '' ): 
+    def _get_path( self, context):
         """
         Return the current path as a list
         """
+
         descriptor = None
         name = None 
         path = []
+
         context = proxy.removeSecurityProxy( context )
-        if context.__parent__ is not None:            
-            path = path + self._get_path(context.__parent__, '../' + url )
-        #if context != self.context:           
+        if context.__parent__ is not None:
+            path.extend(
+                self._get_path(context.__parent__))
+
+        url = absoluteURL(context, self.request)
+        
         if  IAlchemistContent.providedBy(context):
-            path.append( {'name' : getattr(context, 'short_name', None ), 'url' : url})
-        if IAlchemistContainer.providedBy(context):                        
+            path.append({
+                'name' : getattr(context, 'short_name', None ),
+                'url' : url})
+            
+        elif IAlchemistContainer.providedBy(context):                        
             domain_model = context._class 
             try:
                 descriptor = queryModelDescriptor( domain_model )
@@ -82,11 +92,22 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 name = getattr( descriptor, 'display_name', None)
             if not name:
                 name = getattr( context, '__name__', None)  
-            path.append({'name' : name, 'url' : url} )                         
+            path.append({
+                'name' : name,
+                'url' : url,
+                })
+
+        elif ILocation.providedBy(context) and \
+             IDCDescriptiveProperties.providedBy(context):
+            path.append({
+                'name' : context.title,
+                'url' : url,
+                })
+
         return path
         
-    def update( self ):
-        self.path = self._get_path(self.context)    
+    def update(self):
+        self.path = self._get_path(self.context)
         try:
             self.user_name = self.request.principal.login          
         except:

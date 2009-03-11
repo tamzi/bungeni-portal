@@ -683,48 +683,213 @@ class GovernmentDescriptor( ModelDescriptor ):
         ]
     
     schema_invariants = [EndAfterStart]    
-    
-class MotionDescriptor( ModelDescriptor ):
-    display_name = _(u"Motion")
-    container_name = _(u"Motions")
-    
-    fields = [
-        dict( name="motion_id", omit=True ),
-        dict( name="title", label=_(u"Subject"), listing=True,
-              edit_widget = widgets.LongTextWidget),
-        dict( name="session_id", omit = True ),
-             # property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession, 'session_id', 'session_id', 'short_name'), 
-             # required=False )
-             # ),
-        dict( name="submission_date", label=_(u"Submission Date"), add=False, edit=False, listing=True ,  edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
-        dict( name="approval_date", label=_(u"Approval Date"), add=False, edit=False, edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
-        dict( name="notice_date", label=_(u"Notice Date"), add=False, edit= False, listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
-#        dict( name="type", label=_(u"Public"),
-#              edit_widget = widgets.YesNoInputWidget,
-#              view_widget = widgets.YesNoDisplayWidget),
-        dict( name="motion_number", label=_(u"Identifier"), add=False, edit = False),
+
+class ParliamentaryItemDescriptor( ModelDescriptor ):
+    fields= [
+        dict(name="parliamentary_item_id", omit=True),
+        dict(name="parliament_id", omit=True),
         dict( name="owner_id", 
-              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
+              property = schema.Choice( title=_(u"Owner"), 
+                source=DatabaseSource(domain.ParliamentMember, 
+                title_field='fullname', 
+                token_field='user_id', 
+                value_field = 'user_id' )), 
               listing_column=vocab_column( "owner_id" , _(u'Owner'),
-               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
+               DatabaseSource(domain.ParliamentMember, 
+                title_field='fullname', 
+                token_field='user_id', 
+                value_field = 'user_id' ), ),              
               listing = True 
             ),
-        dict( name="body_text", label=_(u"Motion Text"),
-              property = schema.Text( title=u"Motion" ),
+        dict(name="short_name", label=_(u"Title"), listing=True, add=True, edit=True, omit=False),
+        dict(name="full_name", label=_(u"Summary"), listing=False, add=True, edit=True, omit=False),
+        dict( name="body_text", label=_(u"Text"),
+              property = schema.Text( title=u"Text" ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor
               ),
+        dict( name="submission_date", 
+            label=_(u"Submission Date"), 
+            add=False, 
+            edit=False, 
+            listing=True ,  
+            edit_widget=SelectDateWidget, 
+            add_widget=SelectDateWidget, 
+            omit=False),        
+        dict( name="status", 
+            label=_(u"Status"), 
+            edit=False, 
+            add=False, 
+            listing=True, 
+            omit=False ),            
+        dict( name="note", 
+            label=_(u"Notes"), 
+            description="Recommendation note", 
+              property=schema.Text(title=_(u"Notes"),  
+                description=_(u"Recommendation note"), required=False ),              
+              edit = True, 
+              add = True, 
+              view = False, 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor, ),    
+        dict( name="receive_notification", 
+              label=_(u"Receive notification"), 
+              description=_(u"Select this option to receive notifications for this motion."), 
+              listing=False, 
+              omit=False ),  
+        dict( name="type", 
+              omit=False,
+              edit = False, 
+              add = False, 
+              view = False, ),
+        ]                   
+
+class AgendaItemDescriptor( ParliamentaryItemDescriptor): 
+    display_name =_(u"Agenda item")
+    container_name =_(u"Agenda items")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields.extend([
+        dict( name="agenda_item_id", omit=True ), 
+    ])
+        
+class MotionDescriptor( ParliamentaryItemDescriptor ):
+    display_name = _(u"Motion")
+    container_name = _(u"Motions")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields.extend([                
+        dict( name="approval_date", 
+            label=_(u"Approval Date"), 
+            add=False, 
+            edit=False, 
+            edit_widget=SelectDateWidget, 
+            add_widget=SelectDateWidget),
+        dict( name="notice_date", 
+            label=_(u"Notice Date"), 
+            add=False, 
+            edit= False, 
+            listing=True, 
+            edit_widget=SelectDateWidget, 
+            add_widget=SelectDateWidget),        
+#        dict( name="type", label=_(u"Public"),
+#              edit_widget = widgets.YesNoInputWidget,
+#              view_widget = widgets.YesNoDisplayWidget),
+        dict( name="motion_number", label=_(u"Identifier"), add=False, edit = False),
+
+
         # TODO omit for now
         dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
         dict( name="party_id",
             property = schema.Choice( title=_(u"Political Party"), 
-                                      source=DatabaseSource(domain.PoliticalParty, title_field='short_name', token_field='party_id', value_field = 'party_id' ), 
-                                      required=False) ),
-        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
-        dict( name="receive_notification", label=_(u"Receive notification"), 
-              description=_(u"Select this option to receive notifications for this motion."), listing=False ),
-        ]
+                                      source=DatabaseSource(domain.PoliticalParty, 
+                                        title_field='short_name', 
+                                        token_field='party_id', 
+                                        value_field = 'party_id' ), 
+                                      required=False) ),                
+        ])
+
+class BillDescriptor( ParliamentaryItemDescriptor ):
+    display_name = _(u"Bill")
+    container_name = _(u"Bills")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields.extend([
+        dict( name="bill_id", omit=True ),
+        dict( name="bill_type_id", property = schema.Choice(
+                                        title =_(u"Bill Type"),
+                                        source=DatabaseSource(domain.BillType, title_field='bill_type_name',
+                                                                token_field='bill_type_id',
+                                                                value_field='bill_type_id'),
+                                                                ),
+             ),                                                                
+        dict( name="ministry_id", 
+              property = schema.Choice( title=_(u"Ministry"), 
+                                    source=DatabaseSource(domain.Ministry, 
+                                        title_field='short_name', 
+                                        token_field='ministry_id', 
+                                        value_field = 'ministry_id' ),
+                                    required=False,
+                                    ), 
+             listing = False,),
+
+        dict( name="long_title", label=_(u"Long Title"), 
+                property = schema.Text( title=_(u"Long Title"), required=False ),        
+                listing=False ),
+        dict( name="summary", label=_(u"Summary"), 
+                view_widget=HTMLDisplay,
+                edit_widget=RichTextEditor, 
+                add_widget=RichTextEditor),
+        dict( name="identifier", label=_(u"Identifer") ),
+        dict( name="publication_date", label=_(u"Publication Date"), listing=True,  
+                edit_widget=SelectDateWidget, add_widget=SelectDateWidget ,
+                listing_column=day_column("publication_date", _(u"Publication Date")), ),        
+
+        ])
+        
+class QuestionDescriptor( ParliamentaryItemDescriptor ):
+    display_name = _(u"Question")
+    container_name = _(u"Questions")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields.extend([
+        dict( name="question_id", omit=True),
+        dict( name="supplement_parent_id",
+            label=_(u"Initial/supplementary question"), 
+            view_widget=SupplementaryQuestionDisplay),
+        dict( name="ministry_id", 
+                property = schema.Choice(title=_(u"Ministry"), 
+                source=DatabaseSource(domain.Ministry,
+                    title_field='short_name', 
+                    token_field='ministry_id', 
+                    value_field = 'ministry_id' ),
+                 required=False),
+                listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
+                DatabaseSource(domain.Ministry,
+                                title_field='short_name', 
+                                token_field='ministry_id', 
+                                value_field = 'ministry_id' )),
+                listing=True,                 
+            ),
+        dict( name="approval_date", 
+            label=_(u"Date approved"),  
+            listing=True, 
+            add=False ),     
+        dict( name="ministry_submit_date", 
+            label=_(u"Submitted to ministry"),  
+            listing=True, 
+            add=False ),   
+        dict( name="question_type", 
+            listing=True, 
+            property=schema.Choice( title=_(u"Question Type"), 
+                                    description=_("(O)rdinary or (P)rivate Notice"), 
+                                    vocabulary=vocabulary.QuestionType) ,
+              ),                                    
+        dict( name="response_type",  
+            listing=True,
+            property=schema.Choice( title=_(u"Response Type"), 
+                                      description=_("(O)ral or (W)ritten"), 
+                                      vocabulary=vocabulary.ResponseType),
+        
+             ),
+        dict( name="sitting_time", 
+            label=_(u"Sitting Time"), 
+            listing=True ),
+        ])
+
+class EventItemDescriptor( ParliamentaryItemDescriptor ):
+    display_name =_(u"Event")
+    container_name =_(u"Events")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields.extend([
+        dict( name="event_item_id", omit=True ),
+        dict( name="item_id", omit=True ),
+        dict( name="event_date", 
+            label=_(u"Date"), 
+            listing_column=day_column("event_date", _(u"Date")), 
+            listing=True, 
+            edit_widget=SelectDateWidget, 
+            add_widget=SelectDateWidget ),
+    ])
+
+
 
 
 class MotionAmendmentDescriptor( ModelDescriptor ):
@@ -830,60 +995,7 @@ class AttendanceTypeDescriptor( ModelDescriptor ):
         dict (name="attendance_type", label=_(u"Attendance type") ),
         ]
         
-class BillDescriptor( ModelDescriptor ):
-    display_name = _(u"Bill")
-    container_name = _(u"Bills")
-    
-    fields = [
-        dict( name="files", omit=True),
-        dict( name="bill_id", omit=True ),
-        dict( name="bill_type_id", property = schema.Choice(
-                                        title =_(u"Bill Type"),
-                                        source=DatabaseSource(domain.BillType, title_field='bill_type_name',
-                                                                token_field='bill_type_id',
-                                                                value_field='bill_type_id'),
-                                                                ),
-             ),                                                                
-        dict( name="ministry_id", 
-              property = schema.Choice( title=_(u"Ministry"), 
-                                    source=DatabaseSource(domain.Ministry, 
-                                        title_field='short_name', 
-                                        token_field='ministry_id', 
-                                        value_field = 'ministry_id' ),
-                                    required=False,
-                                    ), 
-             listing = False,),
-        dict( name="owner_id",                      
-              property = schema.Choice( title=_(u"Presenter"), 
-                                        source=DatabaseSource(domain.ParliamentMember, 
-                                            title_field='fullname', 
-                                            token_field='user_id', 
-                                            value_field = 'user_id' ),
-                                        required=True,
-                                    ), 
-              listing = False,),                       
-        dict( name="title", label=_(u"Title"), listing=True ),
-        dict( name="long_title", label=_(u"Long Title"), 
-                property = schema.Text( title=_(u"Long Title"), required=False ),        
-                listing=False ),
-        dict( name="summary", label=_(u"Summary"), 
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor),
-        dict( name="body_text", label=_(u"Text"), 
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor),                
-        dict( name="session_id", label=_(u"Session") ),
-        dict( name="identifier", label=_(u"Identifer") ),
-        dict( name="submission_date", label=_(u"Submission Date"), listing=False,  
-              edit_widget=SelectDateWidget, add_widget=SelectDateWidget,
-               ),
-        dict( name="publication_date", label=_(u"Publication Date"), listing=True,  
-                edit_widget=SelectDateWidget, add_widget=SelectDateWidget ,
-                listing_column=day_column("submission_date", _(u"Publication Date")), ),        
-        dict( name="status", label=_(u"Status"), listing=True, edit=False, add=False, view=False, ), 
-        ]
+
 
 class BillConsignatoryDescriptor( ModelDescriptor ):
     display_name = _(u"Consignatory")
@@ -898,58 +1010,7 @@ class BillConsignatoryDescriptor( ModelDescriptor ):
             ),  
     ]
 
-class QuestionDescriptor( ModelDescriptor ):
-    display_name = _(u"Question")
-    container_name = _(u"Questions")
-        
-    fields = [
-        dict( name="question_id", omit=True),
-        dict( name="supplement_parent_id",label=_(u"Initial/supplementary question"), view_widget=SupplementaryQuestionDisplay),
-        dict( name="ministry_id", 
-                property = schema.Choice(title=_(u"Ministry"), source=DatabaseSource(domain.Ministry,title_field='short_name', token_field='ministry_id', value_field = 'ministry_id' ),required=False),
-                listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
-                DatabaseSource(domain.Ministry,title_field='short_name', token_field='ministry_id', value_field = 'ministry_id' )),
-                listing=True,                 
-            ),
-        dict( name="submission_date", label=_(u"Submission Date"), listing=True, add=False ),
-        dict( name="approval_date", label=_(u"Date approved"),  listing=True, add=False ),     
-        dict( name="ministry_submit_date"  , label=_(u"Submitted to ministry"),  listing=True, add=False ),   
-        dict( name="question_type", listing=True, 
-              property=schema.Choice( title=_(u"Question Type"), 
-                                      description=_("(O)rdinary or (P)rivate Notice"), 
-                                      vocabulary=vocabulary.QuestionType) ,
-             # listing_column=vocab_column('question_type', _(u"Question Type"),  vocabulary.QuestionType() ), 
-              ),                                    
-        dict( name="response_type",  listing=True,
-             property=schema.Choice( title=_(u"Response Type"), 
-                                      description=_("(O)ral or (W)ritten"), 
-                                      vocabulary=vocabulary.ResponseType),
-        
-             ),
-        dict( name="owner_id", 
-              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
-              listing_column=vocab_column( "owner_id" , _(u'Owner'),
-               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
-              listing = True 
-            ),
-        dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), edit_widget = widgets.LongTextWidget, listing=True ),
-        dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True ),
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor
-        
-            ),
-        #label=_("Question"), description=_(u"The Question submitted")),        
-        dict( name="status", label=_(u"Status"), modes="listing", view_permission="zope.Public"),         
-        dict( name="note", label=_(u"Notes"), description="Recommendation note", 
-              property=schema.Text(title=_(u"Notes"),  description=_(u"Recommendation note"), required=False ),              
-              edit = True, add = True, view = False, 
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor, ),       
-        dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
-        dict( name="receive_notification", label=_(u"Receive notification"), 
-              description=_(u"Select this option to receive notifications for this question."), listing=False ),
-        ]
+
         
 class ResponseDescriptor( ModelDescriptor ):
     display_name = _(u"Response")
@@ -1131,18 +1192,7 @@ class RotaDescriptor( ModelDescriptor ):
 #                                        required=True) ),
 #        ]        
 
-class EventItemDescriptor( ModelDescriptor ):
-    display_name =_(u"Event")
-    container_name =_(u"Events")
-    
-    fields = [
-        dict( name="event_item_id", omit=True ),
-        dict( name="item_id", omit=True ),
-        dict( name="title", label=_(u"Title"), listing=True ),
-        dict( name="summary",  label=_(u"Summary") ),
-        dict( name="owner_id", label=_(u"Submitter") ),
-        dict( name="event_date", label=_(u"Date"), listing_column=day_column("event_date", _(u"Date")), listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
-    ]
+
  
 class DocumentSourceDescriptor( ModelDescriptor ): 
     display_name =_(u"Document source")
@@ -1171,26 +1221,8 @@ class TabledDocumentDescriptor( ModelDescriptor):
     
     ]
 
-class AgendaItemDescriptor( ModelDescriptor): 
-    display_name =_(u"Agenda item")
-    container_name =_(u"Agenda items")
-    
-    fields = [
-        dict( name="agenda_item_id", omit=True ),
-       dict( name="owner_id", 
-              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
-              listing_column=vocab_column( "owner_id" , _(u'Owner'),
-               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
-              listing = True 
-            ),
-        dict( name="title", label=_(u"Title"), listing=True ),
-        dict( name="description",  label=_(u"Summary") ),
-        dict( name="body_text", property=schema.Text(title=_(u"Question"), required=True ),
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor        
-            ),       
-    ]
+
 
 class ItemScheduleDescriptor(ModelDescriptor):
     pass
+

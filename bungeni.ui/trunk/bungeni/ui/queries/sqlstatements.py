@@ -228,9 +228,13 @@ sql_bill_timeline = """
             AND "items_schedule"."active" = True
             AND "items_schedule"."item_id" = %(item_id)s
          UNION
-            SELECT 'event' AS "atype", "item_id", "title", "event_date" AS "adate" 
-            FROM "public"."event_items" AS "event_items"
-            WHERE "item_id" = %(item_id)s
+            SELECT "parliamentary_items"."type" AS "atype", 
+                "parliamentary_items"."parliamentary_item_id" AS "item_id", 
+                "parliamentary_items"."short_name" AS "title", 
+                "event_items"."event_date" AS "adate"
+            FROM "public"."event_items" AS "event_items", "public"."parliamentary_items" AS "parliamentary_items" 
+            WHERE "event_items"."event_item_id" = "parliamentary_items"."parliamentary_item_id"
+            AND "event_items"."event_item_id" = %(item_id)s
          UNION
             SELECT "action" as "atype", "content_id" AS "item_id", "description" AS "title", "date" AS "adate" 
             FROM "public"."bill_changes" AS "bill_changes" 

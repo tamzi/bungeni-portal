@@ -151,5 +151,11 @@
   <!-- scheduling -->
 
   <adapter factory=".schedule.PlenarySchedulingContext" />
+
+  <!-- principal roles -->
   
+  <subscriber
+     handler=".roles.handle_authenticated_principal_created_event"
+     for="repoze.whooze.interfaces.IPrincipalCreated" />
+
 </configure>

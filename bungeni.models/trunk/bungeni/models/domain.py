@@ -142,6 +142,7 @@ class Group( Entity ):
     interface.implements( interfaces.IBungeniGroup )
 
     users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
+    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     
 class GroupMembership( Entity ):
     """ a user's membership in a group
@@ -177,12 +178,12 @@ class GroupSitting( Entity ):
 
     items = one2many(
         "items", "bungeni.models.domain.ItemScheduleContainer", "sitting_id")
-    
+
     @property
     def short_name( self ):
         return ( self.start_date ).strftime('%d %b %y %H:%M')
     
-class SittingType( object ):
+class SittingType(object):
     """ Type of sitting
     morning/afternoon/... """    
     
@@ -261,7 +262,6 @@ class Committee( Group ):
     """
     interface.implements( interfaces.IFileAttachments )
     
-    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
     committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")
     files = files.DirectoryDescriptor()
@@ -432,7 +432,7 @@ class ParliamentSession( Entity ):
     """
     """
     sort_on = 'start_date'
-    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "session_id")
+    
     
 class Rota( object ):
     """

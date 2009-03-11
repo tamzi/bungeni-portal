@@ -327,8 +327,11 @@ mapper( domain.HansardReporter, schema.reporters,
 
 
 mapper( domain.ParliamentSession, schema.parliament_sessions )
-mapper( domain.GroupSitting, schema.sittings )
-
+mapper( domain.GroupSitting, schema.sittings,
+        properties = {
+            'type': relation(
+                domain.SittingType, uselist=False)
+            })
 
 mapper( domain.Resource, schema.resources )
 mapper( domain.ResourceBooking, schema.resourcebookings)

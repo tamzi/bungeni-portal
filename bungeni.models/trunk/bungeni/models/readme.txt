@@ -23,7 +23,8 @@ Setting up Database Connection and Utilities:
 
    >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
+   >>> model.metadata.bind = db  
+   >>> model.metadata.drop_all()     
    >>> model.metadata.create_all() 
    >>> session = Session()
 
@@ -296,6 +297,9 @@ Attendance
 Motions
 -------
   >>> motion = model.Motion()
+  >>> motion.short_name = u"Motion"
+  >>> session.add(motion)
+  >>> session.flush()  
 
 Motions
 
@@ -305,12 +309,12 @@ Questions
 Note that the questions workflow is tested separated (see workflows/question.txt).
 
   >>> question = model.Question()
-  
+  >>> question.short_name = u"question"
   >>> session.add(question)
   >>> session.flush()
   
   >>> question.question_id
-  1L
+  2L
   
 
   
@@ -323,16 +327,27 @@ Responses
  
   
   >>> response.response_id
-  1L
+  2L
   
 Assignment  
 ++++++++++  
 
 assigning a question to a ministry
 
+Bill Type:
+-----------
+  >>> bt = model.BillType()
+  >>> bt.bill_type_name = u"private"
+  >>> session.add(bt)
+  >>> session.flush()
+
 Bill
 ----
   >>> bill = model.Bill()
+  >>> bill.short_name = u"Bill"
+  >>> bill.bill_type_id = bt.bill_type_id
+  >>> session.add(bill)
+  >>> session.flush()  
 
 Rota Preparation
 ----------------

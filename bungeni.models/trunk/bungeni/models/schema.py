@@ -35,9 +35,13 @@ def make_changes_table( table, metadata ):
     
     return changes_table
  
-def make_versions_table( table, metadata ):
+def make_versions_table( table, metadata, secondarytable=None ):
     """Create a versions table, requires change log table for which
-    some version metadata information will be stored."""
+    some version metadata information will be stored.
+    
+    A secondary table may be defined if the object mapped to this 
+    table consists of a join betwee two tables   
+    """
     
     table_name = table.name
     entity_name =  table_name.endswith('s') and table_name[:-1] or table_name
@@ -47,14 +51,14 @@ def make_versions_table( table, metadata ):
     
     columns = [
         rdb.Column( "version_id", rdb.Integer, primary_key=True ),
-        #rdb.Column( "version_created", rdb.DateTime, default=rdb.PassiveDefault('now') ),
         rdb.Column( "content_id", rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
         rdb.Column( "change_id", rdb.Integer, rdb.ForeignKey('%s_changes.change_id'%entity_name)),
         rdb.Column( "manual", rdb.Boolean, nullable=False, default=False),
     ]
     
     columns.extend( [ c.copy() for c in table.columns if not c.primary_key ] )
-    
+    if secondarytable:
+        columns.extend( [ c.copy() for c in secondarytable.columns if not c.primary_key ] )        
     #primary = [ c.copy() for c in table.columns if c.primary_key ][0]
     #primary.primary_key = False
     #columns.insert( 2, primary )
@@ -485,14 +489,14 @@ sitting_type = rdb.Table(
     rdb.Column( "end_time", rdb.Time, nullable=False),
     )
 #XXX ? what is this for we have item_schedule ?
-sitting_schedule = rdb.Table(
-   "sitting_schedule",
-   metadata,
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')),
-   rdb.Column( "item_id",  rdb.Integer, nullable=False),   
-   rdb.Column( "item_type", rdb.Unicode(80) ),
-   rdb.Column( "order", rdb.Integer ),
-   )
+#sitting_schedule = rdb.Table(
+#   "sitting_schedule",
+#   metadata,
+#   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')),
+#   rdb.Column( "item_id",  rdb.Integer, nullable=False),   
+#   rdb.Column( "item_type", rdb.Unicode(80) ),
+#   rdb.Column( "order", rdb.Integer ),
+#   )
    
 sitting_attendance = rdb.Table(
    "sitting_attendance",
@@ -592,6 +596,46 @@ subscriptions = rdb.Table(
    )
 
 
+# parliamentary items contains the common fields for motions, questions,
+# bills and agenda items.
+
+parliamentary_items = rdb.Table(
+    "parliamentary_items",
+    metadata,
+    rdb.Column( "parliamentary_item_id", rdb.Integer, ItemSequence, primary_key=True ),
+    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'),), 
+    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
+    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
+    rdb.Column( "full_name", rdb.Unicode(1024), nullable=True ),    
+    rdb.Column( "body_text", rdb.UnicodeText),
+    rdb.Column( "submission_date", rdb.Date ),
+    # Workflow State
+    rdb.Column( "status", rdb.Unicode(48) ),
+    # the reviewer may add a recommendation note
+    rdb.Column( "note", rdb.UnicodeText),
+    # Receive  Notifications -> triggers notification on workflow change
+    rdb.Column( "receive_notification", rdb.Boolean, default=True ),
+    # type for polymorphic_identity    
+    rdb.Column( "type", rdb.String(30),  nullable=False ),
+    )
+
+#parliamentary_item_changes = make_changes_table( parliamentary_items, metadata )
+#parliamentary_item_versions = make_versions_table( parliamentary_items, metadata )
+
+#Agenda Items:
+# generic items to be put on the agenda
+# they can be scheduled for a sitting
+
+agenda_items = rdb.Table(
+   "agenda_items",
+   metadata,
+   rdb.Column( "agenda_item_id", rdb.Integer, 
+                rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
+                primary_key=True ),
+   )
+
+agenda_item_changes = make_changes_table( agenda_items, metadata )
+
 QuestionSequence = rdb.Sequence('question_number_sequence', metadata)
 # Approved questions are given a serial number enabling the clerks office
 # to record the order in which questions are recieved and hence enforce 
@@ -601,36 +645,17 @@ QuestionSequence = rdb.Sequence('question_number_sequence', metadata)
 questions = rdb.Table(
    "questions",
    metadata,
-   rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
    rdb.Column( "question_number", rdb.Integer),
-   rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "submission_date", rdb.Date,), # date it was submitted to clerk
    rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question
    rdb.Column( "ministry_submit_date", rdb.Date, ), 
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
    rdb.Column( "response_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("response_type in ('O', 'W')"), default=u"O" ), # (O)ral (W)ritten
-
-   # TODO - ? normalize to use user item associations.
-   rdb.Column( "owner_id", rdb.Integer),#, nullable=False ),
-   rdb.Column( "parliament_id", rdb.Integer),#, nullable=False ),
-   #rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
-   rdb.Column( "subject", rdb.Unicode(80)),#, nullable=False ),
-   rdb.Column( "question_text", rdb.UnicodeText),#, nullable=False ),
-   # Workflow State
-   rdb.Column( "status", rdb.Unicode(48) ),
-   # the cerks office or speakers office may add a recommendation note
-   rdb.Column( "note", rdb.UnicodeText),
    # if this is a supplementary question, this is the original/previous question
    rdb.Column( "supplement_parent_id", rdb.Integer, rdb.ForeignKey('questions.question_id')  ),
-     
-   # after the question is scheduled
-   # rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
-   #
-   # Receive Question Notifications -> triggers notification on workflow change
-   rdb.Column( "receive_notification", rdb.Boolean, default=True ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id')), 
    
    )
@@ -648,7 +673,7 @@ questions = rdb.Table(
 
 
 question_changes = make_changes_table( questions, metadata )
-question_versions = make_versions_table( questions, metadata )
+question_versions = make_versions_table( questions, metadata, parliamentary_items )
 
 #print 'change', repr(question_changes.c.question_id)
 #print 'version', repr(question_versions.c.question_id)
@@ -658,12 +683,7 @@ responses = rdb.Table(
    "responses",
    metadata,
    rdb.Column( "response_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), primary_key=True ),
-   #rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), primary_key=True ),
    rdb.Column( "response_text", rdb.UnicodeText ),
-   #rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
-   # 
-   # for attachment to the debate record, but not actually scheduled on the floor
-   #rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    rdb.Column( "status",  rdb.Unicode(32) ),
    )
@@ -679,28 +699,22 @@ MotionSequence = rdb.Sequence('motion_number_sequence', metadata)
 motions = rdb.Table(
    "motions",
    metadata,
-   rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')), #, nullable=False),   
+   rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
    rdb.Column( "motion_number", rdb.Integer),
-   rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "submission_date", rdb.Date,), # date it was submitted to clerk
    rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question   
    rdb.Column( "public", rdb.Boolean ),
    rdb.Column( "title", rdb.Unicode(80) ),
-   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
-   rdb.Column( "body_text", rdb.UnicodeText ),
    #rdb.Column( "received_date", rdb.Date ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    # Receive  Notifications -> triggers notification on workflow change
    rdb.Column( "receive_notification", rdb.Boolean, default=True ),
-   rdb.Column( "status",  rdb.Unicode(48) ),
    )
 
 motion_changes = make_changes_table( motions, metadata )
-motion_versions = make_versions_table( motions, metadata )
+motion_versions = make_versions_table( motions, metadata, parliamentary_items )
 
 motion_amendments = rdb.Table(
    "motion_amendments",
@@ -726,23 +740,16 @@ bill_types = rdb.Table(
 bills = rdb.Table(
    "bills",
    metadata,
-   rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')), #, nullable=False),
+   rdb.Column( "bill_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
    rdb.Column( "bill_type_id", rdb.Integer, rdb.ForeignKey('bill_types.bill_type_id'), nullable = False ),
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
-   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),   
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),    
    rdb.Column( "identifier",  rdb.Integer),
    rdb.Column( "summary", rdb.UnicodeText ),   
-   rdb.Column( "title", rdb.Unicode(80), nullable = False ), 
-   rdb.Column( "long_title", rdb.Unicode(1024) ),
-   rdb.Column( "body_text",  rdb.UnicodeText ),
-   rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "publication_date", rdb.Date ),
-   rdb.Column( "status", rdb.Unicode(32) ),
    )
    
 bill_changes = make_changes_table( bills, metadata )
-bill_versions = make_versions_table( bills, metadata )
+bill_versions = make_versions_table( bills, metadata, parliamentary_items )
 
 committee_reports = ()
 
@@ -754,19 +761,7 @@ bill_consignatories = rdb.Table(
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False, primary_key=True ),
     )
 
-#Agenda Items:
-# generic items to be put on the agenda
-# they can be scheduled for a sitting
 
-agenda_items = rdb.Table(
-   "agenda_items",
-   metadata,
-   rdb.Column( "agenda_item_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),      
-   rdb.Column( "title", rdb.Unicode(80), nullable = False ), 
-   rdb.Column( "description", rdb.Unicode(1024) ),
-   rdb.Column( "body_text",  rdb.UnicodeText ),
-   )
    
 
 
@@ -783,23 +778,23 @@ agenda_items = rdb.Table(
 #-Document submitter (who is submitting the document - a person)
 #It must be possible to schedule a tabled document for a sitting
 
-document_sources = rdb.Table(
-    "document_sources",
-    metadata,
-    rdb.Column( "document_source_id", rdb.Integer, primary_key=True),   
-    rdb.Column( "document_source", rdb.Unicode(80)),
-    )
+#document_sources = rdb.Table(
+#    "document_sources",
+#    metadata,
+#    rdb.Column( "document_source_id", rdb.Integer, primary_key=True),   
+#    rdb.Column( "document_source", rdb.Unicode(80)),
+#    )
 
-tabled_documents = rdb.Table(
-    "tabled_documents",
-    metadata,
-    rdb.Column( "tabled_document_id", rdb.Integer, ItemSequence, primary_key=True ),
-    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
-    rdb.Column( "summary", rdb.UnicodeText ),   
-    rdb.Column( "link", rdb.String(256)),   
-    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
-    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = True ),    
-   )
+#tabled_documents = rdb.Table(
+#    "tabled_documents",
+#    metadata,
+#    rdb.Column( "tabled_document_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
+#    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
+#    rdb.Column( "summary", rdb.UnicodeText ),   
+#    rdb.Column( "link", rdb.String(256)),   
+#    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
+#    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = True ),    
+#   )
 
  
 #events with dates and possiblity to upload files.
@@ -811,12 +806,16 @@ tabled_documents = rdb.Table(
 event_items = rdb.Table(
    "event_items",
    metadata,
-   rdb.Column( "event_item_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "item_id", rdb.Integer, nullable=True ),
-   rdb.Column( "document_id", rdb.Integer,  rdb.ForeignKey('tabled_documents.tabled_document_id'), nullable=True, ),
-   rdb.Column( "title", rdb.Unicode(80), nullable = False ),
-   rdb.Column( "summary", rdb.UnicodeText ),   
-   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
+   rdb.Column( "event_item_id", rdb.Integer, 
+                rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
+                primary_key=True ),
+   rdb.Column( "item_id", rdb.Integer, 
+                rdb.ForeignKey('parliamentary_items.parliamentary_item_id'),
+                nullable=True ),
+#   rdb.Column( "document_id", rdb.Integer,  rdb.ForeignKey('tabled_documents.tabled_document_id'), nullable=True, ),
+#   rdb.Column( "title", rdb.Unicode(80), nullable = False ),
+#   rdb.Column( "summary", rdb.UnicodeText ),   
+#   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
    rdb.Column( "event_date", rdb.Date ),
    )
 
@@ -849,11 +848,11 @@ settings = rdb.Table( "settings", metadata,
                       )	   
 
 
-holydays = rdb.Table(
-    "holydays",
+holidays = rdb.Table(
+    "holidays",
     metadata,
-    rdb.Column("holyday_id", rdb.Integer, primary_key=True ),
-    rdb.Column("holyday_date", rdb.Date ),
+    rdb.Column("holiday_id", rdb.Integer, primary_key=True ),
+    rdb.Column("holiday_date", rdb.Date ),
    )  
 
 #######################

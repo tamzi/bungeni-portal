@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
-<configure
-   xmlns="http://namespaces.zope.org/zope"
-   i18n_domain="bungeni">
+<configure xmlns="http://namespaces.zope.org/zope"
+           i18n_domain="bungeni">
   
-  <!--permission
-     id="bungeni.SubmitQuestion"
-     title="Submit question" /-->
+  <!-- Note: Permissions for workflow transitions are defined in:
+       
+       workflows/grant.zcml
+       workflows/permissions.zcml
 
-
-    <!-- Permissions for workflow transitions are defined in:
-    bungeni.core.workflow grants/permissions -->
+    -->
+      
+  <permission id="bungeni.calendar.AddSitting" title="Add sitting" />
+    
 
     <permission id="bungeni.question.add" title="Add Question" />
     <permission id="bungeni.question.edit" title="Edit Question" />

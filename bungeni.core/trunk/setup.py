@@ -30,7 +30,8 @@ setup(
                          'ore.xapian',
                          'ore.alchemist',
                          'ore.workflow',
-                         'bungeni.models'],
+                         'bungeni.models',
+                         'z3c.dav'],
     entry_points={
         'console_scripts':[
             'bungeni-reset-db = bungeni.core.schema:reset_database',

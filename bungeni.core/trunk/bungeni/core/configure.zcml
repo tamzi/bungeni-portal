@@ -11,7 +11,7 @@
   
   <include package="bungeni.models" />
   <include package="bungeni.portal" />
-  
+
   <!-- Application to publish -->
   <utility
      provides="ore.wsgiapp.interfaces.IApplication"
@@ -27,6 +27,9 @@
   <!-- Setup Domain Model Versioning Feature-->
   <include file="version.zcml"/>
 
+  <!-- Setup WebDAV -->
+  <include file="webdav.zcml" />
+                 
   <!-- Notifications -->
   <!--include file="workflowsnotification.zcml" /-->
 

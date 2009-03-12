@@ -69,7 +69,7 @@ class IMotion( IBungeniContent ):
     """ Parliamentary Motion
     """
 
-class IResponse( interface.Interface ):
+class IResponse( IBungeniContent ):
     """
     response to a question
     """

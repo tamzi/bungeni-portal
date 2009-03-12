@@ -43,6 +43,7 @@ def permission(item):
     return tuple(transition.permission for transition in wf.getTransitions(state))
 
 
+
 def setup_adapters():  
     zope.component.provideAdapter(
         bungeni.core.workflows.states.WorkflowState,
@@ -114,12 +115,7 @@ def schedule_item(item, sitting):
     session = Session()
     item_schedule = domain.ItemSchedule()
     item_schedule.sitting_id = sitting.sitting_id
-    if type(item) == domain.Question:
-        item_schedule.item_id = item.question_id
-    elif type(item) == domain.Bill:
-        item_schedule.item_id = item.bill_id
-    elif type(item) == domain.Motion:
-        item_schedule.item_id = item.motion_id   
+    item_schedule.item_id = item.parliamentary_item_id
     session.add(item_schedule)
     session.flush()   
     
@@ -137,7 +133,7 @@ def create_sitting():
     sitting = domain.GroupSitting()
     sitting.start_date = datetime.datetime.now()
     sitting.end_date = datetime.datetime.now()
-    sitting.sitting_type = st.sitting_type_id
+    sitting.sitting_type_id = st.sitting_type_id
     session.add(sitting)
     session.flush()     
     

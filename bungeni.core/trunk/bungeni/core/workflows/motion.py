@@ -39,72 +39,44 @@ class actions:
     @staticmethod
     def submit( info, context ):
         utils.setSubmissionDate(info, context)
-    #    motion = removeSecurityProxy(context)
-    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
-    #    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Clerk' )
-    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
-    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
+
 
     @staticmethod
     def recieved_by_clerk( info, context ):
         utils.createVersion(info, context)   
-    #    motion = removeSecurityProxy(context)     
-    #    zope.securitypolicy.interfaces.IRolePermissionMap( motion ).grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
 
     @staticmethod
     def require_edit_by_mp( info, context ):
         utils.createVersion(info,context)
-    #    motion = removeSecurityProxy(context)
-    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
-    #    rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
-    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )   
+
 
     @staticmethod
     def complete( info, context ):
         utils.createVersion(info,context)
-    #    motion = removeSecurityProxy(context)
-    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
-    #    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Speaker' )
-    #    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )     
+ 
 
     @staticmethod
     def approve( info, context ):
-        #motion = removeSecurityProxy(context)
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )    
-        #rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' )
-        #rpm.grantPermissionToRole( 'zope.View', u'zope.Anybody')
-        #rpm.grantPermissionToRole( 'bungeni.motion.view', u'zope.Everybody')
         utils.setApprovalDate(info,context)
 
     @staticmethod
     def reject( info, context ):
-        #motion = removeSecurityProxy(context)
-        #denyAllWrites(motion)
         pass
 
     @staticmethod
     def require_amendment( info, context ):
         utils.createVersion(info,context)
-        #motion = removeSecurityProxy(context)
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
-        #rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
-        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' ) 
+
 
     @staticmethod
     def complete_clarify( info, context ):
         utils.createVersion(info,context)
-        #motion = removeSecurityProxy(context)
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
-        #rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Speaker' )
-        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' ) 
+
 
     @staticmethod
     def mp_clarify( info, context ):
         utils.createVersion(info,context)
-        #motion = removeSecurityProxy(context)
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
-        #rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
-        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )   
+
 
     @staticmethod
     def schedule( info, context ):
@@ -127,9 +99,7 @@ class actions:
         pass
 
     @staticmethod
-    def withdraw( info, context ):
-        #motion = removeSecurityProxy(context)
-        #denyAllWrites(motion)    
+    def withdraw( info, context ):  
         pass
 
 class SendNotificationToMemberUponReceipt(Notification):
@@ -140,7 +110,7 @@ class SendNotificationToMemberUponReceipt(Notification):
     
     @property
     def subject(self):
-        return u'Motion received: %s' % self.context.title
+        return u'Motion received: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -164,7 +134,7 @@ class SendNotificationToClerkUponSubmit(Notification):
 
     @property
     def subject(self):
-        return u'Motion submitted: %s' % self.context.title
+        return u'Motion submitted: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -185,7 +155,7 @@ class SendNotificationToMemberUponReject(Notification):
 
     @property
     def subject(self):
-        return u'Motion rejected: %s' % self.context.title
+        return u'Motion rejected: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -206,7 +176,7 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
 
     @property
     def subject(self):
-        return u'Motion needs clarification: %s' % self.context.title
+        return u'Motion needs clarification: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -226,7 +196,7 @@ class SendNotificationToMemberUponDeferred(Notification):
 
     @property
     def subject(self):
-        return u'Motion deferred: %s' % self.context.title
+        return u'Motion deferred: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -247,7 +217,7 @@ class SendNotificationToMemberUponSchedule(Notification):
 
     @property
     def subject(self):
-        return u'Motion scheduled: %s' % self.context.title
+        return u'Motion scheduled: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -268,7 +238,7 @@ class SendNotificationToMemberUponPostponed(Notification):
 
     @property
     def subject(self):
-        return u'Motion postponed: %s' % self.context.title
+        return u'Motion postponed: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -287,7 +257,7 @@ class SendNotificationToMemberUponDebated(Notification):
              default=u"Motion was debated.")
     @property
     def subject(self):
-        return u'Motion was debated: %s' % self.context.title
+        return u'Motion was debated: %s' % self.context.short_name
 
     @property
     def condition(self):

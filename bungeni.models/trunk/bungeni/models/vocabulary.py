@@ -34,7 +34,7 @@ Parliaments = ObjectSource( domain.Parliament, 'identifier', 'parliament_id')
 SittingTypes = DatabaseSource(
     domain.SittingType, 'sitting_type', 'sitting_type_id',
     title_getter=lambda ob: "%s (%s-%s)" % (
-        ob.sitting_type, ob.start_time, ob.end_time))
+        ob.sitting_type.capitalize(), ob.start_time, ob.end_time))
 
 class mps_sitting( object ):
     """ returns the mps for a sitting """

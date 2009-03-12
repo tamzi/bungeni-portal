@@ -143,7 +143,7 @@ copy public.bill_types (bill_type_id, bill_type_name)
 from '%(directory)s/data/demodata/bill_types.csv'
 csv;
 
-copy public.group_sittings (sitting_id, group_id, session_id, sitting_type, start_date, end_date)
+copy public.group_sittings (sitting_id, group_id,  sitting_type_id, start_date, end_date)
 from '%(directory)s/data/demodata/sittings.csv'
 csv;
 

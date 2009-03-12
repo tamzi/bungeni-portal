@@ -35,10 +35,10 @@ class QuestionInStateViewlet( ViewletBase ):
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )  
             if result.question_number:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name
             else:
-                data['subject'] = result.subject
-            data['title'] = result.subject
+                data['subject'] = result.short_name
+            data['title'] = result.short_name
             data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data['url'] = '/questions/obj-' + str(result.question_id)
             data_list.append(data)            
@@ -50,7 +50,7 @@ class QuestionInStateViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        qfilter = ( schema.questions.c.status == self.state )
+        qfilter = ( domain.Question.status == self.state )
         
         questions = session.query(domain.Question).filter(qfilter)
         self.query = questions        
@@ -70,10 +70,10 @@ class MyQuestionsViewlet( ViewletBase ):
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )  
             if result.question_number:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject + ' (' + result.status + ')'
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name + ' (' + result.status + ')'
             else:
-                data['subject'] = result.subject + ' (' + result.status + ')'
-            data['title'] = result.subject + ' (' + result.status + ')'
+                data['subject'] = result.short_name + ' (' + result.status + ')'
+            data['title'] = result.short_name + ' (' + result.status + ')'
             data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data['url'] = '/questions/obj-' + str(result.question_id)
             data_list.append(data)            
@@ -89,9 +89,9 @@ class MyQuestionsViewlet( ViewletBase ):
             user_id = self.request.principal.user_id    
         except:
             user_id = None     
-        qfilter = ( schema.questions.c.owner_id == user_id )
+        qfilter = ( domain.Question.owner_id == user_id )
         
-        questions = session.query(domain.Question).filter(qfilter).order_by(schema.questions.c.question_id.desc())
+        questions = session.query(domain.Question).filter(qfilter).order_by(domain.Question.question_id.desc())
         self.query = questions        
             
 class MyMotionsViewlet( ViewletBase ):
@@ -108,10 +108,10 @@ class MyMotionsViewlet( ViewletBase ):
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )  
             if result.motion_number:                       
-                data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title  + ' (' + result.status + ')'
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name  + ' (' + result.status + ')'
             else:
-                data['subject'] =  result.title  + ' (' + result.status + ')'
-            data['title'] = result.title  + ' (' + result.status + ')'
+                data['subject'] =  result.short_name  + ' (' + result.status + ')'
+            data['title'] = result.short_name  + ' (' + result.status + ')'
             data['result_item_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             data['url'] = '/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
@@ -127,7 +127,7 @@ class MyMotionsViewlet( ViewletBase ):
             user_id = self.request.principal.user_id    
         except:
             user_id = None     
-        qfilter = ( schema.motions.c.owner_id == user_id )        
+        qfilter = ( domain.Motion.owner_id == user_id )        
         motions = session.query(domain.Motion).filter(qfilter)
         self.query = motions        
 
@@ -278,8 +278,8 @@ class MotionInStateViewlet( ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
-            data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title
-            data['title'] = result.title
+            data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name
+            data['title'] = result.short_name
             data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             data['url'] = '/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
@@ -291,7 +291,7 @@ class MotionInStateViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        motions = session.query(domain.Motion).filter(schema.motions.c.status == self.state)
+        motions = session.query(domain.Motion).filter(domain.Motion.status == self.state)
         self.query = motions        
 
 
@@ -381,8 +381,8 @@ class BillItemsViewlet( ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'b_' + str(result.bill_id) )                         
-            data['subject'] = u'B ' + result.title
-            data['title'] = result.title
+            data['subject'] = u'B ' + result.short_name
+            data['title'] = result.short_name
             data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.publication_date, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
@@ -393,7 +393,7 @@ class BillItemsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
+        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
                                                                                 bill_wf_state[u"billstates.first_reading_postponed"].id ,
                                                                                 bill_wf_state[u"billstates.second_reading_pending"].id , 
                                                                                 bill_wf_state[u"billstates.second_reading_postponed"].id , 

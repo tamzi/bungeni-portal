@@ -10,11 +10,7 @@ class actions:
     def submit(info, context):
         utils.setBillPublicationDate( info, context )
         utils.setSubmissionDate(info, context)
-        #bill = removeSecurityProxy(context)
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( bill )
-        #rpm.grantPermissionToRole( 'bungeni.bill.view', u'bungeni.Everybody' )
-        #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
-        #rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
+
 
     @staticmethod
     def withdraw(info, context):

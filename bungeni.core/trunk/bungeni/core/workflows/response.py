@@ -13,7 +13,7 @@ class actions:
         if not user_id:
             user_id ='-'    
         zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)     
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( context )    
+
 
     @staticmethod
     def submit( info, context ):   
@@ -23,12 +23,7 @@ class actions:
         his edit rights.
         """
         utils.submitResponse(info,context)
-        #response = removeSecurityProxy(context)
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( response )
-        #rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Clerk' )
-        #rpm.grantPermissionToRole( 'bungeni.response.edit', u'bungeni.Clerk' )    
-        #rpm.denyPermissionToRole( 'bungeni.response.edit', u'bungeni.Owner' )
-        #rpm.denyPermissionToRole( 'bungeni.response.delete', u'bungeni.Owner' )
+
 
     @staticmethod
     def complete( info, context ):
@@ -37,9 +32,5 @@ class actions:
         office, it is now published.    
         """
         utils.publishResponse(info,context)
-        #response = removeSecurityProxy(context)    
-        #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( response )
-        #rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Everybody' )     
-        #rpm.denyPermissionToRole( 'bungeni.response.edit', u'bungeni.Clerk' )    
 
 

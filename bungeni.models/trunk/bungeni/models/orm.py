@@ -424,7 +424,43 @@ mapper( domain.Response, schema.responses,
         )
 
         
-mapper( domain.ItemSchedule, schema.items_schedule )        
+mapper( domain.ItemSchedule, schema.items_schedule ) 
+
+
+mapper( domain.ScheduledItem, rdb.join(schema.items_schedule, schema.parliamentary_items),
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='item',   
+    )
+
+
+mapper( domain.ScheduledQuestion, schema.questions,
+        inherits=domain.ScheduledItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='question', )
+
+mapper( domain.ScheduledMotion, schema.motions,
+        inherits=domain.ScheduledItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='motion', )
+
+mapper( domain.ScheduledBill, schema.bills,
+        inherits=domain.ScheduledItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='bill', )
+        
+mapper( domain.ScheduledAgendaItem, schema.agenda_items,
+        inherits=domain.ScheduledItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='agendaitem', )
+
+mapper( domain.ScheduledEventItem, schema.event_items,
+        inherits=domain.ScheduledItem,
+        inherit_condition=(
+                    schema.event_items.c.event_item_id == 
+                    schema.parliamentary_items.c.parliamentary_item_id),        
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='event', )
+       
 mapper( domain.BillConsignatory, schema.bill_consignatories)
 mapper( domain.Debate, schema.debates )
 

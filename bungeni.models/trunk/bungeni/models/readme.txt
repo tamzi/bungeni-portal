@@ -349,6 +349,40 @@ Bill
   >>> session.add(bill)
   >>> session.flush()  
 
+
+Schedule items for a sitting:
+-----------------------------
+
+we may either add the id only:
+
+  >>> item_schedule = model.ItemSchedule()
+  >>> item_schedule.item_id = bill.bill_id
+  >>> item_schedule.sitting_id = sit.sitting_id
+  >>> session.add(item_schedule)
+  >>> session.flush()
+  >>> item_schedule.item
+  <bungeni.models.domain.Bill object at ...>
+  >>> item_schedule.item.short_name
+  u'Bill'
+  >>> item_schedule.item.type
+  'bill'
+      
+or we can add an object 
+  >>> item_schedule = model.ItemSchedule()
+  >>> item_schedule.item = question
+  >>> item_schedule.sitting_id = sit.sitting_id
+  >>> session.add(item_schedule)
+  >>> session.flush()
+  >>> item_schedule.item
+  <bungeni.models.domain.Question object at ...>  
+  
+  >>> item_schedule.item_id == question.question_id
+  True
+  >>> item_schedule.item.short_name
+  u'question'
+  >>> item_schedule.item.type
+  'question'  
+  
 Rota Preparation
 ----------------
  

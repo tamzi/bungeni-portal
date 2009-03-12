@@ -344,9 +344,6 @@ mapper( domain.ParliamentaryItem, schema.parliamentary_items,
         polymorphic_identity='item',   
 
          )
-#mapper( domain.ParliamentaryItemChange, schema.parliamentary_item_changes )
-#mapper( domain.ParliamentaryItemVersions, schema.parliamentary_item_versions,
-#            properties= {'change':relation( domain.ParliamentaryItemChange, uselist=False ) })
 
 
 mapper( domain.Question, schema.questions,
@@ -423,9 +420,19 @@ mapper( domain.Response, schema.responses,
              }
         )
 
-        
-mapper( domain.ItemSchedule, schema.items_schedule ) 
 
+#Items scheduled for a sitting expressed as a relation
+# to their item schedule
+        
+mapper( domain.ItemSchedule, schema.items_schedule,
+     properties = {
+             'item':relation( domain.ParliamentaryItem, uselist=False),                                   
+             }
+     ) 
+
+
+# items scheduled for a sitting
+# expressed as a join between item and schedule
 
 mapper( domain.ScheduledItem, rdb.join(schema.items_schedule, schema.parliamentary_items),
         polymorphic_on=schema.parliamentary_items.c.type,

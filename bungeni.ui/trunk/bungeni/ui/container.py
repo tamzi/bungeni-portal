@@ -303,7 +303,7 @@ class ContainerJSONListing( BrowserView ):
                     d[f] = v.strftime('%F')
                 d['object_id'] =   stringKey(n)
                 
-                self.canView(n, f, context) #XXX look at the permissions  
+                #self.canView(n, f, context) #XXX look at the permissions  
             values.append( d )
         return values
         

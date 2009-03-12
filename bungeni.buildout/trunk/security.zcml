@@ -25,25 +25,24 @@
   <grant role="zope.Member"
          principal="zope.Authenticated" />
 
-  <grant role="bungeni.Owner"
+  <!--grant role="bungeni.Owner"
 	 permission="zope.ManageContent"/>
 
   <grant role="bungeni.Clerk"
 	 permission="zope.ManageContent"/>
 
   <grant role="bungeni.Speaker"
-	 permission="zope.ManageContent"/>
+	 permission="zope.ManageContent"/-->
 
   
-  <grantAll role="zope.Manager" />
+  <!--grantAll role="zope.Manager" /-->
   
   <grant role="zope.Manager"
          principal="zope.manager" />
-  <!--
-  <grant role="zope.Manager"
+  
+  <!--grant role="zope.Manager"
 	 principal="zope.anybody" />
   <grant role="zope.Manager"
-	 principal="zope.Authenticated" />
-  -->
-
+	 principal="zope.Authenticated" /-->
+  
 </configure>

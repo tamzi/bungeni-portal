@@ -934,6 +934,7 @@ class SittingDescriptor( ModelDescriptor ):
 
     schema_invariants = [EndAfterStart]
     
+    
 class SessionDescriptor( ModelDescriptor ):
     display_name = _(u"Parliamentary session")
     container_name = _(u"Parliamentary sessions")

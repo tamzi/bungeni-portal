@@ -916,17 +916,17 @@ class SittingDescriptor( ModelDescriptor ):
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
+        dict( name="sitting_type_id", 
+              listing_column = vocab_column( "sitting_type_id", _(u"Sitting Type"), vocabulary.SittingTypes ),
+              property = schema.Choice( title=_(u"Sitting Type"), 
+                                        source=vocabulary.SittingTypes,
+                                        required=True) ),
         dict( name="start_date", label=_(u"Start Date"),  
             listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')),
             edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
         dict( name="end_date", label=_(u"End Date"),  
             listing_column=day_column("end_date", _(u'<a href="?order_by=end_date">End Date</a>')),
             edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
-        dict( name="sitting_type_id", 
-              listing_column = vocab_column( "sitting_type_id", _(u"Sitting Type"), vocabulary.SittingTypes ),
-              property = schema.Choice( title=_(u"Sitting Type"), 
-                                        source=vocabulary.SittingTypes,
-                                        required=True) ),
         ]
 
     schema_invariants = [EndAfterStart]

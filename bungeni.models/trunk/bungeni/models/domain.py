@@ -11,7 +11,7 @@ import md5, random, string
 
 from zope import interface, location, component
 from ore.alchemist import model, Session
-#from ore.workflow.interfaces import IWorkflowInfo
+from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.traversal.managed import one2many
 
 import files
@@ -415,6 +415,25 @@ class BillConsignatory( Entity ):
     Consignatories for a Bill
     """
 
+
+class ScheduledItem( Entity ):
+    """ Item scheduled for a sitting """
+    
+class ScheduledQuestion( ScheduledItem ):
+    """ Question scheduled for a sitting """  
+
+class ScheduledMotion( ScheduledItem ):
+    """ Motion scheduled for a sitting """ 
+
+class ScheduledBill( ScheduledItem ):
+    """ Bill scheduled for a sitting """ 
+
+class ScheduledAgendaItem( ScheduledItem ):
+    """ Agenda item scheduled for a sitting """ 
+
+class ScheduledEventItem( ScheduledItem ):
+    """ Event scheduled for a sitting """ 
+
 #############
 
 class ParliamentSession( Entity ):
@@ -551,7 +570,10 @@ class EventItem( ParliamentaryItem ):
 
     Bill events:
 
-       1. workflow related. e.g. submission, first reading etc. (here we can use the same mechanism as in questions ... a comment can be written when clicking (schedule for first reading) then will appear in the calendar ... and cone schedule it will have a date
+       1. workflow related. e.g. submission, first reading etc. 
+       (here we can use the same mechanism as in questions ... 
+       a comment can be written when clicking (schedule for first reading) 
+       then will appear in the calendar ... and cone schedule it will have a date
        2. not workflow related events ... we need for the following fieds:
               * date
               * body

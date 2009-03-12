@@ -477,7 +477,7 @@ sittings = rdb.Table(
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "start_date", rdb.DateTime( timezone=False ), nullable=False),
    rdb.Column( "end_date", rdb.DateTime( timezone=False ), nullable=False), 
-   rdb.Column( "sitting_type", rdb.Integer, rdb.ForeignKey('sitting_type.sitting_type_id')),
+   rdb.Column( "sitting_type_id", rdb.Integer, rdb.ForeignKey('sitting_type.sitting_type_id')),
    )   
 
 sitting_type = rdb.Table(
@@ -488,15 +488,7 @@ sitting_type = rdb.Table(
     rdb.Column( "start_time", rdb.Time, nullable=False),
     rdb.Column( "end_time", rdb.Time, nullable=False),
     )
-#XXX ? what is this for we have item_schedule ?
-#sitting_schedule = rdb.Table(
-#   "sitting_schedule",
-#   metadata,
-#   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')),
-#   rdb.Column( "item_id",  rdb.Integer, nullable=False),   
-#   rdb.Column( "item_type", rdb.Unicode(80) ),
-#   rdb.Column( "order", rdb.Integer ),
-#   )
+
    
 sitting_attendance = rdb.Table(
    "sitting_attendance",
@@ -572,7 +564,7 @@ items_schedule = rdb.Table(
    "items_schedule",
    metadata,
    rdb.Column( "schedule_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "item_id",  rdb.Integer, nullable=False ),
+   rdb.Column( "item_id",  rdb.Integer,  rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), nullable=False ),
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False ),
    rdb.Column( "order", rdb.Integer ),
    rdb.Column( "active", rdb.Boolean, default=True ), # item is scheduled for this sitting
@@ -706,7 +698,7 @@ motions = rdb.Table(
    rdb.Column( "title", rdb.Unicode(80) ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
    #rdb.Column( "received_date", rdb.Date ),
-   rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
+   rdb.Column( "entered_by_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    # Receive  Notifications -> triggers notification on workflow change
@@ -852,7 +844,8 @@ holidays = rdb.Table(
     "holidays",
     metadata,
     rdb.Column("holiday_id", rdb.Integer, primary_key=True ),
-    rdb.Column("holiday_date", rdb.Date ),
+    rdb.Column("holiday_date", rdb.Date, nullable=False),
+    rdb.Column("holiday_name", rdb.Unicode(32)),
    )  
 
 #######################

@@ -57,15 +57,15 @@ class IBungeniContent( interface.Interface ):
     parliamentary content
     """
 
-class IQuestion( interface.Interface ):
+class IQuestion( IBungeniContent ):
     """ Parliamentary Question
     """
 
-class IBill( interface.Interface ):
+class IBill( IBungeniContent ):
     """ Parliamentary Bill
     """
 
-class IMotion( interface.Interface ):
+class IMotion( IBungeniContent ):
     """ Parliamentary Motion
     """
 

@@ -15,7 +15,7 @@
 
   <include package="zope.app.securitypolicy" file="meta.zcml" />
   
-
+ <permission id="zope.View" title="view" />
   
   <include package="bungeni.core" file="roles.zcml" />  
   <include package="bungeni.core" file="permissions.zcml" />  

@@ -419,23 +419,6 @@ class BillConsignatory( Entity ):
     """
 
 
-class ScheduledItem( Entity ):
-    """ Item scheduled for a sitting """
-    
-class ScheduledQuestion( ScheduledItem ):
-    """ Question scheduled for a sitting """  
-
-class ScheduledMotion( ScheduledItem ):
-    """ Motion scheduled for a sitting """ 
-
-class ScheduledBill( ScheduledItem ):
-    """ Bill scheduled for a sitting """ 
-
-class ScheduledAgendaItem( ScheduledItem ):
-    """ Agenda item scheduled for a sitting """ 
-
-class ScheduledEventItem( ScheduledItem ):
-    """ Event scheduled for a sitting """ 
 
 #############
 

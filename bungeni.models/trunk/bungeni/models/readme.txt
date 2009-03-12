@@ -355,7 +355,7 @@ Schedule items for a sitting:
 
 we may either add the id only:
 
-  >>> item_schedule = model.ItemSchedule()
+  >>> item_schedule = model.ItemSchedule()    
   >>> item_schedule.item_id = bill.bill_id
   >>> item_schedule.sitting_id = sit.sitting_id
   >>> session.add(item_schedule)
@@ -367,8 +367,10 @@ we may either add the id only:
   >>> item_schedule.item.type
   'bill'
       
-or we can add an object 
+or we can add an object: 
   >>> item_schedule = model.ItemSchedule()
+  >>> item_schedule.item
+  
   >>> item_schedule.item = question
   >>> item_schedule.sitting_id = sit.sitting_id
   >>> session.add(item_schedule)

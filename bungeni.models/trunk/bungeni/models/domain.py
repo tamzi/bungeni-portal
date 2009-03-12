@@ -177,7 +177,7 @@ class GroupSitting( Entity ):
         "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id" )
 
     items = one2many(
-        "items", "bungeni.models.domain.ScheduledItemContainer", "sitting_id")
+        "items", "bungeni.models.domain.ItemScheduleContainer", "sitting_id")
 
     @property
     def short_name( self ):
@@ -228,7 +228,8 @@ class Parliament( Group ):
     politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parliament_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "parliament_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")
-    motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")        
+    motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")  
+    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")       
 
 
 class PoliticalParty( Group ):

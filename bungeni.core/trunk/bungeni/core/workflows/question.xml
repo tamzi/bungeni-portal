@@ -25,6 +25,7 @@
   <state id="questionstates.complete" title="Question complete">
     <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
     <grant permission="bungeni.question.edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.question.view" role="bungeni.Speaker" />    
   </state>
 
   <state id="questionstates.admissible" title="admissible Question">

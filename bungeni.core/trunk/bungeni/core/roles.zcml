@@ -74,4 +74,6 @@
     Roles for additional permissions
     -->
     
+    <grant role="bungeni.Everybody" principal="zope.anybody" />
+    
 </configure>    

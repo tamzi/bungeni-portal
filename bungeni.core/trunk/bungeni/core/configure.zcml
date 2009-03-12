@@ -28,7 +28,7 @@
   <include file="version.zcml"/>
 
   <!-- Setup WebDAV -->
-  <include file="webdav.zcml" />
+  <!--include file="webdav.zcml" /-->
                  
   <!-- Notifications -->
   <!--include file="workflowsnotification.zcml" /-->

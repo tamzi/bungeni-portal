@@ -66,10 +66,7 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.BillWorkflowAdapter" />     
 
-  <adapter
-     for="bungeni.models.interfaces.IBill"
-     provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
+
 
   <!-- questions workflow -->
 
@@ -83,10 +80,7 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.QuestionWorkflowAdapter" />
 
-  <adapter
-     for="bungeni.models.interfaces.IQuestion"
-     provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
+
 
   <subscriber handler=".question.SendNotificationToMemberUponReceipt" /> 
   <subscriber handler=".question.SendNotificationToClerkUponSubmit" />
@@ -111,10 +105,7 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.ResponseWorkflowAdapter" />
      
-  <adapter
-     for="bungeni.models.interfaces.IResponse"
-     provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>     
+  
 
   <!-- motion workflow -->
   <adapter
@@ -127,10 +118,7 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.MotionWorkflowAdapter" />
      
-  <adapter
-     for="bungeni.models.interfaces.IMotion"
-     provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="bungeni.core.workflows.states.StateWorkflowInfo"/>        
+ 
 
   <subscriber handler=".motion.SendNotificationToMemberUponReceipt" /> 
   <subscriber handler=".motion.SendNotificationToClerkUponSubmit" />

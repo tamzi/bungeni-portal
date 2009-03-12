@@ -811,9 +811,6 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                                     ), 
              listing = False,),
 
-        dict( name="long_title", label=_(u"Long Title"), 
-                property = schema.Text( title=_(u"Long Title"), required=False ),        
-                listing=False ),
         dict( name="summary", label=_(u"Summary"), 
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 

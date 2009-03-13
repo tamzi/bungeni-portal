@@ -6,16 +6,17 @@
    initial_state="">
 
   <state id="billstates.draft" title="draft bill">
-    <grant permission="bungeni.bill.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.bill.view" role="bungeni.Owner" />    
-    <grant permission="bungeni.bill.delete" role="bungeni.Owner" />    
+    <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.bill.View" role="bungeni.Owner" />    
+    <grant permission="bungeni.bill.Delete" role="bungeni.Owner" />    
   </state>
   
   <state id="billstates.submitted" title="bill published in gazette">
-    <deny permission="bungeni.bill.edit" role="bungeni.Owner" />
-    <deny permission="bungeni.bill.delete" role="bungeni.Owner" />        
-    <grant permission="bungeni.bill.view" role="bungeni.Clerk" />   
-    <grant permission="bungeni.bill.edit" role="bungeni.Clerk" />                 
+    <deny permission="bungeni.bill.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.bill.Delete" role="bungeni.Owner" />        
+    <grant permission="bungeni.bill.View" role="bungeni.Clerk" />   
+    <grant permission="bungeni.bill.Edit" role="bungeni.Clerk" />    
+    <grant permission="bungeni.bill.View" role="bungeni.Everybody" />                    
   </state>
 
   <state id="billstates.first_reading" title="first reading">
@@ -94,17 +95,17 @@
     
 
   <state id="billstates.withdrawn" title="bill withdrawn">
-    <deny permission="bungeni.bill.edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
     
 
   <state id="billstates.approved" title="approved bill">
-    <deny permission="bungeni.bill.edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
     
 
   <state id="billstates.rejected" title="rejected bill">
-    <deny permission="bungeni.bill.edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
     
 

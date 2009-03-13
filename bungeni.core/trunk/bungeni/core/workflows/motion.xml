@@ -6,47 +6,47 @@
    initial_state="">
 
   <state id="motionstates.draft" title="draft motion">
-    <grant permission="bungeni.motion.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.motion.view" role="bungeni.Owner" />    
-    <grant permission="bungeni.motion.delete" role="bungeni.Owner" />    
+    <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.motion.View" role="bungeni.Owner" />    
+    <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />    
   </state>
 
   <state id="motionstates.submitted" title="Motion submitted">
-    <deny permission="bungeni.motion.edit" role="bungeni.Owner" />
-    <!--deny permission="bungeni.motion.view" role="bungeni.Owner" /-->    
-    <deny permission="bungeni.motion.delete" role="bungeni.Owner" />    
-    <!--grant permission="bungeni.motion.edit" role="bungeni.Clerk" /-->
-    <grant permission="bungeni.motion.view" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />
+    <!--deny permission="bungeni.motion.View" role="bungeni.Owner" /-->    
+    <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />    
+    <!--grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /-->
+    <grant permission="bungeni.motion.View" role="bungeni.Clerk" />      
   </state>
 
   <state id="motionstates.received" title="Motion received by clerks office">  
-    <grant permission="bungeni.motion.edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.motion.view" role="bungeni.Clerk" />      
+    <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.View" role="bungeni.Clerk" />      
   </state>
 
   <state id="motionstates.complete" title="Motion complete">  
-    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.motion.edit" role="bungeni.Speaker" />
-    <grant permission="bungeni.motion.view" role="bungeni.Speaker" />         
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.motion.View" role="bungeni.Speaker" />         
   </state>
 
   <state id="motionstates.admissible" title="Motion admissible">  
-      <grant permission="bungeni.motion.view" role="bungeni.Everybody" />         
+      <grant permission="bungeni.motion.View" role="bungeni.Everybody" />         
   </state>    
 
   <state id="motionstates.inadmissible" title="Motion inadmissible">     
-    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>
       
   <state id="motionstates.clarify_clerk" title="Motion needs clarification by Clerks Office">     
-    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />    
-    <grant permission="bungeni.motion.edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
+    <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
   </state>
 
   <state id="motionstates.clarify_mp" title="Motion needs clarification by MP">  
-    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.motion.edit" role="bungeni.Speaker" />    
-    <deny permission="bungeni.motion.edit" role="bungeni.Owner" />         
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
+    <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />         
   </state>
 
 
@@ -55,8 +55,8 @@
 
   <!-- is scheduled for debate at a sitting -->
   <state id="motionstates.scheduled" title="Motion scheduled">  
-    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>    
   <!-- admissable motion that cannot be debated -->
   <state id="motionstates.deferred" title="Motion deferred">  
@@ -68,20 +68,20 @@
   </state>    
   <!--defered or postponed motion that were not debated -->
   <state id="motionstates.elapsed" title="Motion elapsed">  
-    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>    
   <!--a motion was debated  -->
   <state id="motionstates.debated" title="Motion debated">  
-    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>
   
 
   <state id="motionstates.withdrawn" title="Motion withdrawn">  
-    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.motion.edit" role="bungeni.Owner" /> 
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
   </state>
 
 

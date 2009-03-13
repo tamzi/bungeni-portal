@@ -12,31 +12,31 @@
   <permission id="bungeni.calendar.AddSitting" title="Add sitting" />
     
 
-    <permission id="bungeni.question.add" title="Add Question" />
-    <permission id="bungeni.question.edit" title="Edit Question" />
-    <permission id="bungeni.question.delete" title="Delete Question" />
-    <permission id="bungeni.question.view" title="View Question" />
+    <permission id="bungeni.question.Add" title="Add Question" />
+    <permission id="bungeni.question.Edit" title="Edit Question" />
+    <permission id="bungeni.question.Delete" title="Delete Question" />
+    <permission id="bungeni.question.View" title="View Question" />
 
      
-    <permission id="bungeni.motion.add" title="Add Motion" />
-    <permission id="bungeni.motion.edit" title="Edit Motion" />
-    <permission id="bungeni.motion.delete" title="Delete Motion" />
-    <permission id="bungeni.motion.view" title="View Motion" />
+    <permission id="bungeni.motion.Add" title="Add Motion" />
+    <permission id="bungeni.motion.Edit" title="Edit Motion" />
+    <permission id="bungeni.motion.Delete" title="Delete Motion" />
+    <permission id="bungeni.motion.View" title="View Motion" />
     
-    <permission id="bungeni.response.add" title="Add Response" />
-    <permission id="bungeni.response.edit" title="Edit Response" />
-    <permission id="bungeni.response.delete" title="Delete Response" />
-    <permission id="bungeni.response.view" title="View Response" />
+    <permission id="bungeni.response.Add" title="Add Response" />
+    <permission id="bungeni.response.Edit" title="Edit Response" />
+    <permission id="bungeni.response.Delete" title="Delete Response" />
+    <permission id="bungeni.response.View" title="View Response" />
      
-    <permission id="bungeni.parliament.add" title="Add Parliament" />
-    <permission id="bungeni.parliament.edit" title="Edit Parliament" />
-    <permission id="bungeni.parliament.delete" title="Delete Parliament" />
-    <permission id="bungeni.parliament.view" title="View Parliament" />    
+    <permission id="bungeni.parliament.Add" title="Add Parliament" />
+    <permission id="bungeni.parliament.Edit" title="Edit Parliament" />
+    <permission id="bungeni.parliament.Delete" title="Delete Parliament" />
+    <permission id="bungeni.parliament.View" title="View Parliament" />    
     
-    <permission id="bungeni.bill.add" title="Add Bill" />
-    <permission id="bungeni.bill.edit" title="Edit Bill" />
-    <permission id="bungeni.bill.delete" title="Delete Bill" />
-    <permission id="bungeni.bill.view" title="View Bill" />  
+    <permission id="bungeni.bill.Add" title="Add Bill" />
+    <permission id="bungeni.bill.Edit" title="Edit Bill" />
+    <permission id="bungeni.bill.Delete" title="Delete Bill" />
+    <permission id="bungeni.bill.View" title="View Bill" />  
 
     <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
 

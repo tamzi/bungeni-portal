@@ -2,7 +2,7 @@
 import datetime
 
 from zope.security import proxy
-from zc.table import  table, column
+import zc.table 
 from zope.formlib import form
 
 from zope.publisher.browser import BrowserView
@@ -50,7 +50,41 @@ def getFullPath( context):
         path = path + context.__name__ + '/'
     if len(path) == 0:
         return '/'    
-    return path        
+    return path       
+    
+def getFields( context ):
+    """ get all fields that will be displayed 
+    in a containerlisting 
+    """
+    domain_model = proxy.removeSecurityProxy( context.domain_model )
+    domain_interface = queryModelInterface( domain_model )
+    domain_annotation = queryModelDescriptor( domain_interface )   
+    for column in  domain_annotation.listing_columns:   
+        field = domain_interface[column]     
+        yield field
+             
+
+def can_view(node, fieldname, context):
+        """ We only test for one field if it can be viewed
+        and assume that if we cannot the whole object cannot be accessd
+        """
+        # set the node's parent to the context for security checks
+        node.__parent__= context
+        w_node = ProxyFactory(node)
+
+        can_view = canAccess(w_node, fieldname)         
+            
+        return can_view
+
+
+def secured_iterator(query, fieldname, context):
+    """ get only the rows the user is actually allowed to see
+    field is one abitrary field in the listing (see can_view)
+    """
+    for node in query:
+        if can_view(node, fieldname, context):
+            yield node
+
 
 def viewLink( item, formatter ):
     path = absoluteURL( formatter.context, formatter.request ) + '/'
@@ -76,14 +110,14 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         context = proxy.removeSecurityProxy( self.context )
         columns = alchemist.ui.core.setUpColumns( context.domain_model )
         columns.append(
-            column.GetterColumn( title = _(u'Actions'),
+            zc.table.column.GetterColumn( title = _(u'Actions'),
                                  getter = viewEditLinks )
             )
         self.columns = columns
         self.actionUrl = '%s/' % ( absoluteURL( self.context, self.request ) )
-        
-        for role in self.getRoles():
-            print role
+        self.fields = list(getFields(self.context))
+        #for role in self.getRoles():
+        #    print role
 
         
     @property
@@ -112,9 +146,10 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         else:            
             query=query.order_by(order_list)     
         # self.formatter_factory    
-        formatter = table.AlternatingRowFormatter( context,
+        items = secured_iterator(query, self.fields[0].__name__, self.context)        
+        formatter = zc.table.table.AlternatingRowFormatter( context,
                                                    self.request,
-                                                   query,
+                                                   items,
                                                    prefix="form",
                                                    columns = self.columns )
         formatter.cssClasses['table'] = 'listing'
@@ -138,35 +173,7 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         self.request.response.redirect(addurl)
 
 
-    def parents( self, ctx ):
-          p = ctx.__parent__
-          while p:
-             yield p
-             p = p.__parent__
-          else:
-            yield None                
 
-    def nearest_prm( self, ctx ):
-        prm = IPrincipalRoleMap( ctx, None )
-        if prm: return prm        
-        for p in self.parents( ctx ):
-            try:
-                prm = IPrincipalRoleMap( p, None )            
-            except:
-                prm = None                
-            if prm: return prm
-        #raise AttributeError("Invalid Containment Chain")
-        print "Invalid Containment Chain"
-
-
-    def getRoles(self):
-        #XXX
-        pn = self.request.principal.id
-        grants = self.nearest_prm(self.context)
-        roles = None
-        if grants:
-            roles = grants.getRolesForPrincipal(pn)
-        return roles
 
 class ContainerJSONTableHeaders( BrowserView ):
 
@@ -254,22 +261,6 @@ class ContainerJSONListing( BrowserView ):
         return batch
 
 
-    #XXX just proof of concept! to be removed!
-    def canView(self, node, field, context):
-            # set the node's parent to the context for security checks
-            node.__parent__= self.context
-            pn = self.request.principal.id
-            grants = IPrincipalRoleMap( node, None )
-            roles = grants.getRolesForPrincipal(pn)
-            for role in roles:
-                print role
-            w_node = ProxyFactory(node)
-            can_view = canAccess(w_node, field)
-            print pn
-            print field, can_view
-            print canWrite(w_node, field)
-            print canWrite(node, field)            
-            return can_view
             
 
     def _jsonValues( self, nodes, fields, context):
@@ -303,7 +294,7 @@ class ContainerJSONListing( BrowserView ):
                     d[f] = v.strftime('%F')
                 d['object_id'] =   stringKey(n)
                 
-                #self.canView(n, '__call__', context) #XXX look at the permissions  
+            self.canView(n, f, context) #XXX look at the permissions  
             values.append( d )
         return values
         
@@ -323,11 +314,5 @@ class ContainerJSONListing( BrowserView ):
         return simplejson.dumps( data )
 
 
-def getFields( context ):
-    domain_model = proxy.removeSecurityProxy( context.domain_model )
-    domain_interface = queryModelInterface( domain_model )
-    domain_annotation = queryModelDescriptor( domain_interface )   
-    for column in  domain_annotation.listing_columns:   
-        field = domain_interface[column]     
-        yield field
+
 

@@ -51,7 +51,10 @@
 
     <legend tal:define="form_name view/form_name|nothing"
             tal:condition="form_name"
-            tal:content="form_name">Form name</legend>
+            tal:content="form_name"
+            i18n:translate="">
+      Form name
+    </legend>
 
   <metal:block define-macro="fieldset"> 
   

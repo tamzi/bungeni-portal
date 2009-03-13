@@ -15,6 +15,7 @@ from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist import Session
 from ore.workflow import interfaces
 from ore.yuiwidget import calendar
+from ore.alchemist.model import queryModelDescriptor
 
 from alchemist.ui.content import ContentAddForm
 from alchemist.ui.viewlet import EditFormViewlet
@@ -68,6 +69,16 @@ class BungeniAddForm(ContentAddForm):
     """
     Adapts = {} 
     CustomValidation = None
+
+    @property
+    def form_name( self ):
+        descriptor = queryModelDescriptor( self.context.domain_model )
+        if descriptor:
+            name = getattr( descriptor, 'display_name', None)
+        if not name:
+            name = getattr( self.context.domain_model, '__name__', None)                
+        return _(u"add_item_legend", default=u"Add $name",
+                 mapping={'name': name.lower()})
 
     def update( self ):
          self.status = self.request.get('portal_status_message','')

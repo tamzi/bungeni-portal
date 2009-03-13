@@ -28,10 +28,6 @@ class PrincipalGroupSchedulingContext(object):
         return session.query(Group).filter_by(
             group_id=self.group_id)[0]
 
-    def get_sittings_container(self):
-        group = self.get_group()
-        return group.sittings
-
     def get_sittings(self, start_date=None, end_date=None):
         session = Session()
 

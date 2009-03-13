@@ -239,6 +239,15 @@ class ContainerJSONListing( BrowserView ):
             start, limit = 0, 100
         return start, limit 
 
+    def _get_secured_batch( self, query, start, limit):    
+        secured_query = secured_iterator(query, self.fields[0].__name__, self.context)
+        nodes =[]
+        for ob in secured_query:
+            ob = contained( ob, self, stringKey(ob) )
+            nodes.append(ob)
+        self.set_size = len(nodes)    
+        return nodes[start:limit]
+
     def getBatch( self, start=0, limit=20, order_by=None):
         context = proxy.removeSecurityProxy( self.context )    
         query=context._query            
@@ -248,16 +257,11 @@ class ContainerJSONListing( BrowserView ):
             if 'start_date' in  context._class.c and 'end_date' in  context._class.c :                 
                 # apply date range resrictions
                 query=query.filter(filter_by)
-        query = query.limit( limit ).offset( start )                
+        #query = query.limit( limit ).offset( start )                
         if order_by:
             query = query.order_by( order_by )  
-        nodes = []                                       
-        for ob in query:
-            ob = contained( ob, self, stringKey(ob) )
-            nodes.append(ob)    
-            
-        fields = list( getFields( self.context )  )
-        batch = self._jsonValues( nodes, fields, self.context )
+        nodes = self._get_secured_batch(query, start, limit)                                                  
+        batch = self._jsonValues( nodes, self.fields, self.context )
         return batch
 
 
@@ -292,20 +296,19 @@ class ContainerJSONListing( BrowserView ):
                     d[f] = v.strftime('%F %I:%M %p')
                 elif isinstance( v, datetime.date ):
                     d[f] = v.strftime('%F')
-                d['object_id'] =   stringKey(n)
-                
-            self.canView(n, f, context) #XXX look at the permissions  
+                d['object_id'] =   stringKey(n)                
             values.append( d )
         return values
         
     def __call__( self ):
+        self.set_size = 0
+        self.fields = list( getFields( self.context )  )
         start, limit = self.getOffsets( )
         sort_clause = self.getSort()
         batch = self.getBatch( start, limit, sort_clause )
         #XXX does not work with filtered listings!
-        # use the query instead
-        set_size = len( self.context )
-        data = dict( length=set_size,
+        # use the query instead        
+        data = dict( length=self.set_size,
                      start=start,
                      recordsReturned=len(batch),
                      sort = self.request.get('sort'),

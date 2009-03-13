@@ -597,7 +597,7 @@ parliamentary_items = rdb.Table(
     rdb.Column( "parliamentary_item_id", rdb.Integer, ItemSequence, primary_key=True ),
     rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'),), 
     rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
-    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
+    rdb.Column( "short_name", rdb.Unicode(80), nullable=False ),
     rdb.Column( "full_name", rdb.Unicode(1024), nullable=True ),    
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "submission_date", rdb.Date ),
@@ -695,9 +695,7 @@ motions = rdb.Table(
    rdb.Column( "motion_number", rdb.Integer),
    rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question   
    rdb.Column( "public", rdb.Boolean ),
-   rdb.Column( "title", rdb.Unicode(80) ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
-   #rdb.Column( "received_date", rdb.Date ),
    rdb.Column( "entered_by_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),

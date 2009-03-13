@@ -26,5 +26,51 @@
             return false;
           }
         });
+
+      // when selecting an option on the format "Label
+      // (start_time-end_time)", listen to the ``change`` event and
+      // update corresponding start- and end time options
+      var re_time_range = /.*\((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
+      $.each($("select"), function(i, o) {
+          var options = $(o).children();
+          var form = $(o).parents("form").eq(0);
+
+          var start_hour = form.find("select[name$=start_date__hour]").get(0);
+          if (!start_hour) return;
+          var start_minute = form.find("select[name$=start_date__minute]").get(0);
+          if (!start_minute) return;
+          var end_hour = form.find("select[name$=end_date__hour]").get(0);
+          if (!end_hour) return;
+          var end_minute = form.find("select[name$=end_date__minute]").get(0);
+          if (!end_minute) return;
+
+          function handle_change() {
+            var index = o.selectedIndex;
+            var option = options.eq(index);
+            var matches = re_time_range.exec(option.text());
+
+            if (!matches) return;
+            
+            // convert matches to integers
+            for (var k=1; k < 5; k++) {
+              var v = matches[k];
+              if (v[0] == '0') v = v[1];
+              matches[k] = parseInt(v);
+            }
+
+            // for each dropdown, change selection
+            start_hour.selectedIndex = matches[1];
+            start_minute.selectedIndex = matches[2];
+            end_hour.selectedIndex = matches[3];
+            end_minute.selectedIndex = matches[4];
+          };
+
+          // setup event handler
+          $(o).change(handle_change);
+          
+          // initialize
+          handle_change();
+        });
+        
     });
  })(jQuery);

@@ -35,7 +35,7 @@
 	 permission="zope.ManageContent"/-->
 
   
-  <!--grantAll role="zope.Manager" /-->
+  <grantAll role="zope.Manager" />
   
   <grant role="zope.Manager"
          principal="zope.manager" />

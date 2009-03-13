@@ -30,7 +30,7 @@
       // when selecting an option on the format "Label
       // (start_time-end_time)", listen to the ``change`` event and
       // update corresponding start- and end time options
-      var re_time_range = /.*\((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
+      var re_time_range = /(.*) \((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
       $.each($("select"), function(i, o) {
           var options = $(o).children();
           var form = $(o).parents("form").eq(0);
@@ -44,10 +44,17 @@
           var end_minute = form.find("select[name$=end_date__minute]").get(0);
           if (!end_minute) return;
 
+          var option_matches = [];
+          $.each(options, function(j, p) {
+              var option = $(p);
+              var matches = re_time_range.exec(option.text());
+              option_matches.push(matches);
+              if (matches)
+                option.text(matches[1]);
+            });
+
           function handle_change() {
-            var index = o.selectedIndex;
-            var option = options.eq(index);
-            var matches = re_time_range.exec(option.text());
+            var matches = option_matches[o.selectedIndex];
 
             if (!matches) return;
             
@@ -59,10 +66,10 @@
             }
 
             // for each dropdown, change selection
-            start_hour.selectedIndex = matches[1];
-            start_minute.selectedIndex = matches[2];
-            end_hour.selectedIndex = matches[3];
-            end_minute.selectedIndex = matches[4];
+            start_hour.selectedIndex = matches[2]
+            start_minute.selectedIndex = matches[3];
+            end_hour.selectedIndex = matches[4];
+            end_minute.selectedIndex = matches[5];
           };
 
           // setup event handler

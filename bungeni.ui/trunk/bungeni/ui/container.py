@@ -246,7 +246,7 @@ class ContainerJSONListing( BrowserView ):
             ob = contained( ob, self, stringKey(ob) )
             nodes.append(ob)
         self.set_size = len(nodes)    
-        return nodes[start:limit]
+        return nodes[start : start + limit]
 
     def getBatch( self, start=0, limit=20, order_by=None):
         context = proxy.removeSecurityProxy( self.context )    

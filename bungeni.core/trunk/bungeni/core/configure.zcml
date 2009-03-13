@@ -171,4 +171,10 @@
     <allow interface=".interfaces.ISchedulingContext" />
   </class>
 
+  <!-- dublin core adapters -->
+
+  <adapter factory=".dc.BillDescriptiveProperties" />
+  <adapter factory=".dc.QuestionDescriptiveProperties" />
+  <adapter factory=".dc.MotionDescriptiveProperties" />
+  
 </configure>

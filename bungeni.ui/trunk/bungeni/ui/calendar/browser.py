@@ -96,24 +96,12 @@ class CalendarView(BrowserView):
         obj = method()
         obj.__name__ = name
         return obj
-        
-    def get_sittings(self):
+
+    def get_group(self):
         group = self.context.get_group()
-        group.__name__ = self.__name__
-        group.__parent__ = self.__parent__
-        group = ShortNameProxy(group, short_name=self.short_name)
-
-        container = self.context.get_sittings_container()
-        container.__parent__ = group
-
-        return container
-
-    def render_add_sitting_form(self):
+        group.__parent__ = self.context
+        return group
         
-        view = component.getMultiAdapter(
-            (sittings, self.request), name="add")
-        return view()
-
     def render_weekly(self, date):
         calendar_url = self.request.getURL()
         date = date - timedelta(days=date.weekday())

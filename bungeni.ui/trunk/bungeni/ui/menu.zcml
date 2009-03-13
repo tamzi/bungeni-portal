@@ -38,7 +38,7 @@
      menu="plone_contentmenu"
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add sitting..."
-     action="./sittings/add"
+     action="./group/sittings/add"
      permission="bungeni.calendar.AddSitting"
      />
 

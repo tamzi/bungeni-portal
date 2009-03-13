@@ -145,8 +145,13 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
                 query=query.order_by(order_list)                                             
         else:            
             query=query.order_by(order_list)     
-        # self.formatter_factory    
-        items = secured_iterator(query, self.fields[0].__name__, self.context)        
+        # self.formatter_factory
+        
+        if self.fields:
+            items = secured_iterator(query, self.fields[0].__name__, self.context)
+        else:
+            items = query
+            
         formatter = zc.table.table.AlternatingRowFormatter( context,
                                                    self.request,
                                                    items,

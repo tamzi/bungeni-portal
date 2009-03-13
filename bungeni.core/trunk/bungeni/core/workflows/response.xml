@@ -6,21 +6,21 @@
    initial_state="">
 
   <state id="responsestates.draft" title="a draft response">
-    <grant permission="bungeni.response.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.response.view" role="bungeni.Owner" />    
-    <grant permission="bungeni.response.delete" role="bungeni.Owner" />    
+    <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.response.View" role="bungeni.Owner" />    
+    <grant permission="bungeni.response.Delete" role="bungeni.Owner" />    
   </state>
 
   <state id="responsestates.submitted" title="response submitted">
-    <grant permission="bungeni.response.edit" role="bungeni.Clerk"/>
-    <grant permission="bungeni.response.view" role="bungeni.Clerk"/>    
-    <deny permission="bungeni.response.edit" role="bungeni.Owner"/>
-    <deny permission="bungeni.response.delete" role="bungeni.Owner" />
+    <grant permission="bungeni.response.Edit" role="bungeni.Clerk"/>
+    <grant permission="bungeni.response.View" role="bungeni.Clerk"/>    
+    <deny permission="bungeni.response.Edit" role="bungeni.Owner"/>
+    <deny permission="bungeni.response.Delete" role="bungeni.Owner" />
   </state>
 
   <state id="responsestates.complete" title="response completed">
-    <deny permission="bungeni.response.edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.response.view" role="bungeni.Everybody" />
+    <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.View" role="bungeni.Everybody" />
   </state>
 
   <transition 

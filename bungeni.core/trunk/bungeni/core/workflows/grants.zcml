@@ -18,7 +18,6 @@
   <grant permission="bungeni.response.Submit" role="bungeni.Owner"/>
   <grant permission="bungeni.response.Complete" role="bungeni.Clerk"/>  
   <!--TODO motion workflow permissions -->
-  <!--grant permission="bungeni.motion.Create" role="zope.Member" /-->
   <grant permission="bungeni.motion.Submit" role="zope.Member"/>
   <grant permission="bungeni.motion.Recieve" role="zope.Member"/>
   <grant permission="bungeni.motion.clerk.Review" role="zope.Member"/>
@@ -33,7 +32,6 @@
   <grant permission="bungeni.bill.SelectCommittee" role="bungeni.Clerk" />
   <grant permission="bungeni.bill.ChangeStatus" role="bungeni.Speaker" />
   <grant permission="bungeni.bill.Withdraw" role="bungeni.Clerk" />  
-  <!--grant permission="bungeni.bill.Add" role="bungeni.Clerk" />
-  <grant permission="bungeni.bill.View" role="bungeni.Clerk" /-->
+
 
 </configure>

@@ -6,56 +6,56 @@
    initial_state="">
 
   <state id="questionstates.draft" title="draft question">
-    <grant permission="bungeni.question.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.question.view" role="bungeni.Owner" />    
-    <grant permission="bungeni.question.delete" role="bungeni.Owner" />    
-    <deny permission="bungeni.question.add" role="bungeni.MP" />        
+    <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.View" role="bungeni.Owner" />    
+    <grant permission="bungeni.question.Delete" role="bungeni.Owner" />    
+    <deny permission="bungeni.question.Add" role="bungeni.MP" />        
   </state>
 
   <state id="questionstates.submitted" title="Question submitted to clerk">
-    <deny permission="bungeni.question.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.question.view" role="bungeni.Clerk" />    
-    <deny permission="bungeni.question.delete" role="bungeni.Owner" />     
+    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.View" role="bungeni.Clerk" />    
+    <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
   </state>
 
   <state id="questionstates.received" title="Question received by clerk">
-    <grant permission="bungeni.question.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
   </state>
 
   <state id="questionstates.complete" title="Question complete">
-    <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
-    <grant permission="bungeni.question.edit" role="bungeni.Speaker" />
-    <grant permission="bungeni.question.view" role="bungeni.Speaker" />    
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
+    <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.question.View" role="bungeni.Speaker" />    
   </state>
 
   <state id="questionstates.admissible" title="admissible Question">
-    <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
+    <grant permission="bungeni.question.View" role="bungeni.Everybody" />      
     <!-- TODO permissions for the ministry the question is directed to, maybe to be set in the action? -->    
   </state>
 
   <state id="questionstates.inadmissible" title="inadmissible Question">
-    <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
+    <grant permission="bungeni.question.View" role="bungeni.Everybody" />      
   </state>
 
   <state id="questionstates.clarify_mp" title="Question needs MP clarification">
-    <deny permission="bungeni.question.edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.question.edit" role="bungeni.Owner" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.question.Edit" role="bungeni.Owner" />  
   </state>
 
   <state id="questionstates.clarify_clerk" title="Question needs Clerks clarification">
-    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />
-    <grant permission="bungeni.question.edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
   </state>
 
   <state id="questionstates.scheduled" title="Question scheduled">
-    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.add" role="bungeni.Clerk" />
     <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
     <grant permission="bungeni.response.view" role="bungeni.Clerk" />         
   </state>
 
   <state id="questionstates.response_pending" title="Question pending response">
-    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.add" role="bungeni.Clerk" />
     <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
     <grant permission="bungeni.response.view" role="bungeni.Clerk" />        
@@ -74,14 +74,14 @@
   </state>
 
   <state id="questionstates.answered" title="Question answered">
-    <grant permission="bungeni.question.add" role="bungeni.MP" />    
+    <grant permission="bungeni.question.Add" role="bungeni.MP" />    
     <grant permission="bungeni.response.view" role="bungeni.Everybody" />            
   </state>
 
   <state id="questionstates.withdrawn" title="Question withdrawn">
-    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
-    <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
-    <deny permission="bungeni.question.edit" role="bungeni.Owner" />            
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />            
   </state>
 
   <transition 

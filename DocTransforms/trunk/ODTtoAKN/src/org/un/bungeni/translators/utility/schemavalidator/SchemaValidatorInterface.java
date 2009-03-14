@@ -1,8 +1,8 @@
 package org.un.bungeni.translators.utility.schemavalidator;
 
 
+import java.io.File;
 import java.io.IOException;
-import javax.xml.transform.stream.StreamSource;
 
 import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.xml.sax.SAXException;
@@ -15,12 +15,12 @@ public interface SchemaValidatorInterface
 {
 	/**
 	 * This method validate a document through a schema
-	 * @param aDocumentSource the source of the document to validate
+	 * @param aDocument the document to validate
 	 * @param aSchemaPath the path of the schema that must be used for the validation 
 	 * @throws SAXException 
 	 * @throws IOException 
 	 * @throws MissingAttributeException 
 	 */
-	public void validate(StreamSource aDocumentSource, String aSchemaPath) throws SAXException, IOException, MissingAttributeException;
+	public void validate(File aDocument, String aSchemaPath) throws SAXException, IOException, MissingAttributeException;
 	
 }

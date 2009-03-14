@@ -23,9 +23,9 @@
 			<xsl:if test="@id">
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@name">
+			<!--<xsl:if test="@name">
 				<xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
-			</xsl:if>
+			</xsl:if> -->
 
             <xsl:apply-templates />
         </subdivision>

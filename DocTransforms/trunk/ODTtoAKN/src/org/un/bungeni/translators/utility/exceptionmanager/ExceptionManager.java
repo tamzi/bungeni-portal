@@ -11,12 +11,14 @@ import java.util.regex.Pattern;
 
 import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXParseException;
 
 /**
  * This object parse a SAXEception understand what type of exception is and throws an 
  * user readable error
  */
-public class ExceptionManager 
+public class ExceptionManager implements ErrorHandler
 {
 	/* The instance of this FileUtility object*/
 	private static ExceptionManager instance = null;
@@ -107,4 +109,37 @@ public class ExceptionManager
         	throw new MissingAttributeException(message);
 		}
 	}
+	
+    /**
+     * Report a non-fatal error
+     * @param ex the error condition
+     */
+    public void error(SAXParseException ex) 
+    {
+        System.err.println("At line " + ex.getLineNumber() + "of column " + " of " + ex.getSystemId() + ':');
+        System.err.println(ex.getMessage());
+    }
+
+    /**
+     * Report a fatal error
+     * @param ex the error condition
+     */
+
+    public void fatalError(SAXParseException ex) 
+    {
+        System.err.println("At line " + ex.getLineNumber() + " of " + ex.getSystemId() + ':');
+        System.err.println(ex.getMessage());
+    }
+
+    /**
+     * Report a warning
+     * @param ex the warning condition
+     */
+    public void warning(org.xml.sax.SAXParseException ex) 
+    {
+        System.err.println("At line " + ex.getLineNumber() + " of " + ex.getSystemId() + ':');
+        System.err.println(ex.getMessage());
+    }
+    
+    
 }

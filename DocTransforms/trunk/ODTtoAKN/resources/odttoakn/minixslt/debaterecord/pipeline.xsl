@@ -5,7 +5,7 @@
 
     <xsl:template match="/">
         <stylesheets>
-            <xsl:apply-templates/>
+        	<xsl:apply-templates/>
         </stylesheets>
     </xsl:template>
 

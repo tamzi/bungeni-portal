@@ -35,7 +35,7 @@ public class OATranslatorTest
 		//GlobalConfigurations.setApplicationPathPrefix("/Users/lucacervone/Documents/AKNTranslatorData/resources/");
 		GlobalConfigurations.setApplicationPathPrefix("resources/");
 		//GlobalConfigurations.setConfigurationFilePath("configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
-		GlobalConfigurations.setConfigurationFilePath("configfiles/odttoakn/TranslatorConfig_bill.xml");
+		GlobalConfigurations.setConfigurationFilePath("configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
 
 		//get the instance of the translator
 		myTranslator = OATranslator.getInstance();
@@ -69,14 +69,14 @@ public class OATranslatorTest
 		//OAXSLProcBuilder.newInstance().createXSLProc(GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/");
 				
 		//perform a translation
-		File translation = myTranslator.translate("resources/ken_bill_2009_1_10_eng_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/pipeline.xsl");
+		File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		//File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);
 		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/resultAKN_bill.xml");
+		FileOutputStream fos = new FileOutputStream("resources/resultAKN_db.xml");
 		
 		//copy the file
 		try 

@@ -364,7 +364,7 @@
      manager="alchemist.ui.interfaces.IContentEditManager"
      class=".forms.ParliamentEdit"
      for="bungeni.models.interfaces.IParliament"
-     permission="bungeni.parliament.edit"
+     permission="bungeni.parliament.Edit"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
      />          
   
@@ -384,7 +384,7 @@
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.ResponseViewlet"
      for="bungeni.models.interfaces.IQuestion"
-     permission="bungeni.response.view"
+     permission="bungeni.response.View"
      weight="10"
      />      
 
@@ -393,7 +393,7 @@
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.SupplementaryQuestionsViewlet"
      for="bungeni.models.interfaces.IQuestion"
-     permission="bungeni.question.view"
+     permission="bungeni.question.View"
      weight="20"
      />           
 
@@ -402,7 +402,7 @@
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.InitialQuestionsViewlet"
      for="bungeni.models.interfaces.IQuestion"
-     permission="bungeni.question.view"
+     permission="bungeni.question.View"
      weight="5"
      />      
 
@@ -414,7 +414,7 @@
      name="add"
      for="bungeni.models.interfaces.IQuestionContainer"
      class=".forms.QuestionAdd"              
-     permission="bungeni.question.add"
+     permission="bungeni.question.Add"
      />          
   
   
@@ -424,7 +424,7 @@
      manager="alchemist.ui.interfaces.IContentEditManager"
      class=".forms.QuestionEdit"
      for="bungeni.models.interfaces.IQuestion"
-     permission="bungeni.question.edit"
+     permission="bungeni.question.Edit"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
      />         
   
@@ -433,7 +433,7 @@
      name="add"
      for="bungeni.models.interfaces.IResponseContainer"
      class=".forms.ResponseAdd"              
-     permission="bungeni.response.add"
+     permission="bungeni.response.Add"
      />      
   
   <!-- Response Edit Form -->  
@@ -442,7 +442,7 @@
      manager="alchemist.ui.interfaces.IContentEditManager"
      class=".forms.ResponseEdit"
      for="bungeni.models.interfaces.IResponse"
-     permission="bungeni.response.edit"
+     permission="bungeni.response.Edit"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
      />        
   
@@ -451,7 +451,7 @@
      name="add"
      for="bungeni.models.interfaces.IParliamentContainer"
      class=".forms.ParliamentAdd"              
-     permission="bungeni.parliament.add"
+     permission="bungeni.parliament.Add"
      />      
   
   

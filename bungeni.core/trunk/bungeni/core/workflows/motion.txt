@@ -196,7 +196,14 @@ Reject the motion
   >>> result = IWorkflowInfo(motion_reject).fireTransition('reject') 
 
   >>> transitions(motion_reject)
-  ()     
+  (u'redraft-inadmissible',)
+   
+  
+The Motion may be made a draft motion again:  
+  >>> result = IWorkflowInfo(motion_reject).fireTransition('redraft-inadmissible') 
+   
+  >>> transitions(motion_reject)
+  (u'submit-to-clerk',)        
 
 If the motions requires amendment it is sent back to the owner
 and has to be resubmitted 
@@ -296,7 +303,14 @@ A motion can elapse if no answer is given
   
   >>> result = IWorkflowInfo(motion_elapse_defered).fireTransition('elapse-defered')    
   >>> transitions(motion_elapse_defered)
-  ()
+  (u're-admit-elapsed',)
+  
+An elapsed Motion can be readmitted again:
+  
+  >>> result = IWorkflowInfo(motion_elapse_defered).fireTransition('re-admit-elapsed')    
+  >>> transitions(motion_elapse_defered)
+  (u'defer', u'withdraw-admissible', u'schedule')
+
 
 A motion can be withdrawn at (almost) any stage  
   
@@ -339,7 +353,7 @@ A motion can elapse without an answer
   >>> motion_elapse_postponed = copy.deepcopy(motion)
   >>> result = IWorkflowInfo(motion_elapse_postponed).fireTransition('elapse-postponed')   
   >>> transitions(motion_elapse_postponed)
-  ()
+  (u're-admit-elapsed',)
   
 A motion can be withdrawn at (almost) any stage  
   

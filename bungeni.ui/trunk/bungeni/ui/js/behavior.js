@@ -1,33 +1,16 @@
 (function($) {
   $(document).ready(function() {
+      // prepare alchemist content views
       var manager = $(".alchemist-content-manager");
       manager.yuiTabView(manager.find("div.listing"));
 
+      // wire workflow dropdown menu to use POST actions
       var menu_links = $('#plone-contentmenu-workflow dd.actionMenuContent a');
-      console.log(menu_links.length);
-      menu_links.click(function() {
-          var url_parts = $(this).attr("href").split('?');
-          var url = url_parts[0];
-          var args = url_parts[1].split('=');
-          if (args[0] == 'transition') {
-            var transition_id = args[1];
+      menu_links.bungeniPostWorkflowActionMenuItem();
 
-            var input = $('<input type="hidden" name="transition"/>').
-              attr("value", transition_id);
-
-            var form = $("<form/>").
-              attr("method", "POST").
-              attr("action", url).
-              appendTo(document.body);
-
-            input.appendTo(form);
-            form.get(0).submit();
-            
-            return false;
-          }
-        });
-
+      // set up time range form automation
       $("select").bungeniTimeRangeSelect();
-        
+
+      // set up 
     });
  })(jQuery);

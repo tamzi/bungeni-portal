@@ -23,6 +23,7 @@
 
 
     <grant permission="bungeni.calendar.AddSitting" role="bungeni.Clerk" />
+    <grant permission="bungeni.calendar.ScheduleItem" role="bungeni.Clerk" />
 
     
     <grant permission="bungeni.question.Add" role="bungeni.MP" />    

@@ -755,7 +755,7 @@ question notification to.
   
   >>> from bungeni.models.domain import Question
   >>> question = Question()
-  >>> question.subject = u"My subject"
+  >>> question.short_name = u"My subject"
   >>> question.owner_id = user.user_id
   >>> question.receive_notification = False
   

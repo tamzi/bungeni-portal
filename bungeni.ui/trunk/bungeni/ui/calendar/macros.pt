@@ -50,6 +50,18 @@
                                   class sitting/class|nothing"
                   tal:condition="python: sitting is not None">
                 <tal:sitting condition="sitting">
+                  <ul class="actions">
+                    <li tal:repeat="action sitting/actions">
+                      <a tal:attributes="href action/url">
+                        <span tal:condition="not: action/icon"
+                              tal:replace="action/title" />
+                        <img tal:condition="action/icon"
+                             tal:attributes="src action/icon;
+                                             alt action/title" />
+                      </a>
+                    </li>
+                  </ul>
+
                   <span class="sitting-type"
                         tal:content="sitting/record/type/sitting_type" />
                   

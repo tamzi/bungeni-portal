@@ -5,7 +5,12 @@
            i18n_domain="bungeni">
 
   <!-- menus -->
-  
+
+  <browser:menu
+     id="sitting_actions"
+     title="Actions for calendar sittings"
+     />
+
   <browser:menu
      id="context_workflow"
      title="The 'workflow' menu - allows the user to execute workflow transitions"
@@ -96,6 +101,17 @@
      factory=".menu.WorkflowSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
+  <!-- calendar actions -->
+
+  <browser:menuItem
+     menu="sitting_actions"
+     for="bungeni.models.interfaces.IGroupSitting"
+     title="Schedule item"
+     action="./items/add"
+     icon="++resource++ui-images/icon_schedule_item.png"
+     permission="bungeni.calendar.ScheduleItem"
+     />
+  
   <!-- menu items -->
   
   <browser:menuItem

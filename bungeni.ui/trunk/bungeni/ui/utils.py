@@ -2,6 +2,16 @@
 
 import datetime
 
+def urljoin(base, action):
+    if action is None:
+        return
+    if action.startswith('http://') or action.startswith('https://'):
+        return action
+    if action.startswith('/'):
+        raise NotImplementedError(action)
+
+    return "/".join((base, action.lstrip('./')))
+
 def makeList( itemIds ):
 
     if type(itemIds) == ListType:

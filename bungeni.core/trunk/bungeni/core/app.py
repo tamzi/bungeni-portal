@@ -16,6 +16,9 @@ from ore.library.library import Library
 
 from bungeni.models import domain
 from bungeni.models import interfaces
+from bungeni.core import location
+
+_container_name_mapping = location.model_to_container_name_mapping
 
 class BungeniApp( Application ):
 
@@ -54,19 +57,19 @@ class AppSetup( object ):
         #self.context['governments'] = governments
         
         parliaments = domain.ParliamentContainer()
-        self.context['parliaments'] = parliaments
+        self.context[_container_name_mapping[domain.Parliament]] = parliaments
         
         #committees = domain.CommitteeContainer()
         #self.context['committees'] = committees
         
         bills = domain.BillContainer()
-        self.context['bills'] = bills
+        self.context[_container_name_mapping[domain.Bill]] = bills
         
         motions = domain.MotionContainer()
-        self.context['motions'] = motions
-        
+        self.context[_container_name_mapping[domain.Motion]] = motions
+
         questions = domain.QuestionContainer()
-        self.context['questions'] = questions
+        self.context[_container_name_mapping[domain.Question]] = questions
         
         #tableddocuments = domain.TabledDocumentContainer()        
         #self.context['tableddocuments'] = tableddocuments
@@ -74,40 +77,43 @@ class AppSetup( object ):
         #documentsources = domain.DocumentSourceContainer() 
         #self.context['documentsources'] = documentsources    
         
-        #users = domain.UsersContainer()
-        #self.context['users'] = users
-        
         agendaitems = domain.AgendaItemContainer()
-        self.context['agendaitems'] = agendaitems
-        
-        parliament_members = domain.ParliamentMemberContainer()
-        self.context['persons'] = parliament_members
+        self.context[_container_name_mapping[domain.AgendaItem]] = agendaitems
+
+        users = domain.UserContainer()
+        self.context[_container_name_mapping[domain.User]] = users
+
+        mps = domain.ParliamentMemberContainer()
+        self.context[_container_name_mapping[domain.ParliamentMember]] = mps
         
         staff_members = domain.StaffMemberContainer()
-        self.context['staff'] = staff_members        
+        self.context[_container_name_mapping[domain.StaffMember]] = staff_members
         
         #groups = domain.GroupContainer()       
         #self.context['groups'] = groups
         
         constituency = domain.ConstituencyContainer()
-        self.context['constituencies'] = constituency
+        self.context[_container_name_mapping[domain.Constituency]] = constituency
         
         provinces = domain.ProvinceContainer()
-        self.context['provinces'] = provinces
+        self.context[_container_name_mapping[domain.Province]] = provinces
         
         regions = domain.RegionContainer()
-        self.context['regions'] = regions
-        
+        self.context[_container_name_mapping[domain.Region]] = regions
+
         #ministries = domain.MinistryContainer()
         #self.context['ministries'] = ministries
         
         #parties = domain.PoliticalPartyContainer()
         #self.context['politicalparties'] = parties
-        
-        self.context['sessions'] = domain.ParliamentSessionContainer()
+
+        sessions = domain.ParliamentSessionContainer()
+        self.context[_container_name_mapping[domain.ParliamentSession]] = sessions
         
         countries = domain.CountryContainer()
-        self.context['countries'] = countries
+        self.context[_container_name_mapping[domain.Country]] = countries
+
+
         self.context['repository'] = Library( repository_storage )
 
         ##########

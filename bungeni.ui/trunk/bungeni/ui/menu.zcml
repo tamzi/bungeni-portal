@@ -47,7 +47,7 @@
      for="bungeni.models.domain.QuestionContainer"
      title="Add question..."
      action="/questions/add"
-     permission="bungeni.question.add"
+     permission="bungeni.question.Add"
      />
 
   <browser:menuItem
@@ -55,7 +55,7 @@
      for="bungeni.models.domain.Question"
      title="Add new question..."
      action="/questions/add"
-     permission="bungeni.question.add"
+     permission="bungeni.question.Add"
      />
 
   <browser:menuItem
@@ -63,7 +63,7 @@
      for="bungeni.models.domain.BillContainer"
      title="Add bill..."
      action="/bills/add"
-     permission="bungeni.bill.add"
+     permission="bungeni.bill.Add"
      />
 
   <browser:menuItem
@@ -71,7 +71,7 @@
      for="bungeni.models.domain.Bill"
      title="Add new bill..."
      action="/bills/add"
-     permission="bungeni.bill.add"
+     permission="bungeni.bill.Add"
      />
 
   <browser:menuItem
@@ -79,7 +79,7 @@
      for="bungeni.models.domain.MotionContainer"
      title="Add motion..."
      action="/motions/add"
-     permission="bungeni.motion.add"
+     permission="bungeni.motion.Add"
      />
 
   <browser:menuItem
@@ -87,7 +87,7 @@
      for="bungeni.models.domain.Motion"
      title="Add new motion..."
      action="/motions/add"
-     permission="bungeni.motion.add"
+     permission="bungeni.motion.Add"
      />
 
   <adapter

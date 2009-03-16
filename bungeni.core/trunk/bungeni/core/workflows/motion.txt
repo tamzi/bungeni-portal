@@ -418,7 +418,7 @@ Set up a user.
   
   >>> from bungeni.models.domain import Motion
   >>> motion = Motion()
-  >>> motion.title = u"My subject"
+  >>> motion.short_name = u"My subject"
   >>> motion.owner_id = user.user_id
   >>> motion.receive_notification = False
   

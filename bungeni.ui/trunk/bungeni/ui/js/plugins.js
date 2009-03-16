@@ -1,5 +1,29 @@
 (function($) {
   var re_time_range = /(.*) \((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
+
+  $.fn.bungeniPostWorkflowActionMenuItem = function() {
+    $(this).click(function() {
+        var url_parts = $(this).attr("href").split('?');
+        var url = url_parts[0];
+        var args = url_parts[1].split('=');
+        if (args[0] == 'transition') {
+          var transition_id = args[1];
+          
+          var input = $('<input type="hidden" name="transition"/>').
+            attr("value", transition_id);
+          
+          var form = $("<form/>").
+            attr("method", "POST").
+            attr("action", url).
+            appendTo(document.body);
+          
+          input.appendTo(form);
+          form.get(0).submit();
+          
+          return false;
+        }
+      });
+  };
   
   // when selecting an option on the format "Label
   // (start_time-end_time)", listen to the ``change`` event and

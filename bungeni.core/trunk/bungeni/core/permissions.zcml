@@ -10,6 +10,7 @@
     -->
       
   <permission id="bungeni.calendar.AddSitting" title="Add sitting" />
+  <permission id="bungeni.calendar.ScheduleItem" title="Schedule item" />
     
 
     <permission id="bungeni.question.Add" title="Add Question" />

@@ -190,7 +190,7 @@
     trigger="manual"
     source="motionstates.inadmissible"
     destination="motionstates.draft"
-    permission="bungeni.motion.Reintroduce"
+    permission="bungeni.motion.RevertTransitions"
     action=""
     condition=""
     event=""
@@ -277,7 +277,7 @@
     trigger="manual"
     source="motionstates.elapsed"
     destination="motionstates.admissible"
-    permission="bungeni.motion.Schedule"
+    permission="bungeni.motion.RevertTransitions"
     action="bungeni.core.workflows.motion.actions.approve"
     condition=""
   />  
@@ -423,7 +423,7 @@
     trigger="manual"
     source="motionstates.withdrawn"
     destination="motionstates.draft"
-    permission="bungeni.motion.Reintroduce"
+    permission="bungeni.motion.RevertTransitions"
     action=""
     condition=""
   />

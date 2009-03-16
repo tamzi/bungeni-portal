@@ -19,7 +19,6 @@ def make_changes_table( table, metadata ):
     
     changes_name = "%s_changes"%( entity_name )
     fk_id = "%s_id"%( entity_name )
-    #print entity_name, fk_id
     
     changes_table = rdb.Table(
             changes_name,
@@ -402,8 +401,10 @@ addresses = rdb.Table(
     "addresses",
     metadata,
     rdb.Column( "address_id", rdb.Integer, primary_key=True ),
-    rdb.Column( "role_title_id", rdb.Integer, rdb.ForeignKey('role_titles.role_title_id') ), # official address
-    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id') ), # personal address
+    # official address - only one official address is allowed per title
+    rdb.Column( "role_title_id", rdb.Integer, rdb.ForeignKey('role_titles.role_title_id'), unique=True ), 
+    # personal address, multiple addresses are allowed for a user
+    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id') ), 
     rdb.Column( "address_type_id", rdb.Integer, rdb.ForeignKey ( 'address_types.address_type_id') ),
     rdb.Column( "po_box", rdb.Unicode(40) ),
     rdb.Column( "address", rdb.Unicode(80) ),
@@ -461,14 +462,6 @@ parliament_sessions = rdb.Table(
    rdb.Column( "notes", rdb.UnicodeText )   
    )
 
-# sittings = rdb.Table(
-#    "sittings",
-#    metadata,
-#    rdb.Column( "sitting_id", rdb.Integer, primary_key=True ),
-#    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-#    rdb.Column( "start_date", rdb.DateTime),
-#    rdb.Column( "end_date", rdb.DateTime),   
-#    )
 
 sittings = rdb.Table(
    "group_sittings",
@@ -504,7 +497,8 @@ attendance_type = rdb.Table(
    rdb.Column ("attendance_id", rdb.Integer, primary_key=True ),
    rdb.Column ("attendance_type", rdb.Unicode(40), nullable=False ),
    )
-# 
+
+# debates? is this replaced by item_discussions?
 
 debates = rdb.Table(
     "debates",
@@ -517,10 +511,20 @@ debates = rdb.Table(
 
 # resources for sittings like rooms ...
 
+resource_types = rdb.Table(
+    "resource_types",
+    metadata,
+    rdb.Column( "resource_type_id", rdb.Integer, primary_key=True ),  
+    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),      
+    )
+
 resources = rdb.Table(
     "resources",
     metadata,
     rdb.Column( "resource_id", rdb.Integer, primary_key=True ),  
+    rdb.Column( "resource_type_id", rdb.Integer, 
+            rdb.ForeignKey('resource_types.resource_type_id'),
+            nullable=False),
     rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),      
     rdb.Column( "description", rdb.UnicodeText ),    
     )
@@ -544,7 +548,9 @@ item_votes = rdb.Table(
    'item_votes',
    metadata,
    rdb.Column( "vote_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "item_id", rdb.Integer, nullable=False ),
+   rdb.Column( "item_id", rdb.Integer,
+            rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
+            nullable=False ),
    rdb.Column( "date", rdb.Date ),
 #   rdb.Column( "division_p",  rdb.Boolean ), # isn't a division implied by the vote?
    rdb.Column( "affirmative_votes", rdb.Integer),
@@ -566,10 +572,22 @@ items_schedule = rdb.Table(
    rdb.Column( "schedule_id", rdb.Integer, primary_key=True ),
    rdb.Column( "item_id",  rdb.Integer,  rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), nullable=False ),
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False ),
-   rdb.Column( "order", rdb.Integer ),
+   rdb.Column( "planned_order", rdb.Integer ),
+   rdb.Column( "real_order", rdb.Integer ),   
    rdb.Column( "active", rdb.Boolean, default=True ), # item is scheduled for this sitting
    rdb.Column( "status", rdb.Unicode(64),) #workflow status of the item for this schedule
    )
+
+# to produce the proceedings:
+# capture the discussion on this item
+
+item_discussion = rdb.Table(
+    "item_discussion",
+    metadata,
+    rdb.Column( "schedule_id", rdb.Integer, rdb.ForeignKey('items_schedule.schedule_id'), primary_key=True),
+    rdb.Column( "body_text", rdb.UnicodeText),
+    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
+    )
 
 # generic subscriptions, to any type
 subscriptions = rdb.Table(
@@ -610,9 +628,6 @@ parliamentary_items = rdb.Table(
     # type for polymorphic_identity    
     rdb.Column( "type", rdb.String(30),  nullable=False ),
     )
-
-#parliamentary_item_changes = make_changes_table( parliamentary_items, metadata )
-#parliamentary_item_versions = make_versions_table( parliamentary_items, metadata )
 
 #Agenda Items:
 # generic items to be put on the agenda
@@ -666,9 +681,6 @@ questions = rdb.Table(
 
 question_changes = make_changes_table( questions, metadata )
 question_versions = make_versions_table( questions, metadata, parliamentary_items )
-
-#print 'change', repr(question_changes.c.question_id)
-#print 'version', repr(question_versions.c.question_id)
 
 
 responses = rdb.Table(
@@ -803,9 +815,6 @@ event_items = rdb.Table(
                 rdb.ForeignKey('parliamentary_items.parliamentary_item_id'),
                 nullable=True ),
 #   rdb.Column( "document_id", rdb.Integer,  rdb.ForeignKey('tabled_documents.tabled_document_id'), nullable=True, ),
-#   rdb.Column( "title", rdb.Unicode(80), nullable = False ),
-#   rdb.Column( "summary", rdb.UnicodeText ),   
-#   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
    rdb.Column( "event_date", rdb.Date ),
    )
 

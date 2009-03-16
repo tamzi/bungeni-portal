@@ -97,18 +97,26 @@ meeting of the group by the system.
   >>> session.flush()   
  
  
+  >>> rt = domain.ResourceType()
+  >>> rt.short_name = u"type of resource"
+  >>> session.add(rt)
+  >>> session.flush()
+ 
   >>> r1 = domain.Resource()
   >>> r1.short_name = u"resource 1"
+  >>> r1.resource_type_id = rt.resource_type_id
   >>> session.add(r1)
   >>> session.flush()
  
   >>> r2 = domain.Resource()
   >>> r2.short_name = u"resource 2"
+  >>> r2.resource_type_id = rt.resource_type_id  
   >>> session.add(r2)
   >>> session.flush()
   
   >>> r3 = domain.Resource()
   >>> r3.short_name = u"resource 3"
+  >>> r3.resource_type_id = rt.resource_type_id  
   >>> session.add(r3)
   >>> session.flush()      
 

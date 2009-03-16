@@ -332,6 +332,7 @@ mapper( domain.GroupSitting, schema.sittings,
                 domain.SittingType, uselist=False)
             })
 
+mapper( domain.ResourceType, schema.resource_types )
 mapper( domain.Resource, schema.resources )
 mapper( domain.ResourceBooking, schema.resourcebookings)
 

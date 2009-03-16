@@ -11,7 +11,6 @@ import md5, random, string
 
 from zope import interface, location, component
 from ore.alchemist import model, Session
-from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.traversal.managed import one2many
 
 import files
@@ -340,9 +339,6 @@ class ParliamentaryItem( Entity ):
     # versions
 
     
-    @property
-    def workflow( self ):
-        return component.getAdapter( self, IWorkflowInfo )
 
 #ParliamentaryItemChange = ItemLog.makeLogFactory( "ParliamentaryItemChange")
 #ParliamentaryItemVersions = ItemVersions.makeVersionFactory("ParliamentaryItemVersion")

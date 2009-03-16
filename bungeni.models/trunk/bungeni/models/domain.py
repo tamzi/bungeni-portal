@@ -590,6 +590,8 @@ class ResourceBooking ( object ):
     """
     assign a resource to a sitting
     """
-    
+class ResourceType(object):
+    """ A Type of resource"""
+        
            
     

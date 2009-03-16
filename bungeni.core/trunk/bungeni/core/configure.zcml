@@ -92,7 +92,15 @@
   <class class="bungeni.models.domain.ParliamentaryItem">
     <implements interface=".interfaces.IVersionable" />
   </class-->
-  
+
+  <class class=".app.BungeniApp">
+    <implements interface=".interfaces.IParliamentaryItemsContainerContext" />
+  </class>
+
+  <class class="bungeni.models.domain.Parliament">
+    <implements interface=".interfaces.IParliamentaryItemsContainerContext" />
+  </class>
+
   <class class="bungeni.models.domain.Question">
     <implements interface=".interfaces.IVersionable
                             ore.xapian.interfaces.IIndexable
@@ -176,5 +184,10 @@
   <adapter factory=".dc.BillDescriptiveProperties" />
   <adapter factory=".dc.QuestionDescriptiveProperties" />
   <adapter factory=".dc.MotionDescriptiveProperties" />
+
+  <!-- location -->
+
+  <adapter factory=".location.get_location_from_parent" />
+  <adapter factory=".location.get_location_from_container" />
   
 </configure>

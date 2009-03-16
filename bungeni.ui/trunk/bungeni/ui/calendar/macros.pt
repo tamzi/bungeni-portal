@@ -62,12 +62,13 @@
                     </li>
                   </ul>
 
-                  <span class="sitting-type"
+                  <span class="sitting-type" 
                         tal:content="sitting/record/type/sitting_type" />
                   
-                  <div tal:define="items sitting/record/items"
-                       tal:repeat="item python: items.values()">
-                    id: <span tal:replace="item/schedule_id" />
+                  <div tal:repeat="item sitting/items">
+                    <a tal:attributes="href item/url;
+                                       title item/description"
+                       tal:content="item/title" />
                   </div>
                 </tal:sitting>
               </td>

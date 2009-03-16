@@ -3,7 +3,6 @@ from datetime import timedelta
 
 from zope import interface
 from zope import component
-from zope import schema
 
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
@@ -13,13 +12,11 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
 
-from zc.resourcelibrary import need
-
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
-from bungeni.ui.proxy import ShortNameProxy
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
+from bungeni.core.location import location_wrapped
 
 def get_sitting_actions(sitting, request):
     menu = component.getUtility(IBrowserMenu, "sitting_actions")
@@ -27,29 +24,46 @@ def get_sitting_actions(sitting, request):
 
     site_url = absoluteURL(getSite(), request)
     url = absoluteURL(sitting, request)
-
+    
     return [{
         'url': urljoin(url, item['action']),
         'title': item['title'],
         'description': item['description'],
-        'icon': urljoin(site_url, item['icon'])} for item in items]
-    
+        'icon': urljoin(site_url, item['icon'])} for item in items
+            ]
+
+def get_sitting_items(sitting, request):
+    items = []
+
+    for scheduling in sitting.items.values():
+        item = location_wrapped(scheduling.item, sitting)
+       
+        props = IDCDescriptiveProperties.providedBy(item) and item or \
+                IDCDescriptiveProperties(item)
+        
+        items.append({
+            'title': props.title,
+            'description': props.description,
+            'url': absoluteURL(item, request)})
+
+    return items
+
 def create_sittings_map(sittings, request):
     """Returns a dictionary that maps:
 
       (day, hour) -> {
-         record  : sitting database record
-         actions : actions that apply to this sitting
-         class   : 'sitting'
-         span    : span
+         'record'   : sitting database record
+         'actions'  : actions that apply to this sitting
+         'class'    : sitting
+         'span'     : span
          }
          
       (day, hour) -> ``None``
-
+      
     If the mapped value is a sitting, then a sitting begins on that
     day and hour, if it's ``None``, then a sitting is reaching into
     this day and hour.
-
+    
     The utility of the returned structure is to aid rendering a
     template with columns spanning several rows.
     """
@@ -59,12 +73,13 @@ def create_sittings_map(sittings, request):
         day = sitting.start_date.weekday()
         hour = sitting.start_date.hour
         mapping[day, hour] = {
+            'items': get_sitting_items(sitting, request),
             'record': sitting,
             'class': u"sitting",
             'actions': get_sitting_actions(sitting, request),
             'span': sitting.end_date.hour - sitting.start_date.hour
-            }
-
+        }
+        
         # make sure start- and end-date is the same year
         assert (sitting.start_date.day == sitting.end_date.day) and \
                (sitting.start_date.month == sitting.end_date.month) and \

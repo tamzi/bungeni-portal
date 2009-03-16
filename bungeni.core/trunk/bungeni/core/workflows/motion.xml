@@ -31,7 +31,9 @@
   </state>
 
   <state id="motionstates.admissible" title="Motion admissible">  
-      <grant permission="bungeni.motion.View" role="bungeni.Everybody" />         
+    <grant permission="bungeni.motion.View" role="bungeni.Everybody" />   
+    <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.motion.View" role="bungeni.Speaker" />             
   </state>    
 
   <state id="motionstates.inadmissible" title="Motion inadmissible">     
@@ -181,6 +183,20 @@
     condition=""
     event="bungeni.core.workflows.interfaces.IMotionRejectedEvent"
   />
+  
+  <transition
+    id="redraft-inadmissible"
+    title="Redraft rejected"
+    trigger="manual"
+    source="motionstates.inadmissible"
+    destination="motionstates.draft"
+    permission="bungeni.motion.Reintroduce"
+    action=""
+    condition=""
+    event=""
+  />
+
+  
   <transition
     id="require-amendment"
     title="Needs Clarification"
@@ -254,6 +270,18 @@
     action="bungeni.core.workflows.motion.actions.elapse"
     condition=""
   />
+
+  <transition
+    id="re-admit-elapsed"
+    title="Readmit elpapsed"
+    trigger="manual"
+    source="motionstates.elapsed"
+    destination="motionstates.admissible"
+    permission="bungeni.motion.Schedule"
+    action="bungeni.core.workflows.motion.actions.approve"
+    condition=""
+  />  
+  
   <transition
     id="schedule-deferred"
     title="Schedule"
@@ -388,5 +416,17 @@
     action="bungeni.core.workflows.motion.actions.withdraw"
     condition=""
   />
+  
+  <transition
+    id="redraft-withdrawn"
+    title="Redraft withdrawn"
+    trigger="manual"
+    source="motionstates.withdrawn"
+    destination="motionstates.draft"
+    permission="bungeni.motion.Reintroduce"
+    action=""
+    condition=""
+  />
+  
   
 </workflow>    

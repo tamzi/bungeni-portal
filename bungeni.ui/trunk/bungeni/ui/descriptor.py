@@ -1219,8 +1219,26 @@ class TabledDocumentDescriptor( ModelDescriptor):
     
     ]
 
-
-
 class ItemScheduleDescriptor(ModelDescriptor):
-    pass
+    display_name =_(u"Item scheduling")
+    container_name =_(u"Item schedulings")
+
+    fields = [
+        dict( name="sitting_id", omit=True ),
+        dict( name="schedule_id", omit=True ),
+        dict( name="item_id", 
+              property = schema.Choice(
+                  title=_(u"Item"),
+                  source=DatabaseSource(
+                      domain.ParliamentaryItem,
+                      token_field='parliamentary_item_id',
+                      value_field = 'parliamentary_item_id',
+                      title_getter=lambda obj: "%s - %s" % (type(obj).__name__, obj.short_name),
+
+                      )
+                  ),
+              listing = False,
+              ),        
+        ]
+
 

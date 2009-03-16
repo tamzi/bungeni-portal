@@ -74,5 +74,9 @@
        provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
        factory="bungeni.ui.adaptors.BillAnnotationAdaptor"
        />
+
+   <browser:resourceDirectory
+      name="ui-images"
+      directory="images" />
    
 </configure>

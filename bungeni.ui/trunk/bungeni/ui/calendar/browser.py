@@ -9,6 +9,9 @@ from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.app.publisher.interfaces.browser import IBrowserMenu
+from zope.traversing.browser import absoluteURL
+from zope.app.component.hooks import getSite
 
 from zc.resourcelibrary import need
 
@@ -16,12 +19,27 @@ from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
 from bungeni.ui.proxy import ShortNameProxy
 from bungeni.ui.i18n import _
+from bungeni.ui.utils import urljoin
 
-def create_sittings_map(sittings):
+def get_sitting_actions(sitting, request):
+    menu = component.getUtility(IBrowserMenu, "sitting_actions")
+    items = menu.getMenuItems(sitting, request)
+
+    site_url = absoluteURL(getSite(), request)
+    url = absoluteURL(sitting, request)
+
+    return [{
+        'url': urljoin(url, item['action']),
+        'title': item['title'],
+        'description': item['description'],
+        'icon': urljoin(site_url, item['icon'])} for item in items]
+    
+def create_sittings_map(sittings, request):
     """Returns a dictionary that maps:
 
       (day, hour) -> {
          record  : sitting database record
+         actions : actions that apply to this sitting
          class   : 'sitting'
          span    : span
          }
@@ -43,6 +61,7 @@ def create_sittings_map(sittings):
         mapping[day, hour] = {
             'record': sitting,
             'class': u"sitting",
+            'actions': get_sitting_actions(sitting, request),
             'span': sitting.end_date.hour - sitting.start_date.hour
             }
 
@@ -138,7 +157,7 @@ class CalendarView(BrowserView):
                 'next_month': "%s?timestamp=%s" % (
                     calendar_url, (date + timedelta(days=32)).totimestamp()),
                 },
-            sittings_map = create_sittings_map(sittings),
+            sittings_map = create_sittings_map(sittings, self.request),
             )
 
     @property

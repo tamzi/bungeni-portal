@@ -8,9 +8,9 @@
   
   <class class=".domain.Bill">
     <require permission="zope.Public" attributes="files"/>
-    <require permission="bungeni.bill.view"
+    <require permission="bungeni.bill.View"
              interface=".interfaces.IBill" />
-    <require permission="bungeni.bill.edit"
+    <require permission="bungeni.bill.Edit"
              set_schema=".interfaces.IBill" />    
   </class>
   
@@ -19,16 +19,16 @@
   </class>    
 
   <class class=".domain.Question">
-    <require permission="bungeni.question.view"
+    <require permission="bungeni.question.View"
              interface=".interfaces.IQuestion" />
-    <require permission="bungeni.question.edit"
+    <require permission="bungeni.question.Edit"
              set_schema=".interfaces.IQuestion" />
   </class>             
 
   <class class=".domain.Motion">
-    <require permission="bungeni.motion.view"
+    <require permission="bungeni.motion.View"
              interface=".interfaces.IMotion" />
-    <require permission="bungeni.motion.edit"
+    <require permission="bungeni.motion.Edit"
              set_schema=".interfaces.IMotion" />
   </class>             
 

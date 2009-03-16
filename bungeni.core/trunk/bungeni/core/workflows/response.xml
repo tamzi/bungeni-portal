@@ -44,6 +44,19 @@
      event="bungeni.core.workflows.interfaces.IResponseSubmittedEvent"
      />
 
+  <transition
+     id="re-draft"
+     title="Re draft response"
+     trigger="manual"
+     source="responsestates.submitted"     
+     destination="responsestates.draft"
+     permission="bungeni.response.RevertTransitions" 
+     condition=""
+     action=""
+     event=""
+     />    
+
+
   <transition 
      id="complete"
      title="Complete Response"

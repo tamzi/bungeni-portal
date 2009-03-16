@@ -97,7 +97,8 @@ def submitResponse( info, context ):
 
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
-    IWorkflowInfo(question).fireTransitionToward(u"questionstates.responded")
+    if (question.status != u"questionstates.responded"):
+        IWorkflowInfo(question).fireTransitionToward(u"questionstates.responded")
      
 
 def publishResponse( info, context ):
@@ -122,7 +123,8 @@ def resonse_allow_submit(info, context):
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
     if ((question.status == u"questionstates.response_pending")
-        or (question.status ==  u"questionstates.scheduled")):
+        or (question.status ==  u"questionstates.scheduled")
+        or (question.status == u"questionstates.responded")):
         return True
     else:
         return False        

@@ -29,9 +29,9 @@
   </state>
     
 
-  <state id="billstates.second_reading_pending" title="second reading pending">
+  <!--state id="billstates.second_reading_pending" title="second reading pending">
 
-  </state>
+  </state-->
     
 
   <state id="billstates.second_reading" title="second reading">
@@ -44,9 +44,9 @@
   </state>
     
 
-  <state id="billstates.house_pending" title="house pending">
+  <!--state id="billstates.house_pending" title="house pending">
   
-  </state>
+  </state-->
     
 
   <state id="billstates.whole_house" title="whole house">
@@ -64,9 +64,9 @@
   </state>
     
 
-  <state id="billstates.report_reading_pending" title="report reading pending">
+  <!--state id="billstates.report_reading_pending" title="report reading pending">
  
-  </state>
+  </state-->
     
 
   <state id="billstates.report_reading" title="report reading">
@@ -79,9 +79,9 @@
   </state>
     
 
-  <state id="billstates.third_reading_pending" title="third reading pending">
+  <!--state id="billstates.third_reading_pending" title="third reading pending">
    
-  </state>
+  </state-->
     
 
   <state id="billstates.third_reading" title="third reading">
@@ -169,17 +169,29 @@
     action=""
     condition=""
 />
+
+<transition
+    id="resend-first-reading-from-committee"
+    title="Back to first reading"
+    trigger="manual"
+    source="billstates.first_committee"
+    destination="billstates.first_reading"
+    permission="bungeni.bill.RevertTransitions"
+    action=""
+    condition=""
+/>
+
 <transition
     id="schedule-second-from-first-committee"
     title="Second Reading schedule"
     trigger="manual"
     source="billstates.first_committee"
-    destination="billstates.second_reading_pending"
+    destination="billstates.second_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
 />
-<transition
+<!--transition
     id="schedule-second"
     title="Schedule Second Reading"
     trigger="manual"
@@ -188,17 +200,30 @@
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
-/>
+/-->
 <transition
-    id="ma-schedule-second"
+    id="schedule-second"
     title="Schedule Second Reading"
     trigger="manual"
     source="billstates.first_reading"
-    destination="billstates.second_reading_pending"
+    destination="billstates.second_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
 />
+
+<transition
+    id="resend-first-schedule-second"
+    title="Schedule Second Reading"
+    trigger="manual"
+    source="billstates.second_reading"
+    destination="billstates.first_reading"
+    permission="bungeni.bill.RevertTransitions"
+    action=""
+    condition=""
+/>
+
+
 <transition
     id="postpone-second"
     title="Postpone Second Reading"
@@ -220,16 +245,28 @@
     condition=""
 />
 <transition
-    id="ma-schedule-whole-house"
+    id="schedule-whole-house"
     title="Schedule Whole House Committee"
     trigger="manual"
     source="billstates.second_reading"
-    destination="billstates.house_pending"
+    destination="billstates.whole_house"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
 />
+
 <transition
+    id="resend-second-reading-from-whole-house"
+    title="Resend Second Reading"
+    trigger="manual"
+    source="billstates.whole_house"
+    destination="billstates.second_reading"
+    permission="bungeni.bill.RevertTransitions"
+    action=""
+    condition=""
+/>
+
+<!--transition
     id="schedule-whole-house"
     title="Do Schedule Whole House Committee"
     trigger="manual"
@@ -238,7 +275,7 @@
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
-/>
+/-->
 <transition
     id="postpone-whole-house"
     title="Postpone Whole House Committee"
@@ -279,17 +316,29 @@
     action=""
     condition=""
 />
+
 <transition
-    id="ma-schedule-second-report-reading"
+    id="resend-whole-house-from-second-committee"
+    title="Resend to whole house"
+    trigger="manual"
+    source="billstates.second_committee"
+    destination="billstates.whole_house"
+    permission="bungeni.bill.RevertTransitions"
+    action=""
+    condition=""
+/>
+
+<transition
+    id="schedule-second-report-reading"
     title="Schedule Report Reading"
     trigger="manual"
     source="billstates.second_committee"
-    destination="billstates.report_reading_pending"
+    destination="billstates.report_reading"
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
 />
-<transition
+<!--transition
     id="schedule-second-report-reading"
     title="Schedule Report Reading"
     trigger="manual"
@@ -298,7 +347,7 @@
     permission="bungeni.bill.SelectCommittee"
     action=""
     condition=""
-/>
+/-->
 <transition
     id="postpone-second-report-reading"
     title="Postpone Report Reading"
@@ -320,16 +369,16 @@
     condition=""
 />
 <transition
-    id="ma-second-committee-schedule-third-reading"
+    id="second-committee-schedule-third-reading"
     title="Schedule Third Reading"
     trigger="manual"
     source="billstates.report_reading"
-    destination="billstates.third_reading_pending"
+    destination="billstates.third_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
 />
-<transition
+<!--transition
     id="second-committee-schedule-third-reading"
     title="Schedule Third Reading"
     trigger="manual"
@@ -338,7 +387,7 @@
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
-/>
+/-->
 <transition
     id="recommit-second-committee"
     title="Recommit to 2nd Committee"
@@ -350,15 +399,27 @@
     condition=""
 />
 <transition
-    id="ma-schedule-third-reading"
+    id="schedule-third-reading"
     title="Schedule Third Reading"
     trigger="manual"
     source="billstates.whole_house"
-    destination="billstates.third_reading_pending"
+    destination="billstates.third_reading"
     permission="bungeni.bill.Schedule"
     action=""
     condition=""
 />
+
+<transition
+    id="resend-whole-house-from-third-reading"
+    title="Resend to whole house"
+    trigger="manual"
+    source="billstates.third_reading"
+    destination="billstates.whole_house"
+    permission="bungeni.bill.RevertTransitions"
+    action=""
+    condition=""
+/>
+
 <transition
     id="postpone-third-reading"
     title="Postpone Third Reading"
@@ -379,6 +440,7 @@
     action=""
     condition=""
 />
+
 <transition
     id="reject"
     title="Rejected"
@@ -449,6 +511,7 @@
     action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
+
 <transition
     id="withdraw-second-committee"
     title="Withdraw"
@@ -459,6 +522,7 @@
     action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
+
 <transition
     id="withdraw-report-reading"
     title="Withdraw"
@@ -469,6 +533,7 @@
     action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
+
 <transition
     id="withdraw-third-reading"
     title="Withdraw"
@@ -479,6 +544,18 @@
     action="bungeni.core.workflows.bill.actions.withdraw"
     condition=""
 />
+
+<transition
+    id="reintroduce-withdrawn"
+    title="Redraft withdrawn"
+    trigger="manual"
+    source="billstates.withdrawn"
+    destination="billstates.draft"
+    permission="bungeni.bill.RevertTransitions"
+    action=""
+    condition=""
+/>
+
   
 </workflow>  
 

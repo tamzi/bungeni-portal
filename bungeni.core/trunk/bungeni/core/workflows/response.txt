@@ -123,7 +123,7 @@ The ministry sends the answer to the clerks office
   >>> IWorkflowInfo(response).fireTransition(u'submit')
   
   >>> transitions(response)
-   (u'complete',)
+  (u're-draft', u'complete')
 
   >>> session.flush()
 
@@ -131,6 +131,19 @@ submitting the response triggers a workflow transition of the question
 
   >>> transitions(question)
   (u'answer',)
+
+the response may be sent back to the ministry:
+
+  >>> IWorkflowInfo(response).fireTransition(u're-draft')
+  
+  >>> transitions(response)
+  (u'submit',)
+
+and then be resubmitted:
+  >>> IWorkflowInfo(response).fireTransition(u'submit')
+  
+  >>> transitions(response)
+  (u're-draft', u'complete')
 
 The response is reviewed by the clerk and published
 

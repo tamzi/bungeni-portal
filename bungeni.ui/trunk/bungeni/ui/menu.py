@@ -3,7 +3,7 @@ from zope import component
 
 from z3c.menu.ready2go import item
 
-from zope.component.exceptions import ComponentLookupError
+from zope.component.interfaces import ComponentLookupError
 from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu

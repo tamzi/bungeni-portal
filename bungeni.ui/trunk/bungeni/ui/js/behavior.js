@@ -11,6 +11,23 @@
       // set up time range form automation
       $("select").bungeniTimeRangeSelect();
 
-      // set up 
+      // set up calendar resizing
+      $("#calendar-table").bungeniSafeResize();
+
+      // set up calendar item scheduling (drag and drop)
+      $("#items-for-scheduling tbody tr").draggable({
+        cursor: 'move',
+            cursorAt: { left: 5 },
+            helper: function() {
+            var title = $(this).children().eq(1).text();
+            var helper = $('<div class="helper" />');
+            helper.text(title);
+            return helper;
+          },
+        });
+    
+      // set up calendar ajax
+      $('#weekly-calendar').bungeniCalendarInteractivity();
+
     });
  })(jQuery);

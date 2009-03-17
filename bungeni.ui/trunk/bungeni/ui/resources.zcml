@@ -31,5 +31,54 @@
      weight="15"
      />
 
-  
+  <browser:viewlet
+     name="jquery-core"
+     for="*"
+     class=".js.Core"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="15"
+     />
+
+  <browser:viewlet
+     name="jquery-draggable"
+     for="*"
+     class=".js.Draggable"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="20"
+     />  
+
+  <browser:viewlet
+     name="jquery-resizable"
+     for="*"
+     class=".js.Resizable"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="25"
+     />
+
+  <browser:viewlet
+     name="jquery-droppable"
+     for="*"
+     class=".js.Droppable"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="25"
+     />
+
+  <browser:viewlet
+     name="jquery-form"
+     for="*"
+     class=".js.Form"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="25"
+     />
+
 </configure>

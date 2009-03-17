@@ -37,7 +37,9 @@
 		    	<xsl:attribute name="{name(.)}">
 		        	<xsl:value-of select="."/>
 		        </xsl:attribute>
-		    </xsl:for-each>
+			</xsl:for-each>
+           <!-- <xsl:attribute xmlns:saxon="http://saxon.sf.net/" name="linenumber" select="saxon:line-number(.)" />
+            <xsl:attribute xmlns:saxon="http://saxon.sf.net/" name="columnnumber" select="saxon:column-number(.)" /> -->
             <xsl:for-each select="//style:*[@style:name=$stylename]//*/@*[contains(name(),'Bungeni')]">
                 <xsl:attribute name="{node-name(.)}">
                     <xsl:value-of select="."/>

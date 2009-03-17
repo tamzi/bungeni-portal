@@ -5,6 +5,8 @@
            xmlns:xapian="http://namespaces.objectrealms.net/xapian"
            i18n_domain="bungeni">
 
+  <include package="alchemist.catalyst" />
+  
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
   <include package="ore.library" />
@@ -189,5 +191,5 @@
 
   <adapter factory=".location.get_location_from_parent" />
   <adapter factory=".location.get_location_from_container" />
-  
+
 </configure>

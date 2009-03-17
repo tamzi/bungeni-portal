@@ -1,6 +1,70 @@
 (function($) {
   var re_time_range = /(.*) \((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
+  
+  $.fn.bungeniCalendarInteractivity = function() {
+    var calendar = $(this);
+    var selector = '#'+calendar.attr('id');
+    
+    calendar.find("td.sitting")
+    .droppable({
+      accept: "*",
+          })
+    .bind('drop', function(droppable) {
+        var id = $(this).find("a[relation=id]");
+        var target = $(droppable.target);
+        var link = target.find("a[relation=schedule-item]");
+        var url = link.attr('href');
 
+        $.post(url, {item_id: id}, function(data, status) {
+            console.log(data);
+          });
+      });
+
+    calendar.find("thead a")
+    .click(function() {
+        $.get($(this).attr('href'), {}, function(data, status) {
+            var old_tables = calendar.find("table");
+            var new_tables = $(data).find(selector).find("table");
+            
+            old_tables.eq(0).replaceWith(new_tables.eq(0));
+            old_tables.eq(1).replaceWith(new_tables.eq(1));
+
+            calendar.bungeniCalendarInteractivity();
+          });
+        return false;
+      });
+  }
+  
+  $.fn.bungeniSafeResize = function() {
+    $.each($(this), function(i, o) {
+        var table = $(o);
+        if (table) {
+          var wrapper = $('<div id="calendar-table-resize-wrapper" />');
+          table.wrap(wrapper);
+          wrapper = table.parents("#calendar-table-resize-wrapper");
+          
+          wrapper
+            .resizable({
+              helper: "resize-proxy",
+                  handles: "s",
+                  });
+          
+          wrapper.bind("resizestop", function(event, ui) {
+              var height = wrapper.height();
+              table.css("height", height+"px");
+            });
+        }
+      });
+  };
+  
+  $.fn.bungeniCalendarSittingsDragAndDrop = function(sittings) {
+    $.each($(this), function(i, o) {
+        var id = $(o).attr('id');
+        var dd = new YAHOO.util.DDProxy(id);
+
+      });
+  };
+  
   $.fn.bungeniPostWorkflowActionMenuItem = function() {
     $(this).click(function() {
         var url_parts = $(this).attr("href").split('?');

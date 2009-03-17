@@ -32,7 +32,7 @@
     
 	<xsl:template match="*">
         <xsl:element name="{node-name(.)}">
-        	<xsl:variable name="stylename" select="@text:style-name" />
+            <xsl:variable name="stylename" select="@text:style-name" />
 			<xsl:for-each select="@*">
 		    	<xsl:attribute name="{name(.)}">
 		        	<xsl:value-of select="."/>

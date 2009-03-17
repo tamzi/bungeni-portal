@@ -92,8 +92,8 @@
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniExpAuthor']}" href="{//meta:user-defined[@meta:name='BungeniExpAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniManAuthor']}" href="{//meta:user-defined[@meta:name='BungeniManAuthorURI']}" showAs="Author"/>
                 <xsl:for-each select="//*[@BungeniSectionType='Speech']">
-                   <!-- <meta name="TLCPerson" id="{@BungeniPersonID}" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> -->
-                    <meta name="TLCPerson" id="aperson" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> 
+                    <meta name="TLCPerson" id="{@BungeniPersonID}" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> 
+                   <!-- <meta name="TLCPerson" id="aperson" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> -->
                 </xsl:for-each>
             </mcontainer>
         </mcontainer>

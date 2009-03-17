@@ -468,9 +468,15 @@ sittings = rdb.Table(
    metadata,
    rdb.Column( "sitting_id", rdb.Integer,  primary_key=True),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
+   rdb.Column( "short_name", rdb.Unicode(32) ),
    rdb.Column( "start_date", rdb.DateTime( timezone=False ), nullable=False),
    rdb.Column( "end_date", rdb.DateTime( timezone=False ), nullable=False), 
    rdb.Column( "sitting_type_id", rdb.Integer, rdb.ForeignKey('sitting_type.sitting_type_id')),
+   # if a sitting is recurring this is the id of the original sitting
+   # there is no foreign key to the original sitting
+   # like rdb.ForeignKey('group_sittings.sitting_id')
+   # to make it possible to delete the original sitting
+   rdb.Column( "recurring_id", rdb.Integer ),
    )   
 
 sitting_type = rdb.Table(
@@ -561,8 +567,14 @@ item_votes = rdb.Table(
 item_member_votes = rdb.Table(
    "item_member_votes",
    metadata,
-   rdb.Column( "vote_id", rdb.Integer, rdb.ForeignKey('item_votes') ),
-   rdb.Column( "member_id",  rdb.Integer, rdb.ForeignKey('users.user_id') ),
+   rdb.Column( "vote_id", rdb.Integer, 
+                rdb.ForeignKey('item_votes'), 
+                primary_key=True,
+                nullable=False ),
+   rdb.Column( "member_id",  rdb.Integer, 
+                rdb.ForeignKey('users.user_id'), 
+                primary_key=True,
+                nullable=False  ),
    rdb.Column( "vote",  rdb.Boolean,),
    )
 
@@ -570,12 +582,19 @@ items_schedule = rdb.Table(
    "items_schedule",
    metadata,
    rdb.Column( "schedule_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "item_id",  rdb.Integer,  rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), nullable=False ),
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False ),
+   rdb.Column( "item_id",  rdb.Integer,  
+            rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
+            nullable=False ),
+   rdb.Column( "sitting_id", rdb.Integer, 
+            rdb.ForeignKey('group_sittings.sitting_id'), 
+            nullable=False ),
    rdb.Column( "planned_order", rdb.Integer ),
    rdb.Column( "real_order", rdb.Integer ),   
-   rdb.Column( "active", rdb.Boolean, default=True ), # item is scheduled for this sitting
-   rdb.Column( "status", rdb.Unicode(64),) #workflow status of the item for this schedule
+   # item was discussed on this sitting sitting
+   rdb.Column( "active", rdb.Boolean, default=True ), 
+   #workflow status of the item for this schedule
+   #NOT workflow status of this item_schedule!
+   rdb.Column( "item_status", rdb.Unicode(64),) 
    )
 
 # to produce the proceedings:
@@ -586,7 +605,7 @@ item_discussion = rdb.Table(
     metadata,
     rdb.Column( "schedule_id", rdb.Integer, rdb.ForeignKey('items_schedule.schedule_id'), primary_key=True),
     rdb.Column( "body_text", rdb.UnicodeText),
-    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
+    rdb.Column( "sitting_time", rdb.Time( timezone=False ) ),
     )
 
 # generic subscriptions, to any type
@@ -629,7 +648,7 @@ parliamentary_items = rdb.Table(
     rdb.Column( "type", rdb.String(30),  nullable=False ),
     )
 
-#Agenda Items:
+# Agenda Items:
 # generic items to be put on the agenda
 # they can be scheduled for a sitting
 
@@ -666,17 +685,6 @@ questions = rdb.Table(
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id')), 
    
    )
-
-
-# if a scheduled question gets postponed we need to capture the sitting
-# and implicitly the date it was scheduled
-#question_schedules = rdb.Table(
-#    "question_schedules",
-#    metadata,
-#    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False, primary_key=True ),
-#    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False, primary_key=True  ),
-#    )
-
 
 
 question_changes = make_changes_table( questions, metadata )

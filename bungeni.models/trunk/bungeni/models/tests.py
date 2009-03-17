@@ -91,7 +91,6 @@ def test_suite():
                                               optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS )
         test_suites.append( test_suite )
             
-    #test_suites.append( file_tests() )
     test_suites.append( assignment_tests() )
     
     return unittest.TestSuite( test_suites )

@@ -1,7 +1,30 @@
-#weekly-calendar table {
-  width: 100%;
+.resize-proxy {
+  border-bottom: 10px solid #8CACBB;
 }
 
+#calendar-table {
+  height: 300px;
+  overflow: auto;
+  overflow-y: scroll;
+}
+
+#calendar-table {
+  border-bottom: 1px solid #8CACBB;
+  border-left: 1px solid #8CACBB;
+  border-right: 1px solid #8CACBB;
+}
+
+#weekly-calendar {
+  margin-bottom: 1em;
+}
+
+#weekly-calendar table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+  
 #weekly-calendar table th {
   text-align: center;
 }
@@ -9,6 +32,10 @@
 #weekly-calendar table td.hour {
   text-align: center;
   font-weight: bold;
+}
+
+#weekly-calendar table td {
+  vertical-align: top;
 }
 
 #weekly-calendar thead td a.previous-link {
@@ -25,4 +52,19 @@
 
 #weekly-calendar td.sitting {
   background: yellow;
+}
+
+#weekly-calendar td.sitting ul.actions {
+  list-style: none;
+  
+}
+
+#weekly-calendar td.sitting ul.actions li {
+  float: right;
+  margin: 0;
+  padding: 0;
+}
+
+#weekly-calendar td.sitting ul.actions a {
+
 }

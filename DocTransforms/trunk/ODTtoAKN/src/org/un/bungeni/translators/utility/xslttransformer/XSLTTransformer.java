@@ -13,6 +13,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 
+import net.sf.saxon.Configuration;
+import net.sf.saxon.TransformerFactoryImpl;
+
 
 /**
  * This is the  XSLT transformer object.
@@ -38,6 +41,14 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	    //create an instance of TransformerFactory
 	    this.transformerFactory = TransformerFactory.newInstance();
 	 
+	    //get the configuration of the transoformer factory
+	    Configuration transformerFactoryConfiguration = ((TransformerFactoryImpl)this.transformerFactory).getConfiguration();
+	    
+	    //set the line numbering true to the configuration
+	    transformerFactoryConfiguration.setLineNumbering(true);
+	    
+	    //set the new configuration of the transformer factory
+	    ((TransformerFactoryImpl)this.transformerFactory).setConfiguration(transformerFactoryConfiguration);
 	}
 	
 	/**

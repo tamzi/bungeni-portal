@@ -3,6 +3,7 @@ package org.un.bungeni.translators.utility.schemavalidator;
 import java.io.File;
 import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.stream.StreamSource;
@@ -68,10 +69,10 @@ public class SchemaValidator implements SchemaValidatorInterface
 	 * @throws IOException 
 	 * @throws MissingAttributeException 
 	 */
-	public void validate(File aDocument, String aSchemaPath) throws SAXException, IOException, MissingAttributeException
+	public void validate(File aDocument, String aSchemaPath) throws SAXException, IOException, ParserConfigurationException
 	{
-		try
-		{
+		//try
+		//{
 			//create the stream source of the schema 
 			StreamSource schemaSource = new StreamSource(new File(aSchemaPath));
 			
@@ -99,16 +100,17 @@ public class SchemaValidator implements SchemaValidatorInterface
 	
 	        //create a  new XML Reader
 	        XMLReader reader = parser.getXMLReader();
+	        reader.setErrorHandler(ExceptionManager.getInstance());
 	        reader.setContentHandler(schemaValidator);
 	        reader.parse(new InputSource(aDocument.toURI().toString()));
-		}
+		/*}
 		catch (SAXException saxe) 
 		{
         } 
 		catch (Exception e) 
 		{
             e.printStackTrace();
-        }
+        }*/
         //create a validator
 		/*Validator validator = schema.newValidator();
 		

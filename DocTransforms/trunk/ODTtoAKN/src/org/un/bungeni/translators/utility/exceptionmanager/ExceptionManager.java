@@ -9,7 +9,6 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXParseException;
@@ -69,16 +68,16 @@ public class ExceptionManager implements ErrorHandler
 		return instance;
 	}
 	
-	/**
-	 * This method parse a SAXEception understand what type of exception is and throws a 
-	 * user readable error
-	 * @param e
-	 * @throws MissingAttributeException 
-	 */
-	public void parseException(Exception e) throws MissingAttributeException 
-	{
+	
+    /**
+     * Report a non-fatal error
+     * @param ex the error condition
+     */
+    public void error(SAXParseException ex) 
+    {
+
 		//the message of the exception
-		String exceptionMessage = e.getMessage();
+		String exceptionMessage = ex.getMessage();
 		
 		//check what type of text the exception launch
 		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
@@ -105,19 +104,10 @@ public class ExceptionManager implements ErrorHandler
 	  		                 element +
 	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
         	
-        	//throw the exception
-        	throw new MissingAttributeException(message);
+            System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
+            System.err.println(message);
+            System.exit(0);
 		}
-	}
-	
-    /**
-     * Report a non-fatal error
-     * @param ex the error condition
-     */
-    public void error(SAXParseException ex) 
-    {
-        System.err.println("At line " + ex.getLineNumber() + "of column " + " of " + ex.getSystemId() + ':');
-        System.err.println(ex.getMessage());
     }
 
     /**
@@ -127,8 +117,38 @@ public class ExceptionManager implements ErrorHandler
 
     public void fatalError(SAXParseException ex) 
     {
-        System.err.println("At line " + ex.getLineNumber() + " of " + ex.getSystemId() + ':');
-        System.err.println(ex.getMessage());
+		//the message of the exception
+		String exceptionMessage = ex.getMessage();
+		
+		//check what type of text the exception launch
+		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
+		{
+			//compile the regex
+			Pattern p = Pattern.compile("(.*)Attribute '(.*)' must appear on element '(.*)'");
+        	//set the input
+			Matcher m = p.matcher(exceptionMessage);
+        	//the attribute name
+			String attribute = ""; 
+			//the elemet name
+			String element = ""; 
+        	while (m.find())
+        	{
+        	    //get the attribute name
+        		attribute = m.group(2).toString();
+        		//get element name
+        	    element = m.group(3).toString();
+        	}
+        	//create the text of the exception
+    		String message = resourceBundle.getString("MISSING_ATTRIBUTE_LEFT_TEXT") +
+	  		                 attribute +
+	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_CENTER_TEXT") +
+	  		                 element +
+	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
+        	
+            System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
+            System.err.println(message);
+            System.exit(0);
+    	}
     }
 
     /**
@@ -137,8 +157,39 @@ public class ExceptionManager implements ErrorHandler
      */
     public void warning(org.xml.sax.SAXParseException ex) 
     {
-        System.err.println("At line " + ex.getLineNumber() + " of " + ex.getSystemId() + ':');
-        System.err.println(ex.getMessage());
+		//the message of the exception
+		String exceptionMessage = ex.getMessage();
+		
+		//check what type of text the exception launch
+		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
+		{
+			//compile the regex
+			Pattern p = Pattern.compile("(.*)Attribute '(.*)' must appear on element '(.*)'");
+        	//set the input
+			Matcher m = p.matcher(exceptionMessage);
+        	//the attribute name
+			String attribute = ""; 
+			//the elemet name
+			String element = ""; 
+        	while (m.find())
+        	{
+        	    //get the attribute name
+        		attribute = m.group(2).toString();
+        		//get element name
+        	    element = m.group(3).toString();
+        	}
+        	//create the text of the exception
+    		String message = resourceBundle.getString("MISSING_ATTRIBUTE_LEFT_TEXT") +
+	  		                 attribute +
+	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_CENTER_TEXT") +
+	  		                 element +
+	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
+        	
+            System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
+            System.err.println(message);
+            System.exit(0);
+           
+    	}
     }
     
     

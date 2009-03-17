@@ -22,7 +22,7 @@ ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
 alchemist.ui   http://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
 
 # rdb auto generation
-alchemist.catalyst http://zope-alchemist.googlecode.com/svn/alchemist.catalyst/trunk
+alchemist.catalyst http://zope-alchemist.googlecode.com/svn/alchemist.catalyst/branches/dynamic-ui
 
 # various traversal mechanisms
 alchemist.traversal http://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk

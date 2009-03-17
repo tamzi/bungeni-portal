@@ -106,7 +106,7 @@ public class ExceptionManager implements ErrorHandler
         	
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
             System.err.println(message);
-            System.exit(0);
+           // System.exit(0);
 		}
     }
 
@@ -147,7 +147,7 @@ public class ExceptionManager implements ErrorHandler
         	
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
             System.err.println(message);
-            System.exit(0);
+            //System.exit(0);
     	}
     }
 
@@ -187,7 +187,7 @@ public class ExceptionManager implements ErrorHandler
         	
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
             System.err.println(message);
-            System.exit(0);
+            //System.exit(0);
            
     	}
     }

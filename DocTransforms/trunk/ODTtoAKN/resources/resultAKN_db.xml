@@ -26,7 +26,9 @@
             <TLCOrganization id="Parliament" href="2" showAs="Parliament"/>
             <TLCPerson id="clerk.aClerk" href="clerk.aClerk" showAs="Author"/>
             <TLCPerson id="user.Ashok" href="user.Ashok" showAs="Author"/>
-            <TLCPerson id="aperson" href="ken.person.Francis.Acheka.1951-12-10" showAs="Francis Acheka"/>
+            <TLCPerson id="4" href="ken.person.Francis.Acheka.1951-12-10" showAs="Francis Acheka"/>
+            <TLCPerson id="2" href="ken.person.Francis.NoKibaki.1951-12-08" showAs="Francis NoKibaki"/>
+            <TLCPerson id="305" href="ken.person.Kipkalia.Tegere.1945-03-10" showAs="Kipkalia Tegere"/>
          </references>
       </meta>
       <preface>
@@ -39,7 +41,7 @@
          </p>
       </preface>
       <debate>
-         <subdivision id="d9e84" name="SceneSubdivision">
+         <subdivision id="d9e89" name="SceneSubdivision">
             <scene>
                <span>[Mr. Deputy Speaker in the Chair]</span>
             </scene>

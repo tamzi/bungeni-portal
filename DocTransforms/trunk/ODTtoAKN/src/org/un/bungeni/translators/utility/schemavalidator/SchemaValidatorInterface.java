@@ -4,6 +4,8 @@ package org.un.bungeni.translators.utility.schemavalidator;
 import java.io.File;
 import java.io.IOException;
 
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.xml.sax.SAXException;
 
@@ -21,6 +23,6 @@ public interface SchemaValidatorInterface
 	 * @throws IOException 
 	 * @throws MissingAttributeException 
 	 */
-	public void validate(File aDocument, String aSchemaPath) throws SAXException, IOException, MissingAttributeException;
+	public void validate(File aDocument, String aSchemaPath) throws SAXException, IOException, ParserConfigurationException;
 	
 }

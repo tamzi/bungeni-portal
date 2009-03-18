@@ -239,7 +239,7 @@ class ParliamentEditForm( GroupEditForm ):
 
     CustomValidations = validations.CheckParliamentDatesEdit
 
-class GovernmentEdit( GroupEditForm ): 
+class GovernmentEditForm( GroupEditForm ): 
 
     CustomValidations = validations.CheckGovernmentsDateInsideParliamentsDatesEdit
 
@@ -256,26 +256,26 @@ class ParliamentAddForm( GroupAddForm ):
     CustomValidation = validations.CheckParliamentDatesAdd  
 
 
-class GovernmentAdd ( BungeniAddForm ):
+class GovernmentAddForm ( BungeniAddForm ):
 
     CustomValidation =  validations.CheckGovernmentsDateInsideParliamentsDatesAdd    
 
                       
-class MinistryAdd( GroupAddForm ):
+class MinistryAddForm( GroupAddForm ):
 
     CustomValidation =  validations.CheckMinistryDatesInsideGovernmentDatesAdd     
 
 
-class CommitteeAdd( GroupAddForm ):
+class CommitteeAddForm( GroupAddForm ):
 
     CustomValidation = validations.CheckCommitteesDatesInsideParentDatesAdd     
 
-class ExtensionGroupAdd( GroupAddForm ):
+class ExtensionGroupAddForm( GroupAddForm ):
 
     CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
 
 
-class PoliticalPartyAdd( BungeniAddForm ):
+class PoliticalPartyAddForm( BungeniAddForm ):
 
     CustomValidation = validations.checkPartyDates
 
@@ -446,14 +446,14 @@ class CommitteeStaffAddForm( GroupMemberAddForm ):
                 required=True,
                 ))  
 
-class PartyMemberAdd( GroupMemberAddForm ):
+class PartyMemberAddForm( GroupMemberAddForm ):
     """add a person to a party
     used in the political party container
     """
     #XXX
     
 
-class MemberOfPartyAdd( GroupMemberAddForm ):
+class MemberOfPartyAddForm( GroupMemberAddForm ):
     """ add a partymembership to a person 
     used in the parliament members container
     """
@@ -538,7 +538,7 @@ class GroupSittingAttendanceAddForm( AddForm ):
                 ))    
 
     
-class GroupSittingAttendanceEdit( EditForm ):
+class GroupSittingAttendanceEditForm( EditForm ):
 
     _membersEditVocab = membersEditVocab
     
@@ -558,7 +558,7 @@ class GroupSittingAttendanceEdit( EditForm ):
                 
 ################# Paliamentary Items ########################
 
-class QuestionAdd(AddForm):
+class QuestionAddForm(AddForm):
     _qryAddQuestionMinistryVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_select_question_ministry_add, 'full_name', 'group_id')
 
@@ -641,11 +641,4 @@ class ResponseAddForm( AddForm ):
     """
     CustomValidation =  validations.ResponseAdd
     
-
-
-
-        
-
-
-
-        
+     

@@ -49,7 +49,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IGroupSittingAttendanceContainer"
-     class=".forms.GroupSittingAttendanceAdd"              
+     class=".forms.GroupSittingAttendanceAddForm"              
      permission="zope.View"
      />
 
@@ -58,7 +58,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.GroupSittingAttendanceEdit"
+     class=".forms.GroupSittingAttendanceEditForm"
      for="bungeni.models.interfaces.IGroupSittingAttendance"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -68,7 +68,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IGroupSittingContainer"
-     class=".forms.GroupSittingAdd"              
+     class=".forms.GroupSittingAddForm"              
      permission="zope.View"
      />      
   
@@ -85,7 +85,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.SessionsEdit"
+     class=".forms.SessionsEditForm"
      for="bungeni.models.interfaces.IParliamentSession"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -95,7 +95,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IParliamentSessionContainer"
-     class=".forms.SessionAdd"              
+     class=".forms.SessionAddForm"              
      permission="zope.View"
      />    
   
@@ -103,7 +103,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.MemberOfParliamenEdit"
+     class=".forms.MemberOfParliamenEditForm"
      for="bungeni.models.interfaces.IMemberOfParliament"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -112,7 +112,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IMemberOfParliamentContainer"
-     class=".forms.MemberOfParliamentAdd"              
+     class=".forms.MemberOfParliamentAddForm"              
      permission="zope.View"
      />          
   
@@ -148,7 +148,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.CommitteeEdit"
+     class=".forms.CommitteeEditForm"
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -159,7 +159,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.ICommitteeContainer"
-     class=".forms.CommitteeAdd"              
+     class=".forms.CommitteeAddForm"              
      permission="zope.View"
      />    
   
@@ -185,7 +185,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.CommitteeMemberEdit"
+     class=".forms.CommitteeMemberEditForm"
      for="bungeni.models.interfaces.ICommitteeMember"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -195,7 +195,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.CommitteeStaffEdit"
+     class=".forms.CommitteeStaffEditForm"
      for="bungeni.models.interfaces.ICommitteeStaff"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -205,7 +205,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.ICommitteeMemberContainer"
-     class=".forms.CommitteeMemberAdd"              
+     class=".forms.CommitteeMemberAddForm"              
      permission="zope.View"
      />                    
   
@@ -213,7 +213,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.ICommitteeStaffContainer"
-     class=".forms.CommitteeStaffAdd" 
+     class=".forms.CommitteeStaffAddForm" 
      permission="zope.View"
      />       
 
@@ -248,7 +248,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.GovernmentEdit"
+     class=".forms.GovernmentEditForm"
      for="bungeni.models.interfaces.IGovernment"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -257,7 +257,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IGovernmentContainer"
-     class=".forms.GovernmentAdd"              
+     class=".forms.GovernmentAddForm"              
      permission="zope.View"
      />                    
 
@@ -274,7 +274,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.MinistryEdit"
+     class=".forms.MinistryEditForm"
      for="bungeni.models.interfaces.IMinistry"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -283,7 +283,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IMinistryContainer"
-     class=".forms.MinistryAdd"              
+     class=".forms.MinistryAddForm"              
      permission="zope.View"
      />               
   
@@ -301,7 +301,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.MinisterEdit"
+     class=".forms.MinisterEditForm"
      for="bungeni.models.interfaces.IMinister"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -310,7 +310,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IMinisterContainer"
-     class=".forms.MinistersAdd"              
+     class=".forms.MinistersAddForm"              
      permission="zope.View"
      /> 
   
@@ -338,7 +338,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ExtensionGroupEdit"
+     class=".forms.ExtensionGroupEditForm"
      for="bungeni.models.interfaces.IExtensionGroup"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -348,7 +348,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IExtensionGroupContainer"
-     class=".forms.ExtensionGroupAdd"              
+     class=".forms.ExtensionGroupAddForm"              
      permission="zope.View"
      />  
   
@@ -356,7 +356,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ExtensionMemberEdit"
+     class=".forms.ExtensionMemberEditForm"
      for="bungeni.models.interfaces.IExtensionMember"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -365,14 +365,14 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IExtensionMemberContainer"
-     class=".forms.ExtensionMemberAdd"              
+     class=".forms.ExtensionMemberAddForm"              
      permission="zope.View"
      />    
   <!-- Parliament Edit Form -->  
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ParliamentEdit"
+     class=".forms.ParliamentEditForm"
      for="bungeni.models.interfaces.IParliament"
      permission="bungeni.parliament.Edit"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -382,7 +382,7 @@
   <!--browser:viewlet
       name="bungeni.question.view"
       manager="alchemist.ui.interfaces.IContentViewManager"
-      class=".forms.QuestionDisplay"
+      class=".forms.QuestionDisplayForm"
       for="bungeni.core.interfaces.IQuestion"
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"
@@ -423,7 +423,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IQuestionContainer"
-     class=".forms.QuestionAdd"              
+     class=".forms.QuestionAddForm"              
      permission="bungeni.question.Add"
      />          
   
@@ -437,7 +437,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IResponseContainer"
-     class=".forms.ResponseAdd"              
+     class=".forms.ResponseAddForm"              
      permission="bungeni.response.Add"
      />      
   
@@ -445,7 +445,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ResponseEdit"
+     class=".forms.ResponseEditForm"
      for="bungeni.models.interfaces.IResponse"
      permission="bungeni.response.Edit"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -455,7 +455,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IParliamentContainer"
-     class=".forms.ParliamentAdd"              
+     class=".forms.ParliamentAddForm"              
      permission="bungeni.parliament.Add"
      />      
   
@@ -510,7 +510,7 @@
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.GroupSittingEdit"
+     class=".forms.GroupSittingEditForm"
      for="bungeni.models.interfaces.IGroupSitting"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -524,14 +524,14 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IMemberRoleTitleContainer"
-     class=".forms.MemberTitleAdd"              
+     class=".forms.MemberTitleAddForm"              
      permission="zope.View"
      />    
   
   <browser:viewlet
      name="alchemist.attributes.edit"
      manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.MemberTitleEdit"
+     class=".forms.MemberTitleEditForm"
      for="bungeni.models.interfaces.IMemberRoleTitle"
      permission="zope.View"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
@@ -552,7 +552,7 @@
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IPoliticalPartyContainer"
-     class=".forms.PoliticalPartyAdd"              
+     class=".forms.PoliticalPartyAddForm"              
      permission="zope.View"
      /> 
 
@@ -585,18 +585,18 @@
      weight="20"
      />  
   
-  <browser:page
+  <!--browser:page
      name="event-rss.xml"
      for="bungeni.models.interfaces.IBill"
      class=".forms.BungeniRSSEventView"
      permission="zope.View"
-     />  
+     /-->  
   
   <!-- Partymembership -->
   <browser:view
      name="add"
      for="bungeni.models.interfaces.IMemberOfPartyContainer"
-     class=".forms.MemberOfPartyAdd"              
+     class=".forms.MemberOfPartyAddForm"              
      permission="zope.View"
      /> 
   

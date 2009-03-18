@@ -5,6 +5,8 @@ from zope.formlib import form
 from bungeni.models import domain, interfaces
 from alchemist.ui import content
 
+from alchemist.catalyst.ui import EditForm
+
 import common, search
 from zope.viewlet import viewlet
 
@@ -61,7 +63,7 @@ class GroupQueryJSON( search.ConstraintQueryJSON ):
 class Index( BrowserView ):
     pass
 
-class Settings( content.EditForm ):
+class Settings( EditForm ):
 
     form_fields = form.Fields( interfaces.IBungeniSettings )
         
@@ -95,7 +97,7 @@ class UserGroups( BrowserView ):
     def table( self ):
         pass
     
-class UserSettings( content.EditForm ):
+class UserSettings( EditForm ):
 
     form_fields = form.Fields( interfaces.IBungeniUserSettings, interfaces.IUser )
     form_fields = form_fields.omit( 'user_id', 'login', 'date_of_death','status')

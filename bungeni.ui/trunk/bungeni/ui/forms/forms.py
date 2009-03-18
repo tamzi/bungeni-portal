@@ -67,117 +67,6 @@ FormTemplate = namedtemplate.NamedTemplateImplementation(
     ViewPageTemplateFile('templates/form.pt')
     )
 
-###################### Specialized Add Forms per content Type ################################   
-
-    
-
-
-# party membership
-
-# ministries
-                                      
-#ministers
-               
-# CommitteeMemberAdd
-                      
-# committee staff
-                                         
-# Members of Parliament
-   
-
-# Sessions
-
-    
-class SessionAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( IParliamentSession )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    Adapts = IParliamentSession
-    CustomValidation =  validations.CheckSessionDatesInsideParentDatesAdd    
-                      
- 
-
-# Sittings
-
-
-
-class GroupSittingAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( IGroupSitting )
-    form_fields["start_date"].custom_widget = SelectDateTimeWidget
-    form_fields["end_date"].custom_widget = SelectDateTimeWidget
-    Adapts = IGroupSitting
-    CustomValidation =  validations.CheckSittingDatesInsideParentDatesAdd 
-                      
-        
-     
-
-
-membersAddVocab = sqlutils.SQLQuerySource(sqlstatements.sql_add_members, 'user_name', 'user_id')      
-attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )
-
-# Sitting Attendance
-
-class IGroupSittingAttendanceAdd( interface.Interface ):
-    """ """
-    member_id = schema.Choice(title=_(u"Member of Parliament"),  
-                                source=membersAddVocab, 
-                                required=True,
-                                )
-    attendance_id = schema.Choice( title=_(u"Attendance"),  
-                                    source=attendanceVocab, 
-                                    required=True,
-                                    )  
-
-
-
-class GroupSittingAttendanceAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( IGroupSittingAttendanceAdd )
-                      
-    def update(self):
-        """
-        Called by formlib after __init__ for every page update. This is
-        the method you can use to update form fields from your class
-        """        
-        self.status = self.request.get('portal_status_message','')        
-        form.AddForm.update( self )
-        set_widget_errors(self.widgets, self.errors)
-         
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IGroupSittingAttendanceAdd : ob }
-
-
-                                  
-titleAddVocab =  sqlutils.SQLQuerySource(sqlstatements.sql_addMemberTitle, 'ordered_title', 'user_role_type_id')
-
-# Titles / Roles
-
-     
-class IMemberRoleTitleAdd( IMemberRoleTitle ):
-    title_name_id = schema.Choice( title=_(u"Title"),  
-                                    source=titleAddVocab, 
-                                    required=True,
-                                    )  
-     
-class MemberTitleAdd( BungeniAddForm ):
-    form_fields = form.Fields( IMemberRoleTitleAdd ).select('title_name_id', 'start_date', 'end_date')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    Adapts = IMemberRoleTitleAdd
-    CustomValidation =  validations.CheckMemberTitleDateAdd 
-
-
 
 ##############
 #Generic Custom Edit form   
@@ -345,92 +234,10 @@ class CustomEditForm ( EditFormViewlet ):
                         
                       
 
-  
+membersEditVocab = sqlutils.SQLQuerySource(
+        sqlstatements.sql_edit_members, 'user_name', 'user_id', 
+            {'member_id':'$user_id'} )
 
-
-    
-# Sitting Attendance
-             
-  
-
-class IGroupSittingAttendanceEdit( interface.Interface ):
-    """ """
-    member_id = schema.Choice(title=_(u"Member of Parliament"),  
-                                source=membersEditVocab, 
-                                required=True,
-                                )
-    attendance_id = schema.Choice( title=_(u"Attendance"),  
-                                    source=attendanceVocab, 
-                                    required=True,
-                                    )  
-   
-class GroupSittingAttendanceEdit( EditFormViewlet ):
-    """
-    override the Edit Form for GroupSittingAttendance
-    """
-    form_fields = form.Fields( IGroupSittingAttendanceEdit )
-    template = NamedTemplate('alchemist.subform')   
-    def update( self ):
-        """
-        adapt the custom fields to our object
-        """
-        self.adapters = { IGroupSittingAttendanceEdit : self.context }        
-        super( GroupSittingAttendanceEdit, self).update()
-        set_widget_errors(self.widgets, self.errors)
-
-# Sittings                    
-
-
-class GroupSittingEdit( CustomEditForm ):
-    """
-    override the Edit Form for GroupSitting
-    """
-    form_fields = form.Fields( IGroupSitting )
-    form_fields["start_date"].custom_widget = SelectDateTimeWidget
-    form_fields["end_date"].custom_widget = SelectDateTimeWidget
-    Adapts = IGroupSitting
-    CustomValidations = validations.CheckSittingDatesInsideParentDatesEdit 
-
-                 
-
-class SessionsEdit ( CustomEditForm ):
-    form_fields = form.Fields( IParliamentSession )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widgets.RichTextEditor      
-    Adapts = IParliamentSession
-    CustomValidations = validations.CheckSessionDatesEdit    
-
-
-    
-class ResponseEdit ( CustomEditForm ):
-    """ Answer a Question
-    UI for ministry to input response
-    Display the question when adding the answer.
-    """
-    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
-    Adapts = IResponse
-    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
-    #form_fields["response_type"].custom_widget=widgets.CustomRadioWidget
-    CustomValidations =  validations.ResponseEdit
-    
-class ResponseAdd( BungeniAddForm ):
-    """
-    Answer a Question
-    UI for ministry to input response
-    Display the question when adding the answer.
-    """
-    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
-    Adapts = IResponse
-    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
-    #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
-    CustomValidation =  validations.ResponseAdd
-    
-
-   
-    
- 
-################################################## NEW #######################################################
 
 ########## Groups ########################
        
@@ -499,9 +306,7 @@ class PoliticalPartyAdd( BungeniAddForm ):
 class GroupMemberEditForm ( EditForm ):
     """ generic form for all groupmemberships"""
     
-    _membersEditVocab = sqlutils.SQLQuerySource(
-        sqlstatements.sql_edit_members, 'user_name', 'user_id', 
-            {'member_id':'$user_id'} )  
+    _membersEditVocab = membersEditVocab
 
     _substitutionsEditVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_editSubstitution, 
@@ -671,17 +476,19 @@ class CommitteeStaffAddForm( GroupMemberAddForm ):
                 ))  
 
 class PartyMemberAdd( GroupMemberAddForm ):
-    """add a person to a party"""
+    """add a person to a party
+    used in the political party container
+    """
     #XXX
-    pass
+    
 
 class MemberOfPartyAdd( GroupMemberAddForm ):
-    """ add a partymembership to a person """
+    """ add a partymembership to a person 
+    used in the parliament members container
+    """
     #XXX
     #Adapts = IMemberOfParty    
     CustomValidation = validations.checkPartyMembershipDates
-
-
 
 
 
@@ -705,7 +512,88 @@ class MemberTitleEditForm( EditForm ):
                 ))
     
     CustomValidations =  validations.CheckMemberTitleDateEdit
+    
 
+class MemberTitleAddForm( AddForm ):
+    _titleAddVocab =  sqlutils.SQLQuerySource(
+        sqlstatements.sql_addMemberTitle, 
+        'ordered_title', 
+        'user_role_type_id')
+    CustomValidation =  validations.CheckMemberTitleDateAdd 
+    
+    def get_form_fields(self):
+        base_fields = super(MemberTitleEditForm, self).get_form_fields()
+            
+        return base_fields.omit("title_name_id") + form.Fields(
+            schema.Choice(
+                __name__="title_name_id",
+                title=_(u"Title"),  
+                source=titleAddVocab, 
+                required=True,
+                ))
+    
+
+################# Sessions and sittings #####################
+
+class SessionAddForm( AddForm ):
+
+    CustomValidation =  validations.CheckSessionDatesInsideParentDatesAdd    
+
+class SessionsEditForm ( EditForm ):
+
+    CustomValidations = validations.CheckSessionDatesEdit    
+
+class GroupSittingAddForm( AddForm ):
+   
+    CustomValidation =  validations.CheckSittingDatesInsideParentDatesAdd 
+
+class GroupSittingEditForm( EditForm ):
+
+    CustomValidations = validations.CheckSittingDatesInsideParentDatesEdit 
+      
+
+class GroupSittingAttendanceAddForm( AddForm ):
+    _qryMembersAddVocab = sqlutils.SQLQuerySource(sqlstatements.sql_add_members, 'user_name', 'user_id')      
+    
+    def get_form_fields(self):
+        base_fields = super(GroupSittingAttendanceAddForm, self).get_form_fields()
+            
+        return base_fields.omit("member_id", "" ) + form.Fields(
+            schema.Choice(
+                __name__="member_id",
+                title=_(u"Member of Parliament"),  
+                source=self._qryMembersAddVocab, 
+                required=True,                                
+                ))    
+
+    
+class IGroupSittingAttendanceEdit( interface.Interface ):
+    """ """
+    member_id = schema.Choice(
+                                )
+    attendance_id = schema.Choice( title=_(u"Attendance"),  
+                                    source=attendanceVocab, 
+                                    required=True,
+                                    )  
+   
+class GroupSittingAttendanceEdit( EditFormViewlet ):
+
+    _membersEditVocab = membersEditVocab
+    
+    def get_form_fields(self):
+        base_fields = super(GroupSittingAttendanceAddForm, self).get_form_fields()
+            
+        return base_fields.omit("member_id", "" ) + form.Fields(
+            schema.Choice(
+                __name__="member_id",
+                title=_(u"Member"),  
+                source=self._membersEditVocab, 
+                required=True,                          
+                ))    
+
+
+    
+                
 ################# Paliamentary Items ########################
 
 class QuestionAdd(AddForm):
@@ -755,9 +643,8 @@ class QuestionAdd(AddForm):
                          
 
 class QuestionEditForm(EditForm):
-    """Edit a question.
-    
-    Todo: The workflow transitions are available as actions as well as
+    """Edit a question.    
+    The workflow transitions are available as actions as well as
     the default save and cancel buttons
     """
 
@@ -777,6 +664,21 @@ class QuestionEditForm(EditForm):
                 required=False,
                 ))
                                                     
+class ResponseEditForm( EditForm ):
+    """ Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    CustomValidations =  validations.ResponseEdit
+    
+class ResponseAddForm( AddForm ):
+    """
+    Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    CustomValidation =  validations.ResponseAdd
+    
 
 
 

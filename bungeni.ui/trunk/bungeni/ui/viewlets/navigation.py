@@ -89,7 +89,9 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 descriptor = None
                 name = ""                
             if descriptor:
-                name = getattr( descriptor, 'display_name', None)
+                name = getattr(descriptor, 'container_name', None)
+                if name is None:
+                    name = getattr(descriptor, 'short_name', None)
             if not name:
                 name = getattr( context, '__name__', None)  
             path.append({

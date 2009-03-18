@@ -1,0 +1,27 @@
+<dl class="portlet portletNavigationTree">
+  
+  <dt class="portletHeader">
+    <span class="portletTopLeft"></span>
+    <span class="tile">Scheduling</span>
+    <span class="portletTopRight"></span>
+  </dt>
+  
+  <dd class="portletItem lastItem">
+    <p>Drag items to a calendar sitting to schedule.</p>
+
+    <table class="listing grid" id="items-for-scheduling">
+      <thead>
+        <tr>
+          <th>Type name</th>
+          <th>Title</th>
+          <th>Workflow state</th>
+          <th>Last modified</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:replace="structure provider:bungeni.scheduling" />
+      </tbody>
+    </table>
+  </dd>
+
+</dl>

@@ -1,0 +1,14 @@
+<tal:items repeat="item view/items">
+  <tr tal:attributes="id string:row-${item/id}">
+    <td tal:content="item/name" />
+    <td>
+      <a relation="id"
+         tal:attributes="href item/url;
+                         name item/id;
+                         title item/description"
+         tal:content="item/title" />
+    </td>
+    <td i18n:translate="" tal:content="item/state" />
+    <td tal:content="item/date" />
+  </tr>
+</tal:items>

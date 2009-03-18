@@ -12,6 +12,16 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />   
 
+  <!-- Generic Add Form -->
+  
+  <browser:view
+     name="add"
+     for="*"
+     class=".forms.BungeniAddForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />    
+
   <!-- content display viewlets -->
   
   <browser:viewlet
@@ -417,17 +427,12 @@
      permission="bungeni.question.Add"
      />          
   
-  
-  <!-- Question Edit Form -->  
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.QuestionEdit"
+  <browser:page
+     name="edit"
      for="bungeni.models.interfaces.IQuestion"
      permission="bungeni.question.Edit"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />         
-  
+     class=".forms.QuestionEditForm" />
+    
   <!-- Response Add Form -->        
   <browser:view
      name="add"

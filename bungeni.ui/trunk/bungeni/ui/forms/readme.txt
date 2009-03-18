@@ -322,23 +322,23 @@ titles
 A (group) member can only hold the same title once at a time
 -------------------------------------------------------------
 
-    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})
+    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})
     'President'
 
     >>> mt1.end_date = tomorrow
     >>> session.flush()    
-    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : dayat})
+    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : dayat})
     
-    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})    
+    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})    
     'President'
     
-    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, { 'title_name_id' : mrt2.user_role_type_id , 'membership_id' : mt1.membership_id , 'date' : today})
+    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mrt2.user_role_type_id , 'membership_id' : mt1.membership_id , 'date' : today})
 
 exclude data with role_title_id when editing the record
 
-    >>> validations.checkBySQL(sql.checkMyMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
+    >>> validations.checkBySQL(sql.checkMyMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
 
-    >>> validations.checkBySQL(sql.checkMyMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
+    >>> validations.checkBySQL(sql.checkMyMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
 
 
 Some titles must be unique inside a group
@@ -352,23 +352,23 @@ Some titles must be unique inside a group
     >>> session.flush()     
    
 second check for same title at a time
-    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, { 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today})   
+    >>> validations.checkBySQL(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today})   
     'Member'
 
 A president is allready there   
-    >>> validations.checkBySQL(sql.checkMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today})    
+    >>> validations.checkBySQL(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today})    
     'President'
 
 Members do not have to be unique    
-    >>> validations.checkBySQL(sql.checkMemberTitleUnique, { 'title_name_id' : mt2.title_name_id , 'group_id' : parliament.group_id , 'date' : today})        
+    >>> validations.checkBySQL(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt2.title_name_id , 'group_id' : parliament.group_id , 'date' : today})        
 
 And the day after tomorrow there is no more president
-    >>> validations.checkBySQL(sql.checkMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : dayat})    
+    >>> validations.checkBySQL(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : dayat})    
 
 when editing exclude self
-    >>> validations.checkBySQL(sql.checkMyMemberTitleDuplicates, { 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today, 'role_title_id' : mt2.role_title_id})    
+    >>> validations.checkBySQL(sql.checkMyMemberTitleDuplicates, **{ 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today, 'role_title_id' : mt2.role_title_id})    
     
-    >>> validations.checkBySQL(sql.checkMyMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt2.role_title_id})        
+    >>> validations.checkBySQL(sql.checkMyMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt2.role_title_id})        
     'President'
 
 

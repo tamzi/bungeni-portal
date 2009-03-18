@@ -76,18 +76,19 @@ def checkStartEndDatesInInterval( pp_key, data, sql_statement):
 
 
 class SQLQuerySource ( object ):
-    """ 
-    Call with a SQL Statement and the rows which make up the vocabulary
+    """ Call with a SQL Statement and the rows which make up the vocabulary
     note that a % wildcard for sql LIKEs must be escaped as %%
    
-    Values passed in the filter dictionary can be either constant strings or they can refer
-    to an attribute of the object. To denote the attribute pass the attributes name with
-    a leading dollar sign i.e: $(member_id)s
+    Values passed in the filter dictionary can be either constant strings 
+    or they can refer to an attribute of the object. To denote the attribute 
+    pass the attributes name with a leading dollar sign i.e: $member_id
      
-    The value of the primary key of the *parent(!)* can be accessed with %(primary_key)s
+    The value of the primary key of the *parent(!)* 
+    can be accessed with :primary_key
        
-    You can call this function without filters on any object, if you need filters the object 
-    needs to have a context i.e, you can call it on edit/view for any object. If you want to add an object
+    You can call this function without filters on any object, 
+    if you need filters the object needs to have a context i.e, 
+    you can call it on edit/view for any object. If you want to add an object
     it must be a childobject of something.
     """
     
@@ -95,8 +96,7 @@ class SQLQuerySource ( object ):
 
         
     def getValueKey(self, context):
-        """
-        Iterate through the parents until you get a valueKey 
+        """ Iterate through the parents until you get a valueKey 
         """
         if context.__parent__ is None:
             return None
@@ -131,19 +131,15 @@ class SQLQuerySource ( object ):
         
     def constructQuery( self, context ):        
         session = Session()            
-        if  self.sql_statement.find('%(primary_key)s') > 1:
-            #if the keyword primary key is present in the sql replace it with the parent pk  
+        if  self.sql_statement.find(':primary_key') > 1:
+            #if the keyword primary key is present in the sql 
+            #replace it with the parent pk  
             pfk = self.getValueKey(context)
             filter_dict = {'primary_key' : pfk}            
         else:
             filter_dict = {}            
         filter_dict.update(self.filter)
-        filter_dict = self.constructFilterDict( filter_dict, context )
-        # the actual replacing of the filtervalues in the string
-        #sql_statement =  ( self.sql_statement % filter_dict )   
-        #get the connection from a known mapper so we can execute our raw sql query 
-        #connection = session.connection(domain.Parliament)      
-        #query = connection.execute(sql_statement)        
+        filter_dict = self.constructFilterDict( filter_dict, context )      
         query = execute_sql(self.sql_statement, **filter_dict)
         return query
         

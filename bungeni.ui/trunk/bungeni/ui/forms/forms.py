@@ -7,18 +7,15 @@ from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
 from zope.security.proxy import removeSecurityProxy
-from zope.publisher.browser import BrowserView
+
 
 import zope.security.management
 
-from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist import Session
 from ore.workflow import interfaces
-from ore.yuiwidget import calendar
-from ore.alchemist.model import queryModelDescriptor
+
 
 from alchemist.ui.viewlet import EditFormViewlet
-from alchemist.ui.core import null_validator
 from alchemist.ui.core import handle_edit_action
 
 from alchemist.catalyst.ui import EditForm
@@ -31,32 +28,12 @@ from bungeni.ui.queries import sqlstatements
 from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.ui.forms.workflow import createVersion
 
-from bungeni.models.interfaces import \
-     IGroupSitting, \
-     IParliamentSession, \
-     IMemberOfParliament, \
-     ICommittee, \
-     ICommitteeMember, \
-     IGovernment, \
-     IMinistry, \
-     IExtensionGroup, \
-     IMinister, \
-     IExtensionMember, \
-     IParliament, \
-     IGroupSittingAttendance, \
-     ICommitteeStaff, \
-     IMemberRoleTitle, \
-     IMemberOfParty, \
-     IPoliticalParty, \
-     IQuestion, \
-     IResponse
+
 
 from bungeni.core.i18n import _
 
 import bungeni.core.globalsettings as prefs
-from bungeni.models.interfaces import IFileAttachments 
-from bungeni.ui.widgets import  SelectDateTimeWidget, SelectDateWidget
-from bungeni.ui import widgets
+
 
 from bungeni.ui.forms.common import AddForm
 BungeniAddForm = AddForm
@@ -132,10 +109,9 @@ class CustomEditForm ( EditFormViewlet ):
     def _can_delete( self ):
         return hasDeletePermission(self.context)
 
-    def _can_attach( self ):
-        #result = form.haveInputWidgets( self, action)
-        result =  IFileAttachments.providedBy( self.context )    
-        return result      
+    def _can_attach( self ):        
+        #result =  IFileAttachments.providedBy( self.context )    
+        return False
     
     def _getDefaultActions(self):
         actions = []
@@ -233,6 +209,8 @@ class CustomEditForm ( EditFormViewlet ):
             return self.request.response.redirect( url  )    
                         
                       
+
+
 
 membersEditVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_edit_members, 'user_name', 'user_id', 
@@ -431,7 +409,7 @@ class ExtensionMemberAddForm( GroupMemberAddForm ):
             schema.Choice(
                 __name__="user_id",
                 title=_(u"Person"),  
-                source=qryAddExtensionMemberVocab, 
+                source=self._qryAddExtensionMemberVocab, 
                 required=True,
                 ))    
     
@@ -452,13 +430,6 @@ class CommitteeMemberAddForm( GroupMemberAddForm ):
                 ))  
 
 
-
-class ICommitteeStaffAdd ( ICommitteeStaff ):
-    """
-    override some fields with custom schema
-    """
-    user_id = schema.Choice(
-                                )
                                 
 class CommitteeStaffAddForm( GroupMemberAddForm ):
     _qryAddCommitteeStaffVocab = sqlutils.SQLQuerySource(
@@ -528,7 +499,7 @@ class MemberTitleAddForm( AddForm ):
             schema.Choice(
                 __name__="title_name_id",
                 title=_(u"Title"),  
-                source=titleAddVocab, 
+                source=self._titleAddVocab, 
                 required=True,
                 ))
     
@@ -567,16 +538,7 @@ class GroupSittingAttendanceAddForm( AddForm ):
                 ))    
 
     
-class IGroupSittingAttendanceEdit( interface.Interface ):
-    """ """
-    member_id = schema.Choice(
-                                )
-    attendance_id = schema.Choice( title=_(u"Attendance"),  
-                                    source=attendanceVocab, 
-                                    required=True,
-                                    )  
-   
-class GroupSittingAttendanceEdit( EditFormViewlet ):
+class GroupSittingAttendanceEdit( EditForm ):
 
     _membersEditVocab = membersEditVocab
     

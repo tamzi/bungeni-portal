@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="bungeni">
+
+  <browser:viewletManager
+     name="bungeni.scheduling"
+     provides=".interfaces.ISchedulingManager"
+     permission="zope.View"
+     />
+
+  <browser:viewlet
+     name="bungeni.scheduling.bills"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager=".interfaces.ISchedulingManager"
+     class=".schedule.SchedulableBillsViewlet"
+     permission="zope.View"
+     />    
+
+  <browser:viewlet
+     name="bungeni.scheduling.questions"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager=".interfaces.ISchedulingManager"
+     class=".schedule.SchedulableQuestionsViewlet"
+     permission="zope.View"
+     />    
+
+  <browser:viewlet
+     name="bungeni.scheduling.motions"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager=".interfaces.ISchedulingManager"
+     class=".schedule.SchedulableMotionsViewlet"
+     permission="zope.View"
+     />    
+
+</configure>

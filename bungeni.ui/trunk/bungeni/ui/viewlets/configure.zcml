@@ -4,7 +4,8 @@
            i18n_domain="bungeni">
 
   <include file="workspace.zcml" />
-
+  <include file="schedule.zcml" />
+  
   <!-- navigation -->
   
   <browser:viewlet
@@ -42,5 +43,16 @@
      permission="zope.View"
      weight="1"
      />        
+
+  <!-- scheduling -->
+
+  <browser:viewlet
+     name="bungeni.content.scheduling"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager="ploned.ui.interfaces.IBelowContentManager"
+     permission="zope.View"
+     view="bungeni.ui.calendar.browser.CalendarView"
+     class=".schedule.SchedulablesViewlet"
+     />  
   
 </configure>

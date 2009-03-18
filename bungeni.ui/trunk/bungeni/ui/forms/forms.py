@@ -67,272 +67,23 @@ FormTemplate = namedtemplate.NamedTemplateImplementation(
     ViewPageTemplateFile('templates/form.pt')
     )
 
-#parliament        
-class ParliamentAdd( BungeniAddForm ):
-    """
-    custom Add form for parliaments
-    """
-    form_fields = form.Fields( IParliament )
-    form_fields["start_date"].custom_widget = calendar.CalendarWidget
-    #form_fields["end_date"].custom_widget = SelectDateWidget  
-    form_fields["election_date"].custom_widget = calendar.CalendarWidget
-    form_fields["description"].custom_widget=widgets.RichTextEditor
-    Adapts = IParliament
-    CustomValidation = validations.CheckParliamentDatesAdd  
+###################### Specialized Add Forms per content Type ################################   
+
     
-class PoliticalPartyAdd( BungeniAddForm ):
-    """
-    custom Add form for parliaments
-    """
-    form_fields = form.Fields( IPoliticalParty )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget  
-    form_fields["description"].custom_widget=widgets.RichTextEditor
-    Adapts = IPoliticalParty
-    CustomValidation = validations.checkPartyDates
+
 
 # party membership
 
-
-
-class PartyMemberAdd( BungeniAddForm ):
-    """
-    add a person to a party
-    """
-    #XXX
-
-class MemberOfPartyAdd( BungeniAddForm ):
-    """
-    add a partymembership to a person
-    """
-    #XXX
-    form_fields = form.Fields( IMemberOfParty )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widgets.RichTextEditor
-    Adapts = IMemberOfParty    
-    CustomValidation = validations.checkPartyMembershipDates
-
-
 # ministries
-class MinistryAdd( BungeniAddForm ):
-    """
-    custom Add form for ministries
-    """
-    form_fields = form.Fields( IMinistry )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    Adapts = IMinistry
-    CustomValidation =  validations.CheckMinistryDatesInsideGovernmentDatesAdd     
-                      
-
-                 
+                                      
 #ministers
-
-
-
-qryAddMinisterVocab = sqlutils.SQLQuerySource(sqlstatements.sql_addMinister, 'fullname', 'user_id')
-
-class IMinisterAdd( IMinister ):
-    """
-    override some fields with custom schema
-    """
-    user_id = schema.Choice(title=_(u"Minister"),  
-                                source=qryAddMinisterVocab, 
-                                required=True,
-                                )
-    
-    
-class MinistersAdd( BungeniAddForm ):
-    """
-    custom Add form for ministries
-    """
-    form_fields = form.Fields( IMinisterAdd ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widgets.RichTextEditor
-    Adapts = IMinisterAdd
-    CustomValidation =   validations.CheckMinisterDatesInsideMinistryDatesAdd    
-                       
-    
-# government
-
-class GovernmentAdd ( BungeniAddForm ):
-    """
-    custom Add form for government
-    """
-    form_fields = form.Fields( IGovernment )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    Adapts = IGovernment
-    CustomValidation =  validations.CheckGovernmentsDateInsideParliamentsDatesAdd    
-                      
-   
-
-# Extension groups
-
-class ExtensionGroupAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( IExtensionGroup )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    Adapts = IExtensionGroup
-    CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
- 
-
-
-qryAddExtensionMemberVocab = sqlutils.SQLQuerySource(sqlstatements. sql_addExtensionMember, 'fullname', 'user_id')
-
-class IExtensionMemberAdd( IExtensionMember ):
-    """
-    override some fields for extension group members
-    """
-    user_id = schema.Choice(title=_(u"Person"),  
-                                source=qryAddExtensionMemberVocab, 
-                                required=True,
-                                )
-                                
-                                
-# Members of extension Groups
-class ExtensionMemberAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( IExtensionMemberAdd ).omit( "replaced_id", "substitution_type" )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widgets.RichTextEditor
-    Adapts = IExtensionMemberAdd
-    CustomValidation =  validations.CheckExtensionMemberDatesInsideParentDatesAdd    
-                      
-
+               
 # CommitteeMemberAdd
-
-
-
-
-qryAddCommitteeMemberVocab = sqlutils.SQLQuerySource(sqlstatements. sql_AddCommitteeMember, 'fullname', 'user_id')
-
-class ICommitteeMemberAdd ( ICommitteeMember ):
-    """
-    override some fields with custom schema
-    """
-    user_id = schema.Choice(title=_(u"Member of Parliament"),  
-                                source=qryAddCommitteeMemberVocab, 
-                                required=True,
-                                )
-class CommitteeMemberAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( ICommitteeMemberAdd ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widgets.RichTextEditor
-    Adapts = ICommitteeMemberAdd
-    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd     
                       
 # committee staff
-
-
-                        
-qryAddCommitteeStaffVocab = sqlutils.SQLQuerySource(sqlstatements.sql_AddCommitteeStaff, 'fullname', 'user_id')
-
-class ICommitteeStaffAdd ( ICommitteeStaff ):
-    """
-    override some fields with custom schema
-    """
-    user_id = schema.Choice(title=_(u"Staff Member"),  
-                                source=qryAddCommitteeStaffVocab, 
-                                required=True,
-                                )
-                                
-class CommitteeStaffAdd( BungeniAddForm ):
-    """
-    override the AddForm 
-    """
-    form_fields = form.Fields( ICommitteeStaffAdd ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widgets.RichTextEditor
-    Adapts = ICommitteeStaffAdd
-    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd   
-
-
-# Committees
-
-
-class CommitteeAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( ICommittee )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
-    form_fields["reinstatement_date"].custom_widget = SelectDateWidget 
-    Adapts = ICommittee
-    CustomValidation = validations.CheckCommitteesDatesInsideParentDatesAdd     
-                      
-
+                                         
 # Members of Parliament
-
-
-
-
-qryAddMemberOfParliamentVocab = sqlutils.SQLQuerySource(sqlstatements.sql_AddMemberOfParliament, 'fullname', 'user_id')  
-
-class IMemberOfParliamentAdd ( IMemberOfParliament ):
-    """ Custom schema to override some autogenerated fields"""
-    user_id = schema.Choice(title=_(u"Member of Parliament"),  
-                                source=qryAddMemberOfParliamentVocab, 
-                                required=True,
-                                )
-
-
-class MemberOfParliamentAdd( BungeniAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    #form_fields = form.Fields( IMemberOfParliamentAdd ).omit( "replaced_id", "substitution_type" )
-    form_fields = form.Fields( IMemberOfParliamentAdd ).select(
-                    'user_id', 'start_date', 
-                    'election_nomination_date', 'elected_nominated',  'constituency_id',
-                    'end_date', 'leave_reason',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["start_date"].field.description = _(u"Begin of the parliamentary mandate")
-    #form_fields["start_date"].field.title = _(u"Beginn of the parliamentary mandate")    
-    form_fields["election_nomination_date"].custom_widget = SelectDateWidget   
-    form_fields["notes"].custom_widget=widgets.RichTextEditor 
-    Adapts = IMemberOfParliamentAdd
-    CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
-
-    @property
-    def defaults(self):
-        defaults = {}
-        
-        edate = getattr(self.context.__parent__, 'election_date', None)       
-        if edate:
-            defaults['election_nomination_date'] = edate
-
-        sdate = getattr(self.context.__parent__, 'start_date', None)
-        if sdate:
-            defaults['election_nomination_date'] = sdate
-
-        return defaults
-    
+   
 
 # Sessions
 
@@ -427,46 +178,20 @@ class MemberTitleAdd( BungeniAddForm ):
     CustomValidation =  validations.CheckMemberTitleDateAdd 
 
 
-#def getMinistryDateFilter(Date):
-#    return sql.or_(
-#        sql.between(Date, domain.ministry.c.start_date, domain.ministry.c.end_date),
-#        sql.and_( domain.ministry.c.start_date <= Date, domain.ministry.c.end_date == None)
-#        )
-
-
-
-     
-        
-class ResponseAdd( BungeniAddForm ):
-    """
-    Answer a Question
-    UI for ministry to input response
-    Display the question when adding the answer.
-    """
-    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
-    Adapts = IResponse
-    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
-    #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
-    CustomValidation =  validations.ResponseAdd
-
-##############
-# Edit forms      
-##############
 
 ##############
 #Generic Custom Edit form   
 
 
 def hasDeletePermission(context):
-    """
-    generic check if the user has rights to delete the object the
-    permission must follow the convention: bungeni.classname.delete
+    """Generic check if the user has rights to delete the object 
+    The permission must follow the convention: bungeni.classname.Delete
     where classname is the lowercase of the name of the python class
     """
     
     interaction = zope.security.management.getInteraction()
     class_name = context.__class__.__name__ 
-    permission_name = 'bungeni.' + class_name.lower() +'.delete'
+    permission_name = 'bungeni.' + class_name.lower() +'.Delete'
     return interaction.checkPermission(permission_name, context)
 
 
@@ -620,35 +345,9 @@ class CustomEditForm ( EditFormViewlet ):
                         
                       
 
-membersEditVocab = sqlutils.SQLQuerySource(sqlstatements.sql_edit_members, 'user_name', 'user_id', {'member_id':'$member_id'} )      
   
-# Parliament
-class ParliamentEdit( CustomEditForm ):
-    """
-    Edit a parliament
-    """
-    form_fields = form.Fields( IParliament )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget  
-    form_fields["election_date"].custom_widget = SelectDateWidget  
-    form_fields["description"].custom_widget=widgets.RichTextEditor   
-    Adapts = IParliament
-    CustomValidations = validations.CheckParliamentDatesEdit
-   
-       
 
-                              
 
-class GovernmentEdit( CustomEditForm ): 
-    """
-    Edit a government
-    """
-    form_fields = form.Fields( IGovernment )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["description"].custom_widget=widgets.RichTextEditor      
-    Adapts = IGovernment
-    CustomValidations = validations.CheckGovernmentsDateInsideParliamentsDatesEdit
     
 # Sitting Attendance
              
@@ -702,173 +401,312 @@ class SessionsEdit ( CustomEditForm ):
     Adapts = IParliamentSession
     CustomValidations = validations.CheckSessionDatesEdit    
 
-membersEditVocab = sqlutils.SQLQuerySource(sqlstatements.sql_edit_members, 'user_name', 'user_id', {'member_id':'$user_id'} )  
 
-
-
-substitutionsEditVocab = sqlutils.SQLQuerySource(sqlstatements.sql_editSubstitution, 'user_name', 'user_id', 
-                                                    {'user_id':'$user_id', 'group_id' : '$group_id'} )  
     
-class IMemberOfParliamentEdit( IMemberOfParliament ):
-    """ Custom schema to override some autogenerated fields"""
-    user_id = schema.Choice(title=_(u"Member of Parliament"),  
-                                source=membersEditVocab, 
-                                required=True,
-                                )
-    replaced_id = schema.Choice(title=_(u"substituted by"),  
-                                source=substitutionsEditVocab, 
-                                required=False,
-                                )
+class ResponseEdit ( CustomEditForm ):
+    """ Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
+    Adapts = IResponse
+    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
+    #form_fields["response_type"].custom_widget=widgets.CustomRadioWidget
+    CustomValidations =  validations.ResponseEdit
     
-class MemberOfParliamenEdit( CustomEditForm ):     
-    Adapts = IMemberOfParliamentEdit          
-    form_fields = form.Fields( IMemberOfParliamentEdit ).select(
-                    'user_id', 'start_date', 
-                    'election_nomination_date', 'elected_nominated',  'constituency_id',
-                    'end_date', 'leave_reason',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["election_nomination_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widgets.RichTextEditor          
-    CustomValidations = validations.CheckMemberDatesEdit         
-
-class CommitteeEdit ( CustomEditForm ):
-    Adapts = ICommittee          
-    form_fields = form.Fields( ICommittee )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget     
-    form_fields["reinstatement_date"].custom_widget = SelectDateWidget  
-    form_fields["description"].custom_widget=widgets.RichTextEditor            
-    CustomValidations = validations.CheckCommitteeDatesEdit 
-
-class ICommitteeMemberEdit( ICommitteeMember ):
-    """ Custom schema to override some autogenerated fields"""
-    user_id = schema.Choice(title=_(u"Comittee Member"),  
-                                source=membersEditVocab, 
-                                required=True,
-                                )
-    replaced_id = schema.Choice(title=_(u"substituted by"),  
-                                source=substitutionsEditVocab, 
-                                required=False,
-                                )
+class ResponseAdd( BungeniAddForm ):
+    """
+    Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
+    Adapts = IResponse
+    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
+    #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
+    CustomValidation =  validations.ResponseAdd
     
+
+   
+    
+ 
+################################################## NEW #######################################################
+
+########## Groups ########################
+       
+class GroupEditForm (EditForm):
+    """ generic form for all groups """
+
+class ExtensionGroupEditForm( GroupEditForm ):
+     
+    CustomValidations = validations.ExtensionGroupDatesEdit    
+
+class MinistryEditForm( GroupEditForm ):
         
-class CommitteeMemberEdit( CustomEditForm ):
-    Adapts = ICommitteeMemberEdit          
-    form_fields = form.Fields( ICommitteeMemberEdit ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widgets.RichTextEditor         
+    CustomValidations = validations.MinistryDatesEdit     
+
+class CommitteeEditForm ( GroupEditForm ):
+          
+    CustomValidations = validations.CheckCommitteeDatesEdit   
+
+
+class ParliamentEditForm( GroupEditForm ):
+
+    CustomValidations = validations.CheckParliamentDatesEdit
+
+class GovernmentEdit( GroupEditForm ): 
+
+    CustomValidations = validations.CheckGovernmentsDateInsideParliamentsDatesEdit
+
+
+class GroupAddForm(AddForm):
+
+    def get_form_fields(self):
+        form_fields = super(
+            GroupAddForm, self).get_form_fields().omit("end_date")
+        return form_fields
+
+class ParliamentAddForm( GroupAddForm ):
+
+    CustomValidation = validations.CheckParliamentDatesAdd  
+
+
+class GovernmentAdd ( BungeniAddForm ):
+
+    CustomValidation =  validations.CheckGovernmentsDateInsideParliamentsDatesAdd    
+
+                      
+class MinistryAdd( GroupAddForm ):
+
+    CustomValidation =  validations.CheckMinistryDatesInsideGovernmentDatesAdd     
+
+
+class CommitteeAdd( GroupAddForm ):
+
+    CustomValidation = validations.CheckCommitteesDatesInsideParentDatesAdd     
+
+class ExtensionGroupAdd( GroupAddForm ):
+
+    CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
+
+
+class PoliticalPartyAdd( BungeniAddForm ):
+
+    CustomValidation = validations.checkPartyDates
+
+############# User Group Memberships ########################
+
+class GroupMemberEditForm ( EditForm ):
+    """ generic form for all groupmemberships"""
+    
+    _membersEditVocab = sqlutils.SQLQuerySource(
+        sqlstatements.sql_edit_members, 'user_name', 'user_id', 
+            {'member_id':'$user_id'} )  
+
+    _substitutionsEditVocab = sqlutils.SQLQuerySource(
+        sqlstatements.sql_editSubstitution, 
+        'user_name', 'user_id',                                                     
+        {'user_id':'$user_id', 'group_id' : '$group_id'} )  
+    
+     def get_form_fields(self):
+        base_fields = super(MemberTitleEditForm, self).get_form_fields()
+            
+        return base_fields.omit("user_id", "replaced_id") + form.Fields(
+            schema.Choice(
+                __name__="user_id",
+                title=_(u"Name"),  
+                source=self._membersEditVocab, 
+                required=True,
+                ),                
+            schema.Choice(
+                __name__="replaced_id",
+                title=_(u"Substituted by"),  
+                source=self._substitutionsEditVocab, 
+                required=False,
+                )                                
+            )
+
+
+class MinisterEditForm( GroupMemberEditForm ):
+
+    CustomValidations = validations.MinisterDatesEdit
+
+class ExtensionMemberEditForm( CustomEditForm ):
+
+    CustomValidations = validations.ExtensionMemberDatesEdit  
+
+
+class CommitteeStaffEditForm( GroupMemberEditForm ):
+
+    CustomValidation =  validations.CommitteeMemberDatesEdit   
+
+class CommitteeMemberEditForm( GroupMemberEditForm ):
+        
     CustomValidations = validations.CommitteeMemberDatesEdit
 
-class ICommitteeStaffEdit ( ICommitteeStaff ):
+class MemberOfParliamenEditForm( GroupMemberEditForm ):     
+         
+    CustomValidations = validations.CheckMemberDatesEdit         
+
+class GroupMemberAddForm ( AddForm ):
+    """ Generic Add Form for all user group memberships
+    """
+    def get_form_fields(self):
+        base_fields = super(GroupMemberAddForm, self).get_form_fields()
+            
+        return base_fields.omit("user_id", 
+                                "replaced_id", 
+                                "substitution_type", 
+                                "end_date" )
+            
+    @property
+    def defaults(self):
+        defaults = {}        
+        sdate = getattr(self.context.__parent__, 'start_date', None)
+        if sdate:
+            defaults['start_date'] = sdate
+        return defaults    
+    
+
+class MemberOfParliamentAddForm( GroupMemberAddForm ):
+    _qryAddMemberOfParliamentVocab = sqlutils.SQLQuerySource(
+        sqlstatements.sql_AddMemberOfParliament, 
+        'fullname', 
+        'user_id')  
+    CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
+
+    @property
+    def defaults(self):
+        defaults = super(MemberOfParliamentAddForm, self).defaults()        
+        edate = getattr(self.context.__parent__, 'election_date', None)       
+        if edate:
+            defaults['election_nomination_date'] = edate
+        return defaults
+        
+
+    def get_form_fields(self):
+        base_fields = super(QuestionEditForm, self).get_form_fields()
+            
+        return base_fields + form.Fields(
+            schema.Choice(
+                __name__="user_id",
+                title=_(u"Member of Parliament"),  
+                source=self._qryAddMemberOfParliamentVocab, 
+                required=True,
+                )
+            )
+
+    
+class MinistersAddForm( GroupMemberAddForm ):
+    _qryAddMinisterVocab = sqlutils.SQLQuerySource(
+        sqlstatements.sql_addMinister, 'fullname', 'user_id')
+    CustomValidation =   validations.CheckMinisterDatesInsideMinistryDatesAdd    
+
+   def get_form_fields(self):
+        base_fields = super(MinistersAddForm, self).get_form_fields()
+            
+        return base_fields + form.Fields(
+            schema.Choice(
+                __name__="user_id",
+                title=_(u"Minister"),  
+                source=self._qryAddMinisterVocab, 
+                required=True,
+                ))
+
+                                
+                                
+class ExtensionMemberAddForm( GroupMemberAddForm ):
+    _qryAddExtensionMemberVocab = sqlutils.SQLQuerySource(
+        sqlstatements. sql_addExtensionMember, 'fullname', 'user_id')
+    CustomValidation =  validations.CheckExtensionMemberDatesInsideParentDatesAdd       
+    
+    def get_form_fields(self):
+        base_fields = super(ExtensionMemberAddForm, self).get_form_fields()            
+        return base_fields + form.Fields(
+            schema.Choice(
+                __name__="user_id",
+                title=_(u"Person"),  
+                source=qryAddExtensionMemberVocab, 
+                required=True,
+                ))    
+    
+
+class CommitteeMemberAddForm( GroupMemberAddForm ):
+    _qryAddCommitteeMemberVocab = sqlutils.SQLQuerySource(
+        sqlstatements. sql_AddCommitteeMember, 'fullname', 'user_id')
+    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd   
+
+    def get_form_fields(self):
+        base_fields = super(CommitteeMemberAddForm, self).get_form_fields()            
+        return base_fields + form.Fields(
+            schema.Choice(
+                __name__="user_id",
+                title=_(u"Committee member"),  
+                source=self._qryAddCommitteeMemberVocab, 
+                required=True,
+                ))  
+
+
+
+class ICommitteeStaffAdd ( ICommitteeStaff ):
     """
     override some fields with custom schema
     """
-    user_id = schema.Choice(title=_(u"Staff Member"),  
-                                source=membersEditVocab, 
-                                required=True,
-                                )
-    replaced_id = schema.Choice(title=_(u"substituted by"),  
-                                source=substitutionsEditVocab, 
-                                required=False,
+    user_id = schema.Choice(
                                 )
                                 
-class CommitteeStaffEdit( CustomEditForm ):
-    """
-    override the AddForm 
-    """
-    form_fields = form.Fields( ICommitteeStaffEdit ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    form_fields["notes"].custom_widget=widgets.RichTextEditor 
-    Adapts = ICommitteeStaffEdit
-    CustomValidation =  validations.CommitteeMemberDatesEdit   
-
-   
-class MinistryEdit( CustomEditForm ):
-    Adapts = IMinistry   
-    form_fields = form.Fields( IMinistry )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["description"].custom_widget=widgets.RichTextEditor         
-    CustomValidations = validations.MinistryDatesEdit
-
-class IMinisterEdit( IMinister ):
-    """ Custom schema to override some autogenerated fields"""
-    user_id = schema.Choice(title=_(u"Minister"),  
-                                source=membersEditVocab, 
-                                required=True,
-                                )
-    replaced_id = schema.Choice(title=_(u"substituted by"),  
-                                source=substitutionsEditVocab, 
-                                required=False,
-                                )
-
-class MinisterEdit( CustomEditForm ):
-    Adapts = IMinisterEdit   
-    form_fields = form.Fields( IMinisterEdit ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["notes"].custom_widget=widgets.RichTextEditor         
-    CustomValidations = validations.MinisterDatesEdit
+class CommitteeStaffAddForm( GroupMemberAddForm ):
+    _qryAddCommitteeStaffVocab = sqlutils.SQLQuerySource(
+        sqlstatements.sql_AddCommitteeStaff, 'fullname', 'user_id')
+    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd  
     
-class ExtensionGroupEdit( CustomEditForm ):
-    Adapts = IExtensionGroup   
-    form_fields = form.Fields( IExtensionGroup )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget 
-    form_fields["description"].custom_widget=widgets.RichTextEditor         
-    CustomValidations = validations.ExtensionGroupDatesEdit    
-        
-class IExtensionMemberEdit( IExtensionMember ):
-    """ Custom schema to override some autogenerated fields"""
-    user_id = schema.Choice(title=_(u"Member"),  
-                                source=membersEditVocab, 
-                                required=True,
-                                )
-    replaced_id = schema.Choice(title=_(u"substituted by"),  
-                                source=substitutionsEditVocab, 
-                                required=False,
-                                )
-       
-class ExtensionMemberEdit( CustomEditForm ):
-    Adapts = IExtensionMemberEdit   
-    form_fields = form.Fields( IExtensionMemberEdit ).select(
-                    'user_id', 
-                    'start_date', 'end_date',
-                    'notes')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget         
-    form_fields["notes"].custom_widget=widgets.RichTextEditor 
-    CustomValidations = validations.ExtensionMemberDatesEdit    
- 
+    def get_form_fields(self):
+        base_fields = super(CommitteeStaffAddForm, self).get_form_fields()            
+        return base_fields + form.Fields(
+            schema.Choice(
+                __name__="user_id",
+                title=_(u"Staff Member"),  
+                source=self._qryAddCommitteeStaffVocab, 
+                required=True,
+                ))  
 
-titleEditVocab =  sqlutils.SQLQuerySource(sqlstatements.sql_EditMemberTitle, 'ordered_title', 'user_role_type_id')
-     
-class IMemberRoleTitleEdit( IMemberRoleTitle ):
-    title_name_id = schema.Choice( title=_(u"Title"),  
-                                    source=titleEditVocab, 
-                                    required=True,
-                                    )  
-     
-class MemberTitleEdit( CustomEditForm ):
-    form_fields = form.Fields( IMemberRoleTitleEdit ).select('title_name_id', 'start_date', 'end_date')
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget
-    Adapts = IMemberRoleTitleEdit
+class PartyMemberAdd( GroupMemberAddForm ):
+    """add a person to a party"""
+    #XXX
+    pass
+
+class MemberOfPartyAdd( GroupMemberAddForm ):
+    """ add a partymembership to a person """
+    #XXX
+    #Adapts = IMemberOfParty    
+    CustomValidation = validations.checkPartyMembershipDates
+
+
+
+
+
+
+############ Titles for Users and Group members ############
+
+
+class MemberTitleEditForm( EditForm ):
+    _titleEditVocab =  sqlutils.SQLQuerySource(
+        sqlstatements.sql_EditMemberTitle, 'ordered_title', 'user_role_type_id')
+    
+     def get_form_fields(self):
+        base_fields = super(MemberTitleEditForm, self).get_form_fields()
+            
+        return base_fields.omit("title_name_id") + form.Fields(
+            schema.Choice(
+                __name__="title_name_id",
+                title=_(u"Title"),  
+                source=self._titleEditVocab, 
+                required=True,
+                ))
+    
     CustomValidations =  validations.CheckMemberTitleDateEdit
 
+################# Paliamentary Items ########################
 
 class QuestionAdd(AddForm):
     _qryAddQuestionMinistryVocab = sqlutils.SQLQuerySource(
@@ -912,6 +750,7 @@ class QuestionAdd(AddForm):
         name = self.context.domain_model.__name__
         self._next_url = absoluteURL(ob, self.request) + \
                          "/?portal_status_message=%s Added" % name
+                         
 
 class QuestionEditForm(EditForm):
     """Edit a question.
@@ -923,7 +762,8 @@ class QuestionEditForm(EditForm):
     _qryEditQuestionMinistryVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_select_question_ministry_edit, 'full_name', 'group_id', 
         {'parliament_id':'$parliament_id',})
-
+    CustomValidations = validations.QuestionEdit
+    
     def get_form_fields(self):
         base_fields = super(QuestionEditForm, self).get_form_fields()
             
@@ -935,77 +775,10 @@ class QuestionEditForm(EditForm):
                 required=False,
                 ))
                                                     
-    CustomValidations = validations.QuestionEdit
 
-class ResponseEdit ( CustomEditForm ):
-    """
-    Answer a Question
-    UI for ministry to input response
-    Display the question when adding the answer.
-    """
-    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
-    Adapts = IResponse
-    form_fields["response_text"].custom_widget=widgets.RichTextEditor 
-    #form_fields["response_type"].custom_widget=widgets.CustomRadioWidget
-    CustomValidations =  validations.ResponseEdit
-    
-class BungeniRSSEventView(BrowserView):   
-    __call__ = ViewPageTemplateFile('templates/rss-event-view.pt') 
-    form_name = None  
 
-    # Required channel elements:
-    
-    def rssTitle( self ):
-        """
-        title	The name of the channel. 
-        It's how people refer to your service. 
-        If you have an HTML website that contains the same information as your RSS file, 
-        the title of your channel should be the same as the title of your website.
-        """ 
-        return self.context.title
+
         
-    def rssDescription ( self ):
-        """
-        description       	Phrase or sentence describing the channel.
-        """
-        return self.context.summary
-        
-    def rssLink( self ):
-        """
-        link	The URL to the HTML website corresponding to the channel.
-        """
-        return absoluteURL( self.context, self.request )                    
-        
-    # items of a channel:
-    
-    def rssItems( self ):
-        """
-        Elements of <item> 
-        A channel may contain any number of <item>s. 
-        An item may represent a "story" -- much like a story in a newspaper or magazine; 
-        if so its description is a synopsis of the story, and the link points to the full story. 
-        An item may also be complete in itself, if so, the description contains the text (entity-encoded HTML is allowed; 
-        see examples), and the link and title may be omitted. 
-        All elements of an item are optional, 
-        however at least one of title or description must be present. 
-        
-        title	The title of the item.
-        link	The URL of the item.
-        description     	The item synopsis.
-        pubDate	Indicates when the item was published. 
-                
-        """
-        
-        session = Session()
-        bill_id = self.context.bill_id
-        connection = session.connection(domain.Bill)
-        results = connection.execute( sqlstatements.sql_bill_timeline % {'item_id' : bill_id} )       
-        path = absoluteURL( self.context, self.request ) 
-        rlist = []
-        for result in results:
-            rlist.append({'title': result.atype, 'description': result.title, 'date': result.adate.isoformat()})
-        return rlist           
-                
 
 
 

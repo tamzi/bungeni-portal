@@ -508,7 +508,7 @@ class GroupMemberEditForm ( EditForm ):
         'user_name', 'user_id',                                                     
         {'user_id':'$user_id', 'group_id' : '$group_id'} )  
     
-     def get_form_fields(self):
+    def get_form_fields(self):
         base_fields = super(MemberTitleEditForm, self).get_form_fields()
             
         return base_fields.omit("user_id", "replaced_id") + form.Fields(
@@ -602,7 +602,7 @@ class MinistersAddForm( GroupMemberAddForm ):
         sqlstatements.sql_addMinister, 'fullname', 'user_id')
     CustomValidation =   validations.CheckMinisterDatesInsideMinistryDatesAdd    
 
-   def get_form_fields(self):
+    def get_form_fields(self):
         base_fields = super(MinistersAddForm, self).get_form_fields()
             
         return base_fields + form.Fields(
@@ -693,7 +693,7 @@ class MemberTitleEditForm( EditForm ):
     _titleEditVocab =  sqlutils.SQLQuerySource(
         sqlstatements.sql_EditMemberTitle, 'ordered_title', 'user_role_type_id')
     
-     def get_form_fields(self):
+    def get_form_fields(self):
         base_fields = super(MemberTitleEditForm, self).get_form_fields()
             
         return base_fields.omit("title_name_id") + form.Fields(

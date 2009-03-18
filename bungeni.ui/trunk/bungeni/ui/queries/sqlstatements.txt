@@ -30,8 +30,6 @@ call all the sql statments to make sure that the syntax is correct:
 
    >>> utils.execute_sql( s.sql_addMinister , primary_key = 1)
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   
-   
    >>> utils.execute_sql(s.sql_addExtensionMember ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
    >>> utils.execute_sql(s.sql_AddCommitteeMember ,**{'primary_key' : 1 })
@@ -101,12 +99,7 @@ the sql statements used in the validations:
    >>> utils.execute_sql(sv.checkMyMemberTitleUnique ,**{'title_name_id' : 1, 'group_id' : 1 , 'role_title_id' : 1,  'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
 
-   
-   
 
-
-
-  
 cleanup
 -------
    >>> connection.close()

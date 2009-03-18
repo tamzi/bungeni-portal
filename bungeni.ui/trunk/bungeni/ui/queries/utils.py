@@ -11,8 +11,16 @@ from ore.alchemist.container import valueKey
 import bungeni.models.domain as domain
 from bungeni.ui.i18n import _
 import bungeni.models.schema as db_schema
+from sqlalchemy import sql
 
 
+def execute_sql(sql_statement, **kwargs):
+    session = Session()
+    connection = session.connection(domain.Parliament)
+    query = connection.execute(sql.text(sql_statement), **kwargs)
+    return query
+     
+     
 def get_user_id( name ):
     session = Session()
     userq = session.query(domain.User).filter(db_schema.users.c.login == name )
@@ -24,14 +32,14 @@ def get_user_id( name ):
     return user_id      
 
 
-def checkBySQL( sql_statement, check_dict):
+def checkBySQL( sql_statement, **check_dict):
     """
     Run SQL with variables in the dict
     """
     session = Session()
-    sql_text = sql_statement % (check_dict)
-    connection = session.connection(domain.Parliament)      
-    query = connection.execute(sql_text)
+    #sql_text = sql_statement % (check_dict)
+    #connection = session.connection(domain.Parliament)      
+    query = execute_sql(sql_statement, **check_dict)
     result = query.fetchone()
     if result is None:
         return result
@@ -47,7 +55,7 @@ def checkDateInInterval( pp_key, checkDate, sql_statement):
     """
     if (type(checkDate) is datetime.datetime or type(checkDate) is datetime.date):
         checkDict = { 'date': checkDate, 'parent_key': pp_key }
-        return checkBySQL( sql_statement, checkDict)
+        return checkBySQL( sql_statement, **checkDict)
     else:
         raise TypeError        
 
@@ -132,10 +140,11 @@ class SQLQuerySource ( object ):
         filter_dict.update(self.filter)
         filter_dict = self.constructFilterDict( filter_dict, context )
         # the actual replacing of the filtervalues in the string
-        sql_statement =  ( self.sql_statement % filter_dict )   
+        #sql_statement =  ( self.sql_statement % filter_dict )   
         #get the connection from a known mapper so we can execute our raw sql query 
-        connection = session.connection(domain.Parliament)      
-        query = connection.execute(sql_statement)        
+        #connection = session.connection(domain.Parliament)      
+        #query = connection.execute(sql_statement)        
+        query = execute_sql(self.sql_statement, **filter_dict)
         return query
         
     def __call__( self, context=None ):

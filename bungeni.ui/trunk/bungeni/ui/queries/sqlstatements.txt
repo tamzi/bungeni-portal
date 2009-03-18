@@ -8,7 +8,8 @@
    >>> import bungeni.models as model
    >>> import bungeni.ui.queries.sqlstatements as s   
    >>> import bungeni.ui.queries.sqlvalidation as sv      
-  
+   >>> import datetime
+   >>> import bungeni.ui.queries.utils as utils
    
 Setting up Database Connection and Utilities:
 
@@ -22,82 +23,86 @@ Setting up Database Connection and Utilities:
    >>> session = Session()
 
    >>> connection = db.connect()
-
+   >>> today = datetime.date.today()
    
    
 call all the sql statments to make sure that the syntax is correct:
 
-   >>> connection.execute(s.sql_addMinister % {'primary_key' : 1 })
+   >>> utils.execute_sql( s.sql_addMinister , primary_key = 1)
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_addExtensionMember % {'primary_key' : 1 })
+   
+   
+   >>> utils.execute_sql(s.sql_addExtensionMember ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_AddCommitteeMember % {'primary_key' : 1 })
+   >>> utils.execute_sql(s.sql_AddCommitteeMember ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_AddCommitteeStaff % {'primary_key' : 1 })
+   >>> utils.execute_sql(s.sql_AddCommitteeStaff ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_AddMemberOfParliament % {'primary_key' : 1 })
+   >>> utils.execute_sql(s.sql_AddMemberOfParliament ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_add_members % {'primary_key' : 1 })
+   >>> utils.execute_sql(s.sql_add_members ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_addMemberTitle % {'primary_key' : 1 })
+   >>> utils.execute_sql(s.sql_addMemberTitle ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_select_question_ministry_add  % {'parliament_id' : 1})
+   >>> utils.execute_sql(s.sql_select_question_ministry_add  ,**{'parliament_id' : 1})
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_edit_members % {'member_id' : 1 })
+   >>> utils.execute_sql(s.sql_edit_members ,**{'member_id' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_editSubstitution % {'group_id' : 1 , 'user_id' : 1})
+   >>> utils.execute_sql(s.sql_editSubstitution ,**{'group_id' : 1 , 'user_id' : 1})
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_EditMemberTitle % {'primary_key' : 1 })
+   >>> utils.execute_sql(s.sql_EditMemberTitle ,**{'primary_key' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_select_question_ministry_edit % {'parliament_id' : 1})
+   >>> utils.execute_sql(s.sql_select_question_ministry_edit ,**{'parliament_id' : 1})
    <sqlalchemy.engine.base.ResultProxy object at ...>
-   >>> connection.execute(s.sql_bill_timeline % { 'item_id' : 1 })
+   >>> utils.execute_sql(s.sql_bill_timeline , **{ 'item_id' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...>
    
 the sql statements used in the validations:   
-   >>> connection.execute(sv.checkSessionInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkSessionInterval ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkSittingSessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkSittingSessionInterval  ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkSittingGroupInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkSittingGroupInterval  ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkGovernmentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkGovernmentInterval ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...>         
-   >>> connection.execute(sv.checkParliamentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkParliamentInterval ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkForOpenParliamentInterval)
+   >>> utils.execute_sql(sv.checkForOpenParliamentInterval)
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkForOpenSessionInterval % {'parliament_id' : 1})
+   >>> utils.execute_sql(sv.checkForOpenSessionInterval ,**{'parliament_id' : 1})
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkForOpenPartymembership % {'user_id' : 1})
+   >>> utils.execute_sql(sv.checkForOpenPartymembership ,**{'user_id' : 1})
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkPartymembershipInterval  % {'user_id' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkPartymembershipInterval  ,**{'user_id' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMemberTitleDuplicates % { 'membership_id' : 1, 'title_name_id' :1,  'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMemberTitleDuplicates ,** { 'membership_id' : 1, 'title_name_id' :1,  'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMemberTitleUnique % { 'title_name_id' : 1, 'group_id' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMemberTitleUnique , **{ 'title_name_id' : 1, 'group_id' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMySittingSessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMySittingSessionInterval  ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMySittingGroupInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMySittingGroupInterval  ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMySessionInterval  % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMySessionInterval  ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMyGovernmentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMyGovernmentInterval ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMyParliamentInterval % {'parent_key' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMyParliamentInterval ,**{'parent_key' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkForMyOpenParliamentInterval  % {'parent_key' : 1})
+   >>> utils.execute_sql(sv.checkForMyOpenParliamentInterval  ,**{'parent_key' : 1})
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkForMyOpenPartymembership  % {'parent_key' : 1, 'user_id' : 1 })
+   >>> utils.execute_sql(sv.checkForMyOpenPartymembership  ,**{'parent_key' : 1, 'user_id' : 1 })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMyPartymembershipInterval  % {'parent_key' : 1, 'user_id' : 1 , 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMyPartymembershipInterval  ,**{'parent_key' : 1, 'user_id' : 1 , 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMyMemberTitleDuplicates  % {'title_name_id' : 1, 'membership_id' : 1 , 'role_title_id' : 1, 'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMyMemberTitleDuplicates  ,**{'title_name_id' : 1, 'membership_id' : 1 , 'role_title_id' : 1, 'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
-   >>> connection.execute(sv.checkMyMemberTitleUnique % {'title_name_id' : 1, 'group_id' : 1 , 'role_title_id' : 1,  'date': '2000-01-01' })
+   >>> utils.execute_sql(sv.checkMyMemberTitleUnique ,**{'title_name_id' : 1, 'group_id' : 1 , 'role_title_id' : 1,  'date': today })
    <sqlalchemy.engine.base.ResultProxy object at ...> 
 
+   
+   
 
 
 

@@ -15,7 +15,7 @@ import bungeni.models.domain as domain
 from bungeni.ui.i18n import _
 from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.table import AjaxContainerListing
-from bungeni.ui.queries import sqlstatements
+from bungeni.ui.queries import sqlstatements, utils
 
 
 from fields import BungeniAttributeDisplay
@@ -395,10 +395,8 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         """
         refresh the query
         """       
-        session = Session()
         bill_id = self.context.bill_id
-        connection = session.connection(domain.Bill)
-        self.results = connection.execute( sqlstatements.sql_bill_timeline % {'item_id' : bill_id} )       
+        self.results = utils.execute_sql(sqlstatements.sql_bill_timeline, item_id=bill_id)
         path = absoluteURL( self.context, self.request ) 
         self.addurl = '%s/event/add' %( path )
          

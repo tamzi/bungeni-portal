@@ -198,7 +198,7 @@ def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
     errors = errors + checkDates(context.__parent__ , data )
     #check for open sessions: you may only add a session if all others (in this parliament) are closed
     check_dict = {'parliament_id' : context.__parent__.parliament_id}
-    open_session = checkBySQL(sql.checkForOpenSessionInterval , check_dict)
+    open_session = checkBySQL(sql.checkForOpenSessionInterval , **check_dict)
     if open_session:
         errors.append(interface.Invalid(_("The Session (%s) is not yet closed") % open_session, "start_date" ))
       
@@ -218,17 +218,17 @@ def checkPartyMembershipDates( self, context, data ):
     """
     errors=[]
     check_dict = {'user_id' : context.__parent__.user_id}
-    overlaps = checkBySQL( sql.checkForOpenPartymembership, check_dict)
+    overlaps = checkBySQL( sql.checkForOpenPartymembership, **check_dict)
     if overlaps is not None:
         errors.append(interface.Invalid(_("The person is still a member in (%s)") % overlaps, "start_date" ))    
     if data['start_date']:    
         check_dict['date'] = data['start_date']       
-        overlaps = checkBySQL( sql.checkPartymembershipInterval, check_dict)
+        overlaps = checkBySQL( sql.checkPartymembershipInterval, **check_dict)
         if overlaps is not None:
             errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "start_date" ))           
     if data['end_date']:    
         check_dict['date'] = data['end_date']       
-        overlaps = checkBySQL( sql.checkPartymembershipInterval, check_dict)
+        overlaps = checkBySQL( sql.checkPartymembershipInterval, **check_dict)
         if overlaps is not None:
             errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "end_date" ))           
     return errors
@@ -258,24 +258,24 @@ def CheckMemberTitleDateAdd( self, context, data):
                  'membership_id' : context.__parent__.membership_id}  
     if data['start_date'] is not None:
         checkdict['date'] = data['start_date']                             
-        overlaps = checkBySQL(sql.checkMemberTitleDuplicates, checkdict)
+        overlaps = checkBySQL(sql.checkMemberTitleDuplicates, **checkdict)
         if overlaps:
             errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "start_date" ))
     if data['end_date'] is not None:
         checkdict['date'] = data['end_date']                             
-        overlaps = checkBySQL(sql.checkMemberTitleDuplicates, checkdict)
+        overlaps = checkBySQL(sql.checkMemberTitleDuplicates, **checkdict)
         if overlaps:
             errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "end_date" ))     
     checkdict = { 'title_name_id' : data['title_name_id'] , 
                   'group_id' : context.__parent__.group_id }
     if data['start_date'] is not None:
         checkdict['date'] = data['start_date']               
-        overlaps = checkBySQL(sql.checkMemberTitleUnique, checkdict)
+        overlaps = checkBySQL(sql.checkMemberTitleUnique, **checkdict)
         if overlaps:        
             errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "start_date" ))        
     if data['end_date'] is not None:
         checkdict['date'] = data['end_date'] 
-        overlaps=checkBySQL(sql.checkMemberTitleUnique, checkdict)
+        overlaps=checkBySQL(sql.checkMemberTitleUnique, **checkdict)
         if overlaps:     
             errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
                        
@@ -382,12 +382,12 @@ def CheckMemberTitleDateEdit( self, context, data):
                  'membership_id' : context.__parent__.__parent__.membership_id}  
     if data['start_date'] is not None:
         checkdict['date'] = data['start_date']                             
-        overlaps = checkBySQL(sql.checkMyMemberTitleDuplicates, checkdict)
+        overlaps = checkBySQL(sql.checkMyMemberTitleDuplicates, **checkdict)
         if overlaps:
             errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "start_date" ))
     if data['end_date'] is not None:
         checkdict['date'] = data['end_date']                             
-        overlaps = checkBySQL(sql.checkMyMemberTitleDuplicates, checkdict)
+        overlaps = checkBySQL(sql.checkMyMemberTitleDuplicates, **checkdict)
         if overlaps:
             errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "end_date" ))     
     checkdict = { 'title_name_id' : data['title_name_id'] , 
@@ -395,12 +395,12 @@ def CheckMemberTitleDateEdit( self, context, data):
                   'group_id' : context.__parent__.__parent__.group_id }
     if data['start_date'] is not None:
         checkdict['date'] = data['start_date']               
-        overlaps = checkBySQL(sql.checkMyMemberTitleUnique, checkdict)
+        overlaps = checkBySQL(sql.checkMyMemberTitleUnique, **checkdict)
         if overlaps:        
             errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "start_date" ))        
     if data['end_date'] is not None:
         checkdict['date'] = data['end_date'] 
-        overlaps=checkBySQL(sql.checkMyMemberTitleUnique, checkdict)
+        overlaps=checkBySQL(sql.checkMyMemberTitleUnique, **checkdict)
         if overlaps:     
             errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
 

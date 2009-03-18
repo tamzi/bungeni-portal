@@ -712,6 +712,8 @@ class QuestionAdd(AddForm):
     _qryAddQuestionMinistryVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_select_question_ministry_add, 'full_name', 'group_id')
 
+    actions = AddForm.actions.copy()
+
     def get_form_fields(self):
         form_fields = super(
             QuestionAdd, self).get_form_fields().omit("ministry_id")

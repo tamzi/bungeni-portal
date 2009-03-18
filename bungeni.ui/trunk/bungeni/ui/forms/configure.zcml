@@ -13,14 +13,14 @@
      />   
 
   <!-- Generic Add Form -->
-  
+
   <browser:view
      name="add"
      for="*"
-     class=".forms.BungeniAddForm"
+     class=".common.AddForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />    
+     />          
 
   <!-- content display viewlets -->
   

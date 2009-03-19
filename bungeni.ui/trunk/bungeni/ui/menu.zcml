@@ -108,7 +108,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Schedule item"
      action="./items/add"
-     icon="++resource++ui-images/icon_schedule_item.png"
+     icon="++resource++ui-images/icon_add.png"
      permission="bungeni.itemschedule.Add"
      />
 

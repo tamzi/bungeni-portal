@@ -8,7 +8,12 @@ $Id: $
 """
 from zope import interface, component
 
-from zope.component.interfaces import IResource
+try:
+    from zope.app.publisher.interfaces import IResource
+except ImportError:
+    # backwards-compatibility
+    from zope.component.interfaces import IResource
+
 from zope.publisher.interfaces import NotFound
 from zope.publisher.interfaces.browser import IBrowserRequest, IBrowserPublisher
 

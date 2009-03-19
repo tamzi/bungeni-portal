@@ -16,6 +16,7 @@ from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
+from bungeni.ui.utils import is_ajax_request
 from bungeni.core.location import location_wrapped
 
 def get_sitting_actions(sitting, request):
@@ -28,6 +29,7 @@ def get_sitting_actions(sitting, request):
     return [{
         'url': urljoin(url, item['action']),
         'title': item['title'],
+        'id': item['title'].lower().replace(' ', '-'),
         'description': item['description'],
         'icon': urljoin(site_url, item['icon'])} for item in items
             ]
@@ -72,7 +74,9 @@ def create_sittings_map(sittings, request):
     for sitting in sittings:
         day = sitting.start_date.weekday()
         hour = sitting.start_date.hour
+
         mapping[day, hour] = {
+            'url': absoluteURL(sitting, request),
             'items': get_sitting_items(sitting, request),
             'record': sitting,
             'class': u"sitting",
@@ -94,6 +98,8 @@ class CalendarView(BrowserView):
     """Main calendar view."""
 
     template = ViewPageTemplateFile("main.pt")
+    ajax = ViewPageTemplateFile("ajax.pt")
+    
     _macros = ViewPageTemplateFile("macros.pt")
 
     short_name = u"Calendar"
@@ -119,6 +125,8 @@ class CalendarView(BrowserView):
                     "Timestamp must be floating-point (got %s)." % timestamp)
             date = utils.datetimedict.fromtimestamp(timestamp)
 
+        if is_ajax_request(self.request):
+            return self.render_weekly(date, template=self.ajax)
         return self.render_weekly(date)
 
     def publishTraverse(self, request, name):
@@ -136,7 +144,10 @@ class CalendarView(BrowserView):
         group.__parent__ = self.context
         return group
         
-    def render_weekly(self, date):
+    def render_weekly(self, date, template=None):
+        if template is None:
+            template = self.template
+            
         calendar_url = self.request.getURL()
         date = date - timedelta(days=date.weekday())
         days = tuple(date + timedelta(days=d) for d in range(7))
@@ -146,7 +157,7 @@ class CalendarView(BrowserView):
             end_date=days[-1],
             )
         
-        return self.template(
+        return template(
             display="weekly",
             formatted_date=_(
                 u"Showing the week starting on $m/$d-$g @ $r.",

@@ -2,7 +2,7 @@
   <tr tal:attributes="id string:row-${item/id}">
     <td tal:content="item/name" />
     <td>
-      <a relation="id"
+      <a rel="id"
          tal:attributes="href item/url;
                          name item/id;
                          title item/description"

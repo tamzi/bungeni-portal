@@ -4,31 +4,44 @@
   $.fn.bungeniCalendarInteractivity = function() {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
+
+    function _update_tables(data) {
+      var old_tables = calendar.find("table");
+      var new_tables = $(data).find(selector).find("table");
+      
+      old_tables.eq(0).replaceWith(new_tables.eq(0));
+      old_tables.eq(1).replaceWith(new_tables.eq(1));
+    }
     
     calendar.find("td.sitting")
     .droppable({
       accept: "*",
           })
-    .bind('drop', function(droppable) {
-        var id = $(this).find("a[relation=id]");
+    .bind('drop', function(droppable, event, draggable) {
+        var element = draggable.draggable;
+        var id = $(element).find("a[rel=id]").attr('name');
         var target = $(droppable.target);
-        var link = target.find("a[relation=schedule-item]");
+        var link = target.find("a[rel=schedule-item]");
         var url = link.attr('href');
 
-        $.post(url, {item_id: id}, function(data, status) {
-            console.log(data);
+        // ask for a redirect to the current (updated) calendar
+        var next_url = $("a[rel=calendar]").attr('href');
+          
+        $.post(url, {
+              headless: 'true',
+              next_url: next_url,
+              item_id: id}, function(data, status) {
+            if (status == 'success') {
+              _update_tables(data);
+              calendar.bungeniCalendarInteractivity();
+            }
           });
       });
 
     calendar.find("thead a")
     .click(function() {
         $.get($(this).attr('href'), {}, function(data, status) {
-            var old_tables = calendar.find("table");
-            var new_tables = $(data).find(selector).find("table");
-            
-            old_tables.eq(0).replaceWith(new_tables.eq(0));
-            old_tables.eq(1).replaceWith(new_tables.eq(1));
-
+            _update_tables(data);
             calendar.bungeniCalendarInteractivity();
           });
         return false;

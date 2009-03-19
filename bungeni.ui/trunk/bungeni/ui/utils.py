@@ -2,6 +2,9 @@
 
 import datetime
 
+def is_ajax_request(request):
+    return request.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 def urljoin(base, action):
     if action is None:
         return

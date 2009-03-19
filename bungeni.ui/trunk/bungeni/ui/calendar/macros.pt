@@ -4,78 +4,91 @@
 
   <div metal:define-macro="weekly">
     <div id="weekly-calendar" class="listing">
-      <em>Weekly</em>
-      
-      <p tal:content="options/formatted_date"
-         i18n:translate="">
-        Showing the week starting on 1/1-2009.
-      </p>
+      <p><em>Weekly</em></p>
 
-      <table class="listing grid">
-        <thead>
-          <tr>
-            <td colspan="8">
-              <a class="previous-link"
-                 tal:attributes="href options/links/previous_week"
-                 i18n:translate="">
-                &larr;
-              </a>
-              <a class="next-link"
-                 tal:attributes="href options/links/next_week"
-                 i18n:translate="">
-                &rarr;
-              </a>
-              <span i18n:translate=""
-                    tal:content="options/formatted_month" />
-            </td>
-          </tr>
-          <tr>        
-            <th>
-              <span i18n:translate="">
-                Week <span i18n:name="week_no" tal:replace="options/week_no" />
-              </span>
-            </th>
-            <th tal:repeat="day options/days"
-                tal:attributes="id string:tdid-${day/id}">
-              <b tal:content="day/formatted" />
-            </th>
-          </tr>
-        </thead>
-        <tbody tal:define="sittings_map options/sittings_map">
-          <tr tal:repeat="hour options/hours">
-            <td class="hour" tal:content="string: ${hour}:00" />
-            <tal:column repeat="day python: range(7)">
-              <td tal:define="sitting python: sittings_map.get((day, hour), False)"
-                  tal:attributes="rowspan sitting/span|nothing;
-                                  class sitting/class|nothing"
-                  tal:condition="python: sitting is not None">
-                <tal:sitting condition="sitting">
-                  <ul class="actions">
-                    <li tal:repeat="action sitting/actions">
-                      <a tal:attributes="href action/url">
-                        <span tal:condition="not: action/icon"
-                              tal:replace="action/title" />
-                        <img tal:condition="action/icon"
-                             tal:attributes="src action/icon;
-                                             alt action/title" />
-                      </a>
-                    </li>
-                  </ul>
-
-                  <span class="sitting-type" 
-                        tal:content="sitting/record/type/sitting_type" />
-                  
-                  <div tal:repeat="item sitting/items">
-                    <a tal:attributes="href item/url;
-                                       title item/description"
-                       tal:content="item/title" />
-                  </div>
-                </tal:sitting>
+      <div id="calendar-header">
+        <table class="listing grid">
+          <thead>
+            <tr>
+              <td colspan="8">
+                <a class="previous-link"
+                   tal:attributes="href options/links/previous_week"
+                   i18n:translate="">
+                  &larr;
+                </a>
+                <a class="next-link"
+                   tal:attributes="href options/links/next_week"
+                   i18n:translate="">
+                  &rarr;
+                </a>
+                <span i18n:translate=""
+                      tal:content="options/formatted_month" />
               </td>
-            </tal:column>
-          </tr>
-        </tbody>
-      </table>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      
+      <div id="calendar-table">
+        <table class="listing grid">
+          <thead>
+            <tr>        
+              <th>
+                <a i18n:translate=""
+                   rel="calendar"
+                   tal:attributes="href string:${request/getURL}?${request/QUERY_STRING}">
+                  Week <span i18n:name="week_no" tal:replace="options/week_no" />
+                </a>
+              </th>
+              <th tal:repeat="day options/days"
+                  tal:attributes="id string:tdid-${day/id}">
+                <b tal:content="day/formatted" />
+              </th>
+            </tr>
+          </thead>
+        
+
+          <tbody tal:define="sittings_map options/sittings_map">
+            <tr tal:repeat="hour options/hours">
+              <td class="hour" tal:content="string: ${hour}:00" />
+              <tal:column repeat="day python: range(7)">
+                <td tal:define="sitting python: sittings_map.get((day, hour), False)"
+                    tal:attributes="rowspan sitting/span|nothing;
+                                    class sitting/class|nothing;
+                                    id string:sitting-${sitting/record/sitting_id}|nothing"
+                    tal:condition="python: sitting is not None">
+                  <tal:sitting condition="sitting">
+                    <ul class="actions">
+                      <li tal:repeat="action sitting/actions">
+                        <a tal:attributes="rel action/id;
+                                           href action/url">
+                          <span tal:condition="not: action/icon"
+                                tal:replace="action/title" />
+                          <img tal:condition="action/icon"
+                               tal:attributes="src action/icon;
+                                               alt action/title" />
+                        </a>
+                      </li>
+                    </ul>
+
+                    <a tal:attributes="href sitting/url">
+                      <span class="sitting-type" 
+                            tal:content="sitting/record/type/sitting_type" />
+                    </a>
+                    
+                    <div tal:repeat="item sitting/items">
+                      <a tal:attributes="href item/url;
+                                         title item/description"
+                         tal:content="item/title" />
+                    </div>
+                  </tal:sitting>
+                </td>
+              </tal:column>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      
     </div>
   </div>
   

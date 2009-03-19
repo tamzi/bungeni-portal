@@ -515,7 +515,6 @@ class SessionsEditForm ( EditForm ):
     CustomValidations = validations.CheckSessionDatesEdit    
 
 class GroupSittingAddForm( AddForm ):
-   
     CustomValidation =  validations.CheckSittingDatesInsideParentDatesAdd 
 
 class GroupSittingEditForm( EditForm ):
@@ -566,7 +565,7 @@ class QuestionAddForm(AddForm):
 
     def get_form_fields(self):
         form_fields = super(
-            QuestionAdd, self).get_form_fields().omit("ministry_id")
+            QuestionAddForm, self).get_form_fields().omit("ministry_id")
 
         if self.context.__parent__.__class__ != domain.Question:
             form_fields += form.Fields(

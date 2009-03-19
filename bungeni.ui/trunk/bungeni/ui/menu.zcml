@@ -44,7 +44,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add sitting..."
      action="./group/sittings/add"
-     permission="bungeni.calendar.AddSitting"
+     permission="bungeni.sitting.Add"
      />
 
   <browser:menuItem
@@ -109,9 +109,18 @@
      title="Schedule item"
      action="./items/add"
      icon="++resource++ui-images/icon_schedule_item.png"
-     permission="bungeni.calendar.ScheduleItem"
+     permission="bungeni.itemschedule.Add"
      />
-  
+
+  <browser:menuItem
+     menu="sitting_actions"
+     for="bungeni.models.interfaces.IGroupSitting"
+     title="Delete sitting"
+     action="./delete"
+     icon="++resource++ui-images/icon_delete.png"
+     permission="bungeni.sitting.Delete"
+     />
+
   <!-- menu items -->
   
   <browser:menuItem

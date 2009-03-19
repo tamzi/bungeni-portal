@@ -5,7 +5,7 @@
 
 <div metal:fill-slot="body">
 
-
+  
 
 <metal:block define-macro="form"
              i18n:domain="alchemist">
@@ -15,7 +15,7 @@
 	method="post"
 	enctype="multipart/form-data">
 
-    
+
         <dl class="portalMessage info"                                                                                                              
             tal:condition="view/status"
             tal:define="mtype string:info"
@@ -47,10 +47,11 @@
   <metal:block define-slot="pre-fieldset">
   </metal:block>
 
-  <fieldset tal:define="widgets view/widgets">
+  <fieldset tal:define="widgets view/widgets;
+                        form_name view/form_name|nothing"
+            tal:omit-tag="not:form_name">
 
-    <legend tal:define="form_name view/form_name|nothing"
-            tal:condition="form_name"
+    <legend tal:condition="form_name"
             tal:content="form_name"
             i18n:translate="">
       Form name

@@ -117,7 +117,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Delete sitting"
      action="./delete"
-     icon="++resource++ui-images/icon_delete.png"
+     icon="++resource++ui-images/icon_delete.gif"
      permission="bungeni.sitting.Delete"
      />
 

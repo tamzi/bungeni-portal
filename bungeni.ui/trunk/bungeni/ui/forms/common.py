@@ -1,10 +1,21 @@
-from zope import interface
-from zope.formlib import form
-from zope.traversing.browser import absoluteURL 
+import logging
+import transaction
 
+from zope import interface
+from zope.event import notify
+from zope.formlib import form
+from zope.formlib.namedtemplate import NamedTemplate
+from zope.traversing.browser import absoluteURL
+from zope.container.contained import ObjectRemovedEvent
+from zope.app.pagetemplate import ViewPageTemplateFile
 from alchemist.catalyst import ui
 from alchemist.ui.core import null_validator
 from ore.alchemist.model import queryModelDescriptor
+
+try:
+    from sqlalchemy.exceptions import IntegrityError
+except ImportError:
+    from sqlalchemy.exc import IntegrityError
 
 from bungeni.core.i18n import _
 
@@ -158,3 +169,71 @@ class AddForm(ui.AddForm):
         if not self._next_url:
             self._next_url = absoluteURL(self.context, self.request) + \
                              '/@@add?portal_status_message=%s Added' % name
+
+class DeleteForm(form.PageForm):
+    """Delete-form for Bungeni content.
+
+    Confirmation
+
+        The user is presented with a confirmation form which details
+        the items that are going to be deleted.
+
+    Subobjects
+
+        Recursively, a permission check is carried out for each item
+        that is going to be deleted. If a permission check fails, an
+        error message is displayed to the user.
+
+    Will redirect back to the container on success.
+    """
+
+    form_template = NamedTemplate('alchemist.form')
+    template = ViewPageTemplateFile("templates/delete.pt")
+
+    _next_url = None
+    form_fields = form.Fields()
+    
+    def _can_delete_item(self, action):
+        return True
+
+    def nextURL(self):
+        return self._next_url
+
+    def update(self):
+        self.subobjects = self.get_subobjects()
+        super(DeleteForm, self).update()
+
+    def get_subobjects(self):
+        return ()
+        
+    @form.action(_(u"Delete"), condition=_can_delete_item)
+    def handle_delete(self, action, data):
+        for subobject in self.subobjects:
+            raise NotImplementedError(
+                "Can't delete subobjects.")
+
+        container = self.context.__parent__
+
+        del container[self.context.__name__]
+        
+        try:
+            transaction.commit()
+        except IntegrityError, e:
+            # this should not happen in production; it's a critical
+            # error, because the transaction might have failed in the
+            # second phase of the commit
+            transaction.abort()
+            logging.critical(e)
+
+            self.status = _(u"Could not delete item due to "
+                            "database integrity error.")
+
+            return self.render()
+    
+        notify(ObjectRemovedEvent(
+            self.context, oldParent=container, oldName=self.context.__name__))
+        count = 1
+
+        self.request.response.redirect(
+            absoluteURL(container, self.request) + \
+            '/@@add?portal_status_message=%d items deleted' % count)

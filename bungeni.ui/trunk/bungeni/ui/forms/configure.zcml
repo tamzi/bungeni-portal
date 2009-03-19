@@ -12,7 +12,7 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />   
 
-  <!-- Generic Add Form -->
+  <!-- Generic forms -->
 
   <browser:view
      name="add"
@@ -21,6 +21,14 @@
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
+
+  <browser:view
+     name="delete"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     class=".common.DeleteForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
 
   <!-- content display viewlets -->
   

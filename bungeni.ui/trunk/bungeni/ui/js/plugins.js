@@ -1,5 +1,19 @@
 (function($) {
   var re_time_range = /(.*) \((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
+
+  $.fn.bungeniDragAndDropScheduling = function() {
+    $(this).draggable({
+        cursor: 'move',
+            cursorAt: { left: 5 },
+            helper: function() {
+            var title = $(this).children().eq(1).text();
+            var helper = $('<div class="helper" />');
+            helper.text(title);
+            return helper;
+          },
+        });
+
+  }
   
   $.fn.bungeniCalendarInteractivity = function() {
     var calendar = $(this);

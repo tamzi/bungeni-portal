@@ -8,10 +8,10 @@
        workflows/permissions.zcml
 
     -->
-      
-  <permission id="bungeni.calendar.AddSitting" title="Add sitting" />
-  <permission id="bungeni.calendar.ScheduleItem" title="Schedule item" />
-    
+
+  <permission id="bungeni.sitting.Add" title="Add sitting" />
+  <permission id="bungeni.sitting.Delete" title="Delete sitting" />
+  <permission id="bungeni.itemschedule.Add" title="Add item scheduling" />
 
     <permission id="bungeni.question.Add" title="Add Question" />
     <permission id="bungeni.question.Edit" title="Edit Question" />

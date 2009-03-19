@@ -21,10 +21,9 @@
     <role id="bungeni.Admin" title="Bungeni Admin"/>
     <role id="bungeni.Anonymous" title="Bungeni Visitor"/>
 
-
-    <grant permission="bungeni.calendar.AddSitting" role="bungeni.Clerk" />
-    <grant permission="bungeni.calendar.ScheduleItem" role="bungeni.Clerk" />
-
+    <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.sitting.Delete" role="bungeni.Clerk" />
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />
     
     <grant permission="bungeni.question.Add" role="bungeni.MP" />    
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />

@@ -1,10 +1,7 @@
 # encoding: utf-8
 
 sql_addMinister = """
-    SELECT DISTINCT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS fullname, 
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname, 
         "users"."user_id", 
         "users"."last_name" 
     FROM "public"."ministries", 
@@ -26,11 +23,7 @@ sql_addMinister = """
             )                                           
         ) 
     UNION
-    SELECT DISTINCT "users"."titles" || ' ' || 
-            "users"."first_name" || ' ' || 
-            "users"."middle_name" || ' ' || 
-            "users"."last_name" 
-        AS fullname, 
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname, 
         "users"."user_id", 
         "users"."last_name" 
     FROM "public"."ministries", 
@@ -61,10 +54,7 @@ sql_addMinister = """
 #-> has to be replaced with all electable usertypes
 
 sql_addExtensionMember = """
-    SELECT DISTINCT "users"."titles" || ' ' || 
-            "users"."first_name" || ' ' || 
-            "users"."middle_name" || ' ' || 
-            "users"."last_name" AS fullname, 
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname, 
             "users"."user_id", 
             "users"."last_name" 
     FROM "public"."users" 
@@ -91,10 +81,7 @@ sql_addExtensionMember = """
 
 
 sql_AddCommitteeMember = """
-    SELECT DISTINCT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS fullname, 
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname,  
         "users"."user_id", 
         "users"."last_name" 
     FROM "public"."user_group_memberships", 
@@ -119,10 +106,7 @@ sql_AddCommitteeMember = """
                 )                                           
                 ) 
     UNION
-    SELECT DISTINCT "users"."titles" || ' ' || "
-        users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS fullname,  
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname,  
         "users"."user_id", 
         "users"."last_name" 
     FROM "public"."committees", "public"."parliaments", "public"."groups", 
@@ -144,10 +128,7 @@ sql_AddCommitteeMember = """
     """
 
 sql_AddCommitteeStaff = """                        
-    SELECT DISTINCT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS fullname, 
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname, 
         "users"."user_id", 
         "users"."last_name" 
     FROM "public"."users" 
@@ -164,10 +145,7 @@ sql_AddCommitteeStaff = """
                         """
                         
 sql_AddMemberOfParliament = """
-    SELECT "titles" ||' ' || 
-        "first_name" || ' ' || 
-        "middle_name" || ' ' || 
-        "last_name" AS fullname, 
+    SELECT  "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname,  
         "user_id" 
     FROM "public"."users" 
     WHERE ( ( "active_p" = 'A' ) 
@@ -183,10 +161,7 @@ sql_AddMemberOfParliament = """
     """
                             
 sql_add_members ='''
-    SELECT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS user_name, 
+    SELECT  "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS user_name, 
         "users"."user_id", 
         "group_sittings"."sitting_id" 
     FROM "public"."group_sittings",  
@@ -205,8 +180,7 @@ sql_add_members ='''
     '''
                     
 sql_addMemberTitle = '''
-    SELECT "user_role_types"."sort_order" || ' - ' || 
-        "user_role_types"."user_role_name" AS "ordered_title", 
+    SELECT "user_role_types"."sort_order" || ' - ' ||  "user_role_types"."user_role_name" AS "ordered_title", 
         "user_role_types"."user_role_type_id"
     FROM "public"."user_role_types", 
         "public"."user_group_memberships" 
@@ -235,10 +209,7 @@ sql_select_question_ministry_add = """
 # Members should not be editable (exchanged) once they were added
 
 sql_edit_members = '''
-    SELECT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS user_name, 
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS user_name, 
     "users"."user_id" 
     FROM  "public"."users" 
     WHERE  "users"."user_id" = :member_id                                                                  
@@ -246,10 +217,7 @@ sql_edit_members = '''
 
 
 sql_editSubstitution = """
-    SELECT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS user_name,        
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS user_name,        
         "users"."user_id" , 
         "users"."last_name"
     FROM "public"."user_group_memberships", 
@@ -259,10 +227,7 @@ sql_editSubstitution = """
             AND "user_group_memberships"."user_id" != :user_id 
             AND "user_group_memberships"."active_p" = True ) ) 
     UNION
-    SELECT "users"."titles" || ' ' || 
-        "users"."first_name" || ' ' || 
-        "users"."middle_name" || ' ' || 
-        "users"."last_name" AS user_name,        
+    SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS user_name,        
         "users"."user_id" , 
         "users"."last_name"
     FROM  "public"."user_group_memberships", 
@@ -273,8 +238,7 @@ sql_editSubstitution = """
         """
                         
 sql_EditMemberTitle = '''
-    SELECT "user_role_types"."sort_order" || ' - ' || 
-        "user_role_types"."user_role_name" AS "ordered_title", 
+    SELECT "user_role_types"."sort_order" || ' - ' ||  "user_role_types"."user_role_name" AS "ordered_title", 
         "user_role_types"."user_role_type_id"
     FROM "public"."user_role_types", 
         "public"."user_group_memberships" 

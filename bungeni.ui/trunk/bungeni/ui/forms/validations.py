@@ -42,8 +42,8 @@ def checkStartDate( parent, data ):
 def checkEndDate ( parent, data ):
     """
     Check that the end date is inside the restrictictions.
-    It must not end before the contextParents start date or end
-    after the contextsParents end date    
+    It must not end before the context.Parents start date or end
+    after the context.Parents end date    
     """    
     errors =[]   
     if data['end_date'] is not None:
@@ -85,20 +85,6 @@ def CheckParliamentDatesAdd( self,  context, data ):
         errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps, "election_date" ))            
     return errors
 
-def CheckParliamentDatesAdd1( self, context, data ):
-    """
-    Parliaments must not overlap
-    """       
-    errors = checkStartEndDatesInInterval(None, data, sql.checkParliamentInterval)
-    #for parliaments we have to check election date as well
-    overlaps = checkDateInInterval(None, data['election_date'], sql.checkParliamentInterval)
-    if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)") % overlaps, "election_date" ))   
-    overlaps = checkDateInInterval(None, data['election_date'], sql.checkForOpenParliamentInterval )   
-    if overlaps is not None:
-        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps, "election_date" ))            
-    return errors
-        
 #ministries
 def CheckMinistryDatesInsideGovernmentDatesAdd( self,  context, data ):
     """

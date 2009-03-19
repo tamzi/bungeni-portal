@@ -53,7 +53,8 @@ def tearDown( test ):
 
 def test_suite():
     doctests = ( 'queries/sqlstatements.txt',
-                 'forms/readme.txt'  )
+                 'forms/readme.txt',
+                 'recurring.txt'  )
 
     globs = dict(interface=interface, component=component)
     test_suites = []

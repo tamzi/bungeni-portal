@@ -23,7 +23,7 @@ from alchemist.catalyst.ui import EditForm
 import bungeni.ui.queries.utils as sqlutils 
 import bungeni.models.domain as domain
 
-from bungeni.ui.queries import sqlstatements
+from bungeni.ui.queries import statements as sqlstatements
 
 from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.ui.forms.workflow import createVersion
@@ -213,8 +213,9 @@ class CustomEditForm ( EditFormViewlet ):
 
 
 membersEditVocab = sqlutils.SQLQuerySource(
-        sqlstatements.sql_edit_members, 'user_name', 'user_id', 
-            {'member_id':'$user_id'} )
+        sqlstatements.sql_edit_members, 
+        'user_name', 'user_id', 
+        {'member_id':'$user_id'} )
 
 
 ########## Groups ########################

@@ -116,9 +116,6 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         self.columns = columns
         self.actionUrl = '%s/' % ( absoluteURL( self.context, self.request ) )
         self.fields = list(getFields(self.context))
-        #for role in self.getRoles():
-        #    print role
-
         
     @property
     def formatter( self ):

@@ -187,6 +187,12 @@
   <adapter factory=".dc.QuestionDescriptiveProperties" />
   <adapter factory=".dc.MotionDescriptiveProperties" />
 
+  <adapter
+     name="dc"
+     for="*"
+     factory=".dc.DublinCoreMetadataAdapter"
+     provides="zope.traversing.interfaces.IPathAdapter" />
+  
   <!-- location -->
 
   <adapter factory=".location.get_location_from_parent" />

@@ -4,6 +4,36 @@ from zope.dublincore.interfaces import IDCDescriptiveProperties
 
 from bungeni.models import interfaces
 
+class DublinCoreMetadataAdapter(object):
+    """Generic dublin core metadata adapter which will retrieve
+    metadata attributes lazily.
+
+    Suitable for use as traversal path adapter (which can be used
+    directly in templates using the ':' notation).
+    """
+
+    interfaces = IDCDescriptiveProperties,
+    
+    __slots__ = "context", "adapters"
+    
+    def __init__(self, context):
+        self.context = context
+        self.adapters = {}
+        
+    def __getattr__(self, attribute):
+        for iface in self.interfaces:
+            if attribute in iface.names():
+                adapter = self.adapters.get(iface)
+                if adapter is None:
+                    adapter = self.adapters[iface] = iface(self.context)
+
+                return getattr(adapter, attribute)
+
+        raise AttributeError(attribute)
+
+def get_descriptive_properties(context):
+    return IDCDescriptiveProperties(context)
+
 class DescriptiveProperties(object):
     interface.implements(IDCDescriptiveProperties)
 
@@ -17,6 +47,9 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
+        if self.context.question_number is None:
+            return self.context.short_name
+            
         return "#%d: %s" % (
             self.context.question_number,
             self.context.short_name)

@@ -16,7 +16,7 @@
 
   <browser:view
      name="add"
-     for="*"
+     for="ore.alchemist.interfaces.IAlchemistContainer"
      class=".common.AddForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"

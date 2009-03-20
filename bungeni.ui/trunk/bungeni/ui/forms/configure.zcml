@@ -23,6 +23,14 @@
      />          
 
   <browser:page
+     name="edit"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     permission="zope.Public"
+     class=".common.EditForm"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
      name="delete"
      for="ore.alchemist.interfaces.IAlchemistContent"
      class=".common.DeleteForm"
@@ -160,25 +168,6 @@
       /-->
 
   
-  <!-- Committee Edit Form --> 
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.CommitteeEditForm"
-     for="bungeni.models.interfaces.ICommittee"
-     permission="zope.View"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />
-  
-  <!-- Committee Add Form -->
-  
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.ICommitteeContainer"
-     class=".forms.CommitteeAddForm"              
-     permission="zope.View"
-     />    
-  
   <browser:viewlet
      name="bungeni.viewlet.committee-members"
      manager="alchemist.ui.interfaces.IContentViewManager"
@@ -286,22 +275,6 @@
      weight="10"
      />   
 
-  <!-- Ministry Edit Form -->
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.MinistryEditForm"
-     for="bungeni.models.interfaces.IMinistry"
-     permission="zope.View"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />    
-  <!-- Ministry Add Form -->
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.IMinistryContainer"
-     class=".forms.MinistryAddForm"              
-     permission="zope.View"
-     />               
   
   
   <browser:viewlet
@@ -347,64 +320,8 @@
      for="bungeni.models.interfaces.IMinister"
      permission="zope.View"
      weight="20"
-     />      
-
+     />
   
-  <!-- Extension Group Edit Form -->  
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ExtensionGroupEditForm"
-     for="bungeni.models.interfaces.IExtensionGroup"
-     permission="zope.View"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />    
-  
-  <!-- Extension Add Form -->
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.IExtensionGroupContainer"
-     class=".forms.ExtensionGroupAddForm"              
-     permission="zope.View"
-     />  
-  
-  <!-- Extension Group Member Edit Form -->   
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ExtensionMemberEditForm"
-     for="bungeni.models.interfaces.IExtensionMember"
-     permission="zope.View"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />         
-  <!-- Extension Group Member Add Form -->
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.IExtensionMemberContainer"
-     class=".forms.ExtensionMemberAddForm"              
-     permission="zope.View"
-     />    
-  <!-- Parliament Edit Form -->  
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ParliamentEditForm"
-     for="bungeni.models.interfaces.IParliament"
-     permission="bungeni.parliament.Edit"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />          
-  
-  <!-- Question view form -->
-  <!--browser:viewlet
-      name="bungeni.question.view"
-      manager="alchemist.ui.interfaces.IContentViewManager"
-      class=".forms.QuestionDisplayForm"
-      for="bungeni.core.interfaces.IQuestion"
-      permission="zope.View"
-      allowed_interface="zope.formlib.interfaces.ISubPageForm"
-      layer="bungeni.ui.interfaces.IBungeniSkin"      
-      /-->
-
   <browser:viewlet
      name="bungeni.viewlet.responses"
      manager="alchemist.ui.interfaces.IContentViewManager"
@@ -466,14 +383,6 @@
      permission="bungeni.response.Edit"
      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
      />        
-  
-  <!-- Parliament Add Form -->
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.IParliamentContainer"
-     class=".forms.ParliamentAddForm"              
-     permission="bungeni.parliament.Add"
-     />      
   
   
   <browser:viewlet
@@ -560,18 +469,8 @@
      for="bungeni.models.interfaces.IMemberRoleTitle"
      permission="zope.View"
      weight="10"
-     />         
+     />
   
-
-  
-  <!-- Political Party -->
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.IPoliticalPartyContainer"
-     class=".forms.PoliticalPartyAddForm"              
-     permission="zope.View"
-     /> 
-
   <browser:viewlet
      name="bungeni.viewlet.party-members"
      manager="alchemist.ui.interfaces.IContentViewManager"

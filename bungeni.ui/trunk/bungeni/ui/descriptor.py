@@ -24,6 +24,7 @@ from bungeni.ui.constraints import check_email
 
 from bungeni.models import domain
 from bungeni.models import vocabulary
+from bungeni.ui.forms import validations
 
 from bungeni.ui.i18n import _
 
@@ -414,6 +415,7 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
 class ExtensionMemberDescriptor( ModelDescriptor ):
     display_name =_(u"Additional member")
     container_name =_(u"Additional members")
+    custom_validators = validations.check_valid_date_range,
     
     fields = deepcopy(GroupMembershipDescriptor.fields)
     #fields.extend([
@@ -451,6 +453,7 @@ class GroupDescriptor( ModelDescriptor ):
 class ParliamentDescriptor( GroupDescriptor ):
     display_name = _(u"Parliament")
     container_name = _(u"Parliaments")
+    custom_validators = validations.check_parliament_date_no_overlap,
     
     fields = [
         dict( name="group_id", omit=True ),
@@ -497,6 +500,7 @@ class ParliamentDescriptor( GroupDescriptor ):
 class CommitteeDescriptor( GroupDescriptor ):
     display_name = _(u"Committee")
     container_name = _(u"Committees")
+    custom_validators = validations.check_valid_date_range,
     
     fields = deepcopy( GroupDescriptor.fields )
     typeSource = DatabaseSource(domain.CommitteeType, 'committee_type', 'committee_type_id')
@@ -576,6 +580,7 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
 class PoliticalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political party")
     container_name = _(u"Political parties")
+    custom_validators = validations.check_valid_date_range,
     
     fields = deepcopy( GroupDescriptor.fields )    
     #fields.extend([
@@ -594,6 +599,7 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
 class ExtensionGroupDescriptor( GroupDescriptor ):
     display_name = _(u"Group extension")
     container_name = _(u"Group extensions")
+    custom_validators = validations.check_valid_date_range,
     
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
@@ -607,6 +613,7 @@ class ExtensionGroupDescriptor( GroupDescriptor ):
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")
     container_name = _(u"Ministries")
+    custom_validators = validations.check_valid_date_range,
     
     fields = deepcopy( GroupDescriptor.fields )       
     fields.extend([
@@ -825,6 +832,8 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
 class QuestionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Question")
     container_name = _(u"Questions")
+    custom_validators = ()
+    
     fields = deepcopy( ParliamentaryItemDescriptor.fields )    
     fields.extend([
         dict( name="question_id", omit=True),

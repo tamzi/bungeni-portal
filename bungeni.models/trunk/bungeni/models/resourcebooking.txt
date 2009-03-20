@@ -2,37 +2,15 @@ Setup
 -----
 
   >>> from ore.alchemist import Session  
-  >>> import copy  
+  >>> import copy, datetime  
  
-  
-  >>> import bungeni.models as model
-  >>> import datetime
-  
   some setup for tests
-
-
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
-   >>> from bungeni.models import domain, schema
-  
+  >>> import bungeni.models.testing
+  >>> db = bungeni.models.testing.setup_db()
+  >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat
+  >>> session=Session()
+  >>> from bungeni.models import domain
    
-Setting up Database Connection and Utilities:
-
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
-   >>> model.metadata.create_all()
-   >>> from alchemist.security.schema import metadata  
-   >>> metadata.bind = db
-   >>> metadata.create_all()  
-   >>> session = Session()
-   
-Get some standard dates for testing   
-   >>> today = datetime.date.today()
-   >>> yesterday = today - datetime.timedelta(1)
-   >>> tomorrow = today + datetime.timedelta(1)
-   >>> dayat = today + datetime.timedelta(2)   
-
 setup parliament, gov and ministry
 ----------------------------------
   >>> parliament = domain.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)

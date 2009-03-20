@@ -2,6 +2,10 @@
   border-bottom: 10px solid #8CACBB;
 }
 
+.delete-link {
+  text-transform: lowercase;
+}
+
 #calendar-table {
   height: 300px;
   overflow: auto;

@@ -57,7 +57,7 @@
         <xsl:variable name="WORKUri" select="substring-before(//meta:user-defined[@meta:name='BungeniWorkURI'],concat('/',//meta:user-defined[@meta:name='BungeniDocPart']))" />
         <xsl:variable name="EXPRESSIONUri" select="concat($WORKUri,'/',//meta:user-defined[@meta:name='BungeniLanguageCode'],'@')" />
         <xsl:variable name="MANIFESTATIONUri" select="concat($EXPRESSIONUri,'.akn')" />
-        <mcontainer name="meta">
+       <mcontainer name="meta">
 			<xsl:for-each select="@*">
 		    	<xsl:attribute name="{name(.)}">
 		        	<xsl:value-of select="."/>
@@ -87,16 +87,15 @@
                 <meta id="publication_{generate-id()}" name="publication" contentName="{//meta:user-defined[@meta:name='BungeniPublicationName']}" date="{//meta:user-defined[@meta:name='BungeniPublicationDate']}"/>
             </mcontainer>
             <mcontainer id="references_{generate-id()}" name="references" source="#bungeni">
-                <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" />
+            <!--    <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" />
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniWorkAuthor']}" href="{//meta:user-defined[@meta:name='BungeniWorkAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniExpAuthor']}" href="{//meta:user-defined[@meta:name='BungeniExpAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniManAuthor']}" href="{//meta:user-defined[@meta:name='BungeniManAuthorURI']}" showAs="Author"/>
                 <xsl:for-each select="//*[@BungeniSectionType='Speech']">
                     <meta name="TLCPerson" id="{@BungeniPersonID}" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> 
-                   <!-- <meta name="TLCPerson" id="aperson" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> -->
-                </xsl:for-each>
+                </xsl:for-each> -->
             </mcontainer>
-        </mcontainer>
+        </mcontainer> 
     </xsl:template>
 
     <xsl:template match="text:section">

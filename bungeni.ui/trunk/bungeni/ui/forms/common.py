@@ -72,7 +72,7 @@ class BaseForm(object):
 
     Adapts = None
     CustomValidation = None
-
+    
     def __init__(self, *args):
         super(BaseForm, self).__init__(*args)
 
@@ -106,13 +106,22 @@ class BaseForm(object):
             errors += self.CustomValidation(self.context, data)
 
         return errors
-    
+
 class AddForm(BaseForm, ui.AddForm):
     """Custom add-form for Bungeni content.
 
     Additional actions are set up to allow users to continue editing
     an object, or add another of the same kind.
     """
+
+    def validate(self, action, data):    
+        errors = super(AddForm, self).validate(action, data)
+
+        descriptor = queryModelDescriptor(self.context.domain_model)
+        for validator in getattr(descriptor, "custom_validators", ()):
+            errors += validator(action, data, None, self.context)
+        
+        return errors
 
     @property
     def form_name( self ):
@@ -171,6 +180,18 @@ class AddForm(BaseForm, ui.AddForm):
         if not self._next_url:
             self._next_url = absoluteURL(self.context, self.request) + \
                              '/@@add?portal_status_message=%s Added' % name
+
+class EditForm(BaseForm, ui.EditForm):
+    """Custom edit-form for Bungeni content."""
+
+    def validate(self, action, data):    
+        errors = super(EditForm, self).validate(action, data)
+
+        descriptor = queryModelDescriptor(self.context)
+        for validator in getattr(descriptor, "custom_validators", ()):
+            errors += validator(action, data, self.context, self.context.__parent__)
+        
+        return errors
 
 class ReorderForm(BaseForm, form.PageForm):
     """Item reordering form.

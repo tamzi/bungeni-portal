@@ -2,6 +2,7 @@ import logging
 import transaction
 
 from zope import interface
+from zope import schema
 from zope.event import notify
 from zope.formlib import form
 from zope.formlib.namedtemplate import NamedTemplate
@@ -47,16 +48,16 @@ class DefaultAction(form.Action):
     def submitted(self):
         return True
 
-class AddForm(ui.AddForm):
-    """Custom add-form for Bungeni content.
+class BaseForm(object):
+    """Base form class for Bungeni content.
 
     Headless submission
 
-        This add-form adds support for 'headless' submission, relying
-        only on the schema field ids. The headless mode is enabled by
-        giving a true value for the request parameter ``headless``.
-        In this mode, no form prefix is applied and the default action
-        is always executed.
+        Adds support for 'headless' submission, relying only on the
+        schema field ids. The headless mode is enabled by giving a
+        true value for the request parameter ``headless``.  In this
+        mode, no form prefix is applied and the default action is
+        always executed.
 
     Custom validation
 
@@ -67,16 +68,13 @@ class AddForm(ui.AddForm):
 
         If ``next_url`` is provided, a redirect is issued upon
         successful form submission.
-
-    In addition, additional actions are set up to allow users to
-    continue editing an object, or add another of the same kind.
     """
 
     Adapts = None
     CustomValidation = None
 
     def __init__(self, *args):
-        super(AddForm, self).__init__(*args)
+        super(BaseForm, self).__init__(*args)
 
         if self.request.get("headless", "").lower() in TRUE_VALS:
             self.setPrefix(NO_PREFIX)
@@ -90,37 +88,11 @@ class AddForm(ui.AddForm):
         # the ``_next_url`` attribute is used internally by our
         # superclass to implement formlib's ``nextURL`` method
         self._next_url = self.request.get('next_url', None)
-
-    def __call__(self):
-        return super(AddForm, self).__call__()
-    
-    @property
-    def form_name( self ):
-        descriptor = queryModelDescriptor( self.context.domain_model )
         
-        if descriptor:
-            name = getattr(descriptor, 'display_name', None)
-            
-        if not name:
-            name = getattr( self.context.domain_model, '__name__', None)                
-        return _(u"add_item_legend", default=u"Add $name",
-                 mapping={'name': name.lower()})
-
     def update(self):
         self.status = self.request.get('portal_status_message', '')
-        form.AddForm.update( self )
+        super(BaseForm, self).update()
         set_widget_errors(self.widgets, self.errors)
-
-    def finishConstruction(self, ob):
-        """Adapt the custom fields to the object."""
-
-        adapts = self.Adapts
-        if adapts is None:
-            adapts = self.model_schema
-            
-        self.adapters = {
-            adapts : ob
-            }
 
     def validate(self, action, data):    
         """Validation that require context must be called here,
@@ -135,6 +107,36 @@ class AddForm(ui.AddForm):
 
         return errors
     
+class AddForm(BaseForm, ui.AddForm):
+    """Custom add-form for Bungeni content.
+
+    Additional actions are set up to allow users to continue editing
+    an object, or add another of the same kind.
+    """
+
+    @property
+    def form_name( self ):
+        descriptor = queryModelDescriptor( self.context.domain_model )
+        
+        if descriptor:
+            name = getattr(descriptor, 'display_name', None)
+            
+        if not name:
+            name = getattr( self.context.domain_model, '__name__', None)                
+        return _(u"add_item_legend", default=u"Add $name",
+                 mapping={'name': name.lower()})
+
+    def finishConstruction(self, ob):
+        """Adapt the custom fields to the object."""
+
+        adapts = self.Adapts
+        if adapts is None:
+            adapts = self.model_schema
+            
+        self.adapters = {
+            adapts : ob
+            }
+
     @form.action(_(u"Save"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data ):
         """After succesful content creation, redirect to the content listing."""
@@ -170,7 +172,44 @@ class AddForm(ui.AddForm):
             self._next_url = absoluteURL(self.context, self.request) + \
                              '/@@add?portal_status_message=%s Added' % name
 
-class DeleteForm(form.PageForm):
+class ReorderForm(BaseForm, form.PageForm):
+    """Item reordering form.
+
+    We use an intermediate list of ids to represent the item order.
+
+    Note that this form must be subclassed with the ``save_ordering``
+    method overriden.
+    """
+
+    class IReorderForm(interface.Interface):
+        ordering = schema.List(
+            title=u"Ordering",
+            value_type=schema.TextLine())
+
+    template = NamedTemplate('alchemist.form')
+    form_name = _(u"Item reordering")
+    form_fields = form.Fields(IReorderForm, render_context=True)
+
+    def setUpWidgets(self, ignore_request=False):
+        class context:
+            ordering = list(self.context)
+
+        self.adapters = {
+            self.IReorderForm: context,
+            }
+
+        self.widgets = form.setUpWidgets(
+            self.form_fields, self.prefix, self.context, self.request,
+            form=self, adapters=self.adapters, ignore_request=ignore_request)
+
+    def save_ordering(self, ordering):
+        raise NotImplementedError("Must be defined by subclass.")
+    
+    @form.action(_(u"Save"))
+    def handle_save(self, action, data):
+        self.save_ordering(data['ordering'])
+
+class DeleteForm(BaseForm, form.PageForm):
     """Delete-form for Bungeni content.
 
     Confirmation

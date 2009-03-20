@@ -33,10 +33,13 @@ from bungeni.ui.forms.workflow import createVersion
 from bungeni.core.i18n import _
 
 import bungeni.core.globalsettings as prefs
+from ore.alchemist.container import stringKey
 
-
+from bungeni.ui.forms.common import ReorderForm
 from bungeni.ui.forms.common import AddForm
 BungeniAddForm = AddForm
+
+
 
 import validations
 
@@ -641,4 +644,8 @@ class ResponseAddForm( AddForm ):
     """
     CustomValidation =  validations.ResponseAdd
     
-     
+class ItemScheduleContainerReorderForm(ReorderForm):
+    def save_ordering(self, ordering):
+        for name, scheduling in self.context.items():
+            scheduling.planned_order = ordering.index(name)
+    

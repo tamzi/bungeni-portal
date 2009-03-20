@@ -3,6 +3,8 @@ from zope import component
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 
 from bungeni.models import interfaces
+from bungeni.models import domain
+from ore.alchemist import Session
 
 class DublinCoreMetadataAdapter(object):
     """Generic dublin core metadata adapter which will retrieve
@@ -99,3 +101,17 @@ class MotionDescriptiveProperties(DescriptiveProperties):
 
         return text + "."
 
+class SittingDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IGroupSitting)
+
+    @property
+    def title(self):
+        return "Group sitting #%d" % self.context.sitting_id
+
+    @property
+    def description(self):
+        session = Session()
+        group = session.query(domain.Group).selectone_by(
+            group_id=self.context.group_id)
+        return "Sitting scheduled for group '%s' from %s to %s." % (
+            group.short_name, self.context.start_date, self.context.end_date)

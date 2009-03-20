@@ -186,7 +186,8 @@
   <adapter factory=".dc.BillDescriptiveProperties" />
   <adapter factory=".dc.QuestionDescriptiveProperties" />
   <adapter factory=".dc.MotionDescriptiveProperties" />
-
+  <adapter factory=".dc.SittingDescriptiveProperties" />
+  
   <adapter
      name="dc"
      for="*"

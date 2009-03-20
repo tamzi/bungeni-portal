@@ -71,21 +71,6 @@ def checkDates( parent, data ):
 
 #Parliament
 
-def CheckParliamentDatesAdd( self,  context, data ):
-    """
-    Parliaments must not overlap
-    """       
-    errors = checkStartEndDatesInInterval(None, data, sql.checkParliamentInterval)
-    #for parliaments we have to check election date as well
-    overlaps = checkDateInInterval(None, data['election_date'], sql.checkParliamentInterval)
-    if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)") % overlaps, "election_date" ))   
-    overlaps = checkDateInInterval(None, data['election_date'], sql.checkForOpenParliamentInterval )   
-    if overlaps is not None:
-        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps, "election_date" ))            
-    return errors
-
-#ministries
 def CheckMinistryDatesInsideGovernmentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
@@ -190,13 +175,6 @@ def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
       
     return errors
 
-#political parties
-def checkPartyDates( self, context, data):
-    """
-    political groups exist inside a parliament
-    """
-    return checkDates(context.__parent__ , data )
-    
 #party membership
 def checkPartyMembershipDates( self, context, data ):
     """
@@ -267,24 +245,34 @@ def CheckMemberTitleDateAdd( self, context, data):
                        
     return errors
 
-
-
-
-
 #Parliament
 
-def CheckParliamentDatesEdit( self, context, data ):
-    """
-    Parliaments must not overlap
-    """       
-    errors = checkStartEndDatesInInterval(context.parliament_id, data, sql.checkMyParliamentInterval)
-    #for parliaments we have to check election date as well
-    overlaps = checkDateInInterval(context.parliament_id, data['election_date'], sql.checkMyParliamentInterval)
+def check_parliament_date_no_overlap(action, data, context, container):
+    """Parliaments must not overlap."""
+
+    if context is not None:
+        parliament_id = context.parliament_id
+    else:
+        parliament_id = None
+        
+    errors = checkStartEndDatesInInterval(
+        parliament_id, data, sql.checkMyParliamentInterval)
+    
+    overlaps = checkDateInInterval(
+        parliament_id, data['election_date'], sql.checkMyParliamentInterval)
+    
     if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)") % overlaps, "election_date" ))   
-    overlaps = checkDateInInterval(context.parliament_id, data['election_date'], sql.checkForMyOpenParliamentInterval )   
+        errors.append(interface.Invalid(
+            _("The election date overlaps with (%s)") % overlaps, "election_date"))
+        
+    overlaps = checkDateInInterval(
+        parliament_id, data['election_date'], sql.checkForMyOpenParliamentInterval)
+    
     if overlaps is not None:
-        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps , "election_date" ))                        
+        errors.append(interface.Invalid(
+            _("Another parliament is not yet dissolved (%s)") % overlaps,
+            "election_date"))
+        
     return errors
 
 # Governments
@@ -345,22 +333,13 @@ def CommitteeMemberDatesEdit( self, context, data ):
     errors = checkDates(context.__parent__.__parent__ , data )       
     return errors      
                         
-def MinistryDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
-    return errors                               
-                       
 def MinisterDatesEdit( self, context, data ):
     errors = checkDates(context.__parent__.__parent__ , data )       
     return errors                               
                         
-def ExtensionGroupDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
-    return errors                                  
+def check_valid_date_range(action, data, context, container):
+    return checkDates(container.__parent__, data)
     
-def ExtensionMemberDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
-    return errors
-              
 def CheckMemberTitleDateEdit( self, context, data):
     errors =  checkDates(context.__parent__.__parent__ , data )
     checkdict= { 'title_name_id' : data['title_name_id'] , 
@@ -390,17 +369,4 @@ def CheckMemberTitleDateEdit( self, context, data):
         if overlaps:     
             errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
 
-    return errors         
-
-def QuestionAdd( self, context, data ):
-    return []
-    
-def QuestionEdit( self, context, data ):
-    return []
-
-def ResponseEdit( self, context, data ):
-    return []
-
-def ResponseAdd ( self, context, data ):
-    return []      
-        
+    return errors

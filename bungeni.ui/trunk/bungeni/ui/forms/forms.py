@@ -226,23 +226,6 @@ membersEditVocab = sqlutils.SQLQuerySource(
 class GroupEditForm (EditForm):
     """ generic form for all groups """
 
-class ExtensionGroupEditForm( GroupEditForm ):
-     
-    CustomValidations = validations.ExtensionGroupDatesEdit    
-
-class MinistryEditForm( GroupEditForm ):
-        
-    CustomValidations = validations.MinistryDatesEdit     
-
-class CommitteeEditForm ( GroupEditForm ):
-          
-    CustomValidations = validations.CheckCommitteeDatesEdit   
-
-
-class ParliamentEditForm( GroupEditForm ):
-
-    CustomValidations = validations.CheckParliamentDatesEdit
-
 class GovernmentEditForm( GroupEditForm ): 
 
     CustomValidations = validations.CheckGovernmentsDateInsideParliamentsDatesEdit
@@ -255,33 +238,11 @@ class GroupAddForm(AddForm):
             GroupAddForm, self).get_form_fields().omit("end_date")
         return form_fields
 
-class ParliamentAddForm( GroupAddForm ):
-
-    CustomValidation = validations.CheckParliamentDatesAdd  
-
-
 class GovernmentAddForm ( BungeniAddForm ):
 
     CustomValidation =  validations.CheckGovernmentsDateInsideParliamentsDatesAdd    
 
                       
-class MinistryAddForm( GroupAddForm ):
-
-    CustomValidation =  validations.CheckMinistryDatesInsideGovernmentDatesAdd     
-
-
-class CommitteeAddForm( GroupAddForm ):
-
-    CustomValidation = validations.CheckCommitteesDatesInsideParentDatesAdd     
-
-class ExtensionGroupAddForm( GroupAddForm ):
-
-    CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
-
-
-class PoliticalPartyAddForm( BungeniAddForm ):
-
-    CustomValidation = validations.checkPartyDates
 
 ############# User Group Memberships ########################
 
@@ -317,11 +278,6 @@ class GroupMemberEditForm ( EditForm ):
 class MinisterEditForm( GroupMemberEditForm ):
 
     CustomValidations = validations.MinisterDatesEdit
-
-class ExtensionMemberEditForm( CustomEditForm ):
-
-    CustomValidations = validations.ExtensionMemberDatesEdit  
-
 
 class CommitteeStaffEditForm( GroupMemberEditForm ):
 
@@ -616,7 +572,6 @@ class QuestionEditForm(EditForm):
     _qryEditQuestionMinistryVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_select_question_ministry_edit, 'full_name', 'group_id', 
         {'parliament_id':'$parliament_id',})
-    CustomValidations = validations.QuestionEdit
     
     def get_form_fields(self):
         base_fields = super(QuestionEditForm, self).get_form_fields()
@@ -634,7 +589,6 @@ class ResponseEditForm( EditForm ):
     UI for ministry to input response
     Display the question when adding the answer.
     """
-    CustomValidations =  validations.ResponseEdit
     
 class ResponseAddForm( AddForm ):
     """
@@ -642,7 +596,6 @@ class ResponseAddForm( AddForm ):
     UI for ministry to input response
     Display the question when adding the answer.
     """
-    CustomValidation =  validations.ResponseAdd
     
 class ItemScheduleContainerReorderForm(ReorderForm):
     def save_ordering(self, ordering):

@@ -33,14 +33,16 @@ def transitions(item):
     wf = IWorkflow(item)
     info = IWorkflowInfo(item)
     state = info.state().getState()
-    return tuple(transition.transition_id for transition in wf.getTransitions(state))
+    return tuple(transition.transition_id 
+               for transition in wf.getTransitions(state))
 
 
 def permission(item):
     wf = IWorkflow(item)
     info = IWorkflowInfo(item)
     state = info.state().getState()
-    return tuple(transition.permission for transition in wf.getTransitions(state))
+    return tuple(transition.permission 
+                for transition in wf.getTransitions(state))
 
 
 
@@ -94,20 +96,24 @@ def setup_security_adapters():
     
     gsm =zope.component.getGlobalSiteManager()
 
-    gsm.registerAdapter(alchemist.security.role.GlobalPrincipalRoleMap,
+    gsm.registerAdapter(
+        alchemist.security.role.GlobalPrincipalRoleMap,
          (bungeni.models.interfaces.IBungeniApplication, ),
          zope.securitypolicy.interfaces.IPrincipalRoleMap)
 
-    gsm.registerAdapter(alchemist.security.permission.GlobalRolePermissionMap,
+    gsm.registerAdapter(
+        alchemist.security.permission.GlobalRolePermissionMap,
          (bungeni.models.interfaces.IBungeniApplication, ),
          zope.securitypolicy.interfaces.IRolePermissionMap)     
       
       
-    gsm.registerAdapter(alchemist.security.role.LocalPrincipalRoleMap,
+    gsm.registerAdapter(
+        alchemist.security.role.LocalPrincipalRoleMap,
          (bungeni.models.interfaces.IBungeniContent, ),
          zope.securitypolicy.interfaces.IPrincipalRoleMap)  
         
-    gsm.registerAdapter(alchemist.security.permission.LocalRolePermissionMap,
+    gsm.registerAdapter(
+        alchemist.security.permission.LocalRolePermissionMap,
          (bungeni.models.interfaces.IBungeniContent, ),
          zope.securitypolicy.interfaces.IRolePermissionMap) 
 

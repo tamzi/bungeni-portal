@@ -91,7 +91,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
             if descriptor:
                 name = getattr(descriptor, 'container_name', None)
                 if name is None:
-                    name = getattr(descriptor, 'short_name', None)
+                    name = getattr(descriptor, 'display_name', None)
             if not name:
                 name = getattr( context, '__name__', None)  
             path.append({
@@ -169,7 +169,9 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                         domain_model = v.domain_container._class 
                         descriptor = queryModelDescriptor( domain_model )
                         if descriptor:
-                            name = getattr( descriptor, 'display_name', None)
+                            name = getattr(descriptor, 'container_name', None)
+                            if name is None:
+                                name = getattr(descriptor, 'display_name', None)
                         if not name:
                             name = domain_model.__name__                            
                         i = { 'name' : name,

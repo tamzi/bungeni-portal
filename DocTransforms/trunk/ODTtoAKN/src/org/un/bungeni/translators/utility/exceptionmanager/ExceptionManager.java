@@ -9,8 +9,15 @@ import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.xml.validation.Validator;
+import javax.xml.validation.ValidatorHandler;
+
+import org.apache.xerces.impl.Constants;
+import org.apache.xerces.parsers.DOMParser;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
+import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
@@ -25,6 +32,9 @@ public class ExceptionManager implements ErrorHandler
 	/* The resource bundle for the messages */
 	private ResourceBundle resourceBundle;
 	
+	/* This is the DOM parser that will contain the references to the elements in witch errors occur*/
+	public DOMParser parser;
+	
 	/**
 	 * Private constructor used to create the ExceptionManager instance
 	 * @throws IOException 
@@ -34,7 +44,7 @@ public class ExceptionManager implements ErrorHandler
 	{
 		//create the Properties object
 		Properties properties = new Properties();
-	
+		
 		//read the properties file
 		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + GlobalConfigurations.getConfigurationFilePath());
 			
@@ -73,10 +83,9 @@ public class ExceptionManager implements ErrorHandler
      * Report a non-fatal error
      * @param ex the error condition
      */
-    public void error(SAXParseException ex) 
+    public void error(SAXParseException ex)  
     {
-
-		//the message of the exception
+    	//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
 		//check what type of text the exception launch
@@ -106,8 +115,38 @@ public class ExceptionManager implements ErrorHandler
         	
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
             System.err.println(message);
-           // System.exit(0);
+            
+         	       // System.exit(0);
 		}
+		else
+		{
+			
+			System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
+	        System.err.println(exceptionMessage);
+	        Node node = null;
+
+    		try {
+    			
+    			System.err.println(parser.getProperty("http://apache.org/xml/properties/dom/current-element-node"));
+    	        // System.err.println(this.validator.getProperty("http://apache.org/xml/properties/dom/current-element-node"));
+    			// System.err.println(this.validator.getFeature("http://apache.org/xml/features/dom/defer-node-expansion"));
+     		    node =	(Node)this.parser.getProperty("http://apache.org/xml/properties/dom/current-element-node");
+    		}
+        	catch (SAXException e)
+        	{
+        		e.printStackTrace();
+        	}
+        	if (node != null)
+    		{
+    			System.err.println("node = " + node.getNodeName() + " id=" );
+    		}
+        	else
+        	{
+        		System.err.println("cazzo");
+        			
+        	}
+   //ex.printStackTrace();
+	    }
     }
 
     /**
@@ -192,5 +231,13 @@ public class ExceptionManager implements ErrorHandler
     	}
     }
     
-    
+    /**
+     * This element is used to set the DOMParser of this object
+     * @param aDOMParser the DOMParser to set for this object
+     */
+    public void setDOMParser(DOMParser aDOMParser)
+    {
+    	//set the DOM parser of the object to the given one
+    	this.parser = aDOMParser;
+    }
 }

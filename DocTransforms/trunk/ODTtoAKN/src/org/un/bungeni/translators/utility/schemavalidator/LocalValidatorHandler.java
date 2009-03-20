@@ -1,18 +1,29 @@
-package org.un.bungeni.translators.utility.exceptionmanager;
+package org.un.bungeni.translators.utility.schemavalidator;
 
 import javax.xml.validation.TypeInfoProvider;
+import javax.xml.validation.ValidatorHandler;
 
 import org.w3c.dom.TypeInfo;
+import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-public class LocalContentHandler extends DefaultHandler 
+public class LocalValidatorHandler extends DefaultHandler 
 {
     int indent = 0;
     private TypeInfoProvider provider;
+    public String elementName = "";
+    public String elementId = "";
 
-    public LocalContentHandler(TypeInfoProvider provider) 
+    public LocalValidatorHandler() 
+    {
+    }
+
+    public LocalValidatorHandler(TypeInfoProvider provider) 
     {
         this.provider = provider;
     }
@@ -22,18 +33,26 @@ public class LocalContentHandler extends DefaultHandler
      */
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException 
     {
-        TypeInfo etype = provider.getElementTypeInfo();
+    	//TypeInfo etype = provider.getElementTypeInfo().;
         StringBuffer sb = new StringBuffer(100);
+        
         for (int i=0; i<indent; i++) 
         {
             sb.append("  ");
         }
-        sb.append("Element " + qName);
-        sb.append(" of type {" + etype.getTypeNamespace() + '}' + etype.getTypeName());
-        System.out.println(sb.toString());
+        sb.append("Element " + qName + " ");
+        this.elementName = qName;
+        
+        //sb.append(" of type {" + etype.getTypeNamespace() + '}' + etype.getTypeName());
         for (int a=0; a<attributes.getLength(); a++) 
         {
-            TypeInfo atype = provider.getAttributeTypeInfo(a);
+        	if(attributes.getQName(a) == "id")
+        	{
+        		sb.append(attributes.getValue(a));
+        		this.elementId = attributes.getValue(a);
+        	}
+             
+            /*TypeInfo atype = provider.getAttributeTypeInfo(a);
             boolean spec = provider.isSpecified(a);
             sb.setLength(0);
             for (int i=0; i<indent+2; i++) 
@@ -49,8 +68,9 @@ public class LocalContentHandler extends DefaultHandler
             {
                 sb.append(" of type {" + atype.getTypeNamespace() + '}' + atype.getTypeName());
             }
-            System.out.println(sb.toString());
+            System.out.println(sb.toString()); */
         }
+        System.out.println(sb.toString());
         indent++;
     }
 

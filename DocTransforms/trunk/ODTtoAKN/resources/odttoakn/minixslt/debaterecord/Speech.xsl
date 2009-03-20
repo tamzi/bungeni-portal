@@ -35,7 +35,7 @@
             <from>
                 <xsl:apply-templates select="*[position()=1]/*" />
             </from>
-            <xsl:apply-templates select="*[not(position()=1)]" />
+            <xsl:apply-templates select="*[not(position()=1)]" /> 
         </speech>
     </xsl:template>
     

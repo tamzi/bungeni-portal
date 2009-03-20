@@ -81,6 +81,12 @@
                         <a tal:attributes="name item/name;
                                            href item/url"
                            tal:content="item/title" />
+                        &mdash;
+                        <a class="delete-link"
+                           tal:attributes="href item/delete_url">
+                          Remove
+                        </a>
+
                         <p class="discreet"
                               tal:content="item/description" />
 

@@ -49,6 +49,7 @@ def get_sitting_items(sitting, request):
             'title': props.title,
             'description': props.description,
             'name': stringKey(scheduling),
+            'delete_url': "%s/delete" % absoluteURL(scheduling, request),
             'url': absoluteURL(item, request)})
 
     return items

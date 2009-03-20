@@ -72,6 +72,9 @@ class IMotion( IBungeniContent ):
 class IGroupSitting(interface.Interface):
     pass
 
+class IItemSchedule(interface.Interface):
+    pass
+
 class IResponse( IBungeniContent ):
     """
     response to a question

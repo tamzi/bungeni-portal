@@ -69,6 +69,9 @@ class IMotion( IBungeniContent ):
     """ Parliamentary Motion
     """
 
+class IGroupSitting(interface.Interface):
+    pass
+
 class IResponse( IBungeniContent ):
     """
     response to a question

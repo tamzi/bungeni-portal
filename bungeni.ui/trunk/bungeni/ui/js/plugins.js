@@ -51,8 +51,10 @@
           $.each(ids, function(i, o) {
               data["ordering."+i+"."] = o;
             });
-          
+
+          $("#kss-spinner").show();
           $.post(url, data, function(data, status) {
+              $("#kss-spinner").hide();
               if (status == 'success') {
                 // throw away result
               }
@@ -73,11 +75,13 @@
 
         // ask for a redirect to the current (updated) calendar
         var next_url = $("a[rel=calendar]").attr('href');
-          
+
+        $("#kss-spinner").show();
         $.post(url, {
               headless: 'true',
               next_url: next_url,
               item_id: id}, function(data, status) {
+            $("#kss-spinner").hide();
             if (status == 'success') {
               _update_tables(data);
               calendar.bungeniCalendarInteractivity();
@@ -87,9 +91,14 @@
 
     calendar.find("thead a")
     .click(function() {
+        $("#kss-spinner").show();
         $.get($(this).attr('href'), {}, function(data, status) {
-            _update_tables(data);
-            calendar.bungeniCalendarInteractivity();
+            $("#kss-spinner").hide();
+
+            if (status == 'success') {
+              _update_tables(data);
+              calendar.bungeniCalendarInteractivity();
+            }
           });
         return false;
       });

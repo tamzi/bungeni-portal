@@ -14,7 +14,7 @@
 
   <!-- Generic forms -->
 
-  <browser:view
+  <browser:page
      name="add"
      for="ore.alchemist.interfaces.IAlchemistContainer"
      class=".common.AddForm"
@@ -22,10 +22,18 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
-  <browser:view
+  <browser:page
      name="delete"
      for="ore.alchemist.interfaces.IAlchemistContent"
      class=".common.DeleteForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="reorder"
+     for="bungeni.models.domain.ItemScheduleContainer"
+     class=".forms.ItemScheduleContainerReorderForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />

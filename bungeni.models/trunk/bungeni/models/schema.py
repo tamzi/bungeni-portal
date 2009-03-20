@@ -588,8 +588,8 @@ items_schedule = rdb.Table(
    rdb.Column( "sitting_id", rdb.Integer, 
             rdb.ForeignKey('group_sittings.sitting_id'), 
             nullable=False ),
-   rdb.Column( "planned_order", rdb.Integer ),
-   rdb.Column( "real_order", rdb.Integer ),   
+   rdb.Column( "planned_order", rdb.Integer, rdb.Sequence('planned_order', 0, 1)),
+   rdb.Column( "real_order", rdb.Integer),
    # item was discussed on this sitting sitting
    rdb.Column( "active", rdb.Boolean, default=True ), 
    #workflow status of the item for this schedule

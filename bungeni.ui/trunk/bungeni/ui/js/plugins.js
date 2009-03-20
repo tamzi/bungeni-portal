@@ -66,7 +66,8 @@
     .droppable({
       accept: "tr",
           })
-    .bind('drop', function(droppable, event, draggable) {
+    .bind('drop', function(event, draggable) {
+        var droppable = $(this);
         var element = draggable.draggable;
         var id = $(element).find("a[rel=id]").attr('name');
         var target = $(droppable.target);

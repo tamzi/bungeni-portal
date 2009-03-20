@@ -35,7 +35,7 @@
           var ids = [];
           $.each($(this).find("a"), function(i, o) {
               var name = $(o).attr('name');
-              if (ids.indexOf(name) == -1)
+              if (name && ids.indexOf(name) == -1)
                 ids.push(name);
             });
 

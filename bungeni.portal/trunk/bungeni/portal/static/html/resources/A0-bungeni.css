@@ -29,3 +29,7 @@ label.discreet {
 #bungeni-workspace .odd .portlet {
   margin-left: 5px;
 }
+
+#portal-logo {
+  display: none;
+}

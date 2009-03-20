@@ -26,10 +26,43 @@
       old_tables.eq(0).replaceWith(new_tables.eq(0));
       old_tables.eq(1).replaceWith(new_tables.eq(1));
     }
+
+    calendar.find("td.sitting ul").sortable({
+      stop: function(event, ui) {
+          // on the change event, we collect all the item ids and
+          // submit to the parent's "reorder" action
+
+          var ids = [];
+          $.each($(this).find("a"), function(i, o) {
+              var name = $(o).attr('name');
+              if (ids.indexOf(name) == -1)
+                ids.push(name);
+            });
+
+          // the url is defined as the first link's parent
+          var url = $(this).parents('td').eq(0).
+            find("a[rel=sitting]").attr('href')+'/items/reorder';
+
+          var data = {
+          "headless": 'true',
+          "ordering.count": ids.length,
+          };
+          
+          $.each(ids, function(i, o) {
+              data["ordering."+i+"."] = o;
+            });
+          
+          $.post(url, data, function(data, status) {
+              if (status == 'success') {
+                // throw away result
+              }
+            });
+        }
+      });
     
     calendar.find("td.sitting")
     .droppable({
-      accept: "*",
+      accept: "tr",
           })
     .bind('drop', function(droppable, event, draggable) {
         var element = draggable.draggable;

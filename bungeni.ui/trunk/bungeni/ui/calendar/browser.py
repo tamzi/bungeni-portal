@@ -19,6 +19,8 @@ from bungeni.ui.utils import urljoin
 from bungeni.ui.utils import is_ajax_request
 from bungeni.core.location import location_wrapped
 
+from ore.alchemist.container import stringKey
+
 def get_sitting_actions(sitting, request):
     menu = component.getUtility(IBrowserMenu, "sitting_actions")
     items = menu.getMenuItems(sitting, request)
@@ -37,7 +39,7 @@ def get_sitting_actions(sitting, request):
 def get_sitting_items(sitting, request):
     items = []
 
-    for scheduling in sitting.items.values():
+    for scheduling in sitting.items.batch(order_by=("planned_order",), limit=None):
         item = location_wrapped(scheduling.item, sitting)
        
         props = IDCDescriptiveProperties.providedBy(item) and item or \
@@ -46,6 +48,7 @@ def get_sitting_items(sitting, request):
         items.append({
             'title': props.title,
             'description': props.description,
+            'name': stringKey(scheduling),
             'url': absoluteURL(item, request)})
 
     return items

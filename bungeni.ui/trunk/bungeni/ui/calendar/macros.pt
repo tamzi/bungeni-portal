@@ -71,16 +71,21 @@
                       </li>
                     </ul>
 
-                    <a tal:attributes="href sitting/url">
+                    <a rel="sitting" tal:attributes="href sitting/url">
                       <span class="sitting-type" 
                             tal:content="sitting/record/type/sitting_type" />
                     </a>
-                    
-                    <div tal:repeat="item sitting/items">
-                      <a tal:attributes="href item/url;
-                                         title item/description"
-                         tal:content="item/title" />
-                    </div>
+
+                    <ul tal:condition="sitting/items">
+                      <li tal:repeat="item sitting/items">
+                        <a tal:attributes="name item/name;
+                                           href item/url"
+                           tal:content="item/title" />
+                        <p class="discreet"
+                              tal:content="item/description" />
+
+                      </li>
+                    </ul>
                   </tal:sitting>
                 </td>
               </tal:column>

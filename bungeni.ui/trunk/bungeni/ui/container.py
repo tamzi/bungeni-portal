@@ -6,9 +6,9 @@ import simplejson
 import sqlalchemy.sql.expression as sql
 
 from zope.security import proxy
-from zope.publisher.browser import BrowserView
-from zope.security import canAccess
+from zope.security import checkPermission
 from zope.security.proxy import ProxyFactory
+from zope.publisher.browser import BrowserView
 
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
@@ -55,26 +55,12 @@ def getFields( context ):
         field = domain_interface[column]     
         yield field
              
-
-def can_view(node, fieldname, context):
-    """ We only test for one field if it can be viewed
-    and assume that if we cannot the whole object cannot be accessd
-    """
-    # set the node's parent to the context for security checks
-    node.__parent__= context
-    w_node = ProxyFactory(node)
-    
-    can_view = canAccess(w_node, fieldname)
-    
-    return can_view
-
-def secured_iterator(query, fieldname, context):
-    """ get only the rows the user is actually allowed to see
-    field is one abitrary field in the listing (see can_view)
-    """
-    for node in query:
-        if can_view(node, fieldname, context):
-            yield node
+def secured_iterator(permission, query, parent):
+    for item in query:
+        item.__parent__ = parent
+        proxied = ProxyFactory(item)
+        if checkPermission("zope.View", proxied):
+            yield item
 
 class ContainerListing(container.ContainerListing):
     @property
@@ -114,15 +100,12 @@ class ContainerListing(container.ContainerListing):
             if 'start_date' in names and 'end_date' in names:
                 query = query.filter(filter_by).order_by(order_list)
             else:
-                query=query.order_by(order_list)
+                query = query.order_by(order_list)
         else:
-            query=query.order_by(order_list)
+            query = query.order_by(order_list)
 
-        fields = tuple(getFields(self.context))
-        if fields:
-            query = secured_iterator(
-                query, fields[0].__name__, self.context)
-
+        query = secured_iterator("zope.View", query, self.context)
+            
         formatter = zc.table.table.AlternatingRowFormatter(
             context, self.request, query, prefix="form", columns=self.columns)
         
@@ -204,7 +187,7 @@ class ContainerJSONListing( BrowserView ):
         return start, limit 
 
     def _get_secured_batch( self, query, start, limit):    
-        secured_query = secured_iterator(query, self.fields[0].__name__, self.context)
+        secured_query = secured_iterator("zope.View", query, self.context)
         nodes =[]
         for ob in secured_query:
             ob = contained( ob, self, stringKey(ob) )

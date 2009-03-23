@@ -60,26 +60,19 @@ class State( object ):
             if action == DENY:
                rpm.denyPermissionToRole( permission, role ) 
 
-class StateTransition( Transition ):
-    """
-    the xml file contains the transition events as well.        
-    """
+class StateTransition(Transition):
+    """A state transition."""
+
     def __init__(self, transition_id, title, source, destination,
-                 condition=NullCondition,
-                 action=NullAction,
-                 trigger=MANUAL,
-                 permission=CheckerPublic,
-                 order=0,
-                 event=None,
-                 **user_data):    
-            super( StateTransition, self).__init__( transition_id, title, source, destination,
-                    condition,
-                    action,
-                    trigger,
-                    permission,
-                    order=0,
-                    **user_data)   
-            self.event = event                 
+                 condition=NullCondition, action=NullAction,
+                 trigger=MANUAL, permission=CheckerPublic,
+                 order=0, event=None, require_confirmation=False,
+                 **user_data):
+        super(StateTransition, self).__init__(
+            transition_id, title, source, destination, condition,
+            action, trigger, permission, order=0, **user_data)
+        self.event = event
+        self.require_confirmation = require_confirmation
 
 class StateWorkflow( Workflow ):
 

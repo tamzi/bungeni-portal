@@ -478,6 +478,7 @@
      destination="billstates.withdrawn"
      permission="bungeni.bill.Withdraw"
      action="bungeni.core.workflows.bill.actions.withdraw"
+     require_confirmation="true"
      condition=""
      />
 

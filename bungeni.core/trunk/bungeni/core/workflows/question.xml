@@ -499,6 +499,7 @@
      permission="bungeni.question.Withdraw"
      action="bungeni.core.workflows.question.actions.withdraw"
      condition=""
+     require_confirmation="true"
      event=""
      />
 

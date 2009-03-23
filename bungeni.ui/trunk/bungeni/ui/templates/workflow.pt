@@ -5,9 +5,16 @@
   <div metal:fill-slot="body" i18n:domain="bungeni">
 
     <h1>Workflow</h1>
+
+    <p i18n:translate="">
+      Current state:
+      <em i18n:name="state" tal:content="view/get_wf_state" />.
+    </p>
     
-    <div tal:replace="structure view/history_viewlet/render" />
     <div tal:replace="structure view/action_viewlet/render" />
+
+    <h2>History</h2>
+    <div tal:replace="structure view/history_viewlet/render" />
     
   </div>
   

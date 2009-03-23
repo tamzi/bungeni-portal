@@ -461,101 +461,25 @@
      action=""
      condition=""
      />
+  
   <transition
      id="withdraw-submitted"
      title="Withdraw"
      trigger="manual"
-     source="billstates.submitted"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-first-reading"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.first_reading"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-first-committee"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.first_committee"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-second-reading"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.second_reading"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-whole-house"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.whole_house"
+     source="billstates.submitted
+             billstates.first_reading
+             billstates.first_committee
+             billstates.second_reading
+             billstates.whole_house
+             billstates.second_committee
+             billstates.report_reading
+             billstates.third_reading
+             billstates.withdrawn"
      destination="billstates.withdrawn"
      permission="bungeni.bill.Withdraw"
      action="bungeni.core.workflows.bill.actions.withdraw"
      condition=""
      />
 
-  <transition
-     id="withdraw-second-committee"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.second_committee"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-
-  <transition
-     id="withdraw-report-reading"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.report_reading"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-
-  <transition
-     id="withdraw-third-reading"
-     title="Withdraw"
-     trigger="manual"
-     source="billstates.third_reading"
-     destination="billstates.withdrawn"
-     permission="bungeni.bill.Withdraw"
-     action="bungeni.core.workflows.bill.actions.withdraw"
-     condition=""
-     />
-
-  <transition
-     id="reintroduce-withdrawn"
-     title="Redraft withdrawn"
-     trigger="manual"
-     source="billstates.withdrawn"
-     destination="billstates.draft"
-     permission="bungeni.bill.RevertTransitions"
-     action=""
-     condition=""
-     />
-
-  
-</workflow>  
+</workflow>
 

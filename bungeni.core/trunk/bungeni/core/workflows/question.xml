@@ -116,12 +116,12 @@
      condition=""
      event=".interfaces.IQuestionReceivedEvent"
      />
-     
-    <!--If a question is flagged by the Clerk /' Speakers office as 
-    "requiring editing by the MP" (e.g. missing data etc.) the system sends 
-    a notification to the MP to access the question and review it according 
-    to Speaker/Clerk's  office remarks. 
-    A new version of the question will be created, once the question is modified and saved.
+  
+  <!--If a question is flagged by the Clerk /' Speakers office as 
+      "requiring editing by the MP" (e.g. missing data etc.) the system sends 
+      a notification to the MP to access the question and review it according 
+      to Speaker/Clerk's  office remarks. 
+      A new version of the question will be created, once the question is modified and saved.
     -->     
   <transition 
      id="require-edit-by-mp"
@@ -134,16 +134,16 @@
      condition=""
      event=".interfaces.IQuestionClarifyEvent"
      />
-     
+  
   <!--After the Clerk's Office is through with the Notices reviews and there are satisfied 
-    that the Questions have all the formal requirements – the question is marked as “complete” 
-    and is made available / forwarded to the Speaker's Office for reviewing and to make it 
-    “admissible”. At the same time the question is also forwarded to the ministry. 
-    While the ministry can preview the question the ministry cannot respond until 
-    the state of the question has been set to “admissible” by the Speaker's office 
-    (for details about questions being set to “admissible” see Approval of Questions )
-  -->    
-     
+      that the Questions have all the formal requirements – the question is marked as “complete” 
+      and is made available / forwarded to the Speaker's Office for reviewing and to make it 
+      “admissible”. At the same time the question is also forwarded to the ministry. 
+      While the ministry can preview the question the ministry cannot respond until 
+      the state of the question has been set to “admissible” by the Speaker's office 
+      (for details about questions being set to “admissible” see Approval of Questions )
+    -->    
+  
   <transition 
      id="complete"
      title="Complete"
@@ -156,14 +156,14 @@
      event=".interfaces.IQuestionCompleteEvent"
      />
   <!--the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
-    or “requires amendment”.
-    
-    An inadmissible Question is rejected and the Member who proposed the Question 
-    will be notified accordingly via their workspace and optionally by email.
-    Question that require amendments may be modified and re-submitted
-    Questions marked as “admissible” are then made available for Scheduling   
-  -->
-     
+      or “requires amendment”.
+      
+      An inadmissible Question is rejected and the Member who proposed the Question 
+      will be notified accordingly via their workspace and optionally by email.
+      Question that require amendments may be modified and re-submitted
+      Questions marked as “admissible” are then made available for Scheduling   
+    -->
+  
   <transition 
      id="approve"
      title="Approve"
@@ -197,11 +197,11 @@
      condition=""
      event=""
      />
-     
+  
   <!--
-    a question that requires clarification/amendmends
-    can be resubmitted by the clerks office
-  -->        
+      a question that requires clarification/amendmends
+      can be resubmitted by the clerks office
+    -->        
   
   <transition 
      id="complete-clarify"
@@ -215,9 +215,9 @@
      event=""
      />
   <!--
-     or send to the mp for clarification
-  -->           
-     
+      or send to the mp for clarification
+    -->           
+  
   <transition 
      id="mp-clarify"
      title="Needs Clarification by MP"
@@ -231,9 +231,9 @@
      />
 
   <!--
-     after a question is amended it can be resubmitted to the clerks office
-  -->           
-     
+      after a question is amended it can be resubmitted to the clerks office
+    -->           
+  
   <transition 
      id="resubmit-clerk"
      title="Resubmit to clerk"
@@ -245,14 +245,14 @@
      condition=""
      event=""
      />
-     
+  
   <!--
-    Among the “admissible” questions the Speaker or the Clerk's office will 
-    select questions for scheduling for a specific sitting
-    Questions when “admissible” are made available for “scheduling”
-    Questions with the “require a Written response” flag do not appear as questions available for scheduling.
-  -->    
-     
+      Among the “admissible” questions the Speaker or the Clerk's office will 
+      select questions for scheduling for a specific sitting
+      Questions when “admissible” are made available for “scheduling”
+      Questions with the “require a Written response” flag do not appear as questions available for scheduling.
+    -->    
+  
   <transition 
      id="schedule"
      title="Schedule"
@@ -264,12 +264,12 @@
      condition=".utils.getQuestionSchedule"
      event=".interfaces.IQuestionScheduledEvent"
      />
-     
+  
   <!--
-     questions which are flagged as “requiring written response” are never scheduled,
-     but are answered directly by the ministry 
-  -->    
-     
+      questions which are flagged as “requiring written response” are never scheduled,
+      but are answered directly by the ministry 
+    -->    
+  
   <transition 
      id="send-ministry"
      title="Send to ministry"
@@ -281,11 +281,11 @@
      condition=".utils.getQuestionMinistry"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
-     
+  
   <!--
-     questions can be forwarded to another ministry to be answered.
-  -->      
-     
+      questions can be forwarded to another ministry to be answered.
+    -->      
+  
   <transition 
      id="forward-ministry"
      title="Forward to another ministry"
@@ -299,7 +299,7 @@
      />
 
   <!-- Submission of an response triggers this -->     
-     
+  
   <transition 
      id="respond-writing"
      title="Respond"
@@ -311,8 +311,8 @@
      condition=""
      event=""
      />
-     
-     
+  
+  
   <transition 
      id="elapse-pending"
      title="Elapse"
@@ -324,12 +324,12 @@
      condition=""
      event=""
      />
-     
+  
   <!--
-    all admissible questions awaiting an oral response etc. and flag them for “scheduling” for a later day 
-    or otherwise drop them from the pending ones. Dropping a question sets its status to “Deferred” 
-  -->          
-     
+      all admissible questions awaiting an oral response etc. and flag them for “scheduling” for a later day 
+      or otherwise drop them from the pending ones. Dropping a question sets its status to “Deferred” 
+    -->          
+  
   <transition 
      id="defer"
      title="Defer"
@@ -352,10 +352,10 @@
      condition=""
      event=""
      />
-     
+  
   <!--
-    a deferred question may be send to a ministry for a written response     
-  -->
+      a deferred question may be send to a ministry for a written response     
+    -->
   
   <transition 
      id="defer-ministry"
@@ -370,9 +370,9 @@
      />
 
   <!--
-    A defered question can be rescheduled later       
-  -->
-     
+      A defered question can be rescheduled later       
+    -->
+  
   <transition 
      id="schedule-deferred"
      title="Schedule"
@@ -386,9 +386,9 @@
      />
 
   <!--
-    in a sitting the question is either answered or it gets postopned  
-  -->
-    
+      in a sitting the question is either answered or it gets postopned  
+    -->
+  
   <transition 
      id="postpone"
      title="Postpone"
@@ -413,9 +413,9 @@
      />
 
   <!--
-    postponed questions are rescheduled
-  -->           
-     
+      postponed questions are rescheduled
+    -->           
+  
   <transition 
      id="schedule-postponed"
      title="Schedule"
@@ -427,11 +427,11 @@
      condition=".utils.getQuestionSchedule"
      event=".interfaces.IQuestionScheduledEvent"
      />
-     
+  
   <!--
-     postponed question can elapse
-  -->           
-     
+      postponed question can elapse
+    -->           
+  
   <transition 
      id="elapse-postponed"
      title="Elapse"
@@ -443,11 +443,11 @@
      condition=""
      event=""
      />
-     
+  
   <!--
-    postponed question can be send to a ministry for a written response       
-  -->    
-     
+      postponed question can be send to a ministry for a written response       
+    -->    
+  
   <transition 
      id="postponed-ministry"
      title="Send to Ministry"
@@ -459,12 +459,12 @@
      condition=".utils.getQuestionMinistry"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
- 
+  
   <!--
-    The response is sent to the Clerk's office, before being sent to the MP.
-    XXX come up with something better than answered  
-  -->     
-     
+      The response is sent to the Clerk's office, before being sent to the MP.
+      XXX come up with something better than answered  
+    -->     
+  
   <transition 
      id="answer"
      title="Answer"
@@ -477,11 +477,11 @@
      event=".interfaces.IQuestionAnsweredEvent"
      />
   <!--
-    the MP can withdraw his question at (almost) any stage
-    i.e the stages where it can still be presented to the 
-    ministry/house
-  -->         
-     
+      the MP can withdraw his question at (almost) any stage
+      i.e the stages where it can still be presented to the 
+      ministry/house
+    -->         
+  
   <transition 
      id="withdraw-submitted"
      title="Withdraw"
@@ -571,7 +571,5 @@
      condition=""
      event=""
      />
-     
- 
-                              
+
 </workflow>  

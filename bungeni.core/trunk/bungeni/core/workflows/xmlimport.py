@@ -62,7 +62,11 @@ def _load( workflow ):
             for source in t.source.replace('  ', ' ').split(' ')]
 
         for source in sources:
-            args = (t.id, Message(t.title, domain), source, t.destination)
+            if len(sources) > 1:
+                tid = "%s-%s" % (t.id, source)
+            else:
+                tid = t.id
+            args = (tid, Message(t.title, domain), source, t.destination)
             kw = {}
 
             # optionals

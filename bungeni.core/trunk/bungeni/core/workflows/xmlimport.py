@@ -50,37 +50,41 @@ def _load( workflow ):
     
     for t in workflow.transition:
         try:
-            source = t.source and t.source or None
-            if source:
-                tsource = source 
-            else:
-                tsource = None       
-            tdestination = t.destination    
-            args = ( t.id, Message( t.title, domain), tsource, tdestination )
-            kw = {}
+            t.source
+            t.destination
+            t.id
+            t.title
         except AttributeError:
-            raise SyntaxError( t.toxml() )
+            raise SyntaxError(t.toxml())
+            
+        sources = [
+            source and source or None
+            for source in t.source.replace('  ', ' ').split(' ')]
 
-        # optionals
-        for i in ('trigger', 'order', 'permission'):
-            val = getattr( t,i,None )
-            if not val:
-                continue
-            kw[i] = val
+        for source in sources:
+            args = (t.id, Message(t.title, domain), source, t.destination)
+            kw = {}
 
-        if 'trigger' in kw:
-            k = kw['trigger']
-            v = trigger_value_map[ k ]
-            kw['trigger'] = v
+            # optionals
+            for i in ('trigger', 'order', 'permission'):
+                val = getattr( t,i,None )
+                if not val:
+                    continue
+                kw[i] = val
 
-        # optional python resolvables
-        for i in('condition', 'action', 'event'):
-            val = getattr( t,i,None)
-            if not val:
-                continue
-            val = resolve( val , 'bungeni.core.workflows' ) # raises importerror/nameerror
-            kw[i] = val
-        transitions.append( StateTransition( *args, **kw ) )
+            if 'trigger' in kw:
+                k = kw['trigger']
+                v = trigger_value_map[ k ]
+                kw['trigger'] = v
+
+            # optional python resolvables
+            for i in('condition', 'action', 'event'):
+                val = getattr( t,i,None)
+                if not val:
+                    continue
+                val = resolve( val , 'bungeni.core.workflows' ) # raises importerror/nameerror
+                kw[i] = val
+            transitions.append( StateTransition( *args, **kw ) )
 
     return StateWorkflow( transitions, states )
 

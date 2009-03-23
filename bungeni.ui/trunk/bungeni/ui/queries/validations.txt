@@ -76,4 +76,12 @@ Now check for overlapping dates but not for the current (edited) parliament
    >>> list(utils.validate_date_in_interval( parliament, domain.Parliament, today))    
    []
    
+give the 2nd parliament an end date and save   
+   >>> parliament2.end_date = dayat   
+   >>> session.flush() 
+   
+No open parliaments  anymore 
+   >>> list(utils.validate_open_interval( None, domain.Parliament, today)) 
+   []
+   
    

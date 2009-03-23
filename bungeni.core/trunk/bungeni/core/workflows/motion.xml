@@ -354,6 +354,7 @@
      permission="bungeni.motion.Withdraw"
      action="bungeni.core.workflows.motion.actions.withdraw"
      condition=""
+     require_confirmation="true"
      />
   
 </workflow>

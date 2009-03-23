@@ -72,6 +72,10 @@ def _load( workflow ):
                     continue
                 kw[i] = val
 
+            require_confirmation = getattr(t, 'require_confirmation', '')
+            if require_confirmation.lower() == 'true':
+                kw['require_confirmation'] = True
+
             if 'trigger' in kw:
                 k = kw['trigger']
                 v = trigger_value_map[ k ]

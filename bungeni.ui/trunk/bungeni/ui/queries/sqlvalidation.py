@@ -51,7 +51,7 @@ checkParliamentInterval = """
     WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
         AND ( :date  
             BETWEEN "start_date" AND "end_date") )
-                        """
+            """
 # A new parliament can only be added when all other 
 # parliaments have an end date                        
 checkForOpenParliamentInterval = """

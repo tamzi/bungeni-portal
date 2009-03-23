@@ -1,0 +1,79 @@
+Setup
+-----
+Setting up Database Connection and Utilities:
+
+   >>> from ore.alchemist import Session
+   >>> from bungeni.models import domain
+   >>> import datetime
+   >>> import bungeni.models.testing
+   >>> db = bungeni.models.testing.setup_db()
+   >>> from ore.alchemist import Session   
+   >>> session = Session()
+   >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat   
+   >>> from bungeni.ui.queries import utils
+
+   
+Note that we only test the overlap of 'peers' here.
+refer to test_dates.py to test  that contained objects are inside
+their parents dates   
+   
+Parliaments
+-----------   
+   
+   >>> parliament = domain.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
+   >>> session.add( parliament)
+   >>> session.flush()
+   >>> list(utils.validate_date_in_interval( None, domain.Parliament, yesterday))
+   []
+   >>> list(utils.validate_date_in_interval( None, domain.Parliament, today))
+   [<bungeni.models.domain.Parliament object at ...>]
+
+   >>> list(utils.validate_date_in_interval( None, domain.Parliament, tomorrow))
+   [<bungeni.models.domain.Parliament object at ...>]
+
+   >>> list(utils.validate_date_in_interval( parliament, domain.Parliament, today))
+   []
+   >>> list(utils.validate_date_in_interval( parliament,domain.Parliament, tomorrow))
+   []
+   >>> list(utils.validate_date_in_interval( None, domain.Parliament, dayat))   
+   []
+   
+Before you can add a new parliament all others must be closed
+   
+   >>> list(utils.validate_open_interval( None, domain.Parliament, dayat))      
+   []
+   
+###############################     
+Add a new (open ended) parliament
+   >>> parliament2 = domain.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
+   >>> session.add( parliament2)
+   >>> session.flush()   
+   
+Note that the date yesterday is well ouside our p_2 so it does not matter.   
+   >>> list(utils.validate_open_interval( None, domain.Parliament, yesterday))
+   [<bungeni.models.domain.Parliament object at ...>]
+ 
+give the 2nd parliament an end date and save   
+   >>> parliament2.end_date = dayat   
+   >>> session.flush() 
+   
+No open parliaments  anymore 
+   >>> list(utils.validate_open_interval( None, domain.Parliament, today))
+   []
+   
+Now check for overlapping dates but not for the current (edited) parliament   
+   
+   >>> list(utils.validate_date_in_interval( parliament2, domain.Parliament, today))   
+   [<bungeni.models.domain.Parliament object at ...>]
+   
+   >>> list(utils.validate_date_in_interval( parliament2 , domain.Parliament, dayat))  
+   []
+   >>> list(utils.validate_date_in_interval(parliament, domain.Parliament, dayat))   
+   [<bungeni.models.domain.Parliament object at ...>]
+   
+   >>> list(utils.validate_date_in_interval( parliament, domain.Parliament, yesterday)) 
+   []
+   >>> list(utils.validate_date_in_interval( parliament, domain.Parliament, today))    
+   []
+   
+   

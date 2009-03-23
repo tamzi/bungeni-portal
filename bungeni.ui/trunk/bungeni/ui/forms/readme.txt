@@ -1,30 +1,15 @@
 Setup
 -----
+Setting up Database Connection and Utilities:
 
-some setup for tests
-
-   >>> from zope import component
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
    >>> from bungeni import models as model
    >>> import datetime
-
-Setting up Database Connection and Utilities:
-
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
-   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
-   >>> model.metadata.bind = db   
-   >>> model.metadata.create_all() 
+   >>> import bungeni.models.testing
+   >>> db = bungeni.models.testing.setup_db()
    >>> session = Session()
-   
-Get some standard dates for testing   
-   >>> today = datetime.date.today()
-   >>> yesterday = today - datetime.timedelta(1)
-   >>> tomorrow = today + datetime.timedelta(1)
-   >>> dayat = today + datetime.timedelta(2)
-   
-   >>> 
+   >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat   
+
    
 Note that we only test the overlap of 'peers' here.
 refer to test_dates.py to test  that contained objects are inside

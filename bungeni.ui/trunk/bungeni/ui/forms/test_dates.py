@@ -1,6 +1,7 @@
 import unittest
 import datetime
-from bungeni.ui.forms.validations import checkStartDate, checkEndDate
+from bungeni.ui.forms.validations import validate_start_date_within_parent 
+from bungeni.ui.forms.validations import validate_end_date_within_parent
 
 
 # get some simple dates for comparisions
@@ -29,12 +30,12 @@ class StartDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : None, 'end_date': today }   
         self.parent.start_date = today
         self.parent.end_date = today     
-        result = checkStartDate( self.parent, self.data )        
+        result = validate_start_date_within_parent( self.parent, self.data )        
         self.assertEqual(result, [])
         self.parent.start_date = None
         self.parent.end_date = tomorrow
         self.data =  {'start_date' : tomorrow, 'end_date': today }
-        result = checkStartDate( self.parent, self.data )        
+        result = validate_start_date_within_parent( self.parent, self.data )        
         self.assertEqual(result, [])        
         
     def test_startDate_eq_start(self):
@@ -42,7 +43,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : today, 'end_date': today }
         self.parent.start_date = today
         self.parent.end_date = today
-        result = checkStartDate( self.parent, self.data )
+        result = validate_start_date_within_parent( self.parent, self.data )
         self.assertEqual(result, [])        
         
     def test_startDate_lt_start(self):
@@ -50,7 +51,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : today, 'end_date': today }
         self.parent.start_date = tomorrow
         self.parent.end_date = today
-        result = checkStartDate( self.parent, self.data )
+        result = validate_start_date_within_parent( self.parent, self.data )
         self.failIfEqual(result, [])  
 
     def test_startDate_gt_start(self):
@@ -58,7 +59,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : tomorrow, 'end_date': today }
         self.parent.start_date = today
         self.parent.end_date = tomorrow
-        result = checkStartDate( self.parent, self.data )
+        result = validate_start_date_within_parent( self.parent, self.data )
         self.assertEqual(result, [])    
                 
     def test_endDate_lt_start(self):
@@ -66,7 +67,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : tomorrow, 'end_date': tomorrow }
         self.parent.start_date = today
         self.parent.end_date = today
-        result = checkStartDate( self.parent, self.data )
+        result = validate_start_date_within_parent( self.parent, self.data )
         self.failIfEqual(result, [])            
                     
         
@@ -82,12 +83,12 @@ class EndDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : tomorrow, 'end_date': None }  
         self.parent.start_date = today
         self.parent.end_date = today      
-        result = checkEndDate( self.parent, self.data )        
+        result = validate_end_date_within_parent( self.parent, self.data )        
         self.assertEqual(result, [])
         self.parent.start_date = yesterday
         self.parent.end_date = None
         self.data =  {'start_date' : today, 'end_date': today }
-        result = checkEndDate( self.parent, self.data )        
+        result = validate_end_date_within_parent( self.parent, self.data )        
         self.assertEqual(result, [])        
             
         
@@ -96,7 +97,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : today, 'end_date': today }
         self.parent.start_date = today
         self.parent.end_date = today
-        result = checkEndDate( self.parent, self.data )
+        result = validate_end_date_within_parent( self.parent, self.data )
         self.assertEqual(result, [])        
         
     def test_endDate_lt_start(self):
@@ -104,7 +105,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : yesterday, 'end_date': yesterday }
         self.parent.start_date = today
         self.parent.end_date = tomorrow
-        result = checkEndDate( self.parent, self.data )
+        result = validate_end_date_within_parent( self.parent, self.data )
         self.failIfEqual(result, [])          
         
     def test_endDate_gt_end(self):
@@ -112,7 +113,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : today, 'end_date': tomorrow }
         self.parent.start_date = yesterday
         self.parent.end_date = today
-        result = checkEndDate( self.parent, self.data )
+        result = validate_end_date_within_parent( self.parent, self.data )
         self.failIfEqual(result, [])            
         
     def test_endDate_gt_start(self):
@@ -120,7 +121,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.data =  {'start_date' : today, 'end_date': yesterday }
         self.parent.start_date = today
         self.parent.end_date = yesterday
-        result = checkEndDate( self.parent, self.data )
+        result = validate_end_date_within_parent( self.parent, self.data )
         self.failIfEqual(result, [])            
         
         

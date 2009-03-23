@@ -10,10 +10,12 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
+from ore.wsgiapp.interfaces import IApplication
 from alchemist.traversal.managed import ManagedContainerDescriptor
 
 from bungeni.ui.utils import getDisplayDate
 from bungeni.core.app import BungeniApp
+from bungeni.core import location
 
 import datetime
 from zope.traversing.browser import absoluteURL 
@@ -127,136 +129,116 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         self.__parent__= view
         self.manager = manager
         self.path = []
-        self.name  =''
         self.tree = []
-        
-    def _get_object_path(self, context, url=''):
-        """
-        traverse up the tree 
-        """
-        path = []
-        context = proxy.removeSecurityProxy( context )
-        if context.__parent__ is not None:            
-            url = absoluteURL( context, self.request ) + '/'
-            path = path + self._get_object_path(context.__parent__, '../' + url )                 
-        else:            
-            return []
-        path.append({'obj':context, 'url':url})            
-        return path
-   
-   
-    def _append_child( self, path):
-        """
-        build the navigation tree
-        """
-        items = []
-        if len(path) == 0:
-            return items
-        url = path[0]['url']
-        if IAlchemistContent.providedBy(path[0]['obj']):                     
-            item = {'name' : getattr(path[0]['obj'], 'short_name', None ), 'url' : url, 'current': 'navTreeItemInPath'}
-            if len(path) > 1:
-                item['node'] = self._append_child(path[1:])
-            else: 
-                # leaf => append actions
-                item['current'] = 'navTreeCurrentItem'                                        
-                context_class = path[0]['obj'].__class__
-                context_class = proxy.removeSecurityProxy( context_class )    
-                
-                citems =[]
-                for k, v in context_class.__dict__.items():
-                    if isinstance( v, ManagedContainerDescriptor ):
-                        domain_model = v.domain_container._class 
-                        descriptor = queryModelDescriptor( domain_model )
-                        if descriptor:
-                            name = getattr(descriptor, 'container_name', None)
-                            if name is None:
-                                name = getattr(descriptor, 'display_name', None)
-                        if not name:
-                            name = domain_model.__name__                            
-                        i = { 'name' : name,
-                              'current' : '',
-                              'url'  :  "%s/%s" % (url.rstrip('/'), k), 
-                              'node' : None,
-                              'script': True }                                          
-                        if domain_model == context_class: 
-                            i['current'] = 'navTreeCurrentItem'                              
-                        citems.append( i )
-                item['node'] = citems
-            items.append(item)
-        if IAlchemistContainer.providedBy(path[0]['obj']):                        
-            if (path[0]['obj'].__parent__ is None) or (path[0]['obj'].__parent__.__class__ == BungeniApp): 
-                #Navigation Root               
-                domain_model = path[0]['obj']._class 
-                descriptor = queryModelDescriptor( domain_model )
-                if descriptor:
-                    name = getattr( descriptor, 'container_name', None)
-                if not name:
-                    name = getattr( domain_model, '__name__', None) 
-                item = { 'name' : name,
-                            'url'  : url ,
-                            'current': 'navTreeItemInPath', 
-                            'script': False,
-                             } 
-                if len(path) > 1:
-                    item['node'] = self._append_child(path[1:])
-                else:
-                    item['node'] = None
-                    item['current'] = 'navTreeCurrentItem'
-                items.append(item)                     
-                return items
-
-                         
-            context_class = path[0]['obj'].__parent__.__class__
-            context_class = proxy.removeSecurityProxy( context_class )                
-            for k, v in context_class.__dict__.items():
-                if isinstance( v, ManagedContainerDescriptor ):
-                    domain_model = v.domain_container._class 
-                    descriptor = queryModelDescriptor( domain_model )                    
-                    if len(path) == 1:
-                        current = 'navTreeItemInPath'
-                    else:
-                        current = 'navTreeCurrentItem'
-                    if descriptor:
-                        name = getattr( descriptor, 'display_name', None)
-                    if not name:
-                        name = domain_model.__name__
-                    if domain_model == path[0]['obj']._class:   
-                        item = { 'name' : name,
-                            'url'  : url + '../' + k,
-                            'current': 'navTreeItemInPath', 
-                            'script': False,
-                             }
-                        if len(path) > 1:
-                            item['node'] = self._append_child(path[1:])
-                        else:
-                            item['node'] = None
-                            item['current'] = 'navTreeCurrentItem' 
-                    else:                            
-                        item = { 'name' : name,
-                              'current' : '',
-                              'node' : None,
-                              'url'  : url + '../' + k,
-                              'script': False, }
-                    items.append( item )  
-        return items                                          
-
-    def _appendSortFilter2URL(self, url):
-        """
-        get the filters from url and add them if applicable        
-        """
-        filter_by = ''
-        displayDate = getDisplayDate(self.request)        
-        if displayDate:
-            filter_by='?date=' + datetime.date.strftime(displayDate,'%Y-%m-%d')
-            return url + filter_by               
-        else:
-            return url                    
-
-    def _get_nodes(self, context, url = ''):
-        items = []
-        path = self._get_object_path(context)
-        return self._append_child(path)
+        self.name = ''
 
     def update(self):
-        self.nodes = self._get_nodes(self.context)  
+        """Creates a navigation tree for ``context``.
+
+        Recursively, by visiting the parent chain in reverse order,
+        the tree is built. The siblings of managed containers are
+        included.
+        """
+
+        chain = []
+        context = proxy.removeSecurityProxy(self.context)
+
+        while context is not None:
+            chain.append(context)
+            context = context.__parent__
+
+        self.nodes = self.expand(chain)
+
+    def expand(self, chain):
+        if len(chain) == 0:
+            return ()
+        
+        context = chain.pop()
+        items = []
+
+        if IApplication.providedBy(context):
+            items.extend(self.expand(chain))
+
+        elif IAlchemistContent.providedBy(context):
+            url = absoluteURL(context, self.request)
+            items.append(
+                {'title': context.short_name,
+                 'url': url,
+                 'current': True,
+                 'selected': len(chain) == 0,
+                 'kind': 'content',
+                 'nodes': self.expand(chain),
+                 })
+
+        elif IAlchemistContainer.providedBy(context):
+            # loop through all managed containers of the parent
+            # object, and include the present container as the
+            # 'current' node.
+            parent = context.__parent__
+            assert parent is not None
+            url = absoluteURL(parent, self.request)
+
+            # append managed containers as child nodes
+            kls = type(proxy.removeSecurityProxy(parent))
+
+            if IApplication.providedBy(parent):
+                containers = [
+                    (name, parent[name])
+                    for name in location.model_to_container_name_mapping.values()
+                    if name in parent]
+            else:
+                containers = [
+                    (key, getattr(parent, key))
+                    for key, value in kls.__dict__.items()
+                    if isinstance(value, ManagedContainerDescriptor)]
+
+            seen_context = False
+            
+            for key, container in containers:
+                descriptor = queryModelDescriptor(container.domain_model)
+                if descriptor:
+                    name = getattr(descriptor, 'container_name', None)
+                    if name is None:
+                        name = getattr(descriptor, 'display_name', None)
+
+                if not name:
+                    name = container.domain_model.__name__
+
+                current = container.__name__ == context.__name__
+                selected = len(chain) == 0 and current
+                
+                if current:
+                    seen_context = True
+                    nodes = self.expand(chain)
+                else:
+                    nodes = ()
+                
+                items.append(
+                    {'title': name,
+                     'url': "%s/%s" % (url.rstrip('/'), key),
+                     'current': current,
+                     'selected': selected,
+                     'kind': 'container',
+                     'nodes': nodes,
+                     })
+
+            if not seen_context:
+                import pdb; pdb.set_trace()
+                
+        elif ILocation.providedBy(context):
+            url = absoluteURL(context, self.request)
+            props = IDCDescriptiveProperties.providedBy(context) and \
+                context or IDCDescriptiveProperties(context)
+
+            props = proxy.removeSecurityProxy(props)
+
+            items.append(
+                {'title': props.title,
+                 'url': url,
+                 'current': True,
+                 'selected': len(chain) == 0,
+                 'kind': 'location',
+                 'nodes': self.expand(chain),
+                 })
+
+        return items

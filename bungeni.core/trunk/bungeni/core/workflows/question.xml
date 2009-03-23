@@ -476,95 +476,25 @@
      condition=""
      event=".interfaces.IQuestionAnsweredEvent"
      />
+  
   <!--
       the MP can withdraw his question at (almost) any stage
       i.e the stages where it can still be presented to the 
       ministry/house
-    -->         
+    -->
   
   <transition 
      id="withdraw-submitted"
      title="Withdraw"
      trigger="manual"
-     source="questionstates.submitted"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-  <transition 
-     id="withdraw-received"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.received"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-  <transition 
-     id="withdraw-complete"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.complete"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-  <transition 
-     id="withdraw-admissible"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.admissible"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-  <transition 
-     id="withdraw-amend"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.clarify_mp"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-  <transition 
-     id="withdraw-scheduled"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.scheduled"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-  <transition 
-     id="withdraw-deferred"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.deferred"
-     destination="questionstates.withdrawn"
-     permission="bungeni.question.Withdraw"
-     action="bungeni.core.workflows.question.actions.withdraw"
-     condition=""
-     event=""
-     />
-
-  <transition 
-     id="withdraw-postponed"
-     title="Withdraw"
-     trigger="manual"
-     source="questionstates.postponed"
+     source="questionstates.submitted
+             questionstates.received
+             questionstates.complete
+             questionstates.admissible
+             questionstates.clarify_mp
+             questionstates.scheduled
+             questionstates.deferred
+             questionstates.postponed"
      destination="questionstates.withdrawn"
      permission="bungeni.question.Withdraw"
      action="bungeni.core.workflows.question.actions.withdraw"

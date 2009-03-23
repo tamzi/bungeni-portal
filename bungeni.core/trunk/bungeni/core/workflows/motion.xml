@@ -336,96 +336,24 @@
      action="bungeni.core.workflows.motion.actions.elapse"
      condition=""
      />
+  
   <transition
      id="withdraw-submitted"
      title="Withdraw"
      trigger="manual"
-     source="motionstates.submitted"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-received"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.received"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-complete"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.complete"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-admissible"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.admissible"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-amend"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.clarify_mp"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-scheduled"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.scheduled"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-deferred"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.deferred"
-     destination="motionstates.withdrawn"
-     permission="bungeni.motion.Withdraw"
-     action="bungeni.core.workflows.motion.actions.withdraw"
-     condition=""
-     />
-  <transition
-     id="withdraw-postponed"
-     title="Withdraw"
-     trigger="manual"
-     source="motionstates.postponed"
+     source="motionstates.submitted
+             motionstates.received
+             motionstates.complete
+             motionstates.admissible
+             motionstates.clarify_mp
+             motionstates.scheduled
+             motionstates.deferred
+             motionstates.postponed
+             motionstates.withdrawn"
      destination="motionstates.withdrawn"
      permission="bungeni.motion.Withdraw"
      action="bungeni.core.workflows.motion.actions.withdraw"
      condition=""
      />
   
-  <transition
-     id="redraft-withdrawn"
-     title="Redraft withdrawn"
-     trigger="manual"
-     source="motionstates.withdrawn"
-     destination="motionstates.draft"
-     permission="bungeni.motion.RevertTransitions"
-     action=""
-     condition=""
-     />
-
-</workflow>    
+</workflow>

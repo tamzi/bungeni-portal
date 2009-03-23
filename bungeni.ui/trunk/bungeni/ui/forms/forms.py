@@ -226,6 +226,25 @@ membersEditVocab = sqlutils.SQLQuerySource(
 class GroupEditForm (EditForm):
     """ generic form for all groups """
 
+
+class ExtensionGroupEditForm( GroupEditForm ):
+     
+    CustomValidations = validations.validate_date_range_within_parent    
+
+class MinistryEditForm( GroupEditForm ):
+        
+    CustomValidations = validations.validate_date_range_within_parent     
+
+class CommitteeEditForm ( GroupEditForm ):
+          
+    CustomValidations = validations.validate_date_range_within_parent   
+
+
+class ParliamentEditForm( GroupEditForm ):
+
+    CustomValidations = validations.CheckParliamentDatesEdit
+
+
 class GovernmentEditForm( GroupEditForm ): 
 
     CustomValidations = validations.CheckGovernmentsDateInsideParliamentsDatesEdit
@@ -242,7 +261,20 @@ class GovernmentAddForm ( BungeniAddForm ):
 
     CustomValidation =  validations.CheckGovernmentsDateInsideParliamentsDatesAdd    
 
-                      
+
+
+class CommitteeAddForm( GroupAddForm ):
+
+    CustomValidation = validations.validate_date_range_within_parent     
+
+class ExtensionGroupAddForm( GroupAddForm ):
+
+    CustomValidation =   validations.validate_date_range_within_parent   
+
+
+class PoliticalPartyAddForm( BungeniAddForm ):
+
+    CustomValidation = validations.validate_date_range_within_parent
 
 ############# User Group Memberships ########################
 
@@ -277,19 +309,24 @@ class GroupMemberEditForm ( EditForm ):
 
 class MinisterEditForm( GroupMemberEditForm ):
 
-    CustomValidations = validations.MinisterDatesEdit
+    CustomValidations = validations.validate_date_range_within_parent
+    
+class ExtensionMemberEditForm( CustomEditForm ):
+
+    CustomValidations = validations.validate_date_range_within_parent  
+
 
 class CommitteeStaffEditForm( GroupMemberEditForm ):
 
-    CustomValidation =  validations.CommitteeMemberDatesEdit   
+    CustomValidation =  validations.validate_date_range_within_parent   
 
 class CommitteeMemberEditForm( GroupMemberEditForm ):
         
-    CustomValidations = validations.CommitteeMemberDatesEdit
+    CustomValidations = validations.validate_date_range_within_parent
 
 class MemberOfParliamenEditForm( GroupMemberEditForm ):     
          
-    CustomValidations = validations.CheckMemberDatesEdit         
+    CustomValidations = validations.validate_date_range_within_parent         
 
 class GroupMemberAddForm ( AddForm ):
     """ Generic Add Form for all user group memberships
@@ -316,7 +353,7 @@ class MemberOfParliamentAddForm( GroupMemberAddForm ):
         sqlstatements.sql_AddMemberOfParliament, 
         'fullname', 
         'user_id')  
-    CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
+    CustomValidation = validations.validate_date_range_within_parent  
 
     @property
     def defaults(self):
@@ -343,7 +380,7 @@ class MemberOfParliamentAddForm( GroupMemberAddForm ):
 class MinistersAddForm( GroupMemberAddForm ):
     _qryAddMinisterVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_addMinister, 'fullname', 'user_id')
-    CustomValidation =   validations.CheckMinisterDatesInsideMinistryDatesAdd    
+    CustomValidation =   validations.validate_date_range_within_parent    
 
     def get_form_fields(self):
         base_fields = super(MinistersAddForm, self).get_form_fields()
@@ -361,7 +398,7 @@ class MinistersAddForm( GroupMemberAddForm ):
 class ExtensionMemberAddForm( GroupMemberAddForm ):
     _qryAddExtensionMemberVocab = sqlutils.SQLQuerySource(
         sqlstatements. sql_addExtensionMember, 'fullname', 'user_id')
-    CustomValidation =  validations.CheckExtensionMemberDatesInsideParentDatesAdd       
+    CustomValidation =  validations.validate_date_range_within_parent       
     
     def get_form_fields(self):
         base_fields = super(ExtensionMemberAddForm, self).get_form_fields()            
@@ -377,7 +414,7 @@ class ExtensionMemberAddForm( GroupMemberAddForm ):
 class CommitteeMemberAddForm( GroupMemberAddForm ):
     _qryAddCommitteeMemberVocab = sqlutils.SQLQuerySource(
         sqlstatements. sql_AddCommitteeMember, 'fullname', 'user_id')
-    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd   
+    CustomValidation =  validations.validate_date_range_within_parent   
 
     def get_form_fields(self):
         base_fields = super(CommitteeMemberAddForm, self).get_form_fields()            
@@ -394,7 +431,7 @@ class CommitteeMemberAddForm( GroupMemberAddForm ):
 class CommitteeStaffAddForm( GroupMemberAddForm ):
     _qryAddCommitteeStaffVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_AddCommitteeStaff, 'fullname', 'user_id')
-    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd  
+    CustomValidation =  validations.validate_date_range_within_parent  
     
     def get_form_fields(self):
         base_fields = super(CommitteeStaffAddForm, self).get_form_fields()            
@@ -520,7 +557,7 @@ class GroupSittingAttendanceEditForm( EditForm ):
 class QuestionAddForm(AddForm):
     _qryAddQuestionMinistryVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_select_question_ministry_add, 'full_name', 'group_id')
-
+    CustomValidations = validations.null_validator
     actions = AddForm.actions.copy()
 
     def get_form_fields(self):
@@ -572,6 +609,8 @@ class QuestionEditForm(EditForm):
     _qryEditQuestionMinistryVocab = sqlutils.SQLQuerySource(
         sqlstatements.sql_select_question_ministry_edit, 'full_name', 'group_id', 
         {'parliament_id':'$parliament_id',})
+    CustomValidations = validations.null_validator
+
     
     def get_form_fields(self):
         base_fields = super(QuestionEditForm, self).get_form_fields()
@@ -589,6 +628,8 @@ class ResponseEditForm( EditForm ):
     UI for ministry to input response
     Display the question when adding the answer.
     """
+    CustomValidations =  validations.null_validator
+
     
 class ResponseAddForm( AddForm ):
     """
@@ -596,6 +637,8 @@ class ResponseAddForm( AddForm ):
     UI for ministry to input response
     Display the question when adding the answer.
     """
+    CustomValidation =  validations.null_validator
+
     
 class ItemScheduleContainerReorderForm(ReorderForm):
     def save_ordering(self, ordering):

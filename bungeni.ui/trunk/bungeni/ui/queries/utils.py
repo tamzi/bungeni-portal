@@ -7,6 +7,7 @@ from zope.security.proxy import removeSecurityProxy
 
 from ore.alchemist import Session
 from ore.alchemist.container import valueKey
+from ore.alchemist.container import stringKey
 
 import bungeni.models.domain as domain
 from bungeni.ui.i18n import _
@@ -32,13 +33,10 @@ def get_user_id( name ):
     return user_id      
 
 
-def checkBySQL( sql_statement, **check_dict):
+def check_with_sql( sql_statement, **check_dict):
     """
     Run SQL with variables in the dict
     """
-    session = Session()
-    #sql_text = sql_statement % (check_dict)
-    #connection = session.connection(domain.Parliament)      
     query = execute_sql(sql_statement, **check_dict)
     result = query.fetchone()
     if result is None:
@@ -46,33 +44,71 @@ def checkBySQL( sql_statement, **check_dict):
     else:
         return result[0]            
 
-def checkDateInInterval( pp_key, checkDate, sql_statement):
+def check_date_in_interval( pp_key, checkDate, sql_statement):
     """
     Check if the checkDate is inside one of its 'peers'
     the passed sql statement must follow the restrictions:
-    %(date)s is the date to check (must be present!)
-    %(parent_key)s is usually the parents primary key (can be omitted to check all)
+    date: is the date to check (must be present!)
+    parent_key: is usually the parents primary key (can be omitted to check all)
     """
     if (type(checkDate) is datetime.datetime or type(checkDate) is datetime.date):
         checkDict = { 'date': checkDate, 'parent_key': pp_key }
-        return checkBySQL( sql_statement, **checkDict)
+        return check_with_sql( sql_statement, **checkDict)
     else:
         raise TypeError        
 
 
-def checkStartEndDatesInInterval( pp_key, data, sql_statement):
+def check_start_end_dates_in_interval( pp_key, data, sql_statement):
     """ 
     Check if start and end dates are not overlapping with a prior or later peer
     """
     errors =[]    
-    overlaps = checkDateInInterval(pp_key, data['start_date'], sql_statement)
+    overlaps = check_date_in_interval(pp_key, data['start_date'], sql_statement)
     if overlaps is not None:
         errors.append( interface.Invalid(_("The start date overlaps with (%s)" % overlaps), "start_date" ))
     if data['end_date'] is not None:        
-        overlaps = checkDateInInterval(pp_key, data['end_date'], sql_statement)
+        overlaps = check_date_in_interval(pp_key, data['end_date'], sql_statement)
         if overlaps is not None:
             errors.append( interface.Invalid(_("The end date overlaps with (%s)" % overlaps), "end_date" )) 
     return errors 
+
+
+def validate_date_in_interval(obj, domain_model, date):
+    session = Session()
+    query = session.query(domain_model).filter(
+            sql.expression.between(date, domain_model.start_date, domain_model.end_date)
+            )
+    results = query.all() 
+    if results:      
+        if obj:
+            # the object itself can overlap   
+            for result in results:
+                if stringKey(result) == stringKey(obj):
+                    continue
+                else:
+                    yield result                
+        else:
+            # all results indicate an error
+           for result in results:     
+                yield result     
+
+def validate_open_interval(obj, domain_model, date):
+    session = Session()
+    query = session.query(domain_model).filter(
+            domain_model.end_date == None)
+    results = query.all() 
+    if results:      
+        if obj:
+            for result in results:
+                if stringKey(result) == stringKey(obj):
+                    continue
+                else:
+                    yield result                
+        else:
+           for result in results:     
+                yield result
+
+
 
 
 class SQLQuerySource ( object ):

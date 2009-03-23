@@ -1,31 +1,24 @@
 # encoding: utf-8
+
 import datetime
-
-from zope.security import proxy
-import zc.table 
-from zope.formlib import form
-
-from zope.publisher.browser import BrowserView
-from zope.app.pagetemplate import ViewPageTemplateFile
-
+import zc.table
 import simplejson
 import sqlalchemy.sql.expression as sql
-#from zope.app.securitypolicy.interfaces import IPrincipalRoleManager, IPrincipalRoleMap
-from zope.securitypolicy.interfaces import IPrincipalRoleMap
-from zope.security import canAccess, canWrite
+
+from zope.security import proxy
+from zope.publisher.browser import BrowserView
+from zope.security import canAccess
 from zope.security.proxy import ProxyFactory
 
-from ore.alchemist.model import queryModelDescriptor, queryModelInterface
-import alchemist.ui.container
+from ore.alchemist import Session
+from ore.alchemist.model import queryModelDescriptor
+from ore.alchemist.model import queryModelInterface
+from ore.alchemist.container import contained
+from ore.alchemist.container import stringKey
 
-from ore.alchemist.container import stringKey, contained
-#from ore import yuiwidget
-from zope.traversing.browser import absoluteURL
-
-from bungeni.core.i18n import _
-from bungeni.ui.utils import getDisplayDate, getFilter
-import base64
-
+from alchemist.ui import container
+from bungeni.ui.utils import getDisplayDate
+from bungeni.ui.utils import getFilter
 
 def dateFilter( request ):
     filter_by = ''
@@ -36,7 +29,6 @@ def dateFilter( request ):
     else:
         filter_by = ''          
     return filter_by            
-
 
 def getFullPath( context):
     #BBB use absoluteURL
@@ -65,17 +57,16 @@ def getFields( context ):
              
 
 def can_view(node, fieldname, context):
-        """ We only test for one field if it can be viewed
-        and assume that if we cannot the whole object cannot be accessd
-        """
-        # set the node's parent to the context for security checks
-        node.__parent__= context
-        w_node = ProxyFactory(node)
-
-        can_view = canAccess(w_node, fieldname)         
-            
-        return can_view
-
+    """ We only test for one field if it can be viewed
+    and assume that if we cannot the whole object cannot be accessd
+    """
+    # set the node's parent to the context for security checks
+    node.__parent__= context
+    w_node = ProxyFactory(node)
+    
+    can_view = canAccess(w_node, fieldname)
+    
+    return can_view
 
 def secured_iterator(query, fieldname, context):
     """ get only the rows the user is actually allowed to see
@@ -85,98 +76,69 @@ def secured_iterator(query, fieldname, context):
         if can_view(node, fieldname, context):
             yield node
 
-
-def viewLink( item, formatter ):
-    path = absoluteURL( formatter.context, formatter.request ) + '/'
-    #path = getFullPath(formatter.context)
-    return u'<a class="button-link" href="%s">View</a>'%( path + stringKey( item ) )
-
-def editLink( item, formatter ):
-    #path = getFullPath(formatter.context)
-    path = absoluteURL( formatter.context, formatter.request ) + '/'
-    return u'<a class="button-link" href="%s/edit">Edit</a>'%( path + stringKey( item ) )
-
-def viewEditLinks( item, formatter ):
-    return u'%s %s'%(viewLink( item, formatter), editLink( item, formatter ) )
-
-
-
-class ContainerListing( alchemist.ui.container.ContainerListing ):
-    #formatter_factory = yuiwidget.ContainerDataTableFormatter
-    addLink = None
-
-    def update( self ):
-        super( ContainerListing, self).update()
-        context = proxy.removeSecurityProxy( self.context )
-        columns = alchemist.ui.core.setUpColumns( context.domain_model )
-        columns.append(
-            zc.table.column.GetterColumn( title = _(u'Actions'),
-                                 getter = viewEditLinks )
-            )
-        self.columns = columns
-        self.actionUrl = '%s/' % ( absoluteURL( self.context, self.request ) )
-        self.fields = list(getFields(self.context))
-        
+class ContainerListing(container.ContainerListing):
     @property
     def formatter( self ):
-        context = proxy.removeSecurityProxy( self.context )        
-        order_by = self.request.get('order_by', None)       
-        query=context._query
-        order_list=[]
-        if order_by:
-            if order_by in context._class.c._data._list:
-                order_list.append(order_by)
-        default_order = getattr(context._class,'sort_on',None)
-        if default_order:
-            #define your default in bungeni.core.domain
-            if default_order in  context._class.c._data._list:
-                order_list.append(default_order)                            
-        if 'short_name' in  context._class.c._data._list and 'short_name' not in order_list:
-            #default order and secondary sort is on short_name
-            order_list.append('short_name')             
-        filter_by = dateFilter( self.request )
-        if filter_by:  
-            if 'start_date' in  context._class.c._data._list and 'end_date' in  context._class.c._data._list:                 
-                query=query.filter(filter_by).order_by(order_list) 
-            else:
-                query=query.order_by(order_list)                                             
-        else:            
-            query=query.order_by(order_list)     
-        # self.formatter_factory
+        """We replace the formatter in our superclass to set up column
+        sorting.
+
+        Default sort order is defined in the model class
+        (``sort_on``); if not set, the table is ordered by the
+        ``short_name`` column (also used as secondary sort order).
+        """
         
-        if self.fields:
-            items = secured_iterator(query, self.fields[0].__name__, self.context)
-        else:
-            items = query
+        session = Session()
+        context = proxy.removeSecurityProxy(self.context)
+        model = context.domain_model
+        
+        query = session.query(model)
+        table = query.table
+        names = table.columns.keys()
+        order_list = []
+        
+        order_by = self.request.get('order_by', None)
+        if order_by:
+            if order_by in names:
+                order_list.append(order_by)
+
+        default_order = getattr(model, 'sort_on', None)
+        if default_order:
+            if default_order in names:
+                order_list.append(default_order)
+
+        if 'short_name' in names and 'short_name' not in order_list:
+            order_list.append('short_name')
             
-        formatter = zc.table.table.AlternatingRowFormatter( context,
-                                                   self.request,
-                                                   items,
-                                                   prefix="form",
-                                                   columns = self.columns )
+        filter_by = dateFilter(self.request)
+        if filter_by:  
+            if 'start_date' in names and 'end_date' in names:
+                query = query.filter(filter_by).order_by(order_list)
+            else:
+                query=query.order_by(order_list)
+        else:
+            query=query.order_by(order_list)
+
+        fields = tuple(getFields(self.context))
+        if fields:
+            query = secured_iterator(
+                query, fields[0].__name__, self.context)
+
+        formatter = zc.table.table.AlternatingRowFormatter(
+            context, self.request, query, prefix="form", columns=self.columns)
+        
         formatter.cssClasses['table'] = 'listing'
         formatter.table_id = "datacontents"
         return formatter        
-        
-        
+
     @property
     def form_name( self ):
-        descriptor = queryModelDescriptor( self.context.domain_model )
+        descriptor = queryModelDescriptor(self.context.domain_model)
         if descriptor:
-            name = getattr( descriptor, 'display_name', None)
+            name = getattr(descriptor, 'display_name', None)
         if not name:
-            name = getattr( self.context.domain_model, '__name__', None)                
-        return name #"%s %s"%(name, self.mode.title())
+            name = getattr(self.context.domain_model, '__name__', None)
+        return name
         
-    @form.action(_(u"Add") )
-    def handle_add( self, action, data ):
-        path = absoluteURL( self.context, self.request ) 
-        addurl = '%s/add' %( path ) 
-        self.request.response.redirect(addurl)
-
-
-
-
 class ContainerJSONTableHeaders( BrowserView ):
 
     def __call__( self ):

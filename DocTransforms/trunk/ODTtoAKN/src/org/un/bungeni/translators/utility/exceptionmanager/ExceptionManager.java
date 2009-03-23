@@ -8,11 +8,6 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import javax.xml.validation.Validator;
-import javax.xml.validation.ValidatorHandler;
-
-import org.apache.xerces.impl.Constants;
 import org.apache.xerces.parsers.DOMParser;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.w3c.dom.Node;
@@ -116,9 +111,21 @@ public class ExceptionManager implements ErrorHandler
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
             System.err.println(message);
             
-         	       // System.exit(0);
-		}
-		else
+            try
+            {
+                Node node =	(Node)this.parser.getProperty("http://apache.org/xml/properties/dom/current-element-node");
+                System.err.println(node.getLocalName());
+                if (node.getAttributes().getNamedItem("id") != null)
+                	 System.err.println(node.getAttributes().getNamedItem("id").getNodeValue());
+                if (node.getAttributes().getNamedItem("name") != null)
+               	 System.err.println(node.getAttributes().getNamedItem("name").getNodeValue());
+            }
+            catch (SAXException e)
+        	{
+        		e.printStackTrace();
+        	} 
+        }
+		else if (exceptionMessage.matches("(.*)The content of element '(.*)' is not complete(.*)"))
 		{
 			
 			System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
@@ -145,8 +152,7 @@ public class ExceptionManager implements ErrorHandler
         		System.err.println("cazzo");
         			
         	}
-   //ex.printStackTrace();
-	    }
+       }
     }
 
     /**
@@ -226,9 +232,7 @@ public class ExceptionManager implements ErrorHandler
         	
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
             System.err.println(message);
-            //System.exit(0);
-           
-    	}
+       }
     }
     
     /**

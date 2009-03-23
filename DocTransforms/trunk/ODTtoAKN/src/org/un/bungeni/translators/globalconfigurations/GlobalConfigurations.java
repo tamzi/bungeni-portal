@@ -12,6 +12,9 @@ public class GlobalConfigurations
 	//the path of the configuration file to be used for the translation 
 	private static String configurationFilePath = "";
 	
+	//the AKOMA NTOSO namespace 
+	private static String akomaNtosoNamespace = "http://www.akomantoso.org/1.0";
+	
 	/**
 	 * Set the application path prefix to the given one
 	 * @param anApplicationPathPrefix the new application path prefix
@@ -50,5 +53,25 @@ public class GlobalConfigurations
 	{
 		//return the configuration file path
 		return GlobalConfigurations.configurationFilePath;
+	}
+	
+	/**
+	 * Set the AKOMA NTOSO namespace to the given one
+	 * @param aNamespace the namespace of AKOMA NTOSO
+	 */
+	public static void setAkomaNtosoNamespace(String aNamespace)
+	{
+		//set the AKOMA NTOSO namespace to the given one
+		GlobalConfigurations.akomaNtosoNamespace = aNamespace;
+	}
+
+	/**
+	 * Get the AKOMA NTOSO namespace
+	 * @return the AKOMA NTOSO namespace
+	 */
+	public static String getAkomaNtosoNamespace()
+	{
+		//return the AKOMA NTOSO namespace
+		return GlobalConfigurations.akomaNtosoNamespace;
 	}
 }

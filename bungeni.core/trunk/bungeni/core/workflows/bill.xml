@@ -463,7 +463,7 @@
      />
   
   <transition
-     id="withdraw-submitted"
+     id="withdraw"
      title="Withdraw"
      trigger="manual"
      source="billstates.submitted

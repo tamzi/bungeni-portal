@@ -16,12 +16,32 @@ import sqlalchemy as rdb
 
 from bungeni.ui.forms.workflow import TransitionHandler
 
+class HistoryTableFormatter(batching.Formatter):
+    """The out-of-box table formatter does not let us specify a custom
+    table css class."""
+    
+    table_css_class = "listing grid"
+    
+    def __call__(self):
+        return (
+            '''
+            <div style="width: 100%%">
+              <table class="%s"
+                     style="width:100%%"
+                     name="%s">
+                 %s
+              </table>
+              %s
+            </div>''' % (self.table_css_class, self.prefix,
+                         self.renderContents(), self.renderExtra())
+            )
+
 class WorkflowHistoryViewlet( viewlet.ViewletBase ):
-    """
-    implements the workflowHistoryviewlet
-    this viewlet shows the current workflow state.
-    and the workflowhistory
-    """
+    """Implements the workflowHistoryviewlet this viewlet shows the
+    current workflow state  and the workflow-history."""
+
+    form_name = _(u"Workflow history")
+    formatter_factory = HistoryTableFormatter
     
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -31,7 +51,6 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
         self.wf_status = u'new'
         self.has_status = False
         # table to display the workflow history
-        self.formatter_factory = batching.Formatter    
         self.columns = [            
             column.GetterColumn( title=_(u"date"), getter=lambda i,f: i['date'] ),
             column.GetterColumn( title=_(u"user"), getter=lambda i,f:i['user_id'] ),
@@ -49,24 +68,21 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
            wf_state =u'undefined'
            has_wfstate = False
         self.wf_status = wf_state       
-        self.has_status = has_wfstate                
-       
+        self.has_status = has_wfstate
     
-    render = ViewPageTemplateFile ('templates/workflowhistory_viewlet.pt')
-    
-    def listing( self ):
+    def render( self ):
         columns = self.columns
-        formatter = self.formatter_factory( self.context,
-                                            self.request,
-                                            self.getFeedEntries(),
-                                            prefix="results",
-                                            visible_column_names = [c.name for c in columns],
-                                            #sort_on = ('name', False)
-                                            columns = columns )
-        formatter.cssClasses['table'] = 'listing'
+        formatter = self.formatter_factory(
+            self.context,
+            self.request,
+            self.getFeedEntries(),
+            prefix="results",
+            visible_column_names = [c.name for c in columns],
+            columns = columns)
+        formatter.cssClasses['table'] = 'listing',
         formatter.updateBatching()
         return formatter()
-        
+
     @property
     def _log_table( self ):
         auditor = audit.getAuditor( self.context )
@@ -108,49 +124,59 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
         actions.append( action )  
     return actions
     
-class IWorkflowComment( zope.interface.Interface ):
-    """
-    a dummy to get the comment field into the form
-    """           
-    note = zope.schema.Text(title=_("Comment on workflow change"), required=False )
-
 class WorkflowComment(object):
     note = u""
     
-class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
-    """
-    display workflow status and actions
-    """
+class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
+    """Display workflow status and actions."""
+
+    class IWorkflowComment(zope.interface.Interface):
+        note = zope.schema.Text(
+            title=_("Comment on workflow change"), required=False )
+
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
-    actions=()
-    render = ViewPageTemplateFile ('templates/workflowaction_viewlet.pt')
+    actions = ()
+
+    render = ViewPageTemplateFile ('templates/viewlet.pt')
     
-    def update( self ):
+    def update(self, transition=None):
         self.adapters = {
-            IWorkflowComment: WorkflowComment(),
+            self.IWorkflowComment: WorkflowComment(),
             }
 
-        self.setupActions()   
-        super( WorkflowActionViewlet, self).update()
-        self.setupActions()  # after we transition we have different actions      
-        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
-        #self.wf_status = wf_state
-        # return human readable workflow title
-        wf = interfaces.IWorkflowInfo(removeSecurityProxy(self.context))
-        self.wf_status = wf.workflow().workflow.states[wf_state].title       
+        wf = interfaces.IWorkflow(self.context) 
         
-        if len(self.actions) ==0: #only display the notes field to comment if there is an action
+        if transition is not None:
+            state_transition = wf.getTransitionById(transition)
+            self.status = _(
+                u"Confirmation required for workflow transition: '${title}'.",
+                mapping={'title': state_transition.title})
+
+        self.setupActions(transition)
+        super(WorkflowActionViewlet, self).update()
+
+        # after we transition we have different actions
+        self.setupActions(transition)
+        
+        # only display the notes field to comment if there is an action
+        if len(self.actions) == 0: 
             self.form_fields = self.form_fields.omit('notes')
+            
         self.setUpWidgets()
         
-    def setupActions( self ):
+    def setupActions(self, transition):
         self.wf = interfaces.IWorkflowInfo( self.context )
-        transitions = self.wf.getManualTransitionIds()
-        self.actions = bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) )          
- 
-        
-    def setUpWidgets( self , ignore_request=False):
+
+        if transition is None:
+            transitions = self.wf.getManualTransitionIds()
+        else:
+            transitions = (transition,)
+            
+        self.actions = bindTransitions(
+            self, transitions, None, interfaces.IWorkflow(self.context))
+
+    def setUpWidgets(self, ignore_request=False):
         # setup widgets in data entry mode not bound to context
         self.widgets = form.setUpDataWidgets(
             self.form_fields, self.prefix, self.context, self.request,
@@ -159,23 +185,43 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
 class WorkflowView(BrowserView):
     template = ViewPageTemplateFile('templates/workflow.pt')
 
-    def __call__(self):
-        self.update()
-        return self.template()
-
-    def update(self):
+    def update(self, transition=None):
+        # set up viewlets; the view is rendered from viewlets for
+        # historic reasons; this may be refactored anytime.
         self.history_viewlet = WorkflowHistoryViewlet(
             self.context, self.request, self, None)
         self.action_viewlet = WorkflowActionViewlet(
             self.context, self.request, self, None)
-        self.history_viewlet.update()
-        self.action_viewlet.update()
 
-    
+        # update viewlets
+        self.history_viewlet.update()
+        self.action_viewlet.update(transition=transition)
+
+    def get_wf_state(self):
+        # return human readable workflow title
+        wf = interfaces.IWorkflow(self.context) 
+        wf_state = interfaces.IWorkflowState(
+            removeSecurityProxy(self.context)).getState()
+        return wf.workflow.states[wf_state].title
+
+    def __call__(self):
+        self.update()
+        return self.template()
+        
 class WorkflowChangeStateView(WorkflowView):
     def __call__(self, transition=None):
-        if transition and self.request['REQUEST_METHOD'] == 'POST':
+        method = self.request['REQUEST_METHOD']
+        
+        if transition:
+            wf = interfaces.IWorkflow(self.context) 
+            state_transition = wf.getTransitionById(transition)
+            require_confirmation = getattr(
+                state_transition, "require_confirmation", False)
+            self.update(transition)
+        else:
             self.update()
+            
+        if transition and require_confirmation is False and method == 'POST':
             actions = bindTransitions(
                 self.action_viewlet, (transition,), None, 
                 interfaces.IWorkflow(self.context))
@@ -184,8 +230,4 @@ class WorkflowChangeStateView(WorkflowView):
             # execute action
             return actions[0].success({})
 
-        return super(WorkflowChangeStateView, self).__call__()
-
-
-        
-
+        return self.template()

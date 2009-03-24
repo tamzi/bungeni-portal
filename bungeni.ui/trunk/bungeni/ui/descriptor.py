@@ -1128,9 +1128,7 @@ class AttendanceDescriptor( ModelDescriptor ):
         domain.AttendanceType, 
                     token_field='committee_type_id', 
                     title_field='committee_type', 
-                    value_field='committee_type_id')
-        'attendance_type', 
-        'attendance_id' )                                                                    
+                    value_field='committee_type_id' )                                                                    
         
     fields = [
         dict( name="sitting_id", omit=True ),

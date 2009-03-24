@@ -9,7 +9,6 @@ except ImportError:
     from cgi import parse_qs
 
 from paste.httpexceptions import HTTPFound
-from paste.httpexceptions import HTTPUnauthorized
 from paste.request import parse_dict_querystring
 from paste.request import parse_formvars
 

@@ -1,33 +1,37 @@
-Versioning
-------------------------
+Versions
+========
 
   >>> import bungeni.models.domain
-  
   >>> import bungeni.core.version
+
+Set up the versions factory.
+  
   >>> component.provideAdapter(
   ...    bungeni.core.version.ContextVersioned,
   ...    (bungeni.core.interfaces.IVersionable,),
   ...    bungeni.core.interfaces.IVersioned)  
 
+Adding a question.
 
   >>> question = bungeni.models.domain.Question()
   >>> question.short_name = "A question"
-  >>> question.type ="question"
+  >>> question.type = "question"
 
-  >>> from zope.interface import classImplements
-  >>> classImplements( bungeni.models.domain.Question, bungeni.core.interfaces.IVersionable)
-
-
-check that there are no versions yet:
-  >>> versions =  bungeni.core.interfaces.IVersioned(question)
-
-  >>> len(list(versions.values()))
-  0  
+The ``question`` object needs to provide the versionable interface.
   
-create a version:  
-  >>> versions.create('New version created ...')
+  >>> from zope.interface import alsoProvides
+  >>> alsoProvides(question, bungeni.core.interfaces.IVersionable)
 
-  >>> len(list(versions.values()))
+Verify that no versions exist yet:
+
+  >>> versions =  bungeni.core.interfaces.IVersioned(question)
+  >>> len(tuple(versions.values()))
+  0  
+
+After creating a version, verify availability:
+  
+  >>> versions.create('New version created ...')
+  >>> len(tuple(versions.values()))
   1
 
 

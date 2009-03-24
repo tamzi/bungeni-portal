@@ -1,25 +1,19 @@
-from zope import interface
 from zope import component
 
-from z3c.menu.ready2go import item
-
-from zope.component.interfaces import ComponentLookupError
 from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.traversing.browser import absoluteURL
+from z3c.menu.ready2go import item
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
-from plone.memoize.instance import memoize
-
+from bungeni.core.translation import get_language
+from bungeni.core.translation import has_language
 from bungeni.ui.i18n import  _
 
 class GlobalMenuItem( item.GlobalMenuItem ):
-    #cssActive = "menubarSelected"
-    #cssInactive = "menubar"
-    #css = "menubar"
     pass
     
 class LoginAction( GlobalMenuItem ):
@@ -90,6 +84,76 @@ class TaskMenu(BrowserMenu):
 #             (self.context, self.request, self.__parent__, self),
 #             interfaces.IViewlet)
         
+
+class TranslationSubMenuItem(BrowserSubMenuItem):
+    title = _(u'label_translate', default=u'Language:')
+    submenuId = 'context_translate'
+    order = 50
+
+    @property
+    def extra(self):
+        language = get_language(self.context)
+        return {
+            'id'         : 'plone-contentmenu-translation',
+            'class'      : 'language-%s' % language,
+            'state'      : language,
+            'stateTitle' : language
+            }
+    
+    @property
+    def description(self):
+        return u''
+
+    @property
+    def action(self):
+        url = absoluteURL(self.context, self.request)
+        return "%s/translate" % url
+    
+    def selected(self):
+        return False
+
+class TranslateMenu(BrowserMenu):
+    @property
+    def current_language(self):
+        return "en"
+
+    @property
+    def available_languages(self):
+        return (
+            ('en', _(u"English")),
+            ('fr', _(u"French")),
+            ('sw', _(u"Swahili")),
+            )
+
+    def getMenuItems(self, context, request):
+        """Return menu item entries in a TAL-friendly form."""
+
+        url = absoluteURL(context, request)
+        language = get_language(context)
+        results = []
+        
+        for name, title in self.available_languages:
+            # skip the current language
+            if name == language:
+                continue
+
+            translation_url = url + '/@@translate?language=%s' % name
+            selected = has_language(context, name)
+
+            extra = {'id': 'translation-action-%s' % name,
+                     'separator': None,
+                     'class': ''}
+            
+            results.append(
+                dict(title=title,
+                     description="",
+                     action=translation_url,
+                     selected=selected,
+                     icon=None,
+                     extra=extra,
+                     submenu=None))
+                     
+        return results
 
 class WorkflowSubMenuItem(BrowserSubMenuItem):
     title = _(u'label_state', default=u'State:')

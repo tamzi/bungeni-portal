@@ -24,6 +24,12 @@
      />
 
   <browser:menu
+     id="context_translate"
+     title="The 'translate' menu - allows the user to translate content"
+     class=".menu.TranslateMenu"
+     />
+
+  <browser:menu
      id="context_actions"
      title="The 'actions' menu - provides context-specific actions (views)"
      />
@@ -95,10 +101,18 @@
      permission="bungeni.motion.Add"
      />
 
+  <!-- submenu adapters -->
+  
   <adapter
      for="* *"
      name="plone.contentmenu.workflow"
      factory=".menu.WorkflowSubMenuItem"
+     provides="ploned.ui.interfaces.IContentMenuItem" />
+
+  <adapter
+     for="* *"
+     name="plone.contentmenu.translation"
+     factory=".menu.TranslationSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
   <!-- calendar actions -->

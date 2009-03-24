@@ -72,7 +72,7 @@ class ContainerListing(container.ContainerListing):
         (``sort_on``); if not set, the table is ordered by the
         ``short_name`` column (also used as secondary sort order).
         """
-        
+
         session = Session()
         context = proxy.removeSecurityProxy(self.context)
         model = context.domain_model
@@ -115,11 +115,12 @@ class ContainerListing(container.ContainerListing):
 
     @property
     def form_name( self ):
-        descriptor = queryModelDescriptor(self.context.domain_model)
+        domain_model = proxy.removeSecurityProxy(self.context).domain_model
+        descriptor = queryModelDescriptor(domain_model)
         if descriptor:
             name = getattr(descriptor, 'display_name', None)
         if not name:
-            name = getattr(self.context.domain_model, '__name__', None)
+            name = getattr(domain_model, '__name__', None)
         return name
         
 class ContainerJSONTableHeaders( BrowserView ):

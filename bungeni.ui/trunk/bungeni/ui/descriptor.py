@@ -299,7 +299,7 @@ class UserDescriptor( ModelDescriptor ):
         ]
         
     schema_invariants = [DeathBeforeLife, IsDeceased]
-
+    custom_validators = []
 
 class MemberDescriptor( UserDescriptor ):
 
@@ -315,13 +315,15 @@ class HansardReporterDescriptor( UserDescriptor ):
 	
     fields = deepcopy( UserDescriptor.fields )	        
 
+
 class GroupMembershipDescriptor( ModelDescriptor ):
 
-   SubstitutionSource = DatabaseSource(domain.ParliamentMember,  
+    SubstitutionSource = DatabaseSource(domain.ParliamentMember,  
                     token_field='user_id', 
                     title_field='fullname', 
-                    value_field='user_id')                                          
-   fields = [
+                    value_field='user_id')       
+
+    fields = [
         dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Member of Parliament"), 
@@ -368,9 +370,9 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="membership_type", omit=True )
         ]
         
-   schema_invariants = [EndAfterStart, ActiveAndSubstituted,
+    schema_invariants = [EndAfterStart, ActiveAndSubstituted,
         SubstitudedEndDate, InactiveNoEndDate]
-
+    custom_validators = [validations.validate_date_range_within_parent,]                                                       
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of parliament")
@@ -407,12 +409,16 @@ class MpDescriptor ( ModelDescriptor ):
     ])
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
-    
+    custom_validators = [validations.validate_date_range_within_parent,]
+                                                               
 class PartyMemberDescriptor( ModelDescriptor ):
     display_name=_(u"Party member")
     container_name=_(u"Party members")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)
+    custom_validators = [validations.validate_date_range_within_parent,
+                    validations.validate_party_membership]                                                       
+    
     
 class MemberOfPartyDescriptor( ModelDescriptor ):
     """Describes the partymembership of a user rather then the
@@ -461,11 +467,12 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
         ]
         
     schema_invariants = [EndAfterStart]
-
+    custom_validators =[validations.validate_date_range_within_parent,]
+                                                           
 class ExtensionMemberDescriptor( ModelDescriptor ):
     display_name =_(u"Additional member")
     container_name =_(u"Additional members")
-    custom_validators = validations.check_valid_date_range,
+    custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy(GroupMembershipDescriptor.fields)
 
@@ -509,11 +516,11 @@ class GroupDescriptor( ModelDescriptor ):
         ]
 
     schema_invariants = [EndAfterStart]
-
+    custom_validators = [validations.validate_date_range_within_parent,]                                                       
 class ParliamentDescriptor( GroupDescriptor ):
     display_name = _(u"Parliament")
     container_name = _(u"Parliaments")
-    custom_validators = validations.check_parliament_date_no_overlap,
+    custom_validators = [validations.check_parliament_date_no_overlap,]
     
     fields = [
         dict( name="group_id", omit=True ),
@@ -563,7 +570,7 @@ class ParliamentDescriptor( GroupDescriptor ):
 class CommitteeDescriptor( GroupDescriptor ):
     display_name = _(u"Committee")
     container_name = _(u"Committees")
-    custom_validators = validations.check_valid_date_range,
+    custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )
     typeSource = DatabaseSource(domain.CommitteeType, 
@@ -613,6 +620,7 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
     container_name = _(u"Committee members")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)    
+    custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]
     
@@ -654,20 +662,21 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     ]
        
     schema_invariants = [EndAfterStart]     
-    
+    #custom_validators = validations.validate_date_range_within_parent
+        
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Committee staff")
     container_name = _(u"Committee staff members")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)     
-    
+    custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]     
         
 class PoliticalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political party")
     container_name = _(u"Political parties")
-    custom_validators = validations.check_valid_date_range,
+    custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
@@ -688,7 +697,7 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
 class ExtensionGroupDescriptor( GroupDescriptor ):
     display_name = _(u"Group extension")
     container_name = _(u"Group extensions")
-    custom_validators = validations.check_valid_date_range,
+    custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
@@ -704,7 +713,7 @@ class ExtensionGroupDescriptor( GroupDescriptor ):
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")
     container_name = _(u"Ministries")
-    custom_validators = validations.check_valid_date_range,
+    custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )       
     fields.extend([
@@ -720,7 +729,7 @@ class MinisterDescriptor( ModelDescriptor ):
     container_name = _(u"Ministers")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)
-
+    custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]
     
@@ -752,7 +761,8 @@ class ParliamentSession( ModelDescriptor ):
         ])
         
     schema_invariants = [EndAfterStart]        
-        
+    custom_validators = [validations.validate_date_range_within_parent,]
+            
 class GovernmentDescriptor( ModelDescriptor ):
     display_name = _(u"Government")
     container_name = _(u"Governments")
@@ -1088,7 +1098,7 @@ class SittingDescriptor( ModelDescriptor ):
         ]
 
     schema_invariants = [EndAfterStart]
-    
+    custom_validators = [validations.validate_date_range_within_parent,]    
     
 class SessionDescriptor( ModelDescriptor ):
     display_name = _(u"Parliamentary session")
@@ -1116,7 +1126,8 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="notes", label=_(u"Notes"), required=False)
         ]
     schema_invariants = [EndAfterStart]
-            
+    custom_validators = [validations.validate_date_range_within_parent,]
+                
 class DebateDescriptor ( ModelDescriptor ):
     display_name = _(u"Debate")
     container_name = _(u"Debate")

@@ -456,7 +456,7 @@ class MemberOfPartyAddForm( GroupMemberAddForm ):
     """
     #XXX
     #Adapts = IMemberOfParty    
-    CustomValidation = validations.checkPartyMembershipDates
+    #CustomValidation = validations.checkPartyMembershipDates
 
 
 

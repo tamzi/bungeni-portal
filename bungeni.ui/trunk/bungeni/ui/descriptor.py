@@ -314,14 +314,18 @@ class HansardReporterDescriptor( UserDescriptor ):
 
 class GroupMembershipDescriptor( ModelDescriptor ):
 
-   SubstitutionSource = DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                          
+   SubstitutionSource = DatabaseSource(domain.ParliamentMember,  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')                                          
    fields = [
         dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Member of Parliament"), 
                 source=DatabaseSource(domain.Person,  
-                    'fullname', 
-                    'user_id')),
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
                 listing_column=member_fk_column("user_id", 
                     _(u'Member of Parliament')), 
               listing=True,
@@ -361,7 +365,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="membership_type", omit=True )
         ]
         
-   schema_invariants = [EndAfterStart,ActiveAndSubstituted,SubstitudedEndDate,InactiveNoEndDate]
+   schema_invariants = [EndAfterStart, ActiveAndSubstituted,
+        SubstitudedEndDate, InactiveNoEndDate]
 
 
 class MpDescriptor ( ModelDescriptor ):
@@ -369,7 +374,10 @@ class MpDescriptor ( ModelDescriptor ):
     container_name = _(u"Members of parliament")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)    
-    constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
+    constituencySource=DatabaseSource(domain.Constituency,  
+                    token_field='constituency_id', 
+                    title_field='name', 
+                    value_field='constituencye_id')
     #mpTypeSource= ['E', 'N', 'O']
     fields.extend([
         dict( name="constituency_id",
@@ -410,7 +418,10 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     display_name = _(u"Party membership")
     container_name = _(u"Party memberships")
     
-    partySource=DatabaseSource(domain.PoliticalParty,  'short_name', 'party_id')
+    partySource=DatabaseSource(domain.PoliticalParty,  
+                    token_field='party_id', 
+                    title_field='short_name', 
+                    value_field='party_id')
     fields = [
         dict( name="user_id", omit=True),                 
         dict( name='short_name', 
@@ -552,7 +563,10 @@ class CommitteeDescriptor( GroupDescriptor ):
     custom_validators = validations.check_valid_date_range,
     
     fields = deepcopy( GroupDescriptor.fields )
-    typeSource = DatabaseSource(domain.CommitteeType, 'committee_type', 'committee_type_id')
+    typeSource = DatabaseSource(domain.CommitteeType, 
+                    token_field='committee_type_id', 
+                    title_field='committee_type', 
+                    value_field='committee_type_id')
     fields.extend([
         dict( name='parliament_id', omit=True ),
         dict( name='committee_id', omit=True ),
@@ -1112,6 +1126,9 @@ class AttendanceDescriptor( ModelDescriptor ):
     
     attendanceVocab = DatabaseSource(
         domain.AttendanceType, 
+                    token_field='committee_type_id', 
+                    title_field='committee_type', 
+                    value_field='committee_type_id')
         'attendance_type', 
         'attendance_id' )                                                                    
         
@@ -1189,8 +1206,14 @@ class ResponseDescriptor( ModelDescriptor ):
         ]        
 
 class ConstituencyDescriptor( ModelDescriptor ):
-    provinceSource=DatabaseSource(domain.Province,'province', 'province_id')
-    regionSource=DatabaseSource(domain.Region,'region', 'region_id')
+    provinceSource=DatabaseSource(domain.Province,
+                    token_field='province_id', 
+                    title_field='province', 
+                    value_field='province_id')
+    regionSource=DatabaseSource(domain.Region,
+                    token_field='region_id', 
+                    title_field='region', 
+                    value_field='region_id')
     fields = [
         dict( name="constituency_id", omit=True ),
         dict( name="name", 

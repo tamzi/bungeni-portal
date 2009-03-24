@@ -62,7 +62,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         self.site_url = absoluteURL(getSite(), self.request)
         self.user_name = ''
 
-    def _get_path( self, context):
+    def _get_path(self, context):
         """
         Return the current path as a list
         """
@@ -112,6 +112,15 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         
     def update(self):
         self.path = self._get_path(self.context)
+
+        # if the view is a location, append this to the breadcrumbs
+        if ILocation.providedBy(self.__parent__) and \
+               IDCDescriptiveProperties.providedBy(self.__parent__):
+            self.path.append({
+                'name': self.__parent__.title,
+                'url': None,
+                })
+
         try:
             self.user_name = self.request.principal.login          
         except:

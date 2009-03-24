@@ -107,10 +107,12 @@
   <!-- versions -->
   
   <browser:page 
-     for="bungeni.core.interfaces.IVersionable"
-     name="versions"
+     name="index"
+     for="bungeni.models.interfaces.IVersionContainer"
      class=".versions.VersionLogView"
-     permission="zope.Public"/>
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     permission="zope.Public"
+     />
 
   <!-- json view of containers-->
   

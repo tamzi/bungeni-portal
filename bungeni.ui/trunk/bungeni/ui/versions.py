@@ -71,6 +71,9 @@ class VersionLogView(BaseForm):
     
     selection_column = columns[0]
 
+    def __init__(self, context, request):
+        super(VersionLogView, self).__init__(context.__parent__, request)
+        
     def listing( self ):
         columns = self.columns
         formatter = self.formatter_factory( self.context,

@@ -338,7 +338,7 @@ class ParliamentaryItem( Entity ):
 
     # versions
 
-    
+
 
 #ParliamentaryItemChange = ItemLog.makeLogFactory( "ParliamentaryItemChange")
 #ParliamentaryItemVersions = ItemVersions.makeVersionFactory("ParliamentaryItemVersion")
@@ -353,13 +353,18 @@ class Question( ParliamentaryItem ):
     #interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
     responses = one2many("responses", "bungeni.models.domain.ResponseContainer", "response_id")
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
-    
+
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.QuestionVersionContainer",
+        "content_id")
     
     def getParentQuestion( self ):
         if self.supplement_parent_id:
             session = Session()
             parent = session.query(Question).get(self.supplement_parent_id)   
             return parent.subject
+
             
  
 
@@ -381,6 +386,11 @@ class Motion( ParliamentaryItem ):
     
     #interface.implements( interfaces.IMotion )
     motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
+
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.MotionVersionContainer",
+        "content_id")
 
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
@@ -404,7 +414,12 @@ class Bill( ParliamentaryItem ):
     
     consignatory = one2many("consignatory", "bungeni.models.domain.BillConsignatoryContainer", "bill_id")
     event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
-     
+
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.BillVersionContainer",
+        "content_id")
+
 
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")

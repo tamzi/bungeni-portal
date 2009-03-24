@@ -3,6 +3,7 @@ from zope import interface, schema, lifecycleevent
 from zope.component.interfaces import IObjectEvent, ObjectEvent
 from zope.app.container.interfaces import IContainer
 from ore.alchemist.interfaces import IAlchemistContent
+from ore.alchemist.interfaces import IAlchemistContainer
 from ore.wsgiapp.interfaces import IApplication
 from i18n import _
 
@@ -57,9 +58,26 @@ class IBungeniContent( interface.Interface ):
     parliamentary content
     """
 
+class IBungeniContainer(IAlchemistContainer):
+    """
+    parliamentary container
+    """
+
+class IVersionContainer(IBungeniContainer):
+    pass
+
 class IQuestion( IBungeniContent ):
     """ Parliamentary Question
     """
+
+class IQuestionVersionContainer(IVersionContainer):
+    pass
+
+class IBillVersionContainer(IVersionContainer):
+    pass
+
+class IMotionVersionContainer(IVersionContainer):
+    pass
 
 class IBill( IBungeniContent ):
     """ Parliamentary Bill
@@ -68,6 +86,8 @@ class IBill( IBungeniContent ):
 class IMotion( IBungeniContent ):
     """ Parliamentary Motion
     """
+
+
 
 class IGroupSitting(interface.Interface):
     pass
@@ -187,3 +207,4 @@ class IVersion( interface.Interface ):
     a version of an object is identical in attributes to the actual object, based
     on that object's domain schema
     """
+

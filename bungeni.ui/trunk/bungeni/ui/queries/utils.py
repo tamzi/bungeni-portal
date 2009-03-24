@@ -92,7 +92,7 @@ def validate_date_in_interval(obj, domain_model, date):
            for result in results:     
                 yield result     
 
-def validate_open_interval(obj, domain_model, date):
+def validate_open_interval(obj, domain_model):
     session = Session()
     query = session.query(domain_model).filter(
             domain_model.end_date == None)
@@ -107,6 +107,48 @@ def validate_open_interval(obj, domain_model, date):
         else:
            for result in results:     
                 yield result
+
+
+def validate_membership_in_interval(obj, domain_model, date, user_id):
+    """ validates the start end for a specific user"""
+    session = Session()
+    query = session.query(domain_model).filter(
+            sql.expression.and_(
+            sql.expression.between(date, domain_model.start_date, domain_model.end_date),
+            domain_model.user_id == user_id)
+            )
+    results = query.all() 
+    if results:      
+        if obj:
+            for result in results:
+                if stringKey(result) == stringKey(obj):
+                    continue
+                else:
+                    yield result                
+        else:
+           for result in results:     
+                yield result    
+    
+    
+def validate_open_membership(obj, domain_model, user_id):
+    session = Session()
+    query = session.query(domain_model).filter(
+            sql.expression.and_(
+            domain_model.end_date == None,
+            domain_model.user_id == user_id)
+            )
+    results = query.all() 
+    if results:      
+        if obj:
+            for result in results:
+                if stringKey(result) == stringKey(obj):
+                    continue
+                else:
+                    yield result                
+        else:
+           for result in results:     
+                yield result
+
 
 
 

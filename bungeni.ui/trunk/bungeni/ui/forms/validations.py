@@ -12,11 +12,13 @@ from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContent
 
 import bungeni.models.schema
-from bungeni.models import interfaces
+from bungeni.models import interfaces, domain
 
 import sqlalchemy.orm
 
 from bungeni.ui.queries.utils import check_with_sql, check_date_in_interval, check_start_end_dates_in_interval
+
+from bungeni.ui.queries import utils
 
 import bungeni.ui.queries.sqlvalidation as sql
 
@@ -32,6 +34,7 @@ def validate_start_date_within_parent( parent, data ):
     errors =[]   
     if data['start_date'] is not None:
         if parent.start_date is not None:
+            #XXX make sure both is a date object!
             if data['start_date'] < parent.start_date:
                 errors.append( interface.Invalid( 
                 _(u"Start date must be after (%s)") % parent.start_date , 
@@ -52,6 +55,7 @@ def validate_end_date_within_parent( parent, data ):
     errors =[]   
     if data['end_date'] is not None:
         if parent.start_date is not None:
+            #XXX make sure both are date objects!
             if data['end_date'] < parent.start_date:
                 errors.append( interface.Invalid( 
                 _(u"End date must be after (%s)")  % parent.start_date , 
@@ -65,24 +69,23 @@ def validate_end_date_within_parent( parent, data ):
 
 
 
-def _validate_date_range_within_parent( parent, data ):
-    """ combine checks for start and end date       
-    """
-    errors = validate_start_date_within_parent( parent, data )
-    errors = errors + validate_end_date_within_parent( parent, data )
+#def _validate_date_range_within_parent( parent, data ):
+#    """ combine checks for start and end date       
+#    """
+#    errors = validate_start_date_within_parent( parent, data )
+#    errors = errors + validate_end_date_within_parent( parent, data )
+#    return errors
+ 
+ 
+ 
+def validate_date_range_within_parent(action, data, context, container):
+    errors = validate_start_date_within_parent( container.__parent__, data )
+    errors = errors + validate_end_date_within_parent( container.__parent__, data )
     return errors
- 
- 
- 
-def validate_date_range_within_parent(self, context, data):
-    ctx = context.__parent__
-    if not IAlchemistContent.providedBy(ctx):
-        ctx=context.__parent__
-    _validate_date_range_within_parent(ctx,data)
 
 
-def check_valid_date_range(action, data, context, container):
-    return checkDates(container.__parent__, data)
+#def check_valid_date_range(action, data, context, container):
+#    return _validate_date_range_within_parent(container.__parent__, data)
         
 #Parliament
 
@@ -217,27 +220,38 @@ def CheckSessionDatesEdit( self, context, data ):
     return errors
 
 
-def checkPartyMembershipDates( self, context, data ):
-    """
-    A user can be member of only one party at a time
-    """
-    errors=[]
-    check_dict = {'user_id' : context.__parent__.user_id}
-    overlaps = check_with_sql( sql.checkForOpenPartymembership, **check_dict)
-    if overlaps is not None:
-        errors.append(interface.Invalid(_("The person is still a member in (%s)") % overlaps, "start_date" ))    
-    if data['start_date']:    
-        check_dict['date'] = data['start_date']       
-        overlaps = check_with_sql( sql.checkPartymembershipInterval, **check_dict)
-        if overlaps is not None:
-            errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "start_date" ))           
+
+def validate_party_membership(action, data, context, container):
+    errors = []
+    if interfaces.IPartyMember.providedBy(context):
+        party_member = context
+        user_id = context.user_id
+    else:
+        party_member = None
+    session = Session()                
+    if data['start_date']:
+        for r in utils.validate_date_in_interval(party_member, 
+                    domain.PartyMember, 
+                    data['start_date']):                                     
+            errors.append(interface.Invalid(
+                _("The person is a member in (%s) at that date") % overlaps, 
+                "start_date" ))                    
     if data['end_date']:    
-        check_dict['date'] = data['end_date']       
-        overlaps = check_with_sql( sql.checkPartymembershipInterval, **check_dict)
-        if overlaps is not None:
-            errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "end_date" ))           
-    return errors
+        for r in utils.validate_date_in_interval(party_member, 
+                    domain.PartyMember, 
+                    data['end_date']):    
+            overlaps = r.short_name                      
+            errors.append(interface.Invalid(
+                _("The person is a member in (%s) at that date") % overlaps, 
+                "end_date" ))                                
+    for r in utils.validate_open_interval(party_member, domain.PartyMember):
+        overlaps = r.short_name      
+        errors.append(interface.Invalid(
+                    _("The person is a member in (%s) at that date") % overlaps, 
+                    "end_date" )) 
+    return errors                    
     
+
 #sittings
 
 def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
@@ -381,27 +395,27 @@ def CheckSessionDatesEdit( self, context, data ):
     end date must be <= parents end date (if parents end date is set)
     """
     errors = checkStartEndDatesInInterval(context.session_id , data , sql.checkMySessionInterval)     
-    errors = errors + checkDates(context.__parent__.__parent__ , data )       
+    errors = errors + _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
     return errors
     
 def CheckMemberDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
+    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
     return errors
     
 def CheckCommitteeDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
+    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
     return errors
     
 def CommitteeMemberDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
+    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
     return errors      
                         
 def MinisterDatesEdit( self, context, data ):
-    errors = checkDates(context.__parent__.__parent__ , data )       
+    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
     return errors                               
                         
 def check_valid_date_range(action, data, context, container):
-    return checkDates(container.__parent__, data)
+    return _validate_date_range_within_parent(container.__parent__, data)
     
 def CheckMemberTitleDateEdit( self, context, data):
     errors =  _validate_date_range_within_parent(context.__parent__.__parent__ , data )

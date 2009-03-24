@@ -5,6 +5,8 @@ from zope import interface
 from zope import schema
 from zope.event import notify
 from zope.formlib import form
+from zope.location.interfaces import ILocation
+from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.traversing.browser import absoluteURL
 from zope.container.contained import ObjectRemovedEvent
@@ -114,6 +116,10 @@ class AddForm(BaseForm, ui.AddForm):
     an object, or add another of the same kind.
     """
 
+    interface.implements(ILocation, IDCDescriptiveProperties)
+
+    description = None
+    
     def validate(self, action, data):    
         errors = super(AddForm, self).validate(action, data)
 
@@ -124,16 +130,26 @@ class AddForm(BaseForm, ui.AddForm):
         return errors
 
     @property
-    def form_name( self ):
+    def type_name( self ):
         descriptor = queryModelDescriptor( self.context.domain_model )
         
         if descriptor:
             name = getattr(descriptor, 'display_name', None)
             
         if not name:
-            name = getattr( self.context.domain_model, '__name__', None)                
+            name = getattr( self.context.domain_model, '__name__', None)
+
+        return name
+
+    @property
+    def form_name(self):
         return _(u"add_item_legend", default=u"Add $name",
-                 mapping={'name': name.lower()})
+                 mapping={'name': self.type_name.lower()})
+
+    @property
+    def title(self):
+        return _(u"add_item_title", default=u"Adding $name",
+                 mapping={'name': self.type_name.lower()})
 
     def finishConstruction(self, ob):
         """Adapt the custom fields to the object."""

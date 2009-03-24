@@ -1,79 +1,64 @@
 <?xml version="1.0"?>
-<configure
-   xmlns="http://namespaces.zope.org/zope"
-   i18n_domain="bungeni">
-   
-   
+<configure xmlns="http://namespaces.zope.org/zope"
+           i18n_domain="bungeni">
+  
+  <!-- Permissions for workflow are defined in
+       ``bungeni.core.workflow`` roles / permissions -->
+
   <role id="zope.Manager" title="Site Manager" />
   <role id="zope.Member" title="Site Member" />
-   
-   
-   <!-- permissions for workflow are defined in bungeni.core.workflow 
-   roles / permissions -->
-   
-   
-    <role id="bungeni.MP" title="Member of parliament" />
-    <role id="bungeni.Owner" title="Owner" />
-    <role id="bungeni.Minister" title="Minister" />
-    <role id="bungeni.Clerk" title="Clerks Office" />
-    <role id="bungeni.Speaker" title="Speaker Office" />    
-    <role id="bungeni.Everybody" title="Everybody" />
-    <role id="bungeni.Admin" title="Bungeni Admin"/>
-    <role id="bungeni.Anonymous" title="Bungeni Visitor"/>
+  <role id="bungeni.MP" title="Member of parliament" />
+  <role id="bungeni.Owner" title="Owner" />
+  <role id="bungeni.Minister" title="Minister" />
+  <role id="bungeni.Clerk" title="Clerks Office" />
+  <role id="bungeni.Speaker" title="Speaker Office" />    
+  <role id="bungeni.Everybody" title="Everybody" />
+  <role id="bungeni.Admin" title="Bungeni Admin"/>
+  <role id="bungeni.Anonymous" title="Bungeni Visitor"/>
 
-    <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.sitting.Delete" role="bungeni.Clerk" />
-    <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />
-    
-    <grant permission="bungeni.question.Add" role="bungeni.MP" />    
-    <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
-    <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
-    <grant permission="bungeni.question.View" role="bungeni.Owner" />
+  <!-- generic view permission grants -->
+  
+  <grant permission="zope.View" role="bungeni.MP" />
+  <grant permission="zope.View" role="bungeni.Clerk" />      
+  <grant permission="zope.View" role="bungeni.Speaker" />
 
-    <grant permission="bungeni.motion.Add" role="bungeni.MP" />
-    <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
-    <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />
-    <grant permission="bungeni.motion.View" role="bungeni.Owner" />
-    
-    <grant permission="bungeni.response.Add" role="bungeni.Minister" />
-    <grant permission="bungeni.response.Add" role="bungeni.Clerk" />    
-    <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
-    <!--grant permission="bungeni.response.Delete" role="bungeni.Owner" /-->
-    <!--grant permission="bungeni.response.View" role="bungeni.Everybody" /-->
-     
-    <grant permission="bungeni.parliament.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
-    <grant permission="bungeni.parliament.View" role="bungeni.Everybody" />    
-    
-    <grant permission="bungeni.bill.Add" role="bungeni.MP" />
-    <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />
-    <grant permission="bungeni.bill.Delete" role="bungeni.Owner" />
-    <grant permission="bungeni.bill.Delete" role="zope.Manager" />
-    <grant permission="bungeni.bill.View" role="bungeni.Owner" />  
-    
-    <grant permission="bungeni.bill.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.bill.Edit" role="bungeni.Clerk" />    
-    <grant permission="bungeni.bill.View" role="bungeni.Clerk" />  
-    
-    
-    <grant permission="bungeni.bill.Add" role="bungeni.Speaker" />
-    <grant permission="bungeni.bill.Edit" role="bungeni.Speaker" /> 
-    <grant permission="bungeni.bill.View" role="bungeni.Speaker" /> 
-    
+  <!-- content roles -->
+  
+  <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.sitting.Delete" role="bungeni.Clerk" />
+  <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />
+  
+  <grant permission="bungeni.question.Add" role="bungeni.MP" />    
+  <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
+  <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
+  <grant permission="bungeni.question.View" role="bungeni.Owner" />
 
-    <!--grant role="zope.Manager"
-	 principal="zope.anybody" /-->
- 
-     <grant permission="zope.View" role="bungeni.MP" />
-     <grant permission="zope.View" role="bungeni.Clerk" />      
-     <grant permission="zope.View" role="bungeni.Speaker" />
-   
-    <!--
-    TODO:
-    Roles for additional permissions
-    -->
+  <grant permission="bungeni.motion.Add" role="bungeni.MP" />
+  <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
+  <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />
+  <grant permission="bungeni.motion.View" role="bungeni.Owner" />
+  
+  <grant permission="bungeni.response.Add" role="bungeni.Minister" />
+  <grant permission="bungeni.response.Add" role="bungeni.Clerk" />    
+  <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
+  
+  <grant permission="bungeni.parliament.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
+  <grant permission="bungeni.parliament.View" role="bungeni.Everybody" />    
+  
+  <grant permission="bungeni.bill.Add" role="bungeni.MP" />
+  <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />
+  <grant permission="bungeni.bill.Delete" role="bungeni.Owner" />
+  <grant permission="bungeni.bill.Delete" role="zope.Manager" />
+  <grant permission="bungeni.bill.View" role="bungeni.Owner" />  
+  
+  <grant permission="bungeni.bill.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.Edit" role="bungeni.Clerk" />    
+  <grant permission="bungeni.bill.View" role="bungeni.Clerk" />  
     
-    <!--grant role="bungeni.Everybody" principal="zope.Everybody" /-->
-    
+  <grant permission="bungeni.bill.Add" role="bungeni.Speaker" />
+  <grant permission="bungeni.bill.Edit" role="bungeni.Speaker" /> 
+  <grant permission="bungeni.bill.View" role="bungeni.Speaker" /> 
+
 </configure>    

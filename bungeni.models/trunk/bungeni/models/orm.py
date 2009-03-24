@@ -352,7 +352,6 @@ mapper( domain.Question, schema.questions,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='question',
         properties = {
-             'versions':relation( domain.QuestionVersion, backref='question'),
              'changes':relation( domain.QuestionChange, backref='question'),                                   
              }
         )

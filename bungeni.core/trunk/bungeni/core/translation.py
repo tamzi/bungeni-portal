@@ -1,5 +1,8 @@
 from bungeni.core.i18n import  _
 
+def get_language_by_name(name):
+    return dict(available_languages())[name]
+
 def get_default_language():
     return "en"
 

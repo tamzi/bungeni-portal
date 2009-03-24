@@ -22,6 +22,10 @@
   <grant permission="zope.View" role="bungeni.Clerk" />      
   <grant permission="zope.View" role="bungeni.Speaker" />
 
+  <!-- translation -->
+  
+  <grant permission="bungeni.TranslateContent" role="bungeni.Admin" />
+    
   <!-- content roles -->
   
   <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />

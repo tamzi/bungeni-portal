@@ -634,9 +634,10 @@ parliamentary_items = rdb.Table(
     rdb.Column( "parliamentary_item_id", rdb.Integer, ItemSequence, primary_key=True ),
     rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'),), 
     rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
+    rdb.Column( "language", rdb.String(2), nullable=False),
     rdb.Column( "short_name", rdb.Unicode(80), nullable=False ),
-    rdb.Column( "full_name", rdb.Unicode(1024), nullable=True ),    
-    rdb.Column( "body_text", rdb.UnicodeText),
+    rdb.Column( "full_name", rdb.Unicode(1024), nullable=True ),
+        rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "submission_date", rdb.Date ),
     # Workflow State
     rdb.Column( "status", rdb.Unicode(48) ),

@@ -6,7 +6,8 @@
     <span tal:condition="view/path" class="breadcrumbSeparator"> &rarr; </span>
     <span tal:repeat="item view/path">
       <tal:last tal:define="is_last repeat/item/end">
-        <a tal:content="item/name"
+        <a tal:content="item/name" i18n:translate=""
+           tal:omit-tag="not: item/url"
            tal:attributes="href item/url"> dir </a>
         <span class="breadcrumbSeparator" tal:condition="not: is_last" > &rarr; </span>
       </tal:last>

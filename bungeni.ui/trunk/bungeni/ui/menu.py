@@ -11,6 +11,7 @@ from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
 from bungeni.core.translation import get_language
 from bungeni.core.translation import has_language
+from bungeni.core.translation import available_languages
 from bungeni.ui.i18n import  _
 
 class GlobalMenuItem( item.GlobalMenuItem ):
@@ -117,14 +118,6 @@ class TranslateMenu(BrowserMenu):
     def current_language(self):
         return "en"
 
-    @property
-    def available_languages(self):
-        return (
-            ('en', _(u"English")),
-            ('fr', _(u"French")),
-            ('sw', _(u"Swahili")),
-            )
-
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
 
@@ -132,7 +125,7 @@ class TranslateMenu(BrowserMenu):
         language = get_language(context)
         results = []
         
-        for name, title in self.available_languages:
+        for name, title in available_languages():
             # skip the current language
             if name == language:
                 continue

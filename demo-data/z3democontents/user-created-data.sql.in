@@ -1,5 +1,6 @@
 
-copy "public"."parliamentary_items" ( "parliamentary_item_id", "parliament_id", "owner_id", 
+copy "public"."parliamentary_items" ( "parliamentary_item_id", "parliament_id", "owner_id",
+    "language",  
     "short_name", "full_name", "body_text", "submission_date", 
     "status", "type" )
 from '%(directory)s/data/demodata/parliamentary_items.csv'

@@ -32,6 +32,7 @@
   <browser:menu
      id="context_actions"
      title="The 'actions' menu - provides context-specific actions (views)"
+     class="ploned.ui.menu.PloneBrowserMenu"
      />
 
   <!-- content submenus -->
@@ -110,7 +111,7 @@
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
   <adapter
-     for="* *"
+     for="bungeni.models.interfaces.IBungeniContent *"
      name="plone.contentmenu.translation"
      factory=".menu.TranslationSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
@@ -285,12 +286,13 @@
      />  
 
    <browser:menuItem
-     menu="context_actions"
-     for="bungeni.core.interfaces.IVersionable"
-     action="versions"
-     title="Versions"
-     />  
-     
+      menu="context_actions"
+      for="bungeni.core.interfaces.IVersionable"
+      action="versions"
+      title="Versions"
+      permission="zope.View"
+      />  
+   
    <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IBungeniContent"

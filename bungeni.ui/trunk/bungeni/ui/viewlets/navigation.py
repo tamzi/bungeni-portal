@@ -204,7 +204,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             seen_context = False
             
             for key, container in containers:
-                descriptor = queryModelDescriptor(container.domain_model)
+                descriptor = queryModelDescriptor(
+                    proxy.removeSecurityProxy(container).domain_model)
                 if descriptor:
                     name = getattr(descriptor, 'container_name', None)
                     if name is None:

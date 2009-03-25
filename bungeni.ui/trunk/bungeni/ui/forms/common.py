@@ -3,6 +3,7 @@ import transaction
 
 from zope import interface
 from zope import schema
+from zope.security.proxy import removeSecurityProxy
 from zope.event import notify
 from zope.formlib import form
 from zope.location.interfaces import ILocation
@@ -20,6 +21,8 @@ try:
 except ImportError:
     from sqlalchemy.exc import IntegrityError
 
+from bungeni.core.translation import get_language_by_name
+from bungeni.core.translation import get_default_language
 from bungeni.core.i18n import _
 
 TRUE_VALS = "true", "1"
@@ -109,6 +112,9 @@ class BaseForm(object):
 
         return errors
 
+class DisplayForm(ui.DisplayForm):
+    template = ViewPageTemplateFile('templates/content-view.pt')
+
 class AddForm(BaseForm, ui.AddForm):
     """Custom add-form for Bungeni content.
 
@@ -130,14 +136,18 @@ class AddForm(BaseForm, ui.AddForm):
         return errors
 
     @property
+    def domain_model(self):
+        return self.context.domain_model
+
+    @property
     def type_name( self ):
-        descriptor = queryModelDescriptor( self.context.domain_model )
+        descriptor = queryModelDescriptor(self.domain_model)
         
         if descriptor:
             name = getattr(descriptor, 'display_name', None)
             
         if not name:
-            name = getattr( self.context.domain_model, '__name__', None)
+            name = getattr( self.domain_model, '__name__', None)
 
         return name
 
@@ -208,6 +218,41 @@ class EditForm(BaseForm, ui.EditForm):
             errors += validator(action, data, self.context, self.context.__parent__)
         
         return errors
+
+class TranslateForm(AddForm):
+    """Custom translate-form for Bungeni content.
+
+    When a translation is saved, a new version is created.
+    """
+
+    def __init__(self, *args):
+        super(TranslateForm, self).__init__(*args)
+        self.language = self.request.get('language', get_default_language())
+
+    @property
+    def title(self):
+        language = get_language_by_name(self.language)
+                
+        return _(u"translate_item_title", default=u"Translating $name into $language",
+                 mapping={'name': self.type_name.lower(),
+                          'language': language})
+
+    @property
+    def domain_model(self):
+        return type(removeSecurityProxy(self.context))
+
+    @form.action(_(u"Save translation"), condition=form.haveInputWidgets)
+    def handle_add_save(self, action, data ):
+        """After succesful creation of translation, redirect to the
+        view."""
+
+        self.createAndAdd(data)
+        name = self.context.domain_model.__name__
+
+        if not self._next_url:
+            self._next_url = absoluteURL(
+                self.context, self.request) + \
+                '?portal_status_message=%s added' % name
 
 class ReorderForm(BaseForm, form.PageForm):
     """Item reordering form.

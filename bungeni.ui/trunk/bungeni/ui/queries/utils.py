@@ -110,7 +110,9 @@ def validate_open_interval(obj, domain_model):
 
 
 def validate_membership_in_interval(obj, domain_model, date, user_id):
-    """ validates the start end for a specific user"""
+    """ validates the start end for a user in a group
+    the domain model must supply user_id as well as membership_id
+    """
     session = Session()
     query = session.query(domain_model).filter(
             sql.expression.and_(
@@ -121,7 +123,7 @@ def validate_membership_in_interval(obj, domain_model, date, user_id):
     if results:      
         if obj:
             for result in results:
-                if stringKey(result) == stringKey(obj):
+                if result.membership_id == obj.membership_id:
                     continue
                 else:
                     yield result                
@@ -141,7 +143,7 @@ def validate_open_membership(obj, domain_model, user_id):
     if results:      
         if obj:
             for result in results:
-                if stringKey(result) == stringKey(obj):
+                if result.membership_id == obj.membership_id:
                     continue
                 else:
                     yield result                

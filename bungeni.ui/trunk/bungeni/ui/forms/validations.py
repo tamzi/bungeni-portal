@@ -9,18 +9,14 @@ from bungeni.core.i18n import _
 
 from ore.alchemist import Session
 
-from ore.alchemist.interfaces import IAlchemistContent
+from bungeni.models import interfaces, domain, schema
 
-import bungeni.models.schema
-from bungeni.models import interfaces, domain
+import sqlalchemy as rdb
 
-import sqlalchemy.orm
-
-from bungeni.ui.queries.utils import check_with_sql, check_date_in_interval, check_start_end_dates_in_interval
+from bungeni.ui.queries.utils import validate_date_in_interval, validate_open_interval
 
 from bungeni.ui.queries import utils
-
-import bungeni.ui.queries.sqlvalidation as sql
+from bungeni.ui.utils import get_date
 
 
 def null_validator(*args, **kwargs):
@@ -33,16 +29,18 @@ def validate_start_date_within_parent( parent, data ):
     after the contextsParents end date"""
     errors =[]   
     if data['start_date'] is not None:
+        start = get_date(data['start_date'])    
         if parent.start_date is not None:
-            #XXX make sure both is a date object!
-            if data['start_date'] < parent.start_date:
+            pstart = get_date(parent.start_date)
+            if start < pstart:
                 errors.append( interface.Invalid( 
-                _(u"Start date must be after (%s)") % parent.start_date , 
+                _(u"Start date must be after (%s)") % pstart, 
                 "start_date" ))
         if parent.end_date is not None:
-            if data['start_date'] > parent.end_date:
+            pend = get_date(parent.end_date)
+            if start > pend:
                 errors.append( interface.Invalid( 
-                _(u"Start date must be prior to (%s)") % parent.end_date , 
+                _(u"Start date must be prior to (%s)") % pend, 
                 "start_date" ))     
     return errors               
     
@@ -54,29 +52,24 @@ def validate_end_date_within_parent( parent, data ):
     """    
     errors =[]   
     if data['end_date'] is not None:
+        end = get_date(data['end_date'])                
         if parent.start_date is not None:
-            #XXX make sure both are date objects!
-            if data['end_date'] < parent.start_date:
+            pstart = get_date(parent.start_date)
+            if end < pstart:
                 errors.append( interface.Invalid( 
-                _(u"End date must be after (%s)")  % parent.start_date , 
+                _(u"End date must be after (%s)")  % pstart, 
                 "end_date" ))
         if parent.end_date is not None:
-            if data['end_date'] > parent.end_date:
+            pend = get_date(parent.end_date)        
+            if end > pend:
                 errors.append( interface.Invalid( 
-                _(u"End date must be prior to (%s)") % parent.end_date , 
+                _(u"End date must be prior to (%s)") % pend, 
                 "end_date" ))  
     return errors
 
 
 
-#def _validate_date_range_within_parent( parent, data ):
-#    """ combine checks for start and end date       
-#    """
-#    errors = validate_start_date_within_parent( parent, data )
-#    errors = errors + validate_end_date_within_parent( parent, data )
-#    return errors
- 
- 
+
  
 def validate_date_range_within_parent(action, data, context, container):
     errors = validate_start_date_within_parent( container.__parent__, data )
@@ -84,142 +77,18 @@ def validate_date_range_within_parent(action, data, context, container):
     return errors
 
 
-#def check_valid_date_range(action, data, context, container):
-#    return _validate_date_range_within_parent(container.__parent__, data)
         
-#Parliament
 
-def validate_parliament_dates(data, context):
-    if interfaces.IParliament.providedBy(context):
-        errors = check_start_end_dates_in_interval(context.parliament_id, 
-                data, 
-                sql.checkMyParliamentInterval)
-        parliament_id = context.parliament_id
-        parliament = context
-    elif interfaces.IParliamentContainer.providedBy(context):
-        errors = check_start_end_dates_in_interval(None, 
-                data, 
-                sql.checkParliamentInterval)
-        parliament_id = None
-        parliament = None    
-    else:
-        raise TypeError
-    overlaps = check_date_in_interval(parliament_id, 
-                data['election_date'], 
-                sql.checkParliamentInterval)
-                
-    validate_date_in_interval(parliament, domain.Parliament, data['election_date'])
-                     
-    if (parliament_id is not None) and (overlaps is not None):                
-        import pdb; pdb.set_trace()
-    if overlaps is not None:
-        errors.append(interface.Invalid(
-            _("The election date overlaps with (%s)") % overlaps, 
-            "election_date" ))   
-    overlaps = check_date_in_interval(parliament_id,
-                data['election_date'], 
-                sql.checkForOpenParliamentInterval )   
 
-    validate_open_interval(parliament, domain.Parliament, data['election_date'])                
-    if overlaps is not None:
-        errors.append(interface.Invalid(
-                _("Another parliament is not yet dissolved (%s)") % overlaps, 
-                "election_date" ))            
-    return errors    
+class AllPartyMemberships(object):
+    """ Helper class to get all partymemberships
+    for all users """
+
+all_party_memberships = rdb.join( 
+        schema.user_group_memberships, schema.groups).join(
+           schema.political_parties)
         
-    
-
-
-def CheckParliamentDatesAdd( self,  context, data ):
-    """
-    Parliaments must not overlap
-    """       
-    
-    #for parliaments we have to check election date as well
-
-
-def CheckParliamentDatesEdit( self, context, data ):
-    """
-    Parliaments must not overlap
-    """       
-    errors=[]
-    #for parliaments we have to check election date as well
-    overlaps = check_date_in_interval(
-                context.parliament_id, 
-                data['election_date'], 
-                sql.checkMyParliamentInterval)
-    if overlaps is not None:
-        errors.append(interface.Invalid(
-                        _("The election date overlaps with (%s)") % overlaps, 
-                        "election_date" ))   
-    overlaps = check_date_in_interval(context.parliament_id, 
-                    data['election_date'], 
-                    sql.checkForMyOpenParliamentInterval )   
-    if overlaps is not None:
-        errors.append(interface.Invalid(
-                _("Another parliament is not yet dissolved (%s)") % overlaps , 
-                "election_date" ))                        
-    return errors
-
-
-def CheckGovernmentsDateInsideParliamentsDatesAdd( self,  context, data ):
-    """
-    A governmemnt cannot start before the parliament
-    but may end after the parliament
-    """
-    errors = check_start_end_dates_in_interval( None, 
-                data, 
-                sql.checkGovernmentInterval)
-    if (context.__parent__.end_date is not None):
-        if data['start_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(
-            _("Start date cannot be after the parliaments dissolution (%s)" % context.__parent__.end_date ), 
-                "start_date") )
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(
-            _("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date ), 
-                "start_date") )    
-    return errors
-    
-def CheckGovernmentsDateInsideParliamentsDatesEdit( self, context, data ):
-    errors = check_start_end_dates_in_interval( context.government_id, data, sql.checkMyGovernmentInterval)
-    if (context.__parent__.__parent__.end_date is not None):
-        if data['start_date'] > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start date cannot be after the parliaments dissolution (%s)") % context.__parent__.__parent__.end_date , "start_date") )
-    if context.__parent__.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)") % context.__parent__.__parent__.start_date , "start_date") )    
-    return errors    
-
-
-
-
-def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
-    """
-    Session dates must be inside the parliaments start-end
-    if another session has an 'open end' you cannot add another session to 
-    this parliament, sessions must not overlap
-    """    
-    #check for overlaps: sessions must not overlap (in this parliament) 
-    errors = check_start_end_dates_in_interval(context.__parent__.parliament_id, data , sql.checkSessionInterval)     
-    errors = errors + _validate_date_range_within_parent(context.__parent__ , data )
-    #check for open sessions: you may only add a session if all others (in this parliament) are closed
-    check_dict = {'parliament_id' : context.__parent__.parliament_id}
-    open_session = check_with_sql(sql.checkForOpenSessionInterval , **check_dict)
-    if open_session:
-        errors.append(interface.Invalid(_("The Session (%s) is not yet closed") % open_session, "start_date" ))
-      
-    return errors
-
-def CheckSessionDatesEdit( self, context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors = check_start_end_dates_in_interval(context.session_id , data , sql.checkMySessionInterval)     
-    errors = errors + _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
-    return errors
-
-
+rdb.orm.mapper(AllPartyMemberships, all_party_memberships)     
 
 def validate_party_membership(action, data, context, container):
     errors = []
@@ -228,23 +97,27 @@ def validate_party_membership(action, data, context, container):
         user_id = context.user_id
     else:
         party_member = None
+        user_id = data['user_id']
     session = Session()                
     if data['start_date']:
-        for r in utils.validate_date_in_interval(party_member, 
-                    domain.PartyMember, 
-                    data['start_date']):                                     
+        for r in utils.validate_membership_in_interval(party_member, 
+                    AllPartyMemberships, 
+                    data['start_date'],
+                    user_id):  
+            overlaps = r.short_name                                                                             
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "start_date" ))                    
     if data['end_date']:    
-        for r in utils.validate_date_in_interval(party_member, 
-                    domain.PartyMember, 
-                    data['end_date']):    
+        for r in utils.validate_membership_in_interval(party_member, 
+                    AllPartyMemberships, 
+                    data['end_date'],
+                    user_id):    
             overlaps = r.short_name                      
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "end_date" ))                                
-    for r in utils.validate_open_interval(party_member, domain.PartyMember):
+    for r in utils.validate_open_membership(party_member, AllPartyMemberships, user_id):
         overlaps = r.short_name      
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
@@ -252,199 +125,226 @@ def validate_party_membership(action, data, context, container):
     return errors                    
     
 
-#sittings
-
-def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors = check_start_end_dates_in_interval(
-        context.__parent__.group_id, data, sql.checkSittingGroupInterval)
-        
-    if context.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)") % context.__parent__.start_date, "start_date" ) )
-    if context.__parent__.end_date is not None:
-        if data['end_date'].date() > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)") % context.__parent__.end_date, "end_date" ) )
-        if data['start_date'].date() > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.end_date, "start_date" ) )
-    return errors
-def CheckSittingDatesInsideParentDatesEdit( self, context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    #errors = check_start_end_dates_in_interval(context.sitting_id, data, sql.checkMySittingInterval)
-    if getattr(context.__parent__.__parent__, 'session_id', None):
-        errors = check_start_end_dates_in_interval(context.sitting_id, data, sql.checkMySittingSessionInterval)
-    elif getattr(context.__parent__.__parent__, 'group_id', None):          
-        errors = check_start_end_dates_in_interval(context.sitting_id, data, sql.checkMySittingGroupInterval)
-    
-    if context.__parent__.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)") % context.__parent__.__parent__.start_date, "start_date") )
-    if context.__parent__.__parent__.end_date is not None:
-        if data['end_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)") % context.__parent__.__parent__.end_date, "end_date" ) )
-        if data['start_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.__parent__.end_date, "start_date") )            
-    return errors
-        
-    
-#Titles for group members
-def CheckMemberTitleDateAdd( self, context, data):
-    errors =  _validate_date_range_within_parent(context.__parent__ , data )
-    checkdict= { 'title_name_id' : data['title_name_id'] , 
-                 'membership_id' : context.__parent__.membership_id}  
-    if data['start_date'] is not None:
-        checkdict['date'] = data['start_date']                             
-        overlaps = check_with_sql(sql.checkMemberTitleDuplicates, **checkdict)
-        if overlaps:
-            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "start_date" ))
-    if data['end_date'] is not None:
-        checkdict['date'] = data['end_date']                             
-        overlaps = check_with_sql(sql.checkMemberTitleDuplicates, **checkdict)
-        if overlaps:
-            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "end_date" ))     
-    checkdict = { 'title_name_id' : data['title_name_id'] , 
-                  'group_id' : context.__parent__.group_id }
-    if data['start_date'] is not None:
-        checkdict['date'] = data['start_date']               
-        overlaps = check_with_sql(sql.checkMemberTitleUnique, **checkdict)
-        if overlaps:        
-            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "start_date" ))        
-    if data['end_date'] is not None:
-        checkdict['date'] = data['end_date'] 
-        overlaps=check_with_sql(sql.checkMemberTitleUnique, **checkdict)
-        if overlaps:     
-            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
-                       
-    return errors
 
 
-#Parliament
 
-def check_parliament_date_no_overlap(action, data, context, container):
+def validate_parliament_dates(action, data, context, container):
     """Parliaments must not overlap."""
-
-    if context is not None:
-        parliament_id = context.parliament_id
+    errors = []
+    if interfaces.IParliament.providedBy(context):
+        parliament = context
     else:
-        parliament_id = None
-        
-    errors = checkStartEndDatesInInterval(
-        parliament_id, data, sql.checkMyParliamentInterval)
-    
-    overlaps = checkDateInInterval(
-        parliament_id, data['election_date'], sql.checkMyParliamentInterval)
-    
-    if overlaps is not None:
+        parliament = None
+    results = validate_date_in_interval(parliament, 
+                domain.Parliament, 
+                data['start_date'])
+    for result in results:
+        overlaps = result.short_name
         errors.append(interface.Invalid(
-            _("The election date overlaps with (%s)") % overlaps, "election_date"))
+            _("The start date overlaps with (%s)") % overlaps, "start_date"))
+    if data['end_date']:
+        results = validate_date_in_interval(parliament, 
+                    domain.Parliament, 
+                    data['start_date'])           
+        for result in results:
+            overlaps = result.short_name
+            errors.append(interface.Invalid(
+                _("The end date overlaps with (%s)") % overlaps, "end_date"))
+            
+    results = validate_date_in_interval(parliament, domain.Parliament, data['election_date'])
+    for result in results:
+        overlaps = result.short_name
+        errors.append(interface.Invalid(
+            _("The election date overlaps with (%s)") % 
+            overlaps, 
+            "election_date")
+            )
         
-    overlaps = checkDateInInterval(
-        parliament_id, data['election_date'], sql.checkForMyOpenParliamentInterval)
-    
-    if overlaps is not None:
+    results = validate_open_interval(parliament, domain.Parliament)
+    for result in results:
+        overlaps = result.short_name
         errors.append(interface.Invalid(
             _("Another parliament is not yet dissolved (%s)") % overlaps,
             "election_date"))
         
     return errors
 
-# Governments
-def CheckGovernmentsDateInsideParliamentsDatesEdit( self, context, data ):
-    """
-    start date must be >= parents start date
-    """
-    errors = checkStartEndDatesInInterval( context.government_id, data, sql.checkMyGovernmentInterval)
-    #### check dates in interval    
-    if (context.__parent__.__parent__.end_date is not None):
-        if data['start_date'] > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start date cannot be after the parliaments dissolution (%s)") % context.__parent__.__parent__.end_date , "start_date") )
-    if context.__parent__.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)") % context.__parent__.__parent__.start_date , "start_date") )    
-    return errors
-#Extension groups
 
-# sittings
 
-def CheckSittingDatesInsideParentDatesEdit( self, context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    #errors = checkStartEndDatesInInterval(context.sitting_id, data, sql.checkMySittingInterval)
-    if getattr(context.__parent__.__parent__, 'session_id', None):
-        errors = checkStartEndDatesInInterval(context.sitting_id, data, sql.checkMySittingSessionInterval)
-    elif getattr(context.__parent__.__parent__, 'group_id', None):          
-        errors = checkStartEndDatesInInterval(context.sitting_id, data, sql.checkMySittingGroupInterval)
-    
-    if context.__parent__.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)") % context.__parent__.__parent__.start_date, "start_date") )
-    if context.__parent__.__parent__.end_date is not None:
-        if data['end_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)") % context.__parent__.__parent__.end_date, "end_date" ) )
-        if data['start_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.__parent__.end_date, "start_date") )            
+def validate_government_dates(action, data, context, container):
+    errors = []
+    if interfaces.IGovernment.providedBy(context):
+        government = context
+    else:
+        government = None
+            
+    if container.__parent__.end_date is not None:
+        if data['start_date'] > container.__parent__.end_date:
+            errors.append(  interface.Invalid(
+                _("Start date cannot be after the parliaments dissolution (%s)") 
+                % container.__parent__.end_date , 
+                "start_date") )
+    if container.__parent__.start_date > data['start_date']:
+        errors.append( interface.Invalid(
+            _("Start date must start after the swearing in of the parliament (%s)") 
+            % container.__parent__.start_date , 
+            "start_date") )   
+    results = validate_date_in_interval(government, 
+                    domain.Government, 
+                    data['start_date'])
+    for result in results:
+        overlaps = result.short_name
+        errors.append(interface.Invalid(
+            _("The start date overlaps with (%s)") % overlaps, "start_date"))
+    if data['end_date']:
+        results = validate_date_in_interval(government, 
+                    domain.Government, 
+                    data['start_date'])            
+        for result in results:
+            overlaps = result.short_name
+            errors.append(interface.Invalid(
+                _("The end date overlaps with (%s)") % overlaps, "end_date"))
+            
+    result = validate_open_interval(government, domain.Government)
+    for result in results:
+        overlaps = result.short_name
+        errors.append(interface.Invalid(
+            _("Another Government is not yet dissolved (%s)") % overlaps,
+            "start_date"))
+        
     return errors
+             
 
-def CheckSessionDatesEdit( self, context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors = checkStartEndDatesInInterval(context.session_id , data , sql.checkMySessionInterval)     
-    errors = errors + _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
-    return errors
-    
-def CheckMemberDatesEdit( self, context, data ):
-    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
-    return errors
-    
-def CheckCommitteeDatesEdit( self, context, data ):
-    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
-    return errors
-    
-def CommitteeMemberDatesEdit( self, context, data ):
-    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
-    return errors      
+class GroupMemberTitle(object):
+    """ Titels that may be held by multiple persons of the
+    group at the same time"""     
+
+group_member_title = rdb.join(schema.user_group_memberships, 
+        schema.role_titles).join(
+            schema.user_role_types)
+            
                         
-def MinisterDatesEdit( self, context, data ):
-    errors = _validate_date_range_within_parent(context.__parent__.__parent__ , data )       
-    return errors                               
-                        
-def check_valid_date_range(action, data, context, container):
-    return _validate_date_range_within_parent(container.__parent__, data)
-    
-def CheckMemberTitleDateEdit( self, context, data):
-    errors =  _validate_date_range_within_parent(context.__parent__.__parent__ , data )
-    checkdict= { 'title_name_id' : data['title_name_id'] , 
-                 'role_title_id' : context.role_title_id,
-                 'membership_id' : context.__parent__.__parent__.membership_id}  
-    if data['start_date'] is not None:
-        checkdict['date'] = data['start_date']                             
-        overlaps = check_with_sql(sql.checkMyMemberTitleDuplicates, **checkdict)
-        if overlaps:
-            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "start_date" ))
-    if data['end_date'] is not None:
-        checkdict['date'] = data['end_date']                             
-        overlaps = check_with_sql(sql.checkMyMemberTitleDuplicates, **checkdict)
-        if overlaps:
-            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "end_date" ))     
-    checkdict = { 'title_name_id' : data['title_name_id'] , 
-                  'role_title_id' : context.role_title_id ,   
-                  'group_id' : context.__parent__.__parent__.group_id }
-    if data['start_date'] is not None:
-        checkdict['date'] = data['start_date']               
-        overlaps = check_with_sql(sql.checkMyMemberTitleUnique, **checkdict)
-        if overlaps:        
-            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "start_date" ))        
-    if data['end_date'] is not None:
-        checkdict['date'] = data['end_date'] 
-        overlaps=check_with_sql(sql.checkMyMemberTitleUnique, **checkdict)
-        if overlaps:     
-            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
+rdb.orm.mapper( GroupMemberTitle, group_member_title )                         
 
-    return errors         
+
+def validate_member_titles(action, data, context, container):
+    """Titles for members follow the restrictions:
+    A person must have the same title only once (e.g. you cannot
+    be chairperson in a group twice at a time)       
+    If a Title is unique (e.g. chairperson) there can be only one person 
+    at a time in this group holding this title, other titles like member 
+    may be applied to several persons at the same time""" 
+    errors = []
+    group_id = container.__parent__.group_id    
+    user_id = container.__parent__.user_id    
+    session = Session()
+    title_name_id = data['title_name_id']
+    if interfaces.IMemberRoleTitle.providedBy(context):
+        roletitle = context
+    else:
+        roletitle = None        
+    date = datetime.date.today()        
+    q = session.query(GroupMemberTitle).filter(
+        rdb.expression.and_(
+            schema.groupmembership.c.group_id == group_id,
+            schema.groupmembership.c.user_id == user_id,
+            schema.role_titles.c.title_name_id == title_name_id,
+            rdb.expression.or_(
+                rdb.expression.between(
+                    date, 
+                    schema.role_titles.c.start_date,
+                    schema.role_titles.c.end_date),
+                schema.role_titles.c.end_date == None  
+                )                  
+            )
+        )
+    if data['start_date']:
+        date = data['start_date']
+        results = q.all()    
+        for result in results:
+            overlaps = result.user_role_name        
+            if roletitle:
+                if roletitle.role_title_id == result.role_title_id:
+                    continue
+                else:                    
+                    errors.append( interface.Invalid(
+                        _(u"This persons allready has the title %s") % 
+                        overlaps, 
+                        "start_date" ))            
+            else:
+                errors.append( interface.Invalid(
+                    _(u"This persons allready has the title %s") % 
+                    overlaps, 
+                    "start_date" )) 
+    if data['end_date']:
+        date = data['end_date']
+        results = q.all()   
+        for result in results:
+            overlaps = result.user_role_name        
+            if roletitle:
+                if roletitle.role_title_id == result.role_title_id:
+                    continue
+                else:                    
+                    errors.append( interface.Invalid(
+                        _(u"This persons allready has the title %s") % 
+                        overlaps, 
+                        "end_date" ))            
+            else:
+                errors.append( interface.Invalid(
+                    _(u"This persons allready has the title %s") % 
+                    overlaps, 
+                    "end_date" ))                             
+    q = session.query(GroupMemberTitle).filter(
+        rdb.expression.and_(
+            schema.groupmembership.c.group_id == group_id,
+            schema.role_titles.c.user_unique == True,
+            schema.role_titles.c.title_name_id == title_name_id,
+            rdb.expression.or_(
+                rdb.expression.between(
+                    date, 
+                    schema.role_titles.c.start_date,
+                    schema.role_titles.c.end_date),
+                schema.role_titles.c.end_date == None  
+                )                  
+            )  
+        )                  
+    if data['start_date']:
+        date = data['start_date']
+        results = q.all()    
+        for result in results:
+            overlaps = result.user_role_name        
+            if roletitle:
+                if roletitle.role_title_id == result.role_title_id:
+                    continue
+                else:               
+                    errors.append( interface.Invalid(
+                        _(u"A person with the title %s allready exists") % 
+                        overlaps, 
+                        "start_date" ))  
+            else:
+                errors.append( interface.Invalid(
+                    _(u"A person with the title %s allready exists") % 
+                    overlaps, 
+                    "start_date" ))                                      
+            
+    if data['end_date']:
+        date = data['end_date']
+        results = q.all()   
+        for result in results:
+            overlaps = result.user_role_name                
+            if roletitle:
+                if roletitle.role_title_id == result.role_title_id:
+                    continue
+                else:                           
+                    errors.append( interface.Invalid(
+                        _(u"A person with the title %s allready exists") % 
+                        overlaps, 
+                        "end_date" ))                                                               
+            else:
+                errors.append( interface.Invalid(
+                    _(u"A person with the title %s allready exists") % 
+                    overlaps, 
+                    "end_date" ))                                         
+    return errors
+
 

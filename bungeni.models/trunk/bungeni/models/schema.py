@@ -296,7 +296,7 @@ political_parties = rdb.Table(
 #  The personal roles a person may have varies with the context. In a party
 #  one may have the role spokesperson, member, ...
 
-user_role_type = rdb.Table(
+user_role_types = rdb.Table(
     "user_role_types",
     metadata,
     rdb.Column( "user_role_type_id", rdb.Integer, primary_key=True),
@@ -377,7 +377,8 @@ role_titles = rdb.Table(
     metadata,
     rdb.Column( "role_title_id", rdb.Integer, primary_key=True ),
     rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
-    rdb.Column( "title_name_id", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id') ), # title of user's group role
+    # title of user's group role
+    rdb.Column( "title_name_id", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id') ),     
     rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False),
     rdb.Column( "end_date", rdb.Date ),   
     )

@@ -488,13 +488,13 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
                   }
          )
 mapper( domain.AttendanceType, schema.attendance_type )
-mapper( domain.MemberTitle, schema.user_role_type )
+mapper( domain.MemberTitle, schema.user_role_types )
 mapper( domain.MemberRoleTitle, schema.role_titles,
          properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.user_role_type.c.user_role_name)],
-                             schema.role_titles.c.title_name_id==schema.user_role_type.c.user_role_type_id
+                             [(schema.user_role_types.c.user_role_name)],
+                             schema.role_titles.c.title_name_id==schema.user_role_types.c.user_role_type_id
                                     ).distinct().label('short_name') )
                     }
 

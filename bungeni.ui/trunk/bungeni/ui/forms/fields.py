@@ -19,7 +19,7 @@ from zc.resourcelibrary import need
 
 class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     mode = "view"
-    template = ViewPageTemplateFile('templates/display_form.pt')        
+    template = ViewPageTemplateFile('templates/display_form.pt')
     form_name = _(u"General")    
     has_data = True
 
@@ -33,7 +33,6 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             
     def update( self ):
         need("yui-tab")
-        self.form_name = self.getform_name()
         self.setupActions()
         super(BungeniAttributeDisplay, self).update() 
         self.setupActions()  # after we transition we have different actions  
@@ -43,8 +42,9 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             self.wf_status = wf_state  
         except:
             pass
-               
-    def getform_name( self ):
+
+    @property
+    def form_name( self ):
         try:
             if self.context.__parent__:
                 descriptor = queryModelDescriptor(

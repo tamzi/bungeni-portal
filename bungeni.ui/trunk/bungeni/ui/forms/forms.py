@@ -487,6 +487,9 @@ class ResponseAddForm( AddForm ):
 
     
 class ItemScheduleContainerReorderForm(ReorderForm):
+    """Specialization of the general reorder form for item
+    schedulings."""
+    
     def save_ordering(self, ordering):
         for name, scheduling in self.context.items():
             scheduling.planned_order = ordering.index(name)

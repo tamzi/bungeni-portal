@@ -130,7 +130,7 @@ quorum, proportional_representation)
 from '%(directory)s/data/demodata/committees.csv'
 csv;
 
- SELECT setval('user_group_memberships_membership_id_seq', 2000);
+SELECT setval('user_group_memberships_membership_id_seq', 2000);
 
 copy public.user_group_memberships ( group_id, user_id , start_date, end_date)
 from '%(directory)s/data/demodata/committee_members.csv'
@@ -299,7 +299,7 @@ UPDATE "user_group_memberships" SET "notes" =
 
 /* assign the correct types to usre_group_membership*/
 
-UPDATE user_group_memberships SET membership_type = 'comitteemember'
+UPDATE user_group_memberships SET membership_type = 'committeemember'
 WHERE user_id IN
     (SELECT "user_group_memberships"."user_id" 
     FROM "public"."user_group_memberships" as ugm, "public"."committees" 

@@ -24,6 +24,7 @@ except ImportError:
 from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
 from bungeni.core.i18n import _
+from ploned.ui.interfaces import IViewView
 
 TRUE_VALS = "true", "1"
 
@@ -113,6 +114,8 @@ class BaseForm(object):
         return errors
 
 class DisplayForm(ui.DisplayForm):
+    interface.implements(IViewView)
+        
     template = ViewPageTemplateFile('templates/content-view.pt')
 
 class AddForm(BaseForm, ui.AddForm):

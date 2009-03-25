@@ -15,33 +15,14 @@ from zc.table import batching, column
 import sqlalchemy as rdb
 
 from bungeni.ui.forms.workflow import TransitionHandler
-
-class HistoryTableFormatter(batching.Formatter):
-    """The out-of-box table formatter does not let us specify a custom
-    table css class."""
-    
-    table_css_class = "listing grid"
-    
-    def __call__(self):
-        return (
-            '''
-            <div style="width: 100%%">
-              <table class="%s"
-                     style="width:100%%"
-                     name="%s">
-                 %s
-              </table>
-              %s
-            </div>''' % (self.table_css_class, self.prefix,
-                         self.renderContents(), self.renderExtra())
-            )
+from bungeni.ui.table import TableFormatter
 
 class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     """Implements the workflowHistoryviewlet this viewlet shows the
     current workflow state  and the workflow-history."""
 
     form_name = _(u"Workflow history")
-    formatter_factory = HistoryTableFormatter
+    formatter_factory = TableFormatter
     
     def __init__( self,  context, request, view, manager ):        
         self.context = context

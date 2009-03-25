@@ -7,8 +7,29 @@ from bungeni.ui import container
 from zope.traversing.browser import absoluteURL
 from zope.security import proxy
 from zc.resourcelibrary import need
+from zc.table import batching
 
 from z3c.pt.texttemplate import ViewTextTemplateFile
+
+class TableFormatter(batching.Formatter):
+    """The out-of-box table formatter does not let us specify a custom
+    table css class."""
+    
+    table_css_class = "listing grid"
+    
+    def __call__(self):
+        return (
+            '''
+            <div style="width: 100%%">
+              <table class="%s"
+                     style="width:100%%"
+                     name="%s">
+                 %s
+              </table>
+              %s
+            </div>''' % (self.table_css_class, self.prefix,
+                         self.renderContents(), self.renderExtra())
+            )
 
 class ContextDataTableFormatter(BaseDataTableFormatter):
     script = ViewTextTemplateFile("templates/datatable.pt")

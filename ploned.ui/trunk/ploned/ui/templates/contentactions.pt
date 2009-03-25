@@ -1,5 +1,6 @@
 <div class="contentActions">
   
-  <div tal:replace="structure provider:plone.contentmenu" />
+  <div tal:define="view nocall: view/__parent__"
+       tal:replace="structure provider:plone.contentmenu" />
   
 </div>

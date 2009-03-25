@@ -20,8 +20,9 @@ from zope.app.publisher.browser.menu import BrowserMenu, getMenu
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
 from zope.traversing.browser import absoluteURL
-
 from zope.app.pagetemplate import ViewPageTemplateFile
+
+from ploned.ui.interfaces import IViewView
 
 def action_to_id(action):
     return action.\
@@ -138,7 +139,7 @@ class ContentMenuProvider(object):
     render = ViewPageTemplateFile('templates/contentmenu.pt')
 
     def available(self):
-        return True
+        return IViewView.providedBy(self.view)
 
     def menu(self):
         menu = zope.component.getUtility(IBrowserMenu, name='plone_contentmenu')

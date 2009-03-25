@@ -140,7 +140,7 @@
 
   <db:catalyst
      class="bungeni.models.domain.BillVersion"
-     descriptor=".descriptor.BillDescriptor"
+     descriptor=".descriptor.BillVersionDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
@@ -163,7 +163,7 @@
 
   <db:catalyst
      class="bungeni.models.domain.MotionVersion"
-     descriptor=".descriptor.MotionDescriptor"
+     descriptor=".descriptor.MotionVersionDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
@@ -179,7 +179,7 @@
 
   <db:catalyst
      class="bungeni.models.domain.QuestionVersion"
-     descriptor=".descriptor.QuestionDescriptor"
+     descriptor=".descriptor.QuestionVersionDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"

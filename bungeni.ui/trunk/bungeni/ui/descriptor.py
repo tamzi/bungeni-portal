@@ -930,6 +930,10 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
               required=False) ),                
         ])
 
+class MotionVersionDescriptor( ParliamentaryItemDescriptor ):
+    display_name = _(u"Motion version")
+    container_name = _(u"Versions")
+
 class BillDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Bill")
     container_name = _(u"Bills")
@@ -969,7 +973,11 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                     _(u"Publication Date")), ),        
 
         ])
-        
+
+class BillVersionDescriptor( ParliamentaryItemDescriptor ):
+    display_name = _(u"Bill version")
+    container_name = _(u"Versions")
+
 class QuestionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Question")
     container_name = _(u"Questions")
@@ -1021,6 +1029,10 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
             listing=True ),
         ])
 
+class QuestionVersionDescriptor( ParliamentaryItemDescriptor ):
+    display_name = _(u"Question version")
+    container_name = _(u"Versions")
+    
 class EventItemDescriptor( ParliamentaryItemDescriptor ):
     display_name =_(u"Event")
     container_name =_(u"Events")

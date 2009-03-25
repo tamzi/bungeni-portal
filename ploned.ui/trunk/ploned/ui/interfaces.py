@@ -1,24 +1,24 @@
 from zope import interface, schema
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.publisher.interfaces.browser import IBrowserView
 from zope.viewlet.interfaces import IViewletManager
 from z3c.menu.ready2go import interfaces as imenu
 
 from zope.interface import directlyProvides
-
-from zope.app.publisher.interfaces.browser import IBrowserMenu
-from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
 from zope.app.publisher.interfaces.browser import IMenuItemType
 from zope.contentprovider.interfaces import IContentProvider
 
 class IPlonedSkin( IDefaultBrowserLayer ):
     """ plone skin for zope3  """
 
+class IViewView(IBrowserView):
+    """Marker-interface for the 'view' action."""
+
 class ICSSManager( IViewletManager ):
     """ viewlet manager for css """
 
 class IJavaScriptManager( IViewletManager ):
     """ viewlet manager for js """
-
 
 class ILeftColumnManager( IViewletManager ):
     """ """

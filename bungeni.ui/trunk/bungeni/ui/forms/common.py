@@ -213,6 +213,14 @@ class AddForm(BaseForm, ui.AddForm):
 class EditForm(BaseForm, ui.EditForm):
     """Custom edit-form for Bungeni content."""
 
+    @property
+    def form_name(self):
+        props = IDCDescriptiveProperties.providedBy(self.context) \
+                and self.context or IDCDescriptiveProperties(self.context)
+        
+        return _(u"edit_item_legend", default=u'Editing "$title"',
+                 mapping={'title': props.title})
+        
     def validate(self, action, data):    
         errors = super(EditForm, self).validate(action, data)
 

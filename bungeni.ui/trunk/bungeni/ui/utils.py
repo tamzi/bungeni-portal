@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 import datetime
+from bungeni.ui.i18n import _
 
 def is_ajax_request(request):
     return request.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
@@ -23,7 +24,16 @@ def makeList( itemIds ):
         # only one item in this list
         return [itemIds,]
     else:
-         raise TypeError ("Form values must be of type string or list")
+         raise TypeError( _("Form values must be of type string or list"))
+
+def get_date( date):
+    if type(date) == datetime.datetime:
+        return date.date()
+    elif type(date) == datetime.date:
+        return date
+    else:
+        raise TypeError (_("date must be of type datetime or date"))                
+
 
 def getDisplayDate(request):   
     """

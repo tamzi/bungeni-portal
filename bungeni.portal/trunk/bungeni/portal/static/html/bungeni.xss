@@ -3,6 +3,12 @@ html > head title {
   mode: content;
 }
 
+html > head title {
+  name: "title";
+  mode: replace;
+  structure: true;
+}
+
 html > body {
   attributes: "plone.body.attributes";
 }

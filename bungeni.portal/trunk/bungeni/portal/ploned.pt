@@ -1,9 +1,14 @@
 <metal:master define-macro="page"
               use-macro="macros/page">
 
-  <title metal:fill-slot="plone.htmlhead.title"
-         tal:replace="context/title|string:Bungeni" />
-
+  <metal:title fill-slot="title">
+    <title metal:define-slot="title">
+      <metal:title fill-slot="plone.htmlhead.title">
+        <span tal:replace="context/title|string:Bungeni" />
+      </metal:title>
+    </title>
+  </metal:title>
+      
   <metal:portal-header fill-slot="plone.htmlhead">
     <metal:header define-slot="header" />
 

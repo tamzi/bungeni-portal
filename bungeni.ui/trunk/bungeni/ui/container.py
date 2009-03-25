@@ -5,6 +5,7 @@ import zc.table
 import simplejson
 import sqlalchemy.sql.expression as sql
 
+from zope import interface
 from zope.security import proxy
 from zope.security import checkPermission
 from zope.security.proxy import ProxyFactory
@@ -19,6 +20,7 @@ from ore.alchemist.container import stringKey
 from alchemist.ui import container
 from bungeni.ui.utils import getDisplayDate
 from bungeni.ui.utils import getFilter
+from ploned.ui.interfaces import IViewView
 
 def dateFilter( request ):
     filter_by = ''
@@ -63,6 +65,8 @@ def secured_iterator(permission, query, parent):
             yield item
 
 class ContainerListing(container.ContainerListing):
+    interface.implements(IViewView)
+    
     @property
     def formatter( self ):
         """We replace the formatter in our superclass to set up column

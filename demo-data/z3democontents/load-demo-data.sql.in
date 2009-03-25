@@ -102,13 +102,19 @@ update public.sessions set full_name = short_name || ' ' || extract(year from st
 update public.sessions set short_name = full_name;
 
 /* political parties */
-copy public.groups( group_id, short_name, start_date, type )
+
+copy public.groups(  short_name, start_date, type, end_date, group_id )
 from '%(directory)s/data/demodata/parties.csv'
 csv ;
 
-copy public.political_parties (party_id)
-from '%(directory)s/data/demodata/party_groups.csv'
+
+copy public.political_parties (party_id, parliament_id)
+from '%(directory)s/data/demodata/party_ids.csv'
 csv ;
+
+copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date)
+from '%(directory)s/data/demodata/partymembers.csv'
+csv;
 
 /* comittees */
 copy public.committee_types

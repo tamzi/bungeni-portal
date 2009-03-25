@@ -1,13 +1,35 @@
-11,"Centre","1963-01-23 00:00:00","political-party"
-12,"Left","1963-01-23 00:00:00","political-party"
-13,"Right","1963-01-23 00:00:00","political-party"
-14,"Progressive","1963-01-23 00:00:00","political-party"
-15,"Conservative","1963-01-23 00:00:00","political-party"
-16,"Liberal","1963-01-23 00:00:00","political-party"
-17,"New Centre","1963-01-23 00:00:00","political-party"
-18,"Freedom","1963-01-23 00:00:00","political-party"
-19,"Democratic","1963-01-23 00:00:00","political-party"
-20,"Civic","1963-01-23 00:00:00","political-party"
-21,"Social","1963-01-23 00:00:00","political-party"
-22,"Green","1963-01-23 00:00:00","political-party"
-23,"Ecological","1963-01-23 00:00:00","political-party"
+"Centre",1988-01-23,"political-party",1992-05-11,611
+"Left",1988-01-23,"political-party",1992-05-11,612
+"Right",1988-01-23,"political-party",1992-05-11,613
+"Progressive",1988-01-23,"political-party",1992-05-11,614
+"Conservative",1988-01-23,"political-party",1992-05-11,615
+"Liberal",1988-01-23,"political-party",1992-05-11,616
+"Left",1993-03-02,"political-party",1997-03-12,712
+"Right",1993-03-02,"political-party",1997-03-12,713
+"Progressive",1993-03-02,"political-party",1997-03-12,714
+"Conservative",1993-03-02,"political-party",1997-03-12,715
+"Liberal",1993-03-02,"political-party",1997-03-12,716
+"New Centre",1993-03-02,"political-party",1997-03-12,717
+"Freedom",1993-03-02,"political-party",1997-03-12,718
+"Democratic",1995-05-11,"political-party",1997-03-12,719
+"Civic",1996-06-25,"political-party",1997-03-12,720
+"Left",1998-09-01,"political-party",2002-11-25,812
+"Right",1998-09-01,"political-party",2002-11-25,813
+"Progressive",1998-09-01,"political-party",2002-11-25,814
+"Conservative",1998-09-01,"political-party",2002-11-25,815
+"Liberal",1998-09-01,"political-party",2002-11-25,816
+"New Centre",1998-09-01,"political-party",2002-11-25,817
+"Freedom",1998-09-01,"political-party",2002-11-25,818
+"Democratic",1998-09-01,"political-party",2002-11-25,819
+"Civic",1998-09-01,"political-party",2002-11-25,820
+"Social",1999-11-11,"political-party",2002-11-25,821
+"Green",1999-04-12,"political-party",2002-11-25,822
+"Progressive",2003-05-01,"political-party",,914
+"Conservative",2003-05-01,"political-party",,915
+"Liberal",2003-05-01,"political-party",,916
+"New Centre",2003-05-01,"political-party",,917
+"Freedom",2003-05-01,"political-party",,918
+"Democratic",2003-05-01,"political-party",,919
+"Civic",2003-05-01,"political-party",,920
+"Social",2003-05-01,"political-party",,921
+"Ecological",2003-05-01,"political-party",,923

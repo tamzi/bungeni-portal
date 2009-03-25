@@ -11,23 +11,6 @@ Setup
   >>> session=Session()
   >>> from bungeni.models import domain
    
-setup parliament, gov and ministry
-----------------------------------
-  >>> parliament = domain.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
-  >>> session.add(parliament)
-  >>> session.flush()
-  
-  >>> gov = domain.Government(short_name=u"gov_1", start_date=yesterday)
-  >>> gov.parliament_id = parliament.parliament_id
-  >>> session.add(gov)
-  >>> session.flush()  
-  
-  >>> ministry = domain.Ministry(short_name=u"ministry", start_date=yesterday)
-  >>> ministry.government_id = gov.government_id
-  >>> session.add(ministry)
-  >>> session.flush()
-
-
 
 setup a sitting
 Sittings

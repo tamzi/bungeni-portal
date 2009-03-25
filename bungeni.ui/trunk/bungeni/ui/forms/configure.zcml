@@ -15,6 +15,14 @@
   <!-- Generic forms -->
 
   <browser:page
+     name="view"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     class=".common.DisplayForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
      name="add"
      for="ore.alchemist.interfaces.IAlchemistContainer"
      class=".common.AddForm"
@@ -45,6 +53,14 @@
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
+
+  <browser:page
+     name="translate"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     class=".common.TranslateForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
 
   <!-- content display viewlets -->
   
@@ -348,8 +364,6 @@
      permission="bungeni.question.View"
      weight="5"
      />      
-
-
 
   <!-- Question add form -->
 

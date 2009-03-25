@@ -70,6 +70,9 @@ class IQuestion( IBungeniContent ):
     """ Parliamentary Question
     """
 
+class IQuestionVersion(IQuestion):
+    pass
+
 class IQuestionVersionContainer(IVersionContainer):
     pass
 
@@ -83,10 +86,15 @@ class IBill( IBungeniContent ):
     """ Parliamentary Bill
     """
 
+class IBillVersion(IBill):
+    pass
+
 class IMotion( IBungeniContent ):
     """ Parliamentary Motion
     """
 
+class IMotionVersion(IMotion):
+    pass
 
 
 class IGroupSitting(interface.Interface):

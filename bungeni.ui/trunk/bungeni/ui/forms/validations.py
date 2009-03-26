@@ -279,7 +279,7 @@ def validate_member_titles(action, data, context, container):
         return session.query(GroupMemberTitle).filter(
                 rdb.and_(
                     schema.user_group_memberships.c.group_id == group_id,
-                    schema.user_group_memberships.c.user_id == user_id,
+                    schema.user_group_memberships.c.membership_id == membership_id,
                     schema.role_titles.c.title_name_id == title_name_id,
                     rdb.or_(
                         rdb.between(
@@ -308,6 +308,7 @@ def validate_member_titles(action, data, context, container):
     errors = []
     group_id = container.__parent__.group_id    
     user_id = container.__parent__.user_id    
+    membership_id = container.__parent__.membership_id    
     session = Session()
     title_name_id = data['title_name_id']
     if interfaces.IMemberRoleTitle.providedBy(context):

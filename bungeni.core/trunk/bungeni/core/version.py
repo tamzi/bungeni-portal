@@ -52,6 +52,8 @@ class Versioned( container.PartialContainer ):
         # save our new version to the db
         session = Session()
         session.add( version )
+
+        return version
         
     def revert( self, version, message ):
         """

@@ -30,7 +30,7 @@ Verify that no versions exist yet:
 
 After creating a version, verify availability:
   
-  >>> versions.create('New version created ...')
+  >>> version = versions.create('New version created ...')
   >>> len(tuple(versions.values()))
   1
 

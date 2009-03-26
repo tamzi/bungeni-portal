@@ -11,7 +11,10 @@ Setting up Database Connection and Utilities:
    >>> session = Session()
    >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat   
    >>> from bungeni.ui.queries import utils
-
+   >>> class MockContainer(object):
+   ...  __parent__ = None
+   >>> from bungeni.ui.forms import validations
+   
    
 Note that we only test the overlap of 'peers' here.
 refer to test_dates.py to test  that contained objects are inside
@@ -19,6 +22,7 @@ their parents dates
    
 Parliaments
 -----------   
+low level validations:
    
    >>> parliament = domain.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
    >>> session.add( parliament)
@@ -40,17 +44,16 @@ Parliaments
    
 Before you can add a new parliament all others must be closed
    
-   >>> list(utils.validate_open_interval( None, domain.Parliament, dayat))      
+   >>> list(utils.validate_open_interval( None, domain.Parliament))      
    []
    
-###############################     
+        
 Add a new (open ended) parliament
    >>> parliament2 = domain.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
    >>> session.add( parliament2)
    >>> session.flush()   
    
-Note that the date yesterday is well ouside our p_2 so it does not matter.   
-   >>> list(utils.validate_open_interval( None, domain.Parliament, yesterday))
+   >>> list(utils.validate_open_interval( None, domain.Parliament))
    [<bungeni.models.domain.Parliament object at ...>]
  
 give the 2nd parliament an end date and save   
@@ -58,9 +61,9 @@ give the 2nd parliament an end date and save
    >>> session.flush() 
    
 No open parliaments  anymore 
-   >>> list(utils.validate_open_interval( None, domain.Parliament, today))
+   >>> list(utils.validate_open_interval( None, domain.Parliament))
    []
-   
+      
 Now check for overlapping dates but not for the current (edited) parliament   
    
    >>> list(utils.validate_date_in_interval( parliament2, domain.Parliament, today))   
@@ -81,7 +84,76 @@ give the 2nd parliament an end date and save
    >>> session.flush() 
    
 No open parliaments  anymore 
-   >>> list(utils.validate_open_interval( None, domain.Parliament, today)) 
+   >>> list(utils.validate_open_interval( None, domain.Parliament)) 
    []
+
+High level validations:   
+
+   >>> parliament_container = MockContainer()
+   >>> form_data= {'start_date': today, 'end_date': tomorrow, 'election_date': yesterday}
+   >>> validations.validate_parliament_dates(action=None, data=form_data, 
+   ...  context=parliament, container=parliament_container)
+   []
+   
+   >>> validations.validate_parliament_dates(action=None, data=form_data, 
+   ...  context=parliament2, container=parliament_container)
+   [Invalid(u'The start date overlaps with (p_1)', 'start_date'), 
+   Invalid(u'The end date overlaps with (p_1)', 'end_date')]
+   
+   >>> parliament.end_date = None
+   >>> session.flush() 
+   >>> validations.validate_parliament_dates(action=None, data=form_data, 
+   ...  context=parliament2, container=parliament_container)
+   [Invalid(u'Another parliament is not yet dissolved (p_1)', 'election_date')]
+
+Government:
+------------
+
+  >>> government = domain.Government()
+  >>> government.start_date = today
+  >>> government_container = MockContainer()
+  >>> government_container.__parent__ = parliament
+  >>> validations.validate_government_dates(action=None, data=form_data,
+  ...   context=government, container=government_container)
+  []
+  
+  >>> government.parliament_id = parliament.parliament_id
+  >>> government.short_name = u"gov1"
+  >>> session.add(government)  
+  >>> session.flush()
+  >>> government.end_date
+  
+  >>> government_container.__parent__ = parliament2  
+  >>> validations.validate_government_dates(action=None, data=form_data,
+  ...   context=government, container=government_container)
+  [Invalid(u'Start date must start after the swearing in of the parliament (...)', 'start_date')]
+  
+  >>> government2 = domain.Government()
+  >>> list(utils.validate_open_interval(government2, domain.Government))
+  [<bungeni.models.domain.Government object at ...>]
+  
+  >>> validations.validate_government_dates(action=None, data=form_data,
+  ...   context=government2, container=government_container)
+  [Invalid(u'Start date must start after the swearing in of the parliament (...)', 'start_date'), 
+  Invalid(u'Another Government is not yet dissolved (gov1)', 'start_date')]
+  
+  >>> government_container.__parent__ = parliament  
+  >>> parliament.end_date = tomorrow
+  >>> session.flush()
+  >>> form_data['start_date'] = dayat
+  >>> validations.validate_government_dates(action=None, data=form_data,
+  ...   context=government, container=government_container)
+   [Invalid(u'Start date cannot be after the parliaments dissolution (...)', 'start_date')]
+  
+  >>> government.end_date = tomorrow
+  >>> session.flush()
+  >>> form_data['start_date'] = today  
+  >>> validations.validate_government_dates(action=None, data=form_data,
+  ...   context=government2, container=government_container)
+  [Invalid(u'The start date overlaps with (gov1)', 'start_date'), 
+  Invalid(u'The end date overlaps with (gov1)', 'end_date')]
+  
+
+
    
    

@@ -358,7 +358,8 @@ mapper( domain.Question, schema.questions,
         
 mapper( domain.QuestionChange, schema.question_changes )
 mapper( domain.QuestionVersion, schema.question_versions,
-        properties= {'change':relation( domain.QuestionChange, uselist=False ) }
+        properties= {'change': relation( domain.QuestionChange, uselist=False),
+                     'head': relation( domain.Question, uselist=False)}
         )
 
 
@@ -376,7 +377,8 @@ mapper( domain.Motion, schema.motions,
         
 mapper( domain.MotionChange, schema.motion_changes )
 mapper( domain.MotionVersion, schema.motion_versions,
-        properties= {'change':relation( domain.MotionChange, uselist=False)}
+        properties= {'change':relation( domain.MotionChange, uselist=False),
+                     'head': relation( domain.Motion, uselist=False)}
         )
 
         
@@ -391,7 +393,8 @@ mapper( domain.Bill, schema.bills,
         )
 mapper( domain.BillChange, schema.bill_changes )
 mapper( domain.BillVersion, schema.bill_versions, 
-        properties= {'change':relation( domain.BillChange, uselist=False)}
+        properties= {'change':relation( domain.BillChange, uselist=False),
+                     'head': relation( domain.Bill, uselist=False)}
         )
 
 
@@ -411,8 +414,10 @@ mapper( domain.AgendaItem, schema.agenda_items,
 
 mapper( domain.ResponseChange, schema.response_changes )
 mapper( domain.ResponseVersion, schema.response_versions,
-        properties= {'change':relation( domain.ResponseChange, uselist=False ) }
+        properties= {'change':relation( domain.ResponseChange, uselist=False),
+                     'head': relation( domain.Response, uselist=False)}
         )
+
 mapper( domain.Response, schema.responses,
         properties = {
              'versions':relation( domain.ResponseVersion, backref='question'),

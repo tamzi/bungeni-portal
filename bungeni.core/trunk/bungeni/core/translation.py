@@ -2,6 +2,7 @@ from bungeni.core.i18n import  _
 from ore.alchemist import Session
 from zope.security.proxy import removeSecurityProxy
 from bungeni.core.interfaces import IVersionable
+from bungeni.models.interfaces import IVersion
 
 def get_language_by_name(name):
     return dict(get_all_languages())[name]
@@ -27,3 +28,7 @@ def get_available_translations(context):
     query = session.query(model).distinct().values('language', 'content_id')
 
     return dict(query)
+
+def is_translation(context):
+    return IVersion.providedBy(context) and \
+           context.status in (u"draft-translation",)

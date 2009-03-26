@@ -6,21 +6,25 @@ import response
 import events
 import xmlimport
 
-
+from bungeni.models import domain
 from ore.workflow import workflow
 
 path = os.path.split(os.path.abspath(__file__))[0]
 
-def load_workflow(module):
+def load_workflow(module, kls):
     name = module.__name__.rsplit('.')[-1]
     wf = xmlimport.load("%s/%s.xml" % (path, name))
-    events.register_workflow_transitions(wf)
+    events.register_workflow_transitions(wf, kls)
     module.wf = wf
     module.states = wf.states
     return wf
 
-QuestionWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(question))
-MotionWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(motion))
-BillWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(bill))
-ResponseWorkflowAdapter = workflow.AdaptedWorkflow(load_workflow(response))
+QuestionWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(question, domain.Question))
+MotionWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(motion, domain.Motion))
+BillWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(bill, domain.Bill))
+ResponseWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(response, domain.Response))
 

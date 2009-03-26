@@ -13,21 +13,22 @@ workflow_transition_event_map = {}
 def get_workflow_transitions(wf):
     return wf._id_transitions.values()
     
-def register_workflow_transitions(wf):
+def register_workflow_transitions(wf, kls):
     """Use this method to register workflow transitions, such that
     events will be fired after a transition."""
     
     for t in get_workflow_transitions(wf):
         if t.event:
             workflow_transition_event_map[
-                (t.source, t.destination)] = t.event
+                (kls, t.source, t.destination)] = t.event
 
 @component.adapter(interfaces.IWorkflowTransitionEvent)
 def workflowTransitionEventDispatcher(event):
     source = event.source
     destination = event.destination
-
-    iface = workflow_transition_event_map.get((source, destination))
+    
+    iface = workflow_transition_event_map.get(
+        (type(event.object), source, destination))
     if iface is not None:
         transition_event = ObjectEvent(event.object)
         interface.alsoProvides(transition_event, iface)

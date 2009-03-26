@@ -20,12 +20,14 @@ def get_all_languages():
         ('sw', _(u"Swahili")),
         )
 def get_available_translations(context):
+    context = removeSecurityProxy(context)
     assert IVersionable.providedBy(context)
     
-    model = removeSecurityProxy(context).versions.domain_model
+    model = context.versions.domain_model
 
     session = Session()
-    query = session.query(model).distinct().values('language', 'version_id')
+    query = session.query(model).filter(context.versions.subset_query).\
+            distinct().values('language', 'version_id')
 
     return dict(query)
 

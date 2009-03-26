@@ -25,7 +25,7 @@ def get_available_translations(context):
     model = removeSecurityProxy(context).versions.domain_model
 
     session = Session()
-    query = session.query(model).distinct().values('language', 'content_id')
+    query = session.query(model).distinct().values('language', 'version_id')
 
     return dict(query)
 

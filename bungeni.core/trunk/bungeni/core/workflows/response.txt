@@ -17,7 +17,7 @@ Setup
 Setting up Database Connection and Utilities:
 
    >>> import bungeni.core.testing as testing
-   >>> testing.setup_db()  
+   >>> engine = testing.setup_db()  
    >>> session = Session()   
   
   
@@ -81,6 +81,7 @@ Responses
 
   >>> response = domain.Response()
   >>> response.response_id = question.question_id
+  >>> response.language = "en"
   >>> session.add(response)
   >>> session.flush()
  

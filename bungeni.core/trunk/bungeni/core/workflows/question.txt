@@ -27,7 +27,7 @@ some setup for tests
    
 Setting up Database Connection and Utilities:
 
-   >>> testing.setup_db()
+   >>> engine = testing.setup_db()
    >>> session = Session()
 
 
@@ -117,6 +117,7 @@ Add question to db
   >>> question = Question()
   >>> question.short_name = u"subject of the question"
   >>> question.body_text = u"The question"
+  >>> question.language = "en"
   >>> session.add(question)
   >>> session.flush()
 

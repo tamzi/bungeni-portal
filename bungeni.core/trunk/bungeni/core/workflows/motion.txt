@@ -12,7 +12,7 @@ Motion workflow
    
 Setting up Database Connection and Utilities:
    >>> import bungeni.core.testing as testing
-   >>> testing.setup_db()   
+   >>> engine = testing.setup_db()   
    >>> session = Session()
    >>> i = 0
 
@@ -54,6 +54,7 @@ Sitting to schedule the motion:
 
   >>> motion = Motion()
   >>> motion.short_name = u"A Motion"
+  >>> motion.language = "en"
   >>> session.add(motion)
   >>> session.flush()
 

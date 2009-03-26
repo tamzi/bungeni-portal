@@ -111,7 +111,7 @@
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
   <adapter
-     for="bungeni.models.interfaces.IBungeniContent *"
+     for="bungeni.core.interfaces.IVersionable *"
      name="plone.contentmenu.translation"
      factory=".menu.TranslationSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />

@@ -340,7 +340,7 @@ class TranslateForm(AddForm):
 
         url = absoluteURL(self.context, self.request)
         
-        language = data['language']
+        language = get_language_by_name(data['language'])
         versions = IVersioned(self.context)
         version = versions.create("'%s' translation added." % language)
 

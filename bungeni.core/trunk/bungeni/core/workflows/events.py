@@ -26,9 +26,17 @@ def register_workflow_transitions(wf, kls):
 def workflowTransitionEventDispatcher(event):
     source = event.source
     destination = event.destination
-    
+
     iface = workflow_transition_event_map.get(
         (type(event.object), source, destination))
+
+    if iface is None:
+        for specification in interface.providedBy(event.object):
+            iface = workflow_transition_event_map.get(
+                (specification, source, destination))
+            if iface is not None:
+                break
+
     if iface is not None:
         transition_event = ObjectEvent(event.object)
         interface.alsoProvides(transition_event, iface)

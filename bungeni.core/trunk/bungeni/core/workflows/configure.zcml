@@ -54,6 +54,13 @@
      provides="ore.workflow.interfaces.IWorkflowInfo"
      factory="bungeni.core.workflows.states.StateWorkflowInfo"/>
 
+  <!-- content workflow -->
+  
+  <adapter
+     for="bungeni.models.interfaces.IVersion"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.VersionWorkflowAdapter" />
+  
   <!-- bill workflow -->
   
   <adapter

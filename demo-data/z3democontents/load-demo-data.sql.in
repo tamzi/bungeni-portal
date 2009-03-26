@@ -245,7 +245,6 @@ where sequence_schema='public';
  SELECT setval('question_changes_change_id_seq', 1000);
  SELECT setval('bill_versions_version_id_seq', 1000);
  SELECT setval('question_versions_version_id_seq', 1000);
- SELECT setval('responses_response_id_seq', 1000);
  SELECT setval('bill_changes_change_id_seq', 1000);
  SELECT setval('object_subscriptions_subscriptions_id_seq', 1000);
  SELECT setval('group_assignments_assignment_id_seq', 1000);

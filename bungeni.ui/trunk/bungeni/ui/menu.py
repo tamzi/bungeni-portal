@@ -10,8 +10,8 @@ from z3c.menu.ready2go import item
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
 from bungeni.core.translation import get_language
-from bungeni.core.translation import has_language
-from bungeni.core.translation import available_languages
+from bungeni.core.translation import get_all_languages
+from bungeni.core.translation import get_available_translations
 from bungeni.ui.i18n import  _
 
 class GlobalMenuItem( item.GlobalMenuItem ):
@@ -123,15 +123,21 @@ class TranslateMenu(BrowserMenu):
 
         url = absoluteURL(context, request)
         language = get_language(context)
+        available = get_available_translations(context)
+
         results = []
-        
-        for name, title in available_languages():
+        for name, title in get_all_languages():
             # skip the current language
             if name == language:
                 continue
 
-            translation_url = url + '/@@translate?language=%s' % name
-            selected = has_language(context, name)
+            translation_id = available.get(name)
+            selected = translation_id is not None
+
+            if selected:
+                action_url = url + '/versions/obj-%d/edit' % translation_id
+            else:
+                action_url = url + '/@@translate?language=%s' % name
 
             extra = {'id': 'translation-action-%s' % name,
                      'separator': None,
@@ -140,7 +146,7 @@ class TranslateMenu(BrowserMenu):
             results.append(
                 dict(title=title,
                      description="",
-                     action=translation_url,
+                     action=action_url,
                      selected=selected,
                      icon=None,
                      extra=extra,

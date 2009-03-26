@@ -97,8 +97,8 @@ def submitResponse( info, context ):
 
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
-    if (question.status != u"questionstates.responded"):
-        IWorkflowInfo(question).fireTransitionToward(u"questionstates.responded")
+    if (question.status != u"responded"):
+        IWorkflowInfo(question).fireTransitionToward(u"responded")
      
 
 def publishResponse( info, context ):
@@ -122,9 +122,9 @@ def setParliamentId( info, context):
 def resonse_allow_submit(info, context):
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
-    if ((question.status == u"questionstates.response_pending")
-        or (question.status ==  u"questionstates.scheduled")
-        or (question.status == u"questionstates.responded")):
+    if ((question.status == u"response_pending")
+        or (question.status ==  u"scheduled")
+        or (question.status == u"responded")):
         return True
     else:
         return False        
@@ -132,7 +132,7 @@ def resonse_allow_submit(info, context):
 def response_allow_complete(info, context):
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
-    if (question.status == u"questionstates.responded"):
+    if (question.status == u"responded"):
         return True
     else:
         return False        

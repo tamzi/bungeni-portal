@@ -53,7 +53,7 @@ def _deferAdmissibleQuestionsBefore(date):
     set all admissible Questions before this
     date to defered
     """    
-    status = u"questionstates.admissible"
+    status = u"admissible"
     admissibleQuestions = _getQuestionsApprovedBefore(date, status)
     for question in admissibleQuestions:
         IWorkflowInfo(question).fireTransition('defer')   

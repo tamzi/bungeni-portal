@@ -5,80 +5,80 @@
    description="A question"
    initial_state="">
 
-  <state id="questionstates.draft" title="draft question">
+  <state id="draft" title="draft question">
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.View" role="bungeni.Owner" />    
     <grant permission="bungeni.question.Delete" role="bungeni.Owner" />    
     <deny permission="bungeni.question.Add" role="bungeni.MP" />        
   </state>
 
-  <state id="questionstates.submitted" title="Question submitted to clerk">
+  <state id="submitted" title="Question submitted to clerk">
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.View" role="bungeni.Clerk" />    
     <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
   </state>
 
-  <state id="questionstates.received" title="Question received by clerk">
+  <state id="received" title="Question received by clerk">
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="questionstates.complete" title="Question complete">
+  <state id="complete" title="Question complete">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.question.View" role="bungeni.Speaker" />    
   </state>
 
-  <state id="questionstates.admissible" title="admissible Question">
+  <state id="admissible" title="admissible Question">
     <grant permission="bungeni.question.View" role="bungeni.Everybody" />      
     <!-- TODO permissions for the ministry the question is directed to, maybe to be set in the action? -->    
   </state>
 
-  <state id="questionstates.inadmissible" title="inadmissible Question">
+  <state id="inadmissible" title="inadmissible Question">
     <grant permission="bungeni.question.View" role="bungeni.Everybody" />      
   </state>
 
-  <state id="questionstates.clarify_mp" title="Question needs MP clarification">
+  <state id="clarify_mp" title="Question needs MP clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />  
   </state>
 
-  <state id="questionstates.clarify_clerk" title="Question needs Clerks clarification">
+  <state id="clarify_clerk" title="Question needs Clerks clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
   </state>
 
-  <state id="questionstates.scheduled" title="Question scheduled">
+  <state id="scheduled" title="Question scheduled">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.add" role="bungeni.Clerk" />
     <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
     <grant permission="bungeni.response.view" role="bungeni.Clerk" />         
   </state>
 
-  <state id="questionstates.response_pending" title="Question pending response">
+  <state id="response_pending" title="Question pending response">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.add" role="bungeni.Clerk" />
     <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
     <grant permission="bungeni.response.view" role="bungeni.Clerk" />        
   </state>
 
-  <state id="questionstates.deferred" title="Question deferred">
+  <state id="deferred" title="Question deferred">
   </state>
 
-  <state id="questionstates.postponed" title="Question postponed">
+  <state id="postponed" title="Question postponed">
   </state>
 
-  <state id="questionstates.elapsed" title="Question elapsed">
+  <state id="elapsed" title="Question elapsed">
   </state>
 
-  <state id="questionstates.responded" title="Question responded">
+  <state id="responded" title="Question responded">
   </state>
 
-  <state id="questionstates.answered" title="Question answered">
+  <state id="answered" title="Question answered">
     <grant permission="bungeni.question.Add" role="bungeni.MP" />    
     <grant permission="bungeni.response.view" role="bungeni.Everybody" />            
   </state>
 
-  <state id="questionstates.withdrawn" title="Question withdrawn">
+  <state id="withdrawn" title="Question withdrawn">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />            
@@ -89,7 +89,7 @@
      title="Create"
      trigger="automatic"
      source=""
-     destination="questionstates.draft"
+     destination="draft"
      action="bungeni.core.workflows.question.actions.create"
      condition=""
      />
@@ -98,8 +98,8 @@
      id="submit-to-clerk"
      title="Submit to Clerk"
      trigger="manual"
-     source="questionstates.draft"
-     destination="questionstates.submitted"
+     source="draft"
+     destination="submitted"
      permission="bungeni.question.Submit"
      action="bungeni.core.workflows.question.actions.submitToClerk"
      condition=""
@@ -109,8 +109,8 @@
      id="received-by-clerk"
      title="Receive"
      trigger="manual"
-     source="questionstates.submitted"
-     destination="questionstates.received"
+     source="submitted"
+     destination="received"
      permission="bungeni.question.Recieve"
      action="bungeni.core.workflows.question.actions.recievedByClerk"
      condition=""
@@ -127,8 +127,8 @@
      id="require-edit-by-mp"
      title="Needs Clarification by MP"
      trigger="manual"
-     source="questionstates.received"
-     destination="questionstates.clarify_mp"
+     source="received"
+     destination="clarify_mp"
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.actions.requireEditByMp"
      condition=""
@@ -148,8 +148,8 @@
      id="complete"
      title="Complete"
      trigger="manual"
-     source="questionstates.received"
-     destination="questionstates.complete"
+     source="received"
+     destination="complete"
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.actions.complete"
      condition=""
@@ -168,8 +168,8 @@
      id="approve"
      title="Approve"
      trigger="manual"
-     source="questionstates.complete"
-     destination="questionstates.admissible"
+     source="complete"
+     destination="admissible"
      permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.actions.approve"
      condition=""
@@ -179,8 +179,8 @@
      id="reject"
      title="Reject"
      trigger="manual"
-     source="questionstates.complete"
-     destination="questionstates.inadmissible"
+     source="complete"
+     destination="inadmissible"
      permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.actions.reject"
      condition=""
@@ -190,8 +190,8 @@
      id="require-amendment"
      title="Needs Clarification"
      trigger="manual"
-     source="questionstates.complete"
-     destination="questionstates.clarify_clerk"
+     source="complete"
+     destination="clarify_clerk"
      permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.actions.requireAmendment"
      condition=""
@@ -207,8 +207,8 @@
      id="complete-clarify"
      title="Complete"
      trigger="manual"
-     source="questionstates.clarify_clerk"
-     destination="questionstates.complete"
+     source="clarify_clerk"
+     destination="complete"
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.actions.completeClarify"
      condition=""
@@ -222,8 +222,8 @@
      id="mp-clarify"
      title="Needs Clarification by MP"
      trigger="manual"
-     source="questionstates.clarify_clerk"
-     destination="questionstates.clarify_mp"
+     source="clarify_clerk"
+     destination="clarify_mp"
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.actions.mpClarify"
      condition=""
@@ -238,8 +238,8 @@
      id="resubmit-clerk"
      title="Resubmit to clerk"
      trigger="manual"
-     source="questionstates.clarify_mp"
-     destination="questionstates.submitted"
+     source="clarify_mp"
+     destination="submitted"
      permission="bungeni.question.Submit"
      action="bungeni.core.workflows.question.actions.submitToClerk"
      condition=""
@@ -257,8 +257,8 @@
      id="schedule"
      title="Schedule"
      trigger="manual"
-     source="questionstates.admissible"
-     destination="questionstates.scheduled"
+     source="admissible"
+     destination="scheduled"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.schedule"
      condition=".utils.getQuestionSchedule"
@@ -274,8 +274,8 @@
      id="send-ministry"
      title="Send to ministry"
      trigger="manual"
-     source="questionstates.admissible"
-     destination="questionstates.response_pending"
+     source="admissible"
+     destination="response_pending"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
@@ -290,8 +290,8 @@
      id="forward-ministry"
      title="Forward to another ministry"
      trigger="manual"
-     source="questionstates.response_pending"
-     destination="questionstates.response_pending"
+     source="response_pending"
+     destination="response_pending"
      permission="bungeni.question.Write_answer"
      action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
@@ -304,8 +304,8 @@
      id="respond-writing"
      title="Respond"
      trigger="system"
-     source="questionstates.response_pending"
-     destination="questionstates.responded"
+     source="response_pending"
+     destination="responded"
      permission="bungeni.question.Write_answer"
      action="bungeni.core.workflows.question.actions.respondWriting"
      condition=""
@@ -317,8 +317,8 @@
      id="elapse-pending"
      title="Elapse"
      trigger="manual"
-     source="questionstates.response_pending"
-     destination="questionstates.elapsed"
+     source="response_pending"
+     destination="elapsed"
      permission="bungeni.question.Write_answer"
      action="bungeni.core.workflows.question.actions.elapse"
      condition=""
@@ -334,8 +334,8 @@
      id="defer"
      title="Defer"
      trigger="manual"
-     source="questionstates.admissible"
-     destination="questionstates.deferred"
+     source="admissible"
+     destination="deferred"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.defer"
      condition=""
@@ -345,8 +345,8 @@
      id="elapse-defered"
      title="Elapse"
      trigger="manual"
-     source="questionstates.deferred"
-     destination="questionstates.elapsed"
+     source="deferred"
+     destination="elapsed"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.elapse"
      condition=""
@@ -361,8 +361,8 @@
      id="defer-ministry"
      title="Send to ministry"
      trigger="manual"
-     source="questionstates.deferred"
-     destination="questionstates.response_pending"
+     source="deferred"
+     destination="response_pending"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
@@ -377,8 +377,8 @@
      id="schedule-deferred"
      title="Schedule"
      trigger="manual"
-     source="questionstates.deferred"
-     destination="questionstates.scheduled"
+     source="deferred"
+     destination="scheduled"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.schedule"
      condition=".utils.getQuestionSchedule"
@@ -393,8 +393,8 @@
      id="postpone"
      title="Postpone"
      trigger="manual"
-     source="questionstates.scheduled"
-     destination="questionstates.postponed"
+     source="scheduled"
+     destination="postponed"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.postpone"
      condition=""
@@ -404,8 +404,8 @@
      id="respond-sitting"
      title="Respond"
      trigger="system"
-     source="questionstates.scheduled"
-     destination="questionstates.responded"
+     source="scheduled"
+     destination="responded"
      permission="bungeni.question.Respond"
      action="bungeni.core.workflows.question.actions.respondSitting"
      condition=""
@@ -420,8 +420,8 @@
      id="schedule-postponed"
      title="Schedule"
      trigger="manual"
-     source="questionstates.postponed"
-     destination="questionstates.scheduled"
+     source="postponed"
+     destination="scheduled"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.schedule"
      condition=".utils.getQuestionSchedule"
@@ -436,8 +436,8 @@
      id="elapse-postponed"
      title="Elapse"
      trigger="manual"
-     source="questionstates.postponed"
-     destination="questionstates.elapsed"
+     source="postponed"
+     destination="elapsed"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.elapse"
      condition=""
@@ -452,8 +452,8 @@
      id="postponed-ministry"
      title="Send to Ministry"
      trigger="manual"
-     source="questionstates.postponed"
-     destination="questionstates.response_pending"
+     source="postponed"
+     destination="response_pending"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.sendToMinistry"
      condition=".utils.getQuestionMinistry"
@@ -469,8 +469,8 @@
      id="answer"
      title="Answer"
      trigger="system"
-     source="questionstates.responded"
-     destination="questionstates.answered"
+     source="responded"
+     destination="answered"
      permission="bungeni.question.Answer"
      action="bungeni.core.workflows.question.actions.answer"
      condition=""
@@ -487,15 +487,15 @@
      id="withdraw"
      title="Withdraw"
      trigger="manual"
-     source="questionstates.submitted
-             questionstates.received
-             questionstates.complete
-             questionstates.admissible
-             questionstates.clarify_mp
-             questionstates.scheduled
-             questionstates.deferred
-             questionstates.postponed"
-     destination="questionstates.withdrawn"
+     source="submitted
+             received
+             complete
+             admissible
+             clarify_mp
+             scheduled
+             deferred
+             postponed"
+     destination="withdrawn"
      permission="bungeni.question.Withdraw"
      action="bungeni.core.workflows.question.actions.withdraw"
      condition=""

@@ -5,20 +5,20 @@
    description="Response to a question"
    initial_state="">
 
-  <state id="responsestates.draft" title="a draft response">
+  <state id="draft" title="a draft response">
     <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.response.View" role="bungeni.Owner" />    
     <grant permission="bungeni.response.Delete" role="bungeni.Owner" />    
   </state>
 
-  <state id="responsestates.submitted" title="response submitted">
+  <state id="submitted" title="response submitted">
     <grant permission="bungeni.response.Edit" role="bungeni.Clerk"/>
     <grant permission="bungeni.response.View" role="bungeni.Clerk"/>    
     <deny permission="bungeni.response.Edit" role="bungeni.Owner"/>
     <deny permission="bungeni.response.Delete" role="bungeni.Owner" />
   </state>
 
-  <state id="responsestates.complete" title="response completed">
+  <state id="complete" title="response completed">
     <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.response.View" role="bungeni.Everybody" />
   </state>
@@ -28,7 +28,7 @@
      title="Create"
      trigger="automatic"
      source=""
-     destination="responsestates.draft"
+     destination="draft"
      action="bungeni.core.workflows.response.actions.create"
      />
 
@@ -36,8 +36,8 @@
      id="submit"
      title="Submit Response"
      trigger="manual"
-     source="responsestates.draft"
-     destination="responsestates.submitted"
+     source="draft"
+     destination="submitted"
      permission="bungeni.response.Submit" 
      condition="bungeni.core.workflows.utils.resonse_allow_submit"
      action="bungeni.core.workflows.response.actions.submit"
@@ -48,8 +48,8 @@
      id="re-draft"
      title="Re draft response"
      trigger="manual"
-     source="responsestates.submitted"     
-     destination="responsestates.draft"
+     source="submitted"     
+     destination="draft"
      permission="bungeni.response.RevertTransitions" 
      condition=""
      action=""
@@ -61,8 +61,8 @@
      id="complete"
      title="Complete Response"
      trigger="manual"
-     source="responsestates.submitted"
-     destination="responsestates.complete"
+     source="submitted"
+     destination="complete"
      permission="bungeni.response.Complete" 
      condition="bungeni.core.workflows.utils.response_allow_complete"
      action="bungeni.core.workflows.response.actions.complete"

@@ -153,7 +153,89 @@ Government:
   [Invalid(u'The start date overlaps with (gov1)', 'start_date'), 
   Invalid(u'The end date overlaps with (gov1)', 'end_date')]
   
+User group memberships:
+----------------------
+  >>> country = domain.Country()
+  >>> country.country_id = 'KE'
+  >>> country.country_name = u"Kenya"
+  >>> session.add(country)
+  >>> session.flush()
+  >>> mp_1 = domain.ParliamentMember(u"mp_1", 
+  ...        first_name=u"a", 
+  ...        last_name=u'ab', 
+  ...        birth_country="KE",
+  ...        email=u"mp1@example.com", 
+  ...        date_of_birth=datetime.datetime.now(),
+  ...        gender='M')
+  >>> mp_2 = domain.ParliamentMember(u"mp_2", 
+  ...        first_name=u"b", 
+  ...        last_name=u"bc", 
+  ...        birth_country="KE",  
+  ...        date_of_birth=datetime.datetime.now(),
+  ...        email=u"mp2@example.com",
+  ...        gender='M')
+  >>> mp_3 = domain.ParliamentMember(u"mp_3",
+  ...        first_name=u"c", 
+  ...        birth_country="KE",  
+  ...        last_name=u"cd",
+  ...        date_of_birth=datetime.datetime.now(),
+  ...        email=u"mp3@example.com", 
+  ...        gender='F')  
+  >>> for mp in [ mp_1, mp_2, mp_3 ]:
+  ...       session.add(mp)
+  ...       session.flush()
+  ...       membership = domain.GroupMembership()
+  ...       membership.user = mp
+  ...       membership.group = parliament
+  ...       session.add( membership )
+  ...       session.flush()
+  >>> group_container = MockContainer()
+  >>> group_container.__parent__ = parliament
+  >>> memberships = session.query(domain.GroupMembership).all()
+  >>> list(memberships)
+  [<bungeni.models.domain.GroupMembership object at ...>, 
+  <bungeni.models.domain.GroupMembership object at ...>, 
+  <bungeni.models.domain.GroupMembership object at ...>]
+  
 
+  >>> form_data = {"start_date": today,
+  ...   "end_date": None,
+  ...   "user_id": mp_1.user_id}
+  
+  >>> validations.validate_group_membership_dates(None, form_data, memberships[0], group_container)
+  []
+  >>> validations.validate_group_membership_dates(None, form_data, None, group_container)
+  [Invalid(u'The person is a member in (p_1) at that date', 'end_date')]
+  
+  >>> form_data = {"start_date": yesterday,
+  ...   "end_date": today,
+  ...   "user_id": mp_1.user_id} 
 
-   
+  >>> validations.validate_group_membership_dates(None, form_data, memberships[0], group_container)
+  []
+  >>> validations.validate_group_membership_dates(None, form_data, None, group_container)
+  [Invalid(u'The person is a member in (p_1) at that date', 'end_date')]
+ 
+  >>> memberships[0].end_date = tomorrow
+  >>> session.flush()
+ 
+  >>> form_data = {"start_date": yesterday,
+  ...   "end_date": yesterday,
+  ...   "user_id": mp_1.user_id} 
+  >>> validations.validate_group_membership_dates(None, form_data, None, group_container)
+  []
+
+  >>> form_data = {"start_date": yesterday,
+  ...   "end_date": tomorrow,
+  ...   "user_id": mp_1.user_id} 
+  >>> validations.validate_group_membership_dates(None, form_data, None, group_container)
+  [Invalid(u'The person is a member in (p_1) at that date', 'end_date')]
+    
+  >>> form_data = {"start_date": tomorrow,
+  ...   "end_date": tomorrow,
+  ...   "user_id": mp_1.user_id} 
+  >>> validations.validate_group_membership_dates(None, form_data, None, group_container)     
+  [Invalid(u'The person is a member in (p_1) at that date', 'start_date'), 
+  Invalid(u'The person is a member in (p_1) at that date', 'end_date')]
+     
    

@@ -1,10 +1,13 @@
 from zope import interface
 from zope import component
 from zope.dublincore.interfaces import IDCDescriptiveProperties
+from ore.alchemist import Session
 
 from bungeni.models import interfaces
 from bungeni.models import domain
-from ore.alchemist import Session
+from bungeni.core.translation import is_translation
+from bungeni.core.translation import get_language_by_name
+from bungeni.core.i18n import _
 
 class DublinCoreMetadataAdapter(object):
     """Generic dublin core metadata adapter which will retrieve
@@ -130,3 +133,21 @@ class ItemScheduleDescriptiveProperties(DescriptiveProperties):
             sitting_id=self.context.sitting_id)
         return "scheduled for sitting (%s to %s)." % (
             sitting.start_date, sitting.end_date)
+
+class VersionDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IVersion)
+
+    @property
+    def title(self):
+        if is_translation(self.context):
+            language = get_language_by_name(self.context.language)
+            return _(u"$language translation",
+                     mapping={'language': language})
+
+        return _(u"Version $version",
+                 mapping={'version': self.context.version_id})
+            
+    @property
+    def description(self):
+        return _(u"Last modified $date.",
+                 mapping={'date': self.context.change.date})

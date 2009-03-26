@@ -28,20 +28,21 @@ Parliaments
    
    >>> from bungeni.ui.forms import validations
    >>> import bungeni.ui.queries.sqlvalidation as sql
-   >>> validations.check_date_in_interval( None, yesterday, sql.checkParliamentInterval)
+   >>> from bungeni.ui.queries import utils
+   >>> utils.check_date_in_interval( None, yesterday, sql.checkParliamentInterval)
    
-   >>> validations.check_date_in_interval( None, today, sql.checkParliamentInterval)
+   >>> utils.check_date_in_interval( None, today, sql.checkParliamentInterval)
    'p_1'
 
-   >>> validations.check_date_in_interval( None, tomorrow, sql.checkParliamentInterval)
+   >>> utils.check_date_in_interval( None, tomorrow, sql.checkParliamentInterval)
    'p_1'
 
-   >>> validations.check_date_in_interval( None, dayat, sql.checkParliamentInterval)   
+   >>> utils.check_date_in_interval( None, dayat, sql.checkParliamentInterval)   
    
    
 Before you can add a new parliament all others must be closed
    
-   >>> validations.check_date_in_interval( None, dayat, sql.checkForOpenParliamentInterval)      
+   >>> utils.check_date_in_interval( None, dayat, sql.checkForOpenParliamentInterval)      
    
 Add a new (open ended) parliament
    >>> parliament2 = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
@@ -49,7 +50,7 @@ Add a new (open ended) parliament
    >>> session.flush()   
    
 Note that the date yesterday is well ouside our p_2 so it does not matter.   
-   >>> validations.check_date_in_interval( None, yesterday, sql.checkForOpenParliamentInterval)
+   >>> utils.check_date_in_interval( None, yesterday, sql.checkForOpenParliamentInterval)
    'p_2'
  
 give the 2nd parliament an end date and save   
@@ -57,21 +58,21 @@ give the 2nd parliament an end date and save
    >>> session.flush() 
    
 No open parliaments  anymore 
-   >>> validations.check_date_in_interval( None, today, sql.checkForOpenParliamentInterval)
+   >>> utils.check_date_in_interval( None, today, sql.checkForOpenParliamentInterval)
    
 Now check for overlapping dates but not for the current (edited) parliament   
    
-   >>> validations.check_date_in_interval( parliament2.parliament_id , today, sql.checkMyParliamentInterval)   
+   >>> utils.check_date_in_interval( parliament2.parliament_id , today, sql.checkMyParliamentInterval)   
    'p_1'
    
-   >>> validations.check_date_in_interval( parliament2.parliament_id , dayat, sql.checkMyParliamentInterval)  
+   >>> utils.check_date_in_interval( parliament2.parliament_id , dayat, sql.checkMyParliamentInterval)  
    
-   >>> validations.check_date_in_interval( parliament.parliament_id , dayat, sql.checkMyParliamentInterval)   
+   >>> utils.check_date_in_interval( parliament.parliament_id , dayat, sql.checkMyParliamentInterval)   
    'p_2'
    
-   >>> validations.check_date_in_interval( parliament.parliament_id , yesterday, sql.checkMyParliamentInterval) 
+   >>> utils.check_date_in_interval( parliament.parliament_id , yesterday, sql.checkMyParliamentInterval) 
    
-   >>> validations.check_date_in_interval( parliament.parliament_id , today, sql.checkMyParliamentInterval)    
+   >>> utils.check_date_in_interval( parliament.parliament_id , today, sql.checkMyParliamentInterval)    
    
 Add a governmemt:
 
@@ -80,15 +81,15 @@ Add a governmemt:
    >>> session.add( gov )
    >>> session.flush() 
  
-   >>> validations.check_date_in_interval( parliament.parliament_id, yesterday, sql.checkGovernmentInterval)
+   >>> utils.check_date_in_interval( parliament.parliament_id, yesterday, sql.checkGovernmentInterval)
    
-   >>> validations.check_date_in_interval( parliament.parliament_id, today, sql.checkGovernmentInterval)
+   >>> utils.check_date_in_interval( parliament.parliament_id, today, sql.checkGovernmentInterval)
    'gov_1'
 
-   >>> validations.check_date_in_interval( parliament.parliament_id, tomorrow, sql.checkGovernmentInterval)
+   >>> utils.check_date_in_interval( parliament.parliament_id, tomorrow, sql.checkGovernmentInterval)
    'gov_1'
 
-   >>> validations.check_date_in_interval( parliament.parliament_id, dayat, sql.checkGovernmentInterval)       
+   >>> utils.check_date_in_interval( parliament.parliament_id, dayat, sql.checkGovernmentInterval)       
       
 Add a second government
 
@@ -97,18 +98,18 @@ Add a second government
    >>> session.add( gov2 )
    >>> session.flush()       
 
-   >>> validations.check_date_in_interval( gov2.government_id, yesterday, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov2.government_id, yesterday, sql.checkMyGovernmentInterval)
    
-   >>> validations.check_date_in_interval( gov.government_id, yesterday, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov.government_id, yesterday, sql.checkMyGovernmentInterval)
    
-   >>> validations.check_date_in_interval( gov.government_id, today, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov.government_id, today, sql.checkMyGovernmentInterval)
 
-   >>> validations.check_date_in_interval( gov2.government_id, dayat, sql.checkMyGovernmentInterval)      
+   >>> utils.check_date_in_interval( gov2.government_id, dayat, sql.checkMyGovernmentInterval)      
 
-   >>> validations.check_date_in_interval( gov.government_id, dayat, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov.government_id, dayat, sql.checkMyGovernmentInterval)
    'gov_2'
 
-   >>> validations.check_date_in_interval( gov2.government_id, today, sql.checkMyGovernmentInterval)   
+   >>> utils.check_date_in_interval( gov2.government_id, today, sql.checkMyGovernmentInterval)   
    'gov_1'
 
 
@@ -127,16 +128,16 @@ A parliamentary Session
    >>> sess.session_id
    1L
  
-   >>> validations.check_date_in_interval( parliament.parliament_id, yesterday, sql.checkSessionInterval)
+   >>> utils.check_date_in_interval( parliament.parliament_id, yesterday, sql.checkSessionInterval)
    'First Session'
       
-   >>> validations.check_date_in_interval( parliament.parliament_id, today, sql.checkSessionInterval)
+   >>> utils.check_date_in_interval( parliament.parliament_id, today, sql.checkSessionInterval)
    'First Session'
 
-   >>> validations.check_date_in_interval( parliament.parliament_id, tomorrow, sql.checkSessionInterval)
+   >>> utils.check_date_in_interval( parliament.parliament_id, tomorrow, sql.checkSessionInterval)
 
 
-   >>> validations.check_date_in_interval( parliament.parliament_id, dayat, sql.checkSessionInterval) 
+   >>> utils.check_date_in_interval( parliament.parliament_id, dayat, sql.checkSessionInterval) 
  
 A second session
  
@@ -148,25 +149,25 @@ A second session
    >>> session.add(sess2)
    >>> session.flush()  
  
-   >>> validations.check_date_in_interval( sess.session_id, yesterday, sql.checkMySessionInterval) 
+   >>> utils.check_date_in_interval( sess.session_id, yesterday, sql.checkMySessionInterval) 
 
-   >>> validations.check_date_in_interval( sess.session_id, today, sql.checkMySessionInterval) 
+   >>> utils.check_date_in_interval( sess.session_id, today, sql.checkMySessionInterval) 
    
-   >>> validations.check_date_in_interval( sess.session_id, dayat, sql.checkMySessionInterval)     
+   >>> utils.check_date_in_interval( sess.session_id, dayat, sql.checkMySessionInterval)     
    '2nd Session'
    
-   >>> validations.check_date_in_interval( sess.session_id, tomorrow, sql.checkMySessionInterval)     
+   >>> utils.check_date_in_interval( sess.session_id, tomorrow, sql.checkMySessionInterval)     
    '2nd Session'   
    
-   >>> validations.check_date_in_interval( sess2.session_id, yesterday, sql.checkMySessionInterval) 
+   >>> utils.check_date_in_interval( sess2.session_id, yesterday, sql.checkMySessionInterval) 
    'First Session'
    
-   >>> validations.check_date_in_interval( sess2.session_id, today, sql.checkMySessionInterval)  
+   >>> utils.check_date_in_interval( sess2.session_id, today, sql.checkMySessionInterval)  
    'First Session'
             
-   >>> validations.check_date_in_interval( sess2.session_id, tomorrow, sql.checkMySessionInterval)              
+   >>> utils.check_date_in_interval( sess2.session_id, tomorrow, sql.checkMySessionInterval)              
    
-   >>> validations.check_date_in_interval( sess2.session_id, dayat, sql.checkMySessionInterval)   
+   >>> utils.check_date_in_interval( sess2.session_id, dayat, sql.checkMySessionInterval)   
  
 Sittings
 ---------
@@ -180,16 +181,16 @@ Sittings
 
 Just check if we get something back because the return value depends on the times
 
-    >>> validations.check_date_in_interval( sess.session_id, yesterday, sql.checkSittingSessionInterval) == None
+    >>> utils.check_date_in_interval( sess.session_id, yesterday, sql.checkSittingSessionInterval) == None
     True
    
-    >>> validations.check_date_in_interval( sess.session_id, today, sql.checkSittingSessionInterval) == None
+    >>> utils.check_date_in_interval( sess.session_id, today, sql.checkSittingSessionInterval) == None
     False
 
-    >>> validations.check_date_in_interval( sess.session_id, tomorrow, sql.checkSittingSessionInterval) == None
+    >>> utils.check_date_in_interval( sess.session_id, tomorrow, sql.checkSittingSessionInterval) == None
     False
 
-    >>> validations.check_date_in_interval( sess.session_id, dayat, sql.checkSittingSessionInterval) 
+    >>> utils.check_date_in_interval( sess.session_id, dayat, sql.checkSittingSessionInterval) 
    
    
 For Edit we need to be sure we do not check for the current data itself.
@@ -203,21 +204,21 @@ For Edit we need to be sure we do not check for the current data itself.
    
 Just a quick check that the above validation for yesterday now fails   
 
-    >>> validations.check_date_in_interval( sess.session_id, yesterday, sql.checkSittingSessionInterval) == None
+    >>> utils.check_date_in_interval( sess.session_id, yesterday, sql.checkSittingSessionInterval) == None
     False
 
 and the real check
             
-    >>> validations.check_date_in_interval( ssit2.sitting_id, yesterday, sql.checkMySittingSessionInterval) == None
+    >>> utils.check_date_in_interval( ssit2.sitting_id, yesterday, sql.checkMySittingSessionInterval) == None
     True
    
-    >>> validations.check_date_in_interval( ssit2.sitting_id, today, sql.checkMySittingSessionInterval) == None
+    >>> utils.check_date_in_interval( ssit2.sitting_id, today, sql.checkMySittingSessionInterval) == None
     False
 
-    >>> validations.check_date_in_interval( ssit2.sitting_id, tomorrow, sql.checkMySittingSessionInterval) == None
+    >>> utils.check_date_in_interval( ssit2.sitting_id, tomorrow, sql.checkMySittingSessionInterval) == None
     False
 
-    >>> validations.check_date_in_interval( ssit2.sitting_id, dayat, sql.checkMySittingSessionInterval)
+    >>> utils.check_date_in_interval( ssit2.sitting_id, dayat, sql.checkMySittingSessionInterval)
 
 Parliament members
 Regions and provinces get their primary key with a db sequence:
@@ -308,23 +309,23 @@ titles
 A (group) member can only hold the same title once at a time
 -------------------------------------------------------------
 
-    >>> validations.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})
+    >>> utils.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})
     'President'
 
     >>> mt1.end_date = tomorrow
     >>> session.flush()    
-    >>> validations.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : dayat})
+    >>> utils.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : dayat})
     
-    >>> validations.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})    
+    >>> utils.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})    
     'President'
     
-    >>> validations.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mrt2.user_role_type_id , 'membership_id' : mt1.membership_id , 'date' : today})
+    >>> utils.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mrt2.user_role_type_id , 'membership_id' : mt1.membership_id , 'date' : today})
 
 exclude data with role_title_id when editing the record
 
-    >>> validations.check_with_sql(sql.checkMyMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
+    >>> utils.check_with_sql(sql.checkMyMemberTitleDuplicates, **{ 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
 
-    >>> validations.check_with_sql(sql.checkMyMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
+    >>> utils.check_with_sql(sql.checkMyMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
 
 
 Some titles must be unique inside a group
@@ -338,23 +339,23 @@ Some titles must be unique inside a group
     >>> session.flush()     
    
 second check for same title at a time
-    >>> validations.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today})   
+    >>> utils.check_with_sql(sql.checkMemberTitleDuplicates, **{ 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today})   
     'Member'
 
 A president is allready there   
-    >>> validations.check_with_sql(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today})    
+    >>> utils.check_with_sql(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today})    
     'President'
 
 Members do not have to be unique    
-    >>> validations.check_with_sql(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt2.title_name_id , 'group_id' : parliament.group_id , 'date' : today})        
+    >>> utils.check_with_sql(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt2.title_name_id , 'group_id' : parliament.group_id , 'date' : today})        
 
 And the day after tomorrow there is no more president
-    >>> validations.check_with_sql(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : dayat})    
+    >>> utils.check_with_sql(sql.checkMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : dayat})    
 
 when editing exclude self
-    >>> validations.check_with_sql(sql.checkMyMemberTitleDuplicates, **{ 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today, 'role_title_id' : mt2.role_title_id})    
+    >>> utils.check_with_sql(sql.checkMyMemberTitleDuplicates, **{ 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today, 'role_title_id' : mt2.role_title_id})    
     
-    >>> validations.check_with_sql(sql.checkMyMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt2.role_title_id})        
+    >>> utils.check_with_sql(sql.checkMyMemberTitleUnique, **{ 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt2.role_title_id})        
     'President'
 
 

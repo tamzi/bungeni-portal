@@ -17,6 +17,7 @@ from alchemist.catalyst import ui
 from alchemist.ui.core import null_validator
 from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
+from alchemist.ui.core import handle_edit_action
 
 try:
     from sqlalchemy.exceptions import IntegrityError
@@ -27,6 +28,7 @@ from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
+from bungeni.models.interfaces import IVersion
 from ploned.ui.interfaces import IViewView
 
 TRUE_VALS = "true", "1"
@@ -221,10 +223,16 @@ class EditForm(BaseForm, ui.EditForm):
     def form_name(self):
         props = IDCDescriptiveProperties.providedBy(self.context) \
                 and self.context or IDCDescriptiveProperties(self.context)
-        
+
+        if IVersion.providedBy(self.context):
+            return _(u"edit_version_legend",
+                     default=u'Editing "$title" (version $version)',
+                     mapping={'title': props.title,
+                              'version': self.context.version_id})
+
         return _(u"edit_item_legend", default=u'Editing "$title"',
                  mapping={'title': props.title})
-        
+            
     def validate(self, action, data):    
         errors = super(EditForm, self).validate(action, data)
 
@@ -243,7 +251,7 @@ class TranslateForm(AddForm):
     def __init__(self, *args):
         super(TranslateForm, self).__init__(*args)
         self.language = self.request.get('language', get_default_language())
-
+        
     @property
     def form_name(self):
         language = get_language_by_name(self.language)
@@ -267,7 +275,7 @@ class TranslateForm(AddForm):
     @property
     def title(self):
         language = get_language_by_name(self.language)
-                
+
         return _(u"translate_item_title", default=u"Adding $language translation",
                  mapping={'language': language})
 
@@ -276,9 +284,10 @@ class TranslateForm(AddForm):
         return type(removeSecurityProxy(self.context))
 
     def setUpWidgets(self, ignore_request=False):
-        self.adapters = {
-            self.model_schema: self.context,
-            }
+        interfaces = set(field.interface for field in self.form_fields)
+        self.adapters = {}
+        for iface in interfaces:
+            self.adapters[iface] = self.context
 
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, self.context, self.request,
@@ -302,20 +311,26 @@ class TranslateForm(AddForm):
         """After succesful creation of translation, redirect to the
         view."""
 
-        language = data['language']
+        url = absoluteURL(self.context, self.request)
         
+        language = data['language']
         versions = IVersioned(self.context)
         version = versions.create("'%s' translation added." % language)
+
+        # redefine form context and proceed with edit action
+        self.context = version
+        handle_edit_action(self, action, data)
 
         # commit version such that it gets a version id
         transaction.commit()
         
         if not self._next_url:
-            url = absoluteURL(self.context, self.request)
-            self.request.response.redirect( \
+            self._next_url = ( \
                 '%s/versions/%s' % (url, stringKey(version)) + \
                 '?portal_status_message=Translation added')
 
+        self._finished_add = True
+        
 class ReorderForm(BaseForm, form.PageForm):
     """Item reordering form.
 

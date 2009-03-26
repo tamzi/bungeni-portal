@@ -5,8 +5,12 @@
   <body>
     
     <div metal:fill-slot="body">
-      <h1 i18n:translate="" tal:content="view/form_name" />
-
+      <h1 i18n:translate="" tal:content="view/form_name|nothing" />
+      
+      <p class="documentDescription"
+         i18n:translate=""
+         tal:content="view/form_description|nothing" />
+      
       <metal:block define-macro="form"
                    i18n:domain="alchemist">
 

@@ -5,6 +5,7 @@ from ore.alchemist.vocabulary import DatabaseSource
 from copy import deepcopy
 from zope import schema, interface
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.schema.vocabulary import SimpleTerm
 
 from zc.table import column
 import zope.app.form.browser
@@ -28,7 +29,7 @@ from bungeni.models import domain
 from bungeni.models import vocabulary
 from bungeni.ui.forms import validations
 from bungeni.core.translation import get_default_language
-from bungeni.core.translation import available_languages
+from bungeni.core.translation import get_all_languages
 from bungeni.ui.i18n import _
 
 
@@ -842,8 +843,9 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
              property=schema.Choice(
                  title=u"Language",
                  default=get_default_language(),
-                 vocabulary=SimpleVocabulary.fromItems(
-                     [(title, name) for (name, title) in available_languages()]),
+                 vocabulary=SimpleVocabulary([
+                     SimpleTerm(name, name, title)
+                     for (name, title) in get_all_languages()]),
                  ),
              ),
         dict( name="body_text", label=_(u"Text"),

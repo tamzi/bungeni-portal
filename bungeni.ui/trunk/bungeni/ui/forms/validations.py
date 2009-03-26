@@ -13,6 +13,7 @@ from bungeni.models import interfaces, domain, schema
 
 import sqlalchemy as rdb
 
+
 from bungeni.ui.queries.utils import validate_date_in_interval, validate_open_interval
 
 from bungeni.ui.queries import utils
@@ -274,6 +275,36 @@ def validate_member_titles(action, data, context, container):
     If a Title is unique (e.g. chairperson) there can be only one person 
     at a time in this group holding this title, other titles like member 
     may be applied to several persons at the same time""" 
+    def get_q_user(date):
+        return session.query(GroupMemberTitle).filter(
+                rdb.and_(
+                    schema.user_group_memberships.c.group_id == group_id,
+                    schema.user_group_memberships.c.user_id == user_id,
+                    schema.role_titles.c.title_name_id == title_name_id,
+                    rdb.or_(
+                        rdb.between(
+                            date, 
+                            schema.role_titles.c.start_date,
+                            schema.role_titles.c.end_date),
+                        schema.role_titles.c.end_date == None  
+                        )                  
+                    )
+                )
+    def get_q_unique(date):
+        return session.query(GroupMemberTitle).filter(
+            rdb.and_(
+                schema.user_group_memberships.c.group_id == group_id,
+                schema.user_role_types.c.user_unique == True,
+                schema.role_titles.c.title_name_id == title_name_id,
+                rdb.or_(
+                    rdb.between(
+                        date, 
+                        schema.role_titles.c.start_date,
+                        schema.role_titles.c.end_date),
+                    schema.role_titles.c.end_date == None  
+                    )                  
+                )  
+            )                 
     errors = []
     group_id = container.__parent__.group_id    
     user_id = container.__parent__.user_id    
@@ -284,22 +315,10 @@ def validate_member_titles(action, data, context, container):
     else:
         roletitle = None        
     date = datetime.date.today()        
-    q = session.query(GroupMemberTitle).filter(
-        rdb.expression.and_(
-            schema.groupmembership.c.group_id == group_id,
-            schema.groupmembership.c.user_id == user_id,
-            schema.role_titles.c.title_name_id == title_name_id,
-            rdb.expression.or_(
-                rdb.expression.between(
-                    date, 
-                    schema.role_titles.c.start_date,
-                    schema.role_titles.c.end_date),
-                schema.role_titles.c.end_date == None  
-                )                  
-            )
-        )
+    
     if data['start_date']:
         date = data['start_date']
+        q = get_q_user(date)
         results = q.all()    
         for result in results:
             overlaps = result.user_role_name        
@@ -318,6 +337,7 @@ def validate_member_titles(action, data, context, container):
                     "start_date" )) 
     if data['end_date']:
         date = data['end_date']
+        q = get_q_user(date)
         results = q.all()   
         for result in results:
             overlaps = result.user_role_name        
@@ -333,23 +353,10 @@ def validate_member_titles(action, data, context, container):
                 errors.append( interface.Invalid(
                     _(u"This persons allready has the title %s") % 
                     overlaps, 
-                    "end_date" ))                             
-    q = session.query(GroupMemberTitle).filter(
-        rdb.expression.and_(
-            schema.groupmembership.c.group_id == group_id,
-            schema.role_titles.c.user_unique == True,
-            schema.role_titles.c.title_name_id == title_name_id,
-            rdb.expression.or_(
-                rdb.expression.between(
-                    date, 
-                    schema.role_titles.c.start_date,
-                    schema.role_titles.c.end_date),
-                schema.role_titles.c.end_date == None  
-                )                  
-            )  
-        )                  
+                    "end_date" ))                                              
     if data['start_date']:
         date = data['start_date']
+        q = get_q_unique(date)
         results = q.all()    
         for result in results:
             overlaps = result.user_role_name        
@@ -369,6 +376,7 @@ def validate_member_titles(action, data, context, container):
             
     if data['end_date']:
         date = data['end_date']
+        q = get_q_unique(date)
         results = q.all()   
         for result in results:
             overlaps = result.user_role_name                

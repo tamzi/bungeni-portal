@@ -79,8 +79,17 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         url = absoluteURL(context, self.request)
         
         if  IAlchemistContent.providedBy(context):
+            if IDCDescriptiveProperties.providedBy(context):
+                title = context.title
+            else:
+                props = IDCDescriptiveProperties(context, None)
+                if props is not None:
+                    title = props.title
+                else:
+                    title = context.short_name
+                    
             path.append({
-                'name' : getattr(context, 'short_name', None ),
+                'name' : title,
                 'url' : url})
             
         elif IAlchemistContainer.providedBy(context):                        

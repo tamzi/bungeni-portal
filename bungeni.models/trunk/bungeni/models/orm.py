@@ -238,7 +238,7 @@ mapper( domain.Minister,
 mapper( domain.CommitteeMember, 
         inherits=domain.UserGroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='comitteemember',
+        polymorphic_identity='committeemember',
                 
                 )  
 

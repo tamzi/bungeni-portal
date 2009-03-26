@@ -195,7 +195,8 @@ def validate_government_dates(action, data, context, container):
     for result in results:
         overlaps = result.short_name
         errors.append(interface.Invalid(
-            _("The start date overlaps with (%s)") % overlaps, "start_date"))
+            _("The start date overlaps with (%s)") % overlaps, 
+            "start_date"))
     if data['end_date']:
         results = validate_date_in_interval(government, 
                     domain.Government, 
@@ -203,9 +204,10 @@ def validate_government_dates(action, data, context, container):
         for result in results:
             overlaps = result.short_name
             errors.append(interface.Invalid(
-                _("The end date overlaps with (%s)") % overlaps, "end_date"))
+                _("The end date overlaps with (%s)") % overlaps, 
+                "end_date"))
             
-    result = validate_open_interval(government, domain.Government)
+    results = validate_open_interval(government, domain.Government)
     for result in results:
         overlaps = result.short_name
         errors.append(interface.Invalid(
@@ -213,7 +215,45 @@ def validate_government_dates(action, data, context, container):
             "start_date"))
         
     return errors
-             
+  
+def validate_group_membership_dates(action, data, context, container):
+    """ A User must be member of a group only once at a time """
+    errors =[]
+    group_id = container.__parent__.group_id    
+    if interfaces.IGroupMembership.providedBy(context):
+        group_membership = context
+    else:         
+        group_membership = None
+    user_id = data['user_id']           
+    session = Session()
+    if data['start_date']:
+        for r in utils.validate_membership_in_interval(group_membership, 
+                    domain.GroupMembership, 
+                    data['start_date'],
+                    user_id, group_id):  
+            overlaps = r.group.short_name                                                                             
+            errors.append(interface.Invalid(
+                _("The person is a member in (%s) at that date") % overlaps, 
+                "start_date" ))                    
+    if data['end_date']:    
+        for r in utils.validate_membership_in_interval(group_membership, 
+                    domain.GroupMembership, 
+                    data['end_date'],
+                    user_id, group_id):    
+            overlaps = r.group.short_name                      
+            errors.append(interface.Invalid(
+                _("The person is a member in (%s) at that date") % overlaps, 
+                "end_date" ))                                
+    for r in utils.validate_open_membership(group_membership, 
+                domain.GroupMembership, 
+                user_id, group_id):
+        overlaps = r.group.short_name      
+        errors.append(interface.Invalid(
+                    _("The person is a member in (%s) at that date") % overlaps, 
+                    "end_date" )) 
+
+    return errors
+                 
 
 class GroupMemberTitle(object):
     """ Titels that may be held by multiple persons of the

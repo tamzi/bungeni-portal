@@ -1,6 +1,7 @@
 import logging
 import transaction
 
+from zope.publisher.interfaces import BadRequest
 from zope import interface
 from zope import schema
 from zope.security.proxy import removeSecurityProxy
@@ -15,6 +16,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from alchemist.catalyst import ui
 from alchemist.ui.core import null_validator
 from ore.alchemist.model import queryModelDescriptor
+from ore.alchemist.container import stringKey
 
 try:
     from sqlalchemy.exceptions import IntegrityError
@@ -23,6 +25,7 @@ except ImportError:
 
 from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
+from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 from ploned.ui.interfaces import IViewView
 
@@ -132,7 +135,8 @@ class AddForm(BaseForm, ui.AddForm):
     def validate(self, action, data):    
         errors = super(AddForm, self).validate(action, data)
 
-        descriptor = queryModelDescriptor(self.context.domain_model)
+        descriptor = queryModelDescriptor(
+            type(removeSecurityProxy(self.context)))
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, None, self.context)
         
@@ -224,7 +228,7 @@ class EditForm(BaseForm, ui.EditForm):
     def validate(self, action, data):    
         errors = super(EditForm, self).validate(action, data)
 
-        descriptor = queryModelDescriptor(self.context)
+        descriptor = queryModelDescriptor(self.context.__class__)
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, self.context, self.context.__parent__)
         
@@ -241,29 +245,76 @@ class TranslateForm(AddForm):
         self.language = self.request.get('language', get_default_language())
 
     @property
+    def form_name(self):
+        language = get_language_by_name(self.language)
+                
+        return _(u"translate_item_legend",
+                 default=u"Add $language translation",
+                 mapping={'language': language})
+
+    @property
+    def form_description(self):
+        language = get_language_by_name(self.language)
+        props = IDCDescriptiveProperties.providedBy(self.context) \
+                and self.context or IDCDescriptiveProperties(self.context)
+                
+        return _(
+            u"translate_item_help",
+            default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation.',
+            mapping={'title': props.title,
+                     'language': language})
+
+    @property
     def title(self):
         language = get_language_by_name(self.language)
                 
-        return _(u"translate_item_title", default=u"Translating $name into $language",
-                 mapping={'name': self.type_name.lower(),
-                          'language': language})
+        return _(u"translate_item_title", default=u"Adding $language translation",
+                 mapping={'language': language})
 
     @property
     def domain_model(self):
         return type(removeSecurityProxy(self.context))
+
+    def setUpWidgets(self, ignore_request=False):
+        self.adapters = {
+            self.model_schema: self.context,
+            }
+
+        self.widgets = form.setUpEditWidgets(
+            self.form_fields, self.prefix, self.context, self.request,
+            adapters=self.adapters, ignore_request=ignore_request)
+
+        language = self.request.get('language')
+        if language is not None:
+            widget = self.widgets['language']
+
+            try:
+                widget.vocabulary.getTermByToken(language)
+            except LookupError:
+                raise BadRequest("No such language token: '%s'." % language)
+
+            # if the term exists in the vocabulary, set the value on
+            # the widget
+            widget.setRenderedValue(language)
 
     @form.action(_(u"Save translation"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data ):
         """After succesful creation of translation, redirect to the
         view."""
 
-        self.createAndAdd(data)
-        name = self.context.domain_model.__name__
+        language = data['language']
+        
+        versions = IVersioned(self.context)
+        version = versions.create("'%s' translation added." % language)
 
+        # commit version such that it gets a version id
+        transaction.commit()
+        
         if not self._next_url:
-            self._next_url = absoluteURL(
-                self.context, self.request) + \
-                '?portal_status_message=%s added' % name
+            url = absoluteURL(self.context, self.request)
+            self.request.response.redirect( \
+                '%s/versions/%s' % (url, stringKey(version)) + \
+                '?portal_status_message=Translation added')
 
 class ReorderForm(BaseForm, form.PageForm):
     """Item reordering form.

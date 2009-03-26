@@ -4,6 +4,7 @@ import transaction
 from zope.publisher.interfaces import BadRequest
 from zope import interface
 from zope import schema
+from zope.i18n import translate
 from zope.security.proxy import removeSecurityProxy
 from zope.event import notify
 from zope.formlib import form
@@ -27,6 +28,7 @@ except ImportError:
 
 from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
+from bungeni.core.translation import is_translation
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 from bungeni.models.interfaces import IVersion
@@ -222,29 +224,31 @@ class EditForm(BaseForm, ui.EditForm):
 
     @property
     def is_translation(self):
-        return IVersion.providedBy(self.context) and \
-               self.context.status in (u"draft-translation",)
+        return is_translation(self.context)
 
     @property
     def form_name(self):
-        props = IDCDescriptiveProperties.providedBy(self.context) \
-                and self.context or IDCDescriptiveProperties(self.context)
+        if IVersion.providedBy(self.context):
+            context = self.context.head
+
+        props = IDCDescriptiveProperties.providedBy(context) \
+                and context or IDCDescriptiveProperties(context)
 
         if self.is_translation:
             language = get_language_by_name(self.context.language)
             return _(u"edit_translation_legend",
                      default=u'Editing $language translation of "$title"',
-                     mapping={'title': props.title,
+                     mapping={'title': translate(props.title, context=self.request),
                               'language': language})
         
         elif IVersion.providedBy(self.context):
             return _(u"edit_version_legend",
                      default=u'Editing "$title" (version $version)',
-                     mapping={'title': props.title,
+                     mapping={'title': translate(props.title, context=self.request),
                               'version': self.context.version_id})
 
         return _(u"edit_item_legend", default=u'Editing "$title"',
-                 mapping={'title': props.title})
+                 mapping={'title': translate(props.title, context=self.request)})
 
     @property
     def form_description(self):
@@ -290,7 +294,7 @@ class TranslateForm(AddForm):
         return _(
             u"translate_item_help",
             default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation.',
-            mapping={'title': props.title,
+            mapping={'title': translate(props.title, context=self.request),
                      'language': language})
 
     @property

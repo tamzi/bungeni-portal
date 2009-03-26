@@ -17,6 +17,7 @@ from alchemist.catalyst import ui
 from alchemist.ui.core import null_validator
 from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
+from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.ui.core import handle_edit_action
 
 try:
@@ -220,11 +221,23 @@ class EditForm(BaseForm, ui.EditForm):
     """Custom edit-form for Bungeni content."""
 
     @property
+    def is_translation(self):
+        return IVersion.providedBy(self.context) and \
+               self.context.status in (u"draft-translation",)
+
+    @property
     def form_name(self):
         props = IDCDescriptiveProperties.providedBy(self.context) \
                 and self.context or IDCDescriptiveProperties(self.context)
 
-        if IVersion.providedBy(self.context):
+        if self.is_translation:
+            language = get_language_by_name(self.context.language)
+            return _(u"edit_translation_legend",
+                     default=u'Editing $language translation of "$title"',
+                     mapping={'title': props.title,
+                              'language': language})
+        
+        elif IVersion.providedBy(self.context):
             return _(u"edit_version_legend",
                      default=u'Editing "$title" (version $version)',
                      mapping={'title': props.title,
@@ -232,6 +245,14 @@ class EditForm(BaseForm, ui.EditForm):
 
         return _(u"edit_item_legend", default=u'Editing "$title"',
                  mapping={'title': props.title})
+
+    @property
+    def form_description(self):
+        if self.is_translation:
+            language = get_language_by_name(self.context.head.language)
+            return _(u"edit_translation_help",
+                     default=u'The original $language version is shown on the left.',
+                     mapping={'language': language})
             
     def validate(self, action, data):    
         errors = super(EditForm, self).validate(action, data)
@@ -283,12 +304,14 @@ class TranslateForm(AddForm):
     def domain_model(self):
         return type(removeSecurityProxy(self.context))
 
-    def setUpWidgets(self, ignore_request=False):
+    def setUpAdapters(self, context):
         interfaces = set(field.interface for field in self.form_fields)
         self.adapters = {}
         for iface in interfaces:
-            self.adapters[iface] = self.context
+            self.adapters[iface] = context
 
+    def setUpWidgets(self, ignore_request=False):
+        self.setUpAdapters(self.context)
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, self.context, self.request,
             adapters=self.adapters, ignore_request=ignore_request)
@@ -317,8 +340,12 @@ class TranslateForm(AddForm):
         versions = IVersioned(self.context)
         version = versions.create("'%s' translation added." % language)
 
+        # reset workflow state
+        version.status = None
+        IWorkflowInfo(version).fireTransition("create-translation")
+
         # redefine form context and proceed with edit action
-        self.context = version
+        self.setUpAdapters(version)
         handle_edit_action(self, action, data)
 
         # commit version such that it gets a version id

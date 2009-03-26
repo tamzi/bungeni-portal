@@ -188,6 +188,7 @@
   <adapter factory=".dc.MotionDescriptiveProperties" />
   <adapter factory=".dc.SittingDescriptiveProperties" />
   <adapter factory=".dc.ItemScheduleDescriptiveProperties" />
+  <adapter factory=".dc.VersionDescriptiveProperties" />
   
   <adapter
      name="dc"

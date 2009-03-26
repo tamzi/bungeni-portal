@@ -75,16 +75,16 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
         return self.context.__parent__['bills']
     
     states = (
-        bill_wf_state[u"billstates.submitted"].id,
-        bill_wf_state[u"billstates.first_reading_postponed"].id,
-        bill_wf_state[u"billstates.second_reading"].id, 
-        bill_wf_state[u"billstates.second_reading_postponed"].id, 
-        bill_wf_state[u"billstates.whole_house"].id,
-        bill_wf_state[u"billstates.whole_house_postponed"].id,
-        bill_wf_state[u"billstates.report_reading"].id,
-        bill_wf_state[u"billstates.report_reading_postponed"].id,
-        bill_wf_state[u"billstates.third_reading"].id,
-        bill_wf_state[u"billstates.third_reading_postponed"].id,
+        bill_wf_state[u"submitted"].id,
+        bill_wf_state[u"first_reading_postponed"].id,
+        bill_wf_state[u"second_reading"].id, 
+        bill_wf_state[u"second_reading_postponed"].id, 
+        bill_wf_state[u"whole_house"].id,
+        bill_wf_state[u"whole_house_postponed"].id,
+        bill_wf_state[u"report_reading"].id,
+        bill_wf_state[u"report_reading_postponed"].id,
+        bill_wf_state[u"third_reading"].id,
+        bill_wf_state[u"third_reading_postponed"].id,
         )
     
 class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
@@ -95,8 +95,8 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
         return self.context.__parent__['questions']
     
     states = (
-        question_wf_state[u"questionstates.admissible"].id,
-        question_wf_state[u"questionstates.postponed"].id,
+        question_wf_state[u"admissible"].id,
+        question_wf_state[u"postponed"].id,
         )
 
 class SchedulableMotionsViewlet(SchedulableItemsViewlet):
@@ -107,8 +107,8 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
         return self.context.__parent__['motions']
 
     states = (
-        motion_wf_state[u"motionstates.admissible"].id,
-        motion_wf_state[u"motionstates.postponed"].id,
+        motion_wf_state[u"admissible"].id,
+        motion_wf_state[u"postponed"].id,
         )
 
     

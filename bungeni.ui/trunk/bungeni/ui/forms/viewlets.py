@@ -280,7 +280,7 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
     
     @property
     def for_display(self):
-        return self.context.__parent__.status == qw_state[u"questionstates.answered"].id   
+        return self.context.__parent__.status == qw_state[u"answered"].id   
     
     def __init__( self,  context, request, view, manager ):        
 

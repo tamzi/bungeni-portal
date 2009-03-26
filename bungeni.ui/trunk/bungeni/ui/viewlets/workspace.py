@@ -137,37 +137,37 @@ class DraftQuestionViewlet( QuestionInStateViewlet ):
     """
     display the draft questions
     """    
-    name = question_wf_state[u"questionstates.draft"].title
-    state = question_wf_state[u"questionstates.draft"].id
+    name = question_wf_state[u"draft"].title
+    state = question_wf_state[u"draft"].id
     list_id = "draft_questions"
 
 class SubmittedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the submitted questions
     """    
-    name = question_wf_state[u"questionstates.submitted"].title
-    state =  question_wf_state[u"questionstates.submitted"].id   
+    name = question_wf_state[u"submitted"].title
+    state =  question_wf_state[u"submitted"].id   
     list_id = "submitted_questions"  
     
 class ReceivedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the recieved questions
     """    
-    name = question_wf_state[u"questionstates.received"].title
-    state = question_wf_state[u"questionstates.received"].id   
+    name = question_wf_state[u"received"].title
+    state = question_wf_state[u"received"].id   
     list_id = "recieved_questions"     
     
 class ScheduledQuestionViewlet( QuestionInStateViewlet ): 
-    name = question_wf_state[u"questionstates.scheduled"].title
-    state = question_wf_state[u"questionstates.scheduled"].id
+    name = question_wf_state[u"scheduled"].title
+    state = question_wf_state[u"scheduled"].id
     list_id = "scheduled_questions"     
         
 class PostponedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the postponed questions
     """    
-    name = question_wf_state[u"questionstates.postponed"].title
-    state = question_wf_state[u"questionstates.postponed"].id   
+    name = question_wf_state[u"postponed"].title
+    state = question_wf_state[u"postponed"].id   
     list_id = "postponed_questions"    
     
     
@@ -175,24 +175,24 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.admissible"].title
-    state = question_wf_state[u"questionstates.admissible"].id
+    name = question_wf_state[u"admissible"].title
+    state = question_wf_state[u"admissible"].id
     list_id = "admissible_questions"
    
 class InadmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.inadmissible"].title
-    state = question_wf_state[u"questionstates.inadmissible"].id
+    name = question_wf_state[u"inadmissible"].title
+    state = question_wf_state[u"inadmissible"].id
     list_id = "inadmissible_questions"
   
 class ClarifyMPQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.clarify_mp"].title
-    state = question_wf_state[u"questionstates.clarify_mp"].id
+    name = question_wf_state[u"clarify_mp"].title
+    state = question_wf_state[u"clarify_mp"].id
     list_id = "clarify_mp_questions"  
  
 
@@ -200,40 +200,40 @@ class ClarifyClerkQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.clarify_clerk"].title
-    state = question_wf_state[u"questionstates.clarify_clerk"].id
+    name = question_wf_state[u"clarify_clerk"].title
+    state = question_wf_state[u"clarify_clerk"].id
     list_id = "clarify_clerk_questions"  
 
 class ResponsePendingQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.response_pending"].title
-    state = question_wf_state[u"questionstates.response_pending"].id
+    name = question_wf_state[u"response_pending"].title
+    state = question_wf_state[u"response_pending"].id
     list_id = "response_pending_questions" 
 
 class CompleteQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.complete"].title
-    state = question_wf_state[u"questionstates.complete"].id
+    name = question_wf_state[u"complete"].title
+    state = question_wf_state[u"complete"].id
     list_id = "complete_questions" 
 
 class DeferredQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.deferred"].title
-    state = question_wf_state[u"questionstates.deferred"].id
+    name = question_wf_state[u"deferred"].title
+    state = question_wf_state[u"deferred"].id
     list_id = "deferred_questions" 
 
 class ElapsedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.elapsed"].title
-    state = question_wf_state[u"questionstates.elapsed"].id
+    name = question_wf_state[u"elapsed"].title
+    state = question_wf_state[u"elapsed"].id
     list_id = "elapsed_questions" 
 
 
@@ -241,24 +241,24 @@ class RespondedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.responded"].title
-    state = question_wf_state[u"questionstates.responded"].id
+    name = question_wf_state[u"responded"].title
+    state = question_wf_state[u"responded"].id
     list_id = "responded_questions" 
 
 class AnsweredQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.answered"].title
-    state = question_wf_state[u"questionstates.answered"].id
+    name = question_wf_state[u"answered"].title
+    state = question_wf_state[u"answered"].id
     list_id = "answered_questions" 
 
 class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = question_wf_state[u"questionstates.withdrawn"].title
-    state = question_wf_state[u"questionstates.withdrawn"].id
+    name = question_wf_state[u"withdrawn"].title
+    state = question_wf_state[u"withdrawn"].id
     list_id = "withdrawn_questions" 
 
 #"Question pending response"
@@ -299,8 +299,8 @@ class SubmittedMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
-    name = motion_wf_state[u"motionstates.submitted"].title
-    state = motion_wf_state[u"motionstates.submitted"].id
+    name = motion_wf_state[u"submitted"].title
+    state = motion_wf_state[u"submitted"].id
     list_id = "submitted_motions"
 
 
@@ -308,16 +308,16 @@ class ReceivedMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
-    name = motion_wf_state[u"motionstates.received"].title
-    state = motion_wf_state[u"motionstates.received"].id
+    name = motion_wf_state[u"received"].title
+    state = motion_wf_state[u"received"].id
     list_id = "received_motions"
 
 class CompleteMotionViewlet( MotionInStateViewlet ):   
     """
     display the submitted Motions
     """
-    name = motion_wf_state[u"motionstates.complete"].title
-    state = motion_wf_state[u"motionstates.complete"].id
+    name = motion_wf_state[u"complete"].title
+    state = motion_wf_state[u"complete"].id
     list_id = "complete_motions"
     
    
@@ -326,24 +326,24 @@ class ClarifyMpMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
-    name = motion_wf_state[u"motionstates.clarify_mp"].title
-    state = motion_wf_state[u"motionstates.clarify_mp"].id
+    name = motion_wf_state[u"clarify_mp"].title
+    state = motion_wf_state[u"clarify_mp"].id
     list_id = "clarify_mp_motions"
     
 class ClarifyClerkMotionViewlet( MotionInStateViewlet ):   
     """
     display the submitted Motions
     """
-    name = motion_wf_state[u"motionstates.clarify_clerk"].title
-    state = motion_wf_state[u"motionstates.clarify_clerk"].id
+    name = motion_wf_state[u"clarify_clerk"].title
+    state = motion_wf_state[u"clarify_clerk"].id
     list_id = "clarify_clerk_motions"    
 
 class DeferredMotionViewlet( MotionInStateViewlet ):   
     """
     display the submitted Motions
     """
-    name =  motion_wf_state[u"motionstates.deferred"].title
-    state = motion_wf_state[u"motionstates.deferred"].id
+    name =  motion_wf_state[u"deferred"].title
+    state = motion_wf_state[u"deferred"].id
     list_id = "deferred_motions"    
     
     
@@ -352,8 +352,8 @@ class AdmissibleMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
-    name = motion_wf_state[u"motionstates.admissible"].title
-    state = motion_wf_state[u"motionstates.admissible"].id
+    name = motion_wf_state[u"admissible"].title
+    state = motion_wf_state[u"admissible"].id
     list_id = "admissible_motions"
     
 
@@ -361,8 +361,8 @@ class PostponedMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
-    name = motion_wf_state[u"motionstates.postponed"].title
-    state = motion_wf_state[u"motionstates.postponed"].id
+    name = motion_wf_state[u"postponed"].title
+    state = motion_wf_state[u"postponed"].id
     list_id = "postponed_motions"
 
 class BillItemsViewlet( ViewletBase ): 
@@ -393,16 +393,16 @@ class BillItemsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"billstates.submitted"].id , 
-                                                                                bill_wf_state[u"billstates.first_reading_postponed"].id ,
-                                                                                bill_wf_state[u"billstates.second_reading_pending"].id , 
-                                                                                bill_wf_state[u"billstates.second_reading_postponed"].id , 
-                                                                                bill_wf_state[u"billstates.whole_house_postponed"].id ,
-                                                                                bill_wf_state[u"billstates.house_pending"].id ,
-                                                                                bill_wf_state[u"billstates.report_reading_postponed"].id ,                                                                                
-                                                                                bill_wf_state[u"billstates.report_reading_pending"].id , 
-                                                                                bill_wf_state[u"billstates.third_reading_pending"].id,
-                                                                                bill_wf_state[u"billstates.third_reading_postponed"].id ]
+        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"submitted"].id , 
+                                                                                bill_wf_state[u"first_reading_postponed"].id ,
+                                                                                bill_wf_state[u"second_reading_pending"].id , 
+                                                                                bill_wf_state[u"second_reading_postponed"].id , 
+                                                                                bill_wf_state[u"whole_house_postponed"].id ,
+                                                                                bill_wf_state[u"house_pending"].id ,
+                                                                                bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+                                                                                bill_wf_state[u"report_reading_pending"].id , 
+                                                                                bill_wf_state[u"third_reading_pending"].id,
+                                                                                bill_wf_state[u"third_reading_postponed"].id ]
                                                                                 ))
         self.query = bills            
 

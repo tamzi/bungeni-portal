@@ -300,7 +300,7 @@ class EditForm(BaseForm, ui.EditForm):
                     display_widget = component.getMultiAdapter(
                         (field, self.request), IDisplayWidget)
                 
-                display_widget.setRenderedValue(field.get(self.context))
+                display_widget.setRenderedValue(field.get(head))
 
                 # attach widget as ``render_original``
                 widget.render_original = display_widget

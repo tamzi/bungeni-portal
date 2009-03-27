@@ -370,7 +370,6 @@ mapper( domain.Motion, schema.motions,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='motion',
         properties = {
-             'versions':relation( domain.MotionVersion, backref='motion'),
              'changes':relation( domain.MotionChange, backref='motion'),
              }
         )
@@ -387,7 +386,6 @@ mapper( domain.Bill, schema.bills,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='bill',
         properties = {
-             'versions':relation( domain.BillVersion, backref='bill'),
              'changes':relation( domain.BillChange, backref='bill')
              }
         )
@@ -420,7 +418,6 @@ mapper( domain.ResponseVersion, schema.response_versions,
 
 mapper( domain.Response, schema.responses,
         properties = {
-             'versions':relation( domain.ResponseVersion, backref='question'),
              'changes':relation( domain.ResponseChange, backref='question')
              }
         )

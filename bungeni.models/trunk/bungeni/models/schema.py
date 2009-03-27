@@ -468,7 +468,7 @@ sittings = rdb.Table(
    "group_sittings",
    metadata,
    rdb.Column( "sitting_id", rdb.Integer,  primary_key=True),
-   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
+   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), nullable=False ),
    rdb.Column( "short_name", rdb.Unicode(32) ),
    rdb.Column( "start_date", rdb.DateTime( timezone=False ), nullable=False),
    rdb.Column( "end_date", rdb.DateTime( timezone=False ), nullable=False), 

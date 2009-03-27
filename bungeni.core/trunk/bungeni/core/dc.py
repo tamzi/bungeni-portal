@@ -180,13 +180,30 @@ class GroupMembershipDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         context = removeSecurityProxy(self.context)
-        #import pdb; pdb.set_trace()
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
                 context.user.last_name)
         else:
             return u"New User"
+            
+            
+
+
+class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IGroupSittingAttendance)
+
+    @property
+    def title(self):
+        context = removeSecurityProxy(self.context)
+        if context.user:
+            return "%s %s %s" % (context.user.titles,
+                context.user.first_name,
+                context.user.last_name)
+        else:
+            return u"New User"
+            
+            
                     
 
                

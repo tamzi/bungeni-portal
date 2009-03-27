@@ -302,9 +302,6 @@ class UserDescriptor( ModelDescriptor ):
     schema_invariants = [DeathBeforeLife, IsDeceased]
     custom_validators = []
 
-class MemberDescriptor( UserDescriptor ):
-
-    fields = deepcopy( UserDescriptor.fields )
 
 class StaffMemberDescriptor( UserDescriptor ):
     display_name = _(u"Staff member")
@@ -319,7 +316,7 @@ class HansardReporterDescriptor( UserDescriptor ):
 
 class GroupMembershipDescriptor( ModelDescriptor ):
 
-    SubstitutionSource = DatabaseSource(domain.ParliamentMember,  
+    SubstitutionSource = DatabaseSource(domain.User,  
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')       
@@ -812,12 +809,12 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               property = schema.Choice(
                 title=_(u"Owner"),
                 description=_(u"Select the user who should own this document."),
-                source=DatabaseSource(domain.ParliamentMember, 
+                source=DatabaseSource(domain.User, 
                 title_field='fullname', 
                 token_field='user_id', 
                 value_field = 'user_id' )), 
               listing_column=vocab_column( "owner_id" , _(u'Owner'),
-               DatabaseSource(domain.ParliamentMember, 
+               DatabaseSource(domain.User, 
                 title_field='fullname', 
                 token_field='user_id', 
                 value_field = 'user_id' ), ),              
@@ -1476,12 +1473,12 @@ class TabledDocumentDescriptor( ModelDescriptor):
             property = schema.Choice( 
                 title=_(u"Owner"), 
                     source=DatabaseSource(
-                        domain.ParliamentMember, 
+                        domain.User, 
                         title_field='fullname', 
                         token_field='user_id', 
                         value_field = 'user_id' )), 
             listing_column=vocab_column( "owner_id" , _(u'Owner'),
-                DatabaseSource(domain.ParliamentMember, 
+                DatabaseSource(domain.User, 
                     title_field='fullname', 
                     token_field='user_id', 
                     value_field = 'user_id' ), ),              

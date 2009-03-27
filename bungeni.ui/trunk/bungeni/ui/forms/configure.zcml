@@ -79,7 +79,7 @@
      name="bungeni.viewlet.member-addresses"
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.AddressesViewlet"
-     for="bungeni.models.interfaces.IParliamentMember"
+     for="bungeni.models.interfaces.IUser"
      permission="zope.View"
      weight="10"
      /> 

@@ -260,7 +260,7 @@ class PersonInfo( BungeniAttributeDisplay ):
         self.__parent__= context.__parent__
         self.manager = manager
         self.query = None
-        md = queryModelDescriptor(domain.ParliamentMember)          
+        md = queryModelDescriptor(domain.User)          
         self.form_fields=md.fields #.select('user_id', 'start_date', 'end_date')
         
     def update(self):
@@ -270,7 +270,7 @@ class PersonInfo( BungeniAttributeDisplay ):
         session = Session()
         user_id = self.context.user_id
         parent = self.context.__parent__
-        self.query = session.query(domain.ParliamentMember).filter(domain.ParliamentMember.c.user_id == user_id) 
+        self.query = session.query(domain.User).filter(domain.User.user_id == user_id) 
         self.context = self.query.all()[0]
         self.context.__parent__= parent
         super( PersonInfo, self).update()

@@ -50,16 +50,13 @@ sql_addMinister = """
     ORDER BY "last_name"
                 """
 
-#XXX currently filters by "type" = 'memberofparliament' 
-#-> has to be replaced with all electable usertypes
 
 sql_addExtensionMember = """
     SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname, 
             "users"."user_id", 
             "users"."last_name" 
     FROM "public"."users" 
-    WHERE ( ( "active_p" = 'A' 
-                AND "type" = 'memberofparliament' )
+    WHERE ( ( "active_p" = 'A' )
     AND ( "users"."user_id" NOT IN ( 
             SELECT "user_id" 
             FROM "public"."user_group_memberships" 

@@ -26,15 +26,15 @@
      name="add"
      for="ore.alchemist.interfaces.IAlchemistContainer"
      class=".common.AddForm"
-     permission="zope.View"
+     permission="zope.ManageContent"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
   <browser:page
      name="edit"
      for="ore.alchemist.interfaces.IAlchemistContent"
-     permission="zope.Public"
      class=".common.EditForm"
+     permission="zope.ManageContent"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
@@ -42,7 +42,7 @@
      name="delete"
      for="ore.alchemist.interfaces.IAlchemistContent"
      class=".common.DeleteForm"
-     permission="zope.View"
+     permission="zope.ManageContent"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
@@ -50,7 +50,7 @@
      name="reorder"
      for="bungeni.models.domain.ItemScheduleContainer"
      class=".forms.ItemScheduleContainerReorderForm"
-     permission="zope.View"
+     permission="zope.ManageContent"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
@@ -58,7 +58,7 @@
      name="translate"
      for="ore.alchemist.interfaces.IAlchemistContent"
      class=".common.TranslateForm"
-     permission="zope.View"
+     permission="zope.ManageContent"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 

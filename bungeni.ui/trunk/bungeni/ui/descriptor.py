@@ -75,7 +75,7 @@ def member_fk_column( name, title, default=""):
         if not value:
             return default
         session = Session()
-        member = session.query( domain.Person ).get( value )
+        member = session.query( domain.User ).get( value )
         return u"%s %s"%(member.first_name, member.last_name)
     return column.GetterColumn( title, getter )
 
@@ -325,7 +325,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Member of Parliament"), 
-                source=DatabaseSource(domain.Person,  
+                source=DatabaseSource(domain.User,  
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
@@ -1176,7 +1176,7 @@ class AttendanceDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
                 property = schema.Choice(title=_(u"Attendance"), 
-                source=DatabaseSource(domain.Person,  
+                source=DatabaseSource(domain.User,  
                     title_field='fullname', 
                     token_field='user_id', 
                     value_field = 'user_id')), 
@@ -1214,7 +1214,7 @@ class BillConsignatoryDescriptor( ModelDescriptor ):
         dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Consignatory"), 
-                source=DatabaseSource(domain.Person,  
+                source=DatabaseSource(domain.User,  
                     title_field='fullname', 
                     token_field='user_id', 
                     value_field = 'user_id')),

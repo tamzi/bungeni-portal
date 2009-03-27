@@ -809,7 +809,9 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
         dict(name="parliamentary_item_id", omit=True),
         dict(name="parliament_id", omit=True),
         dict( name="owner_id", 
-              property = schema.Choice( title=_(u"Owner"), 
+              property = schema.Choice(
+                title=_(u"Owner"),
+                description=_(u"Select the user who should own this document."),
                 source=DatabaseSource(domain.ParliamentMember, 
                 title_field='fullname', 
                 token_field='user_id', 

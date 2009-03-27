@@ -105,6 +105,10 @@ class IMotionVersion(IMotion):
 class IGroupSitting(interface.Interface):
     pass
 
+class IGroupSittingAttendance(interface.Interface):
+    pass
+
+
 class IItemSchedule(interface.Interface):
     pass
 

@@ -50,25 +50,6 @@ mapper( domain.Group, schema.groups,
 
 # do we really need a primary key on group memberships to map?
 
-# we need to specify join clause for user explicitly because we have multiple fk
-# to the user table.
-mapper( domain.GroupMembership, schema.user_group_memberships,
-        properties={
-            'user': relation( domain.User,
-                              primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==schema.users.c.user_id ),
-                              uselist=False,
-                              lazy=False ),
-            'group': relation( domain.Group,
-                               primaryjoin=schema.user_group_memberships.c.group_id==schema.groups.c.group_id,
-                               uselist=False,
-                               lazy=False ),                              
-            'replaced': relation( domain.GroupMembership,
-                                  primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
-                                  uselist=False,
-                                  lazy=True ),
-                              
-            }
-        )
 
 # how to make multiple properties over the same value set, not disjoint
 #mapper( domain.User, schema.groups )
@@ -136,25 +117,52 @@ mapper( domain.StaffMember,
 
 
                 
-mapper ( domain.MemberOfParliament , schema.parliament_members,
-         inherits=domain.UserGroupMembership,
-         primary_key=[schema.user_group_memberships.c.membership_id], 
-          properties={
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('short_name')
-                                           ),
+
+# Ministers and Committee members are defined by their group membership in a 
+# ministry or committee (group)     
+
+# we need to specify join clause for user explicitly because we have multiple fk
+# to the user table.
+mapper( domain.GroupMembership, schema.user_group_memberships,
+        properties={
+            'user': relation( domain.User,
+                              primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==schema.users.c.user_id ),
+                              uselist=False,
+                              lazy=False ),
+            'group': relation( domain.Group,
+                               primaryjoin=schema.user_group_memberships.c.group_id==schema.groups.c.group_id,
+                               uselist=False,
+                               lazy=False ),                              
+            'replaced': relation( domain.GroupMembership,
+                                  primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
+                                  uselist=False,
+                                  lazy=True ),
             'sort_by_name' : column_property(
                              rdb.sql.select(
                              [(schema.users.c.last_name + u" " + 
                              schema.users.c.first_name)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('sort_by_name')
+                                           ),  
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             schema.users.c.last_name)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('short_name')
                                            ),
+
+            },
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='member',            
+        )
+
+
+
+mapper ( domain.MemberOfParliament , schema.parliament_members,
+         inherits=domain.GroupMembership,
+         primary_key=[schema.user_group_memberships.c.membership_id], 
+          properties={
             'image' :  column_property( 
                              rdb.sql.select(
                              [(schema.users.c.image)],
@@ -175,59 +183,34 @@ mapper ( domain.MemberOfParliament , schema.parliament_members,
         polymorphic_identity='parliamentmember'  
         )
         
-# Ministers and Committee members are defined by their group membership in a 
-# ministry or committee (group)     
-
-mapper( domain.UserGroupMembership, schema.user_group_memberships,
-        properties={
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('short_name')
-                                           ),
-            'sort_by_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.last_name + u" " + 
-                             schema.users.c.first_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('sort_by_name')
-                                           ),
-                                           
-          },
-        polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='member',
-      )
    
 mapper( domain.Minister, 
-        inherits=domain.UserGroupMembership,
+        inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='minister',        
         )        
  
 mapper( domain.CommitteeMember, 
-        inherits=domain.UserGroupMembership,
+        inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='committeemember',
                 
                 )  
 
 mapper( domain.ExtensionMember, 
-        inherits=domain.UserGroupMembership,
+        inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='extensionmember',        
         )                                
 
 mapper( domain.PartyMember, 
-        inherits=domain.UserGroupMembership,
+        inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='partymember',        
         )  
         
 #mapper( domain.MemberOfParty, 
-#        inherits=domain.UserGroupMembership,
+#        inherits=domain.GroupMembership,
 #        polymorphic_on=schema.user_group_memberships.c.membership_type,          
 #        polymorphic_identity='partymember',        
 #        )          

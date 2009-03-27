@@ -179,8 +179,17 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
 
         elif IAlchemistContent.providedBy(context):
             url = absoluteURL(context, self.request)
+            if IDCDescriptiveProperties.providedBy(context):
+                title = context.title
+            else:
+                props = IDCDescriptiveProperties(context, None)
+                if props is not None:
+                    title = props.title
+                else:
+                    title = context.short_name
+            
             items.append(
-                {'title': context.short_name,
+                {'title': title,
                  'url': url,
                  'current': True,
                  'selected': len(chain) == 0,

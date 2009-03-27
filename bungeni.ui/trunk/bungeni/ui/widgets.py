@@ -137,7 +137,7 @@ class RichTextEditor( TextAreaWidget ):
         input_widget += u"""
         <script language="javascript">
             options={ height:'300px', 
-                      width:'530px', 
+                      width:'100%%', 
                       dompath:true, 
                       animate:true,
                       focusAtStart:false};

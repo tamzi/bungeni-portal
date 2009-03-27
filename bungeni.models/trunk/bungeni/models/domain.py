@@ -378,6 +378,10 @@ class Response( ParliamentaryItem ):
     """
     #interface.implements( interfaces.IResponse, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.ResponseVersionContainer",
+        "content_id")
     
 ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
 ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")   

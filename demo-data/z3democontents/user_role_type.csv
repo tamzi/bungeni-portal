@@ -14,11 +14,11 @@
 14,"partymember","Spokesperson",True,60
 15,"partymember","Secretary",False,70
 16,"partymember","Member",False,10
-17,"comitteemember","Chairperson",True,20
+17,"committeemember","Chairperson",True,20
 18,"committeestaff","Committee Clerk",False,10
-19,"comitteemember","Deputy Chairperson",False,30
+19,"committeemember","Deputy Chairperson",False,30
 20,"committeestaff","Deputy Committee Clerk",False,20
-21,"comitteemember","Member",False,10
-22,"comitteemember","Secretary",False,40
+21,"committeemember","Member",False,10
+22,"committeemember","Secretary",False,40
 23,"committeestaff","Researcher",False,50
 24,"extensionmember","Additional Member",False,10

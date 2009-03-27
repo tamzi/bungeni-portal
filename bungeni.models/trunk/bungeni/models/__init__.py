@@ -10,7 +10,7 @@ import orm
 
 from schema import metadata
 
-from domain import User, ParliamentMember, HansardReporter, StaffMember, Minister
+from domain import User, HansardReporter, StaffMember, Minister
 from domain import GroupMembership, Group, Government, Parliament, PoliticalParty, Ministry, Committee
 from domain import GroupSitting, SittingType, GroupSittingAttendance, AttendanceType
 from domain import ParliamentSession

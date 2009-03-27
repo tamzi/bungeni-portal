@@ -78,19 +78,7 @@ class User( Entity ):
         return attempt == self.password
 
 
-class ParliamentMember( User ):
-    """ an MP
-    """
 
-    # groups
-
-    # committees
-
-    # ministries
-    
-    addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}
     
 #
 # sort_on is the column the query is sorted on by default
@@ -107,6 +95,8 @@ class Person( User ):
     """
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}    
+    addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
+    
     
 class StaffMember( Person ):
     """
@@ -115,14 +105,7 @@ class StaffMember( Person ):
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}
     
-class MemberOfParliament ( Entity ):    
-    """
-    defined by groupmembership and aditional data
-    """    
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name', 'constituency_id':'constituency'}    
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
-    party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
+
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -146,22 +129,19 @@ class Group( Entity ):
 class GroupMembership( Entity ):
     """ a user's membership in a group
     """
+    interface.implements( interfaces.IBungeniGroupMembership )
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}
                 
-class UserGroupMembership( Entity ):
+class UserGroupMembership( GroupMembership ):
     """ a user's membership in a group - abstract
     basis for ministers, committeemembers, etc
     """        
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}
             
-class StaffGroupMembership( Entity ):
+class StaffGroupMembership( GroupMembership ):
     """ 
     staff assigned to groups (committees, ministries,...)
     """    
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}
             
 class CommitteeStaff( StaffGroupMembership ):
     """
@@ -206,11 +186,6 @@ class GroupItemAssignment( object ):
 
 #############
 
-class Government( Group ):
-    """ a government
-    """
-    sort_on = 'start_date'
-    ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "government_id")
     
 class Parliament( Group ):
     """ a parliament
@@ -231,6 +206,16 @@ class Parliament( Group ):
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")       
 
 
+class MemberOfParliament ( UserGroupMembership ):    
+    """
+    defined by groupmembership and aditional data
+    """    
+    sort_on = 'sort_by_name'
+    sort_replace = {'user_id': 'sort_by_name', 'constituency_id':'constituency'}    
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
+    party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
+
+
 class PoliticalParty( Group ):
     """ a political party
     """
@@ -246,6 +231,12 @@ class MemberOfParty( UserGroupMembership ):
     """
     Membership of a user in a political party 
     """         
+
+class Government( Group ):
+    """ a government
+    """
+    sort_on = 'start_date'
+    ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "government_id")
 
 class Ministry( Group ):
     """ a government ministry

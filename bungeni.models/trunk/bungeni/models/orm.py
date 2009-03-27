@@ -18,6 +18,12 @@ mapper ( domain.Person, schema.users,
 
 # Users
 mapper( domain.User, schema.users,
+          properties={
+             'fullname' : column_property(
+                 (schema.users.c.first_name + u" " + 
+                  schema.users.c.middle_name + u" " + 
+                  schema.users.c.last_name).label('fullname')
+                 ),}, 
         polymorphic_on=schema.users.c.type,
         polymorphic_identity='user',
        )
@@ -50,12 +56,15 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
         properties={
             'user': relation( domain.User,
                               primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==schema.users.c.user_id ),
+                              uselist=False,
                               lazy=False ),
             'group': relation( domain.Group,
                                primaryjoin=schema.user_group_memberships.c.group_id==schema.groups.c.group_id,
+                               uselist=False,
                                lazy=False ),                              
             'replaced': relation( domain.GroupMembership,
                                   primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
+                                  uselist=False,
                                   lazy=True ),
                               
             }
@@ -103,28 +112,7 @@ mapper( domain.ExtensionGroup, schema.extension_groups,
 
 
 
-    
-mapper( domain.ParliamentMember, 
-        inherits=domain.User,
-          properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           ),
-           'short_name' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name).label('short_name')
-                                           ),
-           'sort_by_name' : column_property(
-                             (schema.users.c.last_name + u" " + 
-                             schema.users.c.first_name).label('sort_by_name')
-                                           )                                           
-                    },
-        polymorphic_identity='memberofparliament'
-      )
-
+   
 mapper( domain.StaffMember, 
         inherits=domain.User,
           properties={
@@ -147,25 +135,9 @@ mapper( domain.StaffMember,
       )
 
 
-# A parliament member is described by 
-# membership in the parliament (group + parliament_id)
-# plus the additional data in the parliament_members table.
-#SELECT * FROM "user_group_memberships", "users", "groups", "parliaments", "parliament_members" 
-#WHERE 
-#( "user_group_memberships"."user_id" = "users"."user_id" 
-#  AND "user_group_memberships"."group_id" = "groups"."group_id" 
-#  AND "parliaments"."parliament_id" = "groups"."group_id" 
-#  AND "parliament_members"."membership_id" = "user_group_memberships"."membership_id" )
-
-#_mp = rdb.join(schema.user_group_memberships, schema.parliament_members, 
-#               schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id).join( 
-#                    schema.parliaments,
-#                    schema.user_group_memberships.c.group_id == schema.parliaments.c.parliament_id )
-
-_mp = rdb.join(schema.user_group_memberships, schema.parliament_members, 
-                schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
                 
-mapper ( domain.MemberOfParliament , _mp,
+mapper ( domain.MemberOfParliament , schema.parliament_members,
+         inherits=domain.UserGroupMembership,
          primary_key=[schema.user_group_memberships.c.membership_id], 
           properties={
             'short_name' : column_property(

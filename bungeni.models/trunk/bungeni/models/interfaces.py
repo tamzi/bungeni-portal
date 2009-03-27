@@ -53,6 +53,11 @@ class IBungeniGroup( interface.Interface ):
     a group in bungeni
     """
 
+class IBungeniGroupMembership( interface.Interface ):
+    """
+    group membership in bungeni
+    """
+
 class IBungeniContent( interface.Interface ):
     """
     parliamentary content

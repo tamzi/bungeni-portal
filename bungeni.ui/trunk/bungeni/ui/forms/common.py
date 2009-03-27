@@ -2,6 +2,7 @@ import logging
 import transaction
 
 from zope.publisher.interfaces import BadRequest
+from zope import component
 from zope import interface
 from zope import schema
 from zope.i18n import translate
@@ -20,6 +21,8 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
 from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.ui.core import handle_edit_action
+from alchemist.ui.core import setUpFields
+from zope.app.form.interfaces import IDisplayWidget
 
 try:
     from sqlalchemy.exceptions import IntegrityError
@@ -227,6 +230,10 @@ class EditForm(BaseForm, ui.EditForm):
         return is_translation(self.context)
 
     @property
+    def side_by_side(self):
+        return self.is_translation
+
+    @property
     def form_name(self):
         if IVersion.providedBy(self.context):
             context = self.context.head
@@ -266,6 +273,37 @@ class EditForm(BaseForm, ui.EditForm):
             errors += validator(action, data, self.context, self.context.__parent__)
         
         return errors
+
+    def setUpWidgets(self, ignore_request=False):
+        super(EditForm, self).setUpWidgets(ignore_request=ignore_request)
+
+        # for translations, add a ``render_original`` method to each
+        # widget, which will render the display widget bound to the
+        # original (HEAD) document
+        if self.is_translation:
+            head = self.context.head
+            form_fields = setUpFields(self.context.__class__, "view")
+            for widget in self.widgets:
+                form_field = form_fields.get(widget.context.__name__)
+                if form_field is None:
+                    form_field = form.Field(widget.context)
+
+                # bind field to head document
+                field = form_field.field.bind(head)
+
+                # create custom widget or instantiate widget using
+                # component lookup
+                if form_field.custom_widget is not None:
+                    display_widget = form_field.custom_widget(
+                        field, self.request)
+                else:
+                    display_widget = component.getMultiAdapter(
+                        (field, self.request), IDisplayWidget)
+                
+                display_widget.setRenderedValue(field.get(self.context))
+
+                # attach widget as ``render_original``
+                widget.render_original = display_widget
 
 class TranslateForm(AddForm):
     """Custom translate-form for Bungeni content.

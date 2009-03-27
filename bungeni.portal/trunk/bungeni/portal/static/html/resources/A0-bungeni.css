@@ -16,6 +16,18 @@ label.discreet {
     line-height: 2em;
 }
 
+table.side-by-side th {
+  text-align: left;
+}
+
+table.side-by-side td {
+  padding: 5px;
+}
+
+table.side-by-side th span.fieldRequired {
+  color: #DEE7EC;
+}
+
 #bungeni-workspace .item {
   width: 50%;
   float: left;

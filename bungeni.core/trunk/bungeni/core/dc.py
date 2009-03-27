@@ -73,6 +73,8 @@ class BillDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
+        if self.context.identifier is None:
+            return self.context.short_name
         return "#%d: %s" % (
             self.context.identifier,
             self.context.short_name)
@@ -91,6 +93,8 @@ class MotionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
+        if self.context.motion_number is None:
+            return self.context.short_name
         return "#%d: %s" % (
             self.context.motion_number,
             self.context.short_name)

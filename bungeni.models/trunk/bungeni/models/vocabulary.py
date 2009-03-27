@@ -18,7 +18,7 @@ from i18n import _
 #SecurityLevelSource = DatabaseSource( model.SecurityLevel, 'short_name', 'id' )
 
 
-ParliamentMembers = ObjectSource( domain.ParliamentMember, 'name', 'member_id' )
+ParliamentMembers = ObjectSource( domain.User, 'name', 'member_id' )
 PoliticalParties  = ObjectSource( domain.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( domain.ParliamentSession, 'short_name', 'session_id')
 QuestionType = vocabulary.SimpleVocabulary.fromItems( [(_(u"Ordinary"), "O"), (_(u"Private Notice"), "P")] )

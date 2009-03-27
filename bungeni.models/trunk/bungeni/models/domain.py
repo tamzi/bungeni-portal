@@ -127,17 +127,13 @@ class Group( Entity ):
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     
 class GroupMembership( Entity ):
-    """ a user's membership in a group
+    """ a user's membership in a group- abstract
+    basis for ministers, committeemembers, etc
     """
     interface.implements( interfaces.IBungeniGroupMembership )
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}
-                
-class UserGroupMembership( GroupMembership ):
-    """ a user's membership in a group - abstract
-    basis for ministers, committeemembers, etc
-    """        
-            
+                             
 class StaffGroupMembership( GroupMembership ):
     """ 
     staff assigned to groups (committees, ministries,...)
@@ -206,7 +202,7 @@ class Parliament( Group ):
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")       
 
 
-class MemberOfParliament ( UserGroupMembership ):    
+class MemberOfParliament ( GroupMembership ):    
     """
     defined by groupmembership and aditional data
     """    
@@ -221,13 +217,13 @@ class PoliticalParty( Group ):
     """
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
 
-class PartyMember( UserGroupMembership ):
+class PartyMember( GroupMembership ):
     """ 
     Member of a political party, defined by its group membership 
     """
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )   
     
-class MemberOfParty( UserGroupMembership ):
+class MemberOfParty( GroupMembership ):
     """
     Membership of a user in a political party 
     """         
@@ -244,7 +240,7 @@ class Ministry( Group ):
     #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     ministers = one2many("ministers","bungeni.models.domain.MinisterContainer", "group_id")
     
-class Minister( UserGroupMembership ):
+class Minister( GroupMembership ):
     """ A Minister
     defined by its user_group_membership in a ministry (group)
     """    
@@ -260,7 +256,7 @@ class Committee( Group ):
     committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")
     files = files.DirectoryDescriptor()
 
-class CommitteeMember( UserGroupMembership ):
+class CommitteeMember( GroupMembership ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
 
@@ -274,7 +270,7 @@ class ExtensionGroup( Group ):
     """ Extend selectable users for a group membership """
     extmembers = one2many("extmembers", "bungeni.models.domain.ExtensionMemberContainer", "group_id") 
     
-class ExtensionMember( UserGroupMembership ):
+class ExtensionMember( GroupMembership ):
     """ Users for Extension group """    
     sort_replace = {'user_id': 'sort_by_name'}   
    

@@ -2,10 +2,10 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser" >
 
-  <!--adapter
+  <adapter
      for="*"
      name="alchemist.form"
      factory=".forms.FormTemplate"
-     /-->
+     />
   
 </configure>

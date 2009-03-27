@@ -5,18 +5,8 @@ from sqlalchemy.orm import mapper, relation, column_property, deferred
 import schema
 import domain
 
-# general representation of a person
-mapper ( domain.Person, schema.users,
-          properties={
-             'fullname' : column_property(
-                 (schema.users.c.first_name + u" " + 
-                  schema.users.c.middle_name + u" " + 
-                  schema.users.c.last_name).label('fullname')
-                 ),            
-             },
- )
-
 # Users
+# general representation of a person
 mapper( domain.User, schema.users,
           properties={
              'fullname' : column_property(
@@ -48,11 +38,6 @@ mapper( domain.Group, schema.groups,
 #                   })
 
 
-# do we really need a primary key on group memberships to map?
-
-
-# how to make multiple properties over the same value set, not disjoint
-#mapper( domain.User, schema.groups )
 
 # group subclasses
 mapper( domain.Government, schema.governments,
@@ -407,15 +392,7 @@ mapper( domain.HoliDay, schema.holidays )
         
 ######################
 #
-
-#mapper( domain.ConstituencyChange, schema.constituency_changes )
-#mapper( domain.ConstituencyVersion, schema.constituency_version )
-#mapper( domain.Constituency, schema.constituencies, 
-#		properties = {
-#			'versions':relation( domain.ConstituencyVersion, backref='Constituency' ),
-#			'changes':relation( domain.ConstituencyChange, backref='Constituency')
-#			}
-#		)         
+    
 
 mapper( domain.Constituency, schema.constituencies )    
 mapper( domain.Province, schema.provinces )    
@@ -426,6 +403,9 @@ mapper( domain.CommitteeType, schema.committee_type )
 mapper( domain.SittingType, schema.sitting_type )     
 mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
         properties={
+            'user': relation( domain.User,
+                              uselist=False,
+                              lazy=False ),
             'short_name' : column_property(
                              rdb.sql.select(
                              [(schema.users.c.first_name + u", " + 

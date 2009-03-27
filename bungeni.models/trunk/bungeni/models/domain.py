@@ -50,10 +50,18 @@ class Entity( object ):
                 setattr( self, k, v)
             else:
                 logger.warn("invalid attribute on %s %s"%(self.__class__.__name__, k) )
+
+#
+# sort_on is the column the query is sorted on by default
+# sort_replace is a dictionary that maps one column to another
+# so when the key is requested in a sort the value gets sorted
+# eg: {'user_id':'sort_name'} when the sort on user_id is requested the 
+# query gets sorted by sort_name
+#
                 
 class User( Entity ):
-    """
-    Domain Object For A User
+    """Domain Object For A User.
+    General representation of a person
     """
     
     interface.implements( interfaces.IBungeniUser  )
@@ -78,27 +86,16 @@ class User( Entity ):
         return attempt == self.password
 
 
-
-    
-#
-# sort_on is the column the query is sorted on by default
-# sort_replace is a dictionary that maps one column to another
-# so when the key is requested in a sort the value gets sorted
-# eg: {'user_id':'sort_name'} when the sort on user_id is requested the 
-# query gets sorted by sort_name
-#
-
-    
-class Person( User ):
-    """
-    general representation of a person
-    """
     sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}    
     addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
     
+
+
+
     
-class StaffMember( Person ):
+    
+class StaffMember( User ):
     """
     A staff member
     """    

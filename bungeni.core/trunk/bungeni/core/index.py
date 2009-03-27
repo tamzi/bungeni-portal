@@ -283,8 +283,6 @@ class CommitteeIndexer( ContentIndexer ):
 class ParliamentIndexer( ContentIndexer ):
     domain_model = domain.Parliament
 
-class ParliamentMemberIndexer( UserIndexer ):
-    domain_model = domain.ParliamentMember
 
 class HansardReporterIndexer( UserIndexer ):
     domain_model = domain.HansardReporter
@@ -337,7 +335,7 @@ def setupFieldDefinitions(indexer):
     QuestionIndexer.defineIndexes( indexer )
     GroupIndexer.defineIndexes( indexer )
     CommitteeIndexer.defineIndexes( indexer )
-    ParliamentMemberIndexer.defineIndexes( indexer )
+    #ParliamentMemberIndexer.defineIndexes( indexer )
     ParliamentIndexer.defineIndexes( indexer )
     HansardReporterIndexer.defineIndexes( indexer )
 

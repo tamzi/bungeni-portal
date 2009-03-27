@@ -15,7 +15,6 @@ model_to_container_name_mapping = {
     domain.Motion: 'motions',
     domain.Parliament: 'parliaments',
     domain.AgendaItem: 'agendaitems',
-    domain.ParliamentMember: 'mps',
     domain.Person: 'persons',
     domain.User: 'users',
     domain.StaffMember: 'staff',

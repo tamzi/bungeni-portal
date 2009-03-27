@@ -193,7 +193,7 @@ input.searchButton {
     margin: 0;
 }
 .fieldRequired {
-    background: url(http://localhost:8082/site1/required.gif) center left no-repeat;
+    background: url(required.gif) center left no-repeat;
     padding: 0 0 0 8px;
     color: White;
 }

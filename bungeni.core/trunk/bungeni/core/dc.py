@@ -1,5 +1,6 @@
 from zope import interface
 from zope import component
+from zope.security.proxy import removeSecurityProxy
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from ore.alchemist import Session
 
@@ -163,4 +164,29 @@ class GroupDescriptiveProperties(DescriptiveProperties):
     def title(self):
         return self.context.short_name
         
+class UserDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IBungeniUser)          
+    
+    @property
+    def title(self):
+        return "%s %s %s" % (self.context.titles,
+                self.context.first_name,
+                self.context.last_name)
+                
+
+class GroupMembershipDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IBungeniGroupMembership)
+
+    @property
+    def title(self):
+        context = removeSecurityProxy(self.context)
+        #import pdb; pdb.set_trace()
+        if context.user:
+            return "%s %s %s" % (context.user.titles,
+                context.user.first_name,
+                context.user.last_name)
+        else:
+            return u"New User"
+                    
+
                

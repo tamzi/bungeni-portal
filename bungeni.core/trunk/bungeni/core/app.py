@@ -83,8 +83,6 @@ class AppSetup( object ):
         users = domain.UserContainer()
         self.context[_container_name_mapping[domain.User]] = users
 
-        mps = domain.ParliamentMemberContainer()
-        self.context[_container_name_mapping[domain.ParliamentMember]] = mps
         
         staff_members = domain.StaffMemberContainer()
         self.context[_container_name_mapping[domain.StaffMember]] = staff_members

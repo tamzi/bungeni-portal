@@ -190,6 +190,8 @@
   <adapter factory=".dc.ItemScheduleDescriptiveProperties" />
   <adapter factory=".dc.VersionDescriptiveProperties" />
   <adapter factory=".dc.GroupDescriptiveProperties" />
+  <adapter factory=".dc.UserDescriptiveProperties" />
+  <adapter factory=".dc.GroupMembershipDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

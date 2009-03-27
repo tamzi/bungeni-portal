@@ -155,3 +155,12 @@ class VersionDescriptiveProperties(DescriptiveProperties):
     def description(self):
         return _(u"Last modified $date.",
                  mapping={'date': self.context.change.date})
+                 
+class GroupDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IBungeniGroup)          
+    
+    @property
+    def title(self):
+        return self.context.short_name
+        
+               

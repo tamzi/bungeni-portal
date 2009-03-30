@@ -314,6 +314,7 @@ class ParliamentaryItem( Entity ):
     """
     """
     interface.implements( interfaces.IBungeniContent )
+       
     # votes
 
     # schedule
@@ -397,7 +398,7 @@ class BillType(object):
     """
 
 class Bill( ParliamentaryItem ):
-    #interface.implements( interfaces.IBill, interfaces.IFileAttachments )
+    interface.implements( interfaces.IBill, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
     
     consignatory = one2many("consignatory", "bungeni.models.domain.BillConsignatoryContainer", "bill_id")

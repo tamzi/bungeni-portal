@@ -1,62 +1,36 @@
-Question workflow
-=================
-
-  >>> from bungeni.models.domain import Question
+Question and response workflow
+==============================
 
 Setup
 -----
 
+Setting up database connection and utilities:
 
-  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
-  >>> import bungeni.core.interfaces
-  >>> import ore.workflow
-  >>> import copy
-  >>> import datetime
-  >>> import bungeni.core.testing as testing
+  >>> from bungeni.core.testing import setup_db
+  >>> engine = setup_db()
   
+  >>> from bungeni.core.workflows.testing import setup_adapters
+  >>> from bungeni.core.workflows.testing import setup_security_adapters
+  >>> setup_adapters()
+  >>> setup_security_adapters()
   
-some setup for tests
-
-   >>> from zope import component
-   >>> from ore.alchemist import Session
-   >>> from bungeni import models as model
-   >>> from bungeni.models import domain, schema
-
-
-   
-   
-Setting up Database Connection and Utilities:
-
-   >>> engine = testing.setup_db()
-   >>> session = Session()
-
-
-
-
-Get some standard dates for testing   
-   >>> today = datetime.date.today()
-   >>> yesterday = today - datetime.timedelta(1)
-   >>> tomorrow = today + datetime.timedelta(1)
-   >>> dayat = today + datetime.timedelta(2)
-
-
-set up utilities
----------------  
-  >>> import bungeni.core.workflows.testing
-  >>> bungeni.core.workflows.testing.setup_adapters()
+  >>> from ore.alchemist import Session
+  >>> session = Session()
   
+Imports.
 
+  >>> from bungeni.models import domain
+  >>> from bungeni.models import schema
+
+Questions are versionable.
   
-Security Adapters
-
-  >>> bungeni.core.workflows.testing.setup_security_adapters()
-  
-  >>> from bungeni.core.app import BungeniApp
-  >>> app = BungeniApp()
-
   >>> from zope.interface import classImplements
-  >>> classImplements( bungeni.models.domain.Question, bungeni.core.interfaces.IVersionable)
+  >>> from bungeni.core.interfaces import IVersionable
+  >>> classImplements(domain.Question, IVersionable)
 
+Principals
+----------
+  
 In order to create a participation, we need a principal:
 
   >>> from bungeni.core.testing import create_principal, create_participation
@@ -68,6 +42,7 @@ In order to create a participation, we need a principal:
   >>> speaker = create_principal("speaker", "Speaker", ())    
   >>> minister = create_principal("minister", "Minister", ())      
 
+Assign roles.
 
   >>> global_prm = zope.securitypolicy.interfaces.IPrincipalRoleMap(app)
   >>> global_prm.assignRoleToPrincipal( u'bungeni.MP', 'member')
@@ -75,589 +50,222 @@ In order to create a participation, we need a principal:
   >>> global_prm.assignRoleToPrincipal( u'bungeni.Speaker', 'speaker')
   >>> global_prm.assignRoleToPrincipal( u'bungeni.Minister', 'minister')      
 
-
-setup parliament, gov and ministry
-----------------------------------
-
-  >>> parliament = model.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
-  >>> session.add(parliament)
-  >>> session.flush()
+  >>> zope.security.management.newInteraction(create_participation(member))
   
-  >>> gov = model.Government(short_name=u"gov_1", start_date=yesterday)
-  >>> gov.parliament_id = parliament.parliament_id
-  >>> session.add(gov)
-  >>> session.flush()  
-  
-  >>> ministry = model.Ministry(short_name=u"ministry", start_date=yesterday)
-  >>> ministry.government_id = gov.government_id
-  >>> session.add(ministry)
-  >>> session.flush()
+Content creation
+----------------
 
+  >>> from bungeni.models.testing import add_content
+
+  >>> parliament = add_content(
+  ...    domain.Parliament,
+  ...    short_name=u"p_1",
+  ...    start_date=yesterday,
+  ...    election_date=yesterday)
+
+  >>> gov = add_content(
+  ...     domain.Government,
+  ...     short_name=u"gov_1",
+  ...     start_date=yesterday,
+  ...     parliament_id=parliament.parliament_id)
+  
+  >>> ministry = add_content(
+  ...     domain.Ministry,
+  ...     short_name=u"ministry",
+  ...     start_date=yesterday,
+  ...     government_id=gov.government_id)
  
-Transition events
------------------
-
-We set up event subscribers to make sure all registered transition
-events are called.
-
-  >>> from bungeni.core.workflows import testing
-  >>> check_transition_events = testing.provide_transition_events_check(
-  ...     bungeni.core.workflows.question.wf)
-  
-Workflow
---------
-
-  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item, create_sitting
-   
-  >>> sit1 = create_sitting()
-
-Add question to db
-------------------
-
-  >>> question = Question()
-  >>> question.short_name = u"subject of the question"
-  >>> question.body_text = u"The question"
-  >>> question.language = "en"
-  >>> session.add(question)
-  >>> session.flush()
+  >>> question = add_content(
+  ...     domain.Question,
+  ...     short_name=u"My subject",
+  ...     body_text=u"The question",
+  ...     language="en")
 
   >>> question.__parent__ = app
+
+  >>> response = add_content(
+  ...     domain.Response,
+  ...     response_id=question.question_id,
+  ...     language = "en")
+
+We need a parliament, government ministry and ministers to whom we can
+send the question notifications.
+
+  >>> country = add_content(
+  ...     domain.Country,
+  ...     country_id='KE',
+  ...     country_name=u"Kenya")
+
+  >>> mp_1 = add_content(
+  ...        domain.User,
+  ...        u"minister 1",
+  ...        first_name=u"a", 
+  ...        last_name=u'ab', 
+  ...        birth_country="KE",
+  ...        email=u"mp1@example.com", 
+  ...        date_of_birth=today,
+  ...        gender='M')
   
-set up a security mapping
-
-  >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
-  >>> prm = zope.securitypolicy.interfaces.IPrincipalRoleMap ( question )
- 
-just a variable to count the versions:
-  >>> i = 0
- 
+  >>> mp_2 = add_content(
+  ...        domain.User,
+  ...        u"minister 2",
+  ...        first_name=u"b", 
+  ...        last_name=u"bc", 
+  ...        birth_country="KE",  
+  ...        date_of_birth=today,
+  ...        email=u"mp2@example.com",
+  ...        gender='M')
   
-First we initialize the workflow.
+  >>> mp_3 = add_content(
+  ...        domain.User,
+  ...        u"No minister",
+  ...        first_name=u"c", 
+  ...        birth_country="KE",  
+  ...        last_name=u"cd",
+  ...        date_of_birth=today,
+  ...        email=u"mp3@example.com", 
+  ...        gender='F')      
+
+  >>> from bungeni.models.testing import create_sitting
+  >>> sitting = create_sitting(parliament.parliament_id)
+
+Set up a security mapping.
+
+  >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap(question)
+  >>> prm = zope.securitypolicy.interfaces.IPrincipalRoleMap(question)
+
+Integrity
+---------
+
+Verify that all states are reachable.
+
+  >>> from bungeni.core.workflows.testing import verify_workflow
+  >>> from ore.workflow.interfaces import IWorkflow
+
+  >>> wf = IWorkflow(question)
+  >>> verify_workflow(wf)
+
+  >>> wf = IWorkflow(response)
+  >>> verify_workflow(wf)
   
-  >>> transitions(question)
-  (u'create',)
+Questions actions
+-----------------
 
-  >>> permission(question)
-  (Global(CheckerPublic,zope.security.checker),)
+  >>> from ore.workflow.interfaces import IWorkflowInfo
+  >>> from bungeni.core.workflows.question import actions 
+  >>> info = IWorkflowInfo(question)
 
-  >>> zope.security.management.newInteraction(create_participation(member))
-  >>> list( prm.getRolesForPrincipal(u'member') )
-  []
+"Create". This action assigns the role of "Owner" and sets the
+parliament id (if it's a supplement question, it also sets the
+ministry id, taken from this question).
 
-
-  >>> IWorkflowInfo(question).fireTransition('create')
-
-  >>> question.question_id == None
-  False
-
-  >>> question.parliament_id == None
-  False
-
-  >>> list( prm.getRolesForPrincipal(u'member') )
-  [(u'bungeni.Owner', PermissionSetting: Allow)]
-   
-
-The question is now in a draft state.
-
-
-  >>> transitions(question)
-   (u'submit-to-clerk',)
-    
-  >>> permission(question)
-  (u'bungeni.question.Submit',)
-
-  >>> list( prm.getRolesForPrincipal(u'member') )
-  [(u'bungeni.Owner', PermissionSetting: Allow)]
-
-
-the question does not yet have a submitted date
-   >>> question.submission_date 
-   
-When we submit the question, a new version is created.
-  
-  >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
-
-The transition action returns None, indicating that the the current
-instance is still active.
-
-  >>> result is None
+  >>> actions.create(info, question)
+  >>> question.parliament_id == parliament.parliament_id
   True
 
-and the date  was set to clerk_submission_date today
-   >>> question.submission_date == today
-   True
+  >>> from zope.securitypolicy.interfaces import IPrincipalRoleMap
+  >>> tuple(IPrincipalRoleMap(question).getRolesForPrincipal("member"))
+  ((u'bungeni.Owner', PermissionSetting: Allow),)
 
-Verify that a new version was issued.
+"Submit to clerk".
 
+  >>> actions.submit_to_clerk(info, question)
   >>> from bungeni.core.interfaces import IVersioned
   >>> versions = IVersioned(question)
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
+  >>> len(versions)
+  1
   
-Let's examine the version.
+"Received by clerk".
 
-  >>> version = list(versions.values())[0]
-  >>> version.status
-  u'questionstates.draft'
+  >>> actions.received_by_clerk(info, question)
+  >>> len(versions)
+  2
 
-Submitted:
+"Require edit by MP".
 
-  >>> transitions(question)
-  (u'withdraw-submitted', u'received-by-clerk')
+  >>> actions.require_edit_by_mp(info, question)
+  >>> len(versions)
+  3
 
-A question can be withdrawn at (almost) any stage  
-  
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-submitted')   
+"Complete".
 
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'  
+  >>> actions.complete(info, question)
+  >>> len(versions)
+  4
 
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-  >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
+"Approve".
 
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-  
+  >>> actions.approve(info, question)
+  >>> len(versions)
+  5
 
-Received:
-
-  >>> transitions(question)
-  (u'require-edit-by-mp', u'complete', u'withdraw-received')
-
-A question can be withdrawn at (almost) any stage  
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-received')   
-
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'  
-  
-  
-
-  
-If it needs clarification this sets it back to draft and it must be submitted again  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-  
-  >>> result = IWorkflowInfo(question).fireTransition('require-edit-by-mp')
-  
-
-  >>> transitions(question)
-  (u'resubmit-clerk', u'withdraw-amend')
-
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
+  >>> question.approval_date == today
   True
 
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))      
-  
-  >>> result = IWorkflowInfo(question).fireTransition('resubmit-clerk')
-  
-versioned again
-  
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-     
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-      
-  >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
-    
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True    
-    
-complete the question
+"Reject".
 
-  >>> result = IWorkflowInfo(question).fireTransition('complete')  
-    
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-    
-      
-  
-The speakers office now has to review the question
+  >>> actions.reject(info, question)
 
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(speaker))  
+"Require amendment".
 
+  >>> actions.require_amendment(info, question)
+  >>> len(versions)
+  6
 
-  >>> transitions(question)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
+"Complete clarify".
 
-A question can be withdrawn at (almost) any stage  
+  >>> actions.complete_clarify(info, question)
+  >>> len(versions)
+  7
 
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-  
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-complete')   
+"MP clarify".
 
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'
+  >>> actions.mp_clarify(info, question)
+  >>> len(versions)
+  8
 
+"Send to ministry".
 
-Reject the question
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(speaker))  
-
-  >>> question_reject = copy.deepcopy(question)
-  >>> transitions(question_reject)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
-
-  >>> result = IWorkflowInfo(question_reject).fireTransition('reject') 
-
-  >>> transitions(question_reject)
-  ()     
-
-If the questions requires amendment it is sent back to the owner
-and has to be resubmitted 
-
-
-
-  >>> transitions(question)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
-
-  >>> question_amend = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
-  
-it gets versioned before amendment
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-    
-  
-  >>> transitions(question_amend)
-  (u'complete-clarify', u'mp-clarify')
-
-The clerks office can resubmit the question
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-
-  >>> question_clerk_resubmit = copy.deepcopy(question_amend)
-  >>> result = IWorkflowInfo(question_clerk_resubmit).fireTransition('complete-clarify')    
-  >>> transitions(question_clerk_resubmit)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
-
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True  
-
-
-or the question can be send back to the mp for further clarification
-
-  >>> result = IWorkflowInfo(question_amend).fireTransition('mp-clarify')  
-  >>> transitions(question_amend)
-  (u'resubmit-clerk', u'withdraw-amend')
-
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True  
-
-
-
-A question can be withdrawn at (almost) any stage  
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-  
-  >>> question_withdraw = copy.deepcopy(question_amend)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-amend')   
-
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'
-
-
-  >>> result = IWorkflowInfo(question_amend).fireTransition('resubmit-clerk')  
-
-it gets versioned by resubmitting after amendment
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
+  >>> actions.send_to_ministry(info, question)
+  >>> question.ministry_submit_date == today
   True
 
-  >>> transitions(question_amend)   
-  (u'withdraw-submitted', u'received-by-clerk')
+"Answer".
 
-clerks recieves it
+  >>> actions.answer(info, question)
 
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
+Question conditions
+-------------------
 
-  >>> result = IWorkflowInfo(question_amend).fireTransition('received-by-clerk')  
-
-
+  >>> from bungeni.core.workflows.question import conditions
   
-Appove the question and set the approval date and serial number
+"Is scheduled".
 
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(speaker))  
-  
-  >>> transitions(question)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
-
-  >>> question.approval_date
-
-  >>> question.question_number
-
-  >>> result = IWorkflowInfo(question).fireTransition('approve')  
-  
-  >>> question.approval_date  == today 
-  True
-  
-  >>> question.question_number == None
+  >>> conditions.is_scheduled(info, question)
   False
+
+  >>> from bungeni.models.testing import create_sitting
+  >>> sitting = create_sitting(parliament.parliament_id)
+
+  >>> scheduling = add_content(
+  ...     domain.ItemSchedule,
+  ...     sitting_id=sitting.sitting_id,
+  ...     item_id=question.parliamentary_item_id)
   
-  
-  >>> transitions(question)
-  (u'defer', u'withdraw-admissible', u'send-ministry', u'schedule')
-  
-
-A question can be withdrawn at (almost) any stage  
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-  
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-admissible')   
-
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'
-
-
-A written response to the question
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-
-  >>> question_written_response = copy.deepcopy(question)
-
-  >>> question_written_response.ministry_submit_date
-
-  >>> question_written_response.ministry_id = ministry.ministry_id
-
-
-  >>> result = IWorkflowInfo(question_written_response).fireTransition('send-ministry')  
-  
-  >>> question_written_response.ministry_submit_date == today  
+  >>> conditions.is_scheduled(info, question)
   True
-  
-  >>> transitions(question_written_response)
-   (u'elapse-pending', u'respond-writing', u'forward-ministry')
-   
-The question can be forwarded to another ministry.
 
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(minister))  
+"Is ministry set".
 
-  >>> result = IWorkflowInfo(question_written_response).fireTransition('forward-ministry')  
-  
-  >>> transitions(question_written_response)
-   (u'elapse-pending', u'respond-writing', u'forward-ministry')  
-   
+  >>> conditions.is_ministry_set(info, question)
+  False
 
-A question can elapse if no answer is given
-
-  >>> question_written_response_elapse = copy.deepcopy(question_written_response)
-
-
-  >>> result = IWorkflowInfo(question_written_response_elapse).fireTransition('elapse-pending')  
-  
-  >>> transitions(question_written_response_elapse)
-   ()
-
-Or the question can be responded to in writing
-
-  >>> result = IWorkflowInfo(question_written_response).fireTransition('respond-writing')  
-  
-  >>> transitions(question_written_response)
-  (u'answer',)  
-
-defer the question
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-
-
-  >>> question_defer = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
-  
-  >>> transitions(question_defer)     
-  (u'schedule-deferred', u'elapse-defered', u'defer-ministry', u'withdraw-deferred')
-  
-A deferred question can be assigned to a ministry for a written response
-
-  >>> question_defer_response = copy.deepcopy(question_defer)
-
-  >>> question_defer_response.ministry_submit_date
-
-  >>> question_defer_response.ministry_id = ministry.ministry_id
-
-  >>> result = IWorkflowInfo(question_defer_response).fireTransition('defer-ministry')  
-  
-  >>> question_defer_response.ministry_submit_date  == today
-  True
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(minister))   
-  
-  >>> transitions(question_defer_response)
-  (u'elapse-pending', u'respond-writing', u'forward-ministry')  
-
-  >>> result = IWorkflowInfo(question_defer_response).fireTransition('respond-writing')  
-  
-  >>> transitions(question_defer_response)
-  (u'answer',)  
-  
-  
-A queston can elapse if no answer is given
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))   
-
-  >>> question_elapse_defered = copy.deepcopy(question_defer)
-  
-  >>> result = IWorkflowInfo(question_elapse_defered).fireTransition('elapse-defered')    
-  >>> transitions(question_elapse_defered)
-  ()
-
-A question can be withdrawn at (almost) any stage  
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-    
-  >>> question_withdraw = copy.deepcopy(question_defer)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-deferred')   
-
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'  
-
-Reschedule the deferred question
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-  
-  >>> schedule_item(question, sit1)
-
-  >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
-  >>> transitions(question_defer)     
-  (u'postpone', u'withdraw-scheduled', u'respond-sitting')
-
-and postpone it to make sure it is out of the calendar schedule
-  
-  >>> result = IWorkflowInfo(question_defer).fireTransition('postpone')  
-
-schedule the question
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(speaker))  
-
-  >>> schedule_item(question, sit1)
-
-  >>> result = IWorkflowInfo(question).fireTransition('schedule')  
-  
-  >>> transitions(question)
-  (u'postpone', u'withdraw-scheduled', u'respond-sitting')
-
-A question can be withdrawn at (almost) any stage  
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-  
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-scheduled')   
-
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'
-
-postpone the question
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-
-  >>> schedule_item(question, sit1) 
-  
-  >>> result = IWorkflowInfo(question).fireTransition('postpone')  
-  >>> transitions(question)
-  (u'schedule-postponed', u'elapse-postponed', u'postponed-ministry', u'withdraw-postponed')
- 
-A question can elapse without an answer 
-
-  >>> question_elapse_postponed = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_elapse_postponed).fireTransition('elapse-postponed')   
-  >>> transitions(question_elapse_postponed)
-  ()
-  
-A question can be withdrawn at (almost) any stage  
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(member))  
-  
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-postponed')   
-
-  >>> question_withdraw.status
-  u'questionstates.withdrawn'
-
-and reschedule it for the second sitting
-
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))  
-
-  >>> schedule_item(question, sit1)  
-
-
-  >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
-  
-  >>> transitions(question)
-  (u'postpone', u'withdraw-scheduled', u'respond-sitting')
-
-
-respond to the question
-
-  >>> result = IWorkflowInfo(question).fireTransition('respond-sitting')  
-  >>> transitions(question)
-  (u'answer',)
-
-the question gets marked as answered
-
- >>> result = IWorkflowInfo(question).fireTransition('answer')  
- >>> transitions(question)
-  ()      
-
-  
-Transition events check
------------------------
-
-  >>> print check_transition_events ==   {(u'questionstates.admissible', u'questionstates.deferred'): True, 
-  ... (u'questionstates.admissible', u'questionstates.response_pending'): True, 
-  ... (u'questionstates.complete', u'questionstates.inadmissible'): True, 
-  ... (u'questionstates.postponed', u'questionstates.response_pending'): True, 
-  ... (u'questionstates.received', u'questionstates.clarify_mp'): True, 
-  ... (u'questionstates.draft', u'questionstates.submitted'): True, 
-  ... (u'questionstates.received', u'questionstates.complete'): True, 
-  ... (u'questionstates.responded', u'questionstates.answered'): True, 
-  ... (u'questionstates.postponed', u'questionstates.scheduled'): True, 
-  ... (u'questionstates.response_pending', u'questionstates.response_pending'): True, 
-  ... (u'questionstates.scheduled', u'questionstates.postponed'): True, 
-  ... (u'questionstates.submitted', u'questionstates.received'): True, 
-  ... (u'questionstates.admissible', u'questionstates.scheduled'): True, 
-  ... (u'questionstates.deferred', u'questionstates.response_pending'): True}
+  >>> question.ministry_id = ministry.ministry_id
+  >>> conditions.is_ministry_set(info, question)
   True
 
 Notifications
-=============
+-------------
 
   >>> from bungeni.core.workflows import question as notification
   >>> from zope.component.interfaces import ObjectEvent
@@ -676,89 +284,24 @@ Setup mock delivery component.
 
 Set up a user.
 
-  >>> from bungeni import models as model
-  >>> from datetime import datetime
+  >>> user = add_content(
+  ...     domain.User,
+  ...     first_name=u'John',
+  ...     last_name=u'Doe',
+  ...     email = 'john.doe@localhost')
 
-  >>> from bungeni.models.domain import User
-  >>> user = User()
-  >>> user.first_name = u'John'
-  >>> user.last_name = u'Doe'
-  >>> user.email = 'john.doe@localhost'
+  >>> minister = add_content(
+  ...     domain.Minister,
+  ...     group_id=ministry.group_id,
+  ...     user_id=mp_1.user_id)
 
-  
-  >>> from ore.alchemist import Session
-  >>> session = Session()
-  >>> session.add(user)
-  >>> session.flush()
+  >>> minister2 = add_content(
+  ...     domain.Minister,
+  ...     group_id=ministry.group_id,
+  ...     user_id=mp_2.user_id)
 
-We need a parliament, government ministry and ministers to send the
-question notification to.
-
-  >>> from bungeni import models as model
-  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
-  >>> session.add(parliament)
-  >>> session.flush()
-  
-  >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.now())
-  >>> gov.parliament_id = parliament.parliament_id
-  >>> session.add(gov)
-  >>> session.flush()  
-  
-  >>> country = model.Country()
-  >>> country.country_id = 'KE'
-  >>> country.country_name = u"Kenya"
-  >>> session.add(country)
-  >>> ministry = model.Ministry(short_name=u"A ministry", start_date=datetime.now())
-  >>> ministry.government_id = gov.government_id
-  >>> session.add(ministry)
-  >>> session.flush()
-
-
-  >>> mp_1 = model.ParliamentMember(u"minister 1", 
-  ...        first_name=u"a", 
-  ...        last_name=u'ab', 
-  ...        birth_country="KE",
-  ...        email=u"mp1@example.com", 
-  ...        date_of_birth=datetime.now(),
-  ...        gender='M')
-  >>> mp_2 = model.ParliamentMember(u"minister 2", 
-  ...        first_name=u"b", 
-  ...        last_name=u"bc", 
-  ...        birth_country="KE",  
-  ...        date_of_birth=datetime.now(),
-  ...        email=u"mp2@example.com",
-  ...        gender='M')
-  >>> mp_3 = model.ParliamentMember(u"No minister",
-  ...        first_name=u"c", 
-  ...        birth_country="KE",  
-  ...        last_name=u"cd",
-  ...        date_of_birth=datetime.now(),
-  ...        email=u"mp3@example.com", 
-  ...        gender='F')      
-
-  >>> session.add( mp_1 )
-  >>> session.add( mp_2 )
-  >>> session.add( mp_3 )      
-  >>> session.flush()
-
-  >>> minister = model.Minister()
-  >>> minister.group_id = ministry.group_id
-  >>> minister.user_id = mp_1.user_id
-  >>> session.add(minister)
-  >>> session.flush()
-  
-  
-  >>> minister2 = model.Minister()
-  >>> minister2.group_id = ministry.group_id
-  >>> minister2.user_id = mp_2.user_id
-  >>> session.add(minister2)
-  >>> session.flush()  
-  
-  >>> from bungeni.models.domain import Question
-  >>> question = Question()
-  >>> question.short_name = u"My subject"
-  >>> question.owner_id = user.user_id
   >>> question.receive_notification = False
+  >>> question.owner_id = user.user_id
   
 Question received.
   
@@ -775,77 +318,114 @@ is dispatched.
   
 Send notification to Clerk's office upon submit.
 
-    >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(question))
-    From: "John Doe" <john.doe@localhost>
-    To: clerks.office@parliament.go.tld ...
-    Subject: Question submitted: My subject ...
+  >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(question))
+  From: "John Doe" <john.doe@localhost>
+  To: clerks.office@parliament.go.tld ...
+  Subject: Question submitted: My subject ...
 
 the question is marked as “complete” and is made available / forwarded
 to the Speaker's Office for reviewing and to make it “admissible”.
 
-   >>> notification.SendNotificationToMemberUponComplete(ObjectEvent(question))
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Question completed for review at the speakers office.
+  >>> notification.SendNotificationToMemberUponComplete(ObjectEvent(question))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Question completed for review at the speakers office.
 
 At the same time the question is also forwarded to the ministry.
 
-   >>> question.ministry_id = ministry.group_id
-   >>> notification.SendNotificationToMinistryUponComplete(ObjectEvent(question))  
-    From: clerks.office@parliament.go.tld
-    To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> ...
-    Question assigned to ministry.
+  >>> question.ministry_id = ministry.group_id
+  >>> notification.SendNotificationToMinistryUponComplete(ObjectEvent(question))  
+  From: clerks.office@parliament.go.tld
+  To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> ...
+  Question assigned to ministry.
   
 A question was rejected by the speakers office.
-    >>> notification.SendNotificationToMemberUponReject(ObjectEvent(question))
-    From: speakers.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question rejected: My subject ...
-  
+
+  >>> notification.SendNotificationToMemberUponReject(ObjectEvent(question))
+  From: speakers.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question rejected: My subject ... 
 
 A question needs clarification by the MP
-    >>> notification.SendNotificationToMemberUponNeedsClarification(ObjectEvent(question))
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question needs clarification: My subject ...
 
+  >>> notification.SendNotificationToMemberUponNeedsClarification(ObjectEvent(question))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question needs clarification: My subject ...
 
 A question was deferred by Clerk's office.
-    >>> notification.SendNotificationToMemberUponDeferred(ObjectEvent(question))
-    From: speakers.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question deferred: My subject ...
+
+  >>> notification.SendNotificationToMemberUponDeferred(ObjectEvent(question))
+  From: speakers.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question deferred: My subject ...
 
 A question was scheduled by Speakers office.
-    >>> notification.SendNotificationToMemberUponSchedule(ObjectEvent(question))
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question scheduled: My subject ...
+
+  >>> notification.SendNotificationToMemberUponSchedule(ObjectEvent(question))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question scheduled: My subject ...
 
 A question was postponed by the speakers office.
-    >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(question))  
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question postponed: My subject ...
-  
+
+  >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(question))  
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question postponed: My subject ...
 
 A question was sent to a ministry for written response.
-    >>> notification.SendNotificationToMemberUponSentToMinistry(ObjectEvent(question))
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question sent to ministry: My subject ...
-  
+
+  >>> notification.SendNotificationToMemberUponSentToMinistry(ObjectEvent(question))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question sent to ministry: My subject ...
 
 A questions answer was reviewed by Clerk's office.
-    >>> notification.SendNotificationToMemberUponAnswer(ObjectEvent(question))  
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Question answered: My subject ...
+
+  >>> notification.SendNotificationToMemberUponAnswer(ObjectEvent(question))  
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Question answered: My subject ...
+
+Response actions
+----------------
+
+  >>> from ore.workflow.interfaces import IWorkflowInfo
+  >>> from bungeni.core.workflows.response import actions 
+  >>> info = IWorkflowInfo(response)
+
+"Create". This action assigns the role of "Owner".
+
+  >>> actions.create(info, response)
+
+  >>> from zope.securitypolicy.interfaces import IPrincipalRoleMap
+  >>> tuple(IPrincipalRoleMap(response).getRolesForPrincipal("member"))
+  ((u'bungeni.Owner', PermissionSetting: Allow),)
+
+Before we can continue the response workflow, we need to start a
+participation as ``clerk``.
   
-cleanup
+  >>> zope.security.management.endInteraction()
+  >>> zope.security.management.newInteraction(create_participation(clerk))
+
+"Submit". We can submit a response only for a question that has a
+transition to the 'responded' state.
+
+  >>> question.status = u"scheduled"
+
+  >>> actions.submit(info, response)
+  >>> question.status
+  u'responded'
+  
+"Complete".
+
+  >>> actions.complete(info, response)
+  
+Cleanup
 -------
+
   >>> session.flush()
   >>> session.commit()
   >>> session.close()  
-
   >>> zope.security.management.endInteraction()

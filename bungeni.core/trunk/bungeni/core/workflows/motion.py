@@ -7,6 +7,12 @@ from bungeni.core import globalsettings as prefs
 from bungeni.core.i18n import _
 import zope.securitypolicy.interfaces
 import bungeni.core.workflows.utils as utils
+from bungeni.core.workflows import dbutils
+
+class conditions:
+    @staticmethod
+    def is_scheduled(info, context):
+        return dbutils.isItemScheduled(context.motion_id)
 
 class actions:
     @staticmethod
@@ -42,7 +48,7 @@ class actions:
 
 
     @staticmethod
-    def recieved_by_clerk( info, context ):
+    def received_by_clerk( info, context ):
         utils.createVersion(info, context)   
 
     @staticmethod

@@ -5,14 +5,19 @@ $Id: $
 from zope import interface
 from zope import component
 
+import copy
 import unittest
+import datetime
 
 from zope.testing import doctest, doctestunit
 from zope.app.testing import placelesssetup, ztapi
 from zope.configuration import xmlconfig
 
-from bungeni.models import metadata, interfaces
-from bungeni.core.interfaces import IVersionedFileRepository, IFilePathChooser
+from bungeni.models import metadata
+from bungeni.models.interfaces import IBungeniContent
+from bungeni.models.interfaces import IDirectoryLocation
+from bungeni.core.interfaces import IFilePathChooser
+from bungeni.core.interfaces import IVersionedFileRepository
 
 zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -23,7 +28,7 @@ zcml_slug = """
 </configure>
 """
 
-def setUp( test ):
+def setUp(test):
     placelesssetup.setUp()
     xmlconfig.string( zcml_slug )
     metadata.create_all( checkfirst=True )
@@ -32,7 +37,17 @@ def tearDown( test ):
     placelesssetup.tearDown()
     metadata.drop_all( checkfirst=True )
 
-
+    import bungeni.models.domain
+    import bungeni.models.schema
+    import bungeni.models.orm
+    import bungeni.ui.content
+    
+    # reload catalyzed modules
+    reload(bungeni.ui.content)
+    reload(bungeni.models.domain)
+    reload(bungeni.models.schema)
+    reload(bungeni.models.orm)
+    reload(bungeni.models)
 
 def file_setup( ):
     import files
@@ -53,11 +68,11 @@ def file_tests( ):
         
         ztapi.provideUtility( IVersionedFileRepository, component=files.FileRepository )
 
-        ztapi.provideAdapter( interfaces.IBungeniContent,
-                              interfaces.IDirectoryLocation,
+        ztapi.provideAdapter( IBungeniContent,
+                              IDirectoryLocation,
                               files.location )
 
-        ztapi.provideAdapter( interfaces.IBungeniContent,
+        ztapi.provideAdapter( IBungeniContent,
                               IFilePathChooser,
                               files.DefaultPathChooser )
 
@@ -75,18 +90,29 @@ def file_tests( ):
                                     )
 
 def test_suite():
+    from bungeni.core.app import BungeniApp
 
     doctests = ('audit.txt',
                 'version.txt',                 
                 'workflows/question.txt',
-                'workflows/response.txt',               
                 'workflows/motion.txt',
                 'workflows/bill.txt',
-                'workflows/dbutils.txt',
-                'workflows/transitioncron.txt',                
+                'workflows/transitioncron.txt',
                 )
-    
-    globs = dict(interface=interface, component=component)
+
+    # set up global symbols for doctests
+    today = datetime.date.today()
+    globs = dict(
+        interface=interface,
+        component=component,
+        copy=copy,
+        app=BungeniApp(),
+        today=today,
+        yesterday=today-datetime.timedelta(1),
+        daybeforeyesterday=today-datetime.timedelta(2),
+        tomorrow=today+datetime.timedelta(1),
+        dayat=today+datetime.timedelta(2)
+        )
 
     test_suites = []
     for filename in doctests:

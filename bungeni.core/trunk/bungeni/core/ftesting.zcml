@@ -44,8 +44,10 @@
      metadata="alchemist.security.metadata" />
 
 
-
+<!--
   <include package="bungeni.ui" file="catalyst.zcml" />
+
+  -->
   
   <!--include package="zope.app.security" />
   <include package="zope.app.securitypolicy" file="meta.zcml" />

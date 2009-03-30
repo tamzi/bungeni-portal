@@ -1,6 +1,6 @@
 from zope.i18n import translate
 
-from bungeni.models.domain import User
+from bungeni.models import domain
 from bungeni.server.smtp import dispatch
 from email.mime.text import MIMEText
 
@@ -8,7 +8,7 @@ from ore.alchemist import Session
 
 def get_owner_email(context):
     session = Session()
-    owner = session.query(User).get(context.owner_id)
+    owner = session.query(domain.User).get(context.owner_id)
     return  '"%s %s" <%s>' % (owner.first_name, owner.last_name, owner.email)
 
 class Notification(object):

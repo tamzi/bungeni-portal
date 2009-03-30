@@ -1,432 +1,145 @@
-Bill Workflow
+Bill workflow
 =============
 
-The default bill workflow models the Westminister Tradition.
+The default bill workflow models the "Westminister Tradition".
 
 Setup
 -----
 
-  >>> from bungeni.models.domain import Bill
-  >>> from ore.workflow.interfaces import IWorkflowInfo
-  >>> from ore.alchemist import Session  
-  >>> import copy  
-  
+Setting up database connection and utilities:
 
+  >>> from bungeni.core.testing import setup_db
+  >>> engine = setup_db()
   
-  >>> import bungeni.models as model
-  >>> import datetime
+  >>> from bungeni.core.workflows.testing import setup_adapters
+  >>> from bungeni.core.workflows.testing import setup_security_adapters
+  >>> setup_adapters()
+  >>> setup_security_adapters()
   
-  some setup for tests
-
-   >>> from zope import component
-   >>> from bungeni.models import domain, schema
+  >>> from ore.alchemist import Session
+  >>> session = Session()
   
-   
-Setting up Database Connection and Utilities:
+Imports.
 
-   >>> import bungeni.core.testing as testing
-   >>> engine = testing.setup_db()  
-   >>> session = Session()
-   >>> i = 0  
+  >>> from bungeni.models import domain
+  >>> from bungeni.models import schema
+
+Bills are versionable.
   
-  >>> import bungeni.core.workflows.testing
-  >>> bungeni.core.workflows.testing.setup_adapters()
-  >>> bungeni.core.workflows.testing.setup_security_adapters()
-
-
   >>> from zope.interface import classImplements
-  >>> classImplements( bungeni.models.domain.Bill, bungeni.core.interfaces.IVersionable)
+  >>> from bungeni.core.interfaces import IVersionable
+  >>> classImplements(domain.Bill, IVersionable)
 
+Content creation
+----------------
 
-Transition events
------------------
-
-We set up event subscribers to make sure all registered transition
-events are called.
-
-  >>> from bungeni.core.workflows import testing
-  >>> check_transition_events = testing.provide_transition_events_check(
-  ...     bungeni.core.workflows.bill.wf)
-
+  >>> from bungeni.models.testing import add_content
   
-  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item, create_sitting
-    
+  >>> parliament = add_content(
+  ...    domain.Parliament,
+  ...    short_name=u"p_1",
+  ...    start_date=yesterday,
+  ...    election_date=yesterday)
 
-Sitting to schedule the bill:
------------------------------
+  >>> country = add_content(
+  ...     domain.Country,
+  ...     country_id='KE',
+  ...     country_name=u"Kenya")
  
-  >>> sit1 = create_sitting()
-
-  
-Owner of the bill
------------------
-  >>> country = model.Country()
-  >>> country.country_id = 'KE'
-  >>> country.country_name = u"Kenya"
-  >>> session.add(country)
-  >>> session.flush()
- 
-  >>> mp_1 = model.ParliamentMember(u"mp_1", 
-  ...        first_name=u"a", 
-  ...        last_name=u'ab', 
-  ...        birth_country="KE",
-  ...        email=u"mp1@example.com", 
-  ...        date_of_birth=datetime.datetime.now(),
-  ...        gender='M') 
-  
-  >>> session.add(mp_1)
-  >>> session.flush()
-
-Bill Types
-----------
-  >>> bt = model.BillType()
-  >>> bt.bill_type_name = u"Private Bill"
-  >>> session.add(bt)
-  >>> session.flush()
-
-
-  >>> bill = Bill()
-  >>> bill.bill_type_id = bt.bill_type_id
-  >>> bill.owner_id = mp_1.user_id
-  >>> bill.short_name = u"New Bill"
-  >>> bill.language = "en"
-  >>> session.add(bill)
-  >>> session.flush()
-
-
-
-Drafting A Bill
----------------
-  
-  >>> transitions( bill )
-  (u'create-bill',)
-    
-  >>> IWorkflowInfo(bill).fireTransition('create-bill')  
-
-  >>> transitions( bill )
-   (u'submit-bill',)
-   
-Publish Bill in gazette
------------------------
-  >>> IWorkflowInfo(bill).fireTransition('submit-bill')  
-  >>> transitions( bill )
-  (u'withdraw-submitted', u'schedule-first')
-  
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-submitted')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-  
-A withdrawn bill can be reintroduced into draft state:
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('reintroduce-withdrawn')     
-  >>> bill_withdraw.status  
-  u'billstates.draft'
-  >>> transitions( bill_withdraw ) 
-  (u'submit-bill',)
-  
-  
-  
-First Reading
--------------
-First step for a bill is to be scheduled for a public reading, the user interface
-presents a transition specific ui viewlet to be used for scheduling the reading.
-
-  >>> schedule_item(bill, sit1)
-  >>> IWorkflowInfo(bill).fireTransition('schedule-first')    
-  >>> transitions( bill )
-  (u'postpone-first', u'schedule-second', u'withdraw-first-reading', u'select-first-committee')
-  
-The first reading can be postponed:
-
-  >>> IWorkflowInfo(bill).fireTransition('postpone-first')    
-  >>> transitions( bill )
-  (u'reschedule-first',) 
-
-and rescheduled:
-  >>> IWorkflowInfo(bill).fireTransition('reschedule-first')    
-  >>> transitions( bill )
-  (u'postpone-first', u'schedule-second', u'withdraw-first-reading', u'select-first-committee')
-
-
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-first-reading')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-
-Committees
-----------
-
-Next step, optionally is to send the bill to a committee. After a bill is 
-sent to committee, it can be scheduled for a second reading
-  
-  >>> bill_1st_committee = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_1st_committee).fireTransition('select-first-committee')     
-  >>> bill_1st_committee.status  
-  u'billstates.first_committee'
-  >>> transitions( bill_1st_committee ) 
-  (u'withdraw-first-committee', u'schedule-second-from-first-committee', u'resend-first-reading-from-committee')
-  
-the bill might be sent back to the first reading:  
-  >>> bill_resend  = copy.deepcopy(bill_1st_committee)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-first-reading-from-committee')       
-  >>> transitions( bill_resend) 
-  (u'postpone-first', u'schedule-second', u'withdraw-first-reading', u'select-first-committee')
-    
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill_1st_committee)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-first-committee')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-or made avaliable for scheduling for the 2nd committee
-------------------------------------------------------
-  >>> result = IWorkflowInfo(bill_1st_committee).fireTransition('schedule-second-from-first-committee')     
-  >>> bill_1st_committee.status  
-  u'billstates.second_reading'
-  >>> transitions( bill_1st_committee ) 
-  (u'schedule-whole-house', u'withdraw-second-reading', u'postpone-second', u'resend-first-schedule-second')
-  
-the bill might be sent back to the first reading:  
-  >>> bill_resend  = copy.deepcopy(bill_1st_committee)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-first-schedule-second')       
-  >>> transitions( bill_resend) 
-  (u'postpone-first', u'schedule-second', u'withdraw-first-reading', u'select-first-committee')
-
-  
-
-Second Reading
---------------
-We can then schedule a second reading, again in the ui, this presents a workflow
-viewlet for scheduling the bill.
- 
-The Bill can be made available for scheduling from the 1st reading
-
-
-  >>> IWorkflowInfo(bill).fireTransition('schedule-second')    
-  >>> transitions( bill ) 
-  (u'schedule-whole-house', u'withdraw-second-reading', u'postpone-second', u'resend-first-schedule-second')
-
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-second-reading')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-The second reading can be postponed:
-
-  >>> IWorkflowInfo(bill).fireTransition('postpone-second')    
-  >>> transitions( bill ) 
-  (u'reschedule-second',)
-
-and rescheduled:
-  >>> IWorkflowInfo(bill).fireTransition('reschedule-second')    
-  >>> transitions( bill ) 
-  (u'schedule-whole-house', u'withdraw-second-reading', u'postpone-second', u'resend-first-schedule-second')
-
-
-Committee of the Whole House
-----------------------------
-make the bill available for scheduling:
- 
-
-  >>> IWorkflowInfo(bill).fireTransition('schedule-whole-house')    
-  >>> transitions( bill ) 
-  (u'resend-second-reading-from-whole-house', u'withdraw-whole-house', u'postpone-second-reading-and-whole-house', u'postpone-whole-house', u'select-second-committee', u'schedule-third-reading')
-
-or send it back to second reading:
-  >>> bill_resend  = copy.deepcopy(bill)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-second-reading-from-whole-house')       
-  >>> transitions( bill_resend) 
-  (u'schedule-whole-house', u'withdraw-second-reading', u'postpone-second', u'resend-first-schedule-second')
-
-
-
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-whole-house')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-postpone whole house
-
-  >>> IWorkflowInfo(bill).fireTransition('postpone-whole-house')    
-  >>> transitions( bill ) 
-  (u'reschedule-whole-house',)
-
-and reschedule whole house
-
-  >>> IWorkflowInfo(bill).fireTransition('reschedule-whole-house')    
-  >>> transitions( bill ) 
-  (u'resend-second-reading-from-whole-house', u'withdraw-whole-house', u'postpone-second-reading-and-whole-house', u'postpone-whole-house', u'select-second-committee', u'schedule-third-reading')
-
-
-or send it back to second reading:
-  >>> bill_resend  = copy.deepcopy(bill)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-second-reading-from-whole-house')       
-  >>> transitions( bill_resend) 
-  (u'schedule-whole-house', u'withdraw-second-reading', u'postpone-second', u'resend-first-schedule-second')
-
-
-if the second reading and the committee of the whole house did not take place
-you can postpone both:
-
-  >>> bill_whp2 = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_whp2).fireTransition('postpone-second-reading-and-whole-house')     
-  >>> transitions(bill_whp2)
-  (u'reschedule-second',)
-
-
-Third Reading
--------------
-from the second reading the third reading can be scheduled directly:
-
-  >>> bill_tr = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_tr).fireTransition('schedule-third-reading')     
-  >>> transitions(bill_tr)
-  (u'withdraw-third-reading', u'postpone-third-reading', u'approve', u'reject', u'resend-whole-house-from-third-reading')  
-
-or it can be send to a second committee first.
-Second Committee:
------------------
-
-  >>> IWorkflowInfo(bill).fireTransition('select-second-committee')    
-  >>> transitions( bill ) 
-  (u'schedule-second-report-reading', u'withdraw-second-committee', u'resend-whole-house-from-second-committee')
-  
-or send it back to whole house reading:
-  >>> bill_resend  = copy.deepcopy(bill)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-whole-house-from-second-committee')       
-  >>> transitions( bill_resend) 
-  (u'resend-second-reading-from-whole-house', u'withdraw-whole-house', u'postpone-second-reading-and-whole-house', u'postpone-whole-house', u'select-second-committee', u'schedule-third-reading')
-
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-second-committee')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-The report of the 2nd committee is to be read:
----------------------------------------------
-make available for scheduling 
-
-
-  >>> IWorkflowInfo(bill).fireTransition('schedule-second-report-reading')    
-  >>> transitions( bill ) 
-  (u'postpone-second-report-reading', u'recommit-second-committee', u'withdraw-report-reading', u'second-committee-schedule-third-reading')
-
-
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-report-reading')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-The report reading can be postponed:
-
-  >>> IWorkflowInfo(bill).fireTransition('postpone-second-report-reading')    
-  >>> transitions( bill ) 
-  (u'reschedule-second-report-reading',)
-  
-and rescheduled:
-
-  >>> IWorkflowInfo(bill).fireTransition('reschedule-second-report-reading')    
-  >>> transitions( bill ) 
-  (u'postpone-second-report-reading', u'recommit-second-committee', u'withdraw-report-reading', u'second-committee-schedule-third-reading')
-  
-
-After the reading the bill can be send back to the committee:
-
-  >>> bill_2ndc = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_2ndc).fireTransition('recommit-second-committee') 
-  >>> transitions( bill_2ndc )   
-  (u'schedule-second-report-reading', u'withdraw-second-committee', u'resend-whole-house-from-second-committee')
-  
-or send it back to whole house reading:
-  >>> bill_resend  = copy.deepcopy(bill_2ndc)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-whole-house-from-second-committee')       
-  >>> transitions( bill_resend) 
-  (u'resend-second-reading-from-whole-house', u'withdraw-whole-house', u'postpone-second-reading-and-whole-house', u'postpone-whole-house', u'select-second-committee', u'schedule-third-reading')
-
-
-  
-Third Reading:
---------------
-schedule it for the third reading:
-
-  >>> IWorkflowInfo(bill).fireTransition('second-committee-schedule-third-reading')    
-  >>> transitions( bill )   
-  (u'withdraw-third-reading', u'postpone-third-reading', u'approve', u'reject', u'resend-whole-house-from-third-reading')
-
-or send it back to whole house reading:
-  >>> bill_resend  = copy.deepcopy(bill)  
-  >>> result = IWorkflowInfo(bill_resend).fireTransition('resend-whole-house-from-third-reading')       
-  >>> transitions( bill_resend) 
-  (u'resend-second-reading-from-whole-house', u'withdraw-whole-house', u'postpone-second-reading-and-whole-house', u'postpone-whole-house', u'select-second-committee', u'schedule-third-reading')
-
-
-
-A Bill can be withdrawn at (almost) any stage:
-----------------------------------------------
-  >>> bill_withdraw = copy.deepcopy(bill)     
-  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-third-reading')     
-  >>> bill_withdraw.status  
-  u'billstates.withdrawn'
-  >>> transitions( bill_withdraw ) 
-  (u'reintroduce-withdrawn',)
-
-the third reading can be postponed:
-
-  >>> IWorkflowInfo(bill).fireTransition('postpone-third-reading')    
-  >>> transitions( bill )   
-  (u'reschedule-third-reading',)
-
-and rescheduled:
-  >>> IWorkflowInfo(bill).fireTransition('reschedule-third-reading')    
-  >>> transitions( bill )   
-  (u'withdraw-third-reading', u'postpone-third-reading', u'approve', u'reject', u'resend-whole-house-from-third-reading')
-
-
-  
-Vote - Approved/Rejected
-------------------------
-either the bill gets approved:
-  >>> bill_approve = copy.deepcopy(bill) 
-  >>> IWorkflowInfo(bill_approve).fireTransition('approve') 
-  >>> transitions( bill_approve ) 
-  ()
-    
-or rejected:
-  >>> IWorkflowInfo(bill).fireTransition('reject')    
-  >>> transitions( bill ) 
-  ()
-  
-  
-cleanup
+  >>> mp_1 = add_content(
+  ...     domain.User,
+  ...     u"mp_1",
+  ...     first_name=u"a", 
+  ...     last_name=u'ab', 
+  ...     birth_country="KE",
+  ...     email=u"mp1@example.com", 
+  ...     date_of_birth=today,
+  ...     gender='M')
+
+  >>> bt = add_content(
+  ...     domain.BillType,
+  ...     bill_type_name=u"Private Bill")
+
+  >>> bill = add_content(
+  ...     domain.Bill,
+  ...     bill_type_id=bt.bill_type_id,
+  ...     owner_id=mp_1.user_id,
+  ...     short_name=u"New Bill",
+  ...     language="en")
+
+Integrity
+---------
+
+Verify that all states are reachable.
+
+  >>> from bungeni.core.workflows.testing import verify_workflow
+  >>> from ore.workflow.interfaces import IWorkflow
+
+  >>> wf = IWorkflow(bill)
+  >>> verify_workflow(wf)
+
+Actions
 -------
+
+  >>> from ore.workflow.interfaces import IWorkflowInfo
+  >>> from bungeni.core.workflows.bill import actions 
+  >>> info = IWorkflowInfo(bill)
+
+"Create". This action sets the submission date and parliament id.
+
+  >>> actions.create(info, bill)
+  >>> bill.parliament_id == parliament.parliament_id
+  True
+
+  >>> bill.submission_date == today
+  True
+
+"Submit".
+
+  >>> actions.submit(info, bill)
+
+  >>> bill.publication_date == today
+  True
+
+  >>> bill.submission_date == today
+  True
+  
+"Schedule first reading".
+
+  >>> actions.schedule_first(info, bill)
+
+"Postpone first reading".
+
+  >>> actions.postpone_first(info, bill)
+
+"Withdraw".
+
+  >>> actions.withdraw(info, bill)
+
+Conditions
+----------
+
+  >>> from bungeni.core.workflows.bill import conditions
+  
+"Is scheduled".
+
+  >>> conditions.is_scheduled(info, bill)
+  False
+
+  >>> from bungeni.models.testing import create_sitting
+  >>> sitting = create_sitting(parliament.parliament_id)
+
+  >>> scheduling = add_content(
+  ...     domain.ItemSchedule,
+  ...     sitting_id=sitting.sitting_id,
+  ...     item_id=bill.parliamentary_item_id)
+  
+  >>> conditions.is_scheduled(info, bill)
+  True
+
+Cleanup
+-------
+
   >>> session.flush()
   >>> session.commit()
   >>> session.close()

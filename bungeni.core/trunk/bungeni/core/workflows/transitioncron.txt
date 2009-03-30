@@ -1,85 +1,88 @@
-some setup for tests
+Transition cron
+===============
 
-   >>> from zope import component
-   >>> from sqlalchemy import create_engine
-   >>> from ore.alchemist.interfaces import IDatabaseEngine
-   >>> from ore.alchemist import Session
-   >>> from bungeni import models as model
-   >>> from bungeni.models import domain, schema
-   >>> from bungeni.core.workflows import dbutils
-   >>> import datetime
-   >>> import bungeni.core.workflows.question as question_workflow
-   >>> import bungeni.core.workflows.transitioncron as cron
-   >>> import bungeni.core.workflows.question
-   >>> import ore.workflow   
-   
-Setting up Database Connection and Utilities:
-   >>> import bungeni.core.testing as testing
-   >>> testing.setup_db()  
-   >>> import bungeni.core.workflows.testing
-   >>> bungeni.core.workflows.testing.setup_adapters()
-   >>> bungeni.core.workflows.testing.setup_security_adapters()
-   >>> session = Session()
-   
+Setup
+-----
 
+Setting up database connection and utilities:
 
-   
+  >>> from bungeni.core.testing import setup_db
+  >>> engine = setup_db()
+  
+  >>> from bungeni.core.workflows.testing import setup_adapters
+  >>> from bungeni.core.workflows.testing import setup_security_adapters
+  >>> setup_adapters()
+  >>> setup_security_adapters()
+  
+  >>> from ore.alchemist import Session
+  >>> session = Session()
+  
+Imports.
+
+  >>> from bungeni.models import domain
+  >>> from bungeni.models import schema
+
+  >>> import bungeni.core.workflows.question as question_workflow
+  >>> import bungeni.core.workflows.transitioncron as cron
+  >>> import bungeni.core.workflows.question
+  >>> import ore.workflow
+      
 Questions
+---------
 
-  >>> question = domain.Question()
-  >>> question.approval_date = datetime.date.today() - datetime.timedelta(5)
-  >>> question.status ="questionstates.admissible"  
-  >>> question.short_name ="question 1"
-  >>> session.add(question)
-  >>> session.flush()
+  >>> from bungeni.models.testing import add_content
   
-  >>> question.question_id
-  1L
+  >>> question = add_content(
+  ...     domain.Question,
+  ...     approval_date=daybeforeyesterday,
+  ...     status=u"admissible",
+  ...     language="en",
+  ...     short_name="question 1")
+
+  >>> question2 = add_content(
+  ...     domain.Question,
+  ...     approval_date=yesterday,
+  ...     status=u"admissible",
+  ...     language="en",
+  ...     short_name="question 2")
+
+  >>> question3 = add_content(
+  ...     domain.Question,
+  ...     approval_date=yesterday,
+  ...     status=u"complete",
+  ...     language="en",
+  ...     short_name="question 3")
+
+Get the questions that are in the workflow state:
   
-  >>> question2 = domain.Question()
-  >>> question2.approval_date = datetime.date.today() - datetime.timedelta(1)
-  >>> question2.status = "questionstates.admissible"  
-  >>> question2.short_name ="question 2"  
-  >>> session.add(question2)
-  >>> session.flush()
-  
-    
-  >>> question3 = domain.Question()
-  >>> question3.approval_date = datetime.date.today() - datetime.timedelta(1)
-  >>> question3.status = "questionstates.complete" 
-  >>> question3.short_name ="question 3"   
-  >>> session.add(question3)
-  >>> session.flush()
-  
-get the questions that are in the workflow state:
-  
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "questionstates.admissible")  
-  >>> len(questions)
+  >>> len(cron._getQuestionsApprovedBefore(
+  ...     today, "admissible"))
   2
   
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "questionstates.complete")  
-  >>> len(questions)  
-  1  
+  >>> len(cron._getQuestionsApprovedBefore(
+  ...     today, "complete"))
+  1
     
-defer admissible question older than today
+Defer admissible question older than today.
 
-  >>> cron._deferAdmissibleQuestionsBefore(datetime.date.today()) 
+  >>> cron._deferAdmissibleQuestionsBefore(today)
   >>> session.flush()     
  
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "questionstates.admissible")  
-  >>> len(questions)
+  >>> len(cron._getQuestionsApprovedBefore(
+  ...     today, "admissible"))
   0
   
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "questionstates.complete")  
-  >>> len(questions)  
-  1      
+  >>> len(cron._getQuestionsApprovedBefore(
+  ...     today, "complete"))
+  1
 
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "questionstates.deferred")  
-  >>> len(questions)  
-  2        
-  
-cleanup
+  >>> len(cron._getQuestionsApprovedBefore(
+  ...     today, "deferred"))
+  2
+ 
+Cleanup
 -------
+
   >>> session.flush()
   >>> session.commit()
   >>> session.close()

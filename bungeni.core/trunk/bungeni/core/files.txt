@@ -151,11 +151,10 @@ Add trunk and branches directories:
   >>> b1 = branches.makeDirectory('1234')
   >>> for node in trunk.keys():
   ...   b1.copy(node, trunk[node])
+  <ore.svn.file.SubversionFile object at ...>
   
   >>> b1.keys()
-
-
-  
+  ['bill.txt']
   
 Notes
 -----

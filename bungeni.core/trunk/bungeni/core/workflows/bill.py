@@ -1,4 +1,10 @@
 from bungeni.core.workflows import utils
+from bungeni.core.workflows import dbutils
+
+class conditions:
+    @staticmethod
+    def is_scheduled(info, context):
+        return dbutils.isItemScheduled(context.bill_id)
 
 class actions:
     @staticmethod

@@ -74,10 +74,6 @@ def getMotionSchedule(info, context):
     motion_id = context.motion_id
     return dbutils.isItemScheduled(motion_id)
 
-def getBillSchedule(info, context):
-    bill_id = context.bill_id
-    return dbutils.isItemScheduled(bill_id)
-
 def getQuestionSubmissionAllowed(info, context):    
     return prefs.getQuestionSubmissionAllowed()
 

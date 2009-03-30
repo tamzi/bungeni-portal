@@ -33,7 +33,6 @@ body.smallText { font-size: 60%; }
 
 /* Content area */
 h1, h2 {
-    border-bottom: 1px solid #8cacbb;
     font-weight: normal;
 }
 /* Compensate for the inline editing hover, since we have a 1px border */

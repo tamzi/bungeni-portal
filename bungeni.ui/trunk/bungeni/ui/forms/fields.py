@@ -1,21 +1,15 @@
 # encoding: utf-8
 
-#import pdb
 from zope.app.pagetemplate import ViewPageTemplateFile
-
 from zope.security.proxy import removeSecurityProxy
-
 
 from ore.alchemist.model import queryModelDescriptor
 from ore.workflow import interfaces
-
-from bungeni.core.i18n import _
-
 from alchemist.ui.core import DynamicFields
+from alchemist.ui.viewlet import DisplayFormViewlet
 
 from bungeni.ui.forms.workflow import bindTransitions
-from alchemist.ui.viewlet import DisplayFormViewlet
-from zc.resourcelibrary import need
+from bungeni.core.i18n import _
 
 class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     mode = "view"
@@ -32,7 +26,6 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             pass
             
     def update( self ):
-        need("yui-tab")
         self.setupActions()
         super(BungeniAttributeDisplay, self).update() 
         self.setupActions()  # after we transition we have different actions  

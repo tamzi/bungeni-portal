@@ -7,5 +7,11 @@
      name="alchemist.form"
      factory=".forms.FormTemplate"
      />
-  
+
+  <adapter
+     for="*"
+     name="alchemist.content"
+     factory=".forms.ContentTemplate"
+     />
+
 </configure>

@@ -2,6 +2,7 @@ from zope.viewlet.viewlet import JavaScriptViewlet as JSViewlet
 
 Plugins = JSViewlet('bungeni-js/plugins.js')
 Behavior = JSViewlet('bungeni-js/behavior.js')
+FormTabbing = JSViewlet('bungeni-js/form_tabbing.js')
 
 Core = JSViewlet('bungeni-js/jquery/ui.core.js')
 Resizable = JSViewlet('bungeni-js/jquery/ui.resizable.js')

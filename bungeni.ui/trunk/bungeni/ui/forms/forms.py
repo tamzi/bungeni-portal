@@ -25,6 +25,10 @@ FormTemplate = namedtemplate.NamedTemplateImplementation(
     ViewPageTemplateFile('templates/form.pt')
     )
 
+ContentTemplate = namedtemplate.NamedTemplateImplementation(
+    ViewPageTemplateFile('templates/content.pt')
+    )
+
 def hasDeletePermission(context):
     """Generic check if the user has rights to delete the object. The
     permission must follow the convention:

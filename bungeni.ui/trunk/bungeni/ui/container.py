@@ -107,7 +107,9 @@ class ContainerListing(container.ContainerListing):
                 query = query.order_by(order_list)
         else:
             query = query.order_by(order_list)
-        query = query.filter(context._subset_query)        
+        subset_filter = getattr(context,'_subset_query', None)
+        if subset_filter:    
+            query = query.filter(subset_filter)        
         query = secured_iterator("zope.View", query, self.context)
             
         formatter = zc.table.table.AlternatingRowFormatter(

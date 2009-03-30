@@ -1,60 +1,89 @@
-
 Files
+=====
+
+We store files in a subversion repository. A ``IVersionedFileUtility``
+allows fetching files for a given object.
+
+Setup
 -----
 
-We store files in a subversion repository. A IVersionedFileUtility allows fetching files for a given
-object.
+  >>> from datetime import datetime, date
+  >>> today = date.today()
 
-
-First some setup code..
+Imports.
 
   >>> from bungeni.models import domain
   >>> import bungeni.models.interfaces as model_interfaces
   >>> from bungeni.core import interfaces
   >>> from zope.component import getMultiAdapter
   >>> from ore.alchemist import Session
-  >>> from datetime import datetime, date
   >>> from cStringIO import StringIO 
   >>> import transaction
 
-To demonstrate let's create some groups and a content object which we'll attach files to.
+Content creation
+----------------
+  
+First we'll create some groups and a content object to which we'll
+attach files.
+
+  >>> parliament = domain.Parliament(
+  ...    short_name=u"p_1",
+  ...    start_date=datetime.now(),
+  ...    election_date=datetime.now())
+  
   >>> session = Session()
-  >>> parliament = domain.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
   >>> session.add( parliament )
+  
   >>> country = domain.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
   >>> session.add(country)
-  >>> session.flush() 
-  >>> mp_1 = domain.ParliamentMember(u"mp_1", 
-  ...        first_name=u"a", 
+  
+  >>> session.flush()
+  
+  >>> mp_1 = domain.User(
+  ...        u"mp_1",
+  ...        first_name=u"a",
   ...        last_name=u'ab', 
   ...        birth_country="KE",
-  ...        email=u"mp1@example.com", 
+  ...        email=u"mp1@example.com",
   ...        date_of_birth=datetime.now(),
-  ...        gender='M') 
-  >>> session.add(mp_1)   
+  ...        gender='M')
+  >>> session.add(mp_1)
+  
   >>> billtype = domain.BillType()
   >>> billtype.bill_type_id = 1 
   >>> billtype.bill_type_name="private"
-  >>> session.add(billtype)  
+  >>> session.add(billtype)
+  
   >>> session.flush()
+  
   >>> bill = domain.Bill()
   >>> bill.short_name = u"terra"
   >>> bill.bill_type_id = 1
   >>> bill.owner_id = mp_1.user_id
+  >>> bill.language = "en"
   >>> bill2 = domain.Bill()
   >>> bill2.short_name = u"firma"
   >>> bill2.bill_type_id = 1  
-  >>> bill2.owner_id = mp_1.user_id  
-  >>> committee = domain.Committee(short_name=u"Committee", start_date=datetime.now())
+  >>> bill2.owner_id = mp_1.user_id
+  >>> bill2.language = "en"
+  
+  >>> committee = domain.Committee(
+  ...     short_name=u"Committee", start_date=datetime.now())
   >>> committee.parliament_id = parliament.parliament_id
-  >>> committee2 = domain.Committee(short_name=u"Committee 2", start_date=datetime.now())
-  >>> committee2.parliament_id = parliament.parliament_id  
-  >>> stored = map( Session().save, ( bill, bill2, committee, committee2 ) )
-  >>> transaction.commit()
-  >>> today = date.today()
+  >>> committee2 = domain.Committee(
+  ...      short_name=u"Committee 2", start_date=datetime.now())
+  >>> committee2.parliament_id = parliament.parliament_id
 
+Commit transaction to persist objects.
+  
+  >>> stored = map(Session().save, (bill, bill2, committee, committee2))
+  >>> transaction.commit()
+
+Demonstration
+-------------
+  
 Now we can store attachements on some content
 
   >>> files = model_interfaces.IDirectoryLocation( bill ).directory
@@ -71,37 +100,41 @@ Let's add a simple attachment file.
   >>> file = files.makeFile('rabbit.txt')
   >>> stream = StringIO("Hello World")
   >>> file.writeStream( stream )
-  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt"%( today.year, today.month, today.day, bill.bill_id )
+
+Verify that the file path is composed of the date and the object id.
+  
+  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt" % (
+  ...    today.year, today.month, today.day, bill.bill_id)
   True
-  
-  
+
   >>> files.keys()
   ['rabbit.txt']  
   
-All changes are integrated with the zope transaction system, if we abort the transaction, our modifications are aborted.
+All changes are integrated with the zope transaction system, if we
+abort the transaction, our modifications are aborted.
 
   >>> transaction.abort()
   >>> files.keys()
   []
-  
-Let's add a simple attachment file.
 
+Let's retry adding the file; this time we'll commit the transaction.
+  
   >>> file = files.makeFile('rabbit.txt')
   >>> stream = StringIO("Hello World")
-  >>> file.writeStream( stream )
-  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt"%( today.year, today.month, today.day, bill.bill_id )
+  >>> file.writeStream(stream)
+  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt" % (
+  ...    today.year, today.month, today.day, bill.bill_id)
   True
-  
   
   >>> files.keys()
   ['rabbit.txt']  
   
-All changes are integrated with the zope transaction system, if we commit the transaction, our modifications are comitted.
-
   >>> transaction.commit()
   >>> files.keys()
   ['rabbit.txt']    
   
+Notes
+-----
 
-  
-The api (readme.txt) for ore.svn is recommended reading on working with versioned files/directories
+The API (readme.txt) for ``ore.svn`` is recommended reading on working
+with versioned files/directories.

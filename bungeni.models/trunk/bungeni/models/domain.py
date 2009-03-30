@@ -41,17 +41,20 @@ class Entity( object ):
     __parent__ = None
     
     def __init__( self, **kw ):
-        
-        domain_schema = model.queryModelInterface( self.__class__ )
-        known_names = [ k for k,d in domain_schema.namesAndDescriptions(1)]
-        
+        try:
+            domain_schema = model.queryModelInterface( self.__class__ )
+            known_names = [k for k,d in domain_schema.namesAndDescriptions(1)]
+        except:
+            known_names = None
+
         for k,v in kw.items():
-            if k in known_names:
+            if known_names is None or k in known_names:
                 setattr( self, k, v)
             else:
-                logger.warn("invalid attribute on %s %s"%(self.__class__.__name__, k) )
+                logger.warn(
+                    "Invalid attribute on %s %s" % (
+                        self.__class__.__name__, k))
 
-#
 # sort_on is the column the query is sorted on by default
 # sort_replace is a dictionary that maps one column to another
 # so when the key is requested in a sort the value gets sorted

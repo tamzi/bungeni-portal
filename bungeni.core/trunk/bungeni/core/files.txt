@@ -133,6 +133,30 @@ Let's retry adding the file; this time we'll commit the transaction.
   >>> files.keys()
   ['rabbit.txt']    
   
+Add trunk and branches directories:
+  >>> trunk = files.makeDirectory('trunk')
+  >>> trunk
+  <ore.svn.directory.SubversionDirectory object at ...>
+  >>> branches = files.makeDirectory('branches')
+  >>> branches
+  <ore.svn.directory.SubversionDirectory object at ...>
+  >>> files.keys()
+  ['rabbit.txt', 'branches', 'trunk']
+
+  >>> bill = trunk.makeFile('bill.txt')
+  >>> stream = StringIO("Hello World\n This is a bill")
+  >>> bill.writeStream(stream)
+  >>> transaction.commit()  
+  
+  >>> b1 = branches.makeDirectory('1234')
+  >>> for node in trunk.keys():
+  ...   b1.copy(node, trunk[node])
+  
+  >>> b1.keys()
+
+
+  
+  
 Notes
 -----
 

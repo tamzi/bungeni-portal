@@ -27,7 +27,9 @@
   </div>
 
   <metal:left-portlet fill-slot="column_one_slot">
-    <td id="portal-column-one">
+    <td id="portal-column-one"
+        tal:define="plone context/@@plone"
+        tal:condition="python: plone.have_viewlets(view, 'plone.leftcolumn')">
       <div class="visualPadding">
         <metal:portlets define-slot="portlets_one_slot">
           <tal:block replace="structure provider:plone.leftcolumn" />
@@ -38,7 +40,9 @@
   </metal:left-portlet>
 
   <metal:right-portlet fill-slot="column_two_slot">
-    <td id="portal-column-two">
+    <td id="portal-column-two"
+        tal:define="plone context/@@plone"
+        tal:condition="python: plone.have_viewlets(view, 'plone.rightcolumn')">
       <div class="visualPadding">
         <metal:portlets define-slot="portlets_two_slot">
           <tal:block replace="structure provider:plone.rightcolumn" />
@@ -53,7 +57,7 @@
       
       <metal:block define-slot="content">
         <div metal:define-macro="content"
-             tal:define="show_border context/@@plone/showEditableBorder"
+             tal:define="show_border context/@@plone/show_editable_border"
              tal:attributes="class python: show_border and 'documentEditable' or ''">
 
           <div tal:replace="structure provider:plone.contentviews" />

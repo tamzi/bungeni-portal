@@ -58,7 +58,7 @@ session = Session()
 # create some users for testing
 
 
-mp = domain.ParliamentMember()
+mp = domain.User()
 mp.login = "member" 
 mp.first_name=u"Test"
 mp.last_name=u'Member' 

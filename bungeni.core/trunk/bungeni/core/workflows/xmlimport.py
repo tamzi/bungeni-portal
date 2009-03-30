@@ -56,10 +56,12 @@ def _load( workflow ):
             t.title
         except AttributeError:
             raise SyntaxError(t.toxml())
-            
-        sources = [
-            source and source or None
-            for source in t.source.replace('  ', ' ').split(' ')]
+
+        # XXX: There must be a better way to do this:
+        source = t.source
+        while '  ' in source:
+            source = source.replace('  ', ' ')
+        sources = source.split(' ')
 
         for source in sources:
             if len(sources) > 1:

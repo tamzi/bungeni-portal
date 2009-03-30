@@ -29,6 +29,10 @@
   </state>
   
 
+  <state id="first_committee" title="First committee">
+    
+  </state>
+
   <!--state id="second_reading_pending" title="second reading pending">
 
       </state-->
@@ -108,8 +112,6 @@
     <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
   
-
-  
   <transition
      id="create-bill"
      title="Create"
@@ -119,6 +121,16 @@
      action="bungeni.core.workflows.bill.actions.create"
      condition=""
      />
+
+  <transition
+     id="reintroduce-withdrawn"
+     title="Reintroduce"
+     trigger="manual"
+     source="withdrawn"
+     destination="draft"
+     condition=""
+     />
+
   <transition
      id="submit-bill"
      title="Publish in Gazette"
@@ -137,7 +149,7 @@
      destination="first_reading"
      permission="bungeni.bill.Schedule"
      action="bungeni.core.workflows.bill.actions.schedule_first"
-     condition="bungeni.core.workflows.utils.getBillSchedule"
+     condition="bungeni.core.workflows.bill.conditions.is_scheduled"
      />
   <transition
      id="postpone-first"
@@ -473,8 +485,7 @@
              whole_house
              second_committee
              report_reading
-             third_reading
-             withdrawn"
+             third_reading"
      destination="withdrawn"
      permission="bungeni.bill.Withdraw"
      action="bungeni.core.workflows.bill.actions.withdraw"

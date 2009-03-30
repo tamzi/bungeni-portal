@@ -1,403 +1,182 @@
 Motion workflow
 ===============
 
-  >>> from bungeni.models.domain import Motion
-  >>> import bungeni.models as model
-  >>> import datetime
-  
-  some setup for tests
-
-   >>> from ore.alchemist import Session
-   >>> from bungeni.models import domain, schema
-   
-Setting up Database Connection and Utilities:
-   >>> import bungeni.core.testing as testing
-   >>> engine = testing.setup_db()   
-   >>> session = Session()
-   >>> i = 0
-
-
 Setup
 -----
 
-  >>> import copy
-  
-  >>> import bungeni.core.workflows.testing
-  >>> bungeni.core.workflows.testing.setup_adapters()
-  >>> bungeni.core.workflows.testing.setup_security_adapters()
+Setting up database connection and utilities:
 
+  >>> from bungeni.core.testing import setup_db
+  >>> engine = setup_db()
+  
+  >>> from bungeni.core.workflows.testing import setup_adapters
+  >>> from bungeni.core.workflows.testing import setup_security_adapters
+  >>> setup_adapters()
+  >>> setup_security_adapters()
+  
+  >>> from ore.alchemist import Session
+  >>> session = Session()
+  
+Imports.
+
+  >>> from bungeni.models import domain
+  >>> from bungeni.models import schema
+
+Motions are versionable.
   
   >>> from zope.interface import classImplements
-  >>> classImplements( bungeni.models.domain.Motion, bungeni.core.interfaces.IVersionable)  
+  >>> from bungeni.core.interfaces import IVersionable
+  >>> classImplements(domain.Motion, IVersionable)
+
+Content creation
+----------------
+
+  >>> from bungeni.models.testing import add_content
+
+  >>> parliament = add_content(
+  ...    domain.Parliament,
+  ...    short_name=u"p_1",
+  ...    start_date=yesterday,
+  ...    election_date=yesterday)
+
+  >>> motion = add_content(
+  ...     domain.Motion,
+  ...     short_name=u"My subject",
+  ...     language="en")
+
+Integrity
+---------
+
+Verify that all states are reachable.
+
+  >>> from bungeni.core.workflows.testing import verify_workflow
+  >>> from ore.workflow.interfaces import IWorkflow
+
+  >>> wf = IWorkflow(motion)
+  >>> verify_workflow(wf)
+
+Principals
+----------
   
-Transition events
------------------
+  >>> from bungeni.core.testing import create_principal, create_participation
+  >>> import zope.security.management
+  >>> zope.security.management.endInteraction()
 
-We set up event subscribers to make sure all registered transition
-events are called.
-
-  >>> from bungeni.core.workflows import testing
-  >>> check_transition_events = testing.provide_transition_events_check(
-  ...     bungeni.core.workflows.motion.wf)
+  >>> member = create_principal("member", "Member", ())
+  >>> zope.security.management.newInteraction(create_participation(member))
   
-Workflow
---------
+Actions
+-------
 
-  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
-  >>> from bungeni.core.workflows.testing import transitions, permission, schedule_item, create_sitting
+  >>> from ore.workflow.interfaces import IWorkflowInfo
+  >>> from bungeni.core.workflows.motion import actions 
+  >>> info = IWorkflowInfo(motion)
 
+"Create". This action assigns the role of "Owner" and sets the
+parliament id.
 
-
-Sitting to schedule the motion:
------------------------------
-  >>> sit1 = create_sitting()
-
-  >>> motion = Motion()
-  >>> motion.short_name = u"A Motion"
-  >>> motion.language = "en"
-  >>> session.add(motion)
-  >>> session.flush()
-
-First we initialize the workflow.
-  
-  >>> transitions(motion)
-  (u'create',)
-
-  >>> permission(motion)
-  (Global(CheckerPublic,zope.security.checker),)
-
-  >>> IWorkflowInfo(motion).fireTransition('create')
-
-The motion is now in a draft state.
-
-
-  >>> transitions(motion)
-   (u'submit-to-clerk',)
-    
-  >>> permission(motion)
-  (u'bungeni.motion.Submit',)
-
-
-When we submit the motion, a new version is created.
-  
-  >>> result = IWorkflowInfo(motion).fireTransition('submit-to-clerk')
-
-The transition action returns None, indicating that the the current
-instance is still active.
-
-  >>> result is None
+  >>> actions.create(info, motion)
+  >>> motion.parliament_id == parliament.parliament_id
   True
 
-Verify that a new version was issued.
+  >>> from zope.securitypolicy.interfaces import IPrincipalRoleMap
+  >>> tuple(IPrincipalRoleMap(motion).getRolesForPrincipal("member"))
+  ((u'bungeni.Owner', PermissionSetting: Allow),)
+
+Conditions
+----------
+
+  >>> from bungeni.core.workflows.motion import conditions
+  
+"Is scheduled".
+
+  >>> conditions.is_scheduled(info, motion)
+  False
+
+  >>> from bungeni.models.testing import create_sitting
+  >>> sitting = create_sitting(parliament.parliament_id)
+
+  >>> scheduling = add_content(
+  ...     domain.ItemSchedule,
+  ...     sitting_id=sitting.sitting_id,
+  ...     item_id=motion.parliamentary_item_id)
+  
+  >>> conditions.is_scheduled(info, motion)
+  True
+
+"Submit".
+
+  >>> actions.submit(info, motion)
+
+  >>> motion.submission_date == today
+  True
+
+"Received by clerk". A new version is created.
+
+  >>> actions.received_by_clerk(info, motion)
 
   >>> from bungeni.core.interfaces import IVersioned
   >>> versions = IVersioned(motion)
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-  
-
-Let's examine the version.
-
-  >>> version = list(versions.values())[0]
-  >>> version.status
-  u'motionstates.draft'
-
-Submitted:
-
-  >>> transitions(motion)
-  (u'withdraw-submitted', u'received-by-clerk')
-
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-submitted')   
-
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'  
-
-  >>> IWorkflowInfo(motion).fireTransition('received-by-clerk')
-
-
-Received:
-
-  >>> transitions(motion)
-  (u'require-edit-by-mp', u'complete', u'withdraw-received')
-  
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True  
-
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-received')   
-
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'  
-  
-  
-
-  
-If it needs clarification this sets it back to draft and it must be submitted again  
-  
-  >>> result = IWorkflowInfo(motion).fireTransition('require-edit-by-mp')
-  
-
-  >>> transitions(motion)
-  (u'resubmit-clerk', u'withdraw-amend')
-
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-    
-  >>> result = IWorkflowInfo(motion).fireTransition('resubmit-clerk')
-  
-versioned again
-  
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-      
-    
-  >>> IWorkflowInfo(motion).fireTransition('received-by-clerk')
-  
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True  
-    
-complete the motion
+  >>> len(versions)
+  2
 
-  >>> result = IWorkflowInfo(motion).fireTransition('complete')  
+"Require edit by MP".
 
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True    
-  
-The speakers office now has to review the motion
+  >>> actions.require_edit_by_mp(info, motion)
+  >>> len(versions)
+  3
 
-  >>> transitions(motion)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
+"Complete".
 
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-complete')   
+  >>> actions.complete(info, motion)
+  >>> len(versions)
+  4
 
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'
+"Approve".
 
+  >>> actions.approve(info, motion)
+  >>> len(versions)
+  5
 
-Reject the motion
+"Reject".
 
-  >>> motion_reject = copy.deepcopy(motion)
-  >>> transitions(motion_reject)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
+  >>> actions.reject(info, motion)
 
-  >>> result = IWorkflowInfo(motion_reject).fireTransition('reject') 
+"Require amendment".
 
-  >>> transitions(motion_reject)
-  (u'redraft-inadmissible',)
-   
-  
-The Motion may be made a draft motion again:  
-  >>> result = IWorkflowInfo(motion_reject).fireTransition('redraft-inadmissible') 
-   
-  >>> transitions(motion_reject)
-  (u'submit-to-clerk',)        
+  >>> actions.require_amendment(info, motion)
+  >>> len(versions)
+  6
 
-If the motions requires amendment it is sent back to the owner
-and has to be resubmitted 
+"MP clarify".
 
-  >>> transitions(motion)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
+  >>> actions.mp_clarify(info, motion)
+  >>> len(versions)
+  7
 
-  >>> motion_amend = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_amend).fireTransition('require-amendment')   
-  
-it gets versioned before amendment
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-    
-  
-  >>> transitions(motion_amend)
-  (u'complete-clarify', u'mp-clarify')
+"Schedule".
 
-The clerks office can resubmit the motion
-
-  >>> motion_clerk_resubmit = copy.deepcopy(motion_amend)
-  >>> result = IWorkflowInfo(motion_clerk_resubmit).fireTransition('complete-clarify')    
-  >>> transitions(motion_clerk_resubmit)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
+  >>> actions.schedule(info, motion)
 
+"Defer".
 
-or the motion can be send back to the mp for further clarification
-
-  >>> result = IWorkflowInfo(motion_amend).fireTransition('mp-clarify')  
-  >>> transitions(motion_amend)
-  (u'resubmit-clerk', u'withdraw-amend')
-
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-
-
+  >>> actions.defer(info, motion)
 
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion_amend)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-amend')   
-
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'
-
-
-  >>> result = IWorkflowInfo(motion_amend).fireTransition('resubmit-clerk')  
-
-it gets versioned by resubmitting after amendment
-  >>> i = i + 1
-  >>> len(list(versions.values())) == i
-  True
-  
-
-  >>> transitions(motion_amend)   
-  (u'withdraw-submitted', u'received-by-clerk')
-
-clerks recieves it
-
-  >>> result = IWorkflowInfo(motion_amend).fireTransition('received-by-clerk')  
-
-
-  
-Appove the motion
-
-  >>> transitions(motion)
-  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
-
-  >>> result = IWorkflowInfo(motion).fireTransition('approve')  
-  
-  >>> transitions(motion)
-  (u'defer', u'withdraw-admissible', u'schedule')
-
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-admissible')   
+"Elapse".
 
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'
+  >>> actions.elapse(info, motion)
 
+"Postpone".
 
-defer the motion
+  >>> actions.postpone(info, motion)
 
-  >>> motion_defer = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_defer).fireTransition('defer')   
-  
-  >>> transitions(motion_defer)     
-  (u'schedule-deferred', u'elapse-defered',  u'withdraw-deferred')
-  
-  
-  
-A motion can elapse if no answer is given
-  >>> motion_elapse_defered = copy.deepcopy(motion_defer)
-  
-  >>> result = IWorkflowInfo(motion_elapse_defered).fireTransition('elapse-defered')    
-  >>> transitions(motion_elapse_defered)
-  (u're-admit-elapsed',)
-  
-An elapsed Motion can be readmitted again:
-  
-  >>> result = IWorkflowInfo(motion_elapse_defered).fireTransition('re-admit-elapsed')    
-  >>> transitions(motion_elapse_defered)
-  (u'defer', u'withdraw-admissible', u'schedule')
-
-
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion_defer)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-deferred')   
-
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'  
-   
-  >>> schedule_item(motion_defer, sit1)
-  >>> result = IWorkflowInfo(motion_defer).fireTransition('schedule-deferred')   
-  >>> transitions(motion_defer)     
-  (u'postpone', u'debate', u'withdraw-scheduled')
-
-  >>> result = IWorkflowInfo(motion_defer).fireTransition('postpone')   
-
-schedule the motion
-  >>> schedule_item(motion, sit1)
-  >>> result = IWorkflowInfo(motion).fireTransition('schedule')  
-  
-  >>> transitions(motion)
-  (u'postpone', u'debate', u'withdraw-scheduled')
-
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-scheduled')   
-
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'
-
-postpone the motion
-  
-  >>> result = IWorkflowInfo(motion).fireTransition('postpone')  
-  >>> transitions(motion)
-  (u'schedule-postponed', u'elapse-postponed', u'withdraw-postponed')
- 
-A motion can elapse without an answer 
-
-  >>> motion_elapse_postponed = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_elapse_postponed).fireTransition('elapse-postponed')   
-  >>> transitions(motion_elapse_postponed)
-  (u're-admit-elapsed',)
-  
-A motion can be withdrawn at (almost) any stage  
-  
-  >>> motion_withdraw = copy.deepcopy(motion)
-  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-postponed')   
-
-  >>> motion_withdraw.status
-   u'motionstates.withdrawn'
-
-and reschedule it
-
-  >>> schedule_item(motion, sit1)
-  >>> result = IWorkflowInfo(motion).fireTransition('schedule-postponed')  
-  
-  >>> transitions(motion)
-  (u'postpone', u'debate', u'withdraw-scheduled')
-
-
-
-The motion was debated
-
-  >>> result = IWorkflowInfo(motion).fireTransition('debate')  
-  >>> transitions(motion)
-  ()
-
-
-
-Transition events check
------------------------
-
-  >>> check_transition_events ==  {(u'motionstates.complete', u'motionstates.inadmissible'): True, 
-  ... (u'motionstates.admissible', u'motionstates.deferred'): True, 
-  ... (u'motionstates.admissible', u'motionstates.scheduled'): True, 
-  ... (u'motionstates.draft', u'motionstates.submitted'): True, 
-  ... (u'motionstates.submitted', u'motionstates.received'): True, 
-  ... (u'motionstates.scheduled', u'motionstates.debated'): True, 
-  ... (u'motionstates.postponed', u'motionstates.scheduled'): True, 
-  ... (u'motionstates.received', u'motionstates.clarify_mp'): True, 
-  ... (u'motionstates.clarify_clerk', u'motionstates.clarify_mp'): True, 
-  ... (u'motionstates.scheduled', u'motionstates.postponed'): True, 
-  ... (u'motionstates.deferred', u'motionstates.scheduled'): True}
-  True
-  
+"Debate".
+
+  >>> actions.debate(info, motion)
+
+"Withdraw".
+
+  >>> actions.debate(info, motion)
 
 Notifications
 -------------
@@ -419,23 +198,17 @@ Setup mock delivery component.
 
 Set up a user.
 
-  >>> from bungeni.models.domain import User
-  >>> user = User()
-  >>> user.first_name = u'John'
-  >>> user.last_name = u'Doe'
-  >>> user.email = 'john.doe@localhost'
-  >>> user.owner_id = 1
+  >>> user = add_content(
+  ...     domain.User,
+  ...     first_name=u'John',
+  ...     last_name=u'Doe',
+  ...     email='john.doe@localhost',
+  ...     owner_id=1)
   
-  >>> from ore.alchemist import Session
-  >>> session = Session()
-  >>> session.add(user)
-  >>> session.flush()
-  
-  >>> from bungeni.models.domain import Motion
-  >>> motion = Motion()
-  >>> motion.short_name = u"My subject"
   >>> motion.owner_id = user.user_id
   >>> motion.receive_notification = False
+
+  >>> session.flush()
   
 Motion received.
   
@@ -452,55 +225,52 @@ is dispatched.
   
 Send notification to Clerk's office upon submit.
 
-    >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(motion))
-    From: "John Doe" <john.doe@localhost>
-    To: clerks.office@parliament.go.tld ...
-    Subject: Motion submitted: My subject ...
+  >>> notification.SendNotificationToClerkUponSubmit(ObjectEvent(motion))
+  From: "John Doe" <john.doe@localhost>
+  To: clerks.office@parliament.go.tld ...
+  Subject: Motion submitted: My subject ...
 
-  
+
 A motion was rejected by the speakers office.
-    >>> notification.SendNotificationToMemberUponReject(ObjectEvent(motion))
-    From: speakers.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Motion rejected: My subject ...
-  
+  >>> notification.SendNotificationToMemberUponReject(ObjectEvent(motion))
+  From: speakers.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Motion rejected: My subject ...
+
 
 A motion needs clarification by the MP
-    >>> notification.SendNotificationToMemberUponNeedsClarification(ObjectEvent(motion))
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Motion needs clarification: My subject ...
+  >>> notification.SendNotificationToMemberUponNeedsClarification(ObjectEvent(motion))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Motion needs clarification: My subject ...
 
 
 A motion was deferred by Clerk's office.
-    >>> notification.SendNotificationToMemberUponDeferred(ObjectEvent(motion))
-    From: speakers.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Motion deferred: My subject ...
+  >>> notification.SendNotificationToMemberUponDeferred(ObjectEvent(motion))
+  From: speakers.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Motion deferred: My subject ...
 
 A motion was scheduled by Speakers office.
-    >>> notification.SendNotificationToMemberUponSchedule(ObjectEvent(motion))
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Motion scheduled: My subject ...
+  >>> notification.SendNotificationToMemberUponSchedule(ObjectEvent(motion))
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Motion scheduled: My subject ...
 
 A motion was postponed by the speakers office.
-    >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(motion))  
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Motion postponed: My subject ...
-  
-A motions answer was debated.
-    >>> notification.SendNotificationToMemberUponDebated(ObjectEvent(motion))  
-    From: clerks.office@parliament.go.tld
-    To: "John Doe" <john.doe@localhost> ...
-    Subject: Motion was debated: My subject ...
+  >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(motion))  
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Motion postponed: My subject ...
 
+A motions answer was debated.
+  >>> notification.SendNotificationToMemberUponDebated(ObjectEvent(motion))  
+  From: clerks.office@parliament.go.tld
+  To: "John Doe" <john.doe@localhost> ...
+  Subject: Motion was debated: My subject ...
+  
 Cleanup
 -------
   >>> session.flush()
   >>> session.commit()
   >>> session.close()
-
-
-

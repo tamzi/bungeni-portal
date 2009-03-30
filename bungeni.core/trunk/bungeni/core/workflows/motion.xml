@@ -137,7 +137,7 @@
      source="submitted"
      destination="received"
      permission="bungeni.motion.Recieve"
-     action="bungeni.core.workflows.motion.actions.recieved_by_clerk"
+     action="bungeni.core.workflows.motion.actions.received_by_clerk"
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionReceivedEvent"
      />
@@ -246,7 +246,7 @@
      destination="scheduled"
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.schedule"
-     condition="bungeni.core.workflows.utils.getMotionSchedule"
+     condition="bungeni.core.workflows.motion.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"
      />
   <transition
@@ -290,7 +290,7 @@
      destination="scheduled"
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.schedule"
-     condition="bungeni.core.workflows.utils.getMotionSchedule"
+     condition="bungeni.core.workflows.motion.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
      />
   <transition
@@ -323,7 +323,7 @@
      destination="scheduled"
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.schedule"
-     condition="bungeni.core.workflows.utils.getMotionSchedule"
+     condition="bungeni.core.workflows.motion.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
      />
   <transition

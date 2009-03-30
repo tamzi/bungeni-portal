@@ -12,6 +12,15 @@ from ore.alchemist import Session
 import bungeni.core.workflows.utils as utils
 import zope.securitypolicy.interfaces
 
+class conditions:
+    @staticmethod
+    def is_scheduled(info, context):
+        return dbutils.isItemScheduled(context.question_id)
+
+    @staticmethod
+    def is_ministry_set(info, context):
+        return context.ministry_id is not None
+
 class actions:
     @staticmethod
     def denyAllWrites(question):
@@ -47,11 +56,8 @@ class actions:
         """
         pass
 
-
-
-
     @staticmethod
-    def submitToClerk(info,context):      
+    def submit_to_clerk(info,context):      
         """
         a question submitted to the clerks office, the owner cannot edit it anymore
         the clerk has no edit rights until it is recieved
@@ -59,7 +65,7 @@ class actions:
         utils.setSubmissionDate(info, context)
 
     @staticmethod
-    def recievedByClerk( info, context ):
+    def received_by_clerk( info, context ):
         """
         the question is recieved by the clerks office, 
         the clerk can edit the question
@@ -98,7 +104,7 @@ class actions:
 
 
     @staticmethod
-    def sendToMinistry(info,context):
+    def send_to_ministry(info,context):
         """
         A question sent to a ministry for a written answer, 
         it cannot be edited, the ministry can add a written response
@@ -114,7 +120,7 @@ class actions:
 
 
     @staticmethod
-    def requireEditByMp(info,context):
+    def require_edit_by_mp(info,context):
         """
         A question is unclear and requires edits/amendments by the MP
         Only the MP is able to edit it, the clerks office looses edit rights
@@ -125,7 +131,7 @@ class actions:
 
 
     @staticmethod
-    def requireAmendment(info,context):
+    def require_amendment(info,context):
         """
         A question is send back from the speakers office 
         the clerks office for clarification
@@ -170,7 +176,7 @@ class actions:
 
 
     @staticmethod
-    def completeClarify(info,context):
+    def complete_clarify(info,context):
         """
         a question that requires clarification/amendmends
         is  resubmitted by the clerks office to the speakers office
@@ -198,7 +204,7 @@ class actions:
 
 
     @staticmethod
-    def mpClarify(info,context):
+    def mp_clarify(info,context):
         """
         send from the clerks office to the mp for clarification 
         the MP can edit it the clerk cannot

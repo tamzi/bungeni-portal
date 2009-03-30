@@ -61,7 +61,7 @@ def _load( workflow ):
         source = t.source
         while '  ' in source:
             source = source.replace('  ', ' ')
-        sources = source.split(' ')
+        sources = [s or None for s in source.split(' ')]
 
         for source in sources:
             if len(sources) > 1:

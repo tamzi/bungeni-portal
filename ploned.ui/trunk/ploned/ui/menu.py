@@ -67,11 +67,10 @@ class PloneBrowserMenu(BrowserMenu):
                 return -1
             # no idea. This goes last.
             return max_key
-        result = [(iface_index(item), item.order, item.title, item)
+        result = [(item.order, iface_index(item), item.title, item)
                   for item in result]
         result.sort()
 
-        
         local_url = absoluteURL(object, request)
         site_url = absoluteURL(getSite(), request)
         

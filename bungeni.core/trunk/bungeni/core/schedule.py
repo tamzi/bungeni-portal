@@ -6,6 +6,7 @@ from zope import component
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.globalsettings import getCurrentParliamentId
 from bungeni.models.interfaces import IBungeniApplication
+from bungeni.models.interfaces import ICommittee
 from bungeni.models.domain import GroupSitting
 from bungeni.models.domain import Group
 
@@ -68,4 +69,17 @@ class PlenarySchedulingContext(PrincipalGroupSchedulingContext):
         """Return current parliament's group id."""
 
         return getCurrentParliamentId()
-        
+
+class CommitteeSchedulingContext(PrincipalGroupSchedulingContext):
+    component.adapts(ICommittee)
+
+    @property
+    def group_id(self):
+        """Return committee's group id."""
+
+        return self.__parent__.group_id
+
+    def get_group(self, name=None):
+        assert name is None
+        return self.__parent__
+

@@ -164,7 +164,8 @@
   <!-- scheduling -->
 
   <adapter factory=".schedule.PlenarySchedulingContext" />
-
+  <adapter factory=".schedule.CommitteeSchedulingContext" />
+  
   <!-- principal roles -->
   
   <subscriber

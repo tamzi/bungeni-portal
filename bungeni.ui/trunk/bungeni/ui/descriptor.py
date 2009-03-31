@@ -664,7 +664,7 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
         
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Staff")
-    container_name = _(u"Staff members")
+    container_name = _(u"Staff")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)     
     custom_validators = [validations.validate_date_range_within_parent,]    

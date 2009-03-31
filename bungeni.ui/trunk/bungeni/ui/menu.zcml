@@ -257,55 +257,70 @@
      title="Search"
      />
      
-   <browser:menuItem
+  <browser:menuItem
      menu="context_actions"
      for="ore.alchemist.interfaces.IAlchemistContent"
      action="view"
      title="View"
+     order="0"
      />
-
-   <browser:menuItem
+  
+  <browser:menuItem
      menu="context_actions"
      for="ore.alchemist.interfaces.IAlchemistContent"
      action="edit"
      title="Edit"
+     order="10"
      />
 
-   <browser:menuItem
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.ICommittee"
+     action="./calendar"
+     title="Calendar"
+     order="20"
+     />
+  
+  <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IFileAttachments"
      action="files/"
      title="Files"
+     order="30"
      />
 
-   <browser:menuItem
+  <browser:menuItem
      menu="context_actions"
      for="bungeni.core.interfaces.IAuditable"
      action="audit-log"
      title="Audit Log"
+     order="30"
      />  
-
-   <browser:menuItem
-      menu="context_actions"
-      for="bungeni.core.interfaces.IVersionable"
-      action="versions"
-      title="Versions"
-      permission="zope.View"
-      />  
+  
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IVersionable"
+     action="versions"
+     title="Versions"
+     permission="zope.View"
+     order="30"
+     />  
    
    <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IBungeniContent"
      action="similar"
      title="Similar"
-     />       
+     order="30"
+      />       
      
    <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IBungeniContent"
      action="workflow"
      title="Workflow"
-     />           
+     order="30"
+      />           
      
    <browser:viewlet
      name="login"

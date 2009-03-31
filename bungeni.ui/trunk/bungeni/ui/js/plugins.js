@@ -66,6 +66,7 @@
         $(o)
           .droppable({
             accept: "tr",
+            tolerance: "touch",
                 })
           .bind('drop', function(event, draggable) {
               var target = $(o);

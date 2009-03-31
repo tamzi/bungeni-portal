@@ -102,6 +102,9 @@ class IMotionVersion(IMotion):
     pass
 
 
+class ICommittee(interface.Interface):
+    pass
+
 class IGroupSitting(interface.Interface):
     pass
 

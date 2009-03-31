@@ -48,7 +48,8 @@
           </thead>
         
 
-          <tbody tal:define="sittings_map options/sittings_map">
+          <tbody tal:define="sittings_map options/sittings_map;
+                             url request/getURL">
             <tr tal:repeat="hour options/hours">
               <td class="hour" tal:content="string: ${hour}:00" />
               <tal:column repeat="day python: range(7)">
@@ -83,7 +84,7 @@
                            tal:content="item/title" />
                         &mdash;
                         <a class="delete-link"
-                           tal:attributes="href item/delete_url">
+                           tal:attributes="href string:${item/delete_url}?next_url=${url}">
                           Remove
                         </a>
 

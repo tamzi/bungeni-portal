@@ -8,6 +8,11 @@ class datetimedict(datetime):
             dt.year, dt.month, dt.day,
             dt.hour, dt.minute, dt.second)
 
+    @classmethod
+    def fromdate(self, dt):
+        return datetimedict(
+            dt.year, dt.month, dt.day)
+
     def __getitem__(self, key):
         """Standard `strftime()` substitutions."""
 

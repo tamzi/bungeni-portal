@@ -69,6 +69,7 @@
       name="plone.content.tabs"
       for="*"
       manager=".interfaces.IContentViewsManager"
+      class=".viewlet.ContentTabsViewlet"
       template="templates/contentviews.pt"
       permission="zope.ManageContent"
       weight="10"

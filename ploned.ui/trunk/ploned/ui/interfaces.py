@@ -14,6 +14,11 @@ class IPlonedSkin( IDefaultBrowserLayer ):
 class IViewView(IBrowserView):
     """Marker-interface for the 'view' action."""
 
+class IStructuralView(IBrowserView):
+    """Marker-interface for views that are structural in the sense
+    that they do provide content actions, but they are still content
+    views on some object."""
+
 class ICSSManager( IViewletManager ):
     """ viewlet manager for css """
 

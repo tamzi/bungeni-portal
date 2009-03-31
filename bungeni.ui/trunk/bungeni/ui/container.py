@@ -148,6 +148,7 @@ class ContainerJSONListing( BrowserView ):
     """
     
     def appendSort( self, sort_key, columns):
+        domain_model = proxy.removeSecurityProxy(self.context.domain_model)
         if sort_key and ( sort_key in columns ):
             column = domain_model.c[sort_key]
             return column

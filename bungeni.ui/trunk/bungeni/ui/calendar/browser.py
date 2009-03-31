@@ -18,6 +18,7 @@ from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
 from bungeni.ui.utils import is_ajax_request
 from bungeni.core.location import location_wrapped
+from ploned.ui.interfaces import IViewView
 
 from ore.alchemist.container import stringKey
 
@@ -101,6 +102,8 @@ def create_sittings_map(sittings, request):
 class CalendarView(BrowserView):
     """Main calendar view."""
 
+    interface.implements(IViewView)
+
     template = ViewPageTemplateFile("main.pt")
     ajax = ViewPageTemplateFile("ajax.pt")
     
@@ -160,7 +163,7 @@ class CalendarView(BrowserView):
             start_date=date,
             end_date=days[-1],
             )
-        
+
         return template(
             display="weekly",
             formatted_date=_(

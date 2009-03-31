@@ -187,14 +187,27 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     title = props.title
                 else:
                     title = context.short_name
+
+            selected = len(chain) == 0
             
+            if chain:
+                nodes = self.expand(chain)
+            else:
+                kls = context.__class__
+                containers = [
+                    (key, getattr(context, key))
+                    for key, value in kls.__dict__.items()
+                    if isinstance(value, ManagedContainerDescriptor)]
+                nodes = []
+                self.expand_containers(nodes, containers, url, chain, None)
+
             items.append(
                 {'title': title,
                  'url': url,
                  'current': True,
-                 'selected': len(chain) == 0,
+                 'selected': selected,
                  'kind': 'content',
-                 'nodes': self.expand(chain),
+                 'nodes': nodes,
                  })
 
         elif IAlchemistContainer.providedBy(context):
@@ -219,40 +232,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     for key, value in kls.__dict__.items()
                     if isinstance(value, ManagedContainerDescriptor)]
 
-            seen_context = False
-            
-            for key, container in containers:
-                descriptor = queryModelDescriptor(
-                    proxy.removeSecurityProxy(container).domain_model)
-                if descriptor:
-                    name = getattr(descriptor, 'container_name', None)
-                    if name is None:
-                        name = getattr(descriptor, 'display_name', None)
+            self.expand_containers(items, containers, url, chain, context)
 
-                if not name:
-                    name = container.domain_model.__name__
-
-                current = container.__name__ == context.__name__
-                selected = len(chain) == 0 and current
-                
-                if current:
-                    seen_context = True
-                    nodes = self.expand(chain)
-                else:
-                    nodes = ()
-                
-                items.append(
-                    {'title': name,
-                     'url': "%s/%s" % (url.rstrip('/'), key),
-                     'current': current,
-                     'selected': selected,
-                     'kind': 'container',
-                     'nodes': nodes,
-                     })
-
-            if not seen_context:
-                import pdb; pdb.set_trace()
-                
         elif ILocation.providedBy(context):
             url = absoluteURL(context, self.request)
             props = IDCDescriptiveProperties.providedBy(context) and \
@@ -270,3 +251,38 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                  })
 
         return items
+
+    def expand_containers(self, items, containers, url, chain=(), context=None):
+        seen_context = False
+        current = False
+        
+        for key, container in containers:
+            descriptor = queryModelDescriptor(
+                proxy.removeSecurityProxy(container).domain_model)
+            if descriptor:
+                name = getattr(descriptor, 'container_name', None)
+                if name is None:
+                    name = getattr(descriptor, 'display_name', None)
+
+            if not name:
+                name = container.domain_model.__name__
+
+            if context is not None:
+                current = container.__name__ == context.__name__
+
+            selected = len(chain) == 0 and current
+
+            if current:
+                seen_context = True
+                nodes = self.expand(chain)
+            else:
+                nodes = ()
+
+            items.append(
+                {'title': name,
+                 'url': "%s/%s" % (url.rstrip('/'), key),
+                 'current': current,
+                 'selected': selected,
+                 'kind': 'container',
+                 'nodes': nodes,
+                 })

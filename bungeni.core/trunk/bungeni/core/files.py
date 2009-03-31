@@ -77,7 +77,7 @@ class DirectoryLocation(object):
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
         directory = repo.get( self.repo_path )
-        return ContainedDirectory.fromDirectory( self.context,  repo.get( self.repo_path ) )    
+        return ContainedDirectory.fromDirectory( self.context,  directory )    
 
 orm.mapper( DirectoryLocation, dbschema.directory_locations )        
 
@@ -108,7 +108,6 @@ class _FileRepository( object ):
             object_id = primary_key,
             object_type = object_type
             ).first()
-
         if location is not None:
             location.context = context
         return location
@@ -131,7 +130,7 @@ class _FileRepository( object ):
         location = DirectoryLocation( repo_path=path, 
                                       object_id = primary_key,
                                       object_type = object_type )
-        Session().save( location )                                
+        Session().add( location )                                
 
         # Create the subversion path for the content
         directory, created = create_path( self.context.root, path )
@@ -164,13 +163,52 @@ def create_path( root, path ):
         else:
             directory = directory.makeDirectory( s )
             created = True
+    # attachments to versions (this may be translations) are 
+    # stored in branches
+    if not 'branches' in directory:
+        branches = directory.makeDirectory( 'branches' )
+    # attachments to original (head) is stored in trunk                
+    if not 'trunk' in directory:
+        trunk = directory.makeDirectory('trunk')        
     return directory, created
     
 FileRepository = _FileRepository()
 
+
+class _HeadFileRepository(_FileRepository ):
+    """ File repository for the Head
+    """
+    def location( self, context ):        
+        primary_key, object_type = key( context )
+        location =  Session().query( DirectoryLocation ).filter_by(
+            object_id = primary_key,
+            object_type = object_type
+            ).first()        
+        if location is not None:
+            location.repo_path = location.repo_path +'/trunk' 
+            location.context = context
+        return location
+
+class _VersionFileRepository(_FileRepository ):
+    """File repository for Versions 
+    """
+    def location( self, context ):
+        head_ctx = context.head        
+        primary_key, object_type = key( head_ctx )
+        location =  Session().query( DirectoryLocation ).filter_by(
+            object_id = primary_key,
+            object_type = object_type
+            ).first()        
+        if location is not None:
+            location.repo_path = location.repo_path +'/branches/' + str(context.version_id)
+            location.context = context
+        return location
+    
+    
+    
 def setupStorageDirectory( ):
     # we start in buildout/src/bungeni.core/bungeni/core
-    # we end in buildout/parts/index    
+    # we end in buildout/parts/files    
     store_dir = __file__
     x = 0
     while x < 5:

@@ -44,6 +44,15 @@
      weight="1"
      />        
 
+  <browser:viewlet
+     name="bungeni.navigation.navtree"
+     for="zope.location.interfaces.ILocation"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".navigation.NavigationTreeViewlet"
+     permission="zope.View"
+     weight="1"
+     />    
+
   <!-- scheduling -->
 
   <browser:viewlet

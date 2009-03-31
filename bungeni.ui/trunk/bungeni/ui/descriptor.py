@@ -614,8 +614,8 @@ class CommitteeDescriptor( GroupDescriptor ):
     schema_invariants = [EndAfterStart,] # DissolutionAfterReinstatement]
     
 class CommitteeMemberDescriptor( ModelDescriptor ):
-    display_name = _(u"Committee member")
-    container_name = _(u"Committee members")
+    display_name = _(u"Member")
+    container_name = _(u"Members")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)    
     custom_validators = [validations.validate_date_range_within_parent,]    
@@ -663,8 +663,8 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     #custom_validators = validations.validate_date_range_within_parent
         
 class CommitteeStaffDescriptor( ModelDescriptor ):
-    display_name = _(u"Committee staff")
-    container_name = _(u"Committee staff members")
+    display_name = _(u"Staff")
+    container_name = _(u"Staff members")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)     
     custom_validators = [validations.validate_date_range_within_parent,]    

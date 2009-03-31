@@ -61,33 +61,34 @@
             });
         }
       });
-    
-    calendar.find("td.sitting")
-    .droppable({
-      accept: "tr",
-          })
-    .bind('drop', function(event, draggable) {
-        var droppable = $(this);
-        var element = draggable.draggable;
-        var id = $(element).find("a[rel=id]").attr('name');
-        var target = $(droppable.target);
-        var link = target.find("a[rel=schedule-item]");
-        var url = link.attr('href');
 
-        // ask for a redirect to the current (updated) calendar
-        var next_url = $("a[rel=calendar]").attr('href');
-
-        $("#kss-spinner").show();
-        $.post(url, {
-              headless: 'true',
-              next_url: next_url,
-              item_id: id}, function(data, status) {
-            $("#kss-spinner").hide();
-            if (status == 'success') {
-              _update_tables(data);
-              calendar.bungeniCalendarInteractivity();
-            }
-          });
+    $.each(calendar.find("td.sitting"), function(i, o) {
+        $(o)
+          .droppable({
+            accept: "tr",
+                })
+          .bind('drop', function(event, draggable) {
+              var target = $(o);
+              var element = draggable.draggable;
+              var id = $(element).find("a[rel=id]").attr('name');
+              var link = target.find("a[rel=schedule-item]");
+              var url = link.attr('href');
+              
+              // ask for a redirect to the current (updated) calendar
+              var next_url = $("a[rel=calendar]").attr('href');
+              
+              $("#kss-spinner").show();
+              $.post(url, {
+                headless: 'true',
+                    next_url: next_url,
+                    item_id: id}, function(data, status) {
+                  $("#kss-spinner").hide();
+                  if (status == 'success') {
+                    _update_tables(data);
+                    calendar.bungeniCalendarInteractivity();
+                  }
+                });
+            });
       });
 
     calendar.find("thead a")

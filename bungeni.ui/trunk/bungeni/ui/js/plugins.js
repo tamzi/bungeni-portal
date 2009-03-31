@@ -180,9 +180,11 @@
       $.each(options, function(j, p) {
           var option = $(p);
           var matches = re_time_range.exec(option.text());
-          option_matches.push(matches);
-          if (matches)
+          
+          if (matches) {
+            option_matches.push(matches);
             option.text(matches[1]);
+          }
         });
 
       function handle_change() {

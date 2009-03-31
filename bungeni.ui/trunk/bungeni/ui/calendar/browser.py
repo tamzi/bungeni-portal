@@ -11,6 +11,8 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
+from zope.security.proxy import removeSecurityProxy
+from zope.security.proxy import ProxyFactory
 
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
@@ -18,6 +20,7 @@ from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
 from bungeni.ui.utils import is_ajax_request
 from bungeni.core.location import location_wrapped
+from bungeni.core.proxy import LocationProxy
 from ploned.ui.interfaces import IViewView
 
 from ore.alchemist.container import stringKey
@@ -143,14 +146,12 @@ class CalendarView(BrowserView):
             return super(CalendarView, self).publishTraverse(request, name)
 
         obj = method()
-        obj.__name__ = name
-        return obj
+        return ProxyFactory(LocationProxy(
+            removeSecurityProxy(obj), container=self.context, name=name))
 
     def get_group(self):
-        group = self.context.get_group()
-        group.__parent__ = self.context
-        return group
-        
+        return self.context.get_group()
+
     def render_weekly(self, date, template=None):
         if template is None:
             template = self.template

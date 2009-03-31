@@ -122,11 +122,15 @@ class ContainerListing(container.ContainerListing):
     @property
     def form_name( self ):
         domain_model = proxy.removeSecurityProxy(self.context).domain_model
+
         descriptor = queryModelDescriptor(domain_model)
         if descriptor:
-            name = getattr(descriptor, 'display_name', None)
+            name = getattr(descriptor, 'container_name', None)
+            if name is None:
+                name = getattr(descriptor, 'display_name', None)
         if not name:
-            name = getattr(domain_model, '__name__', None)
+            name = getattr(self.context, '__name__', None)
+            
         return name
         
 class ContainerJSONTableHeaders( BrowserView ):
@@ -147,7 +151,6 @@ class ContainerJSONListing( BrowserView ):
         if sort_key and ( sort_key in columns ):
             column = domain_model.c[sort_key]
             return column
-        
 
     def getSort( self ):
         """ server side sort,

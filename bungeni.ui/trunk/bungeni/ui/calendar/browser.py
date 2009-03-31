@@ -1,5 +1,5 @@
-from datetime import datetime
-from datetime import timedelta
+import datetime
+timedelta = datetime.timedelta
 
 from zope import interface
 from zope import component
@@ -126,7 +126,7 @@ class CalendarView(BrowserView):
     def __call__(self, timestamp=None):
         if timestamp is None:
             # start the week on the first weekday (e.g. Monday)
-            date = utils.datetimedict.now()
+            date = utils.datetimedict.fromdate(datetime.date.today())
         else:
             try:
                 timestamp = float(timestamp)
@@ -172,8 +172,8 @@ class CalendarView(BrowserView):
                 mapping=date),
             formatted_month=_(u"$B", mapping=date),
             days=[{
-                'formatted': datetime.strftime(day, '%A %d'),
-                'id': datetime.strftime(day, '%Y-%m-%d'),
+                'formatted': datetime.datetime.strftime(day, '%A %d'),
+                'id': datetime.datetime.strftime(day, '%Y-%m-%d'),
                 } for day in days],
             hours=range(7,21),
             week_no=date.isocalendar()[1],

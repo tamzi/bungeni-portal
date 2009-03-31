@@ -8,6 +8,7 @@ from zope import schema
 from zope.i18n import translate
 from zope.security.proxy import removeSecurityProxy
 from zope.event import notify
+from zope.schema.interfaces import IChoice
 from zope.formlib import form
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
@@ -143,12 +144,21 @@ class AddForm(BaseForm, ui.AddForm):
     def validate(self, action, data):    
         errors = super(AddForm, self).validate(action, data)
 
-        descriptor = queryModelDescriptor(
-            type(removeSecurityProxy(self.context)))
+        descriptor = queryModelDescriptor(self.domain_model)
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, None, self.context)
         
         return errors
+
+    def update(self):
+        super(AddForm, self).update()
+
+        # set default values for required choice fields
+        for widget in self.widgets:
+            field = widget.context
+            if IChoice.providedBy(field) and field.required and field.default is None:
+                for term in field.vocabulary:
+                    field.default = term.value
 
     @property
     def domain_model(self):

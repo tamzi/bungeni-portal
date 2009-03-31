@@ -78,7 +78,7 @@ attach files.
 
 Commit transaction to persist objects.
   
-  >>> stored = map(Session().save, (bill, bill2, committee, committee2))
+  >>> stored = map(Session().add, (bill, bill2, committee, committee2))
   >>> transaction.commit()
 
 Demonstration
@@ -108,14 +108,14 @@ Verify that the file path is composed of the date and the object id.
   True
 
   >>> files.keys()
-  ['rabbit.txt']  
+  ['rabbit.txt', 'branches', 'trunk'] 
   
 All changes are integrated with the zope transaction system, if we
 abort the transaction, our modifications are aborted.
 
   >>> transaction.abort()
   >>> files.keys()
-  []
+   ['branches', 'trunk']
 
 Let's retry adding the file; this time we'll commit the transaction.
   
@@ -127,27 +127,20 @@ Let's retry adding the file; this time we'll commit the transaction.
   True
   
   >>> files.keys()
-  ['rabbit.txt']  
+  ['rabbit.txt', 'branches', 'trunk']  
   
   >>> transaction.commit()
   >>> files.keys()
-  ['rabbit.txt']    
+  ['rabbit.txt', 'branches', 'trunk']   
   
-Add trunk and branches directories:
-  >>> trunk = files.makeDirectory('trunk')
-  >>> trunk
-  <ore.svn.directory.SubversionDirectory object at ...>
-  >>> branches = files.makeDirectory('branches')
-  >>> branches
-  <ore.svn.directory.SubversionDirectory object at ...>
-  >>> files.keys()
-  ['rabbit.txt', 'branches', 'trunk']
 
+  >>> trunk = files['trunk']
   >>> bill = trunk.makeFile('bill.txt')
   >>> stream = StringIO("Hello World\n This is a bill")
   >>> bill.writeStream(stream)
   >>> transaction.commit()  
   
+  >>> branches = files['branches']
   >>> b1 = branches.makeDirectory('1234')
   >>> for node in trunk.keys():
   ...   b1.copy(node, trunk[node])
@@ -155,7 +148,7 @@ Add trunk and branches directories:
   
   >>> b1.keys()
   ['bill.txt']
-  
+
 Notes
 -----
 

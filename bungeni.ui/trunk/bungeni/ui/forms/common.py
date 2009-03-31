@@ -105,13 +105,15 @@ class BaseForm(object):
 
         # the ``_next_url`` attribute is used internally by our
         # superclass to implement formlib's ``nextURL`` method
-        self._next_url = self.request.get('next_url', None)
+        next_url = self._next_url = self.request.get('next_url', None)
+        if next_url == "...":
+            self._next_url = self.request['HTTP_REFERER']
         
     def update(self):
         self.status = self.request.get('portal_status_message', '')
         super(BaseForm, self).update()
         set_widget_errors(self.widgets, self.errors)
-
+        
     def validate(self, action, data):    
         """Validation that require context must be called here,
         invariants may be defined in the descriptor."""
@@ -124,6 +126,10 @@ class BaseForm(object):
             errors += self.CustomValidation(self.context, data)
 
         return errors
+
+    @property
+    def next_url(self):
+        return self._next_url
 
 class DisplayForm(ui.DisplayForm):
     interface.implements(IViewView)
@@ -198,7 +204,7 @@ class AddForm(BaseForm, ui.AddForm):
             }
 
     @form.action(_(u"Save"), condition=form.haveInputWidgets)
-    def handle_add_save(self, action, data ):
+    def handle_add_save(self, action, data):
         """After succesful content creation, redirect to the content listing."""
 
         self.createAndAdd(data)
@@ -511,6 +517,11 @@ class DeleteForm(BaseForm, form.PageForm):
             self.context, oldParent=container, oldName=self.context.__name__))
         count = 1
 
-        self.request.response.redirect(
-            absoluteURL(container, self.request) + \
-            '/@@add?portal_status_message=%d items deleted' % count)
+        next_url = self.nextURL()
+        if next_url is None:
+            next_url = absoluteURL(container, self.request) + \
+                       '/@@add?portal_status_message=%d items deleted' % count
+
+        self.request.response.redirect(next_url)
+        
+

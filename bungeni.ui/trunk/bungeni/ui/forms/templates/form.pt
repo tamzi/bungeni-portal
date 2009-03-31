@@ -55,10 +55,6 @@
             </dd>                                                                                                                                   
           </dl>        
 
-          <input type="hidden" name="came_from"
-                 tal:condition="view/came_from|nothing"
-                 tal:attributes="value view/came_from" />
-
           <div class="invariant-errors" tal:condition="view/invariantErrors|nothing">
             <ul>
               <li tal:repeat="error view/invariantErrors" tal:content="error/message">
@@ -85,6 +81,14 @@
               </legend>
 
               <metal:block define-macro="fieldset"> 
+
+                <input type="hidden" name="came_from"
+                       tal:condition="view/came_from|nothing"
+                       tal:attributes="value view/came_from" />
+
+                <input type="hidden" name="next_url"
+                       tal:condition="view/next_url|nothing"
+                       tal:attributes="value view/next_url" />
 
                 <metal:block define-slot="top-fieldset">
                 </metal:block>

@@ -46,7 +46,7 @@ class PrincipalGroupSchedulingContext(object):
             assert start_date and end_date
 
             query = session.query(GroupSitting).filter(
-                "group_id=:group_id and start_date>:start_date and end_date<:end_date")
+                "group_id=:group_id and start_date between :start_date and :end_date")
 
             sittings = query.params(
                 group_id=self.group_id,

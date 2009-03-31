@@ -103,9 +103,8 @@ class PloneBrowserMenu(BrowserMenu):
     
     def selected( self, item ):
         request_url = item.request.getURL()
-
-        normalized_action = item.action
-
+        normalized_action = item.action.lstrip('.')
+        
         # hack hardcode home action..
         if item.title == 'Home' and request_url.count('/') != 3:
             return False

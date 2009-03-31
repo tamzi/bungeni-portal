@@ -10,6 +10,7 @@ from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
 from bungeni.models import domain
+from bungeni.models.interfaces import IBungeniApplication
 
 from ore.alchemist import Session
 from ore.alchemist.container import stringKey
@@ -41,6 +42,15 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
     def title(self):
         descriptor = queryModelDescriptor(self.container.domain_model)
         return descriptor.container_name
+
+    @property
+    def app(self):
+        parent = self.context.__parent__
+        while parent is not None:
+            if IBungeniApplication.providedBy(parent):
+                return parent
+            parent = parent.__parent__
+        raise ValueError("Unable to locate application.")
         
     def update(self):
         need('yui-dragdrop')
@@ -72,7 +82,7 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
 
     @property
     def container(self):
-        return self.context.__parent__['bills']
+        return self.app['bills']
     
     states = (
         bill_wf_state[u"submitted"].id,
@@ -92,7 +102,7 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
 
     @property
     def container(self):
-        return self.context.__parent__['questions']
+        return self.app['questions']
     
     states = (
         question_wf_state[u"admissible"].id,
@@ -104,11 +114,9 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
 
     @property
     def container(self):
-        return self.context.__parent__['motions']
+        return self.app['motions']
 
     states = (
         motion_wf_state[u"admissible"].id,
         motion_wf_state[u"postponed"].id,
         )
-
-    

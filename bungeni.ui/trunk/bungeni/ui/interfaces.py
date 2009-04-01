@@ -1,4 +1,3 @@
-from zope.viewlet.interfaces import IViewletManager
 from zope.publisher.interfaces.browser import IBrowserView
 
 from ploned.ui.interfaces import IPlonedSkin

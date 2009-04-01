@@ -153,8 +153,12 @@ Location
 --------
 
   >>> from bungeni.core.files import ContainedDirectory
-  >>> directory = ContainedDirectory.fromDirectory(bill, b1)
+  >>> branches = ContainedDirectory.fromDirectory(bill, branches)
   >>> from zope.location.interfaces import ILocation
+  >>> ILocation.providedBy(branches)
+  True
+
+  >>> directory = branches['1234']
   >>> ILocation.providedBy(directory)
   True
   

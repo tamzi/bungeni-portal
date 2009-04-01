@@ -126,7 +126,9 @@ class TranslateMenu(BrowserMenu):
         available = get_available_translations(context)
 
         results = []
-        for name, title in get_all_languages():
+        for name, obj in get_all_languages().items():
+            title = obj['name']
+            
             # skip the current language
             if name == language:
                 continue

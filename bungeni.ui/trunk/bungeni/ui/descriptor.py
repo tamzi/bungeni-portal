@@ -842,9 +842,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
              property=schema.Choice(
                  title=u"Language",
                  default=get_default_language(),
-                 vocabulary=SimpleVocabulary([
-                     SimpleTerm(name, name, title)
-                     for (name, title) in get_all_languages()]),
+                 vocabulary="language_vocabulary",
                  ),
              ),
         dict( name="body_text", label=_(u"Text"),

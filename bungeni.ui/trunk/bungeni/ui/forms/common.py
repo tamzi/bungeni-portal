@@ -258,7 +258,7 @@ class EditForm(BaseForm, ui.EditForm):
                 and context or IDCDescriptiveProperties(context)
 
         if self.is_translation:
-            language = get_language_by_name(self.context.language)
+            language = get_language_by_name(self.context.language)['name']
             return _(u"edit_translation_legend",
                      default=u'Editing $language translation of "$title"',
                      mapping={'title': translate(props.title, context=self.request),
@@ -276,7 +276,7 @@ class EditForm(BaseForm, ui.EditForm):
     @property
     def form_description(self):
         if self.is_translation:
-            language = get_language_by_name(self.context.head.language)
+            language = get_language_by_name(self.context.head.language)['name']
             return _(u"edit_translation_help",
                      default=u'The original $language version is shown on the left.',
                      mapping={'language': language})
@@ -333,7 +333,7 @@ class TranslateForm(AddForm):
         
     @property
     def form_name(self):
-        language = get_language_by_name(self.language)
+        language = get_language_by_name(self.language)['name']
                 
         return _(u"translate_item_legend",
                  default=u"Add $language translation",
@@ -341,7 +341,7 @@ class TranslateForm(AddForm):
 
     @property
     def form_description(self):
-        language = get_language_by_name(self.language)
+        language = get_language_by_name(self.language)['name']
         props = IDCDescriptiveProperties.providedBy(self.context) \
                 and self.context or IDCDescriptiveProperties(self.context)
                 
@@ -353,7 +353,7 @@ class TranslateForm(AddForm):
 
     @property
     def title(self):
-        language = get_language_by_name(self.language)
+        language = get_language_by_name(self.language)['name']
 
         return _(u"translate_item_title", default=u"Adding $language translation",
                  mapping={'language': language})
@@ -394,7 +394,7 @@ class TranslateForm(AddForm):
 
         url = absoluteURL(self.context, self.request)
         
-        language = get_language_by_name(data['language'])
+        language = get_language_by_name(data['language'])['name']
         versions = IVersioned(self.context)
         version = versions.create("'%s' translation added." % language)
 

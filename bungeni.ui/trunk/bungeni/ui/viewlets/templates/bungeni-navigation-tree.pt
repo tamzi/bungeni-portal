@@ -27,7 +27,7 @@
                      tal:define="kind node/kind"
                      tal:attributes="src images/icon_?kind.png|images/icon_?kind.gif"
                      />
-                <span tal:content="node/title" />
+                <span i18n:translate="" tal:content="node/title" />
               </a>
             </div>
             

@@ -199,3 +199,6 @@ class CalendarView(BrowserView):
     @property
     def macros(self):
         return self._macros.macros
+
+class CommitteeCalendarView(CalendarView):
+    """Calendar-view for a committee."""

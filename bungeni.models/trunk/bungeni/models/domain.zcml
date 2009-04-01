@@ -19,6 +19,7 @@
   </class>    
 
   <class class=".domain.Question">
+    <require permission="zope.Public" attributes="files"/>  
     <require permission="bungeni.question.View"
              interface=".interfaces.IQuestion" />
     <require permission="bungeni.question.Edit"

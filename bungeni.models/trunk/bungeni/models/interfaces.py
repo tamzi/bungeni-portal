@@ -125,7 +125,8 @@ class ITabledDocument( interface.Interface ):
     """
     tabled document
     """
-
+class IParliamentSession( interface.Interface ):
+    pass
 
 class IBungeniSetup( interface.Interface ):
 

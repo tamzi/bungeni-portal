@@ -195,6 +195,7 @@
   <adapter factory=".dc.UserDescriptiveProperties" />
   <adapter factory=".dc.GroupMembershipDescriptiveProperties" />
   <adapter factory=".dc.GroupSittingAttendanceDescriptiveProperties" />
+  <adapter factory=".dc.ParliamentSessionDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

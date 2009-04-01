@@ -143,8 +143,7 @@ class _FileRepository( object ):
         directory, created = create_path( self.context.root, path )
         if created:
             self.context.getTransaction().commit()
-            self.context.setRevision() # update to latest revision
-        
+            self.context.setRevision() # update to latest revision        
         # Commit it
         location.context = context
         return location
@@ -182,36 +181,8 @@ def create_path( root, path ):
 FileRepository = _FileRepository()
 
 
-class _HeadFileRepository(_FileRepository ):
-    """ File repository for the Head
-    """
-    def location( self, context ):        
-        primary_key, object_type = key( context )
-        location =  Session().query( DirectoryLocation ).filter_by(
-            object_id = primary_key,
-            object_type = object_type
-            ).first()        
-        if location is not None:
-            location.repo_path = location.repo_path +'/trunk' 
-            location.context = context
-        return location
 
-class _VersionFileRepository(_FileRepository ):
-    """File repository for Versions 
-    """
-    def location( self, context ):
-        head_ctx = context.head        
-        primary_key, object_type = key( head_ctx )
-        location =  Session().query( DirectoryLocation ).filter_by(
-            object_id = primary_key,
-            object_type = object_type
-            ).first()        
-        if location is not None:
-            location.repo_path = location.repo_path +'/branches/' + str(context.version_id)
-            location.context = context
-        return location
-    
-    
+      
     
 def setupStorageDirectory( ):
     # we start in buildout/src/bungeni.core/bungeni/core

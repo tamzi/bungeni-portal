@@ -144,7 +144,7 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
 
 
 
-mapper ( domain.MemberOfParliament , schema.parliament_members,
+mapper ( domain.MemberOfParliament , schema.parliament_memberships,
          inherits=domain.GroupMembership,
          primary_key=[schema.user_group_memberships.c.membership_id], 
           properties={
@@ -159,7 +159,7 @@ mapper ( domain.MemberOfParliament , schema.parliament_members,
             'constituency' : column_property(
                              rdb.sql.select(
                              [schema.constituencies.c.name],
-                             schema.parliament_members.c.constituency_id==schema.constituencies.c.constituency_id
+                             schema.parliament_memberships.c.constituency_id==schema.constituencies.c.constituency_id
                                     ).label('constituency')
                                            ),
                

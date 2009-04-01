@@ -85,7 +85,7 @@
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
      name="calendar"
-     class=".calendar.browser.CalendarView"
+     class=".calendar.browser.CommitteeCalendarView"
     />
 
   <!-- Similar Content -->

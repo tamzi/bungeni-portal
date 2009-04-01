@@ -46,12 +46,12 @@
 
   <browser:viewlet
      name="bungeni.navigation.navtree"
-     for="zope.location.interfaces.ILocation"
+     view="bungeni.ui.calendar.browser.CommitteeCalendarView"
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".navigation.NavigationTreeViewlet"
      permission="zope.View"
      weight="1"
-     />    
+     />
 
   <!-- scheduling -->
 

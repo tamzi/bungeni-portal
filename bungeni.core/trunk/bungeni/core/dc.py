@@ -145,7 +145,7 @@ class VersionDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         if is_translation(self.context):
-            language = get_language_by_name(self.context.language)
+            language = get_language_by_name(self.context.language)['name']
             return _(u"$language translation",
                      mapping={'language': language})
 

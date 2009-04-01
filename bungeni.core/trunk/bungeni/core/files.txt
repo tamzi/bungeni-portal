@@ -135,9 +135,9 @@ Let's retry adding the file; this time we'll commit the transaction.
   
 
   >>> trunk = files['trunk']
-  >>> bill = trunk.makeFile('bill.txt')
+  >>> billfile = trunk.makeFile('bill.txt')
   >>> stream = StringIO("Hello World\n This is a bill")
-  >>> bill.writeStream(stream)
+  >>> billfile.writeStream(stream)
   >>> transaction.commit()  
   
   >>> branches = files['branches']
@@ -149,6 +149,15 @@ Let's retry adding the file; this time we'll commit the transaction.
   >>> b1.keys()
   ['bill.txt']
 
+Location
+--------
+
+  >>> from bungeni.core.files import ContainedDirectory
+  >>> directory = ContainedDirectory.fromDirectory(bill, b1)
+  >>> from zope.location.interfaces import ILocation
+  >>> ILocation.providedBy(directory)
+  True
+  
 Notes
 -----
 

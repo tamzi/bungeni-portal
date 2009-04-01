@@ -203,7 +203,12 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
         else:
             return u"New User"
             
-            
-                    
+class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IParliamentSession)  
+    
+    @property
+    def title(self):
+        #context = removeSecurityProxy(self.context)
+        return self.context.short_name   
 
                

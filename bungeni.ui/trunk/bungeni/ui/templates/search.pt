@@ -7,7 +7,7 @@
       <h2 i18n:translate=""> Search </h2>
 
       <div tal:condition="view/spelling_suggestion">
-          Did you mean <a href="" tal:attributes="href string:${context/@@absolute_url}/search?form.full_text=${view/spelling_suggestion}&form.actions.search=Search"
+          Did you mean <a href="" tal:attributes="href string:${context/@@absolute_url}/search?form.full_text=${view/spelling_suggestion}&amp;form.actions.search=Search"
                                   tal:content="view/spelling_suggestion"> This </a>
       </div>
 

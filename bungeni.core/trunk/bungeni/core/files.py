@@ -5,6 +5,7 @@ from datetime import date
 from zope import interface, component
 from zope.publisher.interfaces import NotFound
 from zope.security.proxy import removeSecurityProxy
+from zope.location.interfaces import ILocation
 
 from sqlalchemy import orm
 from ore.alchemist import Session
@@ -14,10 +15,10 @@ from ore.metamime.interfaces import IMimeClassifier
 from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
 
 from bungeni.core import interfaces
+from bungeni.core.proxy import LocationProxy
 from bungeni.models import schema as dbschema
 
 def fileClassifierSubscriber( ob, event ):
-    from zope.security.proxy import removeSecurityProxy
     ob = removeSecurityProxy( ob )
     classifier = IMimeClassifier( ob )
     ob.mime_type = str( classifier.queryMimeType() )
@@ -52,7 +53,8 @@ class DefaultPathChooser( object ):
 	return path
 
 class ContainedDirectory( SubversionDirectory ):
-
+    interface.implements(ILocation)
+    
     @classmethod
     def fromDirectory( cls, context, directory ):
         i = cls(directory.id, directory.svn_path, directory.__parent__ )
@@ -77,8 +79,8 @@ class DirectoryLocation(object):
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
         directory = repo.get( self.repo_path )
-        return ContainedDirectory.fromDirectory( self.context,  directory )    
-
+        return ContainedDirectory.fromDirectory(self.context,  directory)
+    
 orm.mapper( DirectoryLocation, dbschema.directory_locations )        
 
 

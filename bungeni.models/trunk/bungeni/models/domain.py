@@ -337,11 +337,10 @@ class AgendaItem( ParliamentaryItem ):
     """
 
 class Question( ParliamentaryItem ):
-
-    #interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
+    interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
     responses = one2many("responses", "bungeni.models.domain.ResponseContainer", "response_id")
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
-
+    files = files.DirectoryDescriptor()
     versions = one2many(
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
@@ -504,13 +503,7 @@ class MemberRoleTitle( Entity ):
     """    
     addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "role_title_id" )    
     
-#####################
-# current parliament/gov/ministers/mps...
 
-#class CurrentParliament( Entity ):
-#    """
-#    the current parliament 
-#    """
 
 class MinistryInParliament( object ):
     """
@@ -578,15 +571,6 @@ class HoliDay( object ):
     if a date in in the table it is otherwise not
     """
 
-#class QuestionSchedule(object):
-#    """
-#    for which sitting was a question scheduled
-#    """ 
-    
-#class QuestionScheduleHistory( object ):
-#    """
-#    History of Sittings for which the question was scheduled
-#    """
     
 class Resource ( object ):
     """

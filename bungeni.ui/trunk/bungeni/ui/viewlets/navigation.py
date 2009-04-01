@@ -140,14 +140,13 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
 
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
     template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt')
-
-    def __init__( self,  context, request, view, manager ):        
+    path = ()
+    
+    def __init__(self, context, request, view, manager):
         self.context = context
         self.request = request
         self.__parent__= view
         self.manager = manager
-        self.path = []
-        self.tree = []
         self.name = ''
 
     def update(self):

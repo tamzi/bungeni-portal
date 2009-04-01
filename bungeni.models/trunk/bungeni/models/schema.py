@@ -124,8 +124,8 @@ users = rdb.Table(
 #    )
 
 # specific user classes
-parliament_members = rdb.Table(
-   "parliament_members",
+parliament_memberships = rdb.Table(
+   "parliament_memberships",
    metadata,
    rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), primary_key=True ),
    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),

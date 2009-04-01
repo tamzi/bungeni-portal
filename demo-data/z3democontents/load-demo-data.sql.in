@@ -85,11 +85,11 @@ copy public.user_group_memberships (membership_id, user_id, group_id, start_date
 from '%(directory)s/data/demodata/parliament_group_members.csv'
 csv;
 
-copy public.parliament_members (membership_id, constituency_id,  elected_nominated , leave_reason)
+copy public.parliament_memberships (membership_id, constituency_id,  elected_nominated , leave_reason)
     from '%(directory)s/data/demodata/parliament_members.csv'
 csv ;
 
-update public.parliament_members set elected_nominated ='N' where constituency_id = 0; 
+update public.parliament_memberships set elected_nominated ='N' where constituency_id = 0; 
 
 copy public.sessions (session_id, parliament_id, short_name, start_date, end_date, notes)
 from '%(directory)s/data/demodata/sessions.csv'

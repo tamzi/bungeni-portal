@@ -86,6 +86,10 @@ div.calendar td.sitting {
   background-color: rgb(102, 140, 217) !important;
 }
 
+div.calendar td.sitting ul.actions {
+  z-index: 1000;
+}
+
 div.calendar td.sitting ul.actions,
 div.calendar td.sitting ul.items {
   list-style: none;

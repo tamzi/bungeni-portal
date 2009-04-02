@@ -41,9 +41,9 @@ def get_location_from_parent(context, location):
 @component.adapter(interface.Interface, IParliamentaryItemsContainerContext)
 def get_location_from_container(context, location):
     try:
-        name = model_to_container_name_mapping[type(context)]
+        name = model_to_container_name_mapping[context.__class__]
     except KeyError:
-        raise TypeError("Unable to find location for %s." % repr(context))
+        raise TypeError("No model to container mapping for %s." % repr(context))
     
     container = getattr(location, name)
     

@@ -4,7 +4,7 @@
   <metal:title fill-slot="title">
     <title metal:define-slot="title">
       <metal:title fill-slot="plone.htmlhead.title">
-        <span tal:replace="context/title|string:Bungeni" />
+        <span i18n:translate="" tal:replace="context/title|context/dc:title|string:Bungeni" />
       </metal:title>
     </title>
   </metal:title>

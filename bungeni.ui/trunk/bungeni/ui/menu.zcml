@@ -137,7 +137,16 @@
      for="bungeni.core.interfaces.IDailySchedulingContext"
      action="agenda"
      title="Agenda"
-     order="0"
+     order="10"
+     permission="zope.View"
+     />
+
+    <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IDailySchedulingContext"
+     action="votes-and-proceedings"
+     title="Votes and proceedings"
+     order="15"
      permission="zope.View"
      />
 

@@ -15,7 +15,7 @@
 
   }
   
-  $.fn.bungeniCalendarInteractivity = function() {
+  $.fn.bungeniCalendarInteractivity = function(ajax_navigation) {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
 
@@ -86,25 +86,26 @@
                   $("#kss-spinner").hide();
                   if (status == 'success') {
                     _update_tables(data);
-                    calendar.bungeniCalendarInteractivity();
+                    calendar.bungeniCalendarInteractivity(ajax_navigation);
                   }
                 });
             });
       });
 
-    calendar.find("thead a.navigation")
-    .click(function() {
-        $("#kss-spinner").show();
-        $.get($(this).attr('href'), {}, function(data, status) {
-            $("#kss-spinner").hide();
-
-            if (status == 'success') {
-              _update_tables(data);
-              calendar.bungeniCalendarInteractivity();
-            }
+    if (ajax_navigation)
+      calendar.find("thead a.navigation")
+        .click(function() {
+            $("#kss-spinner").show();
+            $.get($(this).attr('href'), {}, function(data, status) {
+                $("#kss-spinner").hide();
+                
+                if (status == 'success') {
+                  _update_tables(data);
+                  calendar.bungeniCalendarInteractivity(ajax_navigation);
+                }
+              });
+            return false;
           });
-        return false;
-      });
   }
   
   $.fn.bungeniSafeResize = function() {

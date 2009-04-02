@@ -14,7 +14,7 @@
       $("#items-for-scheduling tbody tr").bungeniDragAndDropScheduling();
       
       // set up calendar ajax
-      $('#weekly-calendar').bungeniCalendarInteractivity();
-
+      $('#weekly-calendar').bungeniCalendarInteractivity(true);
+      $('#daily-calendar').bungeniCalendarInteractivity(false);
     });
  })(jQuery);

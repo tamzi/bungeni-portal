@@ -6,6 +6,19 @@
   text-transform: lowercase;
 }
 
+#calendar-table th.day {
+  width: 14%;
+}
+
+#calendar-table th.today {
+  background-color: rgb(136, 170, 204);
+  color: white;
+}
+
+#calendar-table td.today {
+  background-color: rgb(255, 255, 204);
+}
+
 #calendar-table {
   height: 300px;
   overflow: auto;
@@ -18,6 +31,11 @@
   border-right: 1px solid #8CACBB;
 }
 
+#calendar-table div.header {
+  background-color: #2952A3;
+  padding-left: 0.5em;
+}
+
 #weekly-calendar {
   margin-bottom: 1em;
 }
@@ -28,7 +46,15 @@
   padding: 0;
   border-bottom: 0;
 }
-  
+
+#calendar-table table.grid td {
+  padding: 0;
+}
+
+#calendar-table div.sitting {
+  padding: 0.5em;
+}
+
 #weekly-calendar table th {
   text-align: center;
 }
@@ -36,10 +62,12 @@
 #weekly-calendar table td.hour {
   text-align: center;
   font-weight: bold;
+  padding: 0.25em;
 }
 
-#weekly-calendar table td {
+#weekly-calendar table tbody td {
   vertical-align: top;
+  border-color: #ddd;
 }
 
 #weekly-calendar thead td a.previous-link {
@@ -55,12 +83,13 @@
 }
 
 #weekly-calendar td.sitting {
-  background: yellow;
+  background-color: rgb(102, 140, 217);
 }
 
-#weekly-calendar td.sitting ul.actions {
+#weekly-calendar td.sitting ul.actions,
+#weekly-calendar td.sitting ul.items {
   list-style: none;
-  
+  margin: 0;
 }
 
 #weekly-calendar td.sitting ul.actions li {
@@ -71,4 +100,15 @@
 
 #weekly-calendar td.sitting ul.actions a {
 
+}
+
+#weekly-calendar td.sitting li,
+#weekly-calendar td.sitting span,
+#weekly-calendar td.sitting a {
+  color: white;
+  border: none;
+}
+
+#weekly-calendar td.sitting .discreet {
+  color: #ccf;
 }

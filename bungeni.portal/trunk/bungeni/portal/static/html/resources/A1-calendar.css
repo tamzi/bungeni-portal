@@ -62,7 +62,7 @@ div.calendar table th {
 div.calendar table td.hour {
   text-align: center;
   font-weight: bold;
-  padding: 0.25em;
+  padding: 0.25em !important;
 }
 
 div.calendar table tbody td {

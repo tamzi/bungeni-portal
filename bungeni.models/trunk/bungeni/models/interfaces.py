@@ -210,6 +210,16 @@ class IFileAttachments( interface.Interface ):
     for content that wants to have a locally scoped svn directory for file storage
     """
     files = interface.Attribute('an ore.svn/library directory instance')
+
+class IHeadFileAttachments( IFileAttachments ):
+    """ svn trunk directory 
+    """
+
+class IBranchFileAttachments( IFileAttachments ):
+    """ branches/version_id directory
+    """
+    
+
     
 class IDirectoryLocation( interface.Interface ):
 

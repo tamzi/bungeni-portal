@@ -1111,7 +1111,11 @@ class SittingDescriptor( ModelDescriptor ):
 
     schema_invariants = [EndAfterStart]
     custom_validators = [validations.validate_date_range_within_parent,]    
-    
+
+class SittingTypeDescriptor(ModelDescriptor):
+    display_name = _(u"Type")
+    container_name = _(u"Types")
+
 class SessionDescriptor( ModelDescriptor ):
     display_name = _(u"Parliamentary session")
     container_name = _(u"Parliamentary sessions")

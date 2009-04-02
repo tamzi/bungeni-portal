@@ -168,6 +168,7 @@ class _FileRepository( object ):
         try:
             return self.context.traverse( path )
         except KeyError:
+            create_path( self.context.root, path )
             return self.context.traverse( path )
                 
     def new( self, context, path=None ):
@@ -184,6 +185,13 @@ class _FileRepository( object ):
         # Create the subversion path for the content
         directory, created = create_path( self.context.root, path )
         if created:
+            # attachments to versions (this may be translations) are 
+            # stored in branches
+            if not 'branches' in directory:
+                branches = directory.makeDirectory( 'branches' )
+            # attachments to original (head) is stored in trunk                
+            if not 'trunk' in directory:
+                trunk = directory.makeDirectory('trunk')        
             self.context.getTransaction().commit()
             self.context.setRevision() # update to latest revision        
         # Commit it
@@ -212,14 +220,7 @@ def create_path( root, path ):
             directory = directory[s]
         else:
             directory = directory.makeDirectory( s )
-            created = True
-    # attachments to versions (this may be translations) are 
-    # stored in branches
-    if not 'branches' in directory:
-        branches = directory.makeDirectory( 'branches' )
-    # attachments to original (head) is stored in trunk                
-    if not 'trunk' in directory:
-        trunk = directory.makeDirectory('trunk')        
+            created = True       
     return directory, created
  
 # utility that provides IVersionedFileRepository:    

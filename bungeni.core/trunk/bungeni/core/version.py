@@ -43,12 +43,15 @@ class Versioned(container.PartialContainer):
         # manually inspect and look for one, by hand to save on the new version
         mapper = orm.object_mapper(trusted)
         version.content_id = mapper.primary_key_from_instance(trusted)[0]
-        
+        version.status = None
         version.manual = manual
         
         # we rely on change handler to attach the change object to the version
         event.notify(
             interfaces.VersionCreated(context, self, version, message))
+            
+        event.notify(
+            interfaces.VersionCreated(version, self, version, message))            
         
         # save our new version to the db
         session = Session()

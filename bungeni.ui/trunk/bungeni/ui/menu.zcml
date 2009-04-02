@@ -118,6 +118,29 @@
 
   <!-- calendar actions -->
 
+  <browser:defaultView
+     for="bungeni.core.interfaces.IDailySchedulingContext"
+     name="view"
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IDailySchedulingContext"
+     action="view"
+     title="View"
+     order="0"
+     permission="zope.View"
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IDailySchedulingContext"
+     action="agenda"
+     title="Agenda"
+     order="0"
+     permission="zope.View"
+     />
+
   <browser:menuItem
      menu="sitting_actions"
      for="bungeni.models.interfaces.IGroupSitting"

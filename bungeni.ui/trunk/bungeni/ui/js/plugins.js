@@ -92,7 +92,7 @@
             });
       });
 
-    calendar.find("thead a")
+    calendar.find("thead a.navigation")
     .click(function() {
         $("#kss-spinner").show();
         $.get($(this).attr('href'), {}, function(data, status) {

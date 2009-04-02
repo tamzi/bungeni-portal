@@ -6,10 +6,6 @@
   text-transform: lowercase;
 }
 
-#calendar-table th.day {
-  width: 14%;
-}
-
 #calendar-table th.today {
   background-color: rgb(136, 170, 204);
   color: white;
@@ -36,17 +32,6 @@
   padding-left: 0.5em;
 }
 
-#weekly-calendar {
-  margin-bottom: 1em;
-}
-
-#weekly-calendar table {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  border-bottom: 0;
-}
-
 #calendar-table table.grid td {
   padding: 0;
 }
@@ -55,60 +40,75 @@
   padding: 0.5em;
 }
 
-#weekly-calendar table th {
+div.calendar {
+  margin-bottom: 1em;
+}
+
+div.calendar table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-bottom: 0;
+}
+
+div.calendar table th {
   text-align: center;
 }
 
-#weekly-calendar table td.hour {
+div.calendar table td.hour {
   text-align: center;
   font-weight: bold;
   padding: 0.25em;
 }
 
-#weekly-calendar table tbody td {
+div.calendar table tbody td {
   vertical-align: top;
   border-color: #ddd;
 }
 
-#weekly-calendar thead td a.previous-link {
+div.calendar thead td a.previous-link {
   float: left;
 }
 
-#weekly-calendar thead td a.next-link {
+div.calendar thead td a.next-link {
   float: right;
 }
 
-#weekly-calendar thead td {
+div.calendar thead td {
   text-align: center;
 }
 
-#weekly-calendar td.sitting {
-  background-color: rgb(102, 140, 217);
+div.calendar td.sitting {
+  background-color: rgb(102, 140, 217) !important;
 }
 
-#weekly-calendar td.sitting ul.actions,
-#weekly-calendar td.sitting ul.items {
+div.calendar td.sitting ul.actions,
+div.calendar td.sitting ul.items {
   list-style: none;
   margin: 0;
 }
 
-#weekly-calendar td.sitting ul.actions li {
+div.calendar td.sitting ul.actions li {
   float: right;
   margin: 0;
   padding: 0;
 }
 
-#weekly-calendar td.sitting ul.actions a {
-
-}
-
-#weekly-calendar td.sitting li,
-#weekly-calendar td.sitting span,
-#weekly-calendar td.sitting a {
+div.calendar td.sitting li,
+div.calendar td.sitting span,
+div.calendar td.sitting a {
   color: white;
   border: none;
 }
 
-#weekly-calendar td.sitting .discreet {
+div.calendar td.sitting .discreet {
   color: #ccf;
+}
+
+#weekly-calendar #calendar-table th.day {
+  width: 14%;
+}
+
+#daily-calendar #calendar-table th.day {
+  width: 95%;
 }

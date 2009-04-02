@@ -1,18 +1,8 @@
 from time import mktime
 from datetime import datetime
+from datetime import time
 
-class datetimedict(datetime):
-    @classmethod
-    def fromdatetime(self, dt):
-        return datetimedict(
-            dt.year, dt.month, dt.day,
-            dt.hour, dt.minute, dt.second)
-
-    @classmethod
-    def fromdate(self, dt):
-        return datetimedict(
-            dt.year, dt.month, dt.day)
-
+class base:
     def __getitem__(self, key):
         """Standard `strftime()` substitutions."""
 
@@ -26,19 +16,34 @@ class datetimedict(datetime):
         if result == "":
             raise KeyError(key)
 
-        return result
-
-    def __add__(self, other):
-        return datetimedict.fromdatetime(datetime.__add__(self, other))
-
-    def __sub__(self, other):
-        return datetimedict.fromdatetime(datetime.__sub__(self, other))
+        return result    
 
     def get(self, key, default=None):
         try:
             return self[key]
         except KeyError:
             return default
+
+class timedict(time, base):
+    pass
+
+class datetimedict(datetime, base):
+    @classmethod
+    def fromdatetime(self, dt):
+        return datetimedict(
+            dt.year, dt.month, dt.day,
+            dt.hour, dt.minute, dt.second)
+
+    @classmethod
+    def fromdate(self, dt):
+        return datetimedict(
+            dt.year, dt.month, dt.day)
+
+    def __add__(self, other):
+        return datetimedict.fromdatetime(datetime.__add__(self, other))
+
+    def __sub__(self, other):
+        return datetimedict.fromdatetime(datetime.__sub__(self, other))
 
     def totimestamp(self):
         return mktime(self.timetuple())

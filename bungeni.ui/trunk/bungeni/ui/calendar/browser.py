@@ -85,13 +85,23 @@ def create_sittings_map(sittings, request):
         day = sitting.start_date.weekday()
         hour = sitting.start_date.hour
 
+        start_date = utils.timedict(
+            sitting.start_date.hour,
+            sitting.start_date.minute)
+
+        end_date = utils.timedict(
+            sitting.end_date.hour,
+            sitting.end_date.minute)
+
         mapping[day, hour] = {
             'url': absoluteURL(sitting, request),
             'items': get_sitting_items(sitting, request),
             'record': sitting,
             'class': u"sitting",
             'actions': get_sitting_actions(sitting, request),
-            'span': sitting.end_date.hour - sitting.start_date.hour
+            'span': sitting.end_date.hour - sitting.start_date.hour,
+            'formatted_start_time': _(u"$R", mapping=start_date),
+            'formatted_end_time': _(u"$R", mapping=end_date),
         }
         
         # make sure start- and end-date is the same year
@@ -160,6 +170,7 @@ class CalendarView(BrowserView):
             
         calendar_url = self.request.getURL()
         date = date - timedelta(days=date.weekday())
+        today = utils.datetimedict.fromdate(datetime.date.today())
         days = tuple(date + timedelta(days=d) for d in range(7))
 
         sittings = self.context.get_sittings(
@@ -172,12 +183,13 @@ class CalendarView(BrowserView):
             formatted_date=_(
                 u"Showing the week starting on $m/$d-$g @ $r.",
                 mapping=date),
-            formatted_month=_(u"$B", mapping=date),
+            formatted_month_and_year=_(u"$B $Y", mapping=date),
             days=[{
                 'formatted': datetime.datetime.strftime(day, '%A %d'),
                 'id': datetime.datetime.strftime(day, '%Y-%m-%d'),
+                'today': day == today,
                 } for day in days],
-            hours=range(7,21),
+            hours=range(6,21),
             week_no=date.isocalendar()[1],
             links={
                 'previous_week': "%s?timestamp=%s" % (

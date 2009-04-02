@@ -22,7 +22,7 @@
                   &rarr;
                 </a>
                 <span i18n:translate=""
-                      tal:content="options/formatted_month" />
+                      tal:content="options/formatted_month_and_year" />
               </td>
             </tr>
           </thead>
@@ -40,8 +40,10 @@
                   Week <span i18n:name="week_no" tal:replace="options/week_no" />
                 </a>
               </th>
-              <th tal:repeat="day options/days"
-                  tal:attributes="id string:tdid-${day/id}">
+              <th class="day"
+                  tal:repeat="day options/days"
+                  tal:attributes="id string:tdid-${day/id};
+                                  class python: default + (day['today'] and 'today' or '')">
                 <b tal:content="day/formatted" />
               </th>
             </tr>
@@ -53,46 +55,59 @@
             <tr tal:repeat="hour options/hours">
               <td class="hour" tal:content="string: ${hour}:00" />
               <tal:column repeat="day python: range(7)">
-                <td tal:define="sitting python: sittings_map.get((day, hour), False)"
+                <td tal:define="sitting python: sittings_map.get((day, hour), False);
+                                today_class python: options['days'][day]['today'] and 'today' or None"
                     tal:attributes="rowspan sitting/span|nothing;
-                                    class sitting/class|nothing;
+                                    class string:${sitting/class|string:} ${today_class};
                                     id string:sitting-${sitting/record/sitting_id}|nothing"
                     tal:condition="python: sitting is not None">
                   <tal:sitting condition="sitting">
-                    <ul class="actions">
-                      <li tal:repeat="action sitting/actions">
-                        <a tal:attributes="rel action/id;
-                                           href action/url">
-                          <span tal:condition="not: action/icon"
-                                tal:replace="action/title" />
-                          <img tal:condition="action/icon"
-                               tal:attributes="src action/icon;
-                                               alt action/title" />
-                        </a>
-                      </li>
-                    </ul>
+                    <div class="header">
+                      <a rel="sitting" tal:attributes="href sitting/url">
+                        <span class="discreet">
+                          <span i18n:translate=""
+                                tal:replace="sitting/formatted_start_time" />
+                          -
+                          <span i18n:translate=""
+                                tal:replace="sitting/formatted_end_time" />
+                        </span>
+                        
+                        <span class="sitting-type" 
+                              tal:content="string:(${sitting/record/type/sitting_type})" />
+                      </a>
+                    </div>
 
-                    <a rel="sitting" tal:attributes="href sitting/url">
-                      <span class="sitting-type" 
-                            tal:content="sitting/record/type/sitting_type" />
-                    </a>
-
-                    <ul tal:condition="sitting/items">
-                      <li tal:repeat="item sitting/items">
-                        <a tal:attributes="name item/name;
-                                           href item/url"
-                           tal:content="item/title" />
-                        &mdash;
-                        <a class="delete-link"
-                           tal:attributes="href string:${item/delete_url}?next_url=${url}">
-                          Remove
-                        </a>
-
-                        <p class="discreet"
-                              tal:content="item/description" />
-
-                      </li>
-                    </ul>
+                    <div class="sitting">
+                      <ul class="actions">
+                        <li tal:repeat="action sitting/actions">
+                          <a tal:attributes="rel action/id;
+                                             href action/url">
+                            <span tal:condition="not: action/icon"
+                                  tal:replace="action/title" />
+                            <img tal:condition="action/icon"
+                                 tal:attributes="src action/icon;
+                                                 alt action/title" />
+                          </a>
+                        </li>
+                      </ul>
+                      
+                      <ul class="items" tal:condition="sitting/items">
+                        <li tal:repeat="item sitting/items">
+                          <a tal:attributes="name item/name;
+                                             href item/url"
+                             tal:content="item/title" />
+                          &mdash;
+                          <a class="delete-link"
+                             tal:attributes="href string:${item/delete_url}?next_url=${url}">
+                            Remove
+                          </a>
+                          
+                          <p class="discreet"
+                             tal:content="item/description" />
+                          
+                        </li>
+                      </ul>
+                    </div>
                   </tal:sitting>
                 </td>
               </tal:column>

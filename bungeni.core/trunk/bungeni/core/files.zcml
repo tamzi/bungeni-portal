@@ -21,14 +21,31 @@
   <adapter
      for="bungeni.models.interfaces.IBungeniContent"
      provides="bungeni.models.interfaces.IDirectoryLocation"
-     factory=".files.location"
+     factory=".files.headlocation"
      />
 
-  <adapter
+  <!--adapter
      for="bungeni.models.interfaces.IFileAttachments"
      provides="bungeni.models.interfaces.IDirectoryLocation"
      factory=".files.location"
+     /-->
+
+  <adapter
+     for="bungeni.models.interfaces.IHeadFileAttachments"
+     provides="bungeni.models.interfaces.IDirectoryLocation"
+     factory=".files.headlocation"
      />
+
+
+  <adapter
+     for="bungeni.models.interfaces.IBranchFileAttachments"
+     provides="bungeni.models.interfaces.IDirectoryLocation"
+     factory=".files.branchlocation"
+     />
+
+
+
+
 
   <adapter
      for="ore.library.interfaces.ILibraryFile"

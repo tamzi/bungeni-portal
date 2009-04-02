@@ -12,6 +12,7 @@ import md5, random, string
 from zope import interface, location, component
 from ore.alchemist import model, Session
 from alchemist.traversal.managed import one2many
+from zope.location.interfaces import ILocation
 
 import files
 import logging
@@ -306,8 +307,14 @@ class ItemVersions( object ):
     @classmethod
     def makeVersionFactory( klass, name ):
         factory = type( name, (klass,), {} )    
-        interface.classImplements( factory, interfaces.IVersion )
+        interface.classImplements( factory, interfaces.IVersion, 
+            interfaces.IBranchFileAttachments )
         return factory
+            
+    files = files.DirectoryDescriptor()
+       
+            
+        
         
 class ItemVotes( object ):
     """
@@ -337,7 +344,7 @@ class AgendaItem( ParliamentaryItem ):
     """
 
 class Question( ParliamentaryItem ):
-    interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
+    interface.implements( interfaces.IQuestion, interfaces.IHeadFileAttachments )
     responses = one2many("responses", "bungeni.models.domain.ResponseContainer", "response_id")
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
     files = files.DirectoryDescriptor()
@@ -400,7 +407,7 @@ class BillType(object):
     """
 
 class Bill( ParliamentaryItem ):
-    interface.implements( interfaces.IBill, interfaces.IFileAttachments )
+    interface.implements( interfaces.IBill, interfaces.IHeadFileAttachments )
     files = files.DirectoryDescriptor()
     
     consignatory = one2many("consignatory", "bungeni.models.domain.BillConsignatoryContainer", "bill_id")

@@ -60,13 +60,6 @@
      for="bungeni.models.interfaces.IVersion"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.VersionWorkflowAdapter" />
-     
-  <subscriber
-     handler=".events.initializeWorkflow"     
-     for="bungeni.models.interfaces.IVersion
-          bungeni.core.interfaces.VersionCreated" />
-            
-        
   
   <!-- bill workflow -->
   

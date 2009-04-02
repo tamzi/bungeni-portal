@@ -52,11 +52,13 @@ class Versioned(container.PartialContainer):
             
         event.notify(
             interfaces.VersionCreated(version, self, version, message))            
-        
         # save our new version to the db
         session = Session()
+        session.begin()
         session.add(version)
-
+        session.commit()
+        event.notify(
+            interfaces.VersionAfterCreate(context, self, version, message))   
         return version
         
     def revert( self, version, message ):

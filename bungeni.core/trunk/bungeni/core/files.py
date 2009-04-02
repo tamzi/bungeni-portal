@@ -84,34 +84,76 @@ class DirectoryLocation(object):
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
         directory = repo.get( self.repo_path )
+        #import pdb; pdb.set_trace()
         return ContainedDirectory.fromDirectory(self.context,  directory)
     
 orm.mapper( DirectoryLocation, dbschema.directory_locations )        
 
 
-def location( content ):
+class HeadDirectoryLocation( DirectoryLocation ):
+    """ Adapter for head - trunk directory of svn
+    """
+    
+    @property
+    def directory( self ):
+        repo = component.getUtility( interfaces.IVersionedFileRepository )
+        directory = repo.get( self.repo_path + '/trunk' )
+        #import pdb; pdb.set_trace()
+        return ContainedDirectory.fromDirectory(self.context,  directory)
+
+orm.mapper( HeadDirectoryLocation, dbschema.directory_locations )  
+
+class BranchDirectoryLocation( DirectoryLocation ):
+    """ Adapter for branches - versions of content
+    """
+    @property
+    def directory( self ):
+        repo = component.getUtility( interfaces.IVersionedFileRepository )
+        directory = repo.get( self.repo_path + '/branches' )
+        import pdb; pdb.set_trace()
+        if str(self.context.version_id) in directory.keys():
+            directory = directory[str(self.context.version_id)] 
+        else:            
+            directory = directory.makeDirectory( str(self.context.version_id))    
+            repo.context.getTransaction().commit()
+            repo.context.setRevision()                                       
+        return ContainedDirectory.fromDirectory(self.context,  directory)
+
+orm.mapper( BranchDirectoryLocation, dbschema.directory_locations )  
+
+def location( content, cls, context ):
     """
     factory for a directory location
     """
     
     repo = component.getUtility( interfaces.IVersionedFileRepository )
-    location = repo.location( content )
+    location = repo.location( content, cls, context )
 
-    if location:
+    if location:        
         return location
-    
-    location = repo.new( content )
-    return location
+    else:
+        location = repo.new( content )
+        location = repo.location( content, cls, context )
+        return location
 
+
+def headlocation( context ):
+    return location(context, HeadDirectoryLocation, context )
+    
+def branchlocation( context ):
+    content = context.head
+    import pdb; pdb.set_trace()
+    return location(content, BranchDirectoryLocation, context )
+        
 
 class _FileRepository( object ):
     
     interface.implements( interfaces.IVersionedFileRepository )
     context = None
         
-    def location( self, context ):
-        primary_key, object_type = key( context )
-        location =  Session().query( DirectoryLocation ).filter_by(
+    def location( self, content, cls, context ):
+        primary_key, object_type = key( content )
+        location =  Session().query( cls ).filter_by(
             object_id = primary_key,
             object_type = object_type
             ).first()
@@ -155,8 +197,10 @@ class DirectoryDescriptorTraversal( object ):
         self.request = request
 
     def publishTraverse( self, request, name ):
+        session = Session()
         if name == 'files':
-            return self.context.files
+            context = removeSecurityProxy( self.context)
+            return context.files
         raise NotFound( self.context, name, request )
 
 def create_path( root, path ):
@@ -177,7 +221,8 @@ def create_path( root, path ):
     if not 'trunk' in directory:
         trunk = directory.makeDirectory('trunk')        
     return directory, created
-    
+ 
+# utility that provides IVersionedFileRepository:    
 FileRepository = _FileRepository()
 
 

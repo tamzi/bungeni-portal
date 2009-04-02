@@ -162,7 +162,7 @@ class CalendarView(BrowserView):
             timestamp = int(name)
             obj = DailySchedulingContext(
                 self.context, utils.datetimedict.fromtimestamp(timestamp))
-        except TypeError:
+        except (ValueError, TypeError):
             # this is the primary condition; traverse to ``name`` by
             # looking up methods on this class
             try:

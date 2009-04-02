@@ -73,7 +73,14 @@
     />
 
   <!-- Calendar -->
-  
+
+  <browser:page
+     name="view"
+     for="bungeni.core.interfaces.IDailySchedulingContext"
+     permission="zope.View"
+     class=".calendar.browser.DailyCalendarView"
+     />
+
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"

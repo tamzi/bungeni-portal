@@ -15,6 +15,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 
 from bungeni.core.interfaces import ISchedulingContext
+from bungeni.core.schedule import DailySchedulingContext
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
@@ -45,8 +46,12 @@ def get_sitting_actions(sitting, request):
 def get_sitting_items(sitting, request):
     items = []
 
-    for scheduling in sitting.items.batch(order_by=("planned_order",), limit=None):
-        item = location_wrapped(scheduling.item, sitting)
+    schedulings = map(
+        removeSecurityProxy,
+        sitting.items.batch(order_by=("planned_order",), limit=None))
+
+    for scheduling in schedulings:
+        item = ProxyFactory(location_wrapped(scheduling.item, sitting))
        
         props = IDCDescriptiveProperties.providedBy(item) and item or \
                 IDCDescriptiveProperties(item)
@@ -129,12 +134,13 @@ class CalendarView(BrowserView):
     def __init__(self, context, request):
         super(CalendarView, self).__init__(
             ISchedulingContext(context), request)
+
         self.context.__name__ = self.__name__
         self.context.title = self.short_name
         interface.alsoProvides(self.context, ILocation)
         interface.alsoProvides(self.context, IDCDescriptiveProperties)
         self.__parent__ = context
-        
+
     def __call__(self, timestamp=None):
         if timestamp is None:
             # start the week on the first weekday (e.g. Monday)
@@ -148,23 +154,31 @@ class CalendarView(BrowserView):
             date = utils.datetimedict.fromtimestamp(timestamp)
 
         if is_ajax_request(self.request):
-            return self.render_weekly(date, template=self.ajax)
-        return self.render_weekly(date)
+            return self.render(date, template=self.ajax)
+        return self.render(date)
 
     def publishTraverse(self, request, name):
         try:
-            method = getattr(self, 'get_%s' % name)
-        except AttributeError:
-            return super(CalendarView, self).publishTraverse(request, name)
+            timestamp = int(name)
+            obj = DailySchedulingContext(
+                self.context, utils.datetimedict.fromtimestamp(timestamp))
+        except TypeError:
+            # this is the primary condition; traverse to ``name`` by
+            # looking up methods on this class
+            try:
+                method = getattr(self, 'get_%s' % name)
+            except AttributeError:
+                return super(CalendarView, self).publishTraverse(request, name)
 
-        obj = method()
+            obj = method()
+            
         return ProxyFactory(LocationProxy(
             removeSecurityProxy(obj), container=self.context, name=name))
 
     def get_group(self):
         return self.context.get_group()
 
-    def render_weekly(self, date, template=None):
+    def render(self, date, template=None):
         if template is None:
             template = self.template
             
@@ -180,30 +194,20 @@ class CalendarView(BrowserView):
 
         return template(
             display="weekly",
-            formatted_date=_(
-                u"Showing the week starting on $m/$d-$g @ $r.",
-                mapping=date),
-            formatted_month_and_year=_(u"$B $Y", mapping=date),
+            title=_(u"$B $Y", mapping=date),
             days=[{
                 'formatted': datetime.datetime.strftime(day, '%A %d'),
                 'id': datetime.datetime.strftime(day, '%Y-%m-%d'),
                 'today': day == today,
+                'url': "%s/%d" % (calendar_url, day.totimestamp()),
                 } for day in days],
             hours=range(6,21),
             week_no=date.isocalendar()[1],
             links={
-                'previous_week': "%s?timestamp=%s" % (
+                'previous': "%s?timestamp=%s" % (
                     calendar_url, (date - timedelta(days=7)).totimestamp()),
-                'next_week': "%s?timestamp=%s" % (
+                'next': "%s?timestamp=%s" % (
                     calendar_url, (date + timedelta(days=7)).totimestamp()),
-
-                # note that giving a date -28 or +32 days in the future
-                # will work, because we always start the calendar on a
-                # fixed day of the week
-                'previous_month': "%s?timestamp=%s" % (
-                    calendar_url, (date - timedelta(days=28)).totimestamp()),
-                'next_month': "%s?timestamp=%s" % (
-                    calendar_url, (date + timedelta(days=32)).totimestamp()),
                 },
             sittings_map = create_sittings_map(sittings, self.request),
             )
@@ -214,3 +218,45 @@ class CalendarView(BrowserView):
 
 class CommitteeCalendarView(CalendarView):
     """Calendar-view for a committee."""
+
+class DailyCalendarView(CalendarView):
+    """Daily calendar view."""
+
+    interface.implementsOnly(IViewView)
+    
+    def __init__(self, context, request):
+        BrowserView.__init__(self, context, request)
+
+    def render(self, today, template=None):
+        if template is None:
+            template = self.template
+
+        calendar_url = absoluteURL(self.context.__parent__, self.request)
+        date = removeSecurityProxy(self.context.date)
+
+        sittings = self.context.get_sittings()
+        
+        return template(
+            display="daily",
+            title=_(u"$B $Y", mapping=date),
+            day={
+                'formatted': datetime.datetime.strftime(date, '%A %d'),
+                'id': datetime.datetime.strftime(date, '%Y-%m-%d'),
+                'today': date == today,
+                'url': "%s/%d" % (calendar_url, date.totimestamp()),
+                },
+            hours=range(6,21),
+            week_no=date.isocalendar()[1],
+            week_day=date.weekday(),
+            links={
+                'previous': "%s/%d" % (
+                    calendar_url, (date - timedelta(days=1)).totimestamp()),
+                'next': "%s/%d" % (
+                    calendar_url, (date + timedelta(days=1)).totimestamp()),
+                },
+            sittings_map = create_sittings_map(sittings, self.request),
+            )
+
+
+
+    

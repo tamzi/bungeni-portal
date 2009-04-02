@@ -4,8 +4,6 @@
 
   <div metal:fill-slot="body" i18n:domain="bungeni">
 
-    <h1 i18n:translate="">Calendar</h1>
-
     <div tal:define="display options/display"
          metal:use-macro="view/macros/?display" />
     

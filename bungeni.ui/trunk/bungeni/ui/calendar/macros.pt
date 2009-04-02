@@ -4,8 +4,6 @@
 
   <div metal:define-macro="weekly">
     <div id="weekly-calendar" class="listing">
-      <p><em>Weekly</em></p>
-
       <div id="calendar-header">
         <table class="listing grid">
           <thead>

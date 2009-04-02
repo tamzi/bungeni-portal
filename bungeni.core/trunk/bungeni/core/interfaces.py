@@ -123,6 +123,15 @@ class ISchedulingContext(ILocation):
 
     group_id = interface.Attribute(
         """Group identifier.""")
+
+    title = interface.Attribute(
+        """Scheduling context title.""")
         
     def get_sittings(start_date=None, end_date=None):
         """Return sittings defined for this context."""
+
+class IDailySchedulingContext(ISchedulingContext):
+    """Daily scheduling context."""
+    
+    date = interface.Attribute(
+        """Date to which this scheduling context is bound.""")

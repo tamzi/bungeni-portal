@@ -175,12 +175,21 @@
 
   <class
      class=".schedule.PrincipalGroupSchedulingContext">
-    <allow interface=".interfaces.ISchedulingContext" />
+    <require permission="zope.Public"
+             set_schema=".interfaces.ISchedulingContext" />
   </class>
 
   <class
      class=".schedule.PlenarySchedulingContext">
-    <allow interface=".interfaces.ISchedulingContext" />
+    <require permission="zope.Public"
+             set_schema=".interfaces.ISchedulingContext" />
+  </class>
+
+  <class
+     class=".schedule.DailySchedulingContext">
+    <require permission="zope.Public"
+             interface=".interfaces.IDailySchedulingContext"
+             set_schema=".interfaces.IDailySchedulingContext" />
   </class>
 
   <!-- dublin core adapters -->

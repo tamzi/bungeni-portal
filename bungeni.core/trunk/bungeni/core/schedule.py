@@ -1,14 +1,18 @@
+import datetime
 import time
 
 from zope import interface
 from zope import component
+from zope.dublincore.interfaces import IDCDescriptiveProperties
 
 from bungeni.core.interfaces import ISchedulingContext
+from bungeni.core.interfaces import IDailySchedulingContext
 from bungeni.core.globalsettings import getCurrentParliamentId
 from bungeni.models.interfaces import IBungeniApplication
 from bungeni.models.interfaces import ICommittee
 from bungeni.models.domain import GroupSitting
 from bungeni.models.domain import Group
+from bungeni.core.i18n import _
 
 from ore.alchemist import Session
 from ore.alchemist.container import stringKey
@@ -20,7 +24,7 @@ class PrincipalGroupSchedulingContext(object):
     interface.implements(ISchedulingContext)
 
     group_id = None
-
+    
     def __init__(self, context):
         self.__parent__ = context
 
@@ -83,3 +87,20 @@ class CommitteeSchedulingContext(PrincipalGroupSchedulingContext):
         assert name is None
         return self.__parent__
 
+class DailySchedulingContext(object):
+    interface.implements(IDailySchedulingContext, IDCDescriptiveProperties)
+
+    description = None
+    
+    def __init__(self, context, date):
+        self.context = context
+        self.date = date
+        
+    @property
+    def title(self):
+        return _(u"$x", mapping=self.date)
+
+    def get_sittings(self):
+        return self.context.get_sittings(
+            start_date=self.date, end_date=self.date + datetime.timedelta(days=1))
+    

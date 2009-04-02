@@ -11,6 +11,10 @@
   color: white;
 }
 
+#calendar-table th.today a {
+  color: white;
+}
+
 #calendar-table td.today {
   background-color: rgb(255, 255, 204);
 }

@@ -84,7 +84,6 @@ class DirectoryLocation(object):
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
         directory = repo.get( self.repo_path )
-        #import pdb; pdb.set_trace()
         return ContainedDirectory.fromDirectory(self.context,  directory)
     
 orm.mapper( DirectoryLocation, dbschema.directory_locations )        
@@ -98,7 +97,6 @@ class HeadDirectoryLocation( DirectoryLocation ):
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
         directory = repo.get( self.repo_path + '/trunk' )
-        #import pdb; pdb.set_trace()
         return ContainedDirectory.fromDirectory(self.context,  directory)
 
 orm.mapper( HeadDirectoryLocation, dbschema.directory_locations )  
@@ -110,7 +108,6 @@ class BranchDirectoryLocation( DirectoryLocation ):
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
         directory = repo.get( self.repo_path + '/branches' )
-        import pdb; pdb.set_trace()
         if str(self.context.version_id) in directory.keys():
             directory = directory[str(self.context.version_id)] 
         else:            
@@ -142,7 +139,6 @@ def headlocation( context ):
     
 def branchlocation( context ):
     content = context.head
-    import pdb; pdb.set_trace()
     return location(content, BranchDirectoryLocation, context )
         
 
@@ -227,6 +223,26 @@ def create_path( root, path ):
 FileRepository = _FileRepository()
 
 
+def objectNewVersion( ob, event ):
+    """ when an object is versioned we create a branch
+    and copy the attachments from trunk to the branch
+    of the version"""
+           
+    path = location( event.object, DirectoryLocation, None )
+    directory = path.directory
+    if 'trunk' in directory.keys():
+        trunk_dir = directory['trunk']
+    else:
+        trunk_dir = directoy.makeDirectory('branches')
+    if 'branches' in directory.keys():
+        branch_dir = directory['branches']
+        dest = branch_dir.makeDirectory( str(event.version.version_id))
+    else:
+        branch_dir = directoy.makeDirectory('branches')
+        dest = branch_dir.makeDirectory( str(event.version.version_id)) 
+    for node in trunk_dir.keys():
+        dest.copy(node, trunk_dir[node])                      
+    directory.context.getTransaction().commit()
 
       
     

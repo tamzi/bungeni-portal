@@ -220,4 +220,11 @@
      component=".translation.language_vocabulary_factory"
      name="language_vocabulary" />
   
+  <!-- event subscribers -->
+  <subscriber
+     handler=".files.objectNewVersion"     
+     for="bungeni.models.interfaces.IBungeniContent
+          bungeni.core.interfaces.VersionAfterCreate" />
+  
+  
 </configure>

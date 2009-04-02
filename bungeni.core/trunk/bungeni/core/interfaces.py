@@ -69,13 +69,22 @@ class VersionEvent( ObjectEvent ):
         self.message = msg
         
 class IVersionCreated( IVersionEvent ):
-    """
-    a new version was created
+    """ a new version was created, but is not yet
+    saved to the db
     """
 
 class VersionCreated( VersionEvent ):
     
     interface.implements( IVersionCreated )
+
+class IVersionAfterCreate( IVersionEvent ):
+    """ A New version was created and saved to the db
+    """
+
+class VersionAfterCreate( VersionEvent):
+    interface.implements( IVersionAfterCreate)  
+    
+
 
 class IVersionReverted( IVersionEvent, lifecycleevent.IObjectModifiedEvent ):
     """

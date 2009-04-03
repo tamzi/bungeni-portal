@@ -21,7 +21,7 @@ from bungeni.models import schema as dbschema
 def fileClassifierSubscriber( ob, event ):
     ob = removeSecurityProxy( ob )
     classifier = IMimeClassifier( ob )
-    ob.mime_type = str( classifier.queryMimeType() )
+    #ob.mime_type = str( classifier.queryMimeType() )
 
 class FileClassifier( HachoirFileClassifier ):
 

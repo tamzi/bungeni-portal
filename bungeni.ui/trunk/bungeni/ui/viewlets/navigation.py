@@ -3,6 +3,7 @@
 from zope import component
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
+from zope.container.interfaces import IReadContainer
 from zope.security import proxy
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
@@ -19,6 +20,51 @@ from bungeni.core import location
 
 import datetime
 from zope.traversing.browser import absoluteURL 
+
+def get_parent_chain(context):
+    context = proxy.removeSecurityProxy(context)
+
+    chain = []
+    while context is not None:
+        chain.append(context)
+        context = context.__parent__
+
+    return chain
+
+class SecondaryNavigationViewlet(object):
+    render = ViewPageTemplateFile("templates/secondary-navigation.pt")
+
+    def update(self):
+        self.items = items = []
+
+        chain = get_parent_chain(self.context)
+        length = len(chain)
+        if length < 2:
+            return
+
+        container = chain[-2]
+        if length > 2:
+            context = chain[-3]
+        else:
+            context = None
+            
+        url = absoluteURL(container, self.request)
+        for name, item in container.items():
+            if context is None:
+                selected = False
+            else:
+                selected = context.__name__ == name
+
+            if IDCDescriptiveProperties.providedBy(item):
+                title = item.title
+            else:
+                props = IDCDescriptiveProperties(item)
+                title = props.title
+
+            items.append({
+                'title': title,
+                'selected': selected,
+                'url': "%s/%s" % (url, name)})
 
 class GlobalSectionsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile( 'templates/sections.pt' )
@@ -157,19 +203,13 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         included.
         """
 
-        chain = []
-        context = proxy.removeSecurityProxy(self.context)
-
-        while context is not None:
-            chain.append(context)
-            context = context.__parent__
-
+        chain = get_parent_chain(self.context)
         self.nodes = self.expand(chain)
 
     def expand(self, chain):
         if len(chain) == 0:
             return ()
-        
+
         context = chain.pop()
         items = []
 
@@ -225,6 +265,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     (name, parent[name])
                     for name in location.model_to_container_name_mapping.values()
                     if name in parent]
+            elif IReadContainer.providedBy(parent):
+                containers = list(parent.items())
             else:
                 containers = [
                     (key, getattr(parent, key))
@@ -249,6 +291,9 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                  'nodes': self.expand(chain),
                  })
 
+        elif IReadContainer.providedBy(context):
+            items.extend(self.expand(chain))
+
         return items
 
     def expand_containers(self, items, containers, url, chain=(), context=None):
@@ -256,15 +301,19 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         current = False
         
         for key, container in containers:
-            descriptor = queryModelDescriptor(
-                proxy.removeSecurityProxy(container).domain_model)
-            if descriptor:
-                name = getattr(descriptor, 'container_name', None)
-                if name is None:
-                    name = getattr(descriptor, 'display_name', None)
-
-            if not name:
-                name = container.domain_model.__name__
+            if IAlchemistContainer.providedBy(container):
+                descriptor = queryModelDescriptor(
+                    proxy.removeSecurityProxy(container).domain_model)
+                if descriptor:
+                    name = getattr(descriptor, 'container_name', None)
+                    if name is None:
+                        name = getattr(descriptor, 'display_name', None)
+                        
+                if not name:
+                    name = container.domain_model.__name__
+            else:
+                assert IDCDescriptiveProperties.providedBy(container)
+                name = container.title
 
             if context is not None:
                 current = container.__name__ == context.__name__

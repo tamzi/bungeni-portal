@@ -53,6 +53,24 @@
      weight="1"
      />
 
+  <browser:viewlet
+     name="bungeni.navigation.navtree"
+     view="bungeni.ui.calendar.browser.DailyCalendarView"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".navigation.NavigationTreeViewlet"
+     permission="zope.View"
+     weight="1"
+     />
+
+  <browser:viewlet
+     name="bungeni.navigation.secondary"
+     for="*"
+     class=".navigation.SecondaryNavigationViewlet"
+     manager="ploned.ui.interfaces.IPersonalBarMenu"
+     permission="zope.Public"
+     weight="0"
+     />
+
   <!-- scheduling -->
 
   <browser:viewlet

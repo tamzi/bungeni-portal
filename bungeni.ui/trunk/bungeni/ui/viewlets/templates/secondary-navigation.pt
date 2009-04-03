@@ -1,0 +1,6 @@
+<li class="navigation"
+    tal:repeat="item view/items"
+    tal:attributes="class python: default + (item['selected'] and ' selected' or '')">
+  <a tal:attributes="href item/url"
+     tal:content="item/title" />
+</li>

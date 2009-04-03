@@ -2,10 +2,11 @@
 $Id: $
 """
 
-import os
 from os import path
 
-from zope import interface
+from zope.interface import implements
+from zope.interface import implementedBy
+from zope.component import provideAdapter
 
 from zope.app.component import site
 from zope.app.container.sample import SampleContainer
@@ -17,24 +18,21 @@ from ore.library.library import Library
 from bungeni.models import domain
 from bungeni.models import interfaces
 from bungeni.core import location
+from bungeni.core.content import Section
+from bungeni.core.i18n import _
 
-_container_name_mapping = location.model_to_container_name_mapping
+class BungeniApp(Application):
+    implements(interfaces.IBungeniApplication)
 
-class BungeniApp( Application ):
-
-    interface.implements( interfaces.IBungeniApplication )
-
-class BungeniAdmin( SampleContainer ):
-
-    interface.implements( interfaces.IBungeniAdmin  )
+class BungeniAdmin(SampleContainer):
+    implements(interfaces.IBungeniAdmin )
     
-def setUpSubscriber( object, event ):
+def setUpSubscriber(object, event):
     initializer = interfaces.IBungeniSetup( object )
     initializer.setUp()
 
 class AppSetup( object ):
-
-    interface.implements( interfaces.IBungeniSetup )
+    implements(interfaces.IBungeniSetup)
 
     def __init__( self, context ):
         self.context = context
@@ -52,66 +50,54 @@ class AppSetup( object ):
         sm = site.LocalSiteManager( self.context )
         self.context.setSiteManager( sm )
 
-        # domain objects
-        #governments = domain.GovernmentContainer()
-        #self.context['governments'] = governments
-        
-        parliaments = domain.ParliamentContainer()
-        self.context[_container_name_mapping[domain.Parliament]] = parliaments
-        
-        #committees = domain.CommitteeContainer()
-        #self.context['committees'] = committees
-        
-        bills = domain.BillContainer()
-        self.context[_container_name_mapping[domain.Bill]] = bills
-        
-        motions = domain.MotionContainer()
-        self.context[_container_name_mapping[domain.Motion]] = motions
+        # set up primary site structure
+        business = self.context["business"] = Section(
+            title=_(u"Business"),
+            description=_(u"Daily operations of the parliament."))
 
-        questions = domain.QuestionContainer()
-        self.context[_container_name_mapping[domain.Question]] = questions
-        
-        #tableddocuments = domain.TabledDocumentContainer()        
-        #self.context['tableddocuments'] = tableddocuments
-        
-        #documentsources = domain.DocumentSourceContainer() 
-        #self.context['documentsources'] = documentsources    
-        
-        agendaitems = domain.AgendaItemContainer()
-        self.context[_container_name_mapping[domain.AgendaItem]] = agendaitems
+        parliament = self.context["parliament"] = Section(
+            title=_(u"Parliament"),
+            description=_(u"Information on parliament."))
 
-        users = domain.UserContainer()
-        self.context[_container_name_mapping[domain.User]] = users
+        # business section
+        bills = business[u"bills"] = domain.BillContainer()
+        provideAdapter(location.LocationProxyAdapter(bills),
+                       (implementedBy(domain.Bill),))
 
-        
-        staff_members = domain.StaffMemberContainer()
-        self.context[_container_name_mapping[domain.StaffMember]] = staff_members
-        
-        #groups = domain.GroupContainer()       
-        #self.context['groups'] = groups
-        
-        constituency = domain.ConstituencyContainer()
-        self.context[_container_name_mapping[domain.Constituency]] = constituency
-        
-        provinces = domain.ProvinceContainer()
-        self.context[_container_name_mapping[domain.Province]] = provinces
-        
-        regions = domain.RegionContainer()
-        self.context[_container_name_mapping[domain.Region]] = regions
+        motions = business[u"motions"] = domain.MotionContainer()
+        provideAdapter(location.LocationProxyAdapter(motions),
+                       (implementedBy(domain.Motion),))
 
-        #ministries = domain.MinistryContainer()
-        #self.context['ministries'] = ministries
+        questions = business[u"questions"] = domain.QuestionContainer()
+        provideAdapter(location.LocationProxyAdapter(questions),
+                       (implementedBy(domain.Question),))
         
-        #parties = domain.PoliticalPartyContainer()
-        #self.context['politicalparties'] = parties
-
-        sessions = domain.ParliamentSessionContainer()
-        self.context[_container_name_mapping[domain.ParliamentSession]] = sessions
+        # parliament section
+        members = parliament[u"members"] = domain.UserContainer()
+        provideAdapter(location.LocationProxyAdapter(members),
+                       (implementedBy(domain.User),))
         
-        countries = domain.CountryContainer()
-        self.context[_container_name_mapping[domain.Country]] = countries
+        parties = parliament[u"parties"] = domain.PoliticalPartyContainer()
+        provideAdapter(location.LocationProxyAdapter(parties),
+                       (implementedBy(domain.PoliticalParty),))
 
+        constituencies = parliament[u"constituencies"] = \
+                         domain.ConstituencyContainer()
+        provideAdapter(location.LocationProxyAdapter(constituencies),
+                       (implementedBy(domain.Constituency),))
+        
+        offices = parliament[u"offices"] = Section(
+            title=_(u"Offices"),
+            description=_(u"Overview of parliamentary offices."))
 
+        committees = parliament[u"committees"] = domain.CommitteeContainer()
+        provideAdapter(location.LocationProxyAdapter(committees),
+                       (implementedBy(domain.Committee),))
+
+        government = parliament[u"government"] = domain.GovernmentContainer()
+        provideAdapter(location.LocationProxyAdapter(government),
+                       (implementedBy(domain.Government),))
+        
         self.context['repository'] = Library( repository_storage )
 
         ##########

@@ -216,8 +216,9 @@
   <!-- location -->
 
   <adapter factory=".location.get_location_from_parent" />
-  <adapter factory=".location.get_location_from_container" />
 
+  <!-- translation -->
+  
   <utility
      component=".translation.language_vocabulary_factory"
      name="language_vocabulary" />

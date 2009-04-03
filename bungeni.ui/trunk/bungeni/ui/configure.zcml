@@ -61,7 +61,17 @@
      name="index"
      />
 
+  <browser:defaultView
+     for="bungeni.core.content.Section"
+     name="index"
+     />
+
   <!-- Marginalia Settings for bungeni types -->
+
+  <class class="bungeni.core.content.Section">
+    <allow attributes="title description"
+           interface="zope.container.interfaces.IReadContainer" />
+   </class>
   
    <class class="bungeni.models.domain.Bill">
     <implements

@@ -217,6 +217,8 @@
      action="index"
      />
 
+  <!-- primary navigation (top-level sections) -->
+  
   <browser:menuItem
      menu="site_actions"
      for="*"
@@ -236,59 +238,17 @@
    <browser:menuItem
      menu="site_actions"
      for="*"
-     action="/calendar"
-     title="Calendar"
+     action="/business"
+     title="Business"
      />
 
-  <!--browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/committees"
-     title="Committees"
-     /-->
+   <browser:menuItem
+      menu="site_actions"
+      for="*"
+      action="/parliament"
+      title="Parliament"
+      />
 
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/parliaments"
-     title="Parliaments"
-     />
-
-  <!--browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/governments"
-     title="Governments"
-     /-->
-
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/bills"
-     title="Bills"
-     />
-
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/motions"
-     title="Motions"
-     />
-
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/questions"
-     title="Questions"
-     />
-
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/search"
-     title="Search"
-     />
-     
   <browser:menuItem
      menu="context_actions"
      for="ore.alchemist.interfaces.IAlchemistContent"
@@ -353,7 +313,7 @@
      title="Workflow"
      order="30"
       />           
-     
+
    <browser:viewlet
      name="login"
      for="*"

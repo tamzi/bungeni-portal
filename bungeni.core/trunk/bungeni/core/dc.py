@@ -3,6 +3,8 @@ from zope import component
 from zope.security.proxy import removeSecurityProxy
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from ore.alchemist import Session
+from ore.alchemist.interfaces import IAlchemistContainer
+from ore.alchemist.model import queryModelDescriptor
 
 from bungeni.models import interfaces
 from bungeni.models import domain
@@ -163,16 +165,23 @@ class GroupDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         return self.context.short_name
-        
+
+class ContainerDescriptiveProperties(DescriptiveProperties):
+    component.adapts(IAlchemistContainer)
+
+    @property
+    def title(self):
+        descriptor = queryModelDescriptor(self.context.domain_model)
+        return descriptor.container_name
+    
 class UserDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IBungeniUser)          
+    component.adapts(interfaces.IBungeniUser)
     
     @property
     def title(self):
         return "%s %s %s" % (self.context.titles,
                 self.context.first_name,
                 self.context.last_name)
-                
 
 class GroupMembershipDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IBungeniGroupMembership)
@@ -187,9 +196,6 @@ class GroupMembershipDescriptiveProperties(DescriptiveProperties):
         else:
             return u"New User"
             
-            
-
-
 class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IGroupSittingAttendance)
 

@@ -210,6 +210,9 @@ def POBoxOrAddress( obj ):
 # Descriptors
 
 class UserDescriptor( ModelDescriptor ):
+    display_name = _(u"User")
+    container_name = _(u"Users")
+
     fields = [
         dict( name="user_id", 
                 listing_column=member_fk_column("user_id", _(u'Name')), 
@@ -1248,6 +1251,9 @@ class ResponseDescriptor( ModelDescriptor ):
         ]        
 
 class ConstituencyDescriptor( ModelDescriptor ):
+    display_name = _(u"Constituency")
+    container_name = _(u"Constituencies")
+
     provinceSource=DatabaseSource(domain.Province,
                     token_field='province_id', 
                     title_field='province', 

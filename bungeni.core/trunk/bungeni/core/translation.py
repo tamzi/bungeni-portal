@@ -32,14 +32,19 @@ def get_default_language():
     return "en"
 
 def get_language(context):
-    return "en"
+    return context.language
 
-def get_all_languages():
+def get_all_languages(filter=('en', 'fr', 'sw')):
+    """Build a list of all languages.
+
+    To-do: the result of this method should be cached indefinitely.
+    """
+    
     availability = component.getUtility(ILanguageAvailability)
     languages = {}
     _languages = availability.getLanguages()
 
-    for name in ('en', 'fr', 'sw'):
+    for name in filter:
         languages[name] = _languages[name]
 
     return languages

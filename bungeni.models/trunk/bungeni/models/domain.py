@@ -301,14 +301,14 @@ class ItemLog( object ):
         factory = type( name, (klass,), {} )
         return factory
 
-class ItemVersions( object ):
+class ItemVersions( Entity ):
     """a collection of the versions of a parliamentary content object
     """
     @classmethod
     def makeVersionFactory( klass, name ):
         factory = type( name, (klass,), {} )    
         interface.classImplements( factory, interfaces.IVersion, 
-            interfaces.IBranchFileAttachments )
+            interfaces.IBranchFileAttachments,  )
         return factory
             
     files = files.DirectoryDescriptor()

@@ -2,6 +2,7 @@ from zope import interface
 from zope import component
 from zope.publisher.browser import BrowserView
 from zope.securitypolicy.interfaces import IRole
+from ploned.ui.interfaces import IViewView
 
 import interfaces
 
@@ -18,7 +19,8 @@ role_interface_mapping = {
     }
 
 class WorkspaceView(BrowserView):
-
+    interface.implements(IViewView)
+    
     def __init__(self, context, request):
         super(WorkspaceView, self).__init__(context, request)
 

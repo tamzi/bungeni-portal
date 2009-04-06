@@ -5,10 +5,6 @@ from zope.location.interfaces import ILocation
 
 from bungeni.models.interfaces import IVersion
 
-class IParliamentaryItemsContainerContext(ILocation):
-    """Marker interface for objects which provide access (through
-    traversal) to parliamentary items containers."""
-
 ####################
 # Feature - Marker Interfaces 
 # 

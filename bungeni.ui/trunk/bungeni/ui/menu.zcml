@@ -71,7 +71,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.QuestionContainer"
      title="Add question..."
-     action="/questions/add"
+     action="/business/questions/add"
      permission="bungeni.question.Add"
      />
 
@@ -79,7 +79,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.Question"
      title="Add new question..."
-     action="/questions/add"
+     action="/business/questions/add"
      permission="bungeni.question.Add"
      />
 
@@ -87,7 +87,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.BillContainer"
      title="Add bill..."
-     action="/bills/add"
+     action="/business/bills/add"
      permission="bungeni.bill.Add"
      />
 
@@ -95,7 +95,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.Bill"
      title="Add new bill..."
-     action="/bills/add"
+     action="/business/bills/add"
      permission="bungeni.bill.Add"
      />
 
@@ -103,7 +103,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.MotionContainer"
      title="Add motion..."
-     action="/motions/add"
+     action="/business/motions/add"
      permission="bungeni.motion.Add"
      />
 
@@ -111,7 +111,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.Motion"
      title="Add new motion..."
-     action="/motions/add"
+     action="/business/motions/add"
      permission="bungeni.motion.Add"
      />
 
@@ -187,7 +187,7 @@
      menu="context_additems"
      for="*"
      title="Bill"
-     action="/bills/add"
+     action="/business/bills/add"
      permission="zope.ManageContent"
      />
 
@@ -195,23 +195,7 @@
      menu="context_additems"
      for="*"
      title="Motion"
-     action="/motions/add"
-     permission="zope.ManageContent"
-     />
-
-  <browser:menuItem
-     menu="context_additems"
-     for="*"
-     title="Agenda item"
-     action="/agendaitems/add"
-     permission="zope.ManageContent"
-     />
-
-  <browser:menuItem
-     menu="context_additems"
-     for="*"
-     title="Person"
-     action="/persons/add"
+     action="/business/motions/add"
      permission="zope.ManageContent"
      />
 
@@ -219,7 +203,7 @@
      menu="context_additems"
      for="*"
      title="Question"
-     action="./questions/add"
+     action="./business/questions/add"
      permission="zope.ManageContent"
      />
 

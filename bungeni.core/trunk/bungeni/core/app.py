@@ -10,6 +10,7 @@ from zope.component import provideAdapter
 
 from zope.app.component import site
 from zope.app.container.sample import SampleContainer
+from zope.location.interfaces import ILocation
 
 from ore.wsgiapp.app import Application
 from ore.svn import repos
@@ -62,29 +63,29 @@ class AppSetup( object ):
         # business section
         bills = business[u"bills"] = domain.BillContainer()
         provideAdapter(location.LocationProxyAdapter(bills),
-                       (implementedBy(domain.Bill),))
+                       (implementedBy(domain.Bill), ILocation))
 
         motions = business[u"motions"] = domain.MotionContainer()
         provideAdapter(location.LocationProxyAdapter(motions),
-                       (implementedBy(domain.Motion),))
+                       (implementedBy(domain.Motion), ILocation))
 
         questions = business[u"questions"] = domain.QuestionContainer()
         provideAdapter(location.LocationProxyAdapter(questions),
-                       (implementedBy(domain.Question),))
+                       (implementedBy(domain.Question), ILocation))
         
         # parliament section
         members = parliament[u"members"] = domain.UserContainer()
         provideAdapter(location.LocationProxyAdapter(members),
-                       (implementedBy(domain.User),))
+                       (implementedBy(domain.User), ILocation))
         
         parties = parliament[u"parties"] = domain.PoliticalPartyContainer()
         provideAdapter(location.LocationProxyAdapter(parties),
-                       (implementedBy(domain.PoliticalParty),))
+                       (implementedBy(domain.PoliticalParty), ILocation))
 
         constituencies = parliament[u"constituencies"] = \
                          domain.ConstituencyContainer()
         provideAdapter(location.LocationProxyAdapter(constituencies),
-                       (implementedBy(domain.Constituency),))
+                       (implementedBy(domain.Constituency), ILocation))
         
         offices = parliament[u"offices"] = Section(
             title=_(u"Offices"),
@@ -92,11 +93,11 @@ class AppSetup( object ):
 
         committees = parliament[u"committees"] = domain.CommitteeContainer()
         provideAdapter(location.LocationProxyAdapter(committees),
-                       (implementedBy(domain.Committee),))
+                       (implementedBy(domain.Committee), ILocation))
 
         government = parliament[u"government"] = domain.GovernmentContainer()
         provideAdapter(location.LocationProxyAdapter(government),
-                       (implementedBy(domain.Government),))
+                       (implementedBy(domain.Government), ILocation))
         
         self.context['repository'] = Library( repository_storage )
 

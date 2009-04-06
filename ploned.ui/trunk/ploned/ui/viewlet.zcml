@@ -69,7 +69,7 @@
       name="plone.content.tabs"
       for="*"
       manager=".interfaces.IContentViewsManager"
-      class=".viewlet.ContentTabsViewlet"
+      class=".viewlet.StructureAwareViewlet"
       template="templates/contentviews.pt"
       permission="zope.ManageContent"
       weight="10"
@@ -80,6 +80,7 @@
       for="*"
       manager=".interfaces.IPortalHeaderManager"
       template="templates/personaltools.pt"
+      class=".viewlet.StructureAwareViewlet"
       permission="zope.Public"
       weight="50"
       />   

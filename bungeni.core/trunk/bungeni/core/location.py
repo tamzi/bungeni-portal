@@ -23,5 +23,5 @@ class LocationProxyAdapter(object):
         self.container = container
         interface.implementer(ILocation)(self)
         
-    def __call__(self, context):
+    def __call__(self, context, location):
         return LocationProxy(context, self.container, stringKey(context))

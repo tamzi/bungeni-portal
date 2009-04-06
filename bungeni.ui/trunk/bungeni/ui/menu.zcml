@@ -7,6 +7,11 @@
   <!-- menus -->
 
   <browser:menu
+     id="workspace_actions"
+     title="Actions for the workspace"
+     />
+
+  <browser:menu
      id="sitting_actions"
      title="Actions for calendar sittings"
      />
@@ -44,6 +49,14 @@
      action="add_content"
      permission="zope.ManageContent"
      submenu="context_additems"
+     />
+
+  <browser:menuItem
+     menu="workspace_actions"
+     for="*"
+     title="Calendar"
+     action="/calendar"
+     permission="zope.View"
      />
 
   <browser:menuItem
@@ -313,6 +326,17 @@
      title="Workflow"
      order="30"
       />           
+
+   <browser:viewlet
+     name="dashboard"
+     for="*"
+     class=".menu.DashboardAction"
+     manager="ploned.ui.interfaces.IPersonalBarMenu"
+     permission="zope.Public"
+     view=".workspace.WorkspaceView"
+     viewName="workspace"
+     weight="10"
+     />
 
    <browser:viewlet
      name="login"

@@ -1,8 +1,12 @@
 # encoding: utf-8
 
+from zope import interface
+from zope import component
+
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.traversing.browser import absoluteURL
+from zope.location.interfaces import ILocation
 from zope.viewlet import viewlet
 from zc.resourcelibrary import need
 
@@ -51,7 +55,15 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
                 return parent
             parent = parent.__parent__
         raise ValueError("Unable to locate application.")
-        
+
+    @property
+    def container(self):
+        gsm = component.getSiteManager()
+        adapter = gsm.adapters.lookup(
+            (interface.implementedBy(self.model),
+             interface.providedBy(self)), ILocation)        
+        return adapter.container
+    
     def update(self):
         need('yui-dragdrop')
         need('yui-container')
@@ -80,10 +92,6 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
 class SchedulableBillsViewlet(SchedulableItemsViewlet):
     model = domain.Bill
 
-    @property
-    def container(self):
-        return self.app['bills']
-    
     states = (
         bill_wf_state[u"submitted"].id,
         bill_wf_state[u"first_reading_postponed"].id,
@@ -100,10 +108,6 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
 class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     model = domain.Question
 
-    @property
-    def container(self):
-        return self.app['questions']
-    
     states = (
         question_wf_state[u"admissible"].id,
         question_wf_state[u"postponed"].id,
@@ -111,10 +115,6 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
 
 class SchedulableMotionsViewlet(SchedulableItemsViewlet):
     model = domain.Motion
-
-    @property
-    def container(self):
-        return self.app['motions']
 
     states = (
         motion_wf_state[u"admissible"].id,

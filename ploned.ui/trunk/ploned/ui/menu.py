@@ -24,6 +24,23 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 
 from ploned.ui.interfaces import IViewView
 
+def is_selected(item, action, request):
+    request_url = request.getURL()
+    normalized_action = action.lstrip('.')
+
+    if normalized_action in request_url:
+        return True
+    if request_url.endswith( normalized_action ):
+        return True
+    if request_url.endswith('/'+normalized_action):
+        return True
+    if request_url.endswith('/++view++'+normalized_action):
+        return True
+    if request_url.endswith('/@@'+normalized_action):
+        return True
+
+    return False
+
 def action_to_id(action):
     return action.\
            strip('/').\
@@ -94,34 +111,14 @@ class PloneBrowserMenu(BrowserMenu):
                 'description': item.description,
                 'action': item.action,
                 'url': url,
-                'selected': (self.selected(item) and u'selected') or u'',
+                'selected': (is_selected(item, item.action, item.request)
+                             and u'selected') or u'',
                 'icon': item.icon,
                 'extra': extra,
                 'submenu': submenu})
 
         return items
     
-    def selected( self, item ):
-        request_url = item.request.getURL()
-        normalized_action = item.action.lstrip('.')
-        
-        # hack hardcode home action..
-        if item.title == 'Home' and request_url.count('/') != 3:
-            return False
-        
-        if normalized_action in request_url:
-            return True
-        if request_url.endswith( normalized_action ):
-            return True
-        if request_url.endswith('/'+normalized_action):
-            return True
-        if request_url.endswith('/++view++'+normalized_action):
-            return True
-        if request_url.endswith('/@@'+normalized_action):
-            return True
-
-        return False
-
 class ContentMenuProvider(object):
     """Content menu."""
     

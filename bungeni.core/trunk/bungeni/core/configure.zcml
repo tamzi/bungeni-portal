@@ -96,14 +96,6 @@
     <implements interface=".interfaces.IVersionable" />
   </class-->
 
-  <class class=".app.BungeniApp">
-    <implements interface=".interfaces.IParliamentaryItemsContainerContext" />
-  </class>
-
-  <class class="bungeni.models.domain.Parliament">
-    <implements interface=".interfaces.IParliamentaryItemsContainerContext" />
-  </class>
-
   <class class="bungeni.models.domain.Question">
     <implements interface=".interfaces.IVersionable
                             ore.xapian.interfaces.IIndexable

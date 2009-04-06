@@ -99,7 +99,6 @@ class AppSetup( object ):
         provideAdapter(location.LocationProxyAdapter(government),
                        (implementedBy(domain.Government), ILocation))
         
-        self.context['repository'] = Library( repository_storage )
 
         ##########
         # Admin User Interface
@@ -130,29 +129,4 @@ class AppSetup( object ):
         #                    required=(IAlchemistContent, IHTTPRequest),
         #                    provided=IAbsoluteURL )
 
-# we store files in buildout/parts/repository
-# 
-def setupStorageDirectory( ):
-    # we start in buildout/src/bungeni.core/bungeni/core
-    # we end in buildout/parts/repository    
-    store_dir = __file__
-    x = 0
-    while x < 5:
-        x += 1
-        store_dir = path.split( store_dir )[0]
 
-    store_dir = path.join( store_dir, 'parts', 'repository')
-    if path.exists( store_dir ):
-        assert path.isdir( store_dir )
-    else:
-        try:
-            repos.create( store_dir )
-        except:
-            import pdb, sys, traceback
-            traceback.print_exc()
-            pdb.post_mortem(sys.exc_info()[-1])
-            raise
-    return store_dir
-
-
-repository_storage = setupStorageDirectory()

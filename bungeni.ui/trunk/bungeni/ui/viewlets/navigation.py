@@ -6,6 +6,7 @@ from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.container.interfaces import IReadContainer
 from zope.security import proxy
 from zope.viewlet import viewlet
+from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
@@ -13,6 +14,10 @@ from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
 from alchemist.traversal.managed import ManagedContainerDescriptor
+
+from ploned.ui.menu import make_absolute
+from ploned.ui.menu import is_selected
+from ploned.ui.interfaces import IStructuralView
 
 from bungeni.ui.utils import getDisplayDate
 from bungeni.core.app import BungeniApp
@@ -66,6 +71,26 @@ class SecondaryNavigationViewlet(object):
                 'selected': selected,
                 'url': "%s/%s" % (url, name)})
 
+class WorkspaceNavigationViewlet(SecondaryNavigationViewlet):
+    def __init__(self, context, request, view, manager):
+        if IStructuralView.providedBy(view):
+            context = context.__parent__
+        super(WorkspaceNavigationViewlet, self).__init__(
+            context.__parent__, request, view, manager)
+    
+    def update(self):
+        menu = component.getUtility(IBrowserMenu, name='workspace_actions')
+        items = self.items = menu.getMenuItems(self.context, self.request)
+            
+        local_url = absoluteURL(self.context, self.request)
+        site_url = absoluteURL(getSite(), self.request)
+
+        for item in items:
+            url = make_absolute(item['action'], local_url, site_url)
+            item['url'] = url
+            item['selected'] = (is_selected(
+                item, item['action'], self.request) and u'selected') or u''
+            
 class GlobalSectionsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile( 'templates/sections.pt' )
     selected_portal_tab = None

@@ -44,9 +44,6 @@
      />
 
 
-
-
-
   <adapter
      for="ore.library.interfaces.ILibraryFile"
      provides="ore.metamime.interfaces.IMimeClassifier"
@@ -59,6 +56,14 @@
      handler=".files.fileClassifierSubscriber"
      />
 
+
+  <subscriber
+     for="bungeni.models.interfaces.IVersion
+          zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".files.objectNewVersion"
+     />
+     
+     
   <subscriber
      provides="z3c.traverser.interfaces.ITraverserPlugin"
      factory=".files.DirectoryDescriptorTraversal"

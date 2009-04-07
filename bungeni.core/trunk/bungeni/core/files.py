@@ -229,7 +229,7 @@ def objectNewVersion( ob, event ):
     """ when an object is versioned we create a branch
     and copy the attachments from trunk to the branch
     of the version"""
-    path = location( ob, DirectoryLocation, None )
+    path = location( ob.context, DirectoryLocation, None )
     directory = path.directory
     if 'trunk' in directory.keys():
         trunk_dir = directory['trunk']
@@ -237,13 +237,13 @@ def objectNewVersion( ob, event ):
         trunk_dir = directoy.makeDirectory('branches')
     if 'branches' in directory.keys():
         branch_dir = directory['branches']
-        dest = branch_dir.makeDirectory( str(event.version.version_id))
+        dest = branch_dir.makeDirectory( str(ob.version_id))
     else:
         branch_dir = directoy.makeDirectory('branches')
-        dest = branch_dir.makeDirectory( str(event.version.version_id)) 
+        dest = branch_dir.makeDirectory( str(ob.version_id)) 
     for node in trunk_dir.keys():
         dest.copy(node, trunk_dir[node])                      
-    directory.context.getTransaction().commit()
+
 
       
     

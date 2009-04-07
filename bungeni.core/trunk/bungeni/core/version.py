@@ -3,6 +3,7 @@ $Id: $
 """
 from zope import interface
 from zope import event
+from zope.lifecycleevent import ObjectCreatedEvent
 
 from sqlalchemy import orm
 from ore.alchemist import container
@@ -28,6 +29,7 @@ class Versioned(container.PartialContainer):
             value = getattr(source, column.name)
             setattr(dest, column.name, value)
 
+
     def create( self, message, manual = False ):
         """Store the existing state of the adapted context as a new
         version."""
@@ -49,17 +51,15 @@ class Versioned(container.PartialContainer):
         # we rely on change handler to attach the change object to the version
         event.notify(
             interfaces.VersionCreated(context, self, version, message))
-            
-        event.notify(
-            interfaces.VersionCreated(version, self, version, message))            
-        # save our new version to the db
+                                                   
         session = Session()
-        session.begin()
         session.add(version)
-        session.commit()
-        event.notify(
-            interfaces.VersionAfterCreate(context, self, version, message))   
+        
+        version.context = context        
+        event.notify(ObjectCreatedEvent(version))
+
         return version
+
         
     def revert( self, version, message ):
         """Revert the current state of the adapted object to the

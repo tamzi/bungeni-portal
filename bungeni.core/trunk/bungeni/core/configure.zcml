@@ -221,10 +221,10 @@
      name="language_vocabulary" />
   
   <!-- event subscribers -->
-  <subscriber
+  <!--subscriber
      handler=".files.objectNewVersion"     
      for="bungeni.models.interfaces.IBungeniContent
-          bungeni.core.interfaces.VersionAfterCreate" />
+          bungeni.core.interfaces.VersionAfterCreate" /-->
   
   
 </configure>

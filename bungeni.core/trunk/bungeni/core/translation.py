@@ -34,7 +34,7 @@ def get_default_language():
 def get_language(context):
     return context.language
 
-def get_all_languages(filter=('en', 'fr', 'sw')):
+def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
     """Build a list of all languages.
 
     To-do: the result of this method should be cached indefinitely.

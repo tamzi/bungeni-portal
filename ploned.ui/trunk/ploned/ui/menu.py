@@ -25,7 +25,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from ploned.ui.interfaces import IViewView
 
 def is_selected(item, action, request_url):
-    normalized_action = action.lstrip('.')
+    normalized_action = action.lstrip('.').lstrip('@@')
 
     if normalized_action in request_url:
         return True

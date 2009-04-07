@@ -14,7 +14,7 @@
   <subscriber
      handler=".events.workflowTransitionEventDispatcher" />
 
-    <!-- cascade for automatic transitions on content -->
+  <!-- cascade for automatic transitions on content -->
   
   <subscriber
      handler=".events.fireAutomaticTransitions"
@@ -64,7 +64,7 @@
   <subscriber
      handler=".events.initializeWorkflow"     
      for="bungeni.models.interfaces.IVersion
-          bungeni.core.interfaces.VersionCreated" />
+          zope.lifecycleevent.IObjectCreatedEvent" />
             
         
   

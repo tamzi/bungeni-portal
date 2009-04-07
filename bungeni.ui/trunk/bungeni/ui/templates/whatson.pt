@@ -3,8 +3,9 @@
       metal:use-macro="context/@@standard_macros/page">
   
   <div metal:fill-slot="body" i18n:domain="bungeni">
-    <h1 i18n:translate="" tal:content="context/title" />
-    <p i18n:translate="" tal:content="context/description"
-       class="documentDescription"  />
+    <h1 i18n:translate="">What's on</h1>
+    <p i18n:translate="" class="documentDescription">
+      An overview of the daily operations of the parliament.
+    </p>
   </div>
 </html>

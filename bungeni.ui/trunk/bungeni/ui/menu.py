@@ -3,6 +3,7 @@ from zope import component
 from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
+from zope.app.publisher.browser.menu import BrowserMenuItem
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.traversing.browser import absoluteURL
 from z3c.menu.ready2go import item

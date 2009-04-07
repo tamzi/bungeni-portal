@@ -18,9 +18,14 @@ from ore.library.library import Library
 
 from bungeni.models import domain
 from bungeni.models import interfaces
+
 from bungeni.core import location
 from bungeni.core.content import Section
+from bungeni.core.content import QueryContent
+from bungeni.core.interfaces import IBusinessSection
+from bungeni.core.interfaces import IParliamentSection
 from bungeni.core.i18n import _
+from bungeni.models.queries import get_current_parliament
 
 class BungeniApp(Application):
     implements(interfaces.IBungeniApplication)
@@ -54,37 +59,44 @@ class AppSetup( object ):
         # set up primary site structure
         business = self.context["business"] = Section(
             title=_(u"Business"),
-            description=_(u"Daily operations of the parliament."))
+            description=_(u"Daily operations of the parliament."),
+            marker=IBusinessSection)
 
         parliament = self.context["parliament"] = Section(
             title=_(u"Parliament"),
-            description=_(u"Information on parliament."))
+            description=_(u"Information on parliament."),
+            marker=IParliamentSection)
+
+        current = parliament[u"current"] = QueryContent(
+            get_current_parliament,
+            title=_(u"Current"),
+            description=_(u"View current parliament."))
 
         # business section
         bills = business[u"bills"] = domain.BillContainer()
-        provideAdapter(location.LocationProxyAdapter(bills),
+        provideAdapter(location.ContainerLocation(bills),
                        (implementedBy(domain.Bill), ILocation))
 
         motions = business[u"motions"] = domain.MotionContainer()
-        provideAdapter(location.LocationProxyAdapter(motions),
+        provideAdapter(location.ContainerLocation(motions),
                        (implementedBy(domain.Motion), ILocation))
 
         questions = business[u"questions"] = domain.QuestionContainer()
-        provideAdapter(location.LocationProxyAdapter(questions),
+        provideAdapter(location.ContainerLocation(questions),
                        (implementedBy(domain.Question), ILocation))
         
         # parliament section
         members = parliament[u"members"] = domain.UserContainer()
-        provideAdapter(location.LocationProxyAdapter(members),
+        provideAdapter(location.ContainerLocation(members),
                        (implementedBy(domain.User), ILocation))
         
         parties = parliament[u"parties"] = domain.PoliticalPartyContainer()
-        provideAdapter(location.LocationProxyAdapter(parties),
+        provideAdapter(location.ContainerLocation(parties),
                        (implementedBy(domain.PoliticalParty), ILocation))
 
         constituencies = parliament[u"constituencies"] = \
                          domain.ConstituencyContainer()
-        provideAdapter(location.LocationProxyAdapter(constituencies),
+        provideAdapter(location.ContainerLocation(constituencies),
                        (implementedBy(domain.Constituency), ILocation))
         
         offices = parliament[u"offices"] = Section(
@@ -92,13 +104,17 @@ class AppSetup( object ):
             description=_(u"Overview of parliamentary offices."))
 
         committees = parliament[u"committees"] = domain.CommitteeContainer()
-        provideAdapter(location.LocationProxyAdapter(committees),
+        provideAdapter(location.ContainerLocation(committees),
                        (implementedBy(domain.Committee), ILocation))
 
-        government = parliament[u"government"] = domain.GovernmentContainer()
-        provideAdapter(location.LocationProxyAdapter(government),
+        governments = parliament[u"governments"] = domain.GovernmentContainer()
+        provideAdapter(location.ContainerLocation(governments),
                        (implementedBy(domain.Government), ILocation))
-        
+
+        parliaments = parliament[u"parliaments"] = domain.ParliamentContainer()
+        provideAdapter(location.ContainerLocation(parliaments),
+                       (implementedBy(domain.Parliament), ILocation))
+
 
         ##########
         # Admin User Interface

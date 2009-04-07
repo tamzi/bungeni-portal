@@ -7,8 +7,18 @@
   <!-- menus -->
 
   <browser:menu
-     id="workspace_actions"
+     id="workspace_navigation"
      title="Actions for the workspace"
+     />
+
+  <browser:menu
+     id="business_navigation"
+     title="Actions for the 'Business' section"
+     />
+
+  <browser:menu
+     id="parliament_navigation"
+     title="Actions for the 'Parliament' section"
      />
 
   <browser:menu
@@ -52,8 +62,16 @@
      />
 
   <browser:menuItem
-     menu="workspace_actions"
-     for="*"
+     menu="workspace_navigation"
+     for="bungeni.models.interfaces.IBungeniApplication"
+     title="Home"
+     action=""
+     permission="zope.View"
+     />
+
+  <browser:menuItem
+     menu="workspace_navigation"
+     for="bungeni.models.interfaces.IBungeniApplication"
      title="Calendar"
      action="/calendar"
      permission="zope.View"

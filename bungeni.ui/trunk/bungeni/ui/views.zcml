@@ -130,14 +130,24 @@
 
   <!-- sections -->
 
-  <browser:page 
+  <browser:page
      name="index"
-     for="bungeni.core.content.Section"
+     for="bungeni.core.interfaces.IBusinessSection"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     template="templates/section.pt"
+     template="templates/whatson.pt"
+     title="What's on"
+     menu="business_navigation"
      permission="zope.Public"
      />
-  
+
+  <browser:page
+     name="index"
+     for="bungeni.core.interfaces.IParliamentSection"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".content.CurrentParliamentView"
+     permission="zope.Public"
+     />
+
   <!-- json view of containers-->
   
   <browser:page

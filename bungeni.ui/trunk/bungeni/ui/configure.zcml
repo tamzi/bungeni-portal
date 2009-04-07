@@ -68,16 +68,11 @@
 
   <!-- Marginalia Settings for bungeni types -->
 
-  <class class="bungeni.core.content.Section">
-    <allow attributes="title description"
-           interface="zope.container.interfaces.IReadContainer" />
-   </class>
-  
-   <class class="bungeni.models.domain.Bill">
+  <class class="bungeni.models.domain.Bill">
     <implements
-        interface="marginalia.interfaces.IMarginaliaAnnotatable"
-        />
-   </class>
+       interface="marginalia.interfaces.IMarginaliaAnnotatable"
+       />
+  </class>
 
    <adapter
        for="bungeni.models.interfaces.IBill"

@@ -94,6 +94,8 @@ class SecondaryNavigationViewlet(object):
 
         local_url = absoluteURL(container, self.request)
         site_url = absoluteURL(getSite(), self.request)
+        request_url = self.request.getURL()
+
         default_view_name = queryDefaultViewName(container, self.request)
 
         for item in items:
@@ -105,7 +107,7 @@ class SecondaryNavigationViewlet(object):
             else:
                 url = make_absolute(action, local_url, site_url)
                 selected = is_selected(
-                    item, action, self.request)
+                    item, action, request_url)
                 
             item['url'] = url
             item['selected'] = selected and u'selected' or u''

@@ -1,10 +1,12 @@
 # encoding: utf-8
 
+from zope import interface
 from zope import component
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.container.interfaces import IReadContainer
 from zope.security import proxy
+from zope.proxy import sameProxiedObjects
 from zope.viewlet import viewlet
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
@@ -14,6 +16,8 @@ from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
 from alchemist.traversal.managed import ManagedContainerDescriptor
+from zope.publisher.interfaces import IDefaultViewName
+from zope.app.publisher.browser import queryDefaultViewName
 
 from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
@@ -40,20 +44,23 @@ class SecondaryNavigationViewlet(object):
     render = ViewPageTemplateFile("templates/secondary-navigation.pt")
 
     def update(self):
-        self.items = items = []
-
         chain = get_parent_chain(self.context)
         length = len(chain)
         if length < 2:
             return
 
         container = chain[-2]
+        assert container.__name__ is not None
+
         if length > 2:
             context = chain[-3]
         else:
             context = None
             
         url = absoluteURL(container, self.request)
+        self.items = items = self.get_menu_items(
+            container, "%s_navigation" % container.__name__)
+        
         for name, item in container.items():
             if context is None:
                 selected = False
@@ -71,26 +78,50 @@ class SecondaryNavigationViewlet(object):
                 'selected': selected,
                 'url': "%s/%s" % (url, name)})
 
+        default_view_name = queryDefaultViewName(container, self.request)
+        default_view = component.getMultiAdapter(
+            (container, self.request), name=default_view_name)
+
+        if hasattr(default_view, "title"):
+            items.insert(0, {
+                'title': default_view.title,
+                'selected': sameProxiedObjects(container, self.context),
+                'url': url})
+
+    def get_menu_items(self, container, name):
+        menu = component.getUtility(IBrowserMenu, name=name)
+        items = menu.getMenuItems(container, self.request)
+
+        local_url = absoluteURL(container, self.request)
+        site_url = absoluteURL(getSite(), self.request)
+        default_view_name = queryDefaultViewName(container, self.request)
+
+        for item in items:
+            action = item['action']
+
+            if default_view_name == action.lstrip('@@'):
+                url = local_url
+                selected = sameProxiedObjects(container, self.context)
+            else:
+                url = make_absolute(action, local_url, site_url)
+                selected = is_selected(
+                    item, action, self.request)
+                
+            item['url'] = url
+            item['selected'] = selected and u'selected' or u''
+
+        return items
+
 class WorkspaceNavigationViewlet(SecondaryNavigationViewlet):
     def __init__(self, context, request, view, manager):
         if IStructuralView.providedBy(view):
             context = context.__parent__
         super(WorkspaceNavigationViewlet, self).__init__(
-            context.__parent__, request, view, manager)
+            context, request, view, manager)
     
     def update(self):
-        menu = component.getUtility(IBrowserMenu, name='workspace_actions')
-        items = self.items = menu.getMenuItems(self.context, self.request)
-            
-        local_url = absoluteURL(self.context, self.request)
-        site_url = absoluteURL(getSite(), self.request)
+        self.items = self.get_menu_items(self.context, 'workspace_navigation')
 
-        for item in items:
-            url = make_absolute(item['action'], local_url, site_url)
-            item['url'] = url
-            item['selected'] = (is_selected(
-                item, item['action'], self.request) and u'selected') or u''
-            
 class GlobalSectionsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile( 'templates/sections.pt' )
     selected_portal_tab = None

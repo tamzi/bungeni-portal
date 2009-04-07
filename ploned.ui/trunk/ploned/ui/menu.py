@@ -24,8 +24,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 
 from ploned.ui.interfaces import IViewView
 
-def is_selected(item, action, request):
-    request_url = request.getURL()
+def is_selected(item, action, request_url):
     normalized_action = action.lstrip('.')
 
     if normalized_action in request_url:
@@ -90,7 +89,8 @@ class PloneBrowserMenu(BrowserMenu):
 
         local_url = absoluteURL(object, request)
         site_url = absoluteURL(getSite(), request)
-        
+        request_url = request.getURL()
+
         items = []
         for index, order, title, item in result:
             extra = item.extra or {'id': action_to_id(item.action)}
@@ -111,7 +111,7 @@ class PloneBrowserMenu(BrowserMenu):
                 'description': item.description,
                 'action': item.action,
                 'url': url,
-                'selected': (is_selected(item, item.action, item.request)
+                'selected': (is_selected(item, item.action, request_url)
                              and u'selected') or u'',
                 'icon': item.icon,
                 'extra': extra,

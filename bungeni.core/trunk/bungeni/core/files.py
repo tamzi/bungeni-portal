@@ -30,8 +30,8 @@ class FileClassifier( HachoirFileClassifier ):
     
 def key( ob ):
     unwrapped = removeSecurityProxy( ob )
-    mapper = orm.object_mapper( ob )
-    primary_key = mapper.primary_key_from_instance( ob )[0]    
+    mapper = orm.object_mapper( unwrapped )
+    primary_key = mapper.primary_key_from_instance( unwrapped )[0]    
     return primary_key, unwrapped.__class__.__name__
 
 class DefaultPathChooser( object ):
@@ -139,6 +139,8 @@ def headlocation( context ):
     
 def branchlocation( context ):
     content = context.head
+    if not content:
+        content = context.__parent__
     return location(content, BranchDirectoryLocation, context )
         
 
@@ -227,8 +229,7 @@ def objectNewVersion( ob, event ):
     """ when an object is versioned we create a branch
     and copy the attachments from trunk to the branch
     of the version"""
-           
-    path = location( event.object, DirectoryLocation, None )
+    path = location( ob, DirectoryLocation, None )
     directory = path.directory
     if 'trunk' in directory.keys():
         trunk_dir = directory['trunk']

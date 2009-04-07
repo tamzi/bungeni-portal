@@ -1,9 +1,27 @@
 from zope import interface, schema, lifecycleevent
 from zope.component.interfaces import IObjectEvent, ObjectEvent
-from zope.app.container.interfaces import IContainer
 from zope.location.interfaces import ILocation
-
+from zope.container.interfaces import IContainer
+from zope.container.interfaces import IContentContainer
+from zope.dublincore.interfaces import IDCDescriptiveProperties
 from bungeni.models.interfaces import IVersion
+
+class ISection(IContentContainer, IDCDescriptiveProperties):
+    """Represents a section in the site, e.g. /business."""
+
+class IBusinessSection(ISection):
+    """Marker interface for the 'Business' section."""
+
+class IParliamentSection(ISection):
+    """Marker interface for the 'Parliament' section."""
+
+class IQueryContent(interface.Interface):
+    query = interface.Attribute(
+        """Query-method which returns a content-item.""")
+
+class IContainerLocation(interface.Interface):
+    container = interface.Attribute(
+        """Container object for this location type.""")
 
 ####################
 # Feature - Marker Interfaces 

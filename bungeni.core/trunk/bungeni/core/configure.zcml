@@ -154,6 +154,11 @@
      <allow interface="zope.app.container.interfaces.IReadContainer" />
   </class>
 
+  <class class=".content.Section">
+    <allow attributes="title description"
+           interface="zope.container.interfaces.IContentContainer" />
+  </class>
+
   <!-- scheduling -->
 
   <adapter factory=".schedule.PlenarySchedulingContext" />

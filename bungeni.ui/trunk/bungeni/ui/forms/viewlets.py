@@ -15,6 +15,9 @@ from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
 
+import datetime
+import bungeni.ui.recurring as recurring
+
 from fields import BungeniAttributeDisplay
 
 class ResponseQuestionViewlet(viewlet.ViewletBase):    
@@ -478,4 +481,42 @@ class SchedulingMinutesViewlet(DisplayViewlet):
     def get_add_url(self):
         return '%s/discussions/add' % absoluteURL(
             self.context, self.request)
+
+class RecurringEventsViewlet(DisplayViewlet):
+    render = ViewPageTemplateFile ('templates/recurrence.pt')
+        
+    def get_add_url(self):
+        return ''          
+    def get_target(self):
+        pass
+
+    def set_target(self, target):
+        pass       
+
+    def get_weekdays(self):
+        cwd = self.context.start_date.weekday()
+        weekdays =[{'daynum' : 0, 'name' : u"Mon", 'enabled' : True},
+            {'daynum' : 1, 'name' : u"Tue", 'enabled' : True},
+            {'daynum' : 2, 'name' : u"Wed", 'enabled' : True},
+            {'daynum' : 3, 'name' : u"Thu", 'enabled' : True},
+            {'daynum' : 4, 'name' : u"Fri", 'enabled' : True},
+            {'daynum' : 5, 'name' : u"Sat", 'enabled' : True},
+            {'daynum' : 6, 'name' : u"Sun", 'enabled' : True}]
+        weekdays[cwd]['enabled'] = False
+        return weekdays
+        
+    def get_monthday(self):
+        """ Day 3 of every month """        
+        return "Day %i of every month" % self.context.start_date.day        
+
+    def get_nth_monthday(self):
+        """ 1st Friday of every month """
+        dayname = self.context.start_date.strftime('%A')        
+        daylist = []
+        for day in recurring.nth_weekday_in_month(self.context.start_date):
+            legend = "%s %s of every month" % ( day['name'], dayname )
+            daylist.append({'daynum': day['daynum'], 'name' : legend  })
+        return daylist
+
+    
 

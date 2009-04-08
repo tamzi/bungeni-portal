@@ -280,7 +280,10 @@ class MotionInStateViewlet( ViewletBase ):
             data['qid']= ( 'm_' + str(result.motion_id) )                         
             data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name
             data['title'] = result.short_name
-            data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            if result.approval_date:
+                data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            else:         
+                data['result_item_class'] = 'sc-after-'       
             data['url'] = '/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list

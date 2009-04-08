@@ -359,7 +359,7 @@ class SelectDateWidget( SimpleInputWidget):
       
 class SelectDateTimeWidget(SelectDateWidget):        
 
-    __call__=ViewPageTemplateFile('templates/datetimewidget.pt')
+    __call__ = ViewPageTemplateFile('templates/datetimewidget.pt')
     
     @property
     def _hour_name(self):

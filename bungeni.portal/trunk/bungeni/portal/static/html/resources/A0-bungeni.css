@@ -45,3 +45,7 @@ table.side-by-side th span.fieldRequired {
 #portal-logo {
   display: none;
 }
+
+.yui-toolbar-group ul {
+  list-style-image: none;
+}

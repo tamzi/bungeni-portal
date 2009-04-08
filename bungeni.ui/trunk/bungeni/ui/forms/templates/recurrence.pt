@@ -31,9 +31,11 @@
             </span>
             <span tal:repeat="nth view/get_nth_monthday">
                 <input id="monthly_w" type="radio" value="weekday" 
-                tal:attributes="value nth/daynum"
+                tal:attributes="value nth/daynum; id string:monthly_${nth/daynum}"
                 name="field.monthly"/>
-                <label class="plain" for="monthly_w" tal:content="nth/name"> 1st Friday of every month</label>
+                <label class="plain" for="monthly_w" 
+                    tal:attributes="for string:monthly_${nth/daynum}"
+                    tal:content="nth/name"> 1st Friday of every month</label>
             </span>
         </fieldset>
         <fieldset id="recurrencetimes">

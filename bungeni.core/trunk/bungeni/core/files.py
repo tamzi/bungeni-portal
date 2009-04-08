@@ -1,5 +1,4 @@
 import os
-from os import path
 from datetime import date
 
 from zope import interface, component
@@ -15,7 +14,6 @@ from ore.metamime.interfaces import IMimeClassifier
 from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
 
 from bungeni.core import interfaces
-from bungeni.core.proxy import LocationProxy
 from bungeni.models import schema as dbschema
 
 def fileClassifierSubscriber( ob, event ):
@@ -232,6 +230,7 @@ def objectNewVersion( ob, event ):
     """ when an object is versioned we create a branch
     and copy the attachments from trunk to the branch
     of the version"""
+    
     path = location( ob.context, DirectoryLocation, None )
     directory = path.directory
     if 'trunk' in directory.keys():
@@ -247,9 +246,6 @@ def objectNewVersion( ob, event ):
     for node in trunk_dir.keys():
         dest.copy(node, trunk_dir[node])                      
 
-
-      
-    
 def setupStorageDirectory( ):
     # we start in buildout/src/bungeni.core/bungeni/core
     # we end in buildout/parts/files    
@@ -257,11 +253,11 @@ def setupStorageDirectory( ):
     x = 0
     while x < 5:
         x += 1
-        store_dir = path.split( store_dir )[0]
-    store_dir = path.join( store_dir, 'parts', 'files')
-    if path.exists( store_dir ):
-        assert path.isdir( store_dir )
-        assert path.exists( path.join( store_dir, 'format') )
+        store_dir = os.path.split(store_dir)[0]
+    store_dir = os.path.join(store_dir, 'parts', 'files')
+    if os.path.exists(store_dir):
+        assert os.path.isdir(store_dir)
+        assert os.path.exists(os.path.join( store_dir, 'format'))
     return store_dir
 
 def setup( ):

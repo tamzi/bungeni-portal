@@ -9,6 +9,8 @@
 
  <div metal:fill-slot="body">
    <h2 i18n:translate="" tal:content="context/dc:title" />
+   <p class="documentDescription"
+      i18n:translate="" tal:content="context/dc:description" />
 
    <div tal:replace="structure provider:alchemist.content.view">
      Form

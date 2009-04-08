@@ -106,7 +106,7 @@
 
                       <tal:standard condition="not: side_by_side">
                         <div class="field">
-                          <metal:header use-macro="template/macros/header" />
+                          <metal:header use-macro="macros/header" />
                         
                           <div tal:attributes="class python:'widget'+(error and ' error' or '') + (changed and ' changed' or '')">
                             <div class="widget" tal:content="structure widget"  >
@@ -122,7 +122,7 @@
                       <tal:side-by-side condition="side_by_side">
                         <tr tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even')">
                           <th colspan="2">
-                            <metal:header use-macro="template/macros/header" />
+                            <metal:header use-macro="macros/header" />
                           </th>
                         </tr>
                         

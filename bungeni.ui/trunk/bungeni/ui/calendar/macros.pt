@@ -24,7 +24,7 @@
           <thead>
             <tr>
               <td colspan="2">
-                <metal:navigation use-macro="template/macros/navigation" />
+                <metal:navigation use-macro="macros/navigation" />
               </td>
             </tr>
           </thead>
@@ -129,7 +129,7 @@
           <thead>
             <tr>
               <td colspan="8">
-                <metal:navigation use-macro="template/macros/navigation" />
+                <metal:navigation use-macro="macros/navigation" />
               </td>
             </tr>
           </thead>

@@ -35,7 +35,7 @@
                 tal:attributes="class string:navTree navTreeLevel${nesting_level} navTreeFolderish">
               <tal:nesting define="nesting_level python: nesting_level + 1">
                 <tal:children repeat="node node/nodes">
-                  <div metal:use-macro="template/macros/subtree" />
+                  <div metal:use-macro="macros/subtree" />
                 </tal:children>
               </tal:nesting>
             </ul>
@@ -47,7 +47,7 @@
     
     <ul tal:define="global nesting_level python: 1">
       <tal:node tal:repeat="node view/nodes">
-        <li metal:use-macro="template/macros/subtree" />
+        <li metal:use-macro="macros/subtree" />
       </tal:node>
     </ul>
     

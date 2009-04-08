@@ -539,7 +539,8 @@ ul#portal-globalnav li a:hover {
 dl.portalMessage {
     font-size: 90%;
     background-color: #ffffe3; 
-    border: 1px solid #996;    
+    border: 1px solid #996;
+    margin-bottom: 0.5em;
 }
 dl.portalMessage a {
     color: black;

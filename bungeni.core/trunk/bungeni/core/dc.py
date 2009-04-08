@@ -116,30 +116,33 @@ class SittingDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        return "Group sitting #%d" % self.context.sitting_id
+        return _(u"Sitting")
 
     @property
     def description(self):
         session = Session()
         group = session.query(domain.Group).selectone_by(
             group_id=self.context.group_id)
-        return "Sitting scheduled for group '%s' from %s to %s." % (
-            group.short_name, self.context.start_date, self.context.end_date)
+        return _(u"Sitting scheduled for '$group' ($start to $end).",
+                 mapping={'group': group.short_name,
+                          'start': self.context.start_date,
+                          'end': self.context.end_date})
 
 class ItemScheduleDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IItemSchedule)
 
     @property
     def title(self):
-        return "Scheduled item #%d" % self.context.schedule_id
+        return _(u"Item scheduling")
 
     @property
     def description(self):
         session = Session()
         sitting = session.query(domain.GroupSitting).selectone_by(
             sitting_id=self.context.sitting_id)
-        return "scheduled for sitting (%s to %s)." % (
-            sitting.start_date, sitting.end_date)
+        return _(u"Scheduled for sitting ($start to $end).",
+                 mapping={'start': sitting.start_date,
+                          'end': sitting.end_date})
 
 class VersionDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IVersion)

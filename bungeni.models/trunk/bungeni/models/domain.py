@@ -522,6 +522,13 @@ class ItemSchedule(Entity):
     for which sitting was a parliamentary item scheduled
     """ 
 
+    discussions = one2many(
+        "discussions",
+        "bungeni.models.domain.ScheduledItemDiscussionContainer",
+        "schedule_id")
+
+class ScheduledItemDiscussion(Entity):
+    """A discussion on a scheduled item."""
 
 class TabledDocument( object):
     """

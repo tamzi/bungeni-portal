@@ -1502,8 +1502,8 @@ class TabledDocumentDescriptor( ModelDescriptor):
     ]
 
 class ItemScheduleDescriptor(ModelDescriptor):
-    display_name =_(u"Item scheduling")
-    container_name =_(u"Item schedulings")
+    display_name =_(u"Scheduling")
+    container_name =_(u"Schedulings")
 
     fields = [
         dict( name="sitting_id", omit=True ),
@@ -1523,4 +1523,20 @@ class ItemScheduleDescriptor(ModelDescriptor):
               ),        
         ]
 
+class ScheduledItemDiscussionDescriptor(ModelDescriptor):
+    display_name =_(u"Discussion")
+    container_name =_(u"Discussions")
 
+    fields = [
+        dict(name="schedule_id", omit=True),
+        dict( name="body_text", label=_(u"Minutes"),
+              property = schema.Text(title=u"Minutes"),
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor, 
+              add_widget=RichTextEditor
+              ),
+#        dict(name="sitting_time", 
+#             label=_(u"Sitting time"), 
+#             description=_(u"The time at which the discussion took place."), 
+#             listing=True),
+        ]

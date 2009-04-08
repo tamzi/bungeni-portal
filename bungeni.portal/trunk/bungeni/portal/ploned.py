@@ -18,8 +18,7 @@ class PlonedLayout(object):
             return layout.bungeni.render_macro(
                 "", global_scope=False, parameters=kwargs)
 
-        self.macros = {
-            'page': Macro(render)}
+        self.macro = Macro(render)
 
     def __getitem__(self, key):
-        return self.template.macros.bind(macros=self.macros)[key]
+        return self.template.macros.bind(macro=self.macro)[key]

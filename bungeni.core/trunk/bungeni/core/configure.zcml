@@ -163,7 +163,8 @@
 
   <adapter factory=".schedule.PlenarySchedulingContext" />
   <adapter factory=".schedule.CommitteeSchedulingContext" />
-  
+  <adapter factory=".schedule.SchedulingContextTraverser" />
+
   <!-- principal roles -->
   
   <subscriber
@@ -171,15 +172,11 @@
      for="repoze.whooze.interfaces.IPrincipalCreated" />
 
   <class
-     class=".schedule.PrincipalGroupSchedulingContext">
-    <require permission="zope.Public"
-             set_schema=".interfaces.ISchedulingContext" />
-  </class>
-
-  <class
      class=".schedule.PlenarySchedulingContext">
     <require permission="zope.Public"
+             interface=".interfaces.ISchedulingContext"
              set_schema=".interfaces.ISchedulingContext" />
+    <allow interface="zope.publisher.interfaces.IPublishTraverse" />
   </class>
 
   <class
@@ -187,6 +184,7 @@
     <require permission="zope.Public"
              interface=".interfaces.IDailySchedulingContext"
              set_schema=".interfaces.IDailySchedulingContext" />
+    <allow interface="zope.publisher.interfaces.IPublishTraverse" />
   </class>
 
   <!-- dublin core adapters -->

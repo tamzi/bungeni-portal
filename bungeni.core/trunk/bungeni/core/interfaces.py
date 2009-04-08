@@ -149,6 +149,9 @@ class ISchedulingContext(ILocation):
 
     title = interface.Attribute(
         """Scheduling context title.""")
+
+    def get_group():
+        """Returns group."""
         
     def get_sittings(start_date=None, end_date=None):
         """Return sittings defined for this context."""

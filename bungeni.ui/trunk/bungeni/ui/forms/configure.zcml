@@ -96,10 +96,15 @@
      permission="zope.View"
      weight="10"
      />          
-  
 
-  
-
+  <browser:viewlet
+     name="bungeni.viewlet.minutes"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.SchedulingMinutesViewlet"
+     for="bungeni.models.interfaces.IItemSchedule"
+     permission="zope.View"
+     weight="10"
+     />          
   
   <browser:viewlet
      name="bungeni.viewlet.mp-titles"

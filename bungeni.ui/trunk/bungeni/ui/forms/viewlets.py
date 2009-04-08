@@ -6,17 +6,14 @@ from zope.traversing.browser import absoluteURL
 from zope.formlib import form
 
 from alchemist import ui
-
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 
-import bungeni.models.domain as domain
-
+from bungeni.models import domain
 from bungeni.ui.i18n import _
 from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
-
 
 from fields import BungeniAttributeDisplay
 
@@ -122,10 +119,7 @@ class SittingAttendanceViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
 
-
 class MinistersViewlet( SubformViewlet ):
-
-
     def __init__( self,  context, request, view, manager ):        
 
         self.context = context.ministers                  
@@ -362,7 +356,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
             self.has_data = False
             
         super(ResponseViewlet, self).update()
-        
+
     def setupActions(self):
         if self.has_data:
             super(ResponseViewlet, self).setupActions()
@@ -403,3 +397,85 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
     
     
     render = ViewPageTemplateFile ('templates/bill_timeline_viewlet.pt')    
+
+
+class DisplayViewlet(BungeniAttributeDisplay):
+    """Display a target object; if the object is `None`, the user is
+    prompted to add it."""
+
+    render = ViewPageTemplateFile ('templates/display_form.pt')
+    
+    mode = 'view'
+    for_display = True
+    query = None
+    factory = None
+    has_data = False
+    form_fields = form.Fields()
+
+    add_action = form.Actions(
+        form.Action(_(u"Add"), success='handle_add'),
+        )
+
+    def __init__( self,  context, request, view, manager):
+        super(DisplayViewlet, self).__init__(
+            context, request, view, manager)
+
+        # set add url before we change context
+        self.add_url = self.get_add_url()
+
+        target = self.get_target()
+        if target is None:
+            self.status = _(u"No item has been set.")
+        else:
+            self.context = target
+            self.has_data = True
+
+            assert self.factory is not None
+            descriptor = queryModelDescriptor(self.factory)
+            self.form_fields = descriptor.fields
+
+    def update(self):
+        # only if there's data to display do we update using our
+        # immediate superclass
+        if self.has_data:
+            super(DisplayViewlet, self).update()
+        else:
+            self.setupActions()
+            super(form.SubPageDisplayForm, self).update()
+
+    def handle_add(self, action, data):
+        self.request.response.redirect(self.add_url)
+
+    def get_add_url(self):
+        raise NotImplementedError("Must be implemented by subclass.")
+
+    def get_target(self):
+        raise NotImplementedError("Must be implemented by subclass.")
+
+    def set_target(self, target):
+        raise NotImplementedError("Must be implemented by subclass.")
+
+    def setupActions(self):
+        if self.has_data:
+            super(DisplayViewlet, self).setupActions()
+        else:
+            self.actions = self.add_action.actions
+
+    @property
+    def form_name(self):
+        descriptor = queryModelDescriptor(self.factory)
+        return descriptor.display_name
+
+class SchedulingMinutesViewlet(DisplayViewlet):
+    factory = domain.ScheduledItemDiscussion
+
+    def get_target(self):
+        return self.context.discussion
+
+    def set_target(self, target):
+        self.context.discussion = target
+
+    def get_add_url(self):
+        return '%s/discussions/add' % absoluteURL(
+            self.context, self.request)
+

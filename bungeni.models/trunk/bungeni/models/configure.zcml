@@ -24,5 +24,7 @@
   <utility
      provides=".interfaces.IBungeniSettings"
      factory=".settings.SettingsUtility"/>
+
+  <subscriber handler=".events.create_discussion_for_item_scheduling" />
   
 </configure>

@@ -70,16 +70,6 @@
      permission="zope.Public"
      weight="0"
      />
-  
-  <browser:viewlet
-     name="bungeni.navigation.secondary"
-     for="bungeni.models.interfaces.IBungeniApplication"
-     class=".navigation.WorkspaceNavigationViewlet"
-     manager="ploned.ui.interfaces.IPersonalBarMenu"
-     layer="..interfaces.IBungeniAuthenticatedSkin"
-     permission="zope.Public"
-     weight="0"
-     />
 
   <!-- scheduling -->
 

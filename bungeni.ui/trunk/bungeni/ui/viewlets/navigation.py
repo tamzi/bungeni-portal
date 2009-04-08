@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-from zope import interface
 from zope import component
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
@@ -11,24 +10,19 @@ from zope.viewlet import viewlet
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.interfaces.browser import IBrowserMenu
-from zope.app.component.hooks import getSite
+from zope.traversing.browser import absoluteURL
+from zope.app.publisher.browser import queryDefaultViewName
+
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
 from alchemist.traversal.managed import ManagedContainerDescriptor
-from zope.publisher.interfaces import IDefaultViewName
-from zope.app.publisher.browser import queryDefaultViewName
 
 from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
-from ploned.ui.interfaces import IStructuralView
 
-from bungeni.ui.utils import getDisplayDate
-from bungeni.core.app import BungeniApp
+from bungeni.core.interfaces import ISection
 from bungeni.core import location
-
-import datetime
-from zope.traversing.browser import absoluteURL 
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -42,16 +36,26 @@ def get_parent_chain(context):
 
 class SecondaryNavigationViewlet(object):
     render = ViewPageTemplateFile("templates/secondary-navigation.pt")
-
+    default_menu = "workspace_navigation"
+    
     def update(self):
-        chain = get_parent_chain(self.context)
+        context = self.context
+        chain = get_parent_chain(context)
+        
         length = len(chain)
         if length < 2:
+            container = None
+        else:
+            container = chain[-2]
+            assert container.__name__ is not None
+
+            if not ISection.providedBy(container):
+                container = None
+
+        if container is None:
+            self.items = self.get_menu_items(chain[-1], self.default_menu)
             return
-
-        container = chain[-2]
-        assert container.__name__ is not None
-
+        
         if length > 2:
             context = chain[-3]
         else:
@@ -60,23 +64,24 @@ class SecondaryNavigationViewlet(object):
         url = absoluteURL(container, self.request)
         self.items = items = self.get_menu_items(
             container, "%s_navigation" % container.__name__)
-        
-        for name, item in container.items():
-            if context is None:
-                selected = False
-            else:
-                selected = context.__name__ == name
 
-            if IDCDescriptiveProperties.providedBy(item):
-                title = item.title
-            else:
-                props = IDCDescriptiveProperties(item)
-                title = props.title
+        if IReadContainer.providedBy(container):
+            for name, item in container.items():
+                if context is None:
+                    selected = False
+                else:
+                    selected = context.__name__ == name
 
-            items.append({
-                'title': title,
-                'selected': selected,
-                'url': "%s/%s" % (url, name)})
+                if IDCDescriptiveProperties.providedBy(item):
+                    title = item.title
+                else:
+                    props = IDCDescriptiveProperties(item)
+                    title = props.title
+
+                items.append({
+                    'title': title,
+                    'selected': selected,
+                    'url': "%s/%s" % (url, name)})
 
         default_view_name = queryDefaultViewName(container, self.request)
         default_view = component.getMultiAdapter(
@@ -97,32 +102,29 @@ class SecondaryNavigationViewlet(object):
         request_url = self.request.getURL()
 
         default_view_name = queryDefaultViewName(container, self.request)
-
-        for item in items:
+        selection = None
+        
+        for item in sorted(items, key=lambda item: item['action'], reverse=True):
             action = item['action']
 
             if default_view_name == action.lstrip('@@'):
                 url = local_url
-                selected = sameProxiedObjects(container, self.context)
+                if selection is None:
+                    selected = sameProxiedObjects(container, self.context)
             else:
                 url = make_absolute(action, local_url, site_url)
-                selected = is_selected(
-                    item, action, request_url)
-                
+                if selection is None:
+                    selected = is_selected(item, action, request_url)
+
             item['url'] = url
             item['selected'] = selected and u'selected' or u''
 
+            if selected:
+                # self is marker
+                selection = self
+                selected = False
+                
         return items
-
-class WorkspaceNavigationViewlet(SecondaryNavigationViewlet):
-    def __init__(self, context, request, view, manager):
-        if IStructuralView.providedBy(view):
-            context = context.__parent__
-        super(WorkspaceNavigationViewlet, self).__init__(
-            context, request, view, manager)
-    
-    def update(self):
-        self.items = self.get_menu_items(self.context, 'workspace_navigation')
 
 class GlobalSectionsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile( 'templates/sections.pt' )

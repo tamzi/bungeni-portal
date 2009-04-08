@@ -162,7 +162,10 @@ class _FileRepository( object ):
     def get( self, path ):
         # set to the most recent repository revision, if not currently
         # active.
-        self.context.setRevision()
+        try:
+            self.context.setRevision()
+        except:
+            pass
         try:
             return self.context.traverse( path )
         except KeyError:

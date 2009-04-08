@@ -70,7 +70,7 @@ def file_tests( ):
 
         ztapi.provideAdapter( IBungeniContent,
                               IDirectoryLocation,
-                              files.location )
+                              files.headlocation )
 
         ztapi.provideAdapter( IBungeniContent,
                               IFilePathChooser,

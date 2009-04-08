@@ -103,45 +103,43 @@ Let's add a simple attachment file.
 
 Verify that the file path is composed of the date and the object id.
   
-  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt" % (
+  >>> file.svn_path == "/bill/%s-%s/%s/%s/trunk/rabbit.txt" % (
   ...    today.year, today.month, today.day, bill.bill_id)
   True
 
   >>> files.keys()
-  ['rabbit.txt', 'branches', 'trunk'] 
+  ['rabbit.txt'] 
   
 All changes are integrated with the zope transaction system, if we
 abort the transaction, our modifications are aborted.
 
   >>> transaction.abort()
   >>> files.keys()
-   ['branches', 'trunk']
+   []
 
 Let's retry adding the file; this time we'll commit the transaction.
   
   >>> file = files.makeFile('rabbit.txt')
   >>> stream = StringIO("Hello World")
   >>> file.writeStream(stream)
-  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt" % (
+  >>> file.svn_path == "/bill/%s-%s/%s/%s/trunk/rabbit.txt" % (
   ...    today.year, today.month, today.day, bill.bill_id)
   True
   
   >>> files.keys()
-  ['rabbit.txt', 'branches', 'trunk']  
+  ['rabbit.txt']  
   
   >>> transaction.commit()
   >>> files.keys()
-  ['rabbit.txt', 'branches', 'trunk']   
+  ['rabbit.txt']   
   
-
-  >>> trunk = files['trunk']
+  >>> trunk = files.makeDirectory('1234')
   >>> billfile = trunk.makeFile('bill.txt')
   >>> stream = StringIO("Hello World\n This is a bill")
   >>> billfile.writeStream(stream)
   >>> transaction.commit()  
-  
-  >>> branches = files['branches']
-  >>> b1 = branches.makeDirectory('1234')
+
+  >>> b1 = files.makeDirectory('2345')
   >>> for node in trunk.keys():
   ...   b1.copy(node, trunk[node])
   <ore.svn.file.SubversionFile object at ...>
@@ -153,14 +151,12 @@ Location
 --------
 
   >>> from bungeni.core.files import ContainedDirectory
-  >>> branches = ContainedDirectory.fromDirectory(bill, branches)
+  >>> branches = ContainedDirectory.fromDirectory(bill, b1)
   >>> from zope.location.interfaces import ILocation
   >>> ILocation.providedBy(branches)
   True
 
-  >>> directory = branches['1234']
-  >>> ILocation.providedBy(directory)
-  True
+
   
 Notes
 -----

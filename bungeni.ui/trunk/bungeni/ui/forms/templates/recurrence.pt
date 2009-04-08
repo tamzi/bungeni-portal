@@ -20,8 +20,7 @@
                 tal:condition="not:day/enabled"
                 checked="checked" disabled="disabled" name="field.weekdays:list"/>                     
             <label class="plain" for="weekday_0"
-                tal:attributes="for string:weekday_${day/daynum}" tal:content="day/name">Mon</label>   
-
+                tal:attributes="for string:weekday_${day/daynum}" tal:content="day/name">Mon</label>
             </span>
         </fieldset>
         <fieldset id="monthlyrecurrence">
@@ -31,20 +30,23 @@
                 <label class="plain" for="monthly_m" tal:content="view/get_monthday"> Day 3 of every month</label>
             </span>
             <span tal:repeat="nth view/get_nth_monthday">
-                <input id="monthly_w" type="radio" value="weekday" name="field.monthly"/>
+                <input id="monthly_w" type="radio" value="weekday" 
+                tal:attributes="value nth/daynum"
+                name="field.monthly"/>
                 <label class="plain" for="monthly_w" tal:content="nth/name"> 1st Friday of every month</label>
             </span>
         </fieldset>
         <fieldset id="recurrencetimes">
+            <legend>Repeat this event</legend>
             <span>
-                <input type="radio" checked="checked" id="field.range_c" value="count" name="field.range"/>
-                <label class="plain" for="field.range_c"> Repeat </label>
+                <input type="radio" checked="checked" id="field.range_c" value="count" name="field.range"/>                
                 <input id="field.count" type="text" value="13" size="3" name="field.count"/> 
-                <label> times </label>
+                <label for="field.range_c"> times </label>
             </span>
+            <br/>
             <span>
                 <input id="field.range_u" type="radio" value="until" name="field.range"/>
-                <label class="plain" for="field.range_u"> Repeat until </label>
+                <label class="plain" for="field.range_u">Until </label>
                 <input id="field.until" type="text" value="" name="field.until" />
             </span>
         </fieldset>

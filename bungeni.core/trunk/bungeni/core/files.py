@@ -234,12 +234,12 @@ def objectNewVersion( ob, event ):
     if 'trunk' in directory.keys():
         trunk_dir = directory['trunk']
     else:
-        trunk_dir = directoy.makeDirectory('branches')
+        trunk_dir = directory.makeDirectory('trunk')
     if 'branches' in directory.keys():
         branch_dir = directory['branches']
         dest = branch_dir.makeDirectory( str(ob.version_id))
     else:
-        branch_dir = directoy.makeDirectory('branches')
+        branch_dir = directory.makeDirectory('branches')
         dest = branch_dir.makeDirectory( str(ob.version_id)) 
     for node in trunk_dir.keys():
         dest.copy(node, trunk_dir[node])                      

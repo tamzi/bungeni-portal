@@ -19,13 +19,12 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     form_name = _(u"General")    
     has_data = True
 
-    def setupActions( self ):
-        try:
-            self.wf = interfaces.IWorkflowInfo( self.context )
+    def setupActions(self):
+        wf = self.wf = interfaces.IWorkflowInfo(self.context, None)
+        if wf is not None:
             transitions = self.wf.getManualTransitionIds()
-            self.actions = tuple(bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) ) )  
-        except:
-            pass
+            self.actions = tuple(bindTransitions(
+                self, transitions, None, interfaces.IWorkflow( self.context)))
             
     def update( self ):
         self.setupActions()
@@ -55,3 +54,4 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             name = self.context.__class__.__name__
 
         return name
+

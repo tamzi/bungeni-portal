@@ -13,6 +13,7 @@ from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
 from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
+from zope.publisher.interfaces import IPublishTraverse
 
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.schedule import DailySchedulingContext
@@ -158,25 +159,9 @@ class CalendarView(BrowserView):
         return self.render(date)
 
     def publishTraverse(self, request, name):
-        try:
-            timestamp = int(name)
-            obj = DailySchedulingContext(
-                self.context, utils.datetimedict.fromtimestamp(timestamp))
-        except (ValueError, TypeError):
-            # this is the primary condition; traverse to ``name`` by
-            # looking up methods on this class
-            try:
-                method = getattr(self, 'get_%s' % name)
-            except AttributeError:
-                return super(CalendarView, self).publishTraverse(request, name)
-
-            obj = method()
-            
-        return ProxyFactory(LocationProxy(
-            removeSecurityProxy(obj), container=self.context, name=name))
-
-    def get_group(self):
-        return self.context.get_group()
+        traverser = component.getMultiAdapter(
+            (self.context, request), IPublishTraverse)
+        return traverser.publishTraverse(request, name)
 
     def render(self, date, template=None):
         if template is None:

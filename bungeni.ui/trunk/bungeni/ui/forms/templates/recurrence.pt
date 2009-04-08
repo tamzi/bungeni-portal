@@ -1,0 +1,57 @@
+
+<form>
+    <fieldset>
+        <legend>Recurrence</legend>
+        <input type="radio" checked="checked" id="notrecurrent" value="notrecurrent" name="recurrence"/>
+        <label for="notrecurrent">No recurrence</label>
+        <input type="radio" id="weekly" value="weekly" name="recurrence"/>
+        <label for="weekly">Weekly</label>
+        <input type="radio" id="monthly" value="monthly" name="recurrence"/>
+        <label for="monthly">Monthly</label>
+        <fieldset id="weeklyrecurrence" tal:define="weekday view/get_weekdays">
+            <legend>Weekly</legend>   
+            <span tal:repeat="day weekday">  
+            <input type="checkbox" value="0" id="weekday_0" 
+                tal:attributes="value day/daynum; id string:weekday_${day/daynum}"
+                tal:condition="day/enabled"
+                name="field.weekdays:list"/>   
+            <input type="checkbox" value="4" id="weekday_4" 
+                tal:attributes="value day/daynum; id string:weekday_${day/daynum}"
+                tal:condition="not:day/enabled"
+                checked="checked" disabled="disabled" name="field.weekdays:list"/>                     
+            <label class="plain" for="weekday_0"
+                tal:attributes="for string:weekday_${day/daynum}" tal:content="day/name">Mon</label>   
+
+            </span>
+        </fieldset>
+        <fieldset id="monthlyrecurrence">
+            <legend>Monthly</legend>
+            <span>
+                <input id="monthly_m" type="radio" checked="checked" value="monthday" name="field.monthly"/>
+                <label class="plain" for="monthly_m" tal:content="view/get_monthday"> Day 3 of every month</label>
+            </span>
+            <span tal:repeat="nth view/get_nth_monthday">
+                <input id="monthly_w" type="radio" value="weekday" name="field.monthly"/>
+                <label class="plain" for="monthly_w" tal:content="nth/name"> 1st Friday of every month</label>
+            </span>
+        </fieldset>
+        <fieldset id="recurrencetimes">
+            <span>
+                <input type="radio" checked="checked" id="field.range_c" value="count" name="field.range"/>
+                <label class="plain" for="field.range_c"> Repeat </label>
+                <input id="field.count" type="text" value="13" size="3" name="field.count"/> 
+                <label> times </label>
+            </span>
+            <span>
+                <input id="field.range_u" type="radio" value="until" name="field.range"/>
+                <label class="plain" for="field.range_u"> Repeat until </label>
+                <input id="field.until" type="text" value="" name="field.until" />
+            </span>
+        </fieldset>
+        <fieldset id="exceptiondates">
+            <legend>Exception Dates</legend>
+            <textarea id="field.exceptions" rows="5" name="field.exceptions" cols="20"></textarea>
+        </fieldset>
+    </fieldset>
+</form>
+

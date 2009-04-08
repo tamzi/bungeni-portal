@@ -11,6 +11,7 @@ import datetime
 from dateutil import relativedelta, rrule
 
 import bungeni.core.globalsettings as prefs
+from bungeni.ui.i18n import _
 
 def getWeeklyScheduleDates(start, weekdays,  end=None, times=None, edates=[]):
     """
@@ -26,6 +27,7 @@ def getWeeklyScheduleDates(start, weekdays,  end=None, times=None, edates=[]):
     
     either end or times must be given!
     """
+    
     for d in edates:
         assert(type(d)==datetime.date)    
         
@@ -100,12 +102,23 @@ def getMonthlyScheduleDates(start, monthday=None, nth=None, weekday=None,  end=N
 def last_weekday_in_month(day):
 
     d = day + relativedelta.relativedelta(day=31) - datetime.timedelta(days=7)
-    return d >= day
+    return d < day
     
-def first_weekday_in_month(day):
+def nth_weekday_in_month(day):
+    dd = {1 : _(u'1st'),
+          2 : _(u'2nd'),
+          3 : _(u'3rd'),
+          4 : _(u'4th'),
+          5 : _(u'5th'),
+          -1 : _(u'last')}
 
-    d = day + relativedelta.relativedelta(day=1) + datetime.timedelta(days=7)
-    return d <= day
+
+    d = day.day
+    md = [{ 'daynum' : (((d - 1)/7) + 1), 'name' : dd[((d - 1)/7) + 1]}]
+    if last_weekday_in_month(day):
+        md.append({ 'daynum' : -1 , 'name' : _(u'last')})
+    return md
+
 
 
 

@@ -56,21 +56,21 @@ First we can create some users.
 Members of Parliament
 ---------------------
 
-  >>> mp_1 = model.ParliamentMember(u"mp_1", 
+  >>> mp_1 = model.User(u"mp_1", 
   ...        first_name=u"a", 
   ...        last_name=u'ab', 
   ...        birth_country="KE",
   ...        email=u"mp1@example.com", 
   ...        date_of_birth=datetime.datetime.now(),
   ...        gender='M')
-  >>> mp_2 = model.ParliamentMember(u"mp_2", 
+  >>> mp_2 = model.User(u"mp_2", 
   ...        first_name=u"b", 
   ...        last_name=u"bc", 
   ...        birth_country="KE",  
   ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp2@example.com",
   ...        gender='M')
-  >>> mp_3 = model.ParliamentMember(u"mp_3",
+  >>> mp_3 = model.User(u"mp_3",
   ...        first_name=u"c", 
   ...        birth_country="KE",  
   ...        last_name=u"cd",
@@ -266,7 +266,7 @@ A parliamentary Session
 Sitting in this session 
  
  >>> ssit = model.GroupSitting()
- >>> ssit.session_id = sess.session_id
+ >>> ssit.group_id = parliament.parliament_id
  >>> ssit.start_date = datetime.datetime.now()
  >>> ssit.end_date = datetime.datetime.now()
  >>> ssit.sitting_type = st.sitting_type_id
@@ -286,6 +286,7 @@ Motions
 -------
   >>> motion = model.Motion()
   >>> motion.short_name = u"Motion"
+  >>> motion.language = 'en'
   >>> session.add(motion)
   >>> session.flush()  
 
@@ -298,6 +299,7 @@ Note that the questions workflow is tested separated (see workflows/question.txt
 
   >>> question = model.Question()
   >>> question.short_name = u"question"
+  >>> question.language = 'en'
   >>> session.add(question)
   >>> session.flush()
   
@@ -310,6 +312,7 @@ Responses
 ---------
   >>> response = model.Response()
   >>> response.response_id = question.question_id
+  >>> response.language = 'en'
   >>> session.add(response)
   >>> session.flush()
  
@@ -334,6 +337,7 @@ Bill
   >>> bill = model.Bill()
   >>> bill.short_name = u"Bill"
   >>> bill.bill_type_id = bt.bill_type_id
+  >>> bill.language = 'en'
   >>> session.add(bill)
   >>> session.flush()  
 

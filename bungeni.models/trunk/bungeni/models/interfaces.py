@@ -81,17 +81,15 @@ class IQuestionVersion(IQuestion):
 class IQuestionVersionContainer(IVersionContainer):
     pass
 
-class IBillVersionContainer(IVersionContainer):
-    pass
-
-class IMotionVersionContainer(IVersionContainer):
-    pass
 
 class IBill( IBungeniContent ):
     """ Parliamentary Bill
     """
 
 class IBillVersion(IBill):
+    pass
+
+class IBillVersionContainer(IVersionContainer):
     pass
 
 class IMotion( IBungeniContent ):
@@ -101,7 +99,9 @@ class IMotion( IBungeniContent ):
 class IMotionVersion(IMotion):
     pass
 
-
+class IMotionVersionContainer(IVersionContainer):
+    pass
+    
 class ICommittee(interface.Interface):
     pass
 

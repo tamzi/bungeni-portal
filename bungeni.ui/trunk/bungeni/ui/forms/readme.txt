@@ -9,7 +9,7 @@ Setting up Database Connection and Utilities:
    >>> db = bungeni.models.testing.setup_db()
    >>> from ore.alchemist import Session
    >>> session = Session()
-   >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat   
+   >>> from bungeni.ui.forms.test_dates import today, yesterday, tomorrow, dayat   
 
    
 Note that we only test the overlap of 'peers' here.
@@ -173,7 +173,7 @@ Sittings
 ---------
  
     >>> ssit = model.GroupSitting()
-    >>> ssit.session_id = sess.session_id
+    >>> ssit.group_id = parliament.parliament_id
     >>> ssit.start_date = today
     >>> ssit.end_date = tomorrow
     >>> session.add(ssit)
@@ -196,7 +196,7 @@ Just check if we get something back because the return value depends on the time
 For Edit we need to be sure we do not check for the current data itself.
    
     >>> ssit2 = model.GroupSitting()
-    >>> ssit2.session_id = sess.session_id
+    >>> ssit2.group_id = parliament.parliament_id
     >>> ssit2.start_date = yesterday
     >>> ssit2.end_date = today
     >>> session.add(ssit2)
@@ -243,13 +243,13 @@ Regions and provinces get their primary key with a db sequence:
  >>> session.flush()
 
 add some users:
-    >>> mp_1 = model.ParliamentMember(u"mp_1", 
+    >>> mp_1 = model.User(u"mp_1", 
     ...        first_name=u"a", 
     ...        last_name=u'ab', 
     ...        email=u"mp1@example.com", 
     ...        date_of_birth=today,
     ...        gender='M')
-    >>> mp_2 = model.ParliamentMember(u"mp_2", 
+    >>> mp_2 = model.User(u"mp_2", 
     ...        first_name=u"b", 
     ...        last_name=u"bc", 
     ...        date_of_birth=today,

@@ -145,6 +145,13 @@
      ui_module="bungeni.ui.content" 
      echo="False"
      />
+  <db:catalyst
+     class="bungeni.models.domain.BillChange"
+     descriptor=".descriptor.ChangeDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />     
   
   <db:catalyst
      class="bungeni.models.domain.BillConsignatory"
@@ -168,6 +175,13 @@
      ui_module="bungeni.ui.content" 
      echo="False"
      />
+  <db:catalyst
+     class="bungeni.models.domain.MotionChange"
+     descriptor=".descriptor.ChangeDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />     
 
   <db:catalyst
     class="bungeni.models.domain.Question"
@@ -184,6 +198,15 @@
      ui_module="bungeni.ui.content" 
      echo="False"
      />
+
+  <db:catalyst
+     class="bungeni.models.domain.QuestionChange"
+     descriptor=".descriptor.ChangeDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />
+
 
   <!--db:catalyst
     class="bungeni.models.domain.TabledDocument"
@@ -331,6 +354,14 @@
      ui_module="bungeni.ui.content"
      echo="False"
     />
+    
+  <db:catalyst
+     class="bungeni.models.domain.ResponseChange"
+     descriptor=".descriptor.ChangeDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />    
     
  <db:catalyst
      class="bungeni.models.domain.MotionAmendment"

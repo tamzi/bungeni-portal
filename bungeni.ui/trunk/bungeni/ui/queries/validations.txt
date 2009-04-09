@@ -9,7 +9,7 @@ Setting up Database Connection and Utilities:
    >>> db = bungeni.models.testing.setup_db()
    >>> from ore.alchemist import Session   
    >>> session = Session()
-   >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat   
+   >>> from bungeni.ui.forms.test_dates import today, yesterday, tomorrow, dayat   
    >>> from bungeni.ui.queries import utils
    >>> class MockContainer(object):
    ...  __parent__ = None
@@ -160,21 +160,21 @@ User group memberships:
   >>> country.country_name = u"Kenya"
   >>> session.add(country)
   >>> session.flush()
-  >>> mp_1 = domain.ParliamentMember(u"mp_1", 
+  >>> mp_1 = domain.User(u"mp_1", 
   ...        first_name=u"a", 
   ...        last_name=u'ab', 
   ...        birth_country="KE",
   ...        email=u"mp1@example.com", 
   ...        date_of_birth=datetime.datetime.now(),
   ...        gender='M')
-  >>> mp_2 = domain.ParliamentMember(u"mp_2", 
+  >>> mp_2 = domain.User(u"mp_2", 
   ...        first_name=u"b", 
   ...        last_name=u"bc", 
   ...        birth_country="KE",  
   ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp2@example.com",
   ...        gender='M')
-  >>> mp_3 = domain.ParliamentMember(u"mp_3",
+  >>> mp_3 = domain.User(u"mp_3",
   ...        first_name=u"c", 
   ...        birth_country="KE",  
   ...        last_name=u"cd",

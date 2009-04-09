@@ -94,9 +94,10 @@ class PloneBrowserMenu(BrowserMenu):
         items = []
         for index, order, title, item in result:
             extra = item.extra or {'id': action_to_id(item.action)}
-            submenu = (IBrowserSubMenuItem.providedBy(item) and
-                       getMenu(item.submenuId, object, request)) or None
-            if submenu is None:
+            if IBrowserSubMenuItem.providedBy(item):
+                submenu = getMenu(item.submenuId, object, request)
+            else:
+                submenu = None
                 extra['hideChildren'] = True
 
             url = make_absolute(item.action, local_url, site_url)

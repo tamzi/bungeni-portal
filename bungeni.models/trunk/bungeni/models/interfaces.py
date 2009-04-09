@@ -120,6 +120,8 @@ class IResponse( IBungeniContent ):
     response to a question
     """
 
+class IScheduledItemDiscussion(interface.Interface):
+    pass
 
 class ITabledDocument( interface.Interface ):
     """

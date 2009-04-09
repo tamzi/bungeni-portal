@@ -225,5 +225,9 @@ class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        return _(u"Discussion ($time)",
-                 mapping={'time': self.context.sitting_time})
+        time = self.context.sitting_time
+        if time is not None:
+            return _(u"Discussion ($time)",
+                     mapping={'time': self.context.sitting_time})
+        return _(u"Discussion")
+        

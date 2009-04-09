@@ -102,3 +102,47 @@ get nth weekday:
     >>> recurring.nth_weekday_in_month(datetime.date(2009,4,23))
     [{'daynum': 4, 'name': u'4th'}]  
     
+write sittings to the db:
+First some setup:
+    >>> from ore.alchemist import Session
+    >>> from bungeni.models import domain
+    >>> import datetime
+    >>> import bungeni.models.testing
+    >>> db = bungeni.models.testing.setup_db()
+    >>> from ore.alchemist import Session   
+    >>> session = Session()
+    >>> from bungeni.ui.forms.test_dates import today, yesterday, tomorrow, dayat      
+    >>> parliament = domain.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
+    >>> session.add( parliament)   
+    >>> session.flush()       
+    >>> sitting = domain.GroupSitting()
+    >>> st = domain.SittingType()
+    >>> st.sitting_type = u"morning"
+    >>> st.start_time = datetime.time(8,30)
+    >>> st.end_time = datetime.time(12,30) 
+    >>> session.add(st)
+    >>> session.flush() 
+    >>> sit1 = domain.GroupSitting()
+    >>> sit1.start_date = datetime.datetime(2000,1,1,2,0)
+    >>> sit1.end_date = datetime.datetime(2000,1,1,4,0)
+    >>> sit1.sitting_type = st.sitting_type_id
+    >>> sit1.group_id = parliament.group_id
+    >>> session.add(sit1)
+    >>> session.flush()     
+    
+    >>> dates = recurring.getWeeklyScheduleDates(datetime.date(2009,4,10), 
+    ...     [1,2] , times=10, edates=exclude_dates)['valid']
+    >>> recurring.create_recurrent_sittings( dates, sit1)
+    >>> session.flush()         
+    
+    >>> for s in session.query(domain.GroupSitting).all():
+    ...     print s.start_date, '-', s.end_date
+    2000-01-01 02:00:00 - 2000-01-01 04:00:00
+    2009-04-14 02:00:00 - 2009-04-14 04:00:00
+    2009-04-15 02:00:00 - 2009-04-15 04:00:00
+    2009-04-21 02:00:00 - 2009-04-21 04:00:00
+    2009-04-22 02:00:00 - 2009-04-22 04:00:00
+    2009-04-28 02:00:00 - 2009-04-28 04:00:00
+    2009-04-29 02:00:00 - 2009-04-29 04:00:00
+
+    >>> session.close()

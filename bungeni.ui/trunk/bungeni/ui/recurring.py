@@ -11,7 +11,11 @@ import datetime
 from dateutil import relativedelta, rrule
 
 import bungeni.core.globalsettings as prefs
+
+from ore.alchemist import Session
 from bungeni.ui.i18n import _
+from bungeni.models import domain, schema
+
 
 def getWeeklyScheduleDates(start, weekdays,  end=None, times=None, edates=[]):
     """
@@ -116,10 +120,34 @@ def nth_weekday_in_month(day):
     d = day.day
     md = [{ 'daynum' : (((d - 1)/7) + 1), 'name' : dd[((d - 1)/7) + 1]}]
     if last_weekday_in_month(day):
-        md.append({ 'daynum' : -1 , 'name' : _(u'last')})
+        md.append({ 'daynum' : -1 , 'name' : dd[-1]})
     return md
 
+def make_date_time( date, time ):
+    """ combines the date(portion) of date and time(portion) of time 
+    to a datetime object"""
+    return datetime.datetime(date.year, date.month, date.day,
+            time.hour, time.minute)
+    
+    
 
+def create_recurrent_sittings(datelist, sitting):
+    """ create sittings on the dates given in datelist
+    and the data from sitting """
+    
+    session = Session()
+    for date in datelist:
+        r_sitting = domain.GroupSitting()
+        r_sitting.recurring_id = sitting.sitting_id
+        r_sitting.group_id = sitting.group_id
+        r_sitting.short_name = sitting.short_name
+        r_sitting.start_date = make_date_time(date, sitting.start_date)
+        r_sitting.end_date = make_date_time(date, sitting.end_date)
+        r_sitting.sitting_type_id = sitting.sitting_type_id
+        session.add(r_sitting) 
+                
+    
+    
 
 
 

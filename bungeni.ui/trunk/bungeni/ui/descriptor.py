@@ -1540,3 +1540,11 @@ class ScheduledItemDiscussionDescriptor(ModelDescriptor):
 #             description=_(u"The time at which the discussion took place."), 
 #             listing=True),
         ]
+        
+        
+class ChangeDescriptor(ModelDescriptor):
+    display_name =_(u"Change")
+    container_name =_(u"Changes")
+
+ 
+            

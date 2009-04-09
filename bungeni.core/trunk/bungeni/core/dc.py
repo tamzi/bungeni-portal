@@ -220,4 +220,10 @@ class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
         #context = removeSecurityProxy(self.context)
         return self.context.short_name   
 
-               
+class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IScheduledItemDiscussion)
+
+    @property
+    def title(self):
+        return _(u"Discussion ($time)",
+                 mapping={'time': self.context.sitting_time})

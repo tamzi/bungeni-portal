@@ -7,7 +7,6 @@ Setup
   some setup for tests
   >>> import bungeni.models.testing
   >>> db = bungeni.models.testing.setup_db()
-  >>> from bungeni.models.testing import today, yesterday, tomorrow, dayat
   >>> session=Session()
   >>> from bungeni.models import domain
    
@@ -28,11 +27,14 @@ meeting of the group by the system.
 
   >>> st.sitting_type_id
   1L
- 
+  >>> parliament = domain.Parliament( short_name=u"p_1", start_date=datetime.datetime.now(), election_date=datetime.datetime.now())
+  >>> session.add(parliament)
+  >>> session.flush()
   >>> sit1 = domain.GroupSitting()
   >>> sit1.start_date = datetime.datetime(2000,1,1,2,0)
   >>> sit1.end_date = datetime.datetime(2000,1,1,4,0)
   >>> sit1.sitting_type = st.sitting_type_id
+  >>> sit1.group_id = parliament.group_id
   >>> session.add(sit1)
   >>> session.flush()   
  
@@ -40,6 +42,7 @@ meeting of the group by the system.
   >>> sit11.start_date = datetime.datetime(2000,1,1,2,0)
   >>> sit11.end_date = datetime.datetime(2000,1,1,4,0)
   >>> sit11.sitting_type = st.sitting_type_id
+  >>> sit11.group_id = parliament.group_id  
   >>> session.add(sit11)
   >>> session.flush()  
  
@@ -47,6 +50,7 @@ meeting of the group by the system.
   >>> sit2.start_date = datetime.datetime(2000,1,1,5,0)
   >>> sit2.end_date = datetime.datetime(2000,1,1,8,0)
   >>> sit2.sitting_type = st.sitting_type_id
+  >>> sit2.group_id = parliament.group_id  
   >>> session.add(sit2)
   >>> session.flush()   
  
@@ -54,6 +58,7 @@ meeting of the group by the system.
   >>> sit21.start_date = datetime.datetime(2000,1,1,5,0)
   >>> sit21.end_date = datetime.datetime(2000,1,1,8,0)
   >>> sit21.sitting_type = st.sitting_type_id
+  >>> sit21.group_id = parliament.group_id  
   >>> session.add(sit21)
   >>> session.flush()   
  

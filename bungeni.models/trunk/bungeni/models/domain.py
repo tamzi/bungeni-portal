@@ -370,7 +370,7 @@ class Response( ParliamentaryItem ):
     """
     Response to a Question
     """
-    #interface.implements( interfaces.IResponse, interfaces.IFileAttachments )
+    interface.implements( interfaces.IResponse, interfaces.IHeadFileAttachments )
     files = files.DirectoryDescriptor()
     versions = one2many(
         "versions",
@@ -381,8 +381,7 @@ ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
 ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")   
 
 class Motion( ParliamentaryItem ):
-    
-    #interface.implements( interfaces.IMotion )
+    interface.implements( interfaces.IMotion, interfaces.IHeadFileAttachments )    
     motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
 
     versions = one2many(

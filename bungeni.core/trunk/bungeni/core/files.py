@@ -162,7 +162,10 @@ class _FileRepository( object ):
         # active.
         try:
             self.context.setRevision()
-        except:
+        except RuntimeError:
+            # if we are in a new repository that is not yet
+            # committed a setRevision will cause a RuntimeError
+            # we can (hopefully) safely ignore this
             pass
         try:
             return self.context.traverse( path )
@@ -191,8 +194,8 @@ class _FileRepository( object ):
             # attachments to original (head) is stored in trunk                
             if not 'trunk' in directory:
                 trunk = directory.makeDirectory('trunk')        
-            self.context.getTransaction().commit()
-            self.context.setRevision() # update to latest revision        
+            #self.context.getTransaction().commit()
+            #self.context.setRevision() # update to latest revision        
         # Commit it
         location.context = context
         return location

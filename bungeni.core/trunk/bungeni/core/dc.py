@@ -176,6 +176,10 @@ class ContainerDescriptiveProperties(DescriptiveProperties):
     def title(self):
         descriptor = queryModelDescriptor(self.context.domain_model)
         return descriptor.container_name
+        
+    @property
+    def descrition(self):
+        return u""        
     
 class UserDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IBungeniUser)
@@ -217,7 +221,6 @@ class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):
-        #context = removeSecurityProxy(self.context)
         return self.context.short_name   
 
 class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):

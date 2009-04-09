@@ -14,9 +14,11 @@ from i18n import _
 
 
 bookedresources = rdb.join(schema.resources, schema.resourcebookings, 
-                            schema.resources.c.resource_id == schema.resourcebookings.c.resource_id).join(
-                            schema.sittings, 
-                            schema.resourcebookings.c.sitting_id == schema.sittings.c.sitting_id)
+                            schema.resources.c.resource_id == 
+                            schema.resourcebookings.c.resource_id).join(
+                                schema.sittings, 
+                                schema.resourcebookings.c.sitting_id == 
+                                schema.sittings.c.sitting_id)
 
 class BookedResources( object ):
     """
@@ -36,8 +38,10 @@ def get_available_resources( start, end ):
     start_end={'start': start, 'end':end}
     sql_booked_resources =  """
     SELECT resources.resource_id AS resources_resource_id
-    FROM resources JOIN resourcebookings ON resources.resource_id = resourcebookings.resource_id 
-                   JOIN group_sittings ON resourcebookings.sitting_id = group_sittings.sitting_id 
+    FROM resources JOIN resourcebookings 
+                   ON resources.resource_id = resourcebookings.resource_id 
+                   JOIN group_sittings 
+                   ON resourcebookings.sitting_id = group_sittings.sitting_id 
     WHERE group_sittings.start_date BETWEEN '%(start)s' AND '%(end)s' 
           OR group_sittings.end_date BETWEEN '%(start)s' AND '%(end)s'     
     """ % start_end 
@@ -49,7 +53,6 @@ def get_available_resources( start, end ):
     """ % sql_booked_resources
     connection = session.connection( domain.Resource )                                              
     query = connection.execute(sql_resources)
-    #query = session.query( domain.Resource ).filter(sql.not_(domain.Resource.resource_id.in_([1,2]) ) )       
     return query.fetchall()                   
 
 def get_unavailable_resources( start, end ):
@@ -107,8 +110,10 @@ def book_resource( sitting, resource ):
     assert( type(resource) == domain.Resource )
     session = Session()
     # check if resource is allready boooked for this sitting
-    cq = session.query( domain.ResourceBooking).filter( sql.and_(domain.ResourceBooking.resource_id == resource.resource_id,
-                                                                    domain.ResourceBooking.sitting_id == sitting.sitting_id) )
+    cq = session.query( domain.ResourceBooking).filter( 
+            sql.and_(domain.ResourceBooking.resource_id == 
+                        resource.resource_id,
+                    domain.ResourceBooking.sitting_id == sitting.sitting_id) )
     results = cq.all()
     if results:
         print "allready booked"
@@ -133,8 +138,11 @@ def unbook_resource( sitting, resource ):
     assert( type(sitting) == domain.GroupSitting)
     assert( type(resource) == domain.Resource )
     session = Session()
-    cq = session.query( domain.ResourceBooking).filter( sql.and_( domain.ResourceBooking.resource_id == resource.resource_id,
-                                                                    domain.ResourceBooking.sitting_id == sitting.sitting_id ))
+    cq = session.query( domain.ResourceBooking).filter( 
+                sql.and_( domain.ResourceBooking.resource_id == 
+                            resource.resource_id,
+                        domain.ResourceBooking.sitting_id == 
+                        sitting.sitting_id ))
     results = cq.all()
     for result in results:
         session.delete(result)

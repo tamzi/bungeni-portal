@@ -145,4 +145,36 @@ First some setup:
     2009-04-28 02:00:00 - 2009-04-28 04:00:00
     2009-04-29 02:00:00 - 2009-04-29 04:00:00
 
+Delete recurring sittings:
+
+    >>> recurring.delete_recurring_sittings(sit1, "CURRENT" )
+    >>> for s in session.query(domain.GroupSitting).all():
+    ...     print s.start_date, '-', s.end_date    
+    2009-04-14 02:00:00 - 2009-04-14 04:00:00
+    2009-04-15 02:00:00 - 2009-04-15 04:00:00
+    2009-04-21 02:00:00 - 2009-04-21 04:00:00
+    2009-04-22 02:00:00 - 2009-04-22 04:00:00
+    2009-04-28 02:00:00 - 2009-04-28 04:00:00
+    2009-04-29 02:00:00 - 2009-04-29 04:00:00
+    
+    
+    
+    >>> sittings = list(session.query(domain.GroupSitting).all())
+    >>> s2 = sittings[3]
+    >>> print s2.start_date
+    2009-04-22 02:00:00            
+    >>> recurring.delete_recurring_sittings(s2, "FUTURE" )
+    >>> for s in session.query(domain.GroupSitting).all():
+    ...     print s.start_date, '-', s.end_date    
+    2009-04-14 02:00:00 - 2009-04-14 04:00:00
+    2009-04-15 02:00:00 - 2009-04-15 04:00:00
+    2009-04-21 02:00:00 - 2009-04-21 04:00:00
+
+
+    >>> recurring.delete_recurring_sittings(sit1, "ALL" )
+    >>> for s in session.query(domain.GroupSitting).all():
+    ...     print s.start_date, '-', s.end_date
+    
+    
+
     >>> session.close()

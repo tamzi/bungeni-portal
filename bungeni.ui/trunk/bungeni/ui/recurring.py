@@ -10,11 +10,13 @@ nth weekday of a month can be selected.
 import datetime
 from dateutil import relativedelta, rrule
 
-import bungeni.core.globalsettings as prefs
-
+import sqlalchemy.sql.expression as sql
 from ore.alchemist import Session
-from bungeni.ui.i18n import _
+
+import bungeni.core.globalsettings as prefs
 from bungeni.models import domain, schema
+from bungeni.ui.i18n import _
+
 
 
 def getWeeklyScheduleDates(start, weekdays,  end=None, times=None, edates=[]):
@@ -136,6 +138,7 @@ def create_recurrent_sittings(datelist, sitting):
     and the data from sitting """
     
     session = Session()
+    sitting.recurring_id = sitting.sitting_id
     for date in datelist:
         r_sitting = domain.GroupSitting()
         r_sitting.recurring_id = sitting.sitting_id
@@ -146,6 +149,30 @@ def create_recurrent_sittings(datelist, sitting):
         r_sitting.sitting_type_id = sitting.sitting_type_id
         session.add(r_sitting) 
                 
+def delete_recurring_sittings(sitting, del_cmd ):
+    """Delete recurring sittings
+    you may choose to delete all, 
+    the current one only
+    or future sittings
+    """
+    session = Session()
+    connection = session.connection(domain.GroupSitting)    
+    if del_cmd == "FUTURE":
+        query = schema.sittings.delete(
+            sql.and_( schema.sittings.c.start_date >= sitting.start_date,
+                schema.sittings.c.recurring_id ==sitting.recurring_id))      
+        connection.execute(query)
+    elif del_cmd == "CURRENT":
+        session.delete(sitting)
+    elif del_cmd == "ALL":
+        query = schema.sittings.delete(
+            schema.sittings.c.recurring_id == sitting.recurring_id)
+        connection.execute(query)                      
+    elif del_cmd == "CANCEL":
+        pass
+    else:
+        raise NotImplementedError        
+
     
     
 

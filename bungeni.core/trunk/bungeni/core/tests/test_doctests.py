@@ -5,6 +5,7 @@ $Id: $
 from zope import interface
 from zope import component
 
+import os
 import copy
 import unittest
 import datetime
@@ -50,7 +51,7 @@ def tearDown( test ):
     reload(bungeni.models)
 
 def file_setup( ):
-    import files
+    from bungeni.core import files
     files_store = files.setupStorageDirectory()
     if files_store.endswith('test'):
         return
@@ -63,7 +64,7 @@ def file_tests( ):
     file_setup()
     def _setUp( test ):
         setUp( test )
-        import files
+        from bungeni.core import files
         files.setup()
         
         ztapi.provideUtility( IVersionedFileRepository, component=files.FileRepository )
@@ -77,23 +78,24 @@ def file_tests( ):
                               files.DefaultPathChooser )
 
     def _tearDown( test ):
-        import files, shutil
+        from bungeni.core import files, shutil
         files.FileRepository.context.clear()
         dir = files.setupStorageDirectory()
         shutil.rmtree( dir )
         tearDown( test )        
 
-    return doctestunit.DocFileSuite('files.txt',
-                                    setUp = _setUp,
-                                    tearDown = _tearDown,
-                                    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                    )
+    return doctestunit.DocFileSuite(
+        os.path.join(os.path.pardir, 'files.txt'),
+        setUp = _setUp,
+        tearDown = _tearDown,
+        optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+        )
 
 def test_suite():
     from bungeni.core.app import BungeniApp
 
     doctests = ('audit.txt',
-                'version.txt',                 
+                'version.txt',
                 'workflows/question.txt',
                 'workflows/motion.txt',
                 'workflows/bill.txt',
@@ -111,21 +113,22 @@ def test_suite():
         yesterday=today-datetime.timedelta(1),
         daybeforeyesterday=today-datetime.timedelta(2),
         tomorrow=today+datetime.timedelta(1),
-        dayat=today+datetime.timedelta(2)
+        dayat=today+datetime.timedelta(2),
+        path=os.path.dirname(__file__),
         )
 
     test_suites = []
     for filename in doctests:
-        test_suite = doctestunit.DocFileSuite(filename,
-                                              setUp = setUp,
-                                              tearDown = tearDown,
-                                              globs = globs,
-                                              optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS )
-        test_suites.append( test_suite )
+        test_suite = doctestunit.DocFileSuite(
+            os.path.join(os.path.pardir, filename),
+            setUp = setUp,
+            tearDown = tearDown,
+            globs = globs,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
         
-    test_suites.append( file_tests() )
+        test_suites.append(test_suite)
+    test_suites.append(file_tests())
 
-    
     return unittest.TestSuite( test_suites )
 
 if __name__ == '__main__':

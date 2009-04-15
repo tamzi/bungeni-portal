@@ -989,6 +989,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
     fields = deepcopy( ParliamentaryItemDescriptor.fields )    
     fields.extend([
         dict( name="question_id", omit=True),
+        dict( name="question_number", omit=True),
         dict( name="supplement_parent_id",
             label=_(u"Initial/supplementary question"), 
             view_widget=SupplementaryQuestionDisplay),

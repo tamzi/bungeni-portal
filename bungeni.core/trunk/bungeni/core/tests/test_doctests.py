@@ -97,6 +97,7 @@ def test_suite():
 
     doctests = ('audit.txt',
                 'version.txt',
+                'odf.txt',
                 'workflows/question.txt',
                 'workflows/motion.txt',
                 'workflows/bill.txt',
@@ -108,6 +109,8 @@ def test_suite():
     globs = dict(
         interface=interface,
         component=component,
+        datetime=datetime,
+        os=os,
         copy=copy,
         app=BungeniApp(),
         today=today,

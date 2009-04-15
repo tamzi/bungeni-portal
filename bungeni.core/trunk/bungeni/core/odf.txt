@@ -1,0 +1,54 @@
+ODF export
+==========
+
+Bungeni-content may be exported as an OpenOffice document. The
+approach is to couple a template document with a data source and carry
+out a "mail merge".
+
+Loading and saving documents
+----------------------------
+
+The document is read by passing ``filename`` to the constructor.
+
+  >>> from bungeni.core.odf import OpenDocument
+  >>> doc = OpenDocument("%s/odf/test.odt" % path)
+
+We can save the document back; here to a temporary file location.
+  
+  >>> from tempfile import NamedTemporaryFile
+  >>> archive = NamedTemporaryFile(suffix=".zip")
+  >>> doc.save(archive.name)
+
+Verify file-size:
+  
+  >>> os.path.getsize(archive.name)
+  8910L
+
+Mail-merging
+------------
+
+To process the mail-merge, a dictionary of databases map to tables
+that are lists of dictionaries (similar to tabular data in an RDB).
+
+  >>> databases = {
+  ...    'test': {
+  ...        'Letter': [
+  ...             {'Name': 'Joe',
+  ...              'Date': datetime.date(1999, 12, 31).isoformat()},
+  ...        ],
+  ...        'Signatories': [
+  ...             {'Name': 'James'},
+  ...             {'Name': 'John'}
+  ...        ],
+  ...     },
+  ... }
+
+The ``merge`` method applies the database tables to the document.
+
+  >>> doc.merge(databases)
+
+The document has been updated. Verify contents:
+
+  >>> content = doc.read("content.xml")
+  >>> content.count('Joe'), content.count('James'), content.count('John')
+  (1, 1, 1)

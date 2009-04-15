@@ -7,6 +7,7 @@ from zope import component
 
 import os
 import copy
+import shutil
 import unittest
 import datetime
 
@@ -78,7 +79,7 @@ def file_tests( ):
                               files.DefaultPathChooser )
 
     def _tearDown( test ):
-        from bungeni.core import files, shutil
+        from bungeni.core import files
         files.FileRepository.context.clear()
         dir = files.setupStorageDirectory()
         shutil.rmtree( dir )

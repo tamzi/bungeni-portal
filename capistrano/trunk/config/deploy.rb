@@ -2,6 +2,10 @@ set :application, "bungeni"
 set :bungeni_username, "undesa"
 set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
 set :user_python, "/home/undesa/dev/bungeni/python/254/bin/python"
+set :adm_python_home, "/home/undesa/dev/bungeni/python/adm"
+set :adm_python, "#{adm_python_home}/bin/python"
+set :supervisord, "#{adm_python_home}/bin/supervisord"
+set :supervisord_config, "/home/undesa/dev/bungeni/supervisor/supervisord.conf"
 
 # If you aren't deploying to /u/apps/#{application} on the target
 # servers (which is the default), you can specify the actual location
@@ -13,18 +17,20 @@ set :buildout_dir, "#{deploy_to}/current"
 # your SCM below:
 
 set :scm, :subversion
-set :scm_username, "listmanster"
-set :scm_password, "y5k3h3g8"
+set :scm_username, Proc.new { Capistrano::CLI.password_prompt('SVN Username: ') }
+set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
 set :user, "#{bungeni_username}"
 set :use_sudo, false
 
 
 role :app, "undesa@demo.bungeni.org"
-#role :db,  "192.168.0.122", :primary => false
-#role :db,  "192.168.0.122", :no_release => true
+#
+# db role is not required for capistrano 
+# for webistrano, a db role is mandatory. so we add the following line for webistrano
+# which adds the db role but never deploys or releases it
+# role :db, "demo.bungeni.org", {:no_release=>true, :primary=>true}
+#
 
-#role :web, "bungeni@bungeni.org"
-#role :db,  "bungeni@ubuntu-server", :primary => true
 
 namespace :deploy do
 desc "bootstrap"
@@ -64,9 +70,16 @@ task :reset_db, :roles=> :app do
 end
 
 desc "load demo data"
-task :put_demo_data, :roles=> :app do
+task :install_demo_data, :roles=> :app do
 	run "cd #{buildout_dir} && ./bin/load-demo-data"
 end
+
+
+desc "start supervisor"
+task :start_supervisor, :roles=> :app do
+	run "#{supervisord} -c #{supervisord_config}"
+end
+
 
 
 end

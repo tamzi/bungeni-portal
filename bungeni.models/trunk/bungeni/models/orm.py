@@ -276,6 +276,7 @@ mapper( domain.ResourceType, schema.resource_types )
 mapper( domain.Resource, schema.resources )
 mapper( domain.ResourceBooking, schema.resourcebookings)
 
+mapper( domain.Venue, schema.venues )
 
 ##############################
 # Parliamentary Items
@@ -380,7 +381,7 @@ mapper(domain.ScheduledItemDiscussion, schema.item_discussion)
 
 
        
-mapper( domain.BillConsignatory, schema.bill_consignatories)
+mapper( domain.Consignatory, schema.consignatories)
 mapper( domain.Debate, schema.debates )
 
 mapper( domain.MotionAmendment, schema.motion_amendments)

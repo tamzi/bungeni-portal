@@ -77,7 +77,8 @@ def test_suite():
 
     doctests = ('readme.txt', 
                 'settings.txt', 
-                'resourcebooking.txt',                          
+                'resourcebooking.txt',  
+                'venue.txt'                        
                 )
     
     globs = dict(interface=interface, component=component)

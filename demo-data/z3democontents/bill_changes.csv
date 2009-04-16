@@ -29,3 +29,15 @@
 1029,1010,added,2009-03-04 12:21:42.717835,"",,zope.anybody
 1030,1010,workflow,2009-03-04 12:21:42.757853,Create :  [ transition from new to draft bill ],,zope.anybody
 1031,1010,modified,2009-03-04 12:21:42.759514,"",,zope.anybody
+2001,1005,new-version,2009-04-02 12:34:10.385121,'French' translation added.,,admin
+2002,1005,modified,2009-04-02 12:34:10.465411,"Language, Title, Receive notification",,admin
+2003,1004,new-version,2009-04-02 15:01:04.361693,fsfsdfsda,,admin
+2004,1004,new-version,2009-04-02 15:03:25.810023,fsfsdfsda,,admin
+2005,1004,new-version,2009-04-02 15:03:44.204489,fsfsdfsda,,admin
+2006,1004,new-version,2009-04-02 15:12:14.329638,lalalal,,admin
+2007,1004,new-version,2009-04-02 15:12:37.450306,nananan,,admin
+2008,1004,new-version,2009-04-02 15:21:03.849018,blw,,admin
+2009,1004,new-version,2009-04-07 11:52:08.656434,'Portuguese' translation added.,,admin
+2010,1004,modified,2009-04-07 11:52:08.801864,"Language, Text, Title, Receive notification",,admin
+2011,1002,new-version,2009-04-08 12:29:23.603352,New version created upon edit.,,admin
+2012,1002,new-version,2009-04-08 12:29:23.736026,New version created upon submission to clerks office,,admin

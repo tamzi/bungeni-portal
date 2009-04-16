@@ -29,3 +29,30 @@
 1029,1031,added,2009-03-05 13:17:57.180782,"",,clerk
 1030,1031,workflow,2009-03-05 13:17:57.214475,Create :  [ transition from new to draft motion ],,clerk
 1031,1031,modified,2009-03-05 13:17:57.216182,"",,clerk
+2001,1028,new-version,2009-04-08 12:30:54.614507,New version created upon edit.,,admin
+2002,1028,new-version,2009-04-08 12:30:54.736077,New version created upon submission to clerks office,,admin
+2003,1028,new-version,2009-04-08 12:38:47.911871,New version created upon edit.,,admin
+2004,1028,new-version,2009-04-08 12:38:47.987582,New version created upon submission to clerks office,,admin
+2005,1028,new-version,2009-04-08 14:29:30.843044,New version created upon edit.,,admin
+2006,1028,new-version,2009-04-08 14:29:30.924004,New version created upon submission to clerks office,,admin
+2007,1028,new-version,2009-04-08 14:36:13.248443,New version created upon edit.,,admin
+2008,1028,new-version,2009-04-08 14:36:13.29661,New version created upon submission to clerks office,,admin
+2009,1028,new-version,2009-04-08 14:42:39.995521,New version created upon edit.,,admin
+2010,1028,new-version,2009-04-08 14:42:40.047639,New version created upon submission to clerks office,,admin
+2011,1028,new-version,2009-04-08 14:47:25.454144,New version created upon edit.,,admin
+2012,1028,new-version,2009-04-08 14:47:25.535451,New version created upon submission to clerks office,,admin
+2013,1028,workflow,2009-04-08 14:47:25.598848,Submit to Clerk :  [ transition from draft motion to Motion submitted ],,admin
+2014,1028,modified,2009-04-08 14:47:25.600637,"",,admin
+2015,1028,new-version,2009-04-09 10:15:15.215561,'French' translation added.,,admin
+2016,1028,modified,2009-04-09 10:15:15.415031,"Language, Receive notification",,admin
+2017,1028,new-version,2009-04-09 10:49:33.935198,'French' translation added.,,admin
+2018,1028,modified,2009-04-09 10:49:34.305163,"Language, Receive notification",,admin
+2019,1028,new-version,2009-04-09 11:03:44.348354,'Swahili' translation added.,,admin
+2020,1028,modified,2009-04-09 11:03:44.435209,"Language, Receive notification, Summary",,admin
+2021,1028,new-version,2009-04-09 13:00:06.230909,'Swahili' translation added.,,admin
+2022,1028,modified,2009-04-09 13:00:06.315866,"Language, Receive notification, Summary",,admin
+2023,1031,new-version,2009-04-14 12:43:47.198362,'French' translation added.,,admin
+2024,1031,modified,2009-04-14 12:43:47.265057,"Language, Receive notification",,admin
+2025,2164,added,2009-04-16 16:28:57.344672,"",,admin
+2026,2164,workflow,2009-04-16 16:28:57.358781,Create :  [ transition from new to draft motion ],,admin
+2027,2164,modified,2009-04-16 16:28:57.36027,"",,admin

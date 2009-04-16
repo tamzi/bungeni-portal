@@ -22,6 +22,9 @@ copy public.constituency_details (constituency_id, voters, "date", population) f
 copy public.address_types ( address_type_id, address_type_name)
 from '%(directory)s/data/demodata/address_types.csv' csv ;
 
+copy public.venues ( venue_id, short_name) 
+from '%(directory)s/data/demodata/venues.csv' csv ;
+
 
 /*copy public.user_types 
 from '%(directory)s/data/demodata/user_types.csv' csv;

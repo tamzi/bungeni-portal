@@ -154,8 +154,8 @@
      />     
   
   <db:catalyst
-     class="bungeni.models.domain.BillConsignatory"
-     descriptor=".descriptor.BillConsignatoryDescriptor"
+     class="bungeni.models.domain.Consignatory"
+     descriptor=".descriptor.ConsignatoryDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"

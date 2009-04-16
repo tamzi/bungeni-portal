@@ -1212,7 +1212,7 @@ class AttendanceTypeDescriptor( ModelDescriptor ):
         
 
 
-class BillConsignatoryDescriptor( ModelDescriptor ):
+class ConsignatoryDescriptor( ModelDescriptor ):
     display_name = _(u"Consignatory")
     container_name = _(u"Consignatories")
     

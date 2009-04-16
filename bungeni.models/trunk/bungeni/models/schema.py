@@ -478,6 +478,8 @@ sittings = rdb.Table(
    # like rdb.ForeignKey('group_sittings.sitting_id')
    # to make it possible to delete the original sitting
    rdb.Column( "recurring_id", rdb.Integer ),
+   # venues for sittings   
+   rdb.Column( "venue_id", rdb.Integer, rdb.ForeignKey('venues.venue_id'))
    )   
 
 sitting_type = rdb.Table(
@@ -515,6 +517,19 @@ debates = rdb.Table(
     rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
     rdb.Column( "body_text", rdb.UnicodeText),
     )
+
+
+# venues for sittings:
+
+venues = rdb.Table(
+    "venues",
+    metadata,
+    rdb.Column( "venue_id", rdb.Integer, primary_key=True ),  
+    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),      
+    rdb.Column( "description", rdb.UnicodeText ),    
+    )
+
+
 
 # resources for sittings like rooms ...
 
@@ -766,10 +781,10 @@ bill_versions = make_versions_table( bills, metadata, parliamentary_items )
 committee_reports = ()
 
 
-bill_consignatories = rdb.Table(
-   "bill_consignatories",
+consignatories = rdb.Table(
+   "consignatories",
    metadata,
-   rdb.Column( "bill_id", rdb.Integer,rdb.ForeignKey('bills.bill_id'), nullable = False, primary_key=True ),
+   rdb.Column( "item_id", rdb.Integer,rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), nullable = False, primary_key=True ),
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False, primary_key=True ),
     )
 

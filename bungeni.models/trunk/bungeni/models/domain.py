@@ -381,8 +381,10 @@ ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
 ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")   
 
 class Motion( ParliamentaryItem ):
-    interface.implements( interfaces.IMotion, interfaces.IHeadFileAttachments )    
+    interface.implements( interfaces.IMotion, interfaces.IHeadFileAttachments )  
+    files = files.DirectoryDescriptor()      
     motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
+    consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
 
     versions = one2many(
         "versions",
@@ -409,7 +411,7 @@ class Bill( ParliamentaryItem ):
     interface.implements( interfaces.IBill, interfaces.IHeadFileAttachments )
     files = files.DirectoryDescriptor()
     
-    consignatory = one2many("consignatory", "bungeni.models.domain.BillConsignatoryContainer", "bill_id")
+    consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
     event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
 
     versions = one2many(
@@ -422,9 +424,9 @@ BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 
-class BillConsignatory( Entity ):
+class Consignatory( Entity ):
     """
-    Consignatories for a Bill
+    Consignatories for a Bill or Motion
     """
 
 
@@ -596,6 +598,9 @@ class ResourceBooking ( object ):
     """
 class ResourceType(object):
     """ A Type of resource"""
-        
+
+class Venue( object ):
+    """ A venue for a sitting """
+            
            
     

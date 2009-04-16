@@ -71,7 +71,7 @@ class SecondaryNavigationViewlet(object):
                     selected = False
                 else:
                     selected = context.__name__ == name
-
+                item = proxy.removeSecurityProxy(item)
                 if IDCDescriptiveProperties.providedBy(item):
                     title = item.title
                 else:
@@ -373,6 +373,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     name = container.domain_model.__name__
             else:
                 assert IDCDescriptiveProperties.providedBy(container)
+                container = proxy.removeSecurityProxy(container)
                 name = container.title
 
             if context is not None:

@@ -371,6 +371,18 @@
      weight="20"
      />  
   
+  <!-- Motion -->
+  
+    <browser:viewlet
+     name="bungeni.viewlet.motion-consignatory"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.ConsignatoryViewlet"
+     for="bungeni.models.interfaces.IMotion"
+     permission="zope.View"
+     weight="10"
+     />    
+  
+  
   <!--browser:page
      name="event-rss.xml"
      for="bungeni.models.interfaces.IBill"

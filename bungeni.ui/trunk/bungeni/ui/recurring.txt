@@ -163,6 +163,7 @@ Delete recurring sittings:
     >>> s2 = sittings[3]
     >>> print s2.start_date
     2009-04-22 02:00:00            
+    
     >>> recurring.delete_recurring_sittings(s2, "FUTURE" )
     >>> for s in session.query(domain.GroupSitting).all():
     ...     print s.start_date, '-', s.end_date    

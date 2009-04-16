@@ -67,6 +67,8 @@ Venue Bookings:
     >>> venue.get_unavailable_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59) )
     []
     >>> venue.get_available_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59) )
+    [<bungeni.models.domain.Venue object at ...>, 
+    <bungeni.models.domain.Venue object at ...>]
         
     >>> sit1.venue_id = venue1.venue_id
     >>> session.flush()
@@ -80,7 +82,8 @@ this venue is not available anymore for other sittings:
     False
 
     >>> venue.get_available_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59) )
-
+    [<bungeni.models.domain.Venue object at ...>]
+    
 but for the sitting itself it is still available:    
     >>> venue.get_unavailable_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59), sit1 )    
     []
@@ -104,6 +107,7 @@ but not for other sittings
     
     
     >>> venue.get_available_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59) )    
+    []
     
 cleanup
 -------

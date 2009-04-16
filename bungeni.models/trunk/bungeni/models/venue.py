@@ -25,14 +25,16 @@ def get_available_venues( start, end, sitting=None ):
     """
     session = Session()
     query = session.query(domain.Venue)
-    b_filter = sql.or_( 
-                    sql.between(schema.sittings.c.start_date, start, end), 
-                    sql.between(schema.sittings.c.end_date, start, end),
-                    sql.between(start, schema.sittings.c.start_date, 
-                                schema.sittings.c.end_date),
-                    sql.between(end, schema.sittings.c.start_date, 
-                                schema.sittings.c.end_date)                    
-                    )
+    b_filter = sql.and_(
+                    sql.or_( 
+                        sql.between(schema.sittings.c.start_date, start, end), 
+                        sql.between(schema.sittings.c.end_date, start, end),
+                        sql.between(start, schema.sittings.c.start_date, 
+                                    schema.sittings.c.end_date),
+                        sql.between(end, schema.sittings.c.start_date, 
+                                    schema.sittings.c.end_date)                    
+                        ),
+                    schema.sittings.c.venue_id != None)
     if sitting:
         if sitting.sitting_id:
             b_filter = sql.and_(b_filter,
@@ -43,8 +45,8 @@ def get_available_venues( start, end, sitting=None ):
                         sql.select( [schema.sittings.c.venue_id] 
                                     ).where(b_filter)
                     )))
-    print str(query) % query.compile().params().compile().params
-    import pdb; pdb.set_trace()                    
+    #print str(query) % query.compile().params().compile().params
+    #import pdb; pdb.set_trace()                    
     return query.all()                    
     
 def get_unavailable_venues( start, end, sitting = None ):

@@ -35,16 +35,18 @@ def get_available_resources( start, end ):
     assert( type(start) == datetime.datetime )
     assert( type(end) == datetime.datetime )  
     session = Session()
-    start_end={'start': start, 'end':end}
+    #start_end={'start': start, 'end':end}
     sql_booked_resources =  """
     SELECT resources.resource_id AS resources_resource_id
     FROM resources JOIN resourcebookings 
                    ON resources.resource_id = resourcebookings.resource_id 
                    JOIN group_sittings 
                    ON resourcebookings.sitting_id = group_sittings.sitting_id 
-    WHERE group_sittings.start_date BETWEEN '%(start)s' AND '%(end)s' 
-          OR group_sittings.end_date BETWEEN '%(start)s' AND '%(end)s'     
-    """ % start_end 
+    WHERE group_sittings.start_date BETWEEN :start AND :end 
+          OR group_sittings.end_date BETWEEN :start AND :end     
+          OR :start BETWEEN group_sittings.start_date AND group_sittings.end_date
+          OR :end BETWEEN group_sittings.start_date AND group_sittings.end_date          
+    """ 
     
     sql_resources = """
     SELECT resources_1.resource_id AS resources_1_resource_id
@@ -52,7 +54,7 @@ def get_available_resources( start, end ):
     WHERE resources_1.resource_id NOT IN ( %s ) 
     """ % sql_booked_resources
     connection = session.connection( domain.Resource )                                              
-    query = connection.execute(sql_resources)
+    query = connection.execute(rdb.text(sql_resources), start=start, end=end)
     return query.fetchall()                   
 
 def get_unavailable_resources( start, end ):
@@ -65,7 +67,11 @@ def get_unavailable_resources( start, end ):
     session = Session()
     b_filter = sql.or_( 
                     sql.between(schema.sittings.c.start_date, start, end), 
-                    sql.between(schema.sittings.c.end_date, start, end)
+                    sql.between(schema.sittings.c.end_date, start, end),
+                    sql.between(start, schema.sittings.c.start_date, 
+                                schema.sittings.c.end_date),
+                    sql.between(end, schema.sittings.c.start_date, 
+                                schema.sittings.c.end_date)                     
                     )
                     
     query = session.query(BookedResources).filter(b_filter)       
@@ -84,7 +90,11 @@ def check_bookings( start, end, resource ):
                     schema.resources.c.resource_id == resource.resource_id,
                     sql.or_( 
                         sql.between(schema.sittings.c.start_date, start, end), 
-                        sql.between(schema.sittings.c.end_date, start, end)
+                        sql.between(schema.sittings.c.end_date, start, end),
+                        sql.between(start, schema.sittings.c.start_date, 
+                                    schema.sittings.c.end_date),
+                        sql.between(end, schema.sittings.c.start_date, 
+                                    schema.sittings.c.end_date)                         
                         )
                     )
     query = session.query(BookedResources).filter(b_filter)    

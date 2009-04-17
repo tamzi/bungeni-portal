@@ -50,6 +50,12 @@
      class="ploned.ui.menu.PloneBrowserMenu"
      />
 
+  <browser:menu
+     id="reporting_actions"
+     title="The 'reports' menu - provides reporting actions"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+
   <!-- content submenus -->
 
   <browser:subMenuItem
@@ -59,6 +65,16 @@
      action="add_content"
      permission="zope.ManageContent"
      submenu="context_additems"
+     />
+
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="*"
+     title="Reports"
+     action="reports"
+     permission="zope.View"
+     submenu="reporting_actions"
+     order="0"
      />
 
   <browser:menuItem
@@ -83,6 +99,7 @@
      title="Add sitting..."
      action="./group/sittings/add?next_url=..."
      permission="bungeni.sitting.Add"
+     order="100"
      />
 
   <browser:menuItem
@@ -91,6 +108,7 @@
      title="Add question..."
      action="/business/questions/add"
      permission="bungeni.question.Add"
+     order="100"
      />
 
   <browser:menuItem
@@ -99,6 +117,7 @@
      title="Add new question..."
      action="/business/questions/add"
      permission="bungeni.question.Add"
+     order="100"
      />
 
   <browser:menuItem
@@ -107,6 +126,7 @@
      title="Add bill..."
      action="/business/bills/add"
      permission="bungeni.bill.Add"
+     order="100"
      />
 
   <browser:menuItem
@@ -115,6 +135,7 @@
      title="Add new bill..."
      action="/business/bills/add"
      permission="bungeni.bill.Add"
+     order="100"
      />
 
   <browser:menuItem
@@ -123,6 +144,7 @@
      title="Add motion..."
      action="/business/motions/add"
      permission="bungeni.motion.Add"
+     order="100"
      />
 
   <browser:menuItem
@@ -131,6 +153,23 @@
      title="Add new motion..."
      action="/business/motions/add"
      permission="bungeni.motion.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="reporting_actions"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     title="Agenda..."
+     action="agenda"
+     permission="zope.View"
+     />
+
+  <browser:menuItem
+     menu="reporting_actions"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     title="Votes and proceedings..."
+     action="votes-and-proceedings"
+     permission="zope.View"
      />
 
   <!-- submenu adapters -->
@@ -147,6 +186,12 @@
      factory=".menu.TranslationSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
+<!--  <adapter
+     for="bungeni.core.interfaces.ISchedulingContext *"
+     name="plone.contentmenu.calendar-reports"
+     factory=".menu.TranslationSubMenuItem"
+     provides="ploned.ui.interfaces.IContentMenuItem" /> -->
+
   <!-- calendar actions -->
 
   <browser:defaultView
@@ -160,24 +205,6 @@
      action="view"
      title="View"
      order="0"
-     permission="zope.View"
-     />
-
-  <browser:menuItem
-     menu="context_actions"
-     for="bungeni.core.interfaces.IDailySchedulingContext"
-     action="agenda"
-     title="Agenda"
-     order="10"
-     permission="zope.View"
-     />
-
-    <browser:menuItem
-     menu="context_actions"
-     for="bungeni.core.interfaces.IDailySchedulingContext"
-     action="votes-and-proceedings"
-     title="Votes and proceedings"
-     order="15"
      permission="zope.View"
      />
 

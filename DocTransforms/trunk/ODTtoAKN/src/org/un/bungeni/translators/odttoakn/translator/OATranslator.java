@@ -100,7 +100,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	public File translate(String aDocumentPath, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
+		ODFUtility odfInstance = ODFUtility.getInstance();
+		File fMerged = odfInstance.mergeODF(aDocumentPath);
+		StreamSource ODFDocument = new StreamSource(fMerged);
 
 		//translate the document to METALEX
 		File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
@@ -136,8 +138,10 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	public File translate(File aDocumentHandle, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
-
+		ODFUtility odfInstance = ODFUtility.getInstance();
+		File fMerged = odfInstance.mergeODF(aDocumentHandle);
+		StreamSource ODFDocument = new StreamSource(fMerged);
+	
 		//translate the document to METALEX
 	    File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
 		
@@ -188,7 +192,10 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		
 		//write the source to a File
 		File resultFile = StreamSourceUtility.getInstance().writeToFile(resultStream);
-		
+		//this code is executed only if the program is executed with the VM
+		//parameter -Dtranslatordebug=1
+		if (System.getProperty("translatordebug") != null) {
+
 		/***
 		 * TO BE DELETED
 		 */
@@ -216,6 +223,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
 		}	
+		
+		}
 		/**
 		 * END TO BE DELETED 
 		 */

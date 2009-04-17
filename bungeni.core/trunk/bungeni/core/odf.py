@@ -6,6 +6,8 @@ from z3c.pt.pagetemplate import ViewPageTemplate
 namespaces = {'text': 'urn:oasis:names:tc:opendocument:xmlns:text:1.0'}
 
 class OpenDocument(object):
+    
+    
     def __init__(self, filename):
         self.filename = filename
         self.zipfile = zipfile.ZipFile(filename)
@@ -26,12 +28,13 @@ class OpenDocument(object):
         info = self.zipfile.getinfo("content.xml")
         return self.get(info)
 
-    def process(self, filename, view):
+    def process(self, filename, view, **kwargs):
         info = self.zipfile.getinfo(filename)
         bytes = self.get(info)
-        template = ViewPageTemplate(bytes)
+        template = ViewPageTemplate(
+            bytes, encoding='utf-8', omit_default_prefix=False)
         bound_template = template.bind(view)
-        self.contents[info] = bound_template()
+        self.contents[info] = bound_template(**kwargs)
         
     def save(self, filename):
         outfile = zipfile.ZipFile(filename, 'w')

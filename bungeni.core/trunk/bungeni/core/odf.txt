@@ -22,33 +22,31 @@ We can save the document back; here to a temporary file location.
 Verify file-size:
   
   >>> os.path.getsize(archive.name)
-  8910L
+  8384L
 
-Mail-merging
-------------
+Dynamic contents
+----------------
 
-To process the mail-merge, a dictionary of databases map to tables
-that are lists of dictionaries (similar to tabular data in an RDB).
+Within the document archive, we may render dynamic content using the
+Chameleon template engine.
 
-  >>> databases = {
-  ...    'test': {
-  ...        'Letter': [
-  ...             {'Name': 'Joe',
-  ...              'Date': datetime.date(1999, 12, 31).isoformat()},
-  ...        ],
-  ...        'Signatories': [
-  ...             {'Name': 'James'},
-  ...             {'Name': 'John'}
-  ...        ],
-  ...     },
-  ... }
+  >>> class view:
+  ...     name = u"Joe"
+  ...     context = request = None
 
-The ``merge`` method applies the database tables to the document.
-
-  >>> doc.merge(databases)
-
+The ``process`` method takes a filename and a ``view`` instance.
+  
+  >>> doc.process("content.xml", view)
+  
 The document has been updated. Verify contents:
 
   >>> content = doc.read("content.xml")
-  >>> content.count('Joe'), content.count('James'), content.count('John')
-  (1, 1, 1)
+  >>> content.count("Joe")
+  1
+
+  >>> doc.save(archive.name)
+
+Verify file-size:
+  
+  >>> os.path.getsize(archive.name)
+  8339L

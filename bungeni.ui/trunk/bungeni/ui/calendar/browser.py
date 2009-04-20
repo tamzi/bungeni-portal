@@ -424,8 +424,25 @@ class VotesAndProceedingsReportingView(ReportingView):
     odf_filename = "votes-and-proceedings.odt"
     
     def generate(self, date, time_span):
-        sittings = self.get_sittings(date, time_span)
-        file = File(u"Votes and proceedings", "text/plain")
-        file.filename = "votes-and-proceedings-%s-%s-%s-%s" % (
+        end_date = self.get_end_date(date, time_span)
+        
+        parliament = get_parliament_by_date_range(self, date, end_date)
+        session = get_session_by_date_range(self, date, end_date)
+
+        options = {
+            'date': _(u"$r", mapping=utils.datetimedict.fromdate(date)),
+            'parliament': parliament,
+            'session': session,
+            'sittings': self.get_sittings(date, time_span),
+            }
+            
+        document = self.get_odf_document()
+        archive = tempfile.NamedTemporaryFile(suffix=".odt")
+        document.process("content.xml", self, **options)
+        document.save(archive.name)
+
+        file = File(archive, "application/vnd.oasis.opendocument.text")
+        file.filename = "votes-and-proceedings-%s-%s-%s-%s.odt" % (
             str(time_span).lower(), date.year, date.month, date.day)
+        
         return file

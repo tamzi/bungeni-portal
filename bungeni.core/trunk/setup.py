@@ -32,7 +32,8 @@ setup(
                          'ore.workflow',
                          'bungeni.models',
                          'z3c.dav',
-                         'plone.i18n'],
+                         'plone.i18n',
+                         'plone.transforms',],
     entry_points={
         'console_scripts':[
             'bungeni-reset-db = bungeni.core.schema:reset_database',

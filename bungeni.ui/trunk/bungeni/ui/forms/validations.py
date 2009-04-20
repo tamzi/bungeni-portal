@@ -160,17 +160,16 @@ def validate_parliament_dates(action, data, context, container):
             overlaps, 
             "election_date")
             )
-        
-    results = validate_open_interval(parliament, domain.Parliament)
-    for result in results:
-        overlaps = result.short_name
-        errors.append(interface.Invalid(
-            _("Another parliament is not yet dissolved (%s)") % overlaps,
-            "election_date"))
+
+    if parliament is None:
+        results = validate_open_interval(parliament, domain.Parliament)
+        for result in results:
+            overlaps = result.short_name
+            errors.append(interface.Invalid(
+                _("Another parliament is not yet dissolved (%s)") % overlaps,
+                "election_date"))
         
     return errors
-
-
 
 def validate_government_dates(action, data, context, container):
     errors = []
@@ -207,13 +206,14 @@ def validate_government_dates(action, data, context, container):
             errors.append(interface.Invalid(
                 _("The end date overlaps with (%s)") % overlaps, 
                 "end_date"))
-            
-    results = validate_open_interval(government, domain.Government)
-    for result in results:
-        overlaps = result.short_name
-        errors.append(interface.Invalid(
-            _("Another government is not yet dissolved (%s)") % overlaps,
-            "start_date"))
+
+    if government is None:
+        results = validate_open_interval(government, domain.Government)
+        for result in results:
+            overlaps = result.short_name
+            errors.append(interface.Invalid(
+                _("Another government is not yet dissolved (%s)") % overlaps,
+                "start_date"))
         
     return errors
   

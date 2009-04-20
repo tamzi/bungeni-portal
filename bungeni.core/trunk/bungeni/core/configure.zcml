@@ -3,6 +3,7 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            xmlns:db="http://namespaces.objectrealms.net/rdb"
            xmlns:xapian="http://namespaces.objectrealms.net/xapian"
+           xmlns:plone="http://namespaces.plone.org/plone"
            i18n_domain="bungeni">
 
   <include package="alchemist.catalyst" />
@@ -11,6 +12,9 @@
   <include package="ore.xapian" file="meta.zcml" />
   <include package="ore.library" />
   <include package="plone.i18n" />
+  
+  <include package="plone.transforms" file="meta.zcml" />
+  <include package="plone.transforms" />
   
   <include package="bungeni.models" />
   <include package="bungeni.portal" />
@@ -208,7 +212,17 @@
      for="*"
      factory=".dc.DublinCoreMetadataAdapter"
      provides="zope.traversing.interfaces.IPathAdapter" />
+
+  <!-- transformation -->
+
+  <plone:transform factory=".transformation.HtmlFragmentOpenDocumentTransform" />
   
+  <adapter
+     name="transform"
+     for="*"
+     factory=".transformation.TransformationAdapter"
+     provides="zope.traversing.interfaces.IPathAdapter" />
+
   <!-- location -->
 
   <adapter factory=".location.get_location_from_parent" />

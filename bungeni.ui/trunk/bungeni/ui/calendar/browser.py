@@ -10,7 +10,6 @@ from zope import component
 from zope import schema
 from zope.formlib import form
 from zope.formlib import namedtemplate
-
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.browser import BrowserView
@@ -26,18 +25,17 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.app.file.file import File
 from zope.datetime import rfc1123_date
 
-from bungeni.core.interfaces import ISchedulingContext
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
 from bungeni.ui.utils import is_ajax_request
+from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
-
-from bungeni.server.interfaces import ISettings
+from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
-from bungeni.models import domain
+from bungeni.server.interfaces import ISettings
 
 from ploned.ui.interfaces import IViewView
 from ploned.ui.interfaces import IStructuralView
@@ -324,6 +322,11 @@ class ReportingView(form.PageForm):
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, self.context, self.request,
             adapters=self.adapters, ignore_request=ignore_request)
+
+    def update(self):
+        self.status = self.request.get('portal_status_message', '')
+        super(ReportingView, self).update()
+        set_widget_errors(self.widgets, self.errors)
 
     def validate(self, action, data):    
         errors = super(ReportingView, self).validate(action, data)

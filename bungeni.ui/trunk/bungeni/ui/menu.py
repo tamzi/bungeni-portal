@@ -212,13 +212,15 @@ class WorkflowMenu(BrowserMenu):
             return ()
         
         state = IWorkflowInfo(context).state().getState()
-        transitions = wf.getTransitions(state)
+        wf_info = IWorkflowInfo( context )
+        transitions = wf_info.getManualTransitionIds()
 
         url = absoluteURL(context, request)
 
         results = []
         for transition in transitions:
-            tid = transition.transition_id
+            tid = transition
+            state_transition = wf.getTransitionById(transition)
             transition_url = url + '/@@change_workflow_state?transition=%s' % tid
 
             extra = {'id': 'workflow-transition-%s' % tid,
@@ -226,7 +228,7 @@ class WorkflowMenu(BrowserMenu):
                      'class': ''}
             
             results.append(
-                dict(title=transition.title,
+                dict(title=state_transition.title,
                      description="",
                      action=transition_url,
                      selected=False,

@@ -289,7 +289,7 @@ sql_bill_timeline = """
         FROM "public"."event_items" AS "event_items", 
             "public"."parliamentary_items" AS "parliamentary_items" 
         WHERE "event_items"."event_item_id" = "parliamentary_items"."parliamentary_item_id"
-        AND "event_items"."event_item_id" = :item_id
+        AND "event_items"."item_id" = :item_id
      UNION
         SELECT "action" as "atype", "content_id" AS "item_id", 
         "description" AS "title", 

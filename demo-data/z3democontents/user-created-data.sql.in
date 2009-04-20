@@ -50,14 +50,18 @@ FROM '%(directory)s/data/demodata/bill_versions.csv'
 CSV; 
 
 
-SELECT setval('motion_changes_change_id_seq', 3000);
+SELECT setval('motion_changes_change_id_seq', 4000);
 
-SELECT setval('bill_changes_change_id_seq', 3000);
+SELECT setval('bill_changes_change_id_seq', 4000);
 
-SELECT setval('question_changes_change_id_seq', 3000);
+SELECT setval('question_changes_change_id_seq', 4000);
 
-SELECT setval('item_sequence', 3000);
+SELECT setval('item_sequence', 4000);
 
-
+SELECT setval('bill_versions_version_id_seq', 2000);
+SELECT setval('question_versions_version_id_seq', 2000);
+SELECT setval('motion_versions_version_id_seq', 2000);
+ 
+ 
 
 

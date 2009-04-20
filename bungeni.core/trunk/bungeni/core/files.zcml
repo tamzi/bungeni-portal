@@ -56,12 +56,20 @@
      handler=".files.fileClassifierSubscriber"
      />
 
+  <subscriber
+     for="ore.library.interfaces.ILibraryFile
+          zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".files.fileAddedSubscriber"
+     />
+
 
   <subscriber
      for="bungeni.models.interfaces.IVersion
           zope.lifecycleevent.interfaces.IObjectCreatedEvent"
      handler=".files.objectNewVersion"
      />
+     
+     
      
      
   <subscriber

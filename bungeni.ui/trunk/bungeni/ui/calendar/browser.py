@@ -24,21 +24,20 @@ from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.file.file import File
-from zope.app.file.browser.file import FileView
-from zope.app.publisher.browser import queryDefaultViewName
 from zope.datetime import rfc1123_date
 
 from bungeni.core.interfaces import ISchedulingContext
-from bungeni.core.schedule import DailySchedulingContext
-from bungeni.ui.forms.forms import FormTemplate
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import urljoin
 from bungeni.ui.utils import is_ajax_request
 from bungeni.core.location import location_wrapped
-from bungeni.core.proxy import LocationProxy
+
 from bungeni.server.interfaces import ISettings
 from bungeni.core.odf import OpenDocument
+from bungeni.models.queries import get_parliament_by_date_range
+from bungeni.models.queries import get_session_by_date_range
+from bungeni.models import domain
 
 from ploned.ui.interfaces import IViewView
 from ploned.ui.interfaces import IStructuralView
@@ -325,6 +324,22 @@ class ReportingView(form.PageForm):
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, self.context, self.request,
             adapters=self.adapters, ignore_request=ignore_request)
+
+    def validate(self, action, data):    
+        errors = super(ReportingView, self).validate(action, data)
+
+        start_date = data['date']
+        end_date = self.get_end_date(start_date, data['time_span'])
+
+        parliament = get_parliament_by_date_range(self, start_date, end_date)
+        session = get_session_by_date_range(self, start_date, end_date)
+
+        if parliament is None or session is None:
+            errors.append(interface.Invalid(
+                _(u"A parliament must be active in the period."),
+                "date"))
+
+        return errors
     
     @form.action(_(u"Preview"))
     def handle_preview(self, action, data):
@@ -353,27 +368,35 @@ class ReportingView(form.PageForm):
         raise NotImplementedError("Must be implemented by subclass.")
 
     def get_sittings(self, start_date, time_span):
-        if time_span is TIME_SPAN.daily:
-            end_date = start_date + timedelta(days=1)
-        elif time_span is TIME_SPAN.weekly:
-            end_date = start_date + timedelta(weeks=1)
-        else:
-            raise RuntimeError("Unknown time span: %s." % time_span)
+        end_date = self.get_end_date(start_date, time_span)
         return self.context.get_sittings(
             start_date=start_date, end_date=end_date)
 
+    def get_end_date(self, start_date, time_span):
+        if time_span is TIME_SPAN.daily:
+            return start_date + timedelta(days=1)
+        elif time_span is TIME_SPAN.weekly:
+            return start_date + timedelta(weeks=1)
+        
+        raise RuntimeError("Unknown time span: %s." % time_span)
+    
 class AgendaReportingView(ReportingView):
     """Agenda report."""
     
     form_name = _(u"Agenda")
     form_description = _(u"This form generates the “order of the day” report.")
     odf_filename = "agenda.odt"
-    
+
     def generate(self, date, time_span):
+        end_date = self.get_end_date(date, time_span)
+        
+        parliament = get_parliament_by_date_range(self, date, end_date)
+        session = get_session_by_date_range(self, date, end_date)
+
         options = {
             'date': _(u"$r", mapping=utils.datetimedict.fromdate(date)),
-            'parliament_name': _(u'Tenth Parliament'),
-            'session_name': _(u'Second Session'),
+            'parliament': parliament,
+            'session': session,
             'sittings': self.get_sittings(date, time_span),
             }
             

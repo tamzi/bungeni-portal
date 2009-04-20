@@ -212,7 +212,7 @@ def validate_government_dates(action, data, context, container):
     for result in results:
         overlaps = result.short_name
         errors.append(interface.Invalid(
-            _("Another Government is not yet dissolved (%s)") % overlaps,
+            _("Another government is not yet dissolved (%s)") % overlaps,
             "start_date"))
         
     return errors

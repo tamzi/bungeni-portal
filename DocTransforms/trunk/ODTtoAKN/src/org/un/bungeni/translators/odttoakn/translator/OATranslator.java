@@ -2,15 +2,21 @@ package org.un.bungeni.translators.odttoakn.translator;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
+import java.util.ResourceBundle;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.log4j.Logger;
+import org.un.bungeni.translators.exceptions.DocumentNotFoundException;
+import org.un.bungeni.translators.exceptions.TranslationFailedException;
+import org.un.bungeni.translators.exceptions.TranslationToMetalexFailedException;
+import org.un.bungeni.translators.exceptions.ValidationFailedException;
+import org.un.bungeni.translators.exceptions.XSLTBuildingException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
@@ -40,12 +46,18 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	/* The path of the AKOMA NTOSO schema*/
 	private String akomantosoSchemaPath;
 	
+	/* The resource bundle for the messages */
+	private ResourceBundle resourceBundle;
+
+	/*This is the logger*/
+	private static Logger logger = Logger.getLogger("org.un.bungeni.translators.odttoakn.translator.OATranslator");
+	
 	/**
 	 * Private constructor used to create the Translator instance
 	 * @throws IOException 
 	 * @throws InvalidPropertiesFormatException 
 	 */
-	private OATranslator() throws InvalidPropertiesFormatException, IOException
+	private OATranslator() throws InvalidPropertiesFormatException, IOException, TranslationFailedException
 	{
 		//create the Properties object
 		Properties properties = new Properties();
@@ -64,6 +76,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		
 		//get the path of the XSLT that add the namespace to AKOMA NTOSO produced files
 		this.akomantosoAddNamespaceXSLTPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("akomantosoAddNamespaceXSLTPath");
+		
+		//create the resource bundle
+		this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
 	}
 
 	/**
@@ -99,32 +114,77 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 */
 	public File translate(String aDocumentPath, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
-		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-		ODFUtility odfInstance = ODFUtility.getInstance();
-		File fMerged = odfInstance.mergeODF(aDocumentPath);
-		StreamSource ODFDocument = new StreamSource(fMerged);
+		try
+		{
+			//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
+			StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 
-		//translate the document to METALEX
-		File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
+			//translate the document to METALEX
+			File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
 		
-		//create the XSLT that transforms the metalex
-		File xslt = this.buildXSLT(aPipelinePath);
+			//create the XSLT that transforms the metalex
+			File xslt = this.buildXSLT(aPipelinePath);
 		
-		//apply the XSLT to the document 
-		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
+			//apply the XSLT to the document 
+			StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
 		
-		//apply to the result the XSLT that insert the namespace
-		StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
-
-		//create the file that will be returned in case the validation do not fail
-		File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+			//apply to the result the XSLT that insert the namespace
+			StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
 		
-		//validate the produced document
-		//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
-		SchemaValidator.getInstance().validate(fileToReturn, this.akomantosoSchemaPath);
-		
-		//write the stream to a File and return it
-		return fileToReturn;
+			//create the file that will be returned in case the validation do not fail
+			File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+			
+			//validate the produced document
+			//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
+			SchemaValidator.getInstance().validate(fileToReturn, this.akomantosoSchemaPath);
+			
+			//write the stream to a File and return it
+			return fileToReturn;
+		}
+		catch(TransformerException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new TranslationFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
+		catch(SAXException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new ValidationFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
+		catch(ParserConfigurationException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new ValidationFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
+		catch(IOException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("IOEXCEPTION_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
 	}
 
 	/**
@@ -137,32 +197,77 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 */
 	public File translate(File aDocumentHandle, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
-		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-		ODFUtility odfInstance = ODFUtility.getInstance();
-		File fMerged = odfInstance.mergeODF(aDocumentHandle);
-		StreamSource ODFDocument = new StreamSource(fMerged);
+		try
+		{
+			//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
+			StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
 	
-		//translate the document to METALEX
-	    File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
-		
-		//create the XSLT that transforms the metalex
-		File xslt = this.buildXSLT(aPipelinePath);
-		
-		//apply the XSLT to the document 
-		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
-		
-		//apply to the result the XSLT that insert the namespace
-		StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
-		
-		//create the file that will be returned in case the validation do not fail
-		File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
-		
-		//validate the produced document
-		//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
-		SchemaValidator.getInstance().validate(fileToReturn, this.akomantosoSchemaPath);
-		
-		//write the stream to a File and return it
-		return fileToReturn;
+			//translate the document to METALEX
+		    File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
+			
+			//create the XSLT that transforms the metalex
+			File xslt = this.buildXSLT(aPipelinePath);
+			
+			//apply the XSLT to the document 
+			StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
+			
+			//apply to the result the XSLT that insert the namespace
+			StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
+			
+			//create the file that will be returned in case the validation do not fail
+			File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+			
+			//validate the produced document
+			//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
+			SchemaValidator.getInstance().validate(fileToReturn, this.akomantosoSchemaPath);
+			
+			//write the stream to a File and return it
+			return fileToReturn;
+		}
+		catch(TransformerException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new TranslationFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
+		catch(SAXException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new ValidationFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
+		catch(ParserConfigurationException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new ValidationFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
+		catch(IOException e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("IOEXCEPTION_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
 	}
 
 	/**
@@ -175,62 +280,40 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 */
 	public File translateToMetalex(StreamSource ODFDocument, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
 	{
-		//get the File of the configuration 
-		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
-		
-		//create the configuration 
-		OAConfiguration configuration = new OAConfiguration(configurationDoc);
-
-		//applies the input steps to the StreamSource of the ODF document
-		StreamSource iteratedDocument = OAInputStepsResolver.resolve(ODFDocument, configuration);
-
-		//applies the map steps to the StreamSource of the ODF document
-		iteratedDocument = OAReplaceStepsResolver.resolve(iteratedDocument, configuration);
-
-		//apply the OUTPUT XSLT to the StreamSource
-		StreamSource resultStream = OAOutputStepsResolver.resolve(iteratedDocument, configuration);
-		
-		//write the source to a File
-		File resultFile = StreamSourceUtility.getInstance().writeToFile(resultStream);
-		//this code is executed only if the program is executed with the VM
-		//parameter -Dtranslatordebug=1
-		if (System.getProperty("translatordebug") != null) {
-
-		/***
-		 * TO BE DELETED
-		 */
-		//input stream
-		FileInputStream fis  = new FileInputStream(resultFile);
-		
-		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/result_bill.xml");
-		
-		//copy the file
-		try 
+		try
 		{
-			byte[] buf = new byte[1024];
-		    int i = 0;
-		    while ((i = fis.read(buf)) != -1) 
-		    {
-		            fos.write(buf, 0, i);
-		    }
-		} 
-		catch (Exception e) 
-		{
+			//get the File of the configuration 
+			Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
+			
+			//create the configuration 
+			OAConfiguration configuration = new OAConfiguration(configurationDoc);
+	
+			//applies the input steps to the StreamSource of the ODF document
+			StreamSource iteratedDocument = OAInputStepsResolver.resolve(ODFDocument, configuration);
+	
+			//applies the map steps to the StreamSource of the ODF document
+			iteratedDocument = OAReplaceStepsResolver.resolve(iteratedDocument, configuration);
+	
+			//apply the OUTPUT XSLT to the StreamSource
+			StreamSource resultStream = OAOutputStepsResolver.resolve(iteratedDocument, configuration);
+			
+			//write the source to a File
+			File resultFile = StreamSourceUtility.getInstance().writeToFile(resultStream);
+		
+			//return the Source of the new document
+			return resultFile;	
 		}
-		finally 
+		catch(Exception e)
 		{
-		        if (fis != null) fis.close();
-		        if (fos != null) fos.close();
-		}	
-		
+			//get the message to print
+			String message = resourceBundle.getString("TRANSLATION_TO_METALEX_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new TranslationToMetalexFailedException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
 		}
-		/**
-		 * END TO BE DELETED 
-		 */
-		
-		//return the Source of the new document
-	    return resultFile;	
 	}
 	
 	/**
@@ -246,14 +329,28 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 */
 	public File buildXSLT(String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
 	{
-		//create the XSLT document starting from the pipeline
-		Document pipeline = OAPipelineResolver.getInstance().resolve(aPipelinePath);
-				
-		//write the document to a File
-		File resultFile = DOMUtility.getInstance().writeToFile(pipeline);
-		
-		//return the file
-		return resultFile;
+		try
+		{
+			//create the XSLT document starting from the pipeline
+			Document pipeline = OAPipelineResolver.getInstance().resolve(aPipelinePath);
+					
+			//write the document to a File
+			File resultFile = DOMUtility.getInstance().writeToFile(pipeline);
+			
+			//return the file
+			return resultFile;
+		}
+		catch(Exception e)
+		{
+			//get the message to print
+			String message = resourceBundle.getString("XSLT_BUILDING_FAILED_TEXT");
+	  		
+			//print the message and the exception into the logger
+			logger.fatal((new XSLTBuildingException(message)).getStackTrace());
+			
+			//RETURN null
+			return null;
+		}
 	}
 	
 }

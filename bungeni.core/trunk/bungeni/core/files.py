@@ -5,6 +5,7 @@ from zope import interface, component
 from zope.publisher.interfaces import NotFound
 from zope.security.proxy import removeSecurityProxy
 from zope.location.interfaces import ILocation
+from zope.lifecycleevent import ObjectCreatedEvent
 
 from sqlalchemy import orm
 from ore.alchemist import Session
@@ -20,6 +21,26 @@ def fileClassifierSubscriber( ob, event ):
     ob = removeSecurityProxy( ob )
     classifier = IMimeClassifier( ob )
     ob.mime_type = str( classifier.queryMimeType() )
+    
+def getAuditableParent(obj):
+    parent = obj.__parent__
+    while parent:
+        if  interfaces.IAuditable.providedBy(parent):
+            return parent
+        else:
+            try:
+                parent = parent.__parent__              
+            except:
+                parent = None                
+    
+def fileAddedSubscriber( ob, event ):
+    """ when a file is added notify the object it is added to """
+    ob = removeSecurityProxy( ob )
+    obj = getAuditableParent(ob)
+    if obj:
+        event.description = u"File %s added"  % ob.__name__
+        #event.notify(ObjectCreatedEvent(obj)) 
+    #import pdb; pdb.set_trace()    
 
 class FileClassifier( HachoirFileClassifier ):
 

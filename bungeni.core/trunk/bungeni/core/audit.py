@@ -54,11 +54,20 @@ def objectRevertedVersion( ob, event ):
     auditor = getAuditor( ob )
     change_id = auditor.objectRevertedVersion( removeSecurityProxy(ob), event )   
     event.change_id = change_id
+        
+def objectAttachment( ob, event ):
+    auditor = getAuditor( ob ) 
+    auditor.objectAttachment( removeSecurityProxy(ob), event )     
+       
     
 class AuditorFactory( object ):
 
     def __init__( self, change_table ):
         self.change_table = change_table
+
+    def objectAttachment( self, object, event):
+        self._objectChanged(u'Files', object, event.description )
+    
 
     def objectAdded( self, object, event ):
         return self._objectChanged(u'added', object )

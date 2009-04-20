@@ -91,13 +91,7 @@ class VersionCreated( VersionEvent ):
     
     interface.implements( IVersionCreated )
 
-class IVersionAfterCreate( IVersionEvent ):
-    """ A New version was created and saved to the db
-    """
 
-class VersionAfterCreate( VersionEvent):
-    interface.implements( IVersionAfterCreate)  
-    
 
 
 class IVersionReverted( IVersionEvent, lifecycleevent.IObjectModifiedEvent ):
@@ -110,6 +104,7 @@ class VersionReverted( VersionEvent ):
     interface.implements( IVersionReverted )
     
     descriptions = ()
+
 
 class IFilePathChooser( interface.Interface ):
 

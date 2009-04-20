@@ -521,7 +521,7 @@ class GroupDescriptor( ModelDescriptor ):
 class ParliamentDescriptor( GroupDescriptor ):
     display_name = _(u"Parliament")
     container_name = _(u"Parliaments")
-    custom_validators = [validations.validate_parliament_dates,]
+    custom_validators = validations.validate_parliament_dates,
     
     fields = [
         dict( name="group_id", omit=True ),

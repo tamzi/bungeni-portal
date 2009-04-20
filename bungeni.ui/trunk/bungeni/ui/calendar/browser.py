@@ -337,9 +337,13 @@ class ReportingView(form.PageForm):
         parliament = get_parliament_by_date_range(self, start_date, end_date)
         session = get_session_by_date_range(self, start_date, end_date)
 
-        if parliament is None or session is None:
+        if parliament is None:
             errors.append(interface.Invalid(
                 _(u"A parliament must be active in the period."),
+                "date"))
+        elif session is None:
+            errors.append(interface.Invalid(
+                _(u"A session must be active in the period."),
                 "date"))
 
         return errors

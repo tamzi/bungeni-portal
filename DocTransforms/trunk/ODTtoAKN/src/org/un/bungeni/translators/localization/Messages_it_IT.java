@@ -16,6 +16,16 @@ public class Messages_it_IT extends ListResourceBundle {
 	      "' è obbligatoria per la sezione '" },
 		{ "MISSING_ATTRIBUTE_RIGHT_TEXT",
 		  "'" },
+		{ "TRANSLATION_TO_METALEX_FAILED_TEXT",
+		  "C'è stato un problema durante la traduzione del documento verso il metaformato METALEX" },
+		{ "TRANSLATION_FAILED_TEXT",
+		  "C'è stato un problema durante la traduzione" },
+		{ "VALIDATION_FAILED_TEXT",
+	      "C'è stato un problema durante la validazione del documento" },
+		{ "XSLT_BUILDING_FAILED_TEXT",
+		  "C'è stato un problema durante la creazione dell'XSLT a partire dalla pipeline" },
+		{ "IOEXCEPTION_TEXT",
+		  "Uno dei documenti non è stato trovato o non è stato prodotto correttamente" },
 	};
 	
 	

@@ -16,6 +16,16 @@ public class Messages_en_KE extends ListResourceBundle {
 	      "' is mandatory for the section '" },
 		{ "MISSING_ATTRIBUTE_RIGHT_TEXT",
 		  "'" },
+		{ "TRANSLATION_TO_METALEX_FAILED_TEXT",
+		  "There was a problem during the translation to the METALEX metaformat" },
+		{ "TRANSLATION_FAILED_TEXT",
+		  "There was a problem during the translation" },
+		{ "VALIDATION_FAILED_TEXT",
+	      "There was a problem during the validation of the document" },
+		{ "XSLT_BUILDING_FAILED_TEXT",
+		  "There was a problem during the building of the XSLT starting from the pipeline" },
+		{ "IOEXCEPTION_TEXT",
+		  "Some of the needed document was not found or was not produced correctly" },
 	};
 	
 	

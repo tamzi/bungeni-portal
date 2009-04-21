@@ -108,6 +108,10 @@ but not for other sittings
     
     >>> venue.get_available_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59) )    
     []
+
+    >>> venue.get_available_venues( datetime.datetime(2000,1,1,0,0),datetime.datetime(2000,1,1,23,59), sit2 )    
+    [<bungeni.models.domain.Venue object at ...>]
+    
     
 cleanup
 -------

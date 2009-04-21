@@ -401,7 +401,6 @@ class TranslateForm(AddForm):
         # reset workflow state
         version.status = None
         IWorkflowInfo(version).fireTransition("create-translation")
-
         # redefine form context and proceed with edit action
         self.setUpAdapters(version)
         handle_edit_action(self, action, data)

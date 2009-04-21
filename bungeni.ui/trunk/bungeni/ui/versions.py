@@ -81,7 +81,6 @@ class VersionLogView(BaseForm):
         
     def listing(self):
         # set up table
-        import pdb; pdb.set_trace()
         formatter = self.formatter_factory(
             self.context, self.request,
             self._versions.values(),
@@ -103,7 +102,10 @@ class VersionLogView(BaseForm):
 
     @form.action(label=_("Revert To") )
     def handle_revert_version( self, action, data):
-        selected = getSelected( self.selection_column, self.request )        
+        selected = getSelected( self.selection_column, self.request )  
+        if len(selected) != 1:
+            self.status = _("Select one item to revert to.")
+            return                          
         version = self._versions.get( selected[0] )
         message = data['commit_message']
         self._versions.revert( version, message )

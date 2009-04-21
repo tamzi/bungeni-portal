@@ -22,6 +22,18 @@ def get_available_venues( start, end, sitting=None ):
     """get all venues that are not booked for a sitting
     (but sitting if given)
     in the given time period 
+    SQL:
+    SELECT * 
+    FROM venues 
+    WHERE venues.venue_id NOT IN (SELECT group_sittings.venue_id 
+        FROM group_sittings 
+        WHERE (group_sittings.start_date BETWEEN '2000-01-01' AND '2000-01-02' 
+        OR group_sittings.end_date BETWEEN '2000-01-01'  AND '2000-01-02'  
+        OR '2000-01-01'  BETWEEN group_sittings.start_date AND 
+            group_sittings.end_date 
+        OR '2000-01-02'  BETWEEN group_sittings.start_date AND 
+            group_sittings.end_date) 
+        AND group_sittings.venue_id IS NOT NULL)     
     """
     session = Session()
     query = session.query(domain.Venue)
@@ -44,9 +56,7 @@ def get_available_venues( start, end, sitting=None ):
                     schema.venues.c.venue_id.in_(
                         sql.select( [schema.sittings.c.venue_id] 
                                     ).where(b_filter)
-                    )))
-    #print str(query) % query.compile().params().compile().params
-    #import pdb; pdb.set_trace()                    
+                    )))                  
     return query.all()                    
     
 def get_unavailable_venues( start, end, sitting = None ):

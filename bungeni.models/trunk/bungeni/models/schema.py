@@ -83,9 +83,9 @@ users = rdb.Table(
    rdb.Column( "user_id", rdb.Integer, PrincipalSequence, primary_key=True ),
    rdb.Column( "login", rdb.Unicode(16), unique=True, nullable=True ),
    rdb.Column( "titles", rdb.Unicode(32)),
-   rdb.Column( "first_name", rdb.Unicode(80), nullable=False ),
-   rdb.Column( "last_name", rdb.Unicode(80), nullable=False ),
-   rdb.Column( "middle_name", rdb.Unicode(80) ),
+   rdb.Column( "first_name", rdb.Unicode(256), nullable=False ),
+   rdb.Column( "last_name", rdb.Unicode(256), nullable=False ),
+   rdb.Column( "middle_name", rdb.Unicode(256) ),
    rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
         rdb.CheckConstraint("gender in ('M', 'F')")
@@ -167,7 +167,7 @@ constituencies = rdb.Table(
    "constituencies",
    metadata,
    rdb.Column( "constituency_id", rdb.Integer,  primary_key=True ),
-   rdb.Column( "name", rdb.Unicode(80), nullable=False ),
+   rdb.Column( "name", rdb.Unicode(256), nullable=False ),
    rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
    rdb.Column( "region", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
    rdb.Column( "start_date", rdb.Date, nullable=False ),
@@ -181,21 +181,21 @@ provinces = rdb.Table(
     metadata,
     rdb.Column( "province_id", rdb.Integer,  primary_key=True ),
  #   rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),    
-    rdb.Column( "province", rdb.Unicode(80), nullable=False ),
+    rdb.Column( "province", rdb.Unicode(256), nullable=False ),
     )
     
 regions = rdb.Table(
     "regions",
     metadata,
     rdb.Column( "region_id", rdb.Integer,  primary_key=True ),
-    rdb.Column( "region", rdb.Unicode(80), nullable=False ),    
+    rdb.Column( "region", rdb.Unicode(256), nullable=False ),    
     )
     
 countries = rdb.Table(
     "countries",
     metadata,
     rdb.Column( "country_id", rdb.String(2), primary_key=True ),
-    rdb.Column( "country_name", rdb.Unicode(80), nullable=False ),
+    rdb.Column( "country_name", rdb.Unicode(256), nullable=False ),
     )
         
 constituency_details = rdb.Table(
@@ -222,8 +222,8 @@ groups = rdb.Table(
    "groups",
    metadata,
    rdb.Column( "group_id", rdb.Integer, PrincipalSequence,  primary_key=True ),
-   rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
-   rdb.Column( "full_name", rdb.Unicode(80) ),   
+   rdb.Column( "short_name", rdb.Unicode(256), nullable=False ),
+   rdb.Column( "full_name", rdb.Unicode(256) ),   
    rdb.Column( "description", rdb.UnicodeText ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.Date, nullable=False ),
@@ -272,7 +272,7 @@ committee_type = rdb.Table(
     "committee_types",
     metadata,
     rdb.Column("committee_type_id", rdb.Integer,  primary_key=True),
-    rdb.Column("committee_type", rdb.Unicode(80), nullable=False),
+    rdb.Column("committee_type", rdb.Unicode(256), nullable=False),
     rdb.Column("description", rdb.UnicodeText),
     rdb.Column("life_span", rdb.Unicode(16)),
     rdb.Column("status", rdb.String(1),             
@@ -408,11 +408,11 @@ addresses = rdb.Table(
     rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id') ), 
     rdb.Column( "address_type_id", rdb.Integer, rdb.ForeignKey ( 'address_types.address_type_id') ),
     rdb.Column( "po_box", rdb.Unicode(40) ),
-    rdb.Column( "address", rdb.Unicode(80) ),
-    rdb.Column( "city", rdb.Unicode(80) ),
+    rdb.Column( "address", rdb.Unicode(256) ),
+    rdb.Column( "city", rdb.Unicode(256) ),
     rdb.Column( "zipcode", rdb.Unicode(20) ),
     rdb.Column( "country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
-    rdb.Column( "phone", rdb.Unicode(80) ),
+    rdb.Column( "phone", rdb.Unicode(256) ),
     rdb.Column( "fax", rdb.Unicode(40) ),
     rdb.Column( "email", rdb.String(40) ),
     rdb.Column( "im_id", rdb.String(40) ),
@@ -651,7 +651,7 @@ parliamentary_items = rdb.Table(
     rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'),), 
     rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
     rdb.Column( "language", rdb.String(2), nullable=False),
-    rdb.Column( "short_name", rdb.Unicode(80), nullable=False ),
+    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),
     rdb.Column( "full_name", rdb.Unicode(1024), nullable=True ),
         rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "submission_date", rdb.Date ),
@@ -752,7 +752,7 @@ motion_amendments = rdb.Table(
    rdb.Column( "body_text", rdb.UnicodeText ),  
    rdb.Column( "submission_date", rdb.Date ),    
    rdb.Column( "accepted_p", rdb.Boolean ),
-   rdb.Column( "title", rdb.Unicode(80) ), 
+   rdb.Column( "title", rdb.Unicode(256) ), 
    rdb.Column( "vote_date", rdb.Date ),   
    )
 
@@ -761,7 +761,7 @@ bill_types = rdb.Table(
     "bill_types",
     metadata,
     rdb.Column("bill_type_id", rdb.Integer, primary_key=True ),
-    rdb.Column("bill_type_name", rdb.Unicode(80), nullable=False, unique=True),
+    rdb.Column("bill_type_name", rdb.Unicode(256), nullable=False, unique=True),
     )
 
 bills = rdb.Table(
@@ -809,14 +809,14 @@ consignatories = rdb.Table(
 #    "document_sources",
 #    metadata,
 #    rdb.Column( "document_source_id", rdb.Integer, primary_key=True),   
-#    rdb.Column( "document_source", rdb.Unicode(80)),
+#    rdb.Column( "document_source", rdb.Unicode(256)),
 #    )
 
 #tabled_documents = rdb.Table(
 #    "tabled_documents",
 #    metadata,
 #    rdb.Column( "tabled_document_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
-#    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
+#    rdb.Column( "title", rdb.Unicode(256), nullable = False ),
 #    rdb.Column( "summary", rdb.UnicodeText ),   
 #    rdb.Column( "link", rdb.String(256)),   
 #    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),

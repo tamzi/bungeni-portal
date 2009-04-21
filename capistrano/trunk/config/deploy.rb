@@ -4,15 +4,32 @@
 ### checks out svn source , sets up python correctly, sets up the config files (supervisord.conf) using erb templatss
 ### 
 
+#### COMMMON FUNCTIONS ####
+
+def prompt_def(var, askmsg, default)
+  set(var) do
+	Capistrano::CLI.ui.ask "#{askmsg} [#{default}] : "
+  end
+  set var, default if eval("#{var.to_s}.empty?")
+end
+
+
+
+#### CONFIG VARIABLE SETTING ####
+
 set :application, "bungeni"
 set :bungeni_username, "bungeni"
 set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
 
 ## prompt for svn user names & passwords
 set :scm, :subversion
-set :scm_username, Proc.new { Capistrano::CLI.password_prompt('SVN Username: ') }
+
+## all prompts here
+set :scm_username, Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
 set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
-set :user_python_home, Proc.new { Capistrano::CLI.password_prompt('User Python Home Directory: ') }
+prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
+prompt_def(:deploy_to_root, 'Deploy within this folder: ', '/home/bungeni/bungeni_deploy')
+
 
 ## user python is used to run bungeni in the user context -- this is a pre-requisite
 #was "/home/bungeni/apps/python"
@@ -28,6 +45,7 @@ set :adm_python, "#{adm_python_home}/bin/python"
 ## supervisord is installed using ez_setup
 
 set :supervisord, "#{adm_python_home}/bin/supervisord"
+set :supervisorctl, "#{adm_python_home}/bin/supervisorctl"
 
 # erb template to supervisord.conf
 set :supervisord_config_file, "supervisord.conf.erb"
@@ -35,15 +53,16 @@ set :supervisord_config_file, "supervisord.conf.erb"
 ##force prompt if any unknown prompts pop up
 default_run_options[:pty] = true
 
-set :deploy_to_root, Proc.new { Capistrano::CLI.password_prompt('Deploy within this folder: ') }
+##set :deploy_to_root, Proc.new { Capistrano::CLI.password_prompt('Deploy within this folder: ') }
 set :deploy_to, "#{deploy_to_root}/#{application}"
 #was set :deploy_to, "/home/bungeni/bungeni_deploy/#{application}"
 set :buildout_dir, "#{deploy_to}/current"
 
-
 set :user, "#{bungeni_username}"
 set :use_sudo, false
 set :app_host, "localhost"
+
+#### ROLE SETTING ####
 
 role :app, "#{bungeni_username}@#{app_host}"
 
@@ -56,7 +75,6 @@ role :app, "#{bungeni_username}@#{app_host}"
 
 
 namespace :bungeni do
-
 ## generate supervisord.conf using a ERB template found in config/templates
 desc "write supervisor config file"
 task :supervisord_config, :roles => [:app] do
@@ -73,19 +91,12 @@ task :python_setup, :roles => [:app] do
 	run "#{user_python_home}/bin/easy_install supervisor"
 end
 
-## run python_setup automatically aftter deploy:setup
-after "deploy:setup", "bungeni:python_setup"
-## after python_setup automatically do a deploy:update to setup the svn repo
-after "bungeni:python_setup", "deploy:update"
 
 
 desc "bootstrap"
 task :bootstrap_bo, :roles=> :app do
 	run  "cd #{buildout_dir} && #{user_python} ./bootstrap.py"
 end
-
-## after deploy:update, setup supervisord config
-after "deploy:update", "bungeni:supervisord_config"
 
 
 desc "full buildout"
@@ -97,6 +108,15 @@ desc "optimisitic builout"
 task :buildout_opt, :roles=> :app do
 	run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -N"
 end
+
+desc "update source" 
+task :bungeni_upd, :roles=> :app do
+	run "cd #{buildout_dir} && svn up"
+	run "cd #{buildout_dir}/src && svn up"
+end
+
+
+
 
 desc "start postgres"
 task :postgres_start, :roles=> :app do
@@ -128,6 +148,35 @@ desc "start supervisor"
 task :start_supervisor, :roles=> :app do
 	run "#{supervisord} -c #{buildout_dir}/supervisord.conf"
 end
+
+desc "stop supervisor"
+task :stop_supervisor, :roles=> :app do
+	run "#{supervisord} -c #{buildout_dir}/supervisord.conf"
+end
+
+
+
+
+
+## run python_setup automatically aftter deploy:setup
+after "deploy:setup", "bungeni:python_setup"
+## after python_setup automatically do a deploy:update to setup the svn repo
+after "bungeni:python_setup", "deploy:update"
+## after deploy:update, setup supervisord config
+after "deploy:update", "bungeni:supervisord_config"
+
+namespace :bungeniupdate do
+
+task :optimistic_update, :roles=> :app do
+	run "echo 'Running optimistic update of bungeni'"
+end
+
+after "bungeniupdate:optimistic_update", "bungeni:bungeni_upd", "bungeni:buildout_opt"
+
+
+
+end
+
 
 
 

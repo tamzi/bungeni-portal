@@ -1112,10 +1112,19 @@ class SittingDescriptor( ModelDescriptor ):
                     _(u'End Date')),
                 edit_widget=SelectDateTimeWidget, 
                 add_widget=SelectDateTimeWidget),
+        dict( name="venue_id",
+              property=schema.Choice( 
+                title=_(u"Venue"), 
+                source=DatabaseSource(domain.Venue,  
+                    title_field='short_name', 
+                    token_field='venue_id', 
+                    value_field = 'venue_id'),
+                    required = False),
+              listing=False,)
         ]
 
     schema_invariants = [EndAfterStart]
-    custom_validators = [validations.validate_date_range_within_parent,]    
+    custom_validators = [validations.validate_date_range_within_parent, validations.validate_venues]    
 
 class SittingTypeDescriptor(ModelDescriptor):
     display_name = _(u"Type")

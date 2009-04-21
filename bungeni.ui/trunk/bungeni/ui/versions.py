@@ -81,6 +81,7 @@ class VersionLogView(BaseForm):
         
     def listing(self):
         # set up table
+        import pdb; pdb.set_trace()
         formatter = self.formatter_factory(
             self.context, self.request,
             self._versions.values(),

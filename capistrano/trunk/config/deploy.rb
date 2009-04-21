@@ -1,27 +1,38 @@
-set :application, "bungeni"
-set :bungeni_username, "bungeni"
-set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
-set :scm, :subversion
-set :scm_username, Proc.new { Capistrano::CLI.password_prompt('SVN Username: ') }
-set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
-set :user_python_home, Proc.new { Capistrano::CLI.password_prompt('User Python Home Directory: ') }
-
-#was "/home/bungeni/apps/python"
-set :user_python, "#{user_python_home}/bin/python"
-set :adm_python_home, "#{user_python_home}"
-set :adm_python, "#{adm_python_home}/bin/python"
 ### Author : Ashok Hariharan
 ### Description :
 ### deploy.erb for setting up bungeni using capistrano
 ### checks out svn source , sets up python correctly, sets up the config files (supervisord.conf) using erb templatss
 ### 
 
+set :application, "bungeni"
+set :bungeni_username, "bungeni"
+set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
+
+## prompt for svn user names & passwords
+set :scm, :subversion
+set :scm_username, Proc.new { Capistrano::CLI.password_prompt('SVN Username: ') }
+set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
+set :user_python_home, Proc.new { Capistrano::CLI.password_prompt('User Python Home Directory: ') }
+
+## user python is used to run bungeni in the user context -- this is a pre-requisite
+#was "/home/bungeni/apps/python"
+set :user_python, "#{user_python_home}/bin/python"
+
+## admin python is used to run supervisord can be same as user python or a different one
+set :adm_python_home, "#{user_python_home}"
+set :adm_python, "#{adm_python_home}/bin/python"
+
+
 ##generate supervisord config files
+## config file for supervisord is generated using a ERB template
+## supervisord is installed using ez_setup
+
 set :supervisord, "#{adm_python_home}/bin/supervisord"
-## erb template to supervisord.conf
+
+# erb template to supervisord.conf
 set :supervisord_config_file, "supervisord.conf.erb"
 
-#force prompt if any unknown prompts pop up
+##force prompt if any unknown prompts pop up
 default_run_options[:pty] = true
 
 set :deploy_to_root, Proc.new { Capistrano::CLI.password_prompt('Deploy within this folder: ') }
@@ -35,6 +46,7 @@ set :use_sudo, false
 set :app_host, "localhost"
 
 role :app, "#{bungeni_username}@#{app_host}"
+
 #
 # db role is not required for capistrano 
 # for webistrano, a db role is mandatory. so we add the following line for webistrano
@@ -45,7 +57,7 @@ role :app, "#{bungeni_username}@#{app_host}"
 
 namespace :bungeni do
 
-
+## generate supervisord.conf using a ERB template found in config/templates
 desc "write supervisor config file"
 task :supervisord_config, :roles => [:app] do
 	file = File.join(File.dirname(__FILE__), "templates", supervisord_config_file)
@@ -96,13 +108,12 @@ task :postgres_stop, :roles=> :app do
 	run "cd #{buildout_dir} && ./bin/pg_ctl stop"
 end
 
-
 desc "setup database"
 task :setup_db, :roles=> :app do
 	run "cd #{buildout_dir} && ./bin/setup-database"
 end
 
-desc "reset databse"
+desc "reset database"
 task :reset_db, :roles=> :app do
 	run "cd #{buildout_dir} && ./bin/reset-db"
 end

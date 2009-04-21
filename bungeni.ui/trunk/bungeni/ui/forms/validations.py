@@ -402,9 +402,9 @@ def validate_venues(action, data, context, container):
         sitting = context
     else:
         sitting = None    
-    session = Session()
     if data ['venue_id']:
         venue_id = long(data ['venue_id'])
+        session = Session()        
         svenue = session.query(domain.Venue).get(venue_id)            
     else:
         return []
@@ -422,4 +422,14 @@ def validate_venues(action, data, context, container):
                         booking.short_name, 
                         "venue_id" ))                             
     return errors
+
+def validate_sitting_dates(action, data, context, container):
+    errors = []
+    if interfaces.IGroupSitting.providedBy(context):
+        sitting = context
+    else:
+        sitting = None    
+    session = Session()
+    pass
+
     

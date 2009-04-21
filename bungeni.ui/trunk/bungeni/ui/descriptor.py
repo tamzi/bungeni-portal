@@ -890,6 +890,65 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               view = False, ),
         ]                   
 
+class VersionDescriptor( ModelDescriptor ):
+ fields= [
+        dict(name="parliamentary_item_id", omit=True),
+        dict(name="parliament_id", omit=True),
+        dict( name="owner_id", 
+            omit = True,
+            ),
+        dict(name="short_name", 
+            label=_(u"Title"), 
+            listing=True, 
+            add=True, 
+            edit=True, 
+            omit=False),
+        dict(name="full_name", 
+            label=_(u"Summary"), 
+            listing=False, 
+            add=True, 
+            edit=True, 
+            omit=False),
+        dict(name="language", 
+             label=_(u"Language"), 
+             listing=True, 
+             add=True, 
+             edit=False, 
+             omit=False,
+             required=True,
+             property=schema.Choice(
+                 title=u"Language",
+                 default=get_default_language(),
+                 vocabulary="language_vocabulary",
+                 ),
+             ),
+        dict( name="body_text", label=_(u"Text"),
+              property = schema.Text( title=u"Text" ),
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor, 
+              add_widget=RichTextEditor
+              ),
+        dict( name="submission_date", 
+            omit=True),        
+        dict( name="status", 
+            omit=True ),            
+        dict( name="note", 
+            label=_(u"Notes"), 
+            description="Recommendation note", 
+              property=schema.Text(title=_(u"Notes"),  
+                description=_(u"Recommendation note"), required=False ),              
+              edit = True, 
+              add = True, 
+              view = False, 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor, ),    
+        dict( name="receive_notification",               
+              omit=True ),  
+        dict( name="type", 
+              omit=True, ),
+        ]                   
+
+
 class AgendaItemDescriptor( ParliamentaryItemDescriptor): 
     display_name =_(u"Agenda item")
     container_name =_(u"Agenda items")
@@ -933,7 +992,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
               required=False) ),                
         ])
 
-class MotionVersionDescriptor( ParliamentaryItemDescriptor ):
+class MotionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Motion version")
     container_name = _(u"Versions")
 
@@ -977,7 +1036,7 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
 
         ])
 
-class BillVersionDescriptor( ParliamentaryItemDescriptor ):
+class BillVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Bill version")
     container_name = _(u"Versions")
 
@@ -1034,7 +1093,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
             listing=True ),
         ])
 
-class QuestionVersionDescriptor( ParliamentaryItemDescriptor ):
+class QuestionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Question version")
     container_name = _(u"Versions")
     

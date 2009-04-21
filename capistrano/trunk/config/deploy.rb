@@ -1,29 +1,40 @@
 set :application, "bungeni"
-set :bungeni_username, "undesa"
+set :bungeni_username, "bungeni"
 set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
-set :user_python, "/home/undesa/dev/bungeni/python/254/bin/python"
-set :adm_python_home, "/home/undesa/dev/bungeni/python/adm"
-set :adm_python, "#{adm_python_home}/bin/python"
-set :supervisord, "#{adm_python_home}/bin/supervisord"
-set :supervisord_config, "/home/undesa/dev/bungeni/supervisor/supervisord.conf"
-
-# If you aren't deploying to /u/apps/#{application} on the target
-# servers (which is the default), you can specify the actual location
-# via the :deploy_to variable:
-set :deploy_to, "/home/undesa/dev/capdeploy/#{application}"
-set :buildout_dir, "#{deploy_to}/current"
-
-# If you aren't using Subversion to manage your source code, specify
-# your SCM below:
-
 set :scm, :subversion
 set :scm_username, Proc.new { Capistrano::CLI.password_prompt('SVN Username: ') }
 set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
+set :user_python_home, Proc.new { Capistrano::CLI.password_prompt('User Python Home Directory: ') }
+
+#was "/home/bungeni/apps/python"
+set :user_python, "#{user_python_home}/bin/python"
+set :adm_python_home, "#{user_python_home}"
+set :adm_python, "#{adm_python_home}/bin/python"
+### Author : Ashok Hariharan
+### Description :
+### deploy.erb for setting up bungeni using capistrano
+### checks out svn source , sets up python correctly, sets up the config files (supervisord.conf) using erb templatss
+### 
+
+##generate supervisord config files
+set :supervisord, "#{adm_python_home}/bin/supervisord"
+## erb template to supervisord.conf
+set :supervisord_config_file, "supervisord.conf.erb"
+
+#force prompt if any unknown prompts pop up
+default_run_options[:pty] = true
+
+set :deploy_to_root, Proc.new { Capistrano::CLI.password_prompt('Deploy within this folder: ') }
+set :deploy_to, "#{deploy_to_root}/#{application}"
+#was set :deploy_to, "/home/bungeni/bungeni_deploy/#{application}"
+set :buildout_dir, "#{deploy_to}/current"
+
+
 set :user, "#{bungeni_username}"
 set :use_sudo, false
+set :app_host, "localhost"
 
-
-role :app, "undesa@demo.bungeni.org"
+role :app, "#{bungeni_username}@#{app_host}"
 #
 # db role is not required for capistrano 
 # for webistrano, a db role is mandatory. so we add the following line for webistrano
@@ -32,11 +43,38 @@ role :app, "undesa@demo.bungeni.org"
 #
 
 
-namespace :deploy do
+namespace :bungeni do
+
+
+desc "write supervisor config file"
+task :supervisord_config, :roles => [:app] do
+	file = File.join(File.dirname(__FILE__), "templates", supervisord_config_file)
+	template = File.read(file)
+	buffer = ERB.new(template).result(binding)
+	put buffer, "#{buildout_dir}/supervisord.conf", :mode => 0644
+end
+
+## setup easy_install for the python and then install supervisord 
+task :python_setup, :roles => [:app] do 
+	run "cd #{user_python_home} && [ -f ./ez_setup.py ] && echo 'ez_setup.py exists' || wget http://peak.telecommunity.com/dist/ez_setup.py"
+	run "cd #{user_python_home} && #{user_python} ./ez_setup.py"
+	run "#{user_python_home}/bin/easy_install supervisor"
+end
+
+## run python_setup automatically aftter deploy:setup
+after "deploy:setup", "bungeni:python_setup"
+## after python_setup automatically do a deploy:update to setup the svn repo
+after "bungeni:python_setup", "deploy:update"
+
+
 desc "bootstrap"
 task :bootstrap_bo, :roles=> :app do
 	run  "cd #{buildout_dir} && #{user_python} ./bootstrap.py"
 end
+
+## after deploy:update, setup supervisord config
+after "deploy:update", "bungeni:supervisord_config"
+
 
 desc "full buildout"
 task :buildout_full, :roles=> :app do
@@ -77,7 +115,7 @@ end
 
 desc "start supervisor"
 task :start_supervisor, :roles=> :app do
-	run "#{supervisord} -c #{supervisord_config}"
+	run "#{supervisord} -c #{buildout_dir}/supervisord.conf"
 end
 
 

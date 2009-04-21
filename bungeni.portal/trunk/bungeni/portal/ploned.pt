@@ -1,4 +1,4 @@
-<metal:master define-macro="page" use-macro="macro">
+<metal:master define-macro="page" extend-macro="macro">
 
   <metal:title fill-slot="title">
     <title metal:define-slot="title">

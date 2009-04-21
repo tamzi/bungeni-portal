@@ -13,9 +13,8 @@ from bungeni.models import interfaces, domain, schema
 
 import sqlalchemy as rdb
 
-
+from bungeni.models import venue
 from bungeni.ui.queries.utils import validate_date_in_interval, validate_open_interval
-
 from bungeni.ui.queries import utils
 from bungeni.ui.utils import get_date
 
@@ -396,4 +395,31 @@ def validate_member_titles(action, data, context, container):
                     "end_date" ))                                         
     return errors
 
-
+def validate_venues(action, data, context, container):
+    """ a venue can only be booked for one sitting at once """
+    errors = []
+    if interfaces.IGroupSitting.providedBy(context):
+        sitting = context
+    else:
+        sitting = None    
+    session = Session()
+    if data ['venue_id']:
+        venue_id = long(data ['venue_id'])
+        svenue = session.query(domain.Venue).get(venue_id)            
+    else:
+        return []
+    if data['start_date']:
+        start = data['start_date']
+    else:
+        return []        
+    if data['end_date']:            
+        end = data['start_date']
+    else:
+        return []        
+    for booking in  venue.check_venue_bookings( start, end, svenue, sitting):
+        errors.append( interface.Invalid(
+                        _(u"This venue is allready booked for %s") % 
+                        booking.short_name, 
+                        "venue_id" ))                             
+    return errors
+    

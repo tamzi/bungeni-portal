@@ -40,7 +40,7 @@ class QuestionInStateViewlet( ViewletBase ):
                 data['subject'] = result.short_name
             data['title'] = result.short_name
             data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
-            data['url'] = '/questions/obj-' + str(result.question_id)
+            data['url'] = '/business/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
     
@@ -75,7 +75,7 @@ class MyQuestionsViewlet( ViewletBase ):
                 data['subject'] = result.short_name + ' (' + result.status + ')'
             data['title'] = result.short_name + ' (' + result.status + ')'
             data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
-            data['url'] = '/questions/obj-' + str(result.question_id)
+            data['url'] = '/business/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
     
@@ -113,7 +113,7 @@ class MyMotionsViewlet( ViewletBase ):
                 data['subject'] =  result.short_name  + ' (' + result.status + ')'
             data['title'] = result.short_name  + ' (' + result.status + ')'
             data['result_item_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
-            data['url'] = '/motions/obj-' + str(result.motion_id)
+            data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
     
@@ -284,7 +284,7 @@ class MotionInStateViewlet( ViewletBase ):
                 data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             else:         
                 data['result_item_class'] = 'sc-after-'       
-            data['url'] = '/motions/obj-' + str(result.motion_id)
+            data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
     

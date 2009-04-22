@@ -33,7 +33,18 @@ def getAuditableParent(obj):
                 parent = parent.__parent__              
             except:
                 parent = None                
-    
+def directoryAddedSubscriber( ob, event):
+    """ when a directory is added notify the object it is added to """
+    ob = removeSecurityProxy( ob )
+    revision = ob.getSVNContext().getRevision()
+    message = ob.getSVNContext().transaction.message    
+    obj = getAuditableParent(ob)
+    if obj:
+        event.description = u"Directory %s revision %i added: %s"  %  (
+                ob.__name__,
+                revision, message)
+        notify(audit.objectAttachment(obj, event))     
+        
 def fileAddedSubscriber( ob, event ):
     """ when a file is added notify the object it is added to """
     ob = removeSecurityProxy( ob )
@@ -47,7 +58,7 @@ def fileAddedSubscriber( ob, event ):
         notify(audit.objectAttachment(obj, event)) 
         
 def fileEditedSubscriber( ob, event ):
-    """ when a file is added notify the object it is added to """
+    """ when a file is edited notify the parent object """
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
     message = ob.getSVNContext().transaction.message        
@@ -59,7 +70,7 @@ def fileEditedSubscriber( ob, event ):
         notify(audit.objectAttachment(obj, event))         
 
 def fileDeletedSubscriber( ob, event ):
-    """ when a file is added notify the object it is added to """
+    """ when a file is deleted notify the parent"""
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
     obj = getAuditableParent(ob)

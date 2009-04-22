@@ -74,8 +74,13 @@
           zope.lifecycleevent.interfaces.IObjectCreatedEvent"
      handler=".files.objectNewVersion"
      />
-     
-     
+
+  <subscriber
+     for="ore.library.interfaces.ILibraryDirectory
+          zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".files.directoryAddedSubscriber"
+     />
+
      
      
   <subscriber

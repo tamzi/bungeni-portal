@@ -108,8 +108,6 @@ class FormAuthPlugin(FormPluginBase):
                 return HTTPFound(destination, headers=forget_headers)
 
             return HTTPFound(webob.Request(environ).url, headers=forget_headers)
-        
-        return HTTPFound(headers=forget_headers)
     
     def _get_full_path(self, path, environ):
         """

@@ -64,6 +64,12 @@
 
 
   <subscriber
+     for="ore.library.interfaces.ILibraryFile
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+     handler=".files.fileEditedSubscriber"
+     />
+
+  <subscriber
      for="bungeni.models.interfaces.IVersion
           zope.lifecycleevent.interfaces.IObjectCreatedEvent"
      handler=".files.objectNewVersion"

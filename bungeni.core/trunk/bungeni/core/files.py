@@ -5,7 +5,7 @@ from zope import interface, component
 from zope.publisher.interfaces import NotFound
 from zope.security.proxy import removeSecurityProxy
 from zope.location.interfaces import ILocation
-from zope.lifecycleevent import ObjectCreatedEvent
+from zope.event import notify
 
 from sqlalchemy import orm
 from ore.alchemist import Session
@@ -16,6 +16,7 @@ from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
 
 from bungeni.core import interfaces
 from bungeni.models import schema as dbschema
+from bungeni.core import audit
 
 def fileClassifierSubscriber( ob, event ):
     ob = removeSecurityProxy( ob )
@@ -36,11 +37,24 @@ def getAuditableParent(obj):
 def fileAddedSubscriber( ob, event ):
     """ when a file is added notify the object it is added to """
     ob = removeSecurityProxy( ob )
+    revision = ob.getSVNContext().getRevision()
     obj = getAuditableParent(ob)
     if obj:
-        event.description = u"File %s added"  % ob.__name__
-        #event.notify(ObjectCreatedEvent(obj)) 
-    #import pdb; pdb.set_trace()    
+        event.description = u"File %s revision %i added"  %  (
+                ob.svn_path[len(ob.__parent__.svn_path)+1:],
+                revision)
+        notify(audit.objectAttachment(obj, event)) 
+        
+def fileEditedSubscriber( ob, event ):
+    """ when a file is added notify the object it is added to """
+    ob = removeSecurityProxy( ob )
+    revision = ob.getSVNContext().getRevision()
+    obj = getAuditableParent(ob)
+    if obj:
+        event.description = u"File %s revision %i edited"  % (
+                ob.svn_path[len(ob.__parent__.svn_path)+1:],
+                revision)
+        notify(audit.objectAttachment(obj, event))         
 
 class FileClassifier( HachoirFileClassifier ):
 

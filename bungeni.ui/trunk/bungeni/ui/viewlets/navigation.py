@@ -16,11 +16,14 @@ from zope.app.publisher.browser import queryDefaultViewName
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
+from ore.svn.interfaces import ISubversionNode
+
 from alchemist.traversal.managed import ManagedContainerDescriptor
 
 from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
 
+from bungeni.models.interfaces import IFileAttachments
 from bungeni.core.interfaces import ISection
 from bungeni.core import location
 
@@ -222,7 +225,15 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 'name' : context.title,
                 'url' : url,
                 })
-
+        elif ILocation.providedBy(context) and \
+            ISubversionNode.providedBy(context):
+            path.append({
+                'name' : context.__name__,
+                'url' : url,
+            })
+      
+            
+                        
         return path
         
     def update(self):

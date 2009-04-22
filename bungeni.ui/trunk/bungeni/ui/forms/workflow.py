@@ -67,7 +67,7 @@ class TransitionHandler( object ):
         if form.errors: 
             return result
         else:         
-            createVersion(form.context, notes)                                                        
+            #createVersion(form.context, notes)                                                        
             info.fireTransition( self.transition_id, notes )       
             url = absoluteURL( form.context, form.request )  
             return form.request.response.redirect( url )             

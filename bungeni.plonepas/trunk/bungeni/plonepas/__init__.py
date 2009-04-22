@@ -8,7 +8,7 @@ def initialize( context ):
     import group, user
     
     if group.GroupManager.meta_type not in MultiPlugins:
-        registerMultiPlugin( property.GroupManager.meta_type )
+        registerMultiPlugin( group.GroupManager.meta_type )
     
     context.registerClass(group.GroupManager,
             permission = add_user_folders,

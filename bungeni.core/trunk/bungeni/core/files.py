@@ -38,23 +38,37 @@ def fileAddedSubscriber( ob, event ):
     """ when a file is added notify the object it is added to """
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
+    message = ob.getSVNContext().transaction.message    
     obj = getAuditableParent(ob)
     if obj:
-        event.description = u"File %s revision %i added"  %  (
-                ob.svn_path[len(ob.__parent__.svn_path)+1:],
-                revision)
+        event.description = u"File %s revision %i added: %s"  %  (
+                ob.__name__,
+                revision, message)
         notify(audit.objectAttachment(obj, event)) 
         
 def fileEditedSubscriber( ob, event ):
     """ when a file is added notify the object it is added to """
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
+    message = ob.getSVNContext().transaction.message        
     obj = getAuditableParent(ob)
     if obj:
-        event.description = u"File %s revision %i edited"  % (
-                ob.svn_path[len(ob.__parent__.svn_path)+1:],
-                revision)
+        event.description = u"File %s revision %i edited: %s"  % (
+                ob.__name__,
+                revision, message)
         notify(audit.objectAttachment(obj, event))         
+
+def fileDeletedSubscriber( ob, event ):
+    """ when a file is added notify the object it is added to """
+    ob = removeSecurityProxy( ob )
+    revision = ob.getSVNContext().getRevision()
+    obj = getAuditableParent(ob)
+    if obj:
+        event.description = u"File %s revision %i deleted"  % (
+                ob.__name__,
+                revision)
+        notify(audit.objectAttachment(obj, event))  
+
 
 class FileClassifier( HachoirFileClassifier ):
 

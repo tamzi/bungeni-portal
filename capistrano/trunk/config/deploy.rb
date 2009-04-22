@@ -25,6 +25,7 @@ set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/tr
 set :scm, :subversion
 
 ## all prompts here
+prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
 set :scm_username, Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
 set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
 prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
@@ -165,11 +166,14 @@ after "bungeni:python_setup", "deploy:update"
 ## after deploy:update, setup supervisord config
 after "deploy:update", "bungeni:supervisord_config"
 
+end
+
 namespace :bungeniupdate do
 
 task :optimistic_update, :roles=> :app do
 	run "echo 'Running optimistic update of bungeni'"
 end
+
 
 after "bungeniupdate:optimistic_update", "bungeni:bungeni_upd", "bungeni:buildout_opt"
 
@@ -177,7 +181,13 @@ after "bungeniupdate:optimistic_update", "bungeni:bungeni_upd", "bungeni:buildou
 
 end
 
+namespace :bungeniinstall do
 
+task :full, :roles=> :app do
+	run "echo 'bootstraping and running a full buildout'"
+end
+
+after "bungeniinstall:full", "bungeni:bootstrap_bo", "bungeni:buildout_full"
 
 
 end

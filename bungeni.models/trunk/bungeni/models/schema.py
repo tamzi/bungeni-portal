@@ -275,8 +275,9 @@ committee_type = rdb.Table(
     rdb.Column("committee_type", rdb.Unicode(256), nullable=False),
     rdb.Column("description", rdb.UnicodeText),
     rdb.Column("life_span", rdb.Unicode(16)),
+    # Indicate whether this type of committees are: ‘P' - Permanent, ‘T' - Temporary    
     rdb.Column("status", rdb.String(1),             
-       rdb.CheckConstraint("status in ('P','T')"),  # Indicate whether this type of committees are: ‘P' - Permanent, ‘T' - Temporary 
+       rdb.CheckConstraint("status in ('P','T')"),   
                 nullable=False ),
                 
     )
@@ -653,7 +654,7 @@ parliamentary_items = rdb.Table(
     rdb.Column( "language", rdb.String(2), nullable=False),
     rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),
     rdb.Column( "full_name", rdb.Unicode(1024), nullable=True ),
-        rdb.Column( "body_text", rdb.UnicodeText),
+    rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "submission_date", rdb.Date ),
     # Workflow State
     rdb.Column( "status", rdb.Unicode(48) ),

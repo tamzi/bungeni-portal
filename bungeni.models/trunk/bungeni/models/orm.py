@@ -382,7 +382,8 @@ mapper(domain.ScheduledItemDiscussion, schema.item_discussion)
 
        
 mapper( domain.Consignatory, schema.consignatories,
-        properties= {'item': relation(domain.ParliamentaryItem, uselist=False)})
+        properties= {'item': relation(domain.ParliamentaryItem, uselist=False),
+                      'user': relation(domain.User, uselist=False)})
 mapper( domain.Debate, schema.debates )
 
 mapper( domain.MotionAmendment, schema.motion_amendments)

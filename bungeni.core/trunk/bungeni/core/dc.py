@@ -215,6 +215,20 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
                 context.user.last_name)
         else:
             return u"New User"
+
+class ConsignatoryDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IConsignatory)
+
+    @property
+    def title(self):
+        context = removeSecurityProxy(self.context)
+        if context.user:
+            return "%s %s %s" % (context.user.titles,
+                context.user.first_name,
+                context.user.last_name)
+        else:
+            return u"New User"
+
             
 class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IParliamentSession)  

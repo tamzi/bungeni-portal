@@ -23,22 +23,14 @@ def fileClassifierSubscriber( ob, event ):
     classifier = IMimeClassifier( ob )
     ob.mime_type = str( classifier.queryMimeType() )
     
-def getAuditableParent(obj):
-    parent = obj.__parent__
-    while parent:
-        if  interfaces.IAuditable.providedBy(parent):
-            return parent
-        else:
-            try:
-                parent = parent.__parent__              
-            except:
-                parent = None                
+              
+                
 def directoryAddedSubscriber( ob, event):
     """ when a directory is added notify the object it is added to """
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
     message = ob.getSVNContext().transaction.message    
-    obj = getAuditableParent(ob)
+    obj = audit.getAuditableParent(ob)
     if obj:
         event.description = u"Directory %s revision %i added: %s"  %  (
                 ob.__name__,
@@ -50,7 +42,7 @@ def fileAddedSubscriber( ob, event ):
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
     message = ob.getSVNContext().transaction.message    
-    obj = getAuditableParent(ob)
+    obj = audit.getAuditableParent(ob)
     if obj:
         event.description = u"File %s revision %i added: %s"  %  (
                 ob.__name__,
@@ -62,7 +54,7 @@ def fileEditedSubscriber( ob, event ):
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
     message = ob.getSVNContext().transaction.message        
-    obj = getAuditableParent(ob)
+    obj = audit.getAuditableParent(ob)
     if obj:
         event.description = u"File %s revision %i edited: %s"  % (
                 ob.__name__,
@@ -73,7 +65,7 @@ def fileDeletedSubscriber( ob, event ):
     """ when a file is deleted notify the parent"""
     ob = removeSecurityProxy( ob )
     revision = ob.getSVNContext().getRevision()
-    obj = getAuditableParent(ob)
+    obj = audit.getAuditableParent(ob)
     if obj:
         event.description = u"File %s revision %i deleted"  % (
                 ob.__name__,

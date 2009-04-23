@@ -14,8 +14,20 @@ from ore.alchemist.interfaces import IRelationChange
 from sqlalchemy import orm
 
 from bungeni.models import schema
+from bungeni.core import interfaces, dc
 
 from i18n import _ 
+
+def getAuditableParent(obj):
+    parent = obj.__parent__
+    while parent:
+        if  interfaces.IAuditable.providedBy(parent):
+            return parent
+        else:
+            try:
+                parent = parent.__parent__              
+            except:
+                parent = None  
 
 def getAuditor( ob ):
     auditor = globals()['%sAuditor'%(ob.__class__.__name__)]
@@ -58,13 +70,19 @@ def objectRevertedVersion( ob, event ):
 def objectAttachment( ob, event ):
     auditor = getAuditor( ob ) 
     auditor.objectAttachment( removeSecurityProxy(ob), event )     
-       
+
+def objectContained( ob, event):       
+    auditor = getAuditor( ob ) 
+    auditor.objectContained( removeSecurityProxy(ob), event )  
     
 class AuditorFactory( object ):
 
     def __init__( self, change_table ):
         self.change_table = change_table
 
+    def objectContained( self, object, event):
+        self._objectChanged(event.cls, object, event.description )
+        
     def objectAttachment( self, object, event):
         self._objectChanged(u'Files', object, event.description )
     

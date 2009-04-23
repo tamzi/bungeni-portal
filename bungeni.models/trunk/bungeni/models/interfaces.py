@@ -221,7 +221,9 @@ class IBranchFileAttachments( IFileAttachments ):
     """ branches/version_id directory
     """
     
-
+class IConsignatory( interface.Interface ):
+    """ consignatories for bills, motions,.."""
+    
     
 class IDirectoryLocation( interface.Interface ):
 

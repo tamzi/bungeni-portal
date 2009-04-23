@@ -206,7 +206,8 @@
   <adapter factory=".dc.ParliamentSessionDescriptiveProperties" />
   <adapter factory=".dc.ContainerDescriptiveProperties" />
   <adapter factory=".dc.ScheduledItemDiscussionDescriptiveProperties" />
-  
+  <adapter factory=".dc.ConsignatoryDescriptiveProperties" />
+    
   <adapter
      name="dc"
      for="*"

@@ -365,7 +365,11 @@ FROM "public"."user_group_memberships" AS "user_group_memberships_1", "public"."
 WHERE ( "user_group_memberships_1"."group_id" = "groups"."group_id" AND "parliaments"."parliament_id" = "groups"."group_id" )
 );
 
-
+/* set the login name to something sane */
+UPDATE users SET login=(
+SELECT substring( (substring(lower(first_name) from 1 for 1) || '.' || lower(last_name) || substring(lower(middle_name) from 1 for 1)) from 1 for 16)  
+FROM users AS users_1 WHERE users_1.user_id = users.user_id)
+WHERE login IS NULL
 
 
 

@@ -12,4 +12,8 @@
                handler="bungenicms.policy.setuphandlers.setup_who_authentication"
                title="Set up ``repoze.who`` authentication">
   </import-step>
+  <import-step id="bungenicms.policy.setup_plonepas" version="1"
+               handler="bungenicms.policy.setuphandlers.setup_plonepas"
+               title="Set up ``bungeni.plonepas`` authentication">
+  </import-step>
 </import-steps>

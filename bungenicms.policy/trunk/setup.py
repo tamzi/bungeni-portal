@@ -20,6 +20,7 @@ setup(
     namespace_packages=['bungenicms'],
     install_requires = [
         'Products.whoopass',
+        'bungeni.plonepas',
         ],
     zip_safe = False,
     )

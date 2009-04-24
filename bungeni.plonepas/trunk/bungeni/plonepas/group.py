@@ -54,7 +54,7 @@ class GroupManager( BasePlugin, Cacheable ):
         o May assign groups based on values in the REQUEST object, if present
         """
         res = rdb.select( [ schema.groups.c.short_name ],
-                          rdb.and_( schema.users.c.login == principal,
+                          rdb.and_( schema.users.c.login == principal.getId(),
                                     schema.user_group_memberships.c.user_id == schema.users.c.user_id,
 #                                    schema.groups.c.end_date >= datetime.now(),
                                     schema.groups.c.group_id == schema.user_group_memberships.c.group_id ) ).execute()

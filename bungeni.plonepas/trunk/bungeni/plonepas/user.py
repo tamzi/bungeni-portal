@@ -129,7 +129,7 @@ class UserManager( BasePlugin ):
         """
         if id is None:
             id = login
-            
+
         # try to normalize the list of ids/logins into single sequence    
         if isinstance( login, (list, tuple ) ):
             if isinstance( id, (list, tuple ) ):
@@ -150,6 +150,9 @@ class UserManager( BasePlugin ):
             return []
         elif id is None:
             clause = None
+            for key, value in kw.items():
+                column = getattr(schema.users.c, key)
+                clause = rdb.and_(clause, column.contains(value))
         elif isinstance( id, (list, tuple)) and exact_match:
             statements = []
             for i in id:
@@ -163,7 +166,11 @@ class UserManager( BasePlugin ):
             clause = schema.users.c.login == id
 
         query = rdb.select( [ schema.users.c.login ],
-                            rdb.and_(clause, schema.users.c.active_p == 'A') )
+                            rdb.and_(
+                                clause,
+                                schema.users.c.active_p == 'A',
+                                schema.users.c.login != None
+                                ) )
 
         if sort_by:
             assert sort_by in ('login', 'last_name')

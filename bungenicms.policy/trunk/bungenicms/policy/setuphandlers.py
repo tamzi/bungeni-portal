@@ -1,5 +1,7 @@
 import logging
+
 from Products.PluggableAuthService.interfaces.plugins import *
+from bungeni.plonepas.install import install as install_plonepas
 
 def setup_members_folder(context):
     """Set up the members folder at <root>/members.
@@ -111,3 +113,13 @@ def setup_who_authentication(context):
     plugins.activatePlugin(IGroupsPlugin, 'who')
     plugins.activatePlugin(IPropertiesPlugin, 'who')
     plugins.activatePlugin(IRolesPlugin, 'who')
+
+def setup_plonepas(context):
+    if context.readDataFile('marker.txt') is None:
+        return
+
+    portal = context.getSite()
+    return install_plonepas(portal)
+    
+
+    

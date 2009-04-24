@@ -2,6 +2,13 @@ from ore.alchemist import Session
 from bungeni.models import domain
 from sqlalchemy import desc
 
+def container_getter(getter, name):
+    def func(context):
+        obj = getter(context)
+        return getattr(obj, name)
+    func.__name__ = "get_%s_container" % name
+    return func
+
 def get_current_parliament(context):
     session = Session()
     return session.query(domain.Parliament).order_by(

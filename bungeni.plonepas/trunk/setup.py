@@ -20,5 +20,6 @@ setup(name='bungeni.plonepas',
         'setuptools',
         'ore.alchemist',
         'pysqlite',
+        'bungeni.models',
       ],
       )

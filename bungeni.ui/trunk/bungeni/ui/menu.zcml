@@ -17,8 +17,18 @@
      />
 
   <browser:menu
-     id="parliament_navigation"
-     title="Actions for the 'Parliament' section"
+     id="members_navigation"
+     title="Actions for the 'Members' section"
+     />
+
+  <browser:menu
+     id="archive_navigation"
+     title="Actions for the 'Archive' section"
+     />
+
+  <browser:menu
+     id="records_navigation"
+     title="Actions for the 'Records' section"
      />
 
   <browser:menu
@@ -82,6 +92,7 @@
      for="bungeni.models.interfaces.IBungeniApplication"
      title="Home"
      action=""
+     layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
      />
 
@@ -274,7 +285,7 @@
      for="*"
      layer=".interfaces.IBungeniSkin"
      action="/"
-     title="Welcome"
+     title="Home"
      />
 
    <browser:menuItem
@@ -287,8 +298,15 @@
    <browser:menuItem
       menu="site_actions"
       for="*"
-      action="/parliament"
-      title="Parliament"
+      action="/members"
+      title="Members"
+      />
+
+   <browser:menuItem
+      menu="site_actions"
+      for="*"
+      action="/archive"
+      title="Archive"
       />
 
   <browser:menuItem

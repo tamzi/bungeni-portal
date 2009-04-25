@@ -117,6 +117,8 @@ div#portal-globalnav-bottom {
 
 /* custom navigation tab styles */
 
+/*
+   
 div#portal-globalnav ul.level0 li#portaltab-bungeni.selected a,
 div#portal-globalnav ul.level0 li#portaltab-members.selected a,
 div#portal-globalnav ul.level0 li#portaltab-koha.selected a,
@@ -182,3 +184,5 @@ li#portaltab-index_html a {
   padding-left: 28px !important;
   margin-left: 20px !important;
 }
+
+*/

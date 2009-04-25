@@ -23,7 +23,6 @@ from alchemist.traversal.managed import ManagedContainerDescriptor
 from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
 
-from bungeni.models.interfaces import IFileAttachments
 from bungeni.core.interfaces import ISection
 from bungeni.core import location
 
@@ -350,16 +349,22 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             url = absoluteURL(context, self.request)
             props = IDCDescriptiveProperties.providedBy(context) and \
                 context or IDCDescriptiveProperties(context)
-
             props = proxy.removeSecurityProxy(props)
 
+            selected = len(chain) == 0
+            if selected and IReadContainer.providedBy(context):
+                nodes = []
+                self.expand_containers(nodes, context.items(), url, chain, context)
+            else:
+                nodes = self.expand(chain)
+            
             items.append(
                 {'title': props.title,
                  'url': url,
                  'current': True,
-                 'selected': len(chain) == 0,
+                 'selected': selected,
                  'kind': 'location',
-                 'nodes': self.expand(chain),
+                 'nodes': nodes,
                  })
 
         elif IReadContainer.providedBy(context):

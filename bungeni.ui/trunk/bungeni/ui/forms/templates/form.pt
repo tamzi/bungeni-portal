@@ -38,6 +38,7 @@
         <form action="."
               tal:attributes="action view/action_url|request/URL"
               method="post"
+              id = "alchemist-form"
               enctype="multipart/form-data">
 
 

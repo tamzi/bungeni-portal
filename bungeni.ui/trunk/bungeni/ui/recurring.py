@@ -140,14 +140,16 @@ def create_recurrent_sittings(datelist, sitting):
     session = Session()
     sitting.recurring_id = sitting.sitting_id
     for date in datelist:
-        r_sitting = domain.GroupSitting()
-        r_sitting.recurring_id = sitting.sitting_id
-        r_sitting.group_id = sitting.group_id
-        r_sitting.short_name = sitting.short_name
-        r_sitting.start_date = make_date_time(date, sitting.start_date)
-        r_sitting.end_date = make_date_time(date, sitting.end_date)
-        r_sitting.sitting_type_id = sitting.sitting_type_id
-        session.add(r_sitting) 
+        if date != sitting.start_date.date():
+            r_sitting = domain.GroupSitting()
+            r_sitting.recurring_id = sitting.sitting_id
+            r_sitting.group_id = sitting.group_id
+            r_sitting.short_name = sitting.short_name
+            r_sitting.start_date = make_date_time(date, sitting.start_date)
+            r_sitting.end_date = make_date_time(date, sitting.end_date)
+            r_sitting.sitting_type_id = sitting.sitting_type_id
+            r_sitting.venue_id = sitting.venue_id        
+            session.add(r_sitting) 
                 
 def delete_recurring_sittings(sitting, del_cmd ):
     """Delete recurring sittings

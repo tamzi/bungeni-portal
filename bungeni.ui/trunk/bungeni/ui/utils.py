@@ -2,6 +2,7 @@
 
 import datetime
 from bungeni.ui.i18n import _
+from types import StringTypes, ListType
 
 def is_ajax_request(request):
     return request.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'

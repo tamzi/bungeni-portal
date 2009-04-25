@@ -105,7 +105,8 @@
      permission="zope.View"
      weight="10"
      />          
-
+     
+  <!-- recurring events -->
   <browser:viewlet
      name="bungeni.viewlet.recurrent"
      manager="alchemist.ui.interfaces.IContentViewManager"

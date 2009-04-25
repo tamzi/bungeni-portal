@@ -1,3 +1,6 @@
+#
+# note that other events are handled in workflows
+# audit and files!
 
 from zope.security.proxy import removeSecurityProxy
 from ore.alchemist import Session

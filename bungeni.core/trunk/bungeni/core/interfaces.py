@@ -12,8 +12,14 @@ class ISection(IContentContainer, IDCDescriptiveProperties):
 class IBusinessSection(ISection):
     """Marker interface for the 'Business' section."""
 
-class IParliamentSection(ISection):
-    """Marker interface for the 'Parliament' section."""
+class IMembersSection(ISection):
+    """Marker interface for the 'Members' section."""
+
+class IArchiveSection(ISection):
+    """Marker interface for the 'Archive' section."""
+
+class IArchiveBrowser(ISection):
+    """Marker interface for the archive browser."""
 
 class IQueryContent(interface.Interface):
     query = interface.Attribute(

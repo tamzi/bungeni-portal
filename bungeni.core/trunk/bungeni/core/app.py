@@ -22,10 +22,13 @@ from bungeni.models import interfaces
 from bungeni.core import location
 from bungeni.core.content import Section
 from bungeni.core.content import QueryContent
-from bungeni.core.interfaces import IBusinessSection
-from bungeni.core.interfaces import IParliamentSection
 from bungeni.core.i18n import _
 from bungeni.models.queries import get_current_parliament
+from bungeni.models.queries import container_getter
+from bungeni.core.interfaces import IBusinessSection
+from bungeni.core.interfaces import IMembersSection
+from bungeni.core.interfaces import IArchiveSection
+from bungeni.core.interfaces import IArchiveBrowser
 
 class BungeniApp(Application):
     implements(interfaces.IBungeniApplication)
@@ -56,65 +59,105 @@ class AppSetup( object ):
         sm = site.LocalSiteManager( self.context )
         self.context.setSiteManager( sm )
 
-        # set up primary site structure
+        # top-level sections
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament."),
             marker=IBusinessSection)
 
-        parliament = self.context["parliament"] = Section(
-            title=_(u"Parliament"),
-            description=_(u"Information on parliament."),
-            marker=IParliamentSection)
+        members = self.context["members"] = Section(
+            title=_(u"Members"),
+            description=_(u"Records on members of parliament."),
+            marker=IMembersSection)
 
-        current = parliament[u"current"] = QueryContent(
-            get_current_parliament,
-            title=_(u"Current"),
-            description=_(u"View current parliament."))
+        archive = self.context["archive"] = Section(
+            title=_(u"Archive"),
+            description=_(u"Parliament records and documents."),
+            marker=IArchiveSection)
 
         # business section
-        bills = business[u"bills"] = domain.BillContainer()
+        committees = business[u"committees"] = QueryContent(
+            container_getter(get_current_parliament, 'committees'),
+            title=_(u"Committees"),
+            description=_(u"View committees created by the current parliament."))
+
+        bills = business[u"bills"] = QueryContent(
+            container_getter(get_current_parliament, 'bills'),
+            title=_(u"Bills"),
+            description=_(u"View bills issued by the current parliament."))
+
+        questions = business[u"questions"] = QueryContent(
+            container_getter(get_current_parliament, 'questions'),
+            title=_(u"Questions"),
+            description=_(u"View questions issued by the current parliament."))
+
+        motions = business[u"motions"] = QueryContent(
+            container_getter(get_current_parliament, 'motions'),
+            title=_(u"Motions"),
+            description=_(u"View motions issued by the current parliament."))
+
+        # members section
+        current = members[u"current"] = QueryContent(
+            get_current_parliament,
+            title=_(u"Current"),
+            description=_(u"View current parliament members (MPs)."))
+
+        political_groups = members[u"political-groups"] = QueryContent(
+            container_getter(get_current_parliament, 'politicalparties'),
+            title=_(u"Political groups"),
+            description=_(u"View current political groups."))
+
+        # archive
+        records = archive["browse"] = Section(
+            title=_(u"Browse"),
+            description=_(u"Current and historical records."),
+            marker=IArchiveBrowser)
+
+        documents = archive["documents"] = Section(
+            title=_(u"Documents"),
+            description=_(u"Visit the digital document repository."))
+
+        # archive/records
+        bills = records[u"bills"] = domain.BillContainer()
         provideAdapter(location.ContainerLocation(bills),
                        (implementedBy(domain.Bill), ILocation))
 
-        motions = business[u"motions"] = domain.MotionContainer()
+        motions = records[u"motions"] = domain.MotionContainer()
         provideAdapter(location.ContainerLocation(motions),
                        (implementedBy(domain.Motion), ILocation))
 
-        questions = business[u"questions"] = domain.QuestionContainer()
+        questions = records[u"questions"] = domain.QuestionContainer()
         provideAdapter(location.ContainerLocation(questions),
                        (implementedBy(domain.Question), ILocation))
-        
-        # parliament section
-        members = parliament[u"members"] = domain.UserContainer()
+
+        parliaments = records[u"parliaments"] = domain.ParliamentContainer()
+        provideAdapter(location.ContainerLocation(parliaments),
+                       (implementedBy(domain.Parliament), ILocation))
+
+        members = records[u"members"] = domain.UserContainer()
         provideAdapter(location.ContainerLocation(members),
                        (implementedBy(domain.User), ILocation))
         
-        parties = parliament[u"parties"] = domain.PoliticalPartyContainer()
+        parties = records[u"parties"] = domain.PoliticalPartyContainer()
         provideAdapter(location.ContainerLocation(parties),
                        (implementedBy(domain.PoliticalParty), ILocation))
 
-        constituencies = parliament[u"constituencies"] = \
+        constituencies = records[u"constituencies"] = \
                          domain.ConstituencyContainer()
         provideAdapter(location.ContainerLocation(constituencies),
                        (implementedBy(domain.Constituency), ILocation))
         
-        offices = parliament[u"offices"] = Section(
+        offices = records[u"offices"] = Section(
             title=_(u"Offices"),
             description=_(u"Overview of parliamentary offices."))
 
-        committees = parliament[u"committees"] = domain.CommitteeContainer()
+        committees = records[u"committees"] = domain.CommitteeContainer()
         provideAdapter(location.ContainerLocation(committees),
                        (implementedBy(domain.Committee), ILocation))
 
-        governments = parliament[u"governments"] = domain.GovernmentContainer()
+        governments = records[u"governments"] = domain.GovernmentContainer()
         provideAdapter(location.ContainerLocation(governments),
                        (implementedBy(domain.Government), ILocation))
-
-        parliaments = parliament[u"parliaments"] = domain.ParliamentContainer()
-        provideAdapter(location.ContainerLocation(parliaments),
-                       (implementedBy(domain.Parliament), ILocation))
-
 
         ##########
         # Admin User Interface

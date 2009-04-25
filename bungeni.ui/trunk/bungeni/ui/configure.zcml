@@ -11,6 +11,7 @@
   <includeOverrides package=".forms" file="overrides.zcml" />
   
   <include package="bungeni.models" file="domain.zcml" />
+  <include package="bungeni.portal" />
   
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>

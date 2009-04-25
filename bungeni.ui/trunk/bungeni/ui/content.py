@@ -8,6 +8,7 @@ from zope.app.publisher.browser import queryDefaultViewName
 from zope.security.checker import getCheckerForInstancesOf
 from zope.security.checker import defineChecker
 from zope.proxy import sameProxiedObjects
+from zope.security.proxy import removeSecurityProxy
 
 from ore.alchemist import Session
 from ore.alchemist.container import contained
@@ -34,7 +35,9 @@ class ProxyView(BrowserView):
 
         # create custom view class which combines these two views
         view_cls = type(view)
-        cls = type(view_cls.__name__, (cls, view_cls), dict(view_cls.__dict__))
+        cls_dict = dict(view_cls.__dict__)
+        cls_dict['__call__'] = view_cls.__call__
+        cls = type(view_cls.__name__, (cls, view_cls), cls_dict)
 
         # share attributes
         new_view = object.__new__(cls, new_context, request)
@@ -57,3 +60,14 @@ class CurrentParliamentView(ProxyView):
     @classmethod
     def get_context(cls, context):
         return context['current']
+
+class CurrentMembersView(ProxyView):
+    @classmethod
+    def get_context(cls, context):
+        return context['current'].parliamentmembers
+
+class BrowseArchiveView(ProxyView):
+    @classmethod
+    def get_context(cls, context):
+        return context['browse']
+        

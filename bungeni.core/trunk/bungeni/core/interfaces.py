@@ -4,6 +4,7 @@ from zope.location.interfaces import ILocation
 from zope.container.interfaces import IContainer
 from zope.container.interfaces import IContentContainer
 from zope.dublincore.interfaces import IDCDescriptiveProperties
+
 from bungeni.models.interfaces import IVersion
 
 class ISection(IContentContainer, IDCDescriptiveProperties):
@@ -28,6 +29,27 @@ class IQueryContent(interface.Interface):
 class IContainerLocation(interface.Interface):
     container = interface.Attribute(
         """Container object for this location type.""")
+
+class IAddContext(IContainer):
+    """Marks that a container should get a user interface to add new
+    objects.
+
+    The purpose of this interface is to indicate a folder to which
+    adding new objects makes sense, as opposed to a folder which has
+    report-like behavior (e.g. archive).
+    """
+
+class IMotionAddContext(IAddContext):
+    """Add-context for motions."""
+
+class IQuestionAddContext(IAddContext):
+    """Add-context for questions."""
+
+class IBillAddContext(IAddContext):
+    """Add-context for bills."""
+
+class ICommitteeAddContext(IAddContext):
+    """Add-context for committees."""
 
 ####################
 # Feature - Marker Interfaces 

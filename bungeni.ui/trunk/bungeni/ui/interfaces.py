@@ -1,4 +1,5 @@
 from zope.publisher.interfaces.browser import IBrowserView
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 from ploned.ui.interfaces import IPlonedSkin
 from ore.yui.interfaces import IYUILayer
@@ -24,4 +25,5 @@ class IMinisterWorkspace(IBrowserView):
 class IMPWorkspace(IBrowserView):
     """MP's workspace."""
 
-
+class IArchiveSectionLayer(IDefaultBrowserLayer):
+    """Requests for an object within the archive."""

@@ -3,7 +3,7 @@
 /*
 ** Plone style sheet - Portlets
 **
-** Style sheet documentation can be found at http://plone.org/documentation
+** Style sheet documentation can be found at phttp://plone.org/documentation
 **
 ** You should preferrably use ploneCustom.css to add your own CSS classes and to
 ** customize your portal, as these are the base fundaments of Plone, and will
@@ -225,7 +225,7 @@ div.managedPortlet {
 
 /* Static text portlet */
 .portletStaticText ul {
-    list-style-image: url(http://localhost:8082/site1/bullet.gif);
+    list-style-image: url(bullet.gif);
     list-style-type: square; 
     margin: 0.5em 0 0 1.5em;
 }

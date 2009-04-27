@@ -1,3 +1,5 @@
+require "bungeniconfigvars.rb"
+
 namespace :bungeni_tasks do
     ## generate supervisord.conf using a ERB template found in config/templates
     desc "write supervisor config file"

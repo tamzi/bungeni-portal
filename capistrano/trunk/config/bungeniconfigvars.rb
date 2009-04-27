@@ -1,4 +1,5 @@
 #### CONFIG VARIABLE SETTING ####
+require "commonfunctions.rb"
 
 set :application, "bungeni"
 set :bungeni_username, "bungeni"

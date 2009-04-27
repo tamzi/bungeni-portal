@@ -17,7 +17,7 @@ from ore.svn import repos
 from ore.library.library import Library
 
 from bungeni.models import domain
-from bungeni.models import interfaces
+from bungeni.models import interfaces as model_interfaces
 
 from bungeni.core import location
 from bungeni.core.content import Section
@@ -29,19 +29,21 @@ from bungeni.core.interfaces import IBusinessSection
 from bungeni.core.interfaces import IMembersSection
 from bungeni.core.interfaces import IArchiveSection
 from bungeni.core.interfaces import IArchiveBrowser
+from bungeni.core.interfaces import IAddContext
+from bungeni.core import interfaces
 
 def setUpSubscriber(object, event):
-    initializer = interfaces.IBungeniSetup( object )
+    initializer = model_interfaces.IBungeniSetup(object)
     initializer.setUp()
 
 class BungeniApp(Application):
-    implements(interfaces.IBungeniApplication)
+    implements(model_interfaces.IBungeniApplication)
 
 class BungeniAdmin(SampleContainer):
-    implements(interfaces.IBungeniAdmin )
+    implements(model_interfaces.IBungeniAdmin )
     
-class AppSetup( object ):
-    implements(interfaces.IBungeniSetup)
+class AppSetup(object):
+    implements(model_interfaces.IBungeniSetup)
 
     def __init__( self, context ):
         self.context = context
@@ -79,21 +81,25 @@ class AppSetup( object ):
         committees = business[u"committees"] = QueryContent(
             container_getter(get_current_parliament, 'committees'),
             title=_(u"Committees"),
+            marker=interfaces.ICommitteeAddContext,
             description=_(u"View committees created by the current parliament."))
 
         bills = business[u"bills"] = QueryContent(
             container_getter(get_current_parliament, 'bills'),
             title=_(u"Bills"),
+            marker=interfaces.IBillAddContext,
             description=_(u"View bills issued by the current parliament."))
 
         questions = business[u"questions"] = QueryContent(
             container_getter(get_current_parliament, 'questions'),
             title=_(u"Questions"),
+            marker=interfaces.IQuestionAddContext,
             description=_(u"View questions issued by the current parliament."))
 
         motions = business[u"motions"] = QueryContent(
             container_getter(get_current_parliament, 'motions'),
             title=_(u"Motions"),
+            marker=interfaces.IMotionAddContext,
             description=_(u"View motions issued by the current parliament."))
 
         # members section

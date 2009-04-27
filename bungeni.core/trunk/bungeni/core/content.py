@@ -33,10 +33,12 @@ class Section(OrderedContainer):
 class QueryContent(object):
     interface.implements(IQueryContent, IDCDescriptiveProperties)
     
-    def __init__(self, query, title=None, description=None):
+    def __init__(self, query, title=None, description=None, marker=None):
+        if marker is not None:
+            def query(parent, query=query):
+                obj = query(parent)
+                interface.alsoProvides(obj, marker)
+                return obj
         self.query = query
         self.title = title
         self.description = description
-        
-
-    

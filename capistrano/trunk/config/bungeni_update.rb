@@ -1,7 +1,5 @@
 ### Defines a sequence of tasks for updating bungeni ###
 
-require "config/bungeni_tasks"
-
 namespace :bungeni_update do
 
     task :quick_update, :roles=> :app do

@@ -5,20 +5,8 @@
 ### 
 
 ### commmon functions used by other scripts
-require "config/commonfunctions"
-
-### config variables used by the deployment.  edit this for customized installation
-require "config/bungeniconfigvars"
-
-### all the core tasks for installing and updating bungeni
-require "config/bungeni_tasks"
-
-### grouped tasks for updating bungeni (composed of core tasks)
-require "config/bungeni_update"
-
-### grouped tasks for installing bungeni (composed of core tasks)
-require "config/bungeni_install"
-
+### This file does not load anything - all the loading happens in Capfile
+### this file is merely a placeholder
 
 
 

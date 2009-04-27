@@ -1,5 +1,4 @@
 #### CONFIG VARIABLE SETTING ####
-require "config/commonfunctions"
 
 set :application, "bungeni"
 set :bungeni_username, "bungeni"

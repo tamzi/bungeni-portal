@@ -655,7 +655,6 @@ class RecurringEventsViewlet(DisplayViewlet):
         return daylist
    
     def update(self):
-        #import pdb; pdb.set_trace()
         self.errors = {}
         if self.request.form:
             timestamp = self.request.form.get('timestamp', None)
@@ -776,7 +775,7 @@ class RecurringEventsViewlet(DisplayViewlet):
                         sitting_venue=session.query(domain.Venue).get(venue_id)
                         if not venue.check_availability( start_date, end_date, sitting_venue, sitting):
                             self.errors['venue_id'] = _(u"This venue is already booked")    
-                    self.validate_sitting_dates(group_id, start_date, end_date)                                                                         
+                    self.validate_sitting_dates(group_id, start_date, end_date, sitting)                                                                         
                 if self.errors == {}:
                     if sitting is None:                                                
                         sitting = domain.GroupSitting()

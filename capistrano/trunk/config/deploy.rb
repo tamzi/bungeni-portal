@@ -5,19 +5,19 @@
 ### 
 
 ### commmon functions used by other scripts
-load "commonfunctions.rb"
+load "./commonfunctions.rb"
 
 ### config variables used by the deployment.  edit this for customized installation
-load "bungeniconfigvars.rb"
+load "./bungeniconfigvars.rb"
 
 ### all the core tasks for installing and updating bungeni
-load "bungeni_tasks.rb"
+load "./bungeni_tasks.rb"
 
 ### grouped tasks for updating bungeni (composed of core tasks)
-load "bungeni_update.rb"
+load "./bungeni_update.rb"
 
 ### grouped tasks for installing bungeni (composed of core tasks)
-load "bungeni_install.rb"
+load "./bungeni_install.rb"
 
 
 

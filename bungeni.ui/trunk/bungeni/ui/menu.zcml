@@ -115,7 +115,7 @@
 
   <browser:menuItem
      menu="plone_contentmenu"
-     for="bungeni.models.domain.QuestionContainer"
+     for="bungeni.core.interfaces.IQuestionAddContext"
      title="Add question..."
      action="/business/questions/add"
      permission="bungeni.question.Add"
@@ -133,7 +133,7 @@
 
   <browser:menuItem
      menu="plone_contentmenu"
-     for="bungeni.models.domain.BillContainer"
+     for="bungeni.core.interfaces.IBillAddContext"
      title="Add bill..."
      action="/business/bills/add"
      permission="bungeni.bill.Add"
@@ -151,7 +151,7 @@
 
   <browser:menuItem
      menu="plone_contentmenu"
-     for="bungeni.models.domain.MotionContainer"
+     for="bungeni.core.interfaces.IMotionAddContext"
      title="Add motion..."
      action="/business/motions/add"
      permission="bungeni.motion.Add"
@@ -164,6 +164,24 @@
      title="Add new motion..."
      action="/business/motions/add"
      permission="bungeni.motion.Add"
+     order="100"
+     />
+
+    <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.core.interfaces.ICommitteeAddContext"
+     title="Add committee..."
+     action="/business/committees/add"
+     permission="bungeni.committee.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.Committee"
+     title="Add new committee..."
+     action="/business/committees/add"
+     permission="bungeni.committee.Add"
      order="100"
      />
 

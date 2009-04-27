@@ -11,7 +11,7 @@ from alchemist import ui
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 
-from bungeni.models import domain, interfaces, venue
+from bungeni.models import domain, interfaces, venue, schema
 from bungeni.ui.i18n import _
 from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.table import AjaxContainerListing
@@ -502,8 +502,45 @@ class RecurringEventsViewlet(DisplayViewlet):
             errors.append({'field': k, 'msg': self.errors[k] })
         return errors            
         
-        
-        
+    def get_field_error(self, field):
+        return errors.get(field, None)
+
+    def get_overlapping_sittings(self, group_id, start, end, sitting=None):
+        session = Session()
+        b_filter = sql.and_(
+                    sql.or_( 
+                        sql.between(schema.sittings.c.start_date, start, end), 
+                        sql.between(schema.sittings.c.end_date, start, end),
+                        sql.between(start, schema.sittings.c.start_date, 
+                                    schema.sittings.c.end_date),
+                        sql.between(end, schema.sittings.c.start_date, 
+                                    schema.sittings.c.end_date)                    
+                        ),
+                        schema.sittings.c.group_id == group_id)                        
+        if sitting:
+            if sitting.sitting_id:
+                b_filter = sql.and_(b_filter,
+                        schema.sittings.c.sitting_id != sitting.sitting_id)
+        query = session.query(domain.GroupSitting).filter(b_filter)
+        return query.all()
+                
+    def validate_sitting_dates(self, group_id, start, end, sitting=None):
+        """ Sittings cannot overlap for one group    
+        and must be inside the groups start end dates"""
+        session = Session()
+        group = session.query(domain.Group).get(group_id)
+        if start.date() < group.start_date:
+            self.errors['sitting_date'] = _(
+                u"A sitting canno be scheduled before the groups start date")
+        if group.end_date:                
+            if end.date() > group.end_date:
+                self.errors['sitting_date'] = _(
+                    u"A sitting canno be scheduled after the groups end date")
+        results = self.get_overlapping_sittings(group_id, start, end, sitting)
+        for result in results:
+            self.errors['start_time'] = _(
+                u"Another sitting is already scheduled for this time")                    
+            
     def get_groups(self):
         if interfaces.IGroupSitting.providedBy(self.context):
             group_id = self.context.group_id
@@ -648,7 +685,12 @@ class RecurringEventsViewlet(DisplayViewlet):
                 group_id = self.request.form.get('group_id', None)
                 exceptions = self.request.form.get('exceptions', None)
                 if group_id:
-                    group_id = long(group_id)                                    
+                    group_id = long(group_id) 
+                else:    
+                    if interfaces.IGroupSitting.providedBy(self.context):
+                        group_id = self.context.group_id
+                    else:
+                        group_id = getattr(self.context.__parent__, 'group_id', None)                                                   
                 venue_id = self.request.form.get('venue_id', None)
                 if venue_id:
                     try:
@@ -733,7 +775,8 @@ class RecurringEventsViewlet(DisplayViewlet):
                     if venue_id:                        
                         sitting_venue=session.query(domain.Venue).get(venue_id)
                         if not venue.check_availability( start_date, end_date, sitting_venue, sitting):
-                            self.errors['venue_id'] = _(u"This venue is already booked") 
+                            self.errors['venue_id'] = _(u"This venue is already booked")    
+                    self.validate_sitting_dates(group_id, start_date, end_date)                                                                         
                 if self.errors == {}:
                     if sitting is None:                                                
                         sitting = domain.GroupSitting()

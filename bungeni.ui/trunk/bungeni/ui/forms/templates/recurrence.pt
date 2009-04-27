@@ -49,10 +49,10 @@
         <legend>Recurrence</legend>
         <input type="radio" checked="checked" id="notrecurrent" value="notrecurrent" name="recurrence"/>
         <label for="notrecurrent">No recurrence</label>
-        <input type="radio" id="weekly" value="weekly" name="recurrence"/>
-        <label for="weekly">Weekly</label>
-        <input type="radio" id="monthly" value="monthly" name="recurrence"/>
-        <label for="monthly">Monthly</label>
+        <input type="radio" id="recurrentweekly" value="weekly" name="recurrence"/>
+        <label for="recurrentweekly">Weekly</label>
+        <input type="radio" id="recurrentmonthly" value="monthly" name="recurrence"/>
+        <label for="recurrentmonthly">Monthly</label>
         <fieldset id="weeklyrecurrence" tal:define="weekday view/get_weekdays">
             <legend>Weekly</legend>   
             <span tal:repeat="day weekday">  

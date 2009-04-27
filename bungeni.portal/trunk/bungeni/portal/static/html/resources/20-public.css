@@ -929,7 +929,7 @@ textarea.proportional {
     margin: 0em;
     padding: 0px 6px 0px 9px;
     text-align: center;
-    background-image: url('http://localhost:8082/site1/polaroid-single.png');
+    background-image: url('polaroid-single.png');
     background-repeat: no-repeat;
 }
 .photoAlbumEntry img {
@@ -952,7 +952,7 @@ textarea.proportional {
     margin: 16px auto 0px;
 }
 .photoAlbumFolder {
-    background-image: url('http://localhost:8082/site1/polaroid-multi.png');
+    background-image: url('polaroid-multi.png');
     background-repeat: no-repeat;
 }
 .photoAlbumEntryTitle {
@@ -965,7 +965,7 @@ textarea.proportional {
 /* Link types */
 a.link-parent {
     display: block;
-    background: transparent url(http://localhost:8082/site1/arrowUp.gif) 4px 5px no-repeat;
+    background: transparent url(arrowUp.gif) 4px 5px no-repeat;
     padding: 1px 0px 10px 16px;
     font-size: 90%;
     text-decoration: none;
@@ -999,12 +999,12 @@ a.link-parent {
    remove it from the ones that are local - for both http and https */
 #content a[href ^="http:"],
 #content a.link-external {
-    background: transparent url(http://localhost:8082/site1/link_icon.gif) 0px 1px no-repeat;
+    background: transparent url(link_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="https:"],
 #content a.link-https {
-    background: transparent url(http://localhost:8082/site1/lock_icon.gif) 0px 1px no-repeat;
+    background: transparent url(lock_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="http://localhost:8082/site1"] {
@@ -1016,37 +1016,37 @@ a.link-parent {
 /* Protocol-specific links */
 #content a[href ^="mailto:"],
 #content a.link-mailto  {
-    background: transparent url(http://localhost:8082/site1/mail_icon.gif) 0px 1px no-repeat;
+    background: transparent url(mail_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="news:"],
 #content a.link-news {
-    background: transparent url(http://localhost:8082/site1/topic_icon.gif) 0px 1px no-repeat;
+    background: transparent url(topic_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="ftp:"],
 #content a.link-ftp {
-    background: transparent url(http://localhost:8082/site1/file_icon.gif) 0px 1px no-repeat;
+    background: transparent url(file_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="irc:"],
 #content a.link-irc {
-    background: transparent url(http://localhost:8082/site1/discussionitem_icon.gif) 0px 1px no-repeat;
+    background: transparent url(discussionitem_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="callto:"],
 #content a.link-callto {
-    background: transparent url(http://localhost:8082/site1/phone_icon.gif) 0px 1px no-repeat;
+    background: transparent url(phone_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="webcal:"],
 #content a.link-webcal {
-    background: transparent url(http://localhost:8082/site1/event_icon.gif) 0px 1px no-repeat;
+    background: transparent url(event_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="feed:"],
 #content a.link-feed {
-    background: transparent url(http://localhost:8082/site1/rss.gif) 0px 1px no-repeat;
+    background: transparent url(rss.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 18px;
 }
 

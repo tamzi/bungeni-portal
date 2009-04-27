@@ -23,7 +23,7 @@ textarea {
     border: 1px solid #ddd;
     border-color:#666 #ddd #ddd #666;
     color: Black;
-    background: White url(http://localhost:8082/site1/input_background.gif) repeat-x;
+    background: White url(input_background.gif) repeat-x;
     width: 100%;
 }
 input {
@@ -33,7 +33,7 @@ input {
     border-color:#666 #ddd #ddd #666;
     color: Black;
     vertical-align: middle;
-    background: White url(http://localhost:8082/site1/input_background.gif) repeat-x;
+    background: White url(input_background.gif) repeat-x;
     font-size: 1em;
 }
 
@@ -134,7 +134,7 @@ dl.enableFormTabbing dd {
 
 .standalone,
 .documentEditable * .standalone {
-    background: #dee7ec url(http://localhost:8082/site1/linkOpaque.gif) 9px 1px no-repeat;
+    background: #dee7ec url(linkOpaque.gif) 9px 1px no-repeat;
     color: Black;
     cursor: pointer;
     font-size: 90%;
@@ -145,7 +145,7 @@ dl.enableFormTabbing dd {
 .context,
 .formControls .actionButtons .button,
 .documentEditable * .context {
-    background: transparent url(http://localhost:8082/site1/linkTransparent.gif) 9px 1px no-repeat;
+    background: transparent url(linkTransparent.gif) 9px 1px no-repeat;
     color: Black;
     cursor: pointer;
     font-size: 90%;
@@ -155,7 +155,7 @@ dl.enableFormTabbing dd {
 }
 .destructive,
 .documentEditable * .destructive {
-    background: #ffce7b url(http://localhost:8082/site1/linkTransparent.gif) 9px 1px no-repeat;
+    background: #ffce7b url(linkTransparent.gif) 9px 1px no-repeat;
     border: 1px solid #ffa500;
     color: Black;
     cursor: pointer;
@@ -168,7 +168,7 @@ input.searchButton {
     margin-bottom: 1px ! important;
     color: Black;
     font-size: 90%;
-    background: White url(http://localhost:8082/site1/search_icon.gif) 2px 1px no-repeat;
+    background: White url(search_icon.gif) 2px 1px no-repeat;
     cursor: pointer;
     padding: 1px 1px 1px 19px;
     text-transform: none;

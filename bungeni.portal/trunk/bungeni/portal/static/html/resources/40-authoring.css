@@ -273,7 +273,7 @@ ul.configletDetails li.configletDescription {
     font-weight: normal;
 }
 .comment h3 a {
-    background-image: url(http://localhost:8082/site1/discussionitem_icon.gif);
+    background-image: url(discussionitem_icon.gif);
     background-repeat: no-repeat;
     padding-left: 18px;
     margin-left: -1px;
@@ -461,7 +461,7 @@ li.formTab a.notify {
     color: Black;
 }
 li.formTab a.required span {
-    background-image: url(http://localhost:8082/site1/required.gif);
+    background-image: url(required.gif);
     background-position: center right;
     background-repeat: no-repeat;
     padding-right: 8px;

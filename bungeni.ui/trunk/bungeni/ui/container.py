@@ -6,6 +6,7 @@ import simplejson
 import sqlalchemy.sql.expression as sql
 
 from zope import interface
+from zope import component
 from zope.security import proxy
 from zope.security import checkPermission
 from zope.security.proxy import ProxyFactory
@@ -18,8 +19,10 @@ from ore.alchemist.container import contained
 from ore.alchemist.container import stringKey
 
 from alchemist.ui import container
+from bungeni.models.interfaces import IDateRangeFilter
 from bungeni.ui.utils import getDisplayDate
 from bungeni.ui.utils import getFilter
+from bungeni.ui.cookies import get_date_range
 from ploned.ui.interfaces import IViewView
 
 def dateFilter( request ):
@@ -56,7 +59,7 @@ def getFields( context ):
     for column in  domain_annotation.listing_columns:   
         field = domain_interface[column]     
         yield field
-             
+
 def secured_iterator(permission, query, parent):
     for item in query:
         item.__parent__ = parent
@@ -66,7 +69,31 @@ def secured_iterator(permission, query, parent):
 
 class ContainerListing(container.ContainerListing):
     interface.implements(IViewView)
-    
+
+    def get_query(self):
+        """Prepare query.
+
+        If the model has start- and end-dates, constrain the query to
+        objects appearing within those dates.
+        """
+        
+        unproxied = proxy.removeSecurityProxy(self.context)
+        model = unproxied.domain_model
+        session = Session()
+        query = session.query(model)
+
+        start_date, end_date = get_date_range(self.request)
+
+        if start_date or end_date:
+            date_range_filter = component.getSiteManager().adapters.lookup(
+                (interface.implementedBy(model),), IDateRangeFilter)
+
+            if date_range_filter is not None:
+                query = query.filter(date_range_filter).params(
+                    start_date=start_date, end_date=end_date)
+
+        return query
+
     @property
     def formatter( self ):
         """We replace the formatter in our superclass to set up column
@@ -77,11 +104,9 @@ class ContainerListing(container.ContainerListing):
         ``short_name`` column (also used as secondary sort order).
         """
 
-        session = Session()
         context = proxy.removeSecurityProxy(self.context)
         model = context.domain_model
-        
-        query = session.query(model)
+        query = self.get_query()
         table = query.table
         names = table.columns.keys()
         order_list = []
@@ -107,9 +132,10 @@ class ContainerListing(container.ContainerListing):
                 query = query.order_by(order_list)
         else:
             query = query.order_by(order_list)
+        
         subset_filter = getattr(context,'_subset_query', None)
-        if subset_filter:    
-            query = query.filter(subset_filter)        
+        if subset_filter:
+            query = query.filter(subset_filter)
         query = secured_iterator("zope.View", query, self.context)
             
         formatter = zc.table.table.AlternatingRowFormatter(

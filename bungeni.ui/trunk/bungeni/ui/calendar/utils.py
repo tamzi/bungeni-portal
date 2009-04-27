@@ -1,6 +1,28 @@
-from time import mktime
 from datetime import datetime
 from datetime import time
+from datetime import date
+from time import mktime
+
+def timestamp_from_date(date):
+    return mktime(date.timetuple())
+
+def pack_date_range(start, end):
+    return ";".join(map(
+        lambda date: (date and str(int(timestamp_from_date(date))) or ""),
+        (start, end)))
+
+def unpack_date_range(value):
+    start, end = value.split(';')
+    try:
+        start = date.fromtimestamp(int(start))
+    except (TypeError, ValueError):
+        start = None
+    try:
+        end = date.fromtimestamp(int(end))
+    except (TypeError, ValueError):
+        end = None
+
+    return start, end
 
 class base:
     def __getitem__(self, key):

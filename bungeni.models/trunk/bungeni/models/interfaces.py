@@ -243,3 +243,11 @@ class IVersion( interface.Interface ):
     on that object's domain schema
     """
 
+class IDateRangeFilter(interface.Interface):
+    """Adapts a model container instance and a SQLAlchemy query
+    object, applies a date range filter and returns a query.
+
+    Parameters: ``start_date``, ``end_date``.
+
+    These must be bound before the query is executed.
+    """

@@ -26,5 +26,22 @@
      factory=".settings.SettingsUtility"/>
 
   <subscriber handler=".events.create_discussion_for_item_scheduling" />
+
+  <!-- date range adapters -->
   
+  <adapter
+     for=".domain.Bill"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.bill_filter" />
+
+  <adapter
+     for=".domain.Motion"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.motion_filter" />
+
+  <adapter
+     for=".domain.Question"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.question_filter" />
+
 </configure>

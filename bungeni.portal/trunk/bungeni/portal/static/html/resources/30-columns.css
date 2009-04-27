@@ -33,6 +33,16 @@
     padding: 0;    
 }
 
+.inlinePortlet {
+    width: 16em;
+    float: right;
+}
+
+#contentBottomLeft {
+  clear: both;
+  display: block;
+}
+
 /* fullscreen */
 body.fullscreen #portal-column-one,
 body.fullscreen #portal-column-two {

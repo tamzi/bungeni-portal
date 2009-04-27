@@ -1,3 +1,4 @@
+require "bungeni_tasks.rb"
 
 ### Defines a sequence of tasks for installing bungeni from scratch ###
 namespace :bungeni_install do

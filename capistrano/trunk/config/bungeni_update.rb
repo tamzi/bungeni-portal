@@ -1,6 +1,6 @@
 ### Defines a sequence of tasks for updating bungeni ###
 
-require "bungeni_tasks.rb"
+require "config/bungeni_tasks"
 
 namespace :bungeni_update do
 

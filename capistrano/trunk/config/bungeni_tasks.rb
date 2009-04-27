@@ -1,4 +1,3 @@
-require "config/bungeniconfigvars"
 
 namespace :bungeni_tasks do
     ## generate supervisord.conf using a ERB template found in config/templates

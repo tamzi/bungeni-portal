@@ -1,4 +1,3 @@
-require "config/bungeni_tasks"
 
 ### Defines a sequence of tasks for installing bungeni from scratch ###
 namespace :bungeni_install do

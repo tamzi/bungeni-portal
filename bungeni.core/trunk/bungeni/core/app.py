@@ -30,16 +30,16 @@ from bungeni.core.interfaces import IMembersSection
 from bungeni.core.interfaces import IArchiveSection
 from bungeni.core.interfaces import IArchiveBrowser
 
+def setUpSubscriber(object, event):
+    initializer = interfaces.IBungeniSetup( object )
+    initializer.setUp()
+
 class BungeniApp(Application):
     implements(interfaces.IBungeniApplication)
 
 class BungeniAdmin(SampleContainer):
     implements(interfaces.IBungeniAdmin )
     
-def setUpSubscriber(object, event):
-    initializer = interfaces.IBungeniSetup( object )
-    initializer.setUp()
-
 class AppSetup( object ):
     implements(interfaces.IBungeniSetup)
 

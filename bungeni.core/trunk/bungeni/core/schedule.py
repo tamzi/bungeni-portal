@@ -8,12 +8,13 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 from zope.publisher.interfaces.browser import IHTTPRequest
 from zope.publisher.interfaces import IPublishTraverse
+from zope.location.interfaces import ILocation
 from zope.app.publication.traversers import SimpleComponentTraverser
 
 from bungeni.models.interfaces import IBungeniApplication
 from bungeni.models.interfaces import ICommittee
-from bungeni.models.domain import GroupSitting
 from bungeni.models.domain import Group
+from bungeni.models.domain import GroupSitting
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.interfaces import IDailySchedulingContext
 from bungeni.core.globalsettings import getCurrentParliamentId
@@ -22,7 +23,8 @@ from bungeni.core.proxy import LocationProxy
 from bungeni.ui.calendar import utils
 
 from ore.alchemist import Session
-from ore.alchemist.container import stringKey
+
+from sqlalchemy import sql
 
 def format_date(date):
     return time.strftime("%Y-%m-%d %H:%M:%S", date.timetuple())
@@ -54,6 +56,7 @@ class SchedulingContextTraverser(SimpleComponentTraverser):
                         request, name)
 
             obj = method()
+            assert ILocation.providedBy(obj)
 
         return ProxyFactory(LocationProxy(
             removeSecurityProxy(obj), container=self.context, name=name))
@@ -83,28 +86,20 @@ class PrincipalGroupSchedulingContext(object):
         return group
 
     def get_sittings(self, start_date=None, end_date=None):
-        session = Session()
-
+        sittings = self.get_group().sittings
         if start_date is None and end_date is None:
-            sittings = session.query(GroupSitting).filter_by(
-                group_id=self.group_id)
-
+            return sittings
         else:
             assert start_date and end_date
+            
+            session = Session()
 
-            query = session.query(GroupSitting).filter(
-                "group_id=:group_id and start_date between :start_date and :end_date")
-
-            sittings = query.params(
-                group_id=self.group_id,
-                start_date=format_date(start_date),
-                end_date=format_date(end_date))
-
-        sittings = tuple(sittings)
-        
-        for sitting in sittings:
-            sitting.__name__ = stringKey(sitting)
-            sitting.__parent__ = self.get_group().sittings
+            sittings.subset_query = sql.and_(
+                sittings.subset_query,
+                GroupSitting.start_date.between(
+                    format_date(start_date),
+                    format_date(end_date))
+                )
 
         return sittings
 

@@ -86,7 +86,7 @@ class PrincipalGroupSchedulingContext(object):
         session = Session()
 
         if start_date is None and end_date is None:
-            sesions = session.query(GroupSitting).filter_by(
+            sittings = session.query(GroupSitting).filter_by(
                 group_id=self.group_id)
 
         else:

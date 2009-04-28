@@ -115,6 +115,9 @@ class IGroupSittingAttendance(interface.Interface):
 class IItemSchedule(interface.Interface):
     pass
 
+class ISittingType(interface.Interface):
+    pass
+
 class IResponse( IBungeniContent ):
     """
     response to a question

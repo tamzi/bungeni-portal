@@ -6,6 +6,10 @@
   text-transform: lowercase;
 }
 
+.calendar th.description {
+  background-color: #88AACC;
+}
+
 #calendar-table th.today {
   background-color: rgb(136, 170, 204);
   color: white;

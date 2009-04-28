@@ -7,6 +7,10 @@ $(document).ready(function() {
     $('#fielduntil').datepicker({ dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true  });
+    $('#sitting-start-time').clockpick({layout: 'horizontal', military : true});
+    $('#sitting-end-time').clockpick({layout: 'horizontal', military : true});
+    
+
     
     $('#weeklyrecurrence').hide();
     $('#monthlyrecurrence').hide();

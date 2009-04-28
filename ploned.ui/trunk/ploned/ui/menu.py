@@ -102,7 +102,7 @@ class PloneBrowserMenu(BrowserMenu):
                         menu['action'], local_url, site_url)
 
             pos = is_selected(item, item.action, request_url)
-            if pos > current_pos:
+            if pos and pos > current_pos:
                 current_pos = pos
                 selected = index
 

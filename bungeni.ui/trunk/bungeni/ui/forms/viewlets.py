@@ -543,7 +543,7 @@ class RecurringEventsViewlet(DisplayViewlet):
                     u"A sitting canno be scheduled after the groups end date")
         results = self.get_overlapping_sittings(group_id, start, end, sitting)
         for result in results:
-            self.errors['start_time'] = _(
+            self.errors['sitting_start_time'] = _(
                 u"Another sitting is already scheduled for this time")                    
             
     def get_groups(self):

@@ -173,6 +173,9 @@ class ISchedulingContext(ILocation):
     title = interface.Attribute(
         """Scheduling context title.""")
 
+    label = interface.Attribute(
+        """Scheduling context label.""")
+
     def get_group():
         """Returns group."""
         

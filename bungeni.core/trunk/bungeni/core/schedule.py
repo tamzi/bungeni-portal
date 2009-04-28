@@ -145,6 +145,10 @@ class DailySchedulingContext(object):
     def title(self):
         return _(u"$x", mapping=self.date)
 
+    @property
+    def label(self):
+        return self.context.label
+    
     def get_group(self):
         return self.context.get_group()
     

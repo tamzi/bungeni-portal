@@ -214,12 +214,17 @@ _mpm = rdb.join(_ugm_parliament, _pmp,
                      )
                      
 mapper( domain.MemberOfParty, _mpm,
+        primary_key=[schema.user_group_memberships.c.membership_id],
         properties={
            'membership_id' : column_property(_ugm_parliament.c.membership_id.label('membership_id')),
            'party_membership_id' : column_property(_ugm_party.c.membership_id.label('party_membership_id')),           
            'start_date' : column_property(_ugm_party.c.start_date.label('start_date')),
            'end_date' : column_property(_ugm_party.c.end_date.label('end_date')),
            'short_name' : column_property(schema.groups.c.short_name.label('short_name')),
+           'user_id' : column_property(_ugm_party.c.user_id.label('user_id')),
+           'user': relation( domain.User,
+                  primaryjoin=(_ugm_party.c.user_id==schema.users.c.user_id ),
+                  uselist=False, viewonly=True ),
            },
          include_properties=['membership_id', 'short_name', 'start_date', 'end_date', 'group_id'],                      
        )                                       

@@ -7,8 +7,7 @@ $(document).ready(function() {
     $('#fielduntil').datepicker({ dateFormat: 'yy-mm-dd',
             changeMonth: true,
             changeYear: true  });
-    //$('#sitting-start-time').timepicker();
-    //$('#sitting-end-time').timepicker();
+    
     $('#weeklyrecurrence').hide();
     $('#monthlyrecurrence').hide();
     $('#recurrencetimes').hide();  

@@ -11,39 +11,55 @@
             </li>
           </ul>
         </div>
-        <label for="formgroup_id">Group</label>   
-        <select id="formgroup_id" name="group_id" size="1">
-            <tal:loop tal:repeat="group view/get_groups">
-                <option value="plenary"
-                tal:attributes="value group/id; selected group/selected"
-                tal:content="group/name">Morning</option>                
-            </tal:loop>
-        </select>
-                
-        <label for="formsitting_type_id">Sitting Type</label>   
-        <select id="formsitting_type_id" name="sitting_type_id" size="1">
-            <tal:loop tal:repeat="st view/get_sitting_types">
-                <option value="morning"
-                tal:attributes="value st/id; selected st/selected"
-                tal:content="st/name">Morning</option>                
-            </tal:loop>
-        </select>
-        <label for="sitting-date"> Date </label>
-        <input type="text" id="sitting-date"  name="sitting_date" size="10" 
-            tal:attributes="value view/get_date"/>        
-        <label for="sitting-start-time"> Start </label>
-        <input type="text" id="sitting-start-time" name="sitting_start_time" size="6" 
-            tal:attributes="value view/get_start_time" />
-        <label for="sitting-end-time"> End </label>
-        <input type="text" id="sitting-end-time" name="sitting_end_time" size="6"
-            tal:attributes="value view/get_end_time" />
-        <label for="formvenue_id">Venue</label>         
-        <select id="formvenue_id" name="venue_id" size="1">
-            <tal:loop tal:repeat="venue view/get_venues" >
-                <option tal:attributes="value venue/id; selected venue/selected" tal:content="venue/name">(no value)</option>
-            </tal:loop>
-        </select>
-                
+        <div tal:define="error python: view.get_field_error('group_id')" tal:attributes="class error/class">        
+            <label for="formgroup_id">Group</label>   
+            <select id="formgroup_id" name="group_id" size="1">
+                <tal:loop tal:repeat="group view/get_groups">
+                    <option value="plenary"
+                    tal:attributes="value group/id; selected group/selected"
+                    tal:content="group/name">Morning</option>                
+                </tal:loop>
+            </select>
+            <b tal:condition="error/msg" tal:content="error/msg" />
+        </div>
+        <div tal:define="error python: view.get_field_error('sitting_type_id')" tal:attributes="class error/class">        
+            <label for="formsitting_type_id">Sitting Type</label>   
+            <select id="formsitting_type_id" name="sitting_type_id" size="1">
+                <tal:loop tal:repeat="st view/get_sitting_types">
+                    <option value="morning"
+                    tal:attributes="value st/id; selected st/selected"
+                    tal:content="st/name">Morning</option>                
+                </tal:loop>
+            </select>
+            <b tal:condition="error/msg" tal:content="error/msg" />
+        </div>            
+        <div tal:define="error python: view.get_field_error('sitting_date')" tal:attributes="class error/class">        
+            <label for="sitting-date"> Date </label>
+            <input type="text" id="sitting-date"  name="sitting_date" size="10" 
+                tal:attributes="value view/get_date"/>  
+            <b tal:condition="error/msg" tal:content="error/msg" />
+        </div>                
+        <div tal:define="error python: view.get_field_error('sitting_start_time')" tal:attributes="class error/class">                         
+            <label for="sitting-start-time"> Start </label>
+            <input type="text" id="sitting-start-time" name="sitting_start_time" size="6" 
+                tal:attributes="value view/get_start_time" />
+            <b tal:condition="error/msg" tal:content="error/msg" />
+        </div>              
+        <div tal:define="error python: view.get_field_error('sitting_end_time')" tal:attributes="class error/class">                                 
+            <label for="sitting-end-time"> End </label>
+            <input type="text" id="sitting-end-time" name="sitting_end_time" size="6"
+                tal:attributes="value view/get_end_time" />
+            <b tal:condition="error/msg" tal:content="error/msg" />
+        </div>                 
+        <div tal:define="error python: view.get_field_error('venue_id')" tal:attributes="class error/class">
+            <label for="formvenue_id">Venue</label>         
+            <select id="formvenue_id" name="venue_id" size="1">
+                <tal:loop tal:repeat="venue view/get_venues" >
+                    <option tal:attributes="value venue/id; selected venue/selected" tal:content="venue/name">(no value)</option>
+                </tal:loop>
+            </select>
+            <b tal:condition="error/msg" tal:content="error/msg" />
+        </div>                
     </fieldset>
     <fieldset>
         <legend>Recurrence</legend>

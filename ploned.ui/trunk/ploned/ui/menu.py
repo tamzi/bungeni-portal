@@ -26,19 +26,10 @@ from ploned.ui.interfaces import IViewView
 
 def is_selected(item, action, request_url):
     normalized_action = action.lstrip('.').lstrip('@@')
-
-    if normalized_action in request_url:
-        return True
-    if request_url.endswith( normalized_action ):
-        return True
-    if request_url.endswith('/'+normalized_action):
-        return True
-    if request_url.endswith('/++view++'+normalized_action):
-        return True
-    if request_url.endswith('/@@'+normalized_action):
-        return True
-
-    return False
+    index = request_url.rfind(normalized_action)
+    if index == -1:
+        return False
+    return index
 
 def action_to_id(action):
     return action.\
@@ -92,7 +83,10 @@ class PloneBrowserMenu(BrowserMenu):
         request_url = request.getURL()
 
         items = []
-        for index, order, title, item in result:
+        selected = None
+        current_pos = -1
+
+        for index, (order, iface_index, title, item) in enumerate(result):
             extra = item.extra or {'id': action_to_id(item.action)}
             if IBrowserSubMenuItem.providedBy(item):
                 submenu = getMenu(item.submenuId, object, request)
@@ -107,16 +101,23 @@ class PloneBrowserMenu(BrowserMenu):
                     menu['url'] = make_absolute(
                         menu['action'], local_url, site_url)
 
+            pos = is_selected(item, item.action, request_url)
+            if pos > current_pos:
+                current_pos = pos
+                selected = index
+
             items.append({
                 'title': title,
                 'description': item.description,
                 'action': item.action,
                 'url': url,
-                'selected': (is_selected(item, item.action, request_url)
-                             and u'selected') or u'',
+                'selected': u'',
                 'icon': item.icon,
                 'extra': extra,
                 'submenu': submenu})
+
+        if selected is not None:
+            items[selected]['selected'] = u'selected'
 
         return items
     

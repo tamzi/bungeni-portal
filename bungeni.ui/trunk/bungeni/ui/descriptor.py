@@ -960,7 +960,7 @@ class AgendaItemDescriptor( ParliamentaryItemDescriptor):
 class MotionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Motion")
     container_name = _(u"Motions")
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
     fields.extend([                
         dict( name="approval_date", 
             label=_(u"Approval Date"), 
@@ -995,7 +995,8 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
 class MotionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Motion version")
     container_name = _(u"Versions")
-
+    fields = deepcopy(VersionDescriptor.fields)
+    
 class BillDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Bill")
     container_name = _(u"Bills")
@@ -1039,7 +1040,8 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
 class BillVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Bill version")
     container_name = _(u"Versions")
-
+    fields = deepcopy(VersionDescriptor.fields)
+    
 class QuestionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Question")
     container_name = _(u"Questions")
@@ -1096,6 +1098,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
 class QuestionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Question version")
     container_name = _(u"Versions")
+    fields = deepcopy(VersionDescriptor.fields)
     
 class EventItemDescriptor( ParliamentaryItemDescriptor ):
     display_name =_(u"Event")

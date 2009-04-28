@@ -20,6 +20,7 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     has_data = True
 
     def setupActions(self):
+        return
         wf = self.wf = interfaces.IWorkflowInfo(self.context, None)
         if wf is not None:
             transitions = self.wf.getManualTransitionIds()

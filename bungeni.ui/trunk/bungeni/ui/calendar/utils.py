@@ -3,6 +3,8 @@ from datetime import time
 from datetime import date
 from time import mktime
 
+marker = object()
+
 def timestamp_from_date(date):
     return mktime(date.timetuple())
 
@@ -24,6 +26,23 @@ def unpack_date_range(value):
 
     return start, end
 
+class join_dicts(object):
+    def __init__(self, *dicts):
+        self.dicts = dicts
+
+    def __getitem__(self, key):
+        for d in self.dicts:
+            value = d.get(key, marker)
+            if value is not marker:
+                return value
+        raise KeyError(key)
+
+    def get(self, key, default=None):
+        try:
+            return self[key]
+        except KeyError:
+            return default
+            
 class base:
     def __getitem__(self, key):
         """Standard `strftime()` substitutions."""

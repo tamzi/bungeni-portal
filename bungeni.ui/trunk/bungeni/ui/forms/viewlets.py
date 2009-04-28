@@ -502,8 +502,13 @@ class RecurringEventsViewlet(DisplayViewlet):
             errors.append({'field': k, 'msg': self.errors[k] })
         return errors            
         
-    def get_field_error(self, field):
-        return errors.get(field, None)
+    def get_field_error(self, field):        
+        err_msg = self.errors.get(field, None)
+        if err_msg:
+            err_class = "error"
+        else:
+            err_class = None             
+        return {"class" : err_class, "msg": err_msg}
 
     def get_overlapping_sittings(self, group_id, start, end, sitting=None):
         session = Session()

@@ -66,6 +66,11 @@ class PrincipalGroupSchedulingContext(object):
     def __init__(self, context):
         self.__parent__ = context
 
+    @property
+    def label(self):
+        group = self.get_group()
+        return u"%s (%s)" % (group.short_name, group.full_name)
+
     def get_group(self, name="group"):
         session = Session()
 
@@ -106,6 +111,8 @@ class PrincipalGroupSchedulingContext(object):
 class PlenarySchedulingContext(PrincipalGroupSchedulingContext):
     component.adapts(IBungeniApplication)
 
+    label = _(u"Plenary")
+    
     @property
     def group_id(self):
         """Return current parliament's group id."""

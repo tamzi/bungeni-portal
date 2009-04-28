@@ -1,3 +1,5 @@
+import operator
+
 from zope import component
 
 from zope.app.component.hooks import getSite
@@ -13,6 +15,8 @@ from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 from bungeni.core.translation import get_language
 from bungeni.core.translation import get_all_languages
 from bungeni.core.translation import get_available_translations
+from bungeni.core import schedule
+from bungeni.models import queries
 from bungeni.ui.i18n import  _
 
 class GlobalMenuItem( item.GlobalMenuItem ):
@@ -157,6 +161,7 @@ class TranslateMenu(BrowserMenu):
                      
         return results
 
+
 class WorkflowSubMenuItem(BrowserSubMenuItem):
     title = _(u'label_state', default=u'State:')
     submenuId = 'context_workflow'
@@ -236,4 +241,87 @@ class WorkflowMenu(BrowserMenu):
                      extra=extra,
                      submenu=None))
                      
+        return results
+
+class CalendarSubMenuItem(BrowserSubMenuItem):
+    title = _(u'label_calendar_context', default=u'Calendar:')
+    submenuId = 'context_calendar'
+    order = 10
+
+    def __init__(self, context, request):
+        BrowserSubMenuItem.__init__(self, context, request)
+        self.context = context
+        self.url = absoluteURL(context, request)
+        
+    @property
+    def extra(self):
+        return {'id': 'plone-contentmenu-calendar',
+                'stateTitle': self.context.label}
+
+    @property
+    def description(self):
+        return u''
+
+    @property
+    def action(self):
+        return self.url
+    
+    def selected(self):
+        return False
+
+class CalendarMenu(BrowserMenu):
+    """Retrieve menu actions for available calendars."""
+    
+    def getSchedulingContexts(self):
+        """Set up scheduling contexts.
+
+        Currently we include:
+
+        - committees
+        - plenary
+
+        """
+
+        contexts = []
+        app = getSite()
+        committees = app[u"business"]["committees"].values()
+
+        contexts.extend(map(schedule.CommitteeSchedulingContext, committees))
+        contexts.append(schedule.PlenarySchedulingContext(app))
+
+        for context in contexts:
+            context.__name__ = u"calendar"
+
+        return contexts
+    
+    def getMenuItems(self, context, request):
+        """Return menu item entries in a TAL-friendly form."""
+
+        group_id = context.get_group().group_id
+        contexts = self.getSchedulingContexts()
+        
+        results = []
+        for context in contexts:
+            group = context.get_group()
+            if group.group_id == group_id:
+                continue
+            
+            url = absoluteURL(context, request)
+
+            extra = {'id': 'calendar-link-%s' % group.group_id,
+                     'separator': None,
+                     'class': ''}
+
+            results.append(
+                dict(title=context.label,
+                     description=group.description,
+                     action=url,
+                     selected=False,
+                     icon=None,
+                     extra=extra,
+                     submenu=None))
+
+        # sort on title
+        results.sort(key=operator.itemgetter("title"))
+
         return results

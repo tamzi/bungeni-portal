@@ -43,6 +43,12 @@
      />
 
   <browser:menu
+     id="context_calendar"
+     title="The 'calendar' menu - allows the user to select a scheduling context"
+     class=".menu.CalendarMenu"
+     />
+
+  <browser:menu
      id="context_additems"
      title="The 'add' menu - allows the user to add content"
      class="ploned.ui.menu.PloneBrowserMenu"
@@ -84,7 +90,7 @@
      action="reports"
      permission="zope.View"
      submenu="reporting_actions"
-     order="0"
+     order="20"
      />
 
   <browser:menuItem
@@ -207,6 +213,12 @@
      for="* *"
      name="plone.contentmenu.workflow"
      factory=".menu.WorkflowSubMenuItem"
+     provides="ploned.ui.interfaces.IContentMenuItem" />
+
+  <adapter
+     for="bungeni.core.interfaces.ISchedulingContext *"
+     name="plone.contentmenu.calendar"
+     factory=".menu.CalendarSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
   <adapter

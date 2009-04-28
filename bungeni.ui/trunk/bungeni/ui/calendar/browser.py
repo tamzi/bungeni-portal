@@ -8,6 +8,7 @@ timedelta = datetime.timedelta
 from zope import interface
 from zope import component
 from zope import schema
+from zope.i18n import translate
 from zope.formlib import form
 from zope.formlib import namedtemplate
 from zope.location.interfaces import ILocation
@@ -40,6 +41,7 @@ from bungeni.server.interfaces import ISettings
 from ploned.ui.interfaces import IViewView
 from ploned.ui.interfaces import IStructuralView
 from ore.alchemist.container import stringKey
+from ore.alchemist import Session
 
 class TIME_SPAN:
     daily = _(u"Daily")
@@ -103,7 +105,7 @@ def create_sittings_map(sittings, request):
     """
 
     mapping = {}
-    for sitting in sittings:
+    for sitting in sittings.values():
         day = sitting.start_date.weekday()
         hour = sitting.start_date.hour
 
@@ -116,7 +118,7 @@ def create_sittings_map(sittings, request):
             sitting.end_date.minute)
 
         mapping[day, hour] = {
-            'url': absoluteURL(sitting, request),
+            'url': "%s/schedule" % absoluteURL(sitting, request),
             'items': get_sitting_items(sitting, request),
             'record': sitting,
             'class': u"sitting",
@@ -236,7 +238,7 @@ class DailyCalendarView(CalendarView):
         date = removeSecurityProxy(self.context.date)
 
         sittings = self.context.get_sittings()
-        
+
         return template(
             display="daily",
             title=_(u"$B $Y", mapping=date),
@@ -257,6 +259,62 @@ class DailyCalendarView(CalendarView):
                 },
             sittings_map = create_sittings_map(sittings, self.request),
             )
+
+class GroupSittingScheduleView(CalendarView):
+    """Group-sitting scheduling view.
+
+    This view presents a sitting and provides a user interface to
+    manage the agenda.
+    """
+
+    def __init__(self, context, request):
+        BrowserView.__init__(self, context, request)
+
+    def render(self, date, template=None):
+        if template is None:
+            template = self.template
+
+        container = self.context.__parent__
+        schedule_url = self.request.getURL()
+        container_url = absoluteURL(container, self.request)
+        
+        # determine position in container
+        key = stringKey(self.context)
+        keys = list(container.keys())
+        pos = keys.index(key)
+
+        links = {}
+        if pos > 0:
+            links['previous'] = "%s/%s/%s" % (
+                container_url, keys[pos-1], self.__name__)
+        if pos < len(keys) - 1:
+            links['next'] = "%s/%s/%s" % (
+                container_url, keys[pos+1], self.__name__)
+
+        start_date = utils.datetimedict.fromdatetime(self.context.start_date)
+        end_date = utils.datetimedict.fromdatetime(self.context.end_date)
+        
+        session = Session()
+        sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
+
+        return template(
+            display="sitting",
+            title=_(u"$A $e, $B $Y", mapping=start_date),
+            description=_(u"$type &mdash; ${start}-${end}", mapping={
+                'type': translate(sitting_type_dc.title),
+                'start': translate(u"$H:$M", mapping=start_date),
+                'end': translate(u"$H:$M", mapping=end_date),
+                }),
+            links=links,
+            )
+
+class SittingCalendarView(CalendarView):
+    """Sitting calendar view."""
+
+    interface.implementsOnly(IViewView)
+    
+    def __init__(self, context, request):
+        BrowserView.__init__(self, context, request)
 
 class ReportingView(form.PageForm):
     """Reporting view base class.

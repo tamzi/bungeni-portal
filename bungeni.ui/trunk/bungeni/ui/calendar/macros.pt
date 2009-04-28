@@ -4,11 +4,13 @@
 
   <metal:navigation define-macro="navigation">
     <a class="navigation previous-link"
+       tal:condition="options/links/previous|nothing"
        tal:attributes="href options/links/previous"
        i18n:translate="">
       &larr;
     </a>
     <a class="navigation next-link"
+       tal:condition="options/links/next|nothing"
        tal:attributes="href options/links/next"
        i18n:translate="">
       &rarr;
@@ -16,7 +18,28 @@
     <span i18n:translate=""
           tal:content="options/title" />
   </metal:navigation>
-  
+
+  <div metal:define-macro="sitting">
+    <div class="calendar listing" id="sitting-calendar">
+      <div id="calendar-header">
+        <table class="listing grid">
+          <thead>
+            <tr>
+              <td colspan="2">
+                <metal:navigation use-macro="macros/navigation" />
+              </td>
+            </tr>
+            <tr>
+              <th class="description" colspan="2">
+                <span i18n:translate="" tal:content="options/description" />
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  </div>
+    
   <div metal:define-macro="daily">
     <div class="calendar listing" id="daily-calendar">
       <div id="calendar-header">
@@ -77,7 +100,7 @@
                         </span>
                         
                         <span class="sitting-type" 
-                              tal:content="string:(${sitting/record/type/sitting_type})" />
+                              tal:content="string:(${sitting/record/sitting_type/sitting_type})" />
                       </a>
                     </div>
 
@@ -182,7 +205,7 @@
                         </span>
                         
                         <span class="sitting-type" 
-                              tal:content="string:(${sitting/record/type/sitting_type})" />
+                              tal:content="string:(${sitting/record/sitting_type/sitting_type})" />
                       </a>
                     </div>
 

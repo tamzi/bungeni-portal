@@ -267,6 +267,15 @@
      permission="bungeni.sitting.Delete"
      />
 
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IGroupSitting"
+     action="schedule"
+     title="Schedule"
+     order="10"
+     permission="zope.View"
+     />
+
   <!-- menu items -->
   
   <browser:menuItem

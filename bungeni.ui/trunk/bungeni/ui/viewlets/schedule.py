@@ -15,6 +15,7 @@ from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
 from bungeni.models import domain
 from bungeni.models.interfaces import IBungeniApplication
+from bungeni.core.interfaces import ISchedulingContext
 
 from ore.alchemist import Session
 from ore.alchemist.container import stringKey
@@ -30,6 +31,14 @@ class SchedulablesViewlet(viewlet.ViewletBase):
 
     render = ViewPageTemplateFile('templates/scheduling.pt')
     title = _(u"Scheduling")
+
+    def __init__(self, context, request, view, manager):
+        while not ISchedulingContext.providedBy(context):
+            context = context.__parent__
+            if context is None:
+                raise RuntimeError("Unable to locate a scheduling context.")
+        super(SchedulablesViewlet, self).__init__(
+            context, request, view, manager)
 
 class SchedulableItemsViewlet(viewlet.ViewletBase):
     """Renders a list of schedulable items for a particular ``model``,

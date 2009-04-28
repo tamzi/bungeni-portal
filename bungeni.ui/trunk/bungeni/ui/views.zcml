@@ -111,6 +111,13 @@
      class=".calendar.browser.CommitteeCalendarView"
     />
 
+  <browser:page
+     for="bungeni.models.interfaces.IGroupSitting"
+     permission="zope.View"
+     name="schedule"
+     class=".calendar.browser.GroupSittingScheduleView"
+    />
+
   <!-- Similar Content -->
   
   <browser:page

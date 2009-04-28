@@ -1,8 +1,14 @@
 
 $(document).ready(function() {
 
-    $('#sitting-date').datepicker({ dateFormat: 'yy-mm-dd' });
-
+    $('#sitting-date').datepicker({ dateFormat: 'yy-mm-dd', 
+            changeMonth: true,
+            changeYear: true  });
+    $('#fielduntil').datepicker({ dateFormat: 'yy-mm-dd',
+            changeMonth: true,
+            changeYear: true  });
+    //$('#sitting-start-time').timepicker();
+    //$('#sitting-end-time').timepicker();
     $('#weeklyrecurrence').hide();
     $('#monthlyrecurrence').hide();
     $('#recurrencetimes').hide();  

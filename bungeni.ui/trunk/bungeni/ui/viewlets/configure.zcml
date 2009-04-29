@@ -28,43 +28,6 @@
 
   <browser:viewlet
      name="bungeni.navigation.navtree"
-     for="ore.alchemist.interfaces.IAlchemistContainer"         
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".navigation.NavigationTreeViewlet"
-     permission="zope.View"
-     weight="1"
-     />    
-  
-  <browser:viewlet
-     name="bungeni.navigation.navtree"
-     for="ore.alchemist.interfaces.IAlchemistContent"         
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".navigation.NavigationTreeViewlet"
-     permission="zope.View"
-     weight="1"
-     />        
-
-  <browser:viewlet
-     name="bungeni.navigation.navtree"
-     view="bungeni.ui.calendar.browser.CommitteeCalendarView"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".navigation.NavigationTreeViewlet"
-     permission="zope.View"
-     weight="1"
-     />
-
-  <browser:viewlet
-     name="bungeni.navigation.navtree"
-     view="bungeni.ui.calendar.browser.DailyCalendarView"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".navigation.NavigationTreeViewlet"
-     permission="zope.View"
-     weight="1"
-     />
-
-  <browser:viewlet
-     name="bungeni.navigation.navtree"
-     view="bungeni.ui.archive.ArchiveBrowserView"
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".navigation.NavigationTreeViewlet"
      permission="zope.View"

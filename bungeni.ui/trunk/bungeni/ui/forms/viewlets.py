@@ -545,12 +545,16 @@ class RecurringEventsViewlet(DisplayViewlet):
         for result in results:
             self.errors['sitting_start_time'] = _(
                 u"Another sitting is already scheduled for this time")                    
-            
-    def get_groups(self):
+           
+    def get_group_id(self):           
         if interfaces.IGroupSitting.providedBy(self.context):
             group_id = self.context.group_id
         else:
             group_id = getattr(self.context.__parent__, 'group_id', None)
+        return group_id
+                    
+    def get_groups(self):
+        group_id = self.get_group_id()
         session = Session()
         query = session.query(domain.Group).filter(
                 sql.or_(
@@ -691,10 +695,7 @@ class RecurringEventsViewlet(DisplayViewlet):
                 if group_id:
                     group_id = long(group_id) 
                 else:    
-                    if interfaces.IGroupSitting.providedBy(self.context):
-                        group_id = self.context.group_id
-                    else:
-                        group_id = getattr(self.context.__parent__, 'group_id', None)                                                   
+                    group_id = self.get_group_id()                                                 
                 venue_id = self.request.form.get('venue_id', None)
                 if venue_id:
                     try:

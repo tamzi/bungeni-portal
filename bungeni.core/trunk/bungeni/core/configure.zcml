@@ -215,6 +215,18 @@
      factory=".dc.DublinCoreMetadataAdapter"
      provides="zope.traversing.interfaces.IPathAdapter" />
 
+  <!-- browser resource adapters -->
+  
+  <view
+     name="rh" type="*"
+     provides="zope.traversing.interfaces.ITraversable" for="*"
+     factory=".resources.rh"
+     />
+
+  <adapter
+     name="resource"
+     factory=".resources.ResourceSiteAbsoluteURL" />
+  
   <!-- transformation -->
 
   <plone:transform factory=".transformation.HtmlFragmentOpenDocumentTransform" />

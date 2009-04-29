@@ -1,3 +1,5 @@
+import types
+
 from zope import interface
 from zope import component
 from zope.publisher.browser import BrowserView
@@ -18,9 +20,16 @@ class PloneView(BrowserView):
         iface = tuple(interface.implementedBy(manager))[0]
         specification.append(iface)
 
-        for viewlet in  gsm.adapters.lookupAll(specification, IViewlet):
+        for name, factory in  gsm.adapters.lookupAll(specification, IViewlet):
+            # if the factory's constructor (__new__) is different from
+            # the built-in class constructor, try instantiating the
+            # viewlet to confirm that it's available
+            if isinstance(factory.__new__, types.FunctionType):
+                viewlet = factory.__new__(
+                    factory, self.context, self.request, view, None)
+                if viewlet is None:
+                    continue
             return True
-
         return False
 
     def __call__(self):

@@ -376,10 +376,13 @@ mapper(domain.ItemSchedule, schema.items_schedule,
        properties = {
            'item': relation(domain.ParliamentaryItem, uselist=False),
            'discussion': relation(domain.ScheduledItemDiscussion, uselist=False),
+           'category': relation( domain.ItemScheduleCategory, uselist=False),
            }
        ) 
 
 mapper(domain.ScheduledItemDiscussion, schema.item_discussion)
+
+mapper( domain.ItemScheduleCategory , schema.item_schedule_category)
 
 # items scheduled for a sitting
 # expressed as a join between item and schedule

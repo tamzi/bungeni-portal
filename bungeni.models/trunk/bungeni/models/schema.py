@@ -526,7 +526,7 @@ venues = rdb.Table(
     "venues",
     metadata,
     rdb.Column( "venue_id", rdb.Integer, primary_key=True ),  
-    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),      
+    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),      
     rdb.Column( "description", rdb.UnicodeText ),    
     )
 
@@ -548,7 +548,7 @@ resources = rdb.Table(
     rdb.Column( "resource_type_id", rdb.Integer, 
             rdb.ForeignKey('resource_types.resource_type_id'),
             nullable=False),
-    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),      
+    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),      
     rdb.Column( "description", rdb.UnicodeText ),    
     )
 
@@ -595,6 +595,13 @@ item_member_votes = rdb.Table(
    rdb.Column( "vote",  rdb.Boolean,),
    )
 
+item_schedule_category = rdb.Table(
+   "item_schedule_category",
+   metadata,
+   rdb.Column( "category_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),  
+   )    
+
 items_schedule = rdb.Table(
    "items_schedule",
    metadata,
@@ -605,6 +612,9 @@ items_schedule = rdb.Table(
    rdb.Column( "sitting_id", rdb.Integer, 
             rdb.ForeignKey('group_sittings.sitting_id'), 
             nullable=False ),
+   rdb.Column( "category_id", rdb.Integer, 
+            rdb.ForeignKey('item_schedule_category.category_id'), 
+            nullable=True ),            
    rdb.Column( "planned_order", rdb.Integer, rdb.Sequence('planned_order', 0, 1)),
    rdb.Column( "real_order", rdb.Integer),
    # item was discussed on this sitting sitting

@@ -528,6 +528,12 @@ class ItemSchedule(Entity):
         "bungeni.models.domain.ScheduledItemDiscussionContainer",
         "schedule_id")
 
+class ItemScheduleCategory(Entity):
+    """ category of a scheduled item used to
+    get the 'headings' when producing the agenda/ minutes
+    for a sitting """
+    
+
 class ScheduledItemDiscussion(Entity):
     """A discussion on a scheduled item."""
 

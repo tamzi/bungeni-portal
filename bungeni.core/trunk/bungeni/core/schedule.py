@@ -91,11 +91,11 @@ class PrincipalGroupSchedulingContext(object):
             return sittings
         else:
             assert start_date and end_date
-            
+            unproxied = removeSecurityProxy(sittings)
             session = Session()
 
-            sittings.subset_query = sql.and_(
-                sittings.subset_query,
+            unproxied.subset_query = sql.and_(
+                unproxied.subset_query,
                 GroupSitting.start_date.between(
                     format_date(start_date),
                     format_date(end_date))

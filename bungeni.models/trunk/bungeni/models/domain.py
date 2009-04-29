@@ -251,7 +251,7 @@ class Minister( GroupMembership ):
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
-    interface.implements( interfaces.IFileAttachments )
+    interface.implements( interfaces.IHeadFileAttachments )
     
     committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
     committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")

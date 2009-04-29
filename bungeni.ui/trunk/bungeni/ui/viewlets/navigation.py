@@ -22,6 +22,7 @@ from alchemist.traversal.managed import ManagedContainerDescriptor
 
 from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
+from ploned.ui.interfaces import IStructuralView
 
 from bungeni.core.interfaces import ISection
 from bungeni.core import location
@@ -230,9 +231,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 'name' : context.__name__,
                 'url' : url,
             })
-      
-            
-                        
+
         return path
         
     def update(self):
@@ -250,7 +249,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
             self.user_name = self.request.principal.login          
         except:
             pass
-        
+
 class NavigationTreeViewlet( viewlet.ViewletBase ):
     """Render a navigation tree."""
 
@@ -258,6 +257,15 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt')
     path = ()
     
+    def __new__(cls, context, request, view, manager):
+        # only instantiate viewlet if a non-empty navigation tree can
+        # be created (e.g. parent-chain has more than two elements)
+        chain = get_parent_chain(context)[:-2]
+        if chain and IStructuralView.providedBy(view) or len(chain) > 1:
+            inst = object.__new__(cls, context, request, view, manager)
+            inst.chain = chain
+            return inst
+
     def __init__(self, context, request, view, manager):
         self.context = context
         self.request = request
@@ -273,10 +281,10 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         included.
         """
 
-        chain = get_parent_chain(self.context)
-        self.nodes = self.expand(chain)
+        chain = list(self.chain)
+        self.nodes = self.expand(chain, include_siblings=False)
 
-    def expand(self, chain):
+    def expand(self, chain, include_siblings=True):
         if len(chain) == 0:
             return ()
 
@@ -330,19 +338,22 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             # append managed containers as child nodes
             kls = type(proxy.removeSecurityProxy(parent))
 
-            if IApplication.providedBy(parent):
-                containers = [
-                    (name, parent[name])
-                    for name in location.model_to_container_name_mapping.values()
-                    if name in parent]
-            elif IReadContainer.providedBy(parent):
-                containers = list(parent.items())
+            if include_siblings is True:
+                if IApplication.providedBy(parent):
+                    containers = [
+                        (name, parent[name])
+                        for name in location.model_to_container_name_mapping.values()
+                        if name in parent]
+                elif IReadContainer.providedBy(parent):
+                    containers = list(parent.items())
+                else:
+                    containers = [
+                        (key, getattr(parent, key))
+                        for key, value in kls.__dict__.items()
+                        if isinstance(value, ManagedContainerDescriptor)]
             else:
-                containers = [
-                    (key, getattr(parent, key))
-                    for key, value in kls.__dict__.items()
-                    if isinstance(value, ManagedContainerDescriptor)]
-
+                containers = [(context.__name__, context)]
+                
             self.expand_containers(items, containers, url, chain, context)
 
         elif ILocation.providedBy(context):

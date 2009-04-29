@@ -11,7 +11,9 @@
             </li>
           </ul>
         </div>
-        <div tal:define="error python: view.get_field_error('group_id')" tal:attributes="class error/class">        
+        <div tal:condition="python:(view.get_group_id() is None)" 
+            tal:define="error python: view.get_field_error('group_id')" 
+            tal:attributes="class error/class">        
             <label for="formgroup_id">Group</label>   
             <select id="formgroup_id" name="group_id" size="1">
                 <tal:loop tal:repeat="group view/get_groups">

@@ -212,7 +212,7 @@
      menu="context_actions"
      title="Listing"
      template="templates/generic-container.pt"
-     class=".container.ContainerListing"
+     class=".table.AjaxContainerListing"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />  
 

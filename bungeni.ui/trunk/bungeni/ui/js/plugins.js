@@ -1,6 +1,15 @@
 (function($) {
   var re_time_range = /(.*) \((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
 
+  function _update_tables(selector, data) {
+    var calendar = $(selector);
+    var old_tables = calendar.find("table");
+    var new_tables = $(data).find(selector).find("table");
+    
+    old_tables.eq(0).replaceWith(new_tables.eq(0));
+    old_tables.eq(1).replaceWith(new_tables.eq(1));
+  }
+
   $.fn.bungeniDragAndDropScheduling = function() {
     $(this).draggable({
         cursor: 'move',
@@ -14,19 +23,11 @@
         });
 
   }
-  
-  $.fn.bungeniCalendarInteractivity = function(ajax_navigation) {
+
+  $.fn.bungeniSchedulingCalendar = function(ajax_navigation) {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
-
-    function _update_tables(data) {
-      var old_tables = calendar.find("table");
-      var new_tables = $(data).find(selector).find("table");
-      
-      old_tables.eq(0).replaceWith(new_tables.eq(0));
-      old_tables.eq(1).replaceWith(new_tables.eq(1));
-    }
-
+    
     calendar.find("td.sitting ul").sortable({
       stop: function(event, ui) {
           // on the change event, we collect all the item ids and
@@ -62,7 +63,7 @@
         }
       });
 
-    $.each(calendar.find("td.sitting"), function(i, o) {
+    $.each(calendar.find("fieldset"), function(i, o) {
         $(o)
           .droppable({
             accept: "tr",
@@ -85,22 +86,27 @@
                     item_id: id}, function(data, status) {
                   $("#kss-spinner").hide();
                   if (status == 'success') {
-                    _update_tables(data);
-                    calendar.bungeniCalendarInteractivity(ajax_navigation);
+                    _update_tables(selector, data);
+                    calendar.bungeniCalendarInteractivity(false);
                   }
                 });
             });
       });
+  }
+  
+  $.fn.bungeniCalendarInteractivity = function(ajax_navigation) {
+    var calendar = $(this);
+    var selector = '#'+calendar.attr('id');
 
     if (ajax_navigation)
       calendar.find("thead a.navigation")
         .click(function() {
             $("#kss-spinner").show();
-            $.get($(this).attr('href'), {}, function(data, status) {
+            var href = $(this).attr('href');
+            $.get(href, {}, function(data, status) {
                 $("#kss-spinner").hide();
-                
                 if (status == 'success') {
-                  _update_tables(data);
+                  _update_tables(selector, data);
                   calendar.bungeniCalendarInteractivity(ajax_navigation);
                 }
               });

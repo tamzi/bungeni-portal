@@ -179,6 +179,9 @@ class ContainerJSONListing( BrowserView ):
             column = domain_model.c[sort_key]
             return column
 
+    def getFilter(self):
+        pass
+
     def getSort( self ):
         """ server side sort,
         @web_parameter sort - request variable for sort column

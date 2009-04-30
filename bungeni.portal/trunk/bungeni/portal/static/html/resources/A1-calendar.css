@@ -10,6 +10,10 @@
   background-color: #88AACC;
 }
 
+#scheduling-table {
+  width: 100%;
+}
+
 #calendar-table th.today {
   background-color: rgb(136, 170, 204);
   color: white;

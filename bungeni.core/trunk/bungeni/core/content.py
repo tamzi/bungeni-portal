@@ -1,6 +1,9 @@
 from zope import interface
 from zope.container.ordered import OrderedContainer
 from zope.dublincore.interfaces import IDCDescriptiveProperties
+from zope.publisher.interfaces.browser import IBrowserPublisher
+from zope.app.publisher.browser import getDefaultViewName
+from zope.container.traversal import ItemTraverser
 
 from interfaces import ISection
 from interfaces import IQueryContent
@@ -11,13 +14,14 @@ class Section(OrderedContainer):
     Note that items are not persisted.
     """
 
-    interface.implements(ISection, IDCDescriptiveProperties)
+    interface.implements(ISection, IDCDescriptiveProperties, IBrowserPublisher)
     
-    def __init__(self, title=None, description=None, marker=None):
+    def __init__(self, title=None, description=None, default_name=None, marker=None):
         super(Section, self).__init__()
         self.title = title
         self.description = description
-
+        self.default_name = default_name
+        
         if marker is not None:
             interface.alsoProvides(self, marker)
 
@@ -30,6 +34,16 @@ class Section(OrderedContainer):
             return obj
         return item
 
+    def browserDefault(self, request):
+        default_name = self.default_name
+        if default_name is None:
+            default_name = getDefaultViewName(self, request)
+        return self, (default_name,)
+
+    def publishTraverse(self, request, nm):
+        traverser = ItemTraverser(self, request)
+        return traverser.publishTraverse(request, nm)
+    
 class QueryContent(object):
     interface.implements(IQueryContent, IDCDescriptiveProperties)
     
@@ -42,3 +56,5 @@ class QueryContent(object):
         self.query = query
         self.title = title
         self.description = description
+
+    

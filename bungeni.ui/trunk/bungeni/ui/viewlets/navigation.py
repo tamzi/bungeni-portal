@@ -259,16 +259,17 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     path = ()
     
     def __new__(cls, context, request, view, manager):
+        # we have both primary and secondary navigation, so we won't
+        # show the navigation tree unless we're at a depth > 2
         chain = get_parent_chain(context)[:-2]
         if not chain:
             return
 
-        # only instantiate navigation tree viewlet if:
-        #
-        # 1) we have a navigation depth > 2 -or-
-        # 2) navigation sub-context is a non-empty simple container
+        # we require the tree to begin with a container object
+        if not IReadContainer.providedBy(chain[-1]):
+            return
 
-        subcontext = chain[0]
+        subcontext = chain[-1]
         if (len(chain) > 1 or
             IReadContainer.providedBy(subcontext) and not
             IAlchemistContainer.providedBy(subcontext) and len(subcontext)):

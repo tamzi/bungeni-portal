@@ -7,6 +7,8 @@
 ####	- Python ssl
 #### 	- Python svn bindings
 #####	Tested on Ubuntu 8.04 
+#####   To setup all the pre-requisites simply run :
+#####   cap bungeni_presetup:build_all
 ##################################################################
 
 ### Common functions ####
@@ -37,9 +39,9 @@ set :user_install_root, "/home/bungeni/cap_installs"
 
 #### download URLs for components #####
 ### can be set to a http / ftp url or an absolute path to the file on the computer
-set :python_download_url, "/home/bungeni/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
+set :python_download_url, "/home/bungeni/cache/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
 set :python_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7b1.tar.gz"
-set :svn_download_url,  "/home/bungeni/Desktop/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
+set :svn_download_url,  "/home/bungeni/cache/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
 
 
 ##### Component Specific Parameters ##### 
@@ -156,6 +158,14 @@ namespace :bungeni_presetup do
 	"echo #{svn_runtime}/lib/svn-python > #{user_python25_runtime}/lib/python2.5/site-packages/subversion.pth"
 	].each {|cmd| run cmd}
     end
+
+    desc "the build_all task sets up all the prerequisites for a bungeni buildout"
+    task :build_all, :roles=> [:app] do
+	run "echo 'Installing all bungeni prerequisites'"
+    end 
+	
+	
+    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging", "bungeni_presetup:build_libneon", "bungeni_presetup:build_svn"
 
 
 end

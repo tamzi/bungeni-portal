@@ -154,34 +154,16 @@
   <!-- sections -->
 
   <browser:page
-     name="index"
-     for="bungeni.core.interfaces.IBusinessSection"
+     name="whats-on"
+     for="bungeni.core.interfaces.ISection"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      template="templates/whatson.pt"
-     title="What's on"
-     menu="business_navigation"
      permission="zope.Public"
      />
-
+  
   <browser:page
-     name="index"
-     for="bungeni.core.interfaces.IMembersSection"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".content.CurrentMembersView"
-     permission="zope.Public"
-     />
-
-  <browser:page
-     name="index"
-     for="bungeni.core.interfaces.IArchiveSection"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".content.BrowseArchiveView"
-     permission="zope.Public"
-     />
-
-  <browser:page
-     name="index"
-     for="bungeni.core.interfaces.IArchiveBrowser"
+     name="browse-archive"
+     for="bungeni.core.interfaces.ISection"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".archive.ArchiveBrowserView"
      permission="zope.Public"

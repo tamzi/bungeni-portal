@@ -43,6 +43,7 @@ class SecondaryNavigationViewlet(object):
     
     def update(self):
         context = self.context
+        view = self.__parent__.__parent__
         chain = get_parent_chain(context)
         
         length = len(chain)
@@ -58,7 +59,7 @@ class SecondaryNavigationViewlet(object):
         if container is None:
             self.items = self.get_menu_items(chain[-1], self.default_menu)
             return
-        
+
         if length > 2:
             context = chain[-3]
         else:
@@ -87,7 +88,7 @@ class SecondaryNavigationViewlet(object):
                     'url': "%s/%s" % (url, name)})
 
         default_view_name = queryDefaultViewName(container, self.request)
-        default_view = component.getMultiAdapter(
+        default_view = component.queryMultiAdapter(
             (container, self.request), name=default_view_name)
 
         if hasattr(default_view, "title"):
@@ -258,10 +259,19 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     path = ()
     
     def __new__(cls, context, request, view, manager):
-        # only instantiate viewlet if a non-empty navigation tree can
-        # be created (e.g. parent-chain has more than two elements)
         chain = get_parent_chain(context)[:-2]
-        if chain and IStructuralView.providedBy(view) or len(chain) > 1:
+        if not chain:
+            return
+
+        # only instantiate navigation tree viewlet if:
+        #
+        # 1) we have a navigation depth > 2 -or-
+        # 2) navigation sub-context is a non-empty simple container
+
+        subcontext = chain[0]
+        if (len(chain) > 1 or
+            IReadContainer.providedBy(subcontext) and not
+            IAlchemistContainer.providedBy(subcontext) and len(subcontext)):
             inst = object.__new__(cls, context, request, view, manager)
             inst.chain = chain
             return inst

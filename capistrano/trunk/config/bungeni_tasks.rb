@@ -26,7 +26,7 @@ namespace :bungeni_tasks do
 
     desc "full buildout"
     task :buildout_full, :roles=> :app do
-      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout"
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600"
     end
 
     desc "optimisitic builout"

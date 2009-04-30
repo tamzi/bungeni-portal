@@ -36,6 +36,12 @@ SittingTypes = DatabaseSource(
     title_getter=lambda ob: "%s (%s-%s)" % (
         ob.sitting_type.capitalize(), ob.start_time, ob.end_time))
 
+SittingTypeOnly = DatabaseSource(
+    domain.SittingType, 
+    title_field='sitting_type',
+    token_field='sitting_type_id',
+    value_field='sitting_type_id')
+
 class mps_sitting( object ):
     """ returns the mps for a sitting """
     

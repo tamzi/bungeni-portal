@@ -265,6 +265,19 @@
     metaFields: { totalRecords: "length", sortKey:"sort", sortDir:"dir", paginationRecordOffset:"start"}
     }
       
+    var get_filter = function(oSelf) {
+        var table_columns = oSelf.getColumnSet()
+        var qstr = '';
+        for (i=0;i<table_columns.keys.length;i++){
+            var input_id = 'input#input-' + table_columns.keys[i].getId();
+            
+            //alert( 'filter_' + table_columns.keys[i].getKey() + ' : input-' + table_columns.keys[i].getId());
+            qstr = qstr + '&filter_' + table_columns.keys[i].getKey() + '=' + $(input_id).val()
+
+        };   
+        return qstr;
+    };  
+      
     // A custom function to translate the js paging request into a datasource query    
     var RequestBuilder = function(oState, oSelf) {
       // Get states or use defaults
@@ -273,18 +286,13 @@
       var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "" : "desc";
       var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
       var results = (oState.pagination) ? oState.pagination.rowsPerPage : 100;  
-      var table_columns = oSelf.getColumnSet()
-      for (i=0;i<table_columns.keys.length;i++){
-
-         //alert( 'filter_' + table_columns.keys[i].getKey() + ' : input-' + table_columns.keys[i].getId());
-         
-
-        };            
+       
       // Build custom request
       return  "sort=" + sort +
       "&dir=" + dir +
       "&start=" + startIndex +
-      "&limit=" +  results;
+      "&limit=" +  results +
+      get_filter(oSelf); 
      
       
       
@@ -314,7 +322,7 @@
       return oPayload;
     };
 
-    
+    // create the inputs for column filtering
     var i=0;
     var table_columns = table.getColumnSet()
     for (i=0;i<table_columns.keys.length;i++){
@@ -357,7 +365,7 @@
         }
         }
       };
-                        
+      newRequest = newRequest + get_filter(this);                  
       // Send the request
       this.getDataSource().sendRequest(newRequest, oCallback);
     };

@@ -180,7 +180,13 @@ class ContainerJSONListing( BrowserView ):
             return column
 
     def getFilter(self):
-        pass
+        str_filter = ''
+        for field in getFields( self.context):
+            ff_name = 'filter_' + field.__name__
+            field_filter = self.request.get(ff_name, None)
+            if field_filter:
+                str_filter = str_filter + field.__name__ + '=' + field_filter
+        return str_filter                
 
     def getSort( self ):
         """ server side sort,
@@ -244,7 +250,11 @@ class ContainerJSONListing( BrowserView ):
             if 'start_date' in  context._class.c and 'end_date' in  context._class.c :                 
                 # apply date range resrictions
                 query=query.filter(filter_by)
-        #query = query.limit( limit ).offset( start )                
+        #query = query.limit( limit ).offset( start )
+        ud_filter = self.getFilter()
+        if ud_filter != '':  
+            query=query.filter(ud_filter)
+        #import pdb; pdb.set_trace()              
         if order_by:
             query = query.order_by( order_by )  
         nodes = self._get_secured_batch(query, start, limit)                                                  

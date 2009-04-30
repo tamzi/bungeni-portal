@@ -24,44 +24,59 @@
 
   }
 
-  $.fn.bungeniSchedulingCalendar = function(ajax_navigation) {
+  $.fn.bungeniReorderSchedulings = function() {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
-    
-    calendar.find("td.sitting ul").sortable({
-      stop: function(event, ui) {
-          // on the change event, we collect all the item ids and
-          // submit to the parent's "reorder" action
 
-          var ids = [];
-          $.each($(this).find("a"), function(i, o) {
-              var name = $(o).attr('name');
-              if (name && ids.indexOf(name) == -1)
-                ids.push(name);
-            });
+    $("#scheduling-table tbody td.actions a").click(function() {
+        $(this).blur();
+        
+        var row = $(this).parents("tr").eq(0);
+        
+        // manipulate dom to move row up or down
+        if ($(this).attr("rel") == "move-up") {
+          var element = row.prev();
+          if (!element) return false;
+          element.insertAfter(row);
+        } else {
+          var element = row.next();
+          if (!element) return false;
+          element.insertBefore(row);
+        }
+        
+        var ids = [];
+        $.each(calendar.find("a[rel=item]"), function(i, o) {
+            var name = $(o).attr('name');
+            if (name && ids.indexOf(name) == -1)
+              ids.push(name);
+          });
 
-          // the url is defined as the first link's parent
-          var url = $(this).parents('td').eq(0).
-            find("a[rel=sitting]").attr('href')+'/items/reorder';
-
-          var data = {
+        // the url is defined as the first link's parent
+        var url = $("a[rel=sitting]").attr('href')+'/items/reorder';
+        
+        var data = {
           "headless": 'true',
           "ordering.count": ids.length,
-          };
-          
-          $.each(ids, function(i, o) {
-              data["ordering."+i+"."] = o;
-            });
+        };
+        
+        $.each(ids, function(i, o) {
+            data["ordering."+i+"."] = o;
+          });
 
-          $("#kss-spinner").show();
-          $.post(url, data, function(data, status) {
-              $("#kss-spinner").hide();
-              if (status == 'success') {
-                // throw away result
-              }
-            });
-        }
+        $("#kss-spinner").show();
+        $.post(url, data, function(data, status) {
+            $("#kss-spinner").hide();
+            if (status == 'success') {
+              // throw away result
+            }
+          });
+        return false;
       });
+  };
+  
+  $.fn.bungeniSchedulingCalendar = function() {
+    var calendar = $(this);
+    var selector = '#'+calendar.attr('id');
 
     $.each(calendar.find("fieldset"), function(i, o) {
         $(o)
@@ -87,13 +102,13 @@
                   $("#kss-spinner").hide();
                   if (status == 'success') {
                     _update_tables(selector, data);
-                    calendar.bungeniCalendarInteractivity(false);
+                    calendar.bungeniReorderSchedulings();
                   }
                 });
             });
       });
   }
-  
+
   $.fn.bungeniCalendarInteractivity = function(ajax_navigation) {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');

@@ -31,12 +31,81 @@
             </tr>
             <tr>
               <th class="description" colspan="2">
-                <span i18n:translate="" tal:content="options/description" />
+                <a rel="sitting" tal:attributes="href context/@@absolute_url"
+                   i18n:translate=""
+                   tal:content="options/description" />
               </th>
             </tr>
           </thead>
         </table>
       </div>
+    </div>
+    <div id="scheduling-calendar" class="scheduling-drop-target">
+      <fieldset>
+        <legend i18n:translate="">
+          Items scheduled for this meeting
+        </legend>
+
+          <ul class="actions">
+            <li tal:repeat="action options/actions">
+              <a tal:attributes="rel action/id;
+                                 href action/url">
+                <span tal:condition="not: action/icon"
+                      tal:replace="action/title" />
+                <img tal:condition="action/icon"
+                     tal:attributes="src action/icon;
+                                     alt action/title" />
+              </a>
+            </li>
+            <li>
+              <a href="#" name="calendar" rel="calendar"
+                 i18n:translate=""
+                 tal:define="url request/getURL"
+                 tal:attributes="href string:$url?${request/QUERY_STRING}">
+                Refresh
+              </a>
+            </li>
+          </ul>
+          
+          <table tal:define="images nocall: context/++resource++ui-images"
+                 tal:condition="options/items"
+                 id="scheduling-table" class="grid listing">
+            <thead>
+              <tr>
+                <th i18n:translate="">Item</th>
+                <th i18n:translate="">State</th>
+                <th i18n:translate="">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr tal:repeat="item options/items">
+                <td>
+                  <a rel="item"
+                     tal:attributes="name item/name;
+                                     href item/url"
+                     tal:content="item/title" />
+                </td>
+                <td tal:content="item/status" />
+                <td class="actions">
+                  <a href="#" rel="move-up" i18n:translate="">
+                    <img alt="Up-arrow"
+                         i18n:attributes="alt"
+                         tal:attributes="src images/icon_up.gif" />
+                  </a>
+                  <a href="#" rel="move-down" i18n:translate="">
+                    <img alt="Down-arrow"
+                         i18n:attributes="alt"
+                         tal:attributes="src images/icon_down.gif" />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p tal:condition="not: options/items"
+             i18n:translate="">
+            No items scheduled.
+          </p>
+        </fieldset>
     </div>
   </div>
     

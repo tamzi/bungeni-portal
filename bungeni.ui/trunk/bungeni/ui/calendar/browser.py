@@ -79,6 +79,7 @@ def get_sitting_items(sitting, request):
             'title': props.title,
             'description': props.description,
             'name': stringKey(scheduling),
+            'status': item.status,
             'delete_url': "%s/delete" % absoluteURL(scheduling, request),
             'url': absoluteURL(item, request)})
 
@@ -267,6 +268,8 @@ class GroupSittingScheduleView(CalendarView):
     manage the agenda.
     """
 
+    interface.implementsOnly(IViewView)
+    
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
 
@@ -306,6 +309,8 @@ class GroupSittingScheduleView(CalendarView):
                 'end': translate(u"$H:$M", mapping=end_date),
                 }),
             links=links,
+            actions=get_sitting_actions(self.context, self.request),
+            items=get_sitting_items(self.context, self.request),
             )
 
 class SittingCalendarView(CalendarView):

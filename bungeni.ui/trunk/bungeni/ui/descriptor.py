@@ -47,6 +47,26 @@ def _column( name, title, renderer, default="" ):
 def day_column( name, title, default="" ):
     renderer = lambda x: x.strftime('%Y-%m-%d')
     return _column( name, title, renderer, default)
+
+def date_from_to_column( name, title, default="" ):
+    def getter( item, formatter ):
+        start = getattr( item, 'start_date')
+        end = getattr( item, 'end_date')        
+        if start:
+            start = start.strftime('%Y-%m-%d %H:%M')
+        if end:
+            end = end.strftime('%H:%M')            
+        return u"%s - %s"%(start, end)
+    return column.GetterColumn( title, getter )
+
+
+def datetime_column( name, title, default="" ):
+    renderer = lambda x: x.strftime('%Y-%m-%d %H:%M')
+    return _column( name, title, renderer, default)
+    
+def time_column( name, title, default="" ):
+    renderer = lambda x: x.strftime('%H:%M')
+    return _column( name, title, renderer, default)
     
 def name_column( name, title, default=""):
     def renderer( value, size=50 ):
@@ -1147,6 +1167,7 @@ class MotionAmendmentDescriptor( ModelDescriptor ):
                 add_widget=SelectDateWidget),
         dict( name="accepted_p",  label=_(u"Accepted")),
         ]
+        
 class SittingDescriptor( ModelDescriptor ):
     display_name = _(u"Sitting")
     container_name = _(u"Sittings")
@@ -1157,23 +1178,26 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="sitting_type_id", 
               listing_column = vocab_column( "sitting_type_id", 
                 _(u"Sitting Type"), 
-                vocabulary.SittingTypes ),
+                vocabulary.SittingTypeOnly ),
               property = schema.Choice( 
                     title=_(u"Sitting Type"), 
                     source=vocabulary.SittingTypes,
-                    required=True) ),
+                    required=True),
+                    listing=True ),
         dict( name="start_date", 
-            label=_(u"Start Date"),  
-            listing_column=day_column("start_date", 
-                _(u'Start Date')),
+            label=_(u"Date"),  
+            listing_column=date_from_to_column("start_date", 
+                _(u'Start')),
             edit_widget=SelectDateTimeWidget, 
-            add_widget=SelectDateTimeWidget),
+            add_widget=SelectDateTimeWidget,
+            listing=True),
         dict( name="end_date", 
-                label=_(u"End Date"),  
-                listing_column=day_column("end_date", 
+                label=_(u"End"),  
+                listing_column=time_column("end_date", 
                     _(u'End Date')),
                 edit_widget=SelectDateTimeWidget, 
-                add_widget=SelectDateTimeWidget),
+                add_widget=SelectDateTimeWidget,
+                listing=False),
         dict( name="venue_id",
               property=schema.Choice( 
                 title=_(u"Venue"), 

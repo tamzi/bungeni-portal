@@ -48,7 +48,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
         for field in self.getFields( ):
             key = field.__name__
             column_model.append(
-                '{key:"%s", label:"%s", formatter:"%sCustom", sortable:true}'%( key, field.title, self.context.__name__ )
+                '{key:"%s", label:"%s", formatter:"%sCustom", sortable:true, resizeable:true }'%( key, field.title, self.context.__name__ )
                 )
             field_model.append(
                 '{key:"%s"}'%( key )               
@@ -70,6 +70,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
     def __call__(self):
         need('yui-datatable')
         need('yui-paginator')
+        need('yui-dragdrop')
 
         return '<div id="%s">\n<table %s>\n%s</table>\n%s</div>' % (
             self.prefix,

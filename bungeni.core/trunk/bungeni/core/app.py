@@ -25,10 +25,6 @@ from bungeni.core.content import QueryContent
 from bungeni.core.i18n import _
 from bungeni.models.queries import get_current_parliament
 from bungeni.models.queries import container_getter
-from bungeni.core.interfaces import IBusinessSection
-from bungeni.core.interfaces import IMembersSection
-from bungeni.core.interfaces import IArchiveSection
-from bungeni.core.interfaces import IArchiveBrowser
 from bungeni.core.interfaces import IAddContext
 from bungeni.core import interfaces
 
@@ -65,19 +61,24 @@ class AppSetup(object):
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament."),
-            marker=IBusinessSection)
+            default_name=u"whats-on")
 
         members = self.context["members"] = Section(
             title=_(u"Members"),
             description=_(u"Records on members of parliament."),
-            marker=IMembersSection)
+            default_name=u"current")
 
         archive = self.context["archive"] = Section(
             title=_(u"Archive"),
             description=_(u"Parliament records and documents."),
-            marker=IArchiveSection)
+            default_name=u"browse")
 
         # business section
+        whatson = business["whats-on"] = Section(
+            title=_(u"What's on"),
+            description=_(u"Current parliamentary activity."),
+            default_name="@@whats-on")
+
         committees = business[u"committees"] = QueryContent(
             container_getter(get_current_parliament, 'committees'),
             title=_(u"Committees"),
@@ -104,7 +105,7 @@ class AppSetup(object):
 
         # members section
         current = members[u"current"] = QueryContent(
-            get_current_parliament,
+            container_getter(get_current_parliament, 'parliamentmembers'),
             title=_(u"Current"),
             description=_(u"View current parliament members (MPs)."))
 
@@ -114,10 +115,10 @@ class AppSetup(object):
             description=_(u"View current political groups."))
 
         # archive
-        records = archive["browse"] = Section(
+        records = archive[u"browse"] = Section(
             title=_(u"Browse"),
             description=_(u"Current and historical records."),
-            marker=IArchiveBrowser)
+            default_name="@@browse-archive")
 
         documents = archive["documents"] = Section(
             title=_(u"Documents"),

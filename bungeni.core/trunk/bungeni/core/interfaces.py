@@ -10,18 +10,6 @@ from bungeni.models.interfaces import IVersion
 class ISection(IContentContainer, IDCDescriptiveProperties):
     """Represents a section in the site, e.g. /business."""
 
-class IBusinessSection(ISection):
-    """Marker interface for the 'Business' section."""
-
-class IMembersSection(ISection):
-    """Marker interface for the 'Members' section."""
-
-class IArchiveSection(ISection):
-    """Marker interface for the 'Archive' section."""
-
-class IArchiveBrowser(ISection):
-    """Marker interface for the archive browser."""
-
 class IQueryContent(interface.Interface):
     query = interface.Attribute(
         """Query-method which returns a content-item.""")

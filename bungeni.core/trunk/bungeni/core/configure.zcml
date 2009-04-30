@@ -87,7 +87,11 @@
   <class class="bungeni.models.domain.Group">
     <implements interface="ore.xapian.interfaces.IIndexable" />
   </class>
-  
+
+  <class class=".content.Section">
+    <allow interface="zope.publisher.interfaces.browser.IBrowserPublisher" />
+  </class>
+
   <!--class class="bungeni.models.domain.ParliamentaryItem">
     <implements interface="ore.xapian.interfaces.IIndexable" />
   </class>

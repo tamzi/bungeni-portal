@@ -7,7 +7,7 @@
   </dt>
   
   <dd class="portletItem lastItem">
-    <p>Drag items to a calendar sitting to schedule.</p>
+    <p>Add items by dragging to schedule.</p>
 
     <table class="listing grid" id="items-for-scheduling">
       <thead>

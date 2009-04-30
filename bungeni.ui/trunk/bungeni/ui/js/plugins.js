@@ -259,26 +259,29 @@
     metaFields: { totalRecords: "length", sortKey:"sort", sortDir:"dir", paginationRecordOffset:"start"}
     }
       
-    // A custom function to translate the js paging request into a datasource query
-    var buildQueryString = function (state,dt) {
-      var sDir = (dt.get("sortedBy").dir === YAHOO.widget.DataTable.CLASS_ASC || dt.get("sortedBy").dir == "") ? "" : "desc";
-      var query_url = "start=" + state.pagination.recordOffset + "&limit=" + state.pagination.rowsPerPage + "&sort=" + dt.get("sortedBy").key  + "&dir="+sDir;
-      return query_url
-    };
-    
+    // A custom function to translate the js paging request into a datasource query    
     var RequestBuilder = function(oState, oSelf) {
       // Get states or use defaults
       oState = oState || {pagination:null, sortedBy:null};
       var sort = (oState.sortedBy) ? oState.sortedBy.key : "";
       var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "" : "desc";
       var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
-      var results = (oState.pagination) ? oState.pagination.rowsPerPage : 100;
-        
+      var results = (oState.pagination) ? oState.pagination.rowsPerPage : 100;  
+      var table_columns = oSelf.getColumnSet()
+      for (i=0;i<table_columns.keys.length;i++){
+
+         //alert( 'filter_' + table_columns.keys[i].getKey() + ' : input-' + table_columns.keys[i].getId());
+         
+
+        };            
       // Build custom request
       return  "sort=" + sort +
       "&dir=" + dir +
       "&start=" + startIndex +
       "&limit=" +  results;
+     
+      
+      
     };
 
     
@@ -291,10 +294,9 @@
           //pageLinks: 5
           }),
     initialRequest : 'start=0&limit=20',
-    generateRequest : RequestBuilder, //buildQueryString,
+    generateRequest : RequestBuilder, 
     sortedBy : { dir : YAHOO.widget.DataTable.CLASS_ASC },
     dynamicData: true, // Enables dynamic server-driven data
-    //paginationEventHandler : YAHOO.widget.DataTable.handleDataSourcePagination
     }
 
     table = new YAHOO.widget.DataTable(YAHOO.util.Dom.get(table_id), columns, datasource, config  );
@@ -305,6 +307,17 @@
       oPayload.pagination.recordOffset = oResponse.meta.paginationRecordOffset;
       return oPayload;
     };
+
+    
+    var i=0;
+    var table_columns = table.getColumnSet()
+    for (i=0;i<table_columns.keys.length;i++){
+        var input = document.createElement('input');
+        input.setAttribute('type', 'text');
+        input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
+        input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
+        table_columns.keys[i].getThEl().appendChild(input);
+    }
 
     table.sortColumn = function(oColumn, sDir) {
       // Default ascending

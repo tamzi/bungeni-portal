@@ -487,17 +487,18 @@ class DeleteForm(BaseForm, form.PageForm):
 
     def get_subobjects(self):
         return ()
-        
+    
+    def delete_subobjects(self):
+        return 0
+
     @form.action(_(u"Delete"), condition=_can_delete_item)
     def handle_delete(self, action, data):
-        for subobject in self.subobjects:
-            raise NotImplementedError(
-                "Can't delete subobjects.")
+        count = self.delete_subobjects()
 
         container = self.context.__parent__
-
         del container[self.context.__name__]
-        
+        count += 1
+
         try:
             transaction.commit()
         except IntegrityError, e:
@@ -511,10 +512,10 @@ class DeleteForm(BaseForm, form.PageForm):
                             "database integrity error.")
 
             return self.render()
-    
+
         notify(ObjectRemovedEvent(
             self.context, oldParent=container, oldName=self.context.__name__))
-        count = 1
+
 
         next_url = self.nextURL()
         if next_url is None:
@@ -522,5 +523,3 @@ class DeleteForm(BaseForm, form.PageForm):
                        '/@@add?portal_status_message=%d items deleted' % count
 
         self.request.response.redirect(next_url)
-        
-

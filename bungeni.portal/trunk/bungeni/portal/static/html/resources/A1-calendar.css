@@ -14,11 +14,12 @@
   width: 100%;
 }
 
-#scheduling-calendar ul.actions {
+ul#scheduling-actions {
   display: none;
 }
 
-div.calendar th.description a {
+div.calendar th.description a,
+div.calendar span.sitting-type {
   color: white;
 }
 
@@ -102,27 +103,41 @@ div.calendar td.sitting {
   background-color: rgb(102, 140, 217) !important;
 }
 
-div.calendar td.sitting ul.actions {
+div.calendar td.sitting a {
+  border: none;
+  text-decoration: none;
+}
+
+div.calendar ul.actions {
   z-index: 1000;
 }
 
-div.calendar td.sitting ul.actions,
-div.calendar td.sitting ul.items {
+div.scheduling ul.actions, div.calendar ul.actions,
+div.scheduling ul.items, div.calendar ul.items {
   list-style: none;
   margin: 0;
 }
 
-div.calendar td.sitting ul.actions li {
+div.calendar ul.actions li {
   float: right;
   margin: 0;
   padding: 0;
+  margin-left: 0.2em;
 }
 
-div.calendar td.sitting li,
-div.calendar td.sitting span,
-div.calendar td.sitting a {
+div.scheduling ul.actions li {
+  float: left;
+  margin: 0;
+  padding: 0;
+  margin-right: 0.2em;
+}
+  
+div.scheduling ul.actions li, div.calendar ul.actions li,
+div.scheduling ul.actions span, div.calendar ul.actions span,
+div.scheduling ul.actions a, div.calendar ul.actions a {
   color: white;
   border: none;
+  text-decoration: none;
 }
 
 div.calendar td.sitting .discreet {

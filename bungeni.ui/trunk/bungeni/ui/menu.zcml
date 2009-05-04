@@ -37,6 +37,11 @@
      />
 
   <browser:menu
+     id="scheduling_actions"
+     title="Actions for calendar schedulings"
+     />
+
+  <browser:menu
      id="context_workflow"
      title="The 'workflow' menu - allows the user to execute workflow transitions"
      class=".menu.WorkflowMenu"
@@ -283,6 +288,33 @@
      title="Schedule"
      order="10"
      permission="zope.View"
+     />
+
+  <browser:menuItem
+     menu="scheduling_actions"
+     for="bungeni.models.interfaces.IItemSchedule"
+     title="Delete scheduling"
+     action="./delete"
+     icon="++resource++ui-images/icon_delete.gif"
+     permission="bungeni.itemschedule.Delete"
+     />
+
+  <browser:menuItem
+     menu="scheduling_actions"
+     for="bungeni.models.interfaces.IItemSchedule"
+     title="Move scheduling up"
+     action="../reorder"
+     icon="++resource++ui-images/icon_up.gif"
+     permission="bungeni.sitting.Reorder"
+     />
+
+  <browser:menuItem
+     menu="scheduling_actions"
+     for="bungeni.models.interfaces.IItemSchedule"
+     title="Move scheduling down"
+     action="../reorder"
+     icon="++resource++ui-images/icon_down.gif"
+     permission="bungeni.sitting.Reorder"
      />
 
   <!-- menu items -->

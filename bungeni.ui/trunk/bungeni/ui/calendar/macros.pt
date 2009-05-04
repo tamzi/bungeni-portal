@@ -40,13 +40,13 @@
         </table>
       </div>
     </div>
-    <div id="scheduling-calendar" class="scheduling-drop-target">
+    <div id="scheduling-calendar" class="scheduling scheduling-drop-target">
       <fieldset>
         <legend i18n:translate="">
           Items scheduled for this meeting
         </legend>
 
-          <ul class="actions">
+          <ul id="scheduling-actions" class="actions">
             <li tal:repeat="action options/actions">
               <a tal:attributes="rel action/id;
                                  href action/url">
@@ -68,16 +68,15 @@
           </ul>
           
           <table tal:define="images nocall: context/++resource++ui-images"
-                 tal:condition="options/items"
                  id="scheduling-table" class="grid listing">
-            <thead>
+            <thead tal:condition="options/items">
               <tr>
                 <th i18n:translate="">Item</th>
                 <th i18n:translate="">State</th>
                 <th i18n:translate="">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody tal:condition="options/items">
               <tr tal:repeat="item options/items">
                 <td>
                   <a rel="item"
@@ -87,24 +86,29 @@
                 </td>
                 <td tal:content="item/status" />
                 <td class="actions">
-                  <a href="#" rel="move-up" i18n:translate="">
-                    <img alt="Up-arrow"
-                         i18n:attributes="alt"
-                         tal:attributes="src images/icon_up.gif" />
-                  </a>
-                  <a href="#" rel="move-down" i18n:translate="">
-                    <img alt="Down-arrow"
-                         i18n:attributes="alt"
-                         tal:attributes="src images/icon_down.gif" />
-                  </a>
+                  <ul class="actions">
+                    <li tal:repeat="action item/actions">
+                      <a tal:attributes="rel action/id;
+                                         href action/url">
+                        <span tal:condition="not: action/icon"
+                              tal:replace="action/title" />
+                        <img tal:condition="action/icon"
+                             tal:attributes="src action/icon;
+                                             alt action/title" />
+                      </a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+            <tbody tal:condition="not: options/items">
+              <tr>
+                <td i18n:translate="">
+                  No items scheduled.
                 </td>
               </tr>
             </tbody>
           </table>
-          <p tal:condition="not: options/items"
-             i18n:translate="">
-            No items scheduled.
-          </p>
         </fieldset>
     </div>
   </div>

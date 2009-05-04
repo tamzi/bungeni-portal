@@ -272,6 +272,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Reorder schedulings"
      action="./items/reorder"
+     icon="++resource++ui-images/icon_reorder.png"
      permission="bungeni.sitting.Reorder"
      />
 

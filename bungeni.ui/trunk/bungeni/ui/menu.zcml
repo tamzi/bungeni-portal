@@ -297,6 +297,7 @@
      action="./delete?next_url=..."
      icon="++resource++ui-images/icon_delete.gif"
      permission="bungeni.itemschedule.Delete"
+     order="40"
      />
 
   <browser:menuItem
@@ -306,6 +307,7 @@
      action="../reorder"
      icon="++resource++ui-images/icon_up.gif"
      permission="bungeni.sitting.Reorder"
+     order="10"
      />
 
   <browser:menuItem
@@ -315,6 +317,7 @@
      action="../reorder"
      icon="++resource++ui-images/icon_down.gif"
      permission="bungeni.sitting.Reorder"
+     order="11"
      />
 
   <!-- menu items -->

@@ -55,6 +55,14 @@
      />
 
   <browser:page
+     name="delete"
+     for="bungeni.models.domain.ItemSchedule"
+     class=".forms.ItemScheduleDeleteForm"
+     permission="zope.ManageContent"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+  
+  <browser:page
      name="translate"
      for="ore.alchemist.interfaces.IAlchemistContent"
      class=".common.TranslateForm"

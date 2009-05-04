@@ -7,8 +7,9 @@ from zope.formlib import form, namedtemplate
 from zope import schema, interface
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
-
+from zope.security.proxy import removeSecurityProxy
 from ore.workflow import interfaces
+from ore.alchemist import Session
 
 from bungeni.models import domain
 from bungeni.core import globalsettings as prefs
@@ -20,6 +21,7 @@ from bungeni.ui.forms import validations
 from bungeni.ui.forms.common import ReorderForm
 from bungeni.ui.forms.common import AddForm
 from bungeni.ui.forms.common import EditForm
+from bungeni.ui.forms.common import DeleteForm
 
 FormTemplate = namedtemplate.NamedTemplateImplementation(
     ViewPageTemplateFile('templates/form.pt')
@@ -90,3 +92,20 @@ class ItemScheduleContainerReorderForm(ReorderForm):
         for name, scheduling in self.context.items():
             scheduling.planned_order = ordering.index(name)
     
+class ItemScheduleDeleteForm(DeleteForm):
+    def get_subobjects(self):
+        items = []
+        discussion = self.context.discussion
+        if discussion is not None:
+            items.append(discussion)
+        return items
+
+    def delete_subobjects(self):
+        count = 0
+        session = Session()
+        unproxied = removeSecurityProxy(self.context)
+        for key, discussion in unproxied.discussions.items():
+            del unproxied.discussions[key]
+            session.delete(discussion)
+            count += 1
+        return count

@@ -294,7 +294,7 @@
      menu="scheduling_actions"
      for="bungeni.models.interfaces.IItemSchedule"
      title="Delete scheduling"
-     action="./delete"
+     action="./delete?next_url=..."
      icon="++resource++ui-images/icon_delete.gif"
      permission="bungeni.itemschedule.Delete"
      />

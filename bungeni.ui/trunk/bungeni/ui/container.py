@@ -203,8 +203,8 @@ class ContainerJSONListing( BrowserView ):
                         types.String) or
                         (domain_model.c[field.__name__].type.__class__ ==
                         types.Unicode)):
-                    str_filter = ( str_filter +
-                        field.__name__ + " LIKE '%%" + field_filter +"%%'")
+                    str_filter = ( str_filter + 'lower(' +
+                        field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%'")
                 else:            
                     str_filter = (str_filter + 
                         field.__name__ + ' = ' + field_filter)

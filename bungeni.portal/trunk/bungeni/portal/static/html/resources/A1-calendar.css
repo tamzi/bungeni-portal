@@ -18,6 +18,10 @@
   display: none;
 }
 
+div.calendar th.description a {
+  color: white;
+}
+
 #calendar-table th.today {
   background-color: rgb(136, 170, 204);
   color: white;

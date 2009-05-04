@@ -374,8 +374,13 @@ mapper( domain.Response, schema.responses,
         
 mapper(domain.ItemSchedule, schema.items_schedule,
        properties = {
-           'item': relation(domain.ParliamentaryItem, uselist=False),
-           'discussion': relation(domain.ScheduledItemDiscussion, uselist=False),
+           'item': relation(
+               domain.ParliamentaryItem,
+               uselist=False),
+           'discussion': relation(
+               domain.ScheduledItemDiscussion,
+               uselist=False,
+               cascade='all, delete-orphan'),
            'category': relation( domain.ItemScheduleCategory, uselist=False),
            }
        ) 

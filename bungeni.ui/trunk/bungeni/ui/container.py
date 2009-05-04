@@ -4,6 +4,7 @@ import datetime
 import zc.table
 import simplejson
 import sqlalchemy.sql.expression as sql
+from sqlalchemy import types
 
 from zope import interface
 from zope import component
@@ -183,9 +184,31 @@ class ContainerJSONListing( BrowserView ):
         str_filter = ''
         for field in getFields( self.context):
             ff_name = 'filter_' + field.__name__
-            field_filter = self.request.get(ff_name, None)
+            field_filter = self.request.get(ff_name, None)                        
             if field_filter:
-                str_filter = str_filter + field.__name__ + '=' + field_filter
+                domain_model = proxy.removeSecurityProxy( self.context.domain_model )
+                #import pdb; pdb.set_trace()
+                if str_filter != '':
+                    str_filter = str_filter + ' AND '   
+                #if getattr(domain_model,'sort_replace',None):
+                #    if field.__name__ in domain_model.sort_replace.keys():
+                #        str_filter = (str_filter +  
+                #                    domain_model.sort_replace[field.__name__] + 
+                #                    ' = ' + field_filter)
+                #    else:
+                #        str_filter = (str_filter + 
+                #           field.__name__ + ' = ' + field_filter)
+                #else:                                 
+                if ((domain_model.c[field.__name__].type.__class__ == 
+                        types.String) or
+                        (domain_model.c[field.__name__].type.__class__ ==
+                        types.Unicode)):
+                    str_filter = ( str_filter +
+                        field.__name__ + " LIKE '%%" + field_filter +"%%'")
+                else:            
+                    str_filter = (str_filter + 
+                        field.__name__ + ' = ' + field_filter)
+                        
         return str_filter                
 
     def getSort( self ):

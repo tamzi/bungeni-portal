@@ -290,6 +290,16 @@
      permission="zope.View"
      />
 
+    <browser:menuItem
+     menu="scheduling_actions"
+     for="bungeni.models.interfaces.IItemSchedule"
+     title="Edit scheduling"
+     action="./edit?next_url=..."
+     icon="++resource++ui-images/icon_edit.gif"
+     permission="bungeni.itemschedule.Edit"
+     order="40"
+     />
+
   <browser:menuItem
      menu="scheduling_actions"
      for="bungeni.models.interfaces.IItemSchedule"
@@ -297,7 +307,7 @@
      action="./delete?next_url=..."
      icon="++resource++ui-images/icon_delete.gif"
      permission="bungeni.itemschedule.Delete"
-     order="40"
+     order="41"
      />
 
   <browser:menuItem

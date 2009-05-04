@@ -49,6 +49,10 @@ COPY public.bill_versions
 FROM '%(directory)s/data/demodata/bill_versions.csv'
 CSV; 
 
+UPDATE public.parliamentary_items 
+    SET status='admissible'  
+    WHERE type = 'question' 
+    AND status = 'draft';
 
 SELECT setval('motion_changes_change_id_seq', 4000);
 

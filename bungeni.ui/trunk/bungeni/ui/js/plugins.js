@@ -34,14 +34,19 @@
         var row = $(this).parents("tr").eq(0);
         
         // manipulate dom to move row up or down
-        if ($(this).attr("rel") == "move-up") {
+        switch ($(this).attr("rel")) {
+        case "move-scheduling-up":
           var element = row.prev();
           if (!element) return false;
           element.insertAfter(row);
-        } else {
+          break;
+        case "move-scheduling-down":
           var element = row.next();
           if (!element) return false;
           element.insertBefore(row);
+          break
+        default:
+            return true;
         }
         
         var ids = [];

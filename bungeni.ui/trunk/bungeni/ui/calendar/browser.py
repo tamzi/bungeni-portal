@@ -47,12 +47,18 @@ class TIME_SPAN:
     daily = _(u"Daily")
     weekly = _(u"Weekly")
 
+def get_scheduling_actions(scheduling, request):
+    return get_actions("scheduling_actions", scheduling, request)
+
 def get_sitting_actions(sitting, request):
-    menu = component.getUtility(IBrowserMenu, "sitting_actions")
-    items = menu.getMenuItems(sitting, request)
+    return get_actions("sitting_actions", sitting, request)
+
+def get_actions(name, context, request):
+    menu = component.getUtility(IBrowserMenu, name)
+    items = menu.getMenuItems(context, request)
 
     site_url = absoluteURL(getSite(), request)
-    url = absoluteURL(sitting, request)
+    url = absoluteURL(context, request)
     
     return [{
         'url': urljoin(url, item['action']),
@@ -62,7 +68,7 @@ def get_sitting_actions(sitting, request):
         'icon': urljoin(site_url, item['icon'])} for item in items
             ]
 
-def get_sitting_items(sitting, request):
+def get_sitting_items(sitting, request, include_actions=False):
     items = []
 
     schedulings = map(
@@ -74,15 +80,19 @@ def get_sitting_items(sitting, request):
        
         props = IDCDescriptiveProperties.providedBy(item) and item or \
                 IDCDescriptiveProperties(item)
-        
-        items.append({
+
+        record = {
             'title': props.title,
             'description': props.description,
             'name': stringKey(scheduling),
             'status': item.status,
             'delete_url': "%s/delete" % absoluteURL(scheduling, request),
-            'url': absoluteURL(item, request)})
-
+            'url': absoluteURL(item, request)}
+        
+        if include_actions:
+            record['actions'] = get_scheduling_actions(scheduling, request)
+        
+        items.append(record)
     return items
 
 def create_sittings_map(sittings, request):
@@ -310,7 +320,8 @@ class GroupSittingScheduleView(CalendarView):
                 }),
             links=links,
             actions=get_sitting_actions(self.context, self.request),
-            items=get_sitting_items(self.context, self.request),
+            items=get_sitting_items(
+                self.context, self.request, include_actions=True),
             )
 
 class SittingCalendarView(CalendarView):

@@ -11,8 +11,10 @@ set :scm, :subversion
 prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
 set :scm_username, Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
 set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
-prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
-prompt_def(:deploy_to_root, 'Deploy within this folder: ', '/home/bungeni/bungeni_deploy')
+#prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
+#prompt_def(:deploy_to_root, 'Deploy within this folder: ', '/home/bungeni/bungeni_deploy')
+set :user_python_home, "#{user_python25_runtime}"
+set :deploy_to_root, "#{user_install_root}/bungeni_install"
 
 
 ## user python is used to run bungeni in the user context -- this is a pre-requisite

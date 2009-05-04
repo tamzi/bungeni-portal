@@ -11,22 +11,6 @@
 #####   cap bungeni_presetup:build_all
 ##################################################################
 
-### Common functions ####
-### add a string function to check if a string starts with a particular pattern
-def str_start_with (orig_string, little_string)
-   return !orig_string.match(/\A#{Regexp.escape(little_string)}/).nil?
-end
-
-
-### use wget if its a url or use a local 'cp' command if its on a folder 
-### on the same computer
-def get_download_command strUrl
-	if (str_start_with(strUrl, "http") or str_start_with(strUrl, "ftp"))
-		return "wget " + strUrl
-	else
-		return "cp " + strUrl + " ."
-	end
-end
 
 ### Defines a sequence of tasks for installing bungeni from scratch ###
 
@@ -86,6 +70,7 @@ namespace :bungeni_presetup do
 			"linux-headers-`uname -r`", # for building from source
 			"libjpeg62-dev", # for python
 			"libfreetype6-dev", # for python
+			"libbz2-dev",
 			"libpng12-dev", # for python
 			"openssl", # for python
 			"libssl-dev", # for python

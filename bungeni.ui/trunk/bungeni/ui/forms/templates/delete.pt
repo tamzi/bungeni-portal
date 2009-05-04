@@ -26,7 +26,9 @@
           <li>
             <a tal:attributes="href view/context/@@absolute_url"
                tal:content="view/context/dc:title" />
-            <p class="discreet" tal:content="view/context/dc:description" />
+            <p class="discreet"
+               tal:content="view/context/dc:description"
+               i18n:translate="" />
           </li>
         </ul>
 

@@ -70,7 +70,9 @@ namespace :bungeni_presetup do
 			"linux-headers-`uname -r`", # for building from source
 			"libjpeg62-dev", # for python
 			"libfreetype6-dev", # for python
-			"libbz2-dev",
+			"libbz2-dev", # for python bz2 processing
+			"libxslt1-dev", # for python lxml
+			"libxml2-dev", # for python lxml
 			"libpng12-dev", # for python
 			"openssl", # for python
 			"libssl-dev", # for python

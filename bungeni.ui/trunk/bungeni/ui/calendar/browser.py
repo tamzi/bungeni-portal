@@ -36,6 +36,7 @@ from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
+from bungeni.models import vocabulary
 from bungeni.server.interfaces import ISettings
 
 from ploned.ui.interfaces import IViewView
@@ -86,6 +87,8 @@ def get_sitting_items(sitting, request, include_actions=False):
             'description': props.description,
             'name': stringKey(scheduling),
             'status': item.status,
+            'category_id': scheduling.category_id,
+            'category': scheduling.category,
             'delete_url': "%s/delete" % absoluteURL(scheduling, request),
             'url': absoluteURL(item, request)}
         
@@ -310,6 +313,8 @@ class GroupSittingScheduleView(CalendarView):
         session = Session()
         sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
 
+        site_url = absoluteURL(getSite(), self.request)
+        
         return template(
             display="sitting",
             title=_(u"$A $e, $B $Y", mapping=start_date),
@@ -322,6 +327,8 @@ class GroupSittingScheduleView(CalendarView):
             actions=get_sitting_actions(self.context, self.request),
             items=get_sitting_items(
                 self.context, self.request, include_actions=True),
+            categories=vocabulary.ItemScheduleCategories(self.context),
+            new_category_url="%s/calendar/categories/add?next_url=..." % site_url,
             )
 
 class SittingCalendarView(CalendarView):

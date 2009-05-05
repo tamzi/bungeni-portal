@@ -1617,7 +1617,13 @@ class ItemScheduleDescriptor(ModelDescriptor):
                       )
                   ),
               listing = False,
-              ),        
+              ),
+        dict( name="category_id", 
+              property = schema.Choice( 
+                  title=_(u"Category"), 
+                  source=vocabulary.ItemScheduleCategories,
+                  required=False),
+              listing=True),
         ]
 
 class ScheduledItemDiscussionDescriptor(ModelDescriptor):
@@ -1639,6 +1645,21 @@ class ScheduledItemDiscussionDescriptor(ModelDescriptor):
         ]
         
         
+
+class ScheduledItemCategoryDescriptor(ModelDescriptor):
+    display_name = _(u"Category")
+    container_name = _(u"Categories")
+    
+    fields = [
+        dict( name="category_id", omit=True ),
+        dict( name="short_name", 
+                label=_(u"Short name"), 
+                listing=True,
+                listing_column=name_column("short_name", 
+                    _(u'Name')) ), 
+        ]
+
+
 class ChangeDescriptor(ModelDescriptor):
     display_name =_(u"Change")
     container_name =_(u"Changes")

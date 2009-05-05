@@ -34,6 +34,7 @@
   <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedule.Delete" role="bungeni.Clerk" />
+  <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.committee.Add" role="bungeni.Clerk" />
   
   <grant permission="bungeni.question.Add" role="bungeni.MP" />    

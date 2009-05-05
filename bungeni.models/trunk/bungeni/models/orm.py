@@ -117,7 +117,7 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
             'group': relation( domain.Group,
                                primaryjoin=schema.user_group_memberships.c.group_id==schema.groups.c.group_id,
                                uselist=False,
-                               lazy=False ),                              
+                               lazy=True ),                              
             'replaced': relation( domain.GroupMembership,
                                   primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
                                   uselist=False,
@@ -423,7 +423,7 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
         properties={
             'user': relation( domain.User,
                               uselist=False,
-                              lazy=False ),
+                              lazy=True ),
             'short_name' : column_property(
                              rdb.sql.select(
                              [(schema.users.c.first_name + u", " + 

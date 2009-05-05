@@ -18,6 +18,10 @@ ul#scheduling-actions {
   display: none;
 }
 
+#scheduling-table select {
+  float: right;
+}
+
 div.calendar th.description a,
 div.calendar span.sitting-type {
   color: white;

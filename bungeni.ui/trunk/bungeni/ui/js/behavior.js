@@ -17,6 +17,6 @@
       $('#weekly-calendar').bungeniCalendarInteractivity(true);
       $('#daily-calendar').bungeniCalendarInteractivity(false);
       $('#scheduling-calendar').bungeniSchedulingCalendar();
-      $('#scheduling-calendar').bungeniReorderSchedulings();
+      $('#scheduling-calendar').bungeniInteractiveSchedule();
     });
  })(jQuery);

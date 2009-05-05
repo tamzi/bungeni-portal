@@ -24,9 +24,122 @@
 
   }
 
-  $.fn.bungeniReorderSchedulings = function() {
+  $.fn.bungeniInteractiveSchedule = function() {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
+
+    // create and insert category rows
+    var seen = [];
+    $.each(calendar.find("a[rel=category]"), function(i, o) {
+        var id = $(this).attr('name');
+        if (seen.indexOf(id) != -1) return;
+        seen.push(id);
+        
+        var row = $(this).parents("tr").eq(0);
+        var cols = row.children().length;
+        
+        category_row =
+          $('<tr class="category"><td colspan="'+cols+'"></td></tr>');
+        var column = category_row.find("td");
+        column.text($(this).text());
+        $(o).appendTo(column);
+
+        
+        category_row.insertBefore(row);
+      });
+    
+    $.each(calendar.find("select"), function(i, o) {
+        $(this).attr('disabled', 'disabled');
+        var dropdown = $(o);
+        var row = dropdown.parents("tr").eq(0);
+
+        var can_disable = true;
+        
+        dropdown.click(function() {
+            can_disable = false;
+          });
+        
+        dropdown.change(function(event) {
+            var index = o.selectedIndex;
+            o.selectedIndex = 0;
+
+            var options = dropdown.children();
+            var option = options.eq(index);
+            var value = option.attr('value');
+            if (!parseInt(value)) {
+              window.location = value;
+              return true;
+            }
+            
+            // add/update category bar (vertical table row); only if
+            // there is no previous category row that matches this
+            // one, do we insert a category row before this row
+            var cols = row.children().length;
+
+            var category_rows = row.prevAll('.category');
+            var category_row = category_rows.eq(0).
+              find('a[name='+value+']').
+              parents('tr').eq(0);
+
+            if (category_row.length == 0) {
+              var prev = row.prev('.category');
+
+              category_row =
+                $('<tr class="category"><td colspan="'+cols+'"></td></tr>');
+              category_row.insertBefore(row);
+
+              prev.remove();
+              if (row.next().length)
+                prev.insertAfter(row);
+            }
+
+            category_row.find("td").text(option.text());
+            
+            var previous_same_category = category_row.
+              prevAll(".category").eq(0).find('a[name='+value+']');
+            
+            if (previous_same_category.length > 0) {
+              category_row.remove();
+            }
+            
+            // save category assignment
+            var url = row.find("a[rel=edit-scheduling]").attr('href');
+            var data = {
+              'headless': 'true',
+              'category_id': value,
+            }
+
+            $("#kss-spinner").show();
+            $.post(url, data, function(data, status) {
+                $("#kss-spinner").hide();
+                if (status == 'success') {
+                  // throw away result
+                }
+              });
+          });
+
+        dropdown.find("option").
+          bind("mouseleave", function() {
+              can_disable = true;
+          }).
+          bind("mouseenter", function() {
+              can_disable = false;
+          });
+          
+        row.
+          bind("mouseenter", function() {
+              dropdown.attr('disabled', '');
+              can_disable = true;
+            }).
+          bind("mouseleave", function() {
+              if (can_disable) {
+                calendar.find("select").
+                  attr('disabled', 'disabled').
+                  blur();
+                can_disable = false;
+              }
+            });
+      });
 
     $("#scheduling-table tbody td.actions a").click(function() {
         $(this).blur();
@@ -48,7 +161,7 @@
         default:
             return true;
         }
-        
+
         var ids = [];
         $.each(calendar.find("a[rel=item]"), function(i, o) {
             var name = $(o).attr('name');
@@ -107,7 +220,7 @@
                   $("#kss-spinner").hide();
                   if (status == 'success') {
                     _update_tables(selector, data);
-                    calendar.bungeniReorderSchedulings();
+                    calendar.bungeniInteractiveSchedule();
                   }
                 });
             });

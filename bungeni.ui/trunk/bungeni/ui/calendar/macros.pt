@@ -80,7 +80,7 @@
               <tr tal:repeat="item options/items">
                 <td class="item">
                   <select>
-                    <option style="display: none" value="">Select category...</option>
+                    <option style="display: none" value="">Select heading...</option>
                     <option tal:repeat="category options/categories"
                             tal:content="category/title"
                             tal:attributes="value category/token" />

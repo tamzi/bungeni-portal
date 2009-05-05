@@ -28,6 +28,9 @@
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
 
+    // hide edit action
+    calendar.find("a[rel=edit-scheduling]").hide();
+    
     // create and insert category rows
     var seen = [];
     $.each(calendar.find("a[rel=category]"), function(i, o) {

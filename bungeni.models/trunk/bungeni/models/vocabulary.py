@@ -31,6 +31,9 @@ ISResponse = vocabulary.SimpleVocabulary.fromItems([(_(u"initial"),'I'),(_(u"sub
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
 Parliaments = ObjectSource( domain.Parliament, 'identifier', 'parliament_id')
 
+ItemScheduleCategories = DatabaseSource(
+    domain.ItemScheduleCategory, 'category_id', 'category_id', 'short_name')
+
 SittingTypes = DatabaseSource(
     domain.SittingType, 'sitting_type', 'sitting_type_id',
     title_getter=lambda ob: "%s (%s-%s)" % (

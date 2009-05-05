@@ -15,6 +15,7 @@ from bungeni.models.interfaces import IBungeniApplication
 from bungeni.models.interfaces import ICommittee
 from bungeni.models.domain import Group
 from bungeni.models.domain import GroupSitting
+from bungeni.models import domain
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.interfaces import IDailySchedulingContext
 from bungeni.core.globalsettings import getCurrentParliamentId
@@ -102,6 +103,9 @@ class PrincipalGroupSchedulingContext(object):
                 )
 
         return sittings
+
+    def get_categories(self):
+        return domain.ItemScheduleCategoryContainer()
 
 class PlenarySchedulingContext(PrincipalGroupSchedulingContext):
     component.adapts(IBungeniApplication)

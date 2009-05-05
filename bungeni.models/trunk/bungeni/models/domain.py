@@ -90,8 +90,8 @@ class User( Entity ):
         return attempt == self.password
 
 
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}    
+    sort_on = ['last_name', 'first_name', 'middle_name']
+    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}    
     addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
     
 
@@ -103,16 +103,13 @@ class StaffMember( User ):
     """
     A staff member
     """    
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}
-    
+
 
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
     """
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}    
+ 
     # rotas
 
     # takes
@@ -132,9 +129,10 @@ class GroupMembership( Entity ):
     basis for ministers, committeemembers, etc
     """
     interface.implements( interfaces.IBungeniGroupMembership )
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}
-                             
+    sort_on = ['last_name', 'first_name', 'middle_name']
+    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}  
+
+
 class StaffGroupMembership( GroupMembership ):
     """ 
     staff assigned to groups (committees, ministries,...)
@@ -169,8 +167,8 @@ class SittingType(object):
 class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
-    sort_on = 'sort_by_name'
-    sort_replace = {'member_id': 'sort_by_name'}
+    sort_on = ['last_name', 'first_name', 'middle_name']
+    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}  
     
 class AttendanceType( object ):
     """
@@ -207,8 +205,8 @@ class MemberOfParliament ( GroupMembership ):
     """
     defined by groupmembership and aditional data
     """    
-    sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name', 'constituency_id':'constituency'}    
+    sort_on = ['last_name', 'first_name', 'middle_name']
+    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name'], 'constituency_id':['constituency']}      
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
     party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
 
@@ -246,7 +244,6 @@ class Minister( GroupMembership ):
     defined by its user_group_membership in a ministry (group)
     """    
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
-    sort_replace = {'user_id': 'sort_by_name'}
     
 class Committee( Group ):
     """ a parliamentary committee of MPs
@@ -262,7 +259,7 @@ class CommitteeMember( GroupMembership ):
     defined by its membership to a committee (group)""" 
 
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )  
-    sort_replace = {'user_id': 'sort_by_name'}
+
     
 class CommitteeType( object):
     """ Type of Committee """
@@ -273,7 +270,7 @@ class ExtensionGroup( Group ):
     
 class ExtensionMember( GroupMembership ):
     """ Users for Extension group """    
-    sort_replace = {'user_id': 'sort_by_name'}   
+
    
 class Debate( Entity ):
     """

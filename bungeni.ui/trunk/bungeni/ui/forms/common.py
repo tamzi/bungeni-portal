@@ -131,6 +131,9 @@ class BaseForm(object):
     def next_url(self):
         return self._next_url
 
+class PageForm(BaseForm, form.PageForm):
+    template = NamedTemplate('alchemist.form')
+
 class DisplayForm(ui.DisplayForm):
     interface.implements(IViewView)
         

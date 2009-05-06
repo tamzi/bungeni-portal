@@ -30,7 +30,7 @@
 
     // hide edit action
     calendar.find("a[rel=edit-scheduling]").hide();
-    
+
     // create and insert category rows
     var current = null;
     $.each(calendar.find("a[rel=category]"), function(i, o) {
@@ -121,44 +121,41 @@
       });
 
     $("#scheduling-table tbody td.actions a").click(function() {
-        $(this).blur();
+        var link = $(this);
+        link.blur();
         
-        var row = $(this).parents("tr").eq(0);
+        var mode = null;
+        var row = link.parents("tr").eq(0);
         
         // manipulate dom to move row up or down
         switch ($(this).attr("rel")) {
         case "move-scheduling-up":
-          var element = row.prev();
+          var next = row.next();
+          if (row.prev().is('.category') && (next.is('.category') || next.length == 0))
+            row.prev().remove();
+          
+          var element = row.prev('not:(.category)');
           if (!element) return false;
           element.insertAfter(row);
+          mode = 'up';
           break;
         case "move-scheduling-down":
-          var element = row.next();
+          if (row.next().is('.category') && row.prev().is('.category'))
+            row.prev('.category').remove();
+          var element = row.next('not:(.category)');
           if (!element) return false;
           element.insertBefore(row);
+          mode = 'down';
           break
         default:
             return true;
         }
 
-        var ids = [];
-        $.each(calendar.find("a[rel=item]"), function(i, o) {
-            var name = $(o).attr('name');
-            if (name && ids.indexOf(name) == -1)
-              ids.push(name);
-          });
-
-        // the url is defined as the first link's parent
-        var url = $("a[rel=sitting]").attr('href')+'/items/reorder';
-        
+        var url = link.attr('href');
         var data = {
           "headless": 'true',
-          "ordering.count": ids.length,
+          "mode": mode,
         };
-        
-        $.each(ids, function(i, o) {
-            data["ordering."+i+"."] = o;
-          });
 
         $("#kss-spinner").show();
         $.post(url, data, function(data, status) {
@@ -167,6 +164,7 @@
               // throw away result
             }
           });
+
         return false;
       });
   };

@@ -19,6 +19,8 @@
   <permission id="bungeni.itemschedule.Delete" title="Delete item scheduling" />
   <permission id="bungeni.itemschedulecategory.Add"
               title="Add item scheduling category" />
+  <permission id="bungeni.itemschedulediscussion.Edit"
+              title="Edit item scheduling discussion" />
   
   <permission id="bungeni.committee.Add" title="Add committee" />
   

@@ -54,6 +54,9 @@ def get_scheduling_actions(scheduling, request):
 def get_sitting_actions(sitting, request):
     return get_actions("sitting_actions", sitting, request)
 
+def get_discussion_actions(sitting, request):
+    return get_actions("discussion_actions", sitting, request)
+
 def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
     items = menu.getMenuItems(context, request)
@@ -82,6 +85,9 @@ def get_sitting_items(sitting, request, include_actions=False):
         props = IDCDescriptiveProperties.providedBy(item) and item or \
                 IDCDescriptiveProperties(item)
 
+        discussions = tuple(scheduling.discussions.values())
+        discussion = discussions and discussions[0] or None
+        
         record = {
             'title': props.title,
             'description': props.description,
@@ -89,12 +95,19 @@ def get_sitting_items(sitting, request, include_actions=False):
             'status': item.status,
             'category_id': scheduling.category_id,
             'category': scheduling.category,
+            'discussion': discussion,
             'delete_url': "%s/delete" % absoluteURL(scheduling, request),
             'url': absoluteURL(item, request)}
         
         if include_actions:
             record['actions'] = get_scheduling_actions(scheduling, request)
-        
+
+            discussion_actions = get_discussion_actions(discussion, request)
+            if discussion_actions:
+                assert len(discussion_actions) == 1
+                record['discussion_action'] = discussion_actions[0]
+            else:
+                record['discussion_action'] = None
         items.append(record)
     return items
 

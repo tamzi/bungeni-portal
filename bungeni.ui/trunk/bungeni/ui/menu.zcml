@@ -37,6 +37,11 @@
      />
 
   <browser:menu
+     id="discussion_actions"
+     title="Actions for scheduling discussions"
+     />
+
+  <browser:menu
      id="scheduling_actions"
      title="Actions for calendar schedulings"
      />
@@ -261,6 +266,15 @@
      title="View"
      order="0"
      permission="zope.View"
+     />
+
+  <browser:menuItem
+     menu="discussion_actions"
+     for="bungeni.models.domain.ScheduledItemDiscussion"
+     title="Edit discussion"
+     action="./edit"
+     icon="++resource++ui-images/icon_edit.gif"
+     permission="bungeni.itemschedulediscussion.Edit"
      />
 
   <browser:menuItem

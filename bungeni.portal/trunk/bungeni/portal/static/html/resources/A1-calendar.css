@@ -14,6 +14,14 @@
   width: 100%;
 }
 
+#scheduling-table td {
+  vertical-align: top;
+}
+
+#scheduling-table td.item {
+  line-height: 1.6em;
+}
+
 ul#scheduling-actions {
   display: none;
 }
@@ -154,4 +162,16 @@ div.calendar td.sitting .discreet {
 
 #daily-calendar #calendar-table th.day {
   width: 95%;
+}
+
+a.expandable span {
+  background: url(icon_plusminus.gif) no-repeat top left;
+  float: left;
+  width: 14px;
+  height: 14px;
+  padding-right: 3px;
+}
+
+a.expandable.enabled span {
+  background-position: -20px 0%;
 }

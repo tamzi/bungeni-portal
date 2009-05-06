@@ -179,6 +179,13 @@ class ContainerJSONListing( BrowserView ):
         if sort_key and ( sort_key in columns ):
             column = domain_model.c[sort_key]
             return column
+            
+    def _getFilterStr(self, fieldname, field_filter):
+        """ if we are filtering for replaced fields
+        we assume that they are character fields """
+        str_filter = ( 'lower(' +
+                        fieldname + ") LIKE '%%" + field_filter.lower() +"%%' ")
+        return str_filter
 
     def getFilter(self):
         str_filter = ''
@@ -190,25 +197,25 @@ class ContainerJSONListing( BrowserView ):
                 #import pdb; pdb.set_trace()
                 if str_filter != '':
                     str_filter = str_filter + ' AND '   
-                #if getattr(domain_model,'sort_replace',None):
-                #    if field.__name__ in domain_model.sort_replace.keys():
-                #        str_filter = (str_filter +  
-                #                    domain_model.sort_replace[field.__name__] + 
-                #                    ' = ' + field_filter)
-                #    else:
-                #        str_filter = (str_filter + 
-                #           field.__name__ + ' = ' + field_filter)
-                #else:                                 
-                if ((domain_model.c[field.__name__].type.__class__ == 
-                        types.String) or
-                        (domain_model.c[field.__name__].type.__class__ ==
-                        types.Unicode)):
-                    str_filter = ( str_filter + 'lower(' +
-                        field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%'")
-                else:            
-                    str_filter = (str_filter + 
-                        field.__name__ + ' = ' + field_filter)
-                        
+                if getattr(domain_model,'sort_replace',None):
+                    if field.__name__ in domain_model.sort_replace.keys():
+                        r_filterstr = ""
+                        for field_name in domain_model.sort_replace[field.__name__]:
+                            if r_filterstr != "":
+                                r_filterstr = r_filterstr + " OR "
+                            r_filterstr = r_filterstr + self._getFilterStr(field_name, field_filter)                       
+                        str_filter = str_filter + r_filterstr                                                       
+                elif field.__name__   in domain_model.c:                      
+                    if ((domain_model.c[field.__name__].type.__class__ == 
+                            types.String) or
+                            (domain_model.c[field.__name__].type.__class__ ==
+                            types.Unicode)):
+                        str_filter = ( str_filter + 'lower(' +
+                            field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%' ")
+                    else:            
+                        str_filter = (str_filter + 
+                            field.__name__ + ' = ' + field_filter)
+                            
         return str_filter                
 
     def getSort( self ):
@@ -221,26 +228,30 @@ class ContainerJSONListing( BrowserView ):
         sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
         domain_model = proxy.removeSecurityProxy( self.context.domain_model )
         # in the domain model you may replace the sort with another column
+        sort_keys = []
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():
-                sort_key = domain_model.sort_replace[sort_key] 
-                #pdb.set_trace()                          
-        # get sort in sqlalchemy form
-        if sort_key and ( sort_key in domain_model.c ):
+                sort_keys = domain_model.sort_replace[sort_key] 
+        else:
+            if sort_key and ( sort_key in domain_model.c ):
+                sort_keys = [sort_key, ]        
+        # get sort in sqlalchemy form        
             #column = domain_model.c[sort_key]
+        for sort_key in sort_keys:                    
             if sort_dir == 'desc':
                 columns.append( sql.desc(sort_key) )
             else:
                 columns.append( sort_key )
-        if getattr(domain_model,'sort_on',None):
-            if domain_model.sort_on in domain_model.c and domain_model.sort_on != sort_key:
-                # if a default sort is defined append it here (this will also serve as secondary sort)
-                default_sort = domain_model.sort_on
-                columns.append( default_sort )
-        if getattr(domain_model,'short_name',None):            
-            if 'short_name' in domain_model.c and 'short_name' != sort_key and 'short_name' != default_sort:
-                # last if it has a short name sort by that
-                columns.append('short_name')
+        #XXX TODO rewrite this to new list based sort!                
+        #if getattr(domain_model,'sort_on',None):
+        #    if domain_model.sort_on in domain_model.c and domain_model.sort_on != sort_keys:
+        #        # if a default sort is defined append it here (this will also serve as secondary sort)
+        #        for default_sort in domain_model.sort_on:
+        #            columns.append( default_sort )
+        #if getattr(domain_model,'short_name',None):            
+        #    if 'short_name' in domain_model.c and 'short_name' != sort_key and 'short_name' != default_sort:
+        #        # last if it has a short name sort by that
+        #        columns.append('short_name')
                         
         return columns
     

@@ -203,8 +203,22 @@ class ContainerJSONListing( BrowserView ):
                         for field_name in domain_model.sort_replace[field.__name__]:
                             if r_filterstr != "":
                                 r_filterstr = r_filterstr + " OR "
+                            else:
+                                 r_filterstr = r_filterstr + " ("                                 
                             r_filterstr = r_filterstr + self._getFilterStr(field_name, field_filter)                       
+                        if r_filterstr != "":
+                             r_filterstr = r_filterstr + ") "
                         str_filter = str_filter + r_filterstr                                                       
+                    elif field.__name__   in domain_model.c:                      
+                        if ((domain_model.c[field.__name__].type.__class__ == 
+                                types.String) or
+                                (domain_model.c[field.__name__].type.__class__ ==
+                                types.Unicode)):
+                            str_filter = ( str_filter + 'lower(' +
+                                field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%' ")
+                        else:            
+                            str_filter = (str_filter + 
+                                field.__name__ + ' = ' + field_filter)
                 elif field.__name__   in domain_model.c:                      
                     if ((domain_model.c[field.__name__].type.__class__ == 
                             types.String) or
@@ -214,8 +228,7 @@ class ContainerJSONListing( BrowserView ):
                             field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%' ")
                     else:            
                         str_filter = (str_filter + 
-                            field.__name__ + ' = ' + field_filter)
-                            
+                            field.__name__ + ' = ' + field_filter)                            
         return str_filter                
 
     def getSort( self ):

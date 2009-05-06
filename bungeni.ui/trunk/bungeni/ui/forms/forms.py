@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 import zope.security.management
+import copy
+from sqlalchemy import sql
 
 from zope import component
 from zope.formlib import form, namedtemplate
@@ -19,6 +21,7 @@ from bungeni.ui.queries import utils as sqlutils
 from bungeni.ui.forms.workflow import createVersion
 from bungeni.ui.forms import validations
 from bungeni.ui.forms.common import ReorderForm
+from bungeni.ui.forms.common import PageForm
 from bungeni.ui.forms.common import AddForm
 from bungeni.ui.forms.common import EditForm
 from bungeni.ui.forms.common import DeleteForm
@@ -91,7 +94,79 @@ class ItemScheduleContainerReorderForm(ReorderForm):
     def save_ordering(self, ordering):
         for name, scheduling in self.context.items():
             scheduling.planned_order = ordering.index(name)
-    
+
+class ItemScheduleReorderForm(PageForm):
+    """Form to reorder a scheduling within a list of schedulings."""
+
+    class IReorderForm(interface.Interface):
+        mode = schema.Choice(
+            ('up', 'down'),
+            title=_(u"Direction"),
+            required=True)
+
+    form_fields = form.Fields(IReorderForm)
+
+    @form.action(_(u"Move"))
+    def handle_move(self, action, data):
+        """Move scheduling.
+
+        This logic handles both reordering within the container and
+        maintenance of category assignments.
+
+        If we move up:
+
+        - Next item inherits any assigned category
+        - This item gets its category cleared
+
+        If we move down:
+
+        - We inherit category of the following item
+        - Next item gets its category cleared 
+
+        """
+
+        mode = data['mode']
+        container = self.context.__parent__
+        name = self.context.__name__
+        schedulings = container.batch(order_by=("planned_order",), limit=None)
+        ordering = [scheduling.__name__ for scheduling in schedulings]
+        index = ordering.index(name)
+        category = self.context.category
+
+        swap_category_with = None
+        
+        if mode == 'up':
+            if category and index < len(ordering) + 1:
+                prev = container[ordering[index+1]]
+                prev.category_id = self.context.category_id
+                self.context.category_id = None
+            elif index > 0:
+                prev = container[ordering[index-1]]
+                planned_order = self.context.planned_order
+                self.context.planned_order = prev.planned_order
+                prev.planned_order = planned_order
+                swap_category_with = prev
+                
+        if mode == 'down':
+            if index < len(ordering) + 1:
+                next = container[ordering[index+1]]
+                
+                # if next item has a category, swap, reset and skip
+                # reordering
+                if next.category_id is not None:
+                    self.context.category_id = next.category_id
+                    next.category_id = None
+                else:
+                    planned_order = self.context.planned_order
+                    self.context.planned_order = next.planned_order
+                    next.planned_order = planned_order
+                    swap_category_with = next
+                    
+        if swap_category_with is not None:
+            category_id = self.context.category_id
+            self.context.category_id = swap_category_with.category_id
+            swap_category_with.category_id = category_id
+
 class ItemScheduleDeleteForm(DeleteForm):
     def get_subobjects(self):
         items = []
@@ -101,6 +176,32 @@ class ItemScheduleDeleteForm(DeleteForm):
         return items
 
     def delete_subobjects(self):
+        """Delete subobjects.
+
+        1) For category maintenance, move the scheduling to the bottom
+        of the container.
+        
+        2) Delete any discussion items that have been associated to
+        this scheduling.
+        """
+        
+        reorder_form = ItemScheduleReorderForm(self.context, self.request)
+        container = copy.copy(removeSecurityProxy(self.context.__parent__))
+        subset_query = container.subset_query
+        container.subset_query = sql.and_(
+            subset_query,
+            container.domain_model.planned_order > self.context.planned_order)
+        for i in range(len(container) * 2):
+            reorder_form.handle_move.success({'mode': 'down'})
+        container.subset_query = subset_query
+        if self.context.category:
+            results = container._query.filter(
+                sql.operators.lt(
+                    container.domain_model.planned_order,
+                    self.context.planned_order))[:-1]
+            if results:
+                results[0].category_id = self.context.category_id
+
         count = 0
         session = Session()
         unproxied = removeSecurityProxy(self.context)

@@ -78,7 +78,8 @@
             </thead>
             <tbody tal:condition="options/items">
               <tr tal:repeat="item options/items">
-                <td class="item">
+                <td class="item"
+                    tal:define="discussion_action item/discussion_action">
                   <select>
                     <option style="display: none" value="">Select heading...</option>
                     <option tal:repeat="category options/categories"
@@ -88,17 +89,43 @@
                             i18n:translate="">New...</option>
                   </select>
 
+                  <a tal:condition="discussion_action"
+                     class="expandable" href="#">
+                    <span><!-- nothing here --></span>
+                  </a>
+
                   <a rel="item"
                      tal:attributes="name item/name;
                                      href item/url"
                      tal:content="item/title" />
+
+                  <form class="expandable" style="display: none"
+                        method="post"
+                        tal:condition="discussion_action"
+                        tal:attributes="action discussion_action/url">
+                    
+                    <input type="hidden" name="headless" value="true" />
+
+                    <div class="field">
+                      <label for="body_text" i18n:translate="">
+                        Discussion
+                      </label>
+                      <textarea name="body_text"
+                                tal:define="body_text item/discussion/body_text"
+                                tal:content="python: body_text or u''">
+                        <!-- discussion body text -->
+                      </textarea>
+                    </div>
+
+                    <input type="submit" name="submit" value="Save"
+                           i18n:attributes="value" />
+                  </form>
 
                   <a rel="category"
                      style="display: none"
                      tal:condition="item/category"
                      tal:attributes="name item/category_id"
                      tal:content="item/category/short_name" />
-                  
                 </td>
                 <td tal:content="item/status" />
                 <td class="actions">

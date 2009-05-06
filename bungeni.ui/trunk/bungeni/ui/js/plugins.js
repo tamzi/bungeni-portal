@@ -31,6 +31,27 @@
     // hide edit action
     calendar.find("a[rel=edit-scheduling]").hide();
 
+    // set up expandable sections
+    calendar.find("a.expandable").click(function() {
+        var expandable = $(this).siblings(".expandable");
+        if ($(this).hasClass('enabled')) {
+          expandable.hide();
+          $(this).removeClass('enabled');
+        } else {
+          $(this).addClass('enabled');
+          expandable.show();
+        }
+      });
+    
+    // set up ajax form submit
+    calendar.find("form").
+    ajaxForm({
+        'beforeSubmit': function() { $("#kss-spinner").show() },
+          'success': function(html, status, form) {
+          $("#kss-spinner").hide();
+          var link = form.siblings("a.expandable").triggerHandler("click");
+        }});
+
     // create and insert category rows
     var current = null;
     $.each(calendar.find("a[rel=category]"), function(i, o) {

@@ -156,12 +156,9 @@ mapper ( domain.MemberOfParliament , schema.parliament_memberships,
                                            ),
                                                                                       
 #XXX useful to sort by  constituency ?                                          
-            'constituency' : column_property(
-                             rdb.sql.select(
-                             [schema.constituencies.c.name],
-                             schema.parliament_memberships.c.constituency_id==schema.constituencies.c.constituency_id
-                                    ).label('constituency')
-                                           ),
+            'constituency' : relation( domain.Constituency,
+                              uselist=False,
+                              lazy=False ),                                           
                
           },      
         polymorphic_on=schema.user_group_memberships.c.membership_type,          

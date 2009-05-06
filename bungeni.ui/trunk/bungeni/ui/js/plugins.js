@@ -377,13 +377,12 @@
     metaFields: { totalRecords: "length", sortKey:"sort", sortDir:"dir", paginationRecordOffset:"start"}
     }
       
+    // filter per column  
     var get_filter = function(oSelf) {
         var table_columns = oSelf.getColumnSet()
         var qstr = '';
         for (i=0;i<table_columns.keys.length;i++){
-            var input_id = 'input#input-' + table_columns.keys[i].getId();
-            
-            //alert( 'filter_' + table_columns.keys[i].getKey() + ' : input-' + table_columns.keys[i].getId());
+            var input_id = 'input#input-' + table_columns.keys[i].getId();            
             qstr = qstr + '&filter_' + table_columns.keys[i].getKey() + '=' + $(input_id).val()
 
         };   
@@ -434,14 +433,21 @@
       return oPayload;
     };
 
+
+    table.fnFilterchange = function(e) {
+        alert('changed');
+    };
+
     // create the inputs for column filtering
     var i=0;
-    var table_columns = table.getColumnSet()
+    var table_columns = table.getColumnSet();
     for (i=0;i<table_columns.keys.length;i++){
         var input = document.createElement('input');
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
+        //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
+        YAHOO.util.Event.addListener(input, 'keyup', table.fnFilterChange);
         table_columns.keys[i].getThEl().appendChild(input);
     }
 

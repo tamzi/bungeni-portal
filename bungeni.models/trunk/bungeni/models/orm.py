@@ -153,12 +153,12 @@ mapper ( domain.MemberOfParliament , schema.parliament_memberships,
                              [(schema.users.c.image)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('image')
-                                           ),
-                                                                                      
-#XXX useful to sort by  constituency ?                                          
-            'constituency' : relation( domain.Constituency,
-                              uselist=False,
-                              lazy=False ),                                           
+                                           ),                                                                                                                          
+            'constituency' : column_property(
+                              rdb.sql.select(
+                              [schema.constituencies.c.name],
+                              schema.parliament_memberships.c.constituency_id==schema.constituencies.c.constituency_id
+                               ).label('constituency')),                                         
                
           },      
         polymorphic_on=schema.user_group_memberships.c.membership_type,          

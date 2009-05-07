@@ -8,9 +8,4 @@
      factory="alchemist.security.auth.AuthenticatedPrincipalFactory"
      />
 
-  <utility
-     component=".resources.Request"
-     provides="zope.app.publication.interfaces.IBrowserRequestFactory"
-      />
-
-</configure>       
+</configure>

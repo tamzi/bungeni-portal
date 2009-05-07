@@ -233,23 +233,6 @@
                           </a>
                         </li>
                       </ul>
-                      
-                      <ul class="items" tal:condition="sitting/items">
-                        <li tal:repeat="item sitting/items">
-                          <a tal:attributes="name item/name;
-                                             href item/url"
-                             tal:content="item/title" />
-                          &mdash;
-                          <a class="delete-link"
-                             tal:attributes="href string:${item/delete_url}?next_url=${url}">
-                            Remove
-                          </a>
-                          
-                          <p class="discreet"
-                             tal:content="item/description" />
-                          
-                        </li>
-                      </ul>
                     </div>
                   </tal:sitting>
                 </td>
@@ -336,23 +319,6 @@
                                  tal:attributes="src action/icon;
                                                  alt action/title" />
                           </a>
-                        </li>
-                      </ul>
-                      
-                      <ul class="items" tal:condition="sitting/items">
-                        <li tal:repeat="item sitting/items">
-                          <a tal:attributes="name item/name;
-                                             href item/url"
-                             tal:content="item/title" />
-                          &mdash;
-                          <a class="delete-link"
-                             tal:attributes="href string:${item/delete_url}?next_url=${url}">
-                            Remove
-                          </a>
-                          
-                          <p class="discreet"
-                             tal:content="item/description" />
-                          
                         </li>
                       </ul>
                     </div>

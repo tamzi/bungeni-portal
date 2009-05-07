@@ -140,6 +140,15 @@
 
   <browser:menuItem
      menu="plone_contentmenu"
+     for="bungeni.core.interfaces.ISessionAddContext"
+     title="Add session..."
+     action="/business/sessions/add"
+     permission="bungeni.session.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
      for="bungeni.core.interfaces.IQuestionAddContext"
      title="Add question..."
      action="/business/questions/add"

@@ -302,20 +302,45 @@
   // when selecting an option on the format "Label
   // (start_time-end_time)", listen to the ``change`` event and
   // update corresponding start- and end time options
-  $.fn.bungeniTimeRangeSelect = function() {
+  $.fn.bungeniTimeRangeSelect = function(same_day) {
     $.each($(this), function(i, o) {
       var options = $(o).children();
       var form = $(o).parents("form").eq(0);
 
+      var start_year = form.find("select[name$=start_date__year]").get(0);
+      if (!start_year) return;
+      var start_month = form.find("select[name$=start_date__month]").get(0);
+      if (!start_month) return;
+      var start_day = form.find("select[name$=start_date__day]").get(0);
+      if (!start_day) return;
       var start_hour = form.find("select[name$=start_date__hour]").get(0);
       if (!start_hour) return;
       var start_minute = form.find("select[name$=start_date__minute]").get(0);
       if (!start_minute) return;
+      var end_year = form.find("select[name$=end_date__year]").get(0);
+      if (!end_year) return;
+      var end_month = form.find("select[name$=end_date__month]").get(0);
+      if (!end_month) return;
+      var end_day = form.find("select[name$=end_date__day]").get(0);
+      if (!end_day) return;
       var end_hour = form.find("select[name$=end_date__hour]").get(0);
       if (!end_hour) return;
       var end_minute = form.find("select[name$=end_date__minute]").get(0);
       if (!end_minute) return;
 
+      if (same_day) {
+        // the year, month and date of the end-time should follow the
+        // start-time
+        $([end_year, end_month, end_day]).
+          attr('disabled', 'disabled');
+        $(start_year).change(function() {
+            end_year.selectedIndex = start_year.selectedIndex });
+        $(start_month).change(function() {
+            end_month.selectedIndex = start_month.selectedIndex });
+        $(start_day).change(function() {
+            end_day.selectedIndex = start_day.selectedIndex });
+      }
+      
       var option_matches = [];
       $.each(options, function(j, p) {
           var option = $(p);

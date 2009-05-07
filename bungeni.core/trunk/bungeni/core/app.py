@@ -103,6 +103,12 @@ class AppSetup(object):
             marker=interfaces.IMotionAddContext,
             description=_(u"View motions issued by the current parliament."))
 
+        sessions = business[u"sessions"] = QueryContent(
+            container_getter(get_current_parliament, 'sessions'),
+            title=_(u"Sessions"),
+            marker=interfaces.ISessionAddContext,
+            description=_(u"View the sessions of the current parliament."))
+
         # members section
         current = members[u"current"] = QueryContent(
             container_getter(get_current_parliament, 'parliamentmembers'),

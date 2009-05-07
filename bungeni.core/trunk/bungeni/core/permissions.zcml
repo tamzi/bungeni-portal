@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta"
            i18n_domain="bungeni">
   
   <!-- Note: Permissions for workflow transitions are defined in:
@@ -8,6 +9,8 @@
        workflows/permissions.zcml
 
     -->
+    
+  <permission id="bungeni.edit.Historical" title="Edit historical content" />
 
   <permission id="bungeni.TranslateContent" title="Translate content" />
 
@@ -30,26 +33,51 @@
     <permission id="bungeni.question.Delete" title="Delete Question" />
     <permission id="bungeni.question.View" title="View Question" />
 
-     
+    <meta:redefinePermission from="bungeni.question.View" to="zope.View" />
+    <meta:redefinePermission from="bungeni.question.Add" to="zope.ManageContent" />    
+    <meta:redefinePermission from="bungeni.question.Edit" to="zope.ManageContent" />
+    <meta:redefinePermission from="bungeni.question.Delete" to="zope.ManageContent" />
+         
     <permission id="bungeni.motion.Add" title="Add Motion" />
     <permission id="bungeni.motion.Edit" title="Edit Motion" />
     <permission id="bungeni.motion.Delete" title="Delete Motion" />
     <permission id="bungeni.motion.View" title="View Motion" />
     
+    <meta:redefinePermission from="bungeni.motion.View" to="zope.View" />
+    <meta:redefinePermission from="bungeni.motion.Add" to="zope.ManageContent" />    
+    <meta:redefinePermission from="bungeni.motion.Edit" to="zope.ManageContent" />
+    <meta:redefinePermission from="bungeni.motion.Delete" to="zope.ManageContent" />    
+    
     <permission id="bungeni.response.Add" title="Add Response" />
     <permission id="bungeni.response.Edit" title="Edit Response" />
     <permission id="bungeni.response.Delete" title="Delete Response" />
     <permission id="bungeni.response.View" title="View Response" />
+
+    <meta:redefinePermission from="bungeni.response.View" to="zope.View" />
+    <meta:redefinePermission from="bungeni.response.Add" to="zope.ManageContent" />    
+    <meta:redefinePermission from="bungeni.response.Edit" to="zope.ManageContent" />
+    <meta:redefinePermission from="bungeni.response.Delete" to="zope.ManageContent" />      
      
     <permission id="bungeni.parliament.Add" title="Add Parliament" />
     <permission id="bungeni.parliament.Edit" title="Edit Parliament" />
     <permission id="bungeni.parliament.Delete" title="Delete Parliament" />
     <permission id="bungeni.parliament.View" title="View Parliament" />    
+
+    <meta:redefinePermission from="bungeni.parliament.View" to="zope.View" />
+    <meta:redefinePermission from="bungeni.parliament.Add" to="zope.ManageContent" />    
+    <meta:redefinePermission from="bungeni.parliament.Edit" to="zope.ManageContent" />
+    <meta:redefinePermission from="bungeni.parliament.Delete" to="zope.ManageContent" />        
     
     <permission id="bungeni.bill.Add" title="Add Bill" />
     <permission id="bungeni.bill.Edit" title="Edit Bill" />
     <permission id="bungeni.bill.Delete" title="Delete Bill" />
     <permission id="bungeni.bill.View" title="View Bill" />  
+
+    <meta:redefinePermission from="bungeni.bill.View" to="zope.View" />
+    <meta:redefinePermission from="bungeni.bill.Add" to="zope.ManageContent" />    
+    <meta:redefinePermission from="bungeni.bill.Edit" to="zope.ManageContent" />
+    <meta:redefinePermission from="bungeni.bill.Delete" to="zope.ManageContent" />        
+
 
     <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
 

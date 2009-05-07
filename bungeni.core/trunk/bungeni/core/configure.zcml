@@ -212,6 +212,7 @@
   <adapter factory=".dc.ScheduledItemDiscussionDescriptiveProperties" />
   <adapter factory=".dc.ConsignatoryDescriptiveProperties" />
   <adapter factory=".dc.SittingTypeDescriptiveProperties" />
+  <adapter factory=".dc.ResponseDescriptiveProperties" />
   
   <adapter
      name="dc"

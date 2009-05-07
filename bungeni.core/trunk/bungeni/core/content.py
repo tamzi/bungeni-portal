@@ -1,9 +1,12 @@
 from zope import interface
 from zope.container.ordered import OrderedContainer
+from zope.container.traversal import ItemTraverser
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.interfaces.browser import IBrowserPublisher
 from zope.app.publisher.browser import getDefaultViewName
-from zope.container.traversal import ItemTraverser
+
+from bungeni.core.proxy import NavigationProxy
+from bungeni.core.proxy import DublinCoreDescriptivePropertiesProxy
 
 from interfaces import ISection
 from interfaces import IQueryContent
@@ -30,7 +33,11 @@ class Section(OrderedContainer):
         if IQueryContent.providedBy(item):
             obj = item.query(self)
             obj.__name__ = item.__name__
-            obj.__parent__ = item.__parent__
+
+            obj.__parent__ = DublinCoreDescriptivePropertiesProxy(
+                NavigationProxy(obj.__parent__, item.__parent__),
+                title=self.title, description=self.description)
+
             return obj
         return item
 

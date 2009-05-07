@@ -490,8 +490,9 @@ class ReportingView(form.PageForm):
 
     def get_sittings(self, start_date, time_span):
         end_date = self.get_end_date(start_date, time_span)
-        return self.scheduling_context.get_sittings(
+        container = self.scheduling_context.get_sittings(
             start_date=start_date, end_date=end_date)
+        return container.values()
 
     def get_end_date(self, start_date, time_span):
         if time_span is TIME_SPAN.daily:

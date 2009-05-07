@@ -285,8 +285,13 @@ mapper( domain.Venue, schema.venues )
 
 mapper( domain.ParliamentaryItem, schema.parliamentary_items,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity='item',   
-
+        polymorphic_identity='item', 
+        properties = {          
+                    'owner': relation( domain.User,
+                              primaryjoin=rdb.and_(schema.parliamentary_items.c.owner_id==schema.users.c.user_id ),
+                              uselist=False,
+                              lazy=False ),
+                }
          )
 
 
@@ -295,7 +300,8 @@ mapper( domain.Question, schema.questions,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='question',
         properties = {
-             'changes':relation( domain.QuestionChange, backref='question'),                                   
+             'changes':relation( domain.QuestionChange, backref='question'),  
+             'response' : relation( domain.Response, backref='question' ),                                 
              }
         )
         

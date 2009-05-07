@@ -724,6 +724,7 @@ responses = rdb.Table(
    metadata,
    rdb.Column( "response_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), primary_key=True ),
    rdb.Column( "response_text", rdb.UnicodeText ),
+   rdb.Column( "language", rdb.String(2), nullable=False),   
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    rdb.Column( "status",  rdb.Unicode(32) ),
    )

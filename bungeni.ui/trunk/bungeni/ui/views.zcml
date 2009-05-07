@@ -76,14 +76,14 @@
 
   <browser:page
      name="agenda"
-     for="bungeni.core.interfaces.ISchedulingContext"
+     for="zope.location.interfaces.ILocation"
      permission="zope.View"
      class=".calendar.browser.AgendaReportingView"
      />
 
   <browser:page
      name="votes-and-proceedings"
-     for="bungeni.core.interfaces.ISchedulingContext"
+     for="zope.location.interfaces.ILocation"
      permission="zope.View"
      class=".calendar.browser.VotesAndProceedingsReportingView"
      />

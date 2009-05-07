@@ -5,7 +5,7 @@
       menu_links.bungeniPostWorkflowActionMenuItem();
 
       // set up time range form automation
-      $("select").bungeniTimeRangeSelect();
+      $("select").bungeniTimeRangeSelect(true);
 
       // set up calendar resizing
       $("#calendar-table").bungeniSafeResize();

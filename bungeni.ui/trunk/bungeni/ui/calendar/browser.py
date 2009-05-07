@@ -147,7 +147,6 @@ def create_sittings_map(sittings, request):
 
         mapping[day, hour] = {
             'url': "%s/schedule" % absoluteURL(sitting, request),
-            'items': get_sitting_items(sitting, request),
             'record': sitting,
             'class': u"sitting",
             'actions': get_sitting_actions(sitting, request),

@@ -206,7 +206,7 @@ class MemberOfParliament ( GroupMembership ):
     defined by groupmembership and aditional data
     """    
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name'], 'constituency_id':['constituency']}      
+    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name'], 'constituency_id':['name']}      
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
     party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
 

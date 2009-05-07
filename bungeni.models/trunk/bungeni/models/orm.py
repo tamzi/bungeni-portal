@@ -144,7 +144,8 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
 
 
 
-mapper ( domain.MemberOfParliament , schema.parliament_memberships,
+mapper ( domain.MemberOfParliament , 
+        schema.parliament_memberships.outerjoin(schema.constituencies),
          inherits=domain.GroupMembership,
          primary_key=[schema.user_group_memberships.c.membership_id], 
           properties={
@@ -154,11 +155,14 @@ mapper ( domain.MemberOfParliament , schema.parliament_memberships,
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('image')
                                            ),                                                                                                                          
-            'constituency' : column_property(
-                              rdb.sql.select(
-                              [schema.constituencies.c.name],
-                              schema.parliament_memberships.c.constituency_id==schema.constituencies.c.constituency_id
-                               ).label('constituency')),                                         
+#            'constituency' : column_property(
+#                              rdb.sql.select(
+#                              [schema.constituencies.c.name],
+#                              schema.parliament_memberships.c.constituency_id==schema.constituencies.c.constituency_id
+#                               ).label('constituency')),    
+            'start_date' :  column_property(schema.user_group_memberships.c.start_date.label('start_date')), 
+            'end_date' :  column_property(schema.user_group_memberships.c.end_date.label('end_date')),
+            'name' : column_property(schema.constituencies.c.name .label('name')),                                  
                
           },      
         polymorphic_on=schema.user_group_memberships.c.membership_type,          

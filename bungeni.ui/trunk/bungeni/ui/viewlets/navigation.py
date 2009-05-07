@@ -53,7 +53,7 @@ class SecondaryNavigationViewlet(object):
             container = chain[-2]
             assert container.__name__ is not None
 
-            if not ISection.providedBy(container):
+            if not IReadContainer.providedBy(container):
                 container = None
 
         if container is None:

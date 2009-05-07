@@ -321,6 +321,7 @@ class ParliamentaryItem( Entity ):
     """
     """
     interface.implements( interfaces.IBungeniContent )
+    sort_replace = {'owner_id': ['last_name', 'first_name', 'middle_name']}  
        
     # votes
 

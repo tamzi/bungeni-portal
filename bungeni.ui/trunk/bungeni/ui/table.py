@@ -47,9 +47,14 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
 
         for field in self.getFields( ):
             key = field.__name__
-            column_model.append(
-                '{key:"%s", label:"%s", formatter:"%sCustom", sortable:true, resizeable:true }'%( key, field.title, self.context.__name__ )
-                )
+            if column_model == []:
+                column_model.append(
+                    '{key:"%s", label:"%s", formatter:"%sCustom", sortable:true, resizeable:true }'%( key, field.title, self.context.__name__ )
+                    )
+            else:
+                column_model.append(
+                    '{key:"%s", label:"%s", sortable:true, resizeable:true }'%( key, field.title )
+                    )                                
             field_model.append(
                 '{key:"%s"}'%( key )               
                 )

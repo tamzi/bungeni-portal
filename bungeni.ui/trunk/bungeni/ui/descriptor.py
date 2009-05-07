@@ -827,7 +827,22 @@ class GovernmentDescriptor( ModelDescriptor ):
 class ParliamentaryItemDescriptor( ModelDescriptor ):
     fields= [
         dict(name="parliamentary_item_id", omit=True),
-        dict(name="parliament_id", omit=True),
+        dict(name="parliament_id", 
+            view_permission = "bungeni.edit.historical", 
+            edit_permission = "bungeni.edit.historical", 
+        ),
+        dict(name="short_name", 
+            label=_(u"Title"), 
+            listing=True, 
+            add=True, 
+            edit=True, 
+            omit=False),            
+        dict(name="full_name", 
+            label=_(u"Summary"), 
+            listing=False, 
+            add=True, 
+            edit=True, 
+            omit=False),
         dict( name="owner_id", 
               property = schema.Choice(
                 title=_(u"Owner"),
@@ -842,19 +857,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                 token_field='user_id', 
                 value_field = 'user_id' ), ),              
               listing = True 
-            ),
-        dict(name="short_name", 
-            label=_(u"Title"), 
-            listing=True, 
-            add=True, 
-            edit=True, 
-            omit=False),
-        dict(name="full_name", 
-            label=_(u"Summary"), 
-            listing=False, 
-            add=True, 
-            edit=True, 
-            omit=False),
+            ),            
         dict(name="language", 
              label=_(u"Language"), 
              listing=True, 
@@ -876,8 +879,10 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               ),
         dict( name="submission_date", 
             label=_(u"Submission Date"), 
-            add=False, 
-            edit=False, 
+            #add=False, 
+            #edit=False, 
+            view_permission = "bungeni.edit.historical", 
+            edit_permission = "bungeni.edit.historical",            
             listing=True ,  
             edit_widget=SelectDateWidget, 
             add_widget=SelectDateWidget, 
@@ -1346,6 +1351,23 @@ class ResponseDescriptor( ModelDescriptor ):
                 description=_(u"Time of the Sitting"), 
                 listing=True ),
         ]        
+
+class ResponseVersionDescriptor( ModelDescriptor ):
+    display_name = _(u"Response version")
+    container_name = _(u"Versions")
+    fields = [
+        dict( name="response_id", omit=True ),
+        dict( name="question_id", omit=True ), #XXX
+        dict( name="response_text", 
+                label=_(u"Response"), 
+                description=_(u"Response to the Question"),
+                view_widget=HTMLDisplay,
+                edit_widget=RichTextEditor, 
+                add_widget=RichTextEditor ),
+        dict( name="sitting_time", 
+              omit = True ),
+        ]        
+
 
 class ConstituencyDescriptor( ModelDescriptor ):
     display_name = _(u"Constituency")

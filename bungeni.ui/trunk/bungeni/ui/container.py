@@ -4,7 +4,7 @@ import datetime
 import zc.table
 import simplejson
 import sqlalchemy.sql.expression as sql
-from sqlalchemy import types
+from sqlalchemy import types, orm
 
 from zope import interface
 from zope import component
@@ -245,6 +245,8 @@ class ContainerJSONListing( BrowserView ):
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():
                 sort_keys = domain_model.sort_replace[sort_key] 
+            elif sort_key and ( sort_key in domain_model.c ):
+                sort_keys = [sort_key, ]   
         else:
             if sort_key and ( sort_key in domain_model.c ):
                 sort_keys = [sort_key, ]        
@@ -255,14 +257,16 @@ class ContainerJSONListing( BrowserView ):
                 columns.append( sql.desc(sort_key) )
             else:
                 columns.append( sort_key )
-        #XXX TODO rewrite this to new list based sort!                
+        #table = orm.class_mapper(domain_model)
+        #import pdb; pdb.set_trace()                
+        #XXX TODO rewrite this to new list based replaced sort!                
         #if getattr(domain_model,'sort_on',None):
         #    if domain_model.sort_on in domain_model.c and domain_model.sort_on != sort_keys:
         #        # if a default sort is defined append it here (this will also serve as secondary sort)
         #        for default_sort in domain_model.sort_on:
         #            columns.append( default_sort )
         #if getattr(domain_model,'short_name',None):            
-        #    if 'short_name' in domain_model.c and 'short_name' != sort_key and 'short_name' != default_sort:
+        #    if 'short_name' in domain_model.c and not('short_name' in sort_keys) and not('short_name' in default_sort):
         #        # last if it has a short name sort by that
         #        columns.append('short_name')
                         

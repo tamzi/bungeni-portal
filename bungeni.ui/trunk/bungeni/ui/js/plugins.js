@@ -478,9 +478,10 @@
     };
 
 
-    table.fnFilterchange = function(e) {
-        alert('changed');
-    };
+    //table.fnFilterchange = function(e) {       
+    //    table.getState().pagination.paginator.setPage(1,true);         
+    //    table.render();
+    //};
 
     // create the inputs for column filtering
     var i=0;
@@ -491,7 +492,7 @@
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
         //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
-        YAHOO.util.Event.addListener(input, 'keyup', table.fnFilterChange);
+        //YAHOO.util.Event.addListener(input, 'keyup', table.fnFilterchange);
         table_columns.keys[i].getThEl().appendChild(input);
     }
 

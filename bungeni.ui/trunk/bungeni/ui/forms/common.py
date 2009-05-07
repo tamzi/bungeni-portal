@@ -22,7 +22,7 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
 from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.ui.core import handle_edit_action
-from alchemist.ui.core import setUpFields
+from alchemist.ui.core import setUpFields, filterFields
 from zope.app.form.interfaces import IDisplayWidget
 
 try:
@@ -302,6 +302,7 @@ class EditForm(BaseForm, ui.EditForm):
         if self.is_translation:
             head = self.context.head
             form_fields = setUpFields(self.context.__class__, "view")
+            form_fields = filterFields(self.context, form_fields, "view")
             for widget in self.widgets:
                 form_field = form_fields.get(widget.context.__name__)
                 if form_field is None:

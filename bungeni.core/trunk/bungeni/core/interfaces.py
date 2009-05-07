@@ -39,6 +39,9 @@ class IBillAddContext(IAddContext):
 class ICommitteeAddContext(IAddContext):
     """Add-context for committees."""
 
+class ISessionAddContext(IAddContext):
+    """Add-context for sessions."""
+
 ####################
 # Feature - Marker Interfaces 
 # 

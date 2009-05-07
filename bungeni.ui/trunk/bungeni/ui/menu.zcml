@@ -210,6 +210,8 @@
      order="100"
      />
 
+  <!-- scheduling context reporting actions -->
+  
   <browser:menuItem
      menu="reporting_actions"
      for="bungeni.core.interfaces.ISchedulingContext"
@@ -221,6 +223,24 @@
   <browser:menuItem
      menu="reporting_actions"
      for="bungeni.core.interfaces.ISchedulingContext"
+     title="Votes and proceedings..."
+     action="votes-and-proceedings"
+     permission="zope.View"
+     />
+
+  <!-- group-sitting scheduling view reporting actions -->
+  
+  <browser:menuItem
+     menu="reporting_actions"
+     for="bungeni.models.interfaces.IGroupSitting"
+     title="Agenda..."
+     action="agenda"
+     permission="zope.View"
+     />
+
+  <browser:menuItem
+     menu="reporting_actions"
+     for="bungeni.models.interfaces.IGroupSitting"
      title="Votes and proceedings..."
      action="votes-and-proceedings"
      permission="zope.View"

@@ -37,6 +37,7 @@ from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
 from bungeni.models import vocabulary
+from bungeni.models.interfaces import IGroupSitting
 from bungeni.server.interfaces import ISettings
 
 from ploned.ui.interfaces import IViewView
@@ -379,6 +380,25 @@ class ReportingView(form.PageForm):
     relevant sittings.
     """
 
+    date = None
+
+    def __init__(self, context, request):
+        super(ReportingView, self).__init__(context, request)
+        
+        if IGroupSitting.providedBy(context):
+            self.date = datetime.date(
+                context.start_date.year,
+                context.start_date.month,
+                context.start_date.day) 
+        
+        while not ISchedulingContext.providedBy(context):
+            context = context.__parent__
+            if context is None:
+                raise RuntimeError(
+                    "No scheduling context found.")
+        
+        self.scheduling_context = context
+
     class IReportingForm(interface.Interface):
         date = schema.Date(
             title=_(u"Date"),
@@ -397,7 +417,7 @@ class ReportingView(form.PageForm):
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields = form.Fields(IReportingForm)
     odf_filename = None
-    
+
     def get_odf_document(self):
         assert self.odf_filename is not None
         settings = component.getUtility(ISettings)
@@ -406,7 +426,7 @@ class ReportingView(form.PageForm):
 
     def setUpWidgets(self, ignore_request=False):
         class context:
-            date = datetime.date.today()
+            date = self.date or datetime.date.today()
             time_span = TIME_SPAN.daily
 
         self.adapters = {
@@ -470,7 +490,7 @@ class ReportingView(form.PageForm):
 
     def get_sittings(self, start_date, time_span):
         end_date = self.get_end_date(start_date, time_span)
-        return self.context.get_sittings(
+        return self.scheduling_context.get_sittings(
             start_date=start_date, end_date=end_date)
 
     def get_end_date(self, start_date, time_span):

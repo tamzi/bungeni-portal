@@ -51,21 +51,20 @@ class HtmlFragmentOpenDocumentTransform(Transform):
         lxml.etree.fromstring("""\
     <xsl:stylesheet
       xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+      xmlns:html="http://www.w3.org/1999/xhtml"
       xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
       version="1.0">
 
     <xsl:output encoding="UTF-8"/>
 
-    <xsl:template match="p">
-    <xsl:apply-templates />
-    </xsl:template>
+    <xsl:template match="processing-instruction()|comment()"/>
 
-    <xsl:template match="b">
-    <xsl:element name="text:p">
-    <xsl:value-of select="." />
-    </xsl:element>
+    <xsl:template match="html:p">
+      <text:p text:style-name="P10">
+        <xsl:apply-templates select="node()"/>
+      </text:p>
     </xsl:template>
-
+    
     </xsl:stylesheet>
     """))
     
@@ -73,10 +72,16 @@ class HtmlFragmentOpenDocumentTransform(Transform):
         if self._validate(data) is None:
             return None
 
-        doc = lxml.html.fromstring(u"<div>%s</div>" % u"".join(data))
+        # parse as HTML and serialize as XHTML
+        doc = lxml.html.fromstring(u"<html>%s</html>" % u"".join(data))
+        lxml.html.html_to_xhtml(doc)
+        body = lxml.html.tostring(doc)
+
+        # reparse as valid XML, then apply transform
+        doc = lxml.etree.fromstring(body)
         result_tree = self.xslt_transform(doc)
         data = unicode(result_tree)
-
+        
         # strip XML declaration since this transform deals with
         # fragments.
         data = data.lstrip('<?xml version="1.0"?>')

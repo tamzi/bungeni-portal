@@ -227,6 +227,9 @@ class IBranchFileAttachments( IFileAttachments ):
 class IConsignatory( interface.Interface ):
     """ consignatories for bills, motions,.."""
     
+class IConstituency( interface.Interface ):
+    """ Constituencies """
+
     
 class IDirectoryLocation( interface.Interface ):
 

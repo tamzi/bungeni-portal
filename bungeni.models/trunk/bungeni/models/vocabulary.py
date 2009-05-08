@@ -29,7 +29,8 @@ InActiveDead = vocabulary.SimpleVocabulary.fromItems([(_(u"active"),'A'),(_(u"in
 ISResponse = vocabulary.SimpleVocabulary.fromItems([(_(u"initial"),'I'),(_(u"subsequent"), 'S'),])
 
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
-Parliaments = ObjectSource( domain.Parliament, 'identifier', 'parliament_id')
+Parliaments = ObjectSource(
+    domain.Parliament, 'short_name', 'parliament_id', 'full_name')
 
 ItemScheduleCategories = DatabaseSource(
     domain.ItemScheduleCategory, 'category_id', 'category_id', 'short_name')

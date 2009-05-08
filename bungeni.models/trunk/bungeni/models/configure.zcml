@@ -44,4 +44,11 @@
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.question_filter" />
 
+  <!-- vocabularies -->
+
+  <utility
+     name="bungeni.vocabulary.Parliaments"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     component=".vocabulary.Parliaments" />
+
 </configure>

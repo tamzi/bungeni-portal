@@ -30,7 +30,11 @@ ISResponse = vocabulary.SimpleVocabulary.fromItems([(_(u"initial"),'I'),(_(u"sub
 
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
 Parliaments = ObjectSource(
-    domain.Parliament, 'short_name', 'parliament_id', 'full_name')
+    domain.Parliament, 'short_name', 'parliament_id',
+    title_getter=lambda ob: "%s (%s-%s)" % (
+        ob.full_name,
+        ob.start_date and ob.start_date.strftime("%Y/%m/%d") or "?",
+        ob.end_date and ob.end_date.strftime("%Y/%m/%d") or "?"))
 
 ItemScheduleCategories = DatabaseSource(
     domain.ItemScheduleCategory, 'category_id', 'category_id', 'short_name')

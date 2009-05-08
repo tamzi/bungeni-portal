@@ -419,7 +419,19 @@ mapper( domain.HoliDay, schema.holidays )
 #
     
 
-mapper( domain.Constituency, schema.constituencies )    
+mapper( domain.Constituency, schema.constituencies,
+        properties={
+        'province': relation( domain.Province,
+                              uselist=False,
+                              lazy=False ),
+        'region': relation( domain.Region,
+                              uselist=False,
+                              lazy=False ),                              
+        'details': relation( domain.ConstituencyDetail,
+                              uselist=False,
+                              lazy=True ),
+        }
+    )    
 mapper( domain.Province, schema.provinces )    
 mapper( domain.Region, schema.regions )
 mapper( domain.Country, schema.countries )

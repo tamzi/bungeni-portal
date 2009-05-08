@@ -464,6 +464,7 @@ class Constituency( Entity ):
     """ a locality region, which elects an MP 
     """
     cdetail = one2many("cdetail", "bungeni.models.domain.ConstituencyDetailContainer", "constituency_id")
+    sort_replace = {'province_id': ['province'], 'region_id': ['region']}      
     
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")

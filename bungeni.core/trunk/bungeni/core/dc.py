@@ -249,6 +249,13 @@ class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         return self.context.short_name   
+        
+class ConstituencyDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IConstituency)  
+    
+    @property
+    def title(self):
+        return self.context.name         
 
 class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IScheduledItemDiscussion)

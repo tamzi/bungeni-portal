@@ -168,8 +168,8 @@ constituencies = rdb.Table(
    metadata,
    rdb.Column( "constituency_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "name", rdb.Unicode(256), nullable=False ),
-   rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
-   rdb.Column( "region", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
+   rdb.Column( "province_id", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
+   rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
    rdb.Column( "start_date", rdb.Date, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),   
    )

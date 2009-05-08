@@ -36,9 +36,11 @@
            tal:content="view/form_description|nothing" />
 
         <form action="."
-              tal:attributes="action view/action_url|request/URL"
+              tal:define="name python: context.__class__.__name__.lower()"
+              tal:attributes="action view/action_url|request/URL;
+                              class string:$name-form"
               method="post"
-              id = "alchemist-form"
+              id="alchemist-form"
               enctype="multipart/form-data">
 
 

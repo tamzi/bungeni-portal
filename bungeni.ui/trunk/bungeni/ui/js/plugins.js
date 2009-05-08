@@ -1,5 +1,6 @@
 (function($) {
   var re_time_range = /(.*) \((\d+):(\d+):\d+-(\d+):(\d+):\d+\)/;
+  var re_date_range = /(.*) \((?:(\d+)\/(\d+)\/(\d+)|\?)-(?:(\d+)\/(\d+)\/(\d+)|\?)\)/;
 
   function _update_tables(selector, data) {
     var calendar = $(selector);
@@ -302,33 +303,38 @@
   // when selecting an option on the format "Label
   // (start_time-end_time)", listen to the ``change`` event and
   // update corresponding start- and end time options
-  $.fn.bungeniTimeRangeSelect = function(same_day) {
+  $.fn.bungeniTimeRangeSelect = function(same_day, set_default) {
     $.each($(this), function(i, o) {
       var options = $(o).children();
       var form = $(o).parents("form").eq(0);
 
       var start_year = form.find("select[name$=start_date__year]").get(0);
-      if (!start_year) return;
       var start_month = form.find("select[name$=start_date__month]").get(0);
-      if (!start_month) return;
       var start_day = form.find("select[name$=start_date__day]").get(0);
-      if (!start_day) return;
       var start_hour = form.find("select[name$=start_date__hour]").get(0);
-      if (!start_hour) return;
       var start_minute = form.find("select[name$=start_date__minute]").get(0);
-      if (!start_minute) return;
       var end_year = form.find("select[name$=end_date__year]").get(0);
-      if (!end_year) return;
       var end_month = form.find("select[name$=end_date__month]").get(0);
-      if (!end_month) return;
       var end_day = form.find("select[name$=end_date__day]").get(0);
-      if (!end_day) return;
       var end_hour = form.find("select[name$=end_date__hour]").get(0);
-      if (!end_hour) return;
       var end_minute = form.find("select[name$=end_date__minute]").get(0);
-      if (!end_minute) return;
 
-      if (same_day) {
+      var handle_date = false;
+      var handle_time = false;
+
+      if (start_year && start_month && start_day &&
+          end_year && end_month && end_day) {
+        handle_date = true;
+      }
+
+      if (start_hour && start_minute &&
+          end_hour && end_minute) {
+        handle_time = true;
+      }
+
+      if (!(handle_date || handle_time)) return;
+
+      if (handle_date && same_day) {
         // the year, month and date of the end-time should follow the
         // start-time
         $([end_year, end_month, end_day]).
@@ -341,41 +347,83 @@
             end_day.selectedIndex = start_day.selectedIndex });
       }
       
-      var option_matches = [];
+      var option_time_matches = [];
+      var option_date_matches = [];
       $.each(options, function(j, p) {
           var option = $(p);
-          var matches = re_time_range.exec(option.text());
+          var text = option.text();
+          var matches = re_time_range.exec(text);
           
           if (matches) {
-            option_matches.push(matches);
+            option_time_matches.push(matches);
+            option.text(matches[1]);
+          }
+
+          var matches = re_date_range.exec(text);
+          
+          if (matches) {
+            option_date_matches.push(matches);
             option.text(matches[1]);
           }
         });
 
-      function handle_change() {
-        var matches = option_matches[o.selectedIndex];
-
-        if (!matches) return;
-
-        // convert matches to integers
-        for (var k=1; k < 5; k++) {
+      function convert_matches(matches) {
+        for (var k=1; k < matches.length; k++) {
           var v = matches[k];
           if (v[0] == '0') v = v[1];
           matches[k] = parseInt(v);
         }
+      }
+      
+      function select_item(select, value) {
+        var options = select.options;
+        for (var index in options) {
+          var option = options[index];
+          if (option.value == value) {
+            select.selectedIndex = parseInt(index);
+            break;
+          }
+        }
+      }
+      
+      function handle_time_change() {
+        var matches = option_time_matches[o.selectedIndex];
+        if (!matches) return;
+
+        // convert matches to integers
+        convert_matches(matches);
 
         // for each dropdown, change selection
-        start_hour.selectedIndex = matches[2]
+        start_hour.selectedIndex = matches[2];
         start_minute.selectedIndex = matches[3];
         end_hour.selectedIndex = matches[4];
         end_minute.selectedIndex = matches[5];
       };
 
-      // setup event handler
-      $(o).change(handle_change);
+      function handle_date_change() {
+        var matches = option_date_matches[o.selectedIndex-1];
+        if (!matches) return;
+        
+        // for each dropdown, change selection
+        select_item(start_year, matches[2]);
+        select_item(start_month, matches[3]);
+        select_item(start_day, matches[4]);
+        select_item(end_year, matches[5]);
+        select_item(end_month, matches[6]);
+        select_item(end_day, matches[7]);
+      };
 
-      // initialize
-      handle_change();
+      // setup event handlers
+      if (handle_time) {
+        $(o).change(handle_time_change);
+
+        if (set_default) handle_time_change();
+      }
+
+      if (handle_date) {
+        $(o).change(handle_date_change);
+        if (set_default) handle_date_change();
+      }
     });
   };
     

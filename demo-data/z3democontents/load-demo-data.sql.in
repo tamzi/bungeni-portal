@@ -13,7 +13,7 @@ copy public.provinces from '%(directory)s/data/demodata/provinces.csv' csv ;
 
 copy public.regions from '%(directory)s/data/demodata/regions.csv' csv ;
 
-copy public.constituencies (constituency_id, name, province, region, start_date) 
+copy public.constituencies (constituency_id, name, province_id, region_id, start_date) 
 from '%(directory)s/data/demodata/constituencies.csv' csv ;
 
 copy public.constituency_details (constituency_id, voters, "date", population) from

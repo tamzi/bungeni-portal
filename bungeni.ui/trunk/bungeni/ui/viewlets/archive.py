@@ -9,6 +9,7 @@ from bungeni.ui.i18n import _
 from bungeni.ui.cookies import get_date_range
 from bungeni.ui.cookies import set_date_range
 from bungeni.ui.cookies import unset_date_range
+from bungeni.ui.widgets import SelectDateWidget
 
 class ArchiveDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
@@ -20,8 +21,16 @@ class ArchiveDatesForm(form.PageForm):
             title=_(u"End date"),
             required=False)
 
+        parliament = schema.Choice(
+            title=_(u"Filter by parliament"),
+            description=_(u"Set date range to that of a given particular parliament."),
+            vocabulary="bungeni.vocabulary.Parliaments",
+            required=False)
+
     template = NamedTemplate('alchemist.subform')
     form_fields = form.Fields(IDateRangeSchema, render_context=True)
+    form_fields['start_date'].custom_widget = SelectDateWidget
+    form_fields['end_date'].custom_widget = SelectDateWidget
     form_description = _(u"Filter the archive by date range.")
 
     def setUpWidgets(self, ignore_request=False, cookie=None):
@@ -32,7 +41,8 @@ class ArchiveDatesForm(form.PageForm):
 
         context = type("context", (), {
             'start_date': start_date,
-            'end_date': end_date})
+            'end_date': end_date,
+            'parliament': None})
 
         self.adapters = {
             self.IDateRangeSchema: context,
@@ -42,6 +52,9 @@ class ArchiveDatesForm(form.PageForm):
             self.form_fields, self.prefix, self.context, self.request,
             form=self, adapters=self.adapters, ignore_request=True)
 
+        self.widgets['parliament']._messageNoValue = _(
+            u"Select parliament...")
+        
     @form.action(u"Filter")
     def handle_filter(self, action, data):
         start_date = data.get('start_date')

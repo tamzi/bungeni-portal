@@ -518,6 +518,8 @@ class AgendaReportingView(ReportingView):
             'date': _(u"$r", mapping=utils.datetimedict.fromdate(date)),
             'parliament': parliament,
             'session': session,
+            'country': u"Republic of Kenya".upper(),
+            'assembly': u"National Assembly".upper(),
             'sittings': self.get_sittings(date, time_span),
             }
             

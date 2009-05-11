@@ -37,25 +37,25 @@ meeting of the group by the system.
     >>> sit1 = domain.GroupSitting()
     >>> sit1.start_date = datetime.datetime(2000,1,1,2,0)
     >>> sit1.end_date = datetime.datetime(2000,1,1,4,0)
-    >>> sit1.sitting_type = st.sitting_type_id
+    >>> sit1.sitting_type = st
     >>> sit1.group_id = parliament.group_id
     >>> session.add(sit1)
     >>> sit11 = domain.GroupSitting()
     >>> sit11.start_date = datetime.datetime(2000,1,1,2,0)
     >>> sit11.end_date = datetime.datetime(2000,1,1,4,0)
-    >>> sit11.sitting_type = st.sitting_type_id
+    >>> sit11.sitting_type = st
     >>> sit11.group_id = parliament.group_id  
     >>> session.add(sit11)
     >>> sit2 = domain.GroupSitting()
     >>> sit2.start_date = datetime.datetime(2000,1,1,5,0)
     >>> sit2.end_date = datetime.datetime(2000,1,1,8,0)
-    >>> sit2.sitting_type = st.sitting_type_id
+    >>> sit2.sitting_type = st
     >>> sit2.group_id = parliament.group_id  
     >>> session.add(sit2)
     >>> sit21 = domain.GroupSitting()
     >>> sit21.start_date = datetime.datetime(2000,1,1,5,0)
     >>> sit21.end_date = datetime.datetime(2000,1,1,8,0)
-    >>> sit21.sitting_type = st.sitting_type_id
+    >>> sit21.sitting_type = st
     >>> sit21.group_id = parliament.group_id  
     >>> session.add(sit21)
     >>> session.flush()

@@ -345,6 +345,10 @@
             end_month.selectedIndex = start_month.selectedIndex });
         $(start_day).change(function() {
             end_day.selectedIndex = start_day.selectedIndex });
+        form.submit(function() {
+            $([end_year, end_month, end_day]).
+              attr('disabled', '');
+          });
       }
       
       var option_time_matches = [];

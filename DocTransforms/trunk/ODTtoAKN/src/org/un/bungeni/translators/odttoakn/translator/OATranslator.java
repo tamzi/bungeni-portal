@@ -107,12 +107,13 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	/**
 	 * Transforms the document at the given path using the pipeline at the given path 
 	 * @param aDocumentPath the path of the document to translate
+	 * @param aSectionFilePath the path of the file that contains the section and the ids of the sections in the original document 
 	 * @param aPipelinePath the path of the pipeline to use for the translation 
 	 * @return the translated document
 	 * @throws Exception 
 	 * @throws TransformerFactoryConfigurationError 
 	 */
-	public File translate(String aDocumentPath, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
+	public File translate(String aDocumentPath,String aSectionFilePath, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
 		try
 		{

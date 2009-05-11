@@ -505,16 +505,18 @@ class AgendaReportingView(ReportingView):
     """Agenda report."""
     
     form_name = _(u"Agenda")
+    report_name = _(u"ORDER OF THE DAY")
     form_description = _(u"This form generates the “order of the day” report.")
     odf_filename = "agenda.odt"
 
-    def generate(self, date, time_span):
+    def get_archive(self, date, time_span):
         end_date = self.get_end_date(date, time_span)
         
         parliament = get_parliament_by_date_range(self, date, end_date)
         session = get_session_by_date_range(self, date, end_date)
 
         options = {
+            'title': self.report_name,
             'date': _(u"$r", mapping=utils.datetimedict.fromdate(date)),
             'parliament': parliament,
             'session': session,
@@ -528,37 +530,25 @@ class AgendaReportingView(ReportingView):
         document.process("content.xml", self, **options)
         document.save(archive.name)
 
+        return archive
+    
+    def generate(self, date, time_span):
+        archive = self.get_archive(date, time_span)
         file = File(archive, "application/vnd.oasis.opendocument.text")
         file.filename = "agenda-%s-%s-%s-%s.odt" % (
             str(time_span).lower(), date.year, date.month, date.day)
         
         return file
     
-class VotesAndProceedingsReportingView(ReportingView):
+class VotesAndProceedingsReportingView(AgendaReportingView):
     form_name = _(u"Votes and proceedings")
     form_description = _(u"This form generates the “votes and proceedings” report.")
-    odf_filename = "votes-and-proceedings.odt"
+    report_name = _(u"VOTES AND PROCEEDINGS")
     
     def generate(self, date, time_span):
-        end_date = self.get_end_date(date, time_span)
-        
-        parliament = get_parliament_by_date_range(self, date, end_date)
-        session = get_session_by_date_range(self, date, end_date)
-
-        options = {
-            'date': _(u"$r", mapping=utils.datetimedict.fromdate(date)),
-            'parliament': parliament,
-            'session': session,
-            'sittings': self.get_sittings(date, time_span),
-            }
-            
-        document = self.get_odf_document()
-        archive = tempfile.NamedTemporaryFile(suffix=".odt")
-        document.process("content.xml", self, **options)
-        document.save(archive.name)
-
+        archive = self.get_archive(date, time_span)
         file = File(archive, "application/vnd.oasis.opendocument.text")
         file.filename = "votes-and-proceedings-%s-%s-%s-%s.odt" % (
             str(time_span).lower(), date.year, date.month, date.day)
-        
+
         return file

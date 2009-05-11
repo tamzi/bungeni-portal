@@ -235,8 +235,8 @@ Regions and provinces get their primary key with a db sequence:
 
  >>> constituency = model.Constituency()
  >>> constituency.name = u"Nairobi/Westlands"
- >>> constituency.region = 1
- >>> constituency.province = 1
+ >>> constituency.region_id = 1
+ >>> constituency.province_id = 1
  >>> constituency.start_date = today
 
  >>> session.add(constituency)

@@ -125,7 +125,7 @@ First some setup:
     >>> sit1 = domain.GroupSitting()
     >>> sit1.start_date = datetime.datetime(2000,1,1,2,0)
     >>> sit1.end_date = datetime.datetime(2000,1,1,4,0)
-    >>> sit1.sitting_type = st.sitting_type_id
+    >>> sit1.sitting_type = st
     >>> sit1.group_id = parliament.group_id
     >>> session.add(sit1)
     >>> session.flush()     

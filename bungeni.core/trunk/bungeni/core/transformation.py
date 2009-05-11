@@ -19,16 +19,16 @@ class TransformationAdapter(object):
         self.context = context
 
     def traverse(self, name, furtherPath):
-        if len(furtherPath) == 1:
-            source_mimetype = self.default_source_mimetype
-        elif len(furtherPath) == 3:
-            source_mimetype = "%s/%s" % (name, furtherPath.pop())
-            name = furtherPath.pop()
-
-        mimetype = "%s/%s" % (name, furtherPath.pop())
+        assert len(furtherPath) >= 3
+        source_mimetype = "%s/%s" % (name, furtherPath.pop())
+        mimetype = "%s/%s" % (furtherPath.pop(), furtherPath.pop())
+        
+        styles = tuple(furtherPath)
+        del furtherPath[:]
+        
         engine = component.getUtility(ITransformEngine)
         result = engine.transform(
-            (self.context,), source_mimetype, mimetype)
+            (self.context,), source_mimetype, mimetype, options={'styles': styles})
 
         if result is None:
             raise RuntimeError(
@@ -59,8 +59,14 @@ class HtmlFragmentOpenDocumentTransform(Transform):
 
     <xsl:template match="processing-instruction()|comment()"/>
 
+    <xsl:template match="html:html">
+      <text:section>
+        <xsl:apply-templates select="node()"/>
+      </text:section>
+    </xsl:template>
+    
     <xsl:template match="html:p">
-      <text:p text:style-name="P10">
+      <text:p>
         <xsl:apply-templates select="node()"/>
       </text:p>
     </xsl:template>
@@ -68,7 +74,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
     </xsl:stylesheet>
     """))
     
-    def transform(self, data, options=None):
+    def transform(self, data, options={}):
         if self._validate(data) is None:
             return None
 
@@ -80,6 +86,17 @@ class HtmlFragmentOpenDocumentTransform(Transform):
         # reparse as valid XML, then apply transform
         doc = lxml.etree.fromstring(body)
         result_tree = self.xslt_transform(doc)
+        
+        # apply styles (optional)
+        for style in options.get('styles', ()):
+            tag, name = style.split(':')
+            for element in result_tree.xpath(
+                ".//text:%s" % tag, namespaces={
+                    'text': "urn:oasis:names:tc:opendocument:xmlns:text:1.0"}):
+                element.attrib[
+                    "{%s}style-name" % \
+                    "urn:oasis:names:tc:opendocument:xmlns:text:1.0"] = name
+
         data = unicode(result_tree)
         
         # strip XML declaration since this transform deals with

@@ -152,8 +152,8 @@ Constituencies have a fk on regions and provinces:
 
  >>> constituency = model.Constituency()
  >>> constituency.name = u"Nairobi/Westlands"
- >>> constituency.region = 1
- >>> constituency.province = 1
+ >>> constituency.region_id = region.region_id
+ >>> constituency.province_id = province.province_id
  >>> constituency.start_date = datetime.datetime.now()
 
  >>> session.add(constituency)
@@ -183,11 +183,13 @@ Members of parliament
 Members of parliament are defined by their membership in
 the parliaments group and additional attributes.
 
+
   >>> mp4 = model.MemberOfParliament()
   >>> mp4.group_id = parliament.group_id
   >>> mp4.user_id = mp_1.user_id
   >>> mp4.start_date = datetime.datetime.now()
-  >>> mp4.constituency_id = 1
+  >>> mp4.constituency_id = constituency.constituency_id
+  >>> mp4.constituency = constituency
   >>> mp4.elected_nominated = 'E'
   >>> session.add(mp4)
   >>> session.flush()   
@@ -227,7 +229,7 @@ meeting of the group by the system.
  >>> sit.group_id = committee_a.group_id
  >>> sit.start_date = datetime.datetime.now()
  >>> sit.end_date = datetime.datetime.now()
- >>> sit.sitting_type = st.sitting_type_id
+ >>> sit.sitting_type_id = st.sitting_type_id
  >>> session.add(sit)
  >>> session.flush() 
 
@@ -269,7 +271,7 @@ Sitting in this session
  >>> ssit.group_id = parliament.parliament_id
  >>> ssit.start_date = datetime.datetime.now()
  >>> ssit.end_date = datetime.datetime.now()
- >>> ssit.sitting_type = st.sitting_type_id
+ >>> ssit.sitting_type = st
  >>> session.add(ssit)
  >>> session.flush() 
  

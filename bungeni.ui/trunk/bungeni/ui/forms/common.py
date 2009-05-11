@@ -147,7 +147,6 @@ class AddForm(BaseForm, ui.AddForm):
     """
 
     interface.implements(ILocation, IDCDescriptiveProperties)
-
     description = None
     
     def validate(self, action, data):    
@@ -173,6 +172,10 @@ class AddForm(BaseForm, ui.AddForm):
     def domain_model(self):
         return self.context.domain_model
 
+    @property
+    def context_class(self):
+        return self.domain_model
+    
     @property
     def type_name( self ):
         descriptor = queryModelDescriptor(self.domain_model)

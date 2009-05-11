@@ -46,7 +46,7 @@ public class AHTranslatorTest {
 		
 		//perform a translation
 		//AHXSLProcBuilder.newInstance().createXSLProc("resources/akntohtml/minixslt/");
-		File translation = AHTranslator.getInstance().translate("resources/ke_act_2003-12-10_8_eng@_main.xml", "resources/akntohtml/minixslt/pipeline.xsl");
+		File translation = AHTranslator.getInstance().translate("resources/ke_act_2003-12-10_8_eng@_main.xml","unused", "resources/akntohtml/minixslt/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);

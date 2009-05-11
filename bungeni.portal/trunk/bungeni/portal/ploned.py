@@ -7,15 +7,16 @@ class PlonedLayout(object):
     template = ViewPageTemplateFile("ploned.pt")
     
     def __init__(self, context, request):
+        template = layout.bungeni
+        
         def render(**kwargs):
-
             kwargs['attributes'] = {
                 'plone.body.attributes': {
                     'class': "section-bungeni",
                     }
                 }
 
-            return layout.bungeni.render_macro(
+            return template.render_macro(
                 "", global_scope=False, parameters=kwargs)
 
         self.macro = Macro(render)

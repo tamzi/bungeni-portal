@@ -131,6 +131,15 @@
 
   <browser:menuItem
      menu="plone_contentmenu"
+     for="bungeni.models.domain.GroupSittingContainer"
+     title="Add sitting..."
+     action="./add"
+     permission="bungeni.sitting.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
      for="bungeni.models.domain.ItemScheduleCategoryContainer"
      title="Add category..."
      action="./add"

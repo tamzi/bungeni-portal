@@ -58,10 +58,17 @@
        />
 
     <adapter
+       zcml:condition="have devmode"
+       for="* zope.publisher.interfaces.browser.IHTTPRequest str"
+       provides="chameleon.html.interfaces.IResourceLocation"
+       factory=".layout.get_url_dev" />
+
+    <adapter
+       zcml:condition="not-have devmode"
        for="* zope.publisher.interfaces.browser.IHTTPRequest str"
        provides="chameleon.html.interfaces.IResourceLocation"
        factory=".layout.get_url" />
-    
+
     <include package="ploned.ui" file="skin.zcml" />
    
   </configure> 

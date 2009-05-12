@@ -5,6 +5,7 @@ from zope.publisher.interfaces import BadRequest
 from zope import component
 from zope import interface
 from zope import schema
+
 from zope.i18n import translate
 from zope.security.proxy import removeSecurityProxy
 from zope.event import notify
@@ -22,7 +23,7 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
 from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.ui.core import handle_edit_action
-from alchemist.ui.core import setUpFields, filterFields
+from alchemist.ui.core import setUpFields
 from zope.app.form.interfaces import IDisplayWidget
 
 try:
@@ -37,6 +38,8 @@ from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 from bungeni.models.interfaces import IVersion
 from ploned.ui.interfaces import IViewView
+
+from bungeni.ui.forms.fields import filterFields
 
 TRUE_VALS = "true", "1"
 
@@ -58,6 +61,8 @@ class NoPrefix(unicode):
         return name
 
 NO_PREFIX = NoPrefix()
+
+
 
 class DefaultAction(form.Action):
     def __init__(self, action):
@@ -125,6 +130,7 @@ class BaseForm(object):
 
     def update(self):
         self.status = self.request.get('portal_status_message', '')
+        self.form_fields = filterFields(self.context, self.form_fields)
         super(BaseForm, self).update()
         set_widget_errors(self.widgets, self.errors)
         
@@ -152,6 +158,10 @@ class DisplayForm(ui.DisplayForm):
     interface.implements(IViewView)
         
     template = ViewPageTemplateFile('templates/content-view.pt')
+    
+    def __call__(self):
+        #self.form_fields = filterFields(self.context, self.form_fields)
+        return super(DisplayForm, self).__call__()    
 
 class AddForm(BaseForm, ui.AddForm):
     """Custom add-form for Bungeni content.
@@ -174,8 +184,8 @@ class AddForm(BaseForm, ui.AddForm):
 
     def update(self):
         super(AddForm, self).update()
-
         # set default values for required choice fields
+
         for widget in self.widgets:
             field = widget.context
             if IChoice.providedBy(field) and field.required and field.default is None:
@@ -311,6 +321,7 @@ class EditForm(BaseForm, ui.EditForm):
         return errors
 
     def setUpWidgets(self, ignore_request=False):
+        #self.form_fields = self.filterFields(self.context, self.form_fields)
         super(EditForm, self).setUpWidgets(ignore_request=ignore_request)
 
         # for translations, add a ``render_original`` method to each
@@ -319,7 +330,6 @@ class EditForm(BaseForm, ui.EditForm):
         if self.is_translation:
             head = self.context.head
             form_fields = setUpFields(self.context.__class__, "view")
-            form_fields = filterFields(self.context, form_fields, "view")
             for widget in self.widgets:
                 form_field = form_fields.get(widget.context.__name__)
                 if form_field is None:

@@ -991,8 +991,8 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
     fields.extend([                
         dict( name="approval_date", 
             label=_(u"Approval Date"), 
-            add=False, 
-            edit=False, 
+            view_permission = "bungeni.edit.historical", 
+            edit_permission = "bungeni.edit.historical", 
             listing=False,
             edit_widget=SelectDateWidget, 
             add_widget=SelectDateWidget),
@@ -1353,6 +1353,19 @@ class ResponseDescriptor( ModelDescriptor ):
                 label=_(u"Sitting Time"), 
                 description=_(u"Time of the Sitting"), 
                 listing=True ),
+        dict(name="language", 
+             label=_(u"Language"), 
+             listing=False, 
+             add=True, 
+             edit=False, 
+             omit=False,
+             required=True,
+             property=schema.Choice(
+                 title=u"Language",
+                 default=get_default_language(),
+                 vocabulary="language_vocabulary",
+                 ),
+             ),                
         ]        
 
 class ResponseVersionDescriptor( ModelDescriptor ):

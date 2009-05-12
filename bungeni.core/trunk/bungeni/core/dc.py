@@ -56,8 +56,9 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        if self.context.question_number is None:
-            return self.context.short_name
+        context = removeSecurityProxy(self.context)
+        if context.question_number is None:
+            return context.short_name
             
         return "#%d: %s" % (
             self.context.question_number,

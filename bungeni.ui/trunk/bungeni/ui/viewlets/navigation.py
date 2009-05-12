@@ -70,6 +70,8 @@ class SecondaryNavigationViewlet(object):
             container, "%s_navigation" % container.__name__)
 
         if IReadContainer.providedBy(container):
+            #XXX should be the same in all containers ?          
+            container=proxy.removeSecurityProxy(container)
             for name, item in container.items():
                 if context is None:
                     selected = False

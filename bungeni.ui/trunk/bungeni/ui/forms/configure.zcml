@@ -78,6 +78,10 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
+  <!-- content specific add, edit, delete and display forms -->
+  
+  <include file="forms.zcml" />
+
   <!-- content display viewlets -->
   
   <browser:viewlet

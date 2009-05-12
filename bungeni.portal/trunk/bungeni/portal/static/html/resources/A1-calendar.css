@@ -48,11 +48,13 @@ div.calendar span.sitting-type {
   background-color: rgb(255, 255, 204);
 }
 
-#calendar-table {
+/*
+   #calendar-table {
   height: 300px;
   overflow: auto;
   overflow-y: scroll;
 }
+*/
 
 #calendar-table {
   border-bottom: 1px solid #8CACBB;

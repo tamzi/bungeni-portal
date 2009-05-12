@@ -211,7 +211,17 @@ class CalendarView(BrowserView):
     def render(self, date, template=None):
         if template is None:
             template = self.template
-            
+
+        group = self.context.get_group()
+        if group is None:
+            return template(
+                display=None,
+                status=_(u"Calendar is not available because "
+                         "the scheduling group ($label) is inactive.",
+                         mapping={'label': translate(self.context.label).lower()}
+                         )
+                )
+
         calendar_url = self.request.getURL()
         date = date - timedelta(days=date.weekday())
         today = utils.datetimedict.fromdate(datetime.date.today())

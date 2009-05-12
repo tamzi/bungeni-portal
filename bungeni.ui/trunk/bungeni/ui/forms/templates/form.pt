@@ -59,13 +59,13 @@
             </dd>                                                                                                                                   
           </dl>        
 
-          <div class="invariant-errors" tal:condition="view/invariantErrors|nothing">
+          <div class="invariant-errors"
+               tal:condition="view/invariantErrors|nothing">
             <ul>
               <li tal:repeat="error view/invariantErrors" tal:content="error/message">
               </li>
             </ul>
           </div>
-
 
           <metal:block define-macro="form-body">
 
@@ -73,8 +73,7 @@
             <metal:block define-slot="pre-fieldset">
             </metal:block>
 
-            <fieldset tal:define="widgets view/widgets;
-                                  fieldset_name view/fieldset_name|nothing;
+            <fieldset tal:define="fieldset_name view/fieldset_name|nothing;
                                   side_by_side view/side_by_side|nothing"
                       tal:omit-tag="not:fieldset_name">
 
@@ -98,8 +97,21 @@
                 </metal:block>
 
                 <table class="listing side-by-side" tal:omit-tag="not:side_by_side">
-                  
-                  <tal:block repeat="widget widgets">
+
+                  <tal:groups define="fallback python: dict(fallback=view.widgets);
+                                      groups view/widget_groups|fallback;
+                                      legends view/legends|nothing"
+                              repeat="name groups">
+                    
+                    <fieldset tal:define="legend python: legends and legends.get(name)"
+                              tal:omit-tag="not: legend">
+
+                      <legend tal:condition="legend"
+                              tal:content="legend"
+                              i18n:translate="" />
+                      
+                      <tal:block define="widgets python: groups.get(name)"
+                                 repeat="widget widgets">
 
                     <tal:field define="description widget/hint;
                                        error widget/error;
@@ -109,7 +121,9 @@
 
 
                       <tal:standard condition="not: side_by_side">
-                        <div class="field">
+                        <div class="field"
+                             tal:define="name python: widget.__class__.__name__.lower()"
+                             tal:attributes="class string:$default widget-$name">
                           <metal:header use-macro="macros/header" />
                         
                           <div tal:attributes="class python:'widget'+(error and ' error' or '') + (changed and ' changed' or '')">
@@ -142,6 +156,8 @@
 
                     </tal:field>
                   </tal:block>
+                    </fieldset>
+                  </tal:groups>
                 </table>
               </metal:block>
             </fieldset>

@@ -90,6 +90,8 @@ class BaseForm(object):
 
     Adapts = None
     CustomValidation = None
+
+    legends = {}
     
     def __init__(self, *args):
         super(BaseForm, self).__init__(*args)
@@ -108,7 +110,19 @@ class BaseForm(object):
         next_url = self._next_url = self.request.get('next_url', None)
         if next_url == "...":
             self._next_url = self.request['HTTP_REFERER']
-        
+
+    @property
+    def widget_groups(self):
+        groups = {}
+        for widget in self.widgets:
+            iface = widget.context.interface
+            legend = self.legends.get(iface)
+            if legend is None:
+                iface = interface.Interface
+            group = groups.setdefault(iface, [])
+            group.append(widget)
+        return groups
+
     def update(self):
         self.status = self.request.get('portal_status_message', '')
         super(BaseForm, self).update()

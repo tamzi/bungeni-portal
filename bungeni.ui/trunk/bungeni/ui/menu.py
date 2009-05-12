@@ -248,6 +248,10 @@ class CalendarSubMenuItem(BrowserSubMenuItem):
     submenuId = 'context_calendar'
     order = 10
 
+    def __new__(cls, context, request):
+        if context.get_group() is not None:
+            return object.__new__(cls, context, request)
+
     def __init__(self, context, request):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context

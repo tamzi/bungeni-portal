@@ -49,7 +49,6 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             
     def update( self ):
         self.setupActions()
-        self.form_fields = filterFields(self.context, self.form_fields)
         super(BungeniAttributeDisplay, self).update() 
         #self.setUpWidgets()
         self.setupActions()  # after we transition we have different actions  

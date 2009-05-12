@@ -73,14 +73,22 @@ class PrincipalGroupSchedulingContext(object):
     @property
     def label(self):
         group = self.get_group()
-        return u"%s (%s)" % (group.short_name, group.full_name)
-
+        if group is not None:
+            return u"%s (%s)" % (group.short_name, group.full_name)
+        return _(u"Unknown principal group")
+    
     def get_group(self, name="group"):
         session = Session()
 
-        group = session.query(Group).filter_by(
-            group_id=self.group_id)[0]
+        if self.group_id is None:
+            return
 
+        try:
+            group = session.query(Group).filter_by(
+                group_id=self.group_id)[0]
+        except IndexError:
+            raise RuntimeError("Group not found (%d)." % self.group_id)
+            
         group.__name__ = name
         group.__parent__ = self
 
@@ -117,7 +125,7 @@ class PlenarySchedulingContext(PrincipalGroupSchedulingContext):
         """Return current parliament's group id."""
 
         return getCurrentParliamentId()
-
+    
 class CommitteeSchedulingContext(PrincipalGroupSchedulingContext):
     component.adapts(ICommittee)
 

@@ -226,7 +226,16 @@ div.error {
 .error .fieldRequired {
    color: #d00;
 }
+  
+.widget-multicheckboxwidget .widget label {
+  display: inline;
+  margin-right: 1em;
+    font-size: 0.9em;
+}
 
+.widget-multicheckboxwidget br {
+   display: none;
+}
 
 /* Styles to make the editing widgets look more like their view counterparts */
 #archetypes-fieldname-title input, input#form\.title {

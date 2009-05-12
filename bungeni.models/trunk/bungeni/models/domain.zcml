@@ -24,13 +24,63 @@
              interface=".interfaces.IQuestion" />
     <require permission="bungeni.question.Edit"
              set_schema=".interfaces.IQuestion" />
+    <!--require permission="bungeni.edit.historical"
+            attributes="parliament_id" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parliament_id" /-->            
+                         
   </class>             
 
   <class class=".domain.Motion">
-    <require permission="bungeni.motion.View"
+    <!--require permission="bungeni.motion.View"
              interface=".interfaces.IMotion" />
     <require permission="bungeni.motion.Edit"
-             set_schema=".interfaces.IMotion" />
+             set_schema=".interfaces.IMotion" /-->
+    <require permission="bungeni.motion.View"
+             attributes="parliamentary_item_id
+                        owner_id
+                        language
+                        short_name
+                        full_name
+                        body_text
+                        status
+                        note
+                        receive_notification
+                        motion_number
+                        approval_date
+                        public
+                        seconder_id
+                        entered_by_id
+                        party_id
+                        notice_date
+             " />
+    <require permission="bungeni.motion.Edit"
+             set_attributes="parliamentary_item_id 
+                            owner_id
+                            language
+                            short_name
+                            full_name
+                            body_text                            
+                            note
+                            receive_notification
+                            public
+                            seconder_id
+                            party_id
+             " />             
+    <require permission="bungeni.edit.historical"
+            attributes="parliament_id
+                        submission_date                        
+                        " />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parliament_id
+                            submission_date
+                            status
+                            motion_number
+                            approval_date
+                            entered_by_id
+                            notice_date
+                            " />               
+             
   </class>             
 
 

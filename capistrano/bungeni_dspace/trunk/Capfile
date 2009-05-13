@@ -1,0 +1,6 @@
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
+load 'config/commonfunctions'
+load 'config/dspace_presetup'
+load 'config/dspaceconfigvars'
+load 'config/deploy'

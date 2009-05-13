@@ -5,37 +5,106 @@
   <class class=".domain.Committee">
     <require permission="zope.Public" attributes="files"/>
   </class>
+
   
   <class class=".domain.Bill">
     <require permission="zope.Public" attributes="files"/>
     <require permission="bungeni.bill.View"
-             interface=".interfaces.IBill" />
+             attributes="submission_date
+                        status
+                        identifier
+                        short_name
+                        language
+                        body_text
+                        bill_type_id
+                        summary
+                        ministry_id
+                        full_name
+                        publication_date
+                        receive_notification
+                        owner_id
+                        parliament_id" />
     <require permission="bungeni.bill.Edit"
-             set_schema=".interfaces.IBill" />    
+             set_attributes="short_name
+                            language
+                            body_text
+                            bill_type_id
+                            summary
+                            ministry_id
+                            full_name
+                            receive_notification
+                            owner_id" />    
+    <!--require permission="bungeni.edit.historical"
+            attributes="" /-->
+    <require permission="bungeni.edit.historical"
+            set_attributes="parliament_id
+                            status
+                            identifier
+                            publication_date" /> 
+
+             
   </class>
-  
+
+
   <class class=".domain.Response">
     <require permission="zope.Public" attributes="files"/>
+    <require permission="bungeni.response.View"
+             attributes="response_text
+                        sitting_time
+                        language
+                        status" />
+    <require permission="bungeni.response.Edit"
+             set_attributes="response_text
+                            sitting_time
+                            language" />   
+    <require permission="bungeni.edit.historical"
+            set_attributes="status" />                                       
   </class>    
+
 
   <class class=".domain.Question">
     <require permission="zope.Public" attributes="files"/>  
     <require permission="bungeni.question.View"
-             interface=".interfaces.IQuestion" />
+             attributes="submission_date
+                        status
+                        short_name
+                        language
+                        body_text
+                        supplement_parent_id
+                        approval_date
+                        ministry_submit_date
+                        ministry_id
+                        response_type
+                        full_name
+                        question_type
+                        sitting_time
+                        receive_notification
+                        parliament_id
+                        owner_id" />
     <require permission="bungeni.question.Edit"
-             set_schema=".interfaces.IQuestion" />
+             set_attributes="short_name
+                            language
+                            body_text
+                            ministry_id
+                            response_type
+                            full_name
+                            question_type
+                            sitting_time
+                            receive_notification
+                            owner_id" />
     <!--require permission="bungeni.edit.historical"
-            attributes="parliament_id" />
+            attributes="" /-->
     <require permission="bungeni.edit.historical"
-            set_attributes="parliament_id" /-->            
+            set_attributes="parliament_id
+                            submission_date
+                            status
+                            supplement_parent_id
+                            approval_date
+                            ministry_submit_date" />            
                          
   </class>             
 
   <class class=".domain.Motion">
-    <!--require permission="bungeni.motion.View"
-             interface=".interfaces.IMotion" />
-    <require permission="bungeni.motion.Edit"
-             set_schema=".interfaces.IMotion" /-->
     <require permission="bungeni.motion.View"
              attributes="parliamentary_item_id
                         owner_id
@@ -52,8 +121,7 @@
                         seconder_id
                         entered_by_id
                         party_id
-                        notice_date
-             " />
+                        notice_date" />
     <require permission="bungeni.motion.Edit"
              set_attributes="parliamentary_item_id 
                             owner_id
@@ -65,12 +133,10 @@
                             receive_notification
                             public
                             seconder_id
-                            party_id
-             " />             
+                            party_id" />             
     <require permission="bungeni.edit.historical"
             attributes="parliament_id
-                        submission_date                        
-                        " />
+                        submission_date" />
     <require permission="bungeni.edit.historical"
             set_attributes="parliament_id
                             submission_date
@@ -78,8 +144,7 @@
                             motion_number
                             approval_date
                             entered_by_id
-                            notice_date
-                            " />               
+                            notice_date" />               
              
   </class>             
 

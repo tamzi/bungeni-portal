@@ -1,21 +1,40 @@
-from alchemist.ui.core import BaseForm
-from zope.security.proxy import removeSecurityProxy
-from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.publisher.browser import BrowserView
 
-from ore.workflow import interfaces
-from bungeni.core.i18n import _
 from zope.formlib import form
 from zope.viewlet import viewlet
 import zope.interface
-
-from bungeni.core import audit
-from sqlalchemy import orm
+from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.security.proxy import removeSecurityProxy
+from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.publisher.browser import BrowserView
+from zope.app.schema.vocabulary import IVocabularyFactory
 from zc.table import batching, column
+
+from sqlalchemy import orm
 import sqlalchemy as rdb
+
+from ore.workflow import interfaces
+from alchemist.ui.core import BaseForm
+
+from bungeni.core.i18n import _
+from bungeni.core import audit
 
 from bungeni.ui.forms.workflow import TransitionHandler
 from bungeni.ui.table import TableFormatter
+
+class WorkflowVocabulary(object):
+    zope.interface.implements(IVocabularyFactory)
+
+    def __call__(self, context):
+        wf = interfaces.IWorkflow(context)
+        items=[]
+        for state in wf.workflow.states.keys():
+            items.append(SimpleTerm(wf.workflow.states[state].id,
+                        wf.workflow.states[state].id,
+                        wf.workflow.states[state].title))
+        return SimpleVocabulary(items)
+
+workflow_vocabulary_factory = WorkflowVocabulary()
+
 
 class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     """Implements the workflowHistoryviewlet this viewlet shows the

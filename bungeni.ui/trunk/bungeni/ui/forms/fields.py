@@ -50,7 +50,6 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     def update( self ):
         self.setupActions()
         super(BungeniAttributeDisplay, self).update() 
-        #self.setUpWidgets()
         self.setupActions()  # after we transition we have different actions  
         try:
             wf_state =interfaces.IWorkflowState(

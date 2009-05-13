@@ -13,6 +13,8 @@ from sqlalchemy import orm
 import sqlalchemy as rdb
 
 from ore.workflow import interfaces
+from ore.alchemist.interfaces import IAlchemistContainer
+from ore.alchemist.interfaces import IAlchemistContent
 from alchemist.ui.core import BaseForm
 
 from bungeni.core.i18n import _
@@ -25,7 +27,12 @@ class WorkflowVocabulary(object):
     zope.interface.implements(IVocabularyFactory)
 
     def __call__(self, context):
-        wf = interfaces.IWorkflow(context)
+        if IAlchemistContent.providedBy(context):
+            ctx = context
+        elif  IAlchemistContainer.providedBy(context):
+            domain_model = removeSecurityProxy( context.domain_model )
+            ctx = domain_model()        
+        wf = interfaces.IWorkflow(ctx)
         items=[]
         for state in wf.workflow.states.keys():
             items.append(SimpleTerm(wf.workflow.states[state].id,

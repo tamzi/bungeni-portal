@@ -18,7 +18,7 @@ from bungeni.ui.widgets import RichTextEditor
 from bungeni.ui.widgets import ImageDisplayWidget
 from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
-
+from bungeni.ui.widgets import OneTimeEditWidget
 from ore.yuiwidget import calendar
 
 
@@ -911,7 +911,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               add = True, 
               view = False, 
               view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor, ),    
+              edit_widget=OneTimeEditWidget, ),    
         dict( name="receive_notification", 
               label=_(u"Receive notification"), 
               description=_(u"Select this option to receive notifications for this motion."), 

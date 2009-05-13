@@ -890,10 +890,12 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             omit=False),        
         dict( name="status", 
             label=_(u"Status"), 
-            edit=False, 
-            add=False, 
+             property=schema.Choice(
+                 title=u"Status",
+                 vocabulary="workflow_vocabulary",
+                 ),
             listing=True, 
-            omit=False ),            
+            omit=False ),           
         dict( name="note", 
             label=_(u"Notes"), 
             description="Recommendation note", 
@@ -1342,7 +1344,6 @@ class ResponseDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="response_id", omit=True ),
-        dict( name="question_id", omit=True ), #XXX
         dict( name="response_text", 
                 label=_(u"Response"), 
                 description=_(u"Response to the Question"),
@@ -1365,7 +1366,15 @@ class ResponseDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                
+             ),               
+        dict( name="status", 
+            label=_(u"Status"), 
+             property=schema.Choice(
+                 title=u"Status",
+                 vocabulary="workflow_vocabulary",
+                 ),
+            listing=True, 
+            omit=False ),               
         ]        
 
 class ResponseVersionDescriptor( ModelDescriptor ):
@@ -1373,7 +1382,6 @@ class ResponseVersionDescriptor( ModelDescriptor ):
     container_name = _(u"Versions")
     fields = [
         dict( name="response_id", omit=True ),
-        dict( name="question_id", omit=True ), #XXX
         dict( name="response_text", 
                 label=_(u"Response"), 
                 description=_(u"Response to the Question"),

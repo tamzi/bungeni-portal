@@ -33,7 +33,11 @@ def filterFields(context, form_fields):
         #ctx = ProxyFactory(domain_model())
         pass
     else:
-        raise NotImplementedError   
+        ctx=getattr(context, 'context', None)
+        if ctx:
+            filterFields(ctx, form_fields)
+        else:            
+            raise NotImplementedError   
     #import pdb; pdb.set_trace()        
  
     return form_fields.omit(*omit_names)   

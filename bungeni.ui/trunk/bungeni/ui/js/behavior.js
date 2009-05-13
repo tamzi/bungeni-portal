@@ -5,8 +5,12 @@
       menu_links.bungeniPostWorkflowActionMenuItem();
 
       // set up time range form automation
-      $(".groupsitting-form select").bungeniTimeRangeSelect(true, true);
-      $(".section-form select").bungeniTimeRangeSelect(false, false);
+      var errors = $(".groupsitting-form .widget.error").length > 0;
+      
+      $(".groupsitting-form .widget-dropdownwidget select").
+        bungeniTimeRangeSelect(true, !errors);
+      $(".section-form .widget-dropdownwidget select").
+        bungeniTimeRangeSelect(false, false);
 
       // set up calendar resizing
       $("#calendar-table").bungeniSafeResize();

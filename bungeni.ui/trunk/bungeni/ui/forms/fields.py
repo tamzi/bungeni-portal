@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.security.proxy import removeSecurityProxy
+from zope.security.proxy import removeSecurityProxy, ProxyFactory
 from zope import security
 
 from ore.alchemist.model import queryModelDescriptor
@@ -16,16 +16,24 @@ from bungeni.core.i18n import _
 
 def filterFields(context, form_fields):
     omit_names=[]
+    if IAlchemistContent.providedBy(context):
+        ctx = context
+    elif  IAlchemistContainer.providedBy(context):
+        domain_model = removeSecurityProxy( context.domain_model )
+        ctx = ProxyFactory(domain_model())
+    else:
+        raise NotImplementedError   
+    import pdb; pdb.set_trace()        
     for field in form_fields:
-        if security.canWrite( context, field.__name__):
+        if security.canWrite( ctx, field.__name__):
             #r/w
             continue
-        if security.canAccess( context, field.__name__):                
+        if security.canAccess( ctx, field.__name__):                
             field.for_display = True
             #r/o
         else:
             omit_names.append(field.__name__)
-            #ignore          
+            #ignore                                   
     return form_fields.omit(*omit_names)   
 
 

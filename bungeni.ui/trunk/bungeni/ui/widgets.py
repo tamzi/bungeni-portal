@@ -182,7 +182,7 @@ class RichTextEditor( TextAreaWidget ):
         # return the rendered input widget
         return input_widget
         
-class OneTimeEditor( TextAreaWidget ):
+class OneTimeEditWidget( TextAreaWidget ):
     """
     a text area that is meant to be used once in between edit.
     when you open an edit form it displays the last entry that

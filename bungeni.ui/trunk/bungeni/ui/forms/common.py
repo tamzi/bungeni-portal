@@ -181,7 +181,10 @@ class AddForm(BaseForm, ui.AddForm):
             errors += validator(action, data, None, self.context)
         
         return errors
-
+        
+    def validateUnique( self, action, data ):
+        return
+        
     def update(self):
         super(AddForm, self).update()
         # set default values for required choice fields
@@ -321,7 +324,6 @@ class EditForm(BaseForm, ui.EditForm):
         return errors
 
     def setUpWidgets(self, ignore_request=False):
-        #self.form_fields = self.filterFields(self.context, self.form_fields)
         super(EditForm, self).setUpWidgets(ignore_request=ignore_request)
 
         # for translations, add a ``render_original`` method to each

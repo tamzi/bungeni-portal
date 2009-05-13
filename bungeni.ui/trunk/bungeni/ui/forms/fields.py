@@ -18,22 +18,24 @@ def filterFields(context, form_fields):
     omit_names=[]
     if IAlchemistContent.providedBy(context):
         ctx = context
+        for field in form_fields:
+            if security.canWrite( ctx, field.__name__):
+                #r/w
+                continue
+            if security.canAccess( ctx, field.__name__):                
+                field.for_display = True
+                #r/o
+            else:
+                omit_names.append(field.__name__)
+                #ignore                                  
     elif  IAlchemistContainer.providedBy(context):
-        domain_model = removeSecurityProxy( context.domain_model )
-        ctx = ProxyFactory(domain_model())
+        #domain_model = removeSecurityProxy( context.domain_model )
+        #ctx = ProxyFactory(domain_model())
+        pass
     else:
         raise NotImplementedError   
-    import pdb; pdb.set_trace()        
-    for field in form_fields:
-        if security.canWrite( ctx, field.__name__):
-            #r/w
-            continue
-        if security.canAccess( ctx, field.__name__):                
-            field.for_display = True
-            #r/o
-        else:
-            omit_names.append(field.__name__)
-            #ignore                                   
+    #import pdb; pdb.set_trace()        
+ 
     return form_fields.omit(*omit_names)   
 
 

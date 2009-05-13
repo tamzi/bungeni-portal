@@ -588,6 +588,11 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="type", omit=True),
         ]
     schema_invariants = [EndAfterStart, ElectionAfterStart]
+       
+parliamentSource = DatabaseSource(domain.Parliament, 
+                    token_field='parliament_id', 
+                    title_field='short_name', 
+                    value_field='parliament_id')
             
 class CommitteeDescriptor( GroupDescriptor ):
     display_name = _(u"Committee")
@@ -829,8 +834,9 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
     fields= [
         dict(name="parliamentary_item_id", omit=True),
         dict(name="parliament_id", 
-            view_permission = "bungeni.edit.historical", 
-            edit_permission = "bungeni.edit.historical", 
+            property = schema.Choice(
+                title=_(u"Parliament"),                
+                source=parliamentSource),            
         ),
         dict(name="short_name", 
             label=_(u"Title"), 

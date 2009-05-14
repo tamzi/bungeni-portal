@@ -142,8 +142,8 @@ class BaseForm(object):
             form.getWidgetsData(self.widgets, self.prefix, data) +
             form.checkInvariants(self.form_fields, data))
 
-        if self.CustomValidation is not None:
-            errors += self.CustomValidation(self.context, data)
+        if not errors and self.CustomValidation is not None:
+            return list(self.CustomValidation(self.context, data))
 
         return errors
 
@@ -185,6 +185,15 @@ class AddForm(BaseForm, ui.AddForm):
     def validateUnique( self, action, data ):
         return
         
+    def validateUnique(self, action, data):
+        """Validate unique.
+        
+        Since this class always adds a single object, we can safely
+        return an empty list of errors.
+        """
+        
+        return self.validate(action, data)
+
     def update(self):
         super(AddForm, self).update()
         # set default values for required choice fields
@@ -197,7 +206,7 @@ class AddForm(BaseForm, ui.AddForm):
 
     @property
     def domain_model(self):
-        return self.context.domain_model
+        return removeSecurityProxy(self.context).domain_model
 
     @property
     def context_class(self):
@@ -261,7 +270,7 @@ class AddForm(BaseForm, ui.AddForm):
         if not self._next_url:        
             self._next_url = absoluteURL(ob, self.request ) + \
                              "/@@edit?portal_status_message=%s Added" % name
-        
+
     @form.action(_(u"Save and add another"), condition=form.haveInputWidgets)
     def handle_add_and_another(self, action, data ):
         self.createAndAdd( data )

@@ -131,17 +131,7 @@
      permission="zope.View"
      weight="10"
      />          
-     
-  <!-- recurring events -->
-  <browser:viewlet
-     name="bungeni.viewlet.recurrent"
-     manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.RecurringEventsViewlet"
-     for="bungeni.models.interfaces.IGroupSitting"
-     permission="zope.View"
-     weight="10"
-     />        
-  
+
   <browser:viewlet
      name="bungeni.viewlet.mp-titles"
      manager="alchemist.ui.interfaces.IContentViewManager"

@@ -87,10 +87,18 @@
       name="ui-images"
       directory="images" />
 
-  <!-- all workflow states as vocabulary -->      
-  <utility
-     component=".workflow.workflow_vocabulary_factory"
-     name="workflow_vocabulary" />
-           
+   <!-- vocabularies -->
    
+   <utility
+      name="bungeni.vocabulary.weekdays"
+      component=".vocabulary.WeekdaysVocabularyFactory" />
+
+   <utility
+      name="bungeni.vocabulary.monthly_recurrence"
+      component=".vocabulary.MonthlyRecurrenceVocabularyFactory" />
+
+   <utility
+      component=".workflow.workflow_vocabulary_factory"
+      name="workflow_vocabulary" />
+           
 </configure>

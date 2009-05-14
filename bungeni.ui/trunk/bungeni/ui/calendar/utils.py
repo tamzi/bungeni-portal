@@ -1,7 +1,9 @@
 from datetime import datetime
+from datetime import timedelta
 from datetime import time
 from datetime import date
 from time import mktime
+from dateutil import rrule
 
 marker = object()
 
@@ -25,6 +27,97 @@ def unpack_date_range(value):
         end = None
 
     return start, end
+
+class date_generator(object):
+    def __iter__(self):
+        return iter(self.rrule)
+
+def nth_day_of_week(weekday):
+    class generator(date_generator):
+        def __init__(self, date):
+            self.rrule = rrule.rrule(
+                rrule.WEEKLY,
+                dtstart=date,
+                byweekday=rrule.weekdays[weekday])
+
+    return generator
+    
+def nth_day_of_month(day):
+    class generator(date_generator):
+        def __init__(self, date):
+            self.rrule = rrule.rrule(
+                rrule.MONTHLY,
+                dtstart=date,
+                bymonthday=day)
+
+    return generator
+
+def first_nth_weekday_of_month(weekday):
+    class generator(date_generator):
+        def __init__(self, date):
+            self.rrule = rrule.rrule(
+                rrule.MONTHLY,
+                dtstart=date,
+                byweekday=rrule.FR(+1))
+
+    return generator
+
+def generate_dates(generator, *generators):
+    """Generate dates from generators.
+
+      >>> from datetime import date
+
+    Every nth day of the week.
+    
+      >>> mondays = nth_day_of_week(0)
+
+      >>> generator = iter(mondays(date(1999, 12, 1)))
+      >>> generator.next().strftime('%x')
+      '12/06/99'
+
+      >>> generator.next().strftime('%x')
+      '12/13/99'
+
+   Every nth day of the month.
+   
+      >>> day_21st = nth_day_of_month(21)
+
+      >>> generator = iter(day_21st(date(1999, 12, 1)))
+      >>> generator.next().strftime('%x')
+      '12/21/99'
+
+      >>> generator.next().strftime('%x')
+      '01/21/00'
+
+    Every first nth weekday of the month.
+    
+      >>> first_thursday = first_nth_weekday_of_month(3)
+
+      >>> generator = iter(first_thursday(date(1999, 12, 1)))
+      >>> generator.next().strftime('%x')
+      '12/03/99'
+
+      >>> generator.next().strftime('%x')
+      '01/07/00'
+
+    """
+    
+    if len(generators) == 0:
+        for date in generator:
+            yield date
+
+    aggregate = generate_dates(*generators)
+
+    while aggregate:
+        date1 = generator.next()
+        date2 = aggregate.next()
+
+        if date1 < date2:
+            yield date1
+            date1 = generator.next()
+        else:
+            yield date2
+            date2 = aggregate.next()
 
 class join_dicts(object):
     def __init__(self, *dicts):

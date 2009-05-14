@@ -1273,7 +1273,9 @@ class SittingDescriptor( ModelDescriptor ):
         ]
 
     schema_invariants = [EndAfterStart]
-    custom_validators = [validations.validate_date_range_within_parent, validations.validate_venues]    
+    custom_validators = [validations.validate_date_range_within_parent,
+                         validations.validate_venues,
+                         validations.validate_non_overlapping_sitting]
 
 class SittingTypeDescriptor(ModelDescriptor):
     display_name = _(u"Type")

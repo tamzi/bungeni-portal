@@ -1,22 +1,44 @@
 ### -*- coding: utf-8 -*- #############################################
 
 import datetime, pytz
+import itertools
 
+from zope.datetime import parseDatetimetz
+from zope.datetime import DateTimeError
+from zope.security.proxy import removeSecurityProxy
 from zope.app.form.interfaces import ConversionError, InputErrors
 from zope.app.form.browser.widget import SimpleInputWidget
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
-from bungeni.core.i18n import _
 from zope.interface.common import idatetime
-
-
-
 from zope.app.form.browser.widget import UnicodeDisplayWidget, DisplayWidget
 from zope.app.form.browser.textwidgets import TextAreaWidget, FileWidget
-
-from zope.security.proxy import removeSecurityProxy
-from zc.resourcelibrary import need
 from zope.app.form.browser.itemswidgets import  RadioWidget
 
+from zc.resourcelibrary import need
+from bungeni.core.i18n import _
+
+class MultiDateTextAreaWidget(TextAreaWidget):
+    def _toFieldValue(self, value):
+        dates = []
+        for token in itertools.chain(*[
+            line.split('\n') for line in value.split(',')]):
+            token = token.strip()
+            if not token:
+                continue
+            try:
+                date = parseDatetimetz(token)
+                dates.append(date.date())
+            except (DateTimeError, ValueError, IndexError), v:
+                raise ConversionError(
+                    _("Invalid date: $value.",
+                      mapping={'value': token}), v)
+
+        return dates
+
+    def _toFormValue(self, value):
+        if value:
+            return u"\n".join(date.strftime("%F") for date in value)
+        return u""
 
 def CustomRadioWidget( field, request ):
     """ to replace the default combo box widget for a schema.choice field"""

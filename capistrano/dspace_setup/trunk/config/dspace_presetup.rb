@@ -1,34 +1,34 @@
-################################################################
-#### Namespace to setup the runtime environment for bungeni ####
-####  - Does an apt-get to install all the OS libraries
-####  - Downloads and installs a user python 
-####  - Installs all the required python libraries 
-####  	- Python Imaging
-####	- Python ssl
-#### 	- Python svn bindings
-#####	Tested on Ubuntu 8.04 
-#####   To setup all the pre-requisites simply run :
-#####   cap bungeni_presetup:build_all
-##################################################################
+=begin
+Sets up the pre-requisities for DSpace 
+  -- Required System libraries
+  -- User JVM (instead of using the system JVM)
+  -- User tomcat application server
+  -- Maven
+  -- Ant
+  -- Downloads and installs Postgres for the current user
+=end
 
 
 ### Defines a sequence of tasks for installing bungeni from scratch ###
 
 #### General Build Parameter #####
 
-### only the following 2 parameters need to be set by the user to customize
-### this installation script for different computers
+=begin
+ Only the following 2 parameters need to be set by the user to customize
+  this installation script for different computers
+=end
 set :user_root, "/home/undesa/bungeni_dspace"
 set :user_build_root, "#{user_root}/cap_builds"
 set :user_install_root, "#{user_root}/cap_installs"
 
 #### download URLs for components #####
 ### Can be set to a http / ftp url or an absolute path to the file on the computer
-### Edit these as desired ####
-set :java6_download_url, "/home/undesa/Software/Software/jdk-6u14-ea-bin-b06-linux-i586-06_may_2009.bin"
+### Edit these as desired ############
+set :java6_download_url, "/home/undesa/Software/Software/jdk-6u14-ea-bin-b06-linux-i586-06_may_2009.bin" # "http://www.java.net/download/jdk6/6u14/promoted/b06/binaries/jdk-6u14-ea-bin-b06-linux-i586-06_may_2009.bin"
 set :tomcat_download_url, "http://mirror.cinquix.com/pub/apache/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.tar.gz"
 set :maven_download_url, "http://www.apache.org/dist/maven/binaries/apache-maven-2.1.0-bin.tar.gz"
 set :ant_download_url, "http://archive.apache.org/dist/ant/binaries/apache-ant-1.7.1-bin.tar.gz"
+set :pg_download_url, "/home/undesa/Software/postgresql-8.3.7.tar.gz" #"http://wwwmaster.postgresql.org/download/mirrors-ftp/source/v8.3.7/postgresql-8.3.7.tar.gz"
 ##### Component Specific Parameters ##### 
 
 ### do not edit any of these parameters (unless you know what you are doing) #### 
@@ -61,6 +61,14 @@ set :ant_download_command, get_download_command(ant_download_url, ant_install_ar
 set :ant_home, "#{user_install_root}/#{ant_install_dirname}"
 set :ant_download_dir, "#{user_build_root}/#{ant_install_dirname}"
 
+##### Postgres #####
+set :pg_install_archive, "postgres.tar.gz"
+set :pg_install_dirname, File.basename(pg_install_archive, ".tar.gz")
+set :pg_download_command, get_download_command(pg_download_url, pg_install_archive)
+set :pg_home, "#{user_install_root}/#{pg_install_dirname}"
+set :pg_data, "#{pg_home}/data"
+set :pg_download_dir, "#{user_build_root}/#{pg_install_dirname}"
+
 
 namespace :dspace_presetup do
 	
@@ -71,7 +79,11 @@ namespace :dspace_presetup do
 			"linux-headers-`uname -r`", # for building from source
 			"openssl", # for java ssl
 			"libssl-dev", # for java ssl
-			"wget"
+			"bison", # for pg
+			"flex", # for pg
+			"libreadline5-dev", # for pg
+			"zlib1g-dev", # for pg
+			"wget" # for downloading stuff 
 			]
 	install_cmd = "apt-get install " + required_libs * " " 	+ " -y"
 	sudo install_cmd
@@ -84,7 +96,8 @@ namespace :dspace_presetup do
 	"mkdir -p #{java6_download_dir}",
 	"mkdir -p #{tomcat_download_dir}",
 	"mkdir -p #{maven_download_dir}",
-	"mkdir -p #{ant_download_dir}"
+	"mkdir -p #{ant_download_dir}",
+	"mkdir -p #{pg_download_dir}"
 	].each {|cmd| run cmd}
     end
 
@@ -129,5 +142,21 @@ namespace :dspace_presetup do
 	].each {|cmd| run cmd}
     end
 	
+    desc "Install Postgres"
+    task :setup_postgres, :roles=> [:app] do
+	[
+	"rm -rf #{pg_home}",
+	"cd #{pg_download_dir} && #{pg_download_command}",
+	"cd #{pg_download_dir} && mkdir ./#{pg_install_dirname} && tar xvzf #{pg_install_archive} -C ./#{pg_install_dirname} --strip-components=1",
+	"mkdir -p #{pg_home}",
+	"cd #{pg_download_dir}/#{pg_install_dirname} && ./configure --prefix='#{pg_home}' && make && make install ",
+	"mkdir -p #{pg_data}",
+	"#{pg_home}/bin/initdb -D #{pg_data}",
+	"#{pg_home}/bin/postgres -D #{pg_data} >logfile 2>&1 &",
+	"sleep 6", # sleep for 6 seconds to wait for postgres to start 
+	"#{pg_home}/bin/createdb test"
+	].each {|cmd| run cmd}
+    end
+
    
 end

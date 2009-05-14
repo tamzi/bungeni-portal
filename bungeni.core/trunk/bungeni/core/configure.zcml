@@ -214,7 +214,7 @@
   <adapter factory=".dc.SittingTypeDescriptiveProperties" />
   <adapter factory=".dc.ResponseDescriptiveProperties" />
   <adapter factory=".dc.ConstituencyDescriptiveProperties" />
-  
+  <adapter factory=".dc.ChangeDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

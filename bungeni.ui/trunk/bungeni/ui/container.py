@@ -241,6 +241,8 @@ class ContainerJSONListing( BrowserView ):
         sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
         domain_model = proxy.removeSecurityProxy( self.context.domain_model )
         # in the domain model you may replace the sort with another column
+        if sort_key:
+            sort_key = sort_key[5:]
         sort_keys = []
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():

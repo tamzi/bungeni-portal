@@ -544,7 +544,10 @@
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
         //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
         //YAHOO.util.Event.addListener(input, 'keyup', table.fnFilterchange);
-        table_columns.keys[i].getThEl().appendChild(input);
+        //table_columns.keys[i].getThEl().appendChild(input);
+        var thEl = table_columns.keys[i].getThEl();        
+        thEl.innerHTML = "";
+        thEl.appendChild(input);
     }
 
     table.sortColumn = function(oColumn, sDir) {

@@ -528,7 +528,7 @@ class RecurringEventsViewlet(DisplayViewlet):
                         schema.sittings.c.sitting_id != sitting.sitting_id)
         query = session.query(domain.GroupSitting).filter(b_filter)
         return query.all()
-                
+
     def validate_sitting_dates(self, group_id, start, end, sitting=None):
         """ Sittings cannot overlap for one group    
         and must be inside the groups start end dates"""
@@ -807,7 +807,7 @@ class RecurringEventsViewlet(DisplayViewlet):
                             times=count, 
                             edates=[])['valid']
                     elif recurrence == "monthly":
-                        dates = getMonthlyScheduleDates(sitting_date, 
+                        dates = recurring.getMonthlyScheduleDates(sitting_date, 
                             monthday=daynum, 
                             nth=monthly, 
                             weekday=weekday,  

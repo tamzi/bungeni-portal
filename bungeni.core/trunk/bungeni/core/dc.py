@@ -279,3 +279,13 @@ class SittingTypeDescriptiveProperties(DescriptiveProperties):
 
         return _(term.title.split('(')[0].strip())
 
+
+class ChangeDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IChange)  
+    
+    @property
+    def title(self):
+        return self.context.action   
+        
+        
+

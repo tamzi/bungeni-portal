@@ -54,10 +54,9 @@ def tearDown( test ):
 def test_suite():
     doctests = ('queries/sqlstatements.txt',
                 'queries/validations.txt',
-                'forms/readme.txt',
-                'recurring.txt')
+                'forms/readme.txt')
 
-    docfiles = ("bungeni.ui.calendar.utils", 
+    docfiles = ("bungeni.ui.calendar.utils",
                 "bungeni.ui.forms.forms")
     
     globs = dict(

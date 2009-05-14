@@ -147,7 +147,7 @@
      />
   <db:catalyst
      class="bungeni.models.domain.BillChange"
-     descriptor=".descriptor.ChangeDescriptor"
+     descriptor=".descriptor.BillChangeDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
@@ -177,7 +177,7 @@
      />
   <db:catalyst
      class="bungeni.models.domain.MotionChange"
-     descriptor=".descriptor.ChangeDescriptor"
+     descriptor=".descriptor.MotionChangeDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
@@ -201,7 +201,7 @@
 
   <db:catalyst
      class="bungeni.models.domain.QuestionChange"
-     descriptor=".descriptor.ChangeDescriptor"
+     descriptor=".descriptor.QuestionChangeDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
@@ -357,7 +357,7 @@
     
   <db:catalyst
      class="bungeni.models.domain.ResponseChange"
-     descriptor=".descriptor.ChangeDescriptor"
+     descriptor=".descriptor.ResponseChangeDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
@@ -452,5 +452,8 @@
     ui_module="bungeni.ui.content"
     echo="False"
     />
+
+
+    
 
 </configure>

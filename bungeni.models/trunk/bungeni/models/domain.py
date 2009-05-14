@@ -296,6 +296,7 @@ class ItemLog( object ):
     @classmethod
     def makeLogFactory( klass, name ):
         factory = type( name, (klass,), {} )
+        interface.classImplements(factory, interfaces.IChange) 
         return factory
 
 class ItemVersions( Entity ):
@@ -350,6 +351,10 @@ class Question( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
         "content_id")
+    log = one2many("log", 
+        "bungeni.models.domain.QuestionChangeContainer",
+        "content_id")
+    
     
     def getParentQuestion( self ):
         if self.supplement_parent_id:
@@ -388,6 +393,9 @@ class Motion( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.MotionVersionContainer",
         "content_id")
+    log = one2many("log", 
+        "bungeni.models.domain.MotionChangeContainer",
+        "content_id")        
 
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
@@ -417,7 +425,10 @@ class Bill( ParliamentaryItem ):
         "bungeni.models.domain.BillVersionContainer",
         "content_id")
 
-
+    log = one2many("log", 
+        "bungeni.models.domain.BillChangeContainer",
+        "content_id")
+        
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 

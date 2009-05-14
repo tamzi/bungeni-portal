@@ -257,3 +257,7 @@ class IDateRangeFilter(interface.Interface):
 
     These must be bound before the query is executed.
     """
+    
+class IChange(interface.Interface):
+    """ Marker for Change (log table) """
+        

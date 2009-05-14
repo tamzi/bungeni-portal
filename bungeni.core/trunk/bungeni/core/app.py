@@ -13,8 +13,6 @@ from zope.app.container.sample import SampleContainer
 from zope.location.interfaces import ILocation
 
 from ore.wsgiapp.app import Application
-from ore.svn import repos
-from ore.library.library import Library
 
 from bungeni.models import domain
 from bungeni.models import interfaces as model_interfaces
@@ -25,7 +23,6 @@ from bungeni.core.content import QueryContent
 from bungeni.core.i18n import _
 from bungeni.models.queries import get_current_parliament
 from bungeni.models.queries import container_getter
-from bungeni.core.interfaces import IAddContext
 from bungeni.core import interfaces
 
 def setUpSubscriber(object, event):

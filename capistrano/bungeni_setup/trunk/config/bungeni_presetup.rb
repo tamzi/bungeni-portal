@@ -66,6 +66,7 @@ namespace :bungeni_presetup do
     desc "Installs the OS prequisites for Bungeni"
     task :essentials, :roles=> [:app] do
 	required_libs = [
+			"wget",
 			"build-essential", # for building from source
 			"linux-headers-`uname -r`", # for building from source
 			"libjpeg62-dev", # for python

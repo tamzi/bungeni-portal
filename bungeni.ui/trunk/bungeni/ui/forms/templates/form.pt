@@ -60,10 +60,12 @@
           </dl>        
 
           <div class="invariant-errors"
-               tal:condition="view/invariantErrors|nothing">
+               tal:define="errors view/invariantErrors|python:();
+                           messages python: [error.message for error in errors];
+                           messages python: filter(None, messages)"
+               tal:condition="messages">
             <ul>
-              <li tal:repeat="error view/invariantErrors" tal:content="error/message">
-              </li>
+              <li tal:repeat="message messages" tal:content="message" />
             </ul>
           </div>
 

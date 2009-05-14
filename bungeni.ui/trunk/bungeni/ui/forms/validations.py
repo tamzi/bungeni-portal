@@ -9,15 +9,19 @@ from bungeni.core.i18n import _
 
 from ore.alchemist import Session
 
-from bungeni.models import interfaces, domain, schema
-
 import sqlalchemy as rdb
 
+from bungeni.models import interfaces
+from bungeni.models import schema
 from bungeni.models import venue
-from bungeni.ui.queries.utils import validate_date_in_interval, validate_open_interval
+from bungeni.models import domain
+from bungeni.models import queries
+from bungeni.ui.queries.utils import validate_date_in_interval
+from bungeni.ui.queries.utils import validate_open_interval
 from bungeni.ui.queries import utils
 from bungeni.ui.utils import get_date
-
+from bungeni.ui.calendar.utils import generate_dates
+from bungeni.ui.calendar.utils import datetimedict
 
 def null_validator(*args, **kwargs):
     return []
@@ -396,14 +400,16 @@ def validate_member_titles(action, data, context, container):
     return errors
 
 def validate_venues(action, data, context, container):
-    """ a venue can only be booked for one sitting at once """
+    """A venue can only be booked for one sitting at once."""
+    
     errors = []
     if interfaces.IGroupSitting.providedBy(context):
         sitting = context
     else:
-        sitting = None    
-    if data ['venue_id']:
-        venue_id = long(data ['venue_id'])
+        sitting = None
+    venue_id = data.get('venue_id')
+    if venue_id is not None:
+        venue_id = long(venue_id)
         session = Session()        
         svenue = session.query(domain.Venue).get(venue_id)            
     else:
@@ -417,19 +423,120 @@ def validate_venues(action, data, context, container):
     else:
         return []        
     for booking in  venue.check_venue_bookings( start, end, svenue, sitting):
-        errors.append( interface.Invalid(
-                        _(u"This venue is allready booked for %s") % 
-                        booking.short_name, 
-                        "venue_id" ))                             
+        errors.append(
+            interface.Invalid(
+                _(u'Venue "$venue" already booked in this time slot.',
+                  mapping={'venue': booking.short_name}),
+                "venue_id"))
     return errors
 
-def validate_sitting_dates(action, data, context, container):
-    errors = []
-    if interfaces.IGroupSitting.providedBy(context):
-        sitting = context
-    else:
-        sitting = None    
-    session = Session()
-    pass
+def validate_recurring_sittings(action, data, context, container):
+    """Validate recurring sittings.
 
+    This validator determines the sittings that will be created and
+    confirms the validity of them.
+    """
+
+    start = data['start_date']
+    end = data['end_date']
+    weekdays = data.get('weekdays')
+    monthly = data.get('monthly')
+    repeat = data.get('repeat')
+    repeat_until = data.get('repeat_until')
+    exceptions = data.get('exceptions', ())
     
+    session = Session()
+    group_id = container.__parent__.group_id
+    group = session.query(domain.Group).get(group_id)
+    sittings = group.sittings
+    
+    errors = []
+
+    if weekdays or monthly:
+        # this should be an invariant, but due to formlib's requirement
+        # that invariant methods pertain to a single schema, it's not
+        # possible
+        if repeat_until is not None and repeat_until < start.date():
+            return [interface.Interface(
+                _(u"If recurrence is limited by date, it "
+                  "must lie after the starting date."),
+                "repeat_until")]
+
+        # verify that dates do not violate group's end date
+        for date in generate_recurring_sitting_dates(
+            start.date(), repeat, repeat_until, weekdays, monthly, exceptions):
+            if group.end_date is not None and date > group.end_date:
+                errors.append(interface.Invalid(
+                    _(u"One or more events would be scheduled for $F, which is "
+                      "after the scheduling group's end date.",
+                      mapping=datetimedict.fromdate(date)),
+                    "repeat" if repeat else "repeat_until",
+                    ))
+                break
+
+            event_data = {
+                'start_date': datetime.datetime(
+                    date.year, date.month, date.day, start.hour, start.minute),
+                'end_date': datetime.datetime(
+                    date.year, date.month, date.day, end.hour, end.minute),
+                }
+
+            errors.extend(validate_non_overlapping_sitting(
+                action, event_data, context, container,
+                "weekdays" if weekdays else "monthly"))
+
+            if errors:
+                break
+
+            errors.extend(validate_venues(
+                action, data, context, container))
+
+            if errors:
+                break
+
+    return errors
+
+def validate_non_overlapping_sitting(action, data, context, container, *fields):
+    start = data['start_date']
+    end = data['end_date']
+
+    if not fields:
+        fields = "start_date", "end_date"
+        
+    session = Session()
+    group_id = container.__parent__.group_id
+    group = session.query(domain.Group).get(group_id)
+    sittings = group.sittings
+
+    for sitting in queries.get_sittings_between(sittings, start, end):
+        return [interface.Invalid(
+            _(u"One or more events would be scheduled for $F, which "
+              "overlaps with an existing sitting.",
+              mapping=datetimedict.fromdatetime(start)),
+            *fields)]
+        
+    return []
+
+def generate_recurring_sitting_dates(start_date, repeat, repeat_until,
+                                     weekdays, monthly, exceptions):
+    if repeat_until is not None:
+        assert repeat_until > start_date
+
+    generators = []
+    if weekdays is not None:
+        for weekday in weekdays:
+            generators.append(iter(weekday(start_date)))
+    
+    if monthly is not None:
+        generators.append(iter(monthly(start_date)))
+
+    count = 0
+    for date in generate_dates(*generators):
+        if date in exceptions:
+            continue
+        count += 1
+        if repeat and count > repeat:
+            break
+        if repeat_until and date > repeat_until:
+            break
+        yield date.date()

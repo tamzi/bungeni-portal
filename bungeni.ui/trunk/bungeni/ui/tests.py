@@ -52,22 +52,36 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
-    doctests = ( 'queries/sqlstatements.txt',
-                 'queries/validations.txt',
-                 'forms/readme.txt',
-                 'recurring.txt'  )
+    doctests = ('queries/sqlstatements.txt',
+                'queries/validations.txt',
+                'forms/readme.txt',
+                'recurring.txt')
 
-    globs = dict(interface=interface, component=component)
+    docfiles = ("bungeni.ui.calendar.utils", 
+                "bungeni.ui.forms.forms")
+    
+    globs = dict(
+        interface=interface,
+        component=component)
+    
     test_suites = []
     
     for filename in doctests:
-        test_suite = doctestunit.DocFileSuite(filename,
-                                 setUp = setUp,
-                                 tearDown = tearDown,
-                                 globs = globs,
-                                 optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                 )
-        test_suites.append( test_suite )                                 
+        test_suite = doctestunit.DocFileSuite(
+            filename,
+            setUp=setUp,
+            tearDown=tearDown,
+            globs=globs,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+        test_suites.append(test_suite)
+
+    for filename in docfiles:
+        test_suite = doctestunit.DocTestSuite(
+            filename,
+            setUp=setUp,
+            tearDown=tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+        test_suites.append(test_suite)
 
     test_suites.append(forms.test_dates.test_suite())                                
     return unittest.TestSuite( test_suites )

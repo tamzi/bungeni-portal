@@ -912,7 +912,6 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               edit = True, 
               add = True, 
               view = False, 
-              view_widget=HTMLDisplay,
               edit_widget=OneTimeEditWidget, ),    
         dict( name="receive_notification", 
               label=_(u"Receive notification"), 
@@ -927,6 +926,33 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               view = False, ),
         ]                   
 
+class ChangeDescriptor( ModelDescriptor ):
+    display_name =_(u"Change")
+    container_name =_(u"Changes")
+    fields= [
+        dict(name="change_id", omit=True),
+        dict(name="content_id", omit=True),
+        dict(name="action", label=_(u"Action"),listing=True),
+        dict(name="date", 
+            label=_(u"Date"),
+            listing=True ,  
+            edit_widget=SelectDateTimeWidget, 
+            add_widget=SelectDateTimeWidget, ),
+        dict( name="user_id", label=_(u"user"), listing=True),            
+        dict(name="description", label= _(u"Description"),
+            property = schema.Text( title=u"Description" ),
+            listing=True,
+            ),         
+        dict( name="notes", 
+            label=_(u"Notes"),     
+            property = schema.Text( title=u"Notes", required=False ),
+            view_widget=HTMLDisplay,
+            edit_widget=RichTextEditor, 
+            add_widget=RichTextEditor,
+            ),        
+        ]                 
+        
+        
 class VersionDescriptor( ModelDescriptor ):
  fields= [
         dict(name="parliamentary_item_id", omit=True),
@@ -1034,6 +1060,11 @@ class MotionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Motion version")
     container_name = _(u"Versions")
     fields = deepcopy(VersionDescriptor.fields)
+ 
+class MotionChangeDescriptor( ChangeDescriptor ):
+    display_name = _(u"Motion change")
+    container_name = _(u"Changes")
+    fields = deepcopy(ChangeDescriptor.fields)
     
 class BillDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Bill")
@@ -1081,6 +1112,11 @@ class BillVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Bill version")
     container_name = _(u"Versions")
     fields = deepcopy(VersionDescriptor.fields)
+
+class BillChangeDescriptor( ChangeDescriptor ):
+    display_name = _(u"Bill change")
+    container_name = _(u"Changes")
+    fields = deepcopy(ChangeDescriptor.fields)
     
 class QuestionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Question")
@@ -1140,6 +1176,12 @@ class QuestionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Question version")
     container_name = _(u"Versions")
     fields = deepcopy(VersionDescriptor.fields)
+
+class QuestionChangeDescriptor( ChangeDescriptor ):
+    display_name = _(u"Question change")
+    container_name = _(u"Changes")
+    fields = deepcopy(ChangeDescriptor.fields)
+
     
 class EventItemDescriptor( ParliamentaryItemDescriptor ):
     display_name =_(u"Event")
@@ -1402,8 +1444,12 @@ class ResponseVersionDescriptor( ModelDescriptor ):
                 add_widget=RichTextEditor ),
         dict( name="sitting_time", 
               omit = True ),
-        ]        
-
+        ]     
+           
+class ResponseChangeDescriptor( ChangeDescriptor ):
+    display_name = _(u"Response change")
+    container_name = _(u"Changes")
+    fields = deepcopy(ChangeDescriptor.fields)
 
 class ConstituencyDescriptor( ModelDescriptor ):
     display_name = _(u"Constituency")
@@ -1718,9 +1764,7 @@ class ScheduledItemCategoryDescriptor(ModelDescriptor):
         ]
 
 
-class ChangeDescriptor(ModelDescriptor):
-    display_name =_(u"Change")
-    container_name =_(u"Changes")
+
 
  
             

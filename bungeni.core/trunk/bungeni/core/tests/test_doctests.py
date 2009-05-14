@@ -39,18 +39,6 @@ def tearDown( test ):
     placelesssetup.tearDown()
     metadata.drop_all( checkfirst=True )
 
-    import bungeni.models.domain
-    import bungeni.models.schema
-    import bungeni.models.orm
-    import bungeni.ui.content
-    
-    # reload catalyzed modules
-    reload(bungeni.ui.content)
-    reload(bungeni.models.domain)
-    reload(bungeni.models.schema)
-    reload(bungeni.models.orm)
-    reload(bungeni.models)
-
 def file_setup( ):
     from bungeni.core import files
     files_store = files.setupStorageDirectory()

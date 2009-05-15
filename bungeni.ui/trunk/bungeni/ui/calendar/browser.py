@@ -523,7 +523,8 @@ class AgendaReportingView(ReportingView):
     report_name = _(u"ORDER OF THE DAY")
     form_description = _(u"This form generates the “order of the day” report.")
     odf_filename = "agenda.odt"
-
+    display_minutes = False
+    
     def get_archive(self, date, time_span):
         end_date = self.get_end_date(date, time_span)
         
@@ -538,6 +539,7 @@ class AgendaReportingView(ReportingView):
             'country': u"Republic of Kenya".upper(),
             'assembly': u"National Assembly".upper(),
             'sittings': self.get_sittings(date, time_span),
+            'show_minutes': self.show_minutes,
             }
             
         document = self.get_odf_document()
@@ -559,6 +561,7 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
     form_name = _(u"Votes and proceedings")
     form_description = _(u"This form generates the “votes and proceedings” report.")
     report_name = _(u"VOTES AND PROCEEDINGS")
+    display_minutes = True
     
     def generate(self, date, time_span):
         archive = self.get_archive(date, time_span)

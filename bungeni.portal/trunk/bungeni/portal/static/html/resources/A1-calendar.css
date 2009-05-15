@@ -10,6 +10,11 @@
   background-color: #88AACC;
 }
 
+#scheduling-table p.discussion {
+  margin-left: 18px;
+  margin-top: 0;
+}
+
 #scheduling-table {
   width: 100%;
 }
@@ -178,3 +183,4 @@ a.expandable span {
 a.expandable.enabled span {
   background-position: -20px 0%;
 }
+

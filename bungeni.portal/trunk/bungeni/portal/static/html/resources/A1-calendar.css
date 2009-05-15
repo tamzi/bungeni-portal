@@ -31,7 +31,8 @@ ul#scheduling-actions {
 }
 
 div.calendar th.description a,
-div.calendar span.sitting-type {
+div.calendar span.sitting-type,
+div.calendar div.sitting {
   color: white;
 }
 

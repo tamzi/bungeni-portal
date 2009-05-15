@@ -45,6 +45,8 @@ from ploned.ui.interfaces import IStructuralView
 from ore.alchemist.container import stringKey
 from ore.alchemist import Session
 
+from zc.resourcelibrary import need
+
 class TIME_SPAN:
     daily = _(u"Daily")
     weekly = _(u"Weekly")
@@ -310,6 +312,9 @@ class GroupSittingScheduleView(CalendarView):
         BrowserView.__init__(self, context, request)
 
     def render(self, date, template=None):
+        need('yui-editor')
+        need('yui-resize')
+        
         if template is None:
             template = self.template
 

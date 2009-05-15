@@ -539,7 +539,7 @@ class AgendaReportingView(ReportingView):
             'country': u"Republic of Kenya".upper(),
             'assembly': u"National Assembly".upper(),
             'sittings': self.get_sittings(date, time_span),
-            'show_minutes': self.show_minutes,
+            'display_minutes': self.display_minutes,
             }
             
         document = self.get_odf_document()

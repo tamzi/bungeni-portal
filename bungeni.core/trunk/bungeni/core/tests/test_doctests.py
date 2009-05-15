@@ -92,6 +92,8 @@ def test_suite():
                 'workflows/transitioncron.txt',
                 )
 
+    docfiles = ("bungeni.core.transformation",)
+    
     # set up global symbols for doctests
     today = datetime.date.today()
     globs = dict(
@@ -119,6 +121,15 @@ def test_suite():
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
         
         test_suites.append(test_suite)
+
+    for filename in docfiles:
+        test_suite = doctestunit.DocTestSuite(
+            filename,
+            setUp=setUp,
+            tearDown=tearDown,
+            optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
+        test_suites.append(test_suite)
+
     test_suites.append(file_tests())
 
     return unittest.TestSuite( test_suites )

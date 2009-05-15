@@ -1,4 +1,6 @@
+import lxml.html
 import lxml.etree
+import hashlib
 
 from zope import interface
 from zope import component
@@ -10,7 +12,7 @@ from plone.transforms.stringiter import StringIter
 from plone.transforms.transform import Transform
 from plone.transforms.transform import TransformResult
 from plone.transforms.utils import html_bodyfinder
-  
+
 class TransformationAdapter(object):
     interface.implements(ITraversable)
     default_source_mimetype = 'text/plain'
@@ -39,7 +41,68 @@ class TransformationAdapter(object):
 
 class HtmlFragmentOpenDocumentTransform(Transform):
     """A transform which converts an HTML fragment to an OpenDocument
-    Format fragment."""
+    Format fragment.
+
+    Currently supported elements:
+
+    - b
+    - em
+    - i
+
+    To-do:
+
+    - table
+    - tbody
+    - thead
+    - th
+    - tr
+    - td
+
+    We can begin by enabling the XML comparison doctest extension from
+    the ``lxml`` library.
+
+      >>> import lxml.usedoctest
+
+    Instantiate transform.
+      
+      >>> transform = HtmlFragmentOpenDocumentTransform()
+
+    Boldface.
+    
+      >>> print "".join(transform.transform(('Hello, <b>world!</b>',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:span>Hello, </text:span>
+          <text:span text:style-name="Boldface">world!</text:span>
+      </text:section>
+
+    Root text-nodes gets wrapped in a <text:span> node.
+    
+      >>> print "".join(transform.transform(('Hello, <b>world</b>!',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:span>Hello, </text:span>
+          <text:span text:style-name="Boldface">world</text:span>
+          <text:span>!</text:span>
+      </text:section>
+
+    Emphasis:
+    
+      >>> print "".join(transform.transform(
+      ...    ('Hello, <b>world</b> and <em>universe</em>!',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:span>Hello, </text:span>
+          <text:span text:style-name="Boldface">world</text:span>
+          <text:span>and</text:span>
+          <text:span text:style-name="Emphasized">universe</text:span>
+          <text:span>!</text:span>
+      </text:section>
+
+    """
 
     title = _(u'title_html_fragment_odf_transform',
               default=u'HTML fragment to OpenDocument format')
@@ -59,18 +122,39 @@ class HtmlFragmentOpenDocumentTransform(Transform):
 
     <xsl:template match="processing-instruction()|comment()"/>
 
+    <xsl:template match="html:html//html:p/text()">
+      <text:span>
+        <xsl:value-of select="." />
+      </text:span>
+    </xsl:template>
+    
     <xsl:template match="html:html">
       <text:section>
-        <xsl:apply-templates select="node()"/>
+        <xsl:attribute name="text:name">
+           <xsl:value-of select="@name" />
+        </xsl:attribute>
+        <xsl:apply-templates />
       </text:section>
     </xsl:template>
-    
-    <xsl:template match="html:p">
-      <text:p>
+
+    <xsl:template match="html:b">
+      <text:span text:style-name="Boldface">
         <xsl:apply-templates select="node()"/>
-      </text:p>
+      </text:span>
     </xsl:template>
-    
+
+    <xsl:template match="html:em">
+      <text:span text:style-name="Emphasized">
+        <xsl:apply-templates select="node()"/>
+      </text:span>
+    </xsl:template>
+
+    <xsl:template match="html:i">
+      <text:span text:style-name="Italic">
+        <xsl:apply-templates select="node()"/>
+      </text:span>
+    </xsl:template>
+
     </xsl:stylesheet>
     """))
     
@@ -79,7 +163,9 @@ class HtmlFragmentOpenDocumentTransform(Transform):
             return None
 
         # parse as HTML and serialize as XHTML
-        doc = lxml.html.fromstring(u"<html>%s</html>" % u"".join(data))
+        body = "".join(data)
+        doc = lxml.html.fromstring(u'<html name="Section-%s">%s</html>' % (
+            hashlib.sha1(body).hexdigest(), body))
         lxml.html.html_to_xhtml(doc)
         body = lxml.html.tostring(doc)
 

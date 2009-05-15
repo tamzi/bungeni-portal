@@ -558,20 +558,8 @@
     }; 
 
     table.fnFilterchange = function(e) {       
-        //table.getState().pagination.paginator.fireEvent("changeRequest");         
-        //table.render();
-        
+        table.getDataSource().connMgr.abort()
         table.getDataSource().sendRequest(RequestBuilder(null,table), table.fnFilterCallback);
-         // { success: table.onDataReturnInitializeTable,
-         //   failure: table.onDataReturnInitializeTable,
-         //   scope: table });
-        //this.getState();
-        //table.getState().pagination.paginator.setPage(1);
-        //this.refreshView();
-        //table.render();
-
-        //table.initializeTable()
-          
     };
 
     // create the inputs for column filtering
@@ -579,15 +567,20 @@
     var table_columns = table.getColumnSet();
     for (i=0;i<table_columns.keys.length;i++){
         var input = document.createElement('input');
+        var sButton = document.createElement('button');        
+        sButton.innerHTML = 'Search';
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
+        sButton.setAttribute('id', 'button-' + table_columns.keys[i].getId());
+        sButton.setAttribute('type', 'button');
         //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
         var thEl = table_columns.keys[i].getThEl();  
-        YAHOO.util.Event.addListener(thEl, 'keyup', table.fnFilterchange);
+        YAHOO.util.Event.addListener(sButton, 'click', table.fnFilterchange);
         //table_columns.keys[i].getThEl().appendChild(input);              
         thEl.innerHTML = "";
         thEl.appendChild(input);
+        thEl.appendChild(sButton);        
     }
 
     table.sortColumn = function(oColumn, sDir) {

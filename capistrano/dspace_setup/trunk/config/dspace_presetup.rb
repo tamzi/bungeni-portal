@@ -29,6 +29,8 @@ set :tomcat_download_url, "http://mirror.cinquix.com/pub/apache/tomcat/tomcat-5/
 set :maven_download_url, "http://www.apache.org/dist/maven/binaries/apache-maven-2.1.0-bin.tar.gz"
 set :ant_download_url, "http://archive.apache.org/dist/ant/binaries/apache-ant-1.7.1-bin.tar.gz"
 set :pg_download_url, "/home/undesa/Software/postgresql-8.3.7.tar.gz" #"http://wwwmaster.postgresql.org/download/mirrors-ftp/source/v8.3.7/postgresql-8.3.7.tar.gz"
+set :dspace_download_url, "/home/undesa/Software/dspace-1.5.2-release.tar.gz"
+
 ##### Component Specific Parameters ##### 
 
 ### do not edit any of these parameters (unless you know what you are doing) #### 
@@ -69,6 +71,13 @@ set :pg_home, "#{user_install_root}/#{pg_install_dirname}"
 set :pg_data, "#{pg_home}/data"
 set :pg_download_dir, "#{user_build_root}/#{pg_install_dirname}"
 
+##### DSpace #####
+set :dspace_install_archive, "dspace.tar.gz"
+set :dspace_install_dirname, File.basename(dspace_install_archive, ".tar.gz")
+set :dspace_download_command, get_download_command(dspace_download_url, dspace_install_archive)
+set :dspace_home, "#{user_install_root}/#{dspace_install_dirname}"
+set :dspace_download_dir, "#{user_build_root}/#{dspace_install_dirname}"
+
 
 namespace :dspace_presetup do
 	
@@ -97,7 +106,8 @@ namespace :dspace_presetup do
 	"mkdir -p #{tomcat_download_dir}",
 	"mkdir -p #{maven_download_dir}",
 	"mkdir -p #{ant_download_dir}",
-	"mkdir -p #{pg_download_dir}"
+	"mkdir -p #{pg_download_dir}",
+	"mkdir -p #{dspace_download_dir}"
 	].each {|cmd| run cmd}
     end
 
@@ -158,5 +168,14 @@ namespace :dspace_presetup do
 	].each {|cmd| run cmd}
     end
 
+    desc "Install DSpace"
+    task :setup_dspace, :roles=> [:app] do
+	[
+	"rm -rf #{dspace_home}",
+	"cd #{dspace_download_dir} && #{dspace_download_command}",
+	"cd #{dspace_download_dir} && mkdir ./#{dspace_install_dirname} && tar xvzf #{dspace_install_archive} -C ./#{dspace_install_dirname} --strip-components=1"
+#	"cd #{dspace_download_dir} &&  mv ./#{dspace_install_dirname} #{dspace_home}"
+	].each {|cmd| run cmd}
+    end
    
 end

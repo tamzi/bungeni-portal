@@ -32,21 +32,38 @@
     // hide edit action
     calendar.find("a[rel=edit-scheduling]").hide();
 
+    var editors = {};
+    
     // set up expandable sections
     calendar.find("a.expandable").click(function() {
         var expandable = $(this).siblings(".expandable");
+        var form = $(this).siblings("form");
+        var textarea = form.find("textarea");
+        var id = textarea.attr('id');
+          
         if ($(this).hasClass('enabled')) {
           expandable.hide();
           $(this).removeClass('enabled');
+          var editor = editors[id];
+          if (editor) {
+            editor.destroy();
+          }
         } else {
           $(this).addClass('enabled');
           expandable.show();
+          var editor = new YAHOO.widget.SimpleEditor(id);
+          editor.render();
+          editors[id] = editor;
         }
       });
     
     // set up ajax form submit
-    calendar.find("form").
-    ajaxForm({
+    var form = calendar.find("form");
+    $.each(form.find("textarea"), function(i, o) {
+        var id = $(o).attr('id');
+      });
+
+    form.ajaxForm({
         'beforeSubmit': function() { $("#kss-spinner").show() },
           'success': function(html, status, form) {
           $("#kss-spinner").hide();

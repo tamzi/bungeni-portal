@@ -99,6 +99,10 @@
                                      href item/url"
                      tal:content="item/title" />
 
+                  <p class="discussion">
+                     <span tal:replace="structure item/discussion/body_text" />
+                  </p>
+                  
                   <form class="expandable" style="display: none"
                         method="post"
                         tal:condition="discussion_action"

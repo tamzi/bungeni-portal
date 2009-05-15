@@ -50,7 +50,11 @@
         'beforeSubmit': function() { $("#kss-spinner").show() },
           'success': function(html, status, form) {
           $("#kss-spinner").hide();
-          var link = form.siblings("a.expandable").triggerHandler("click");
+          var discussion = form.siblings(".discussion");
+          form.siblings("a.expandable").triggerHandler("click");
+          var html = form.find("textarea").val();
+          discussion.empty();
+          discussion.append($("<div>"+html+"</div>"));
         }});
 
     // create and insert category rows

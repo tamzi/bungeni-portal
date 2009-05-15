@@ -541,19 +541,38 @@
     }
 
     table = new YAHOO.widget.DataTable(YAHOO.util.Dom.get(table_id), columns, datasource, config  );
-    // Update totalRecords on the fly with value from server
-    table.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
-      oPayload.totalRecords = oResponse.meta.totalRecords;
-      oPayload.pagination = oPayload.pagination || {};
-      oPayload.pagination.recordOffset = oResponse.meta.paginationRecordOffset;
-      return oPayload;
+
+
+
+     table.fnFilterCallback = {
+        success: function(sRequest, oResponse, oPayload){
+            var paginator = table.get('paginator');
+            table.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
+            paginator.set('totalRecords', oResponse.results.length); 
+            table.render();          
+        },
+        failure: function(sRequest, oResponse, oPayload) {
+            table.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
+            table.render();
+        },
+    }; 
+
+    table.fnFilterchange = function(e) {       
+        //table.getState().pagination.paginator.fireEvent("changeRequest");         
+        //table.render();
+        
+        table.getDataSource().sendRequest(RequestBuilder(null,table), table.fnFilterCallback);
+         // { success: table.onDataReturnInitializeTable,
+         //   failure: table.onDataReturnInitializeTable,
+         //   scope: table });
+        //this.getState();
+        //table.getState().pagination.paginator.setPage(1);
+        //this.refreshView();
+        //table.render();
+
+        //table.initializeTable()
+          
     };
-
-
-    //table.fnFilterchange = function(e) {       
-    //    table.getState().pagination.paginator.setPage(1,true);         
-    //    table.render();
-    //};
 
     // create the inputs for column filtering
     var i=0;
@@ -564,9 +583,9 @@
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
         //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
-        //YAHOO.util.Event.addListener(input, 'keyup', table.fnFilterchange);
-        //table_columns.keys[i].getThEl().appendChild(input);
-        var thEl = table_columns.keys[i].getThEl();        
+        var thEl = table_columns.keys[i].getThEl();  
+        YAHOO.util.Event.addListener(thEl, 'keyup', table.fnFilterchange);
+        //table_columns.keys[i].getThEl().appendChild(input);              
         thEl.innerHTML = "";
         thEl.appendChild(input);
     }

@@ -321,6 +321,15 @@
                           </a>
                         </li>
                       </ul>
+
+                      <span i18n:translate=""
+                            tal:define="record sitting/record;
+                                        count python: len(record.items)"
+                            tal:condition="count">
+                        <span i18n:name="count" tal:replace="count">%items</span>
+                        item(s) scheduled.
+                      </span>
+                        
                     </div>
                   </tal:sitting>
                 </td>

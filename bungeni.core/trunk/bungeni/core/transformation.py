@@ -164,7 +164,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
 
         # parse as HTML and serialize as XHTML
         body = "".join(data).encode('utf-8')
-        doc = lxml.html.fromstring(u'<html name="Section-%s">%s</html>' % (
+        doc = lxml.html.fromstring('<html name="Section-%s">%s</html>' % (
             hashlib.sha1(body).hexdigest(), body))
         lxml.html.html_to_xhtml(doc)
         body = lxml.html.tostring(doc)

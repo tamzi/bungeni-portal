@@ -510,7 +510,7 @@
       // Get states or use defaults
       oState = oState || {pagination:null, sortedBy:null};
       var sort = (oState.sortedBy) ? oState.sortedBy.key : "";
-      var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "" : "desc";
+      var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "desc" : "asc";
       var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
       var results = (oState.pagination) ? oState.pagination.rowsPerPage : 100;  
        
@@ -542,24 +542,36 @@
 
     table = new YAHOO.widget.DataTable(YAHOO.util.Dom.get(table_id), columns, datasource, config  );
 
+    // Update totalRecords on the fly with value from server
+    table.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
+        oPayload = oPayload || {pagination:null, totalRecords:null};
+        oPayload.totalRecords = oResponse.meta.totalRecords;
+        oPayload.pagination = oPayload.pagination || {};
+        oPayload.pagination.recordOffset = oResponse.meta.paginationRecordOffset;
+        return oPayload;
+        }
 
 
      table.fnFilterCallback = {
         success: function(sRequest, oResponse, oPayload){
-            var paginator = table.get('paginator');
+            var paginator = table.getState().pagination.paginator;
             table.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
-            paginator.set('totalRecords', oResponse.results.length); 
-            table.render();          
+            paginator.set('totalRecords', oResponse.meta.totalRecords); 
+            table.render();            
+            paginator.setPage(1);     
+           
         },
         failure: function(sRequest, oResponse, oPayload) {
+            var paginator = table.getState().pagination.paginator;        
             table.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
             table.render();
+            paginator.setPage(1);                            
         },
     }; 
 
-    table.fnFilterchange = function(e) {       
-        table.getDataSource().connMgr.abort()
+    table.fnFilterchange = function(e) {               
         table.getDataSource().sendRequest(RequestBuilder(null,table), table.fnFilterCallback);
+        //table.getState().pagination.paginator.setPage(1);
     };
 
     // create the inputs for column filtering
@@ -567,13 +579,14 @@
     var table_columns = table.getColumnSet();
     for (i=0;i<table_columns.keys.length;i++){
         var input = document.createElement('input');
-        var sButton = document.createElement('button');        
+        var sButton = document.createElement('input');        
         sButton.innerHTML = 'Search';
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
         sButton.setAttribute('id', 'button-' + table_columns.keys[i].getId());
         sButton.setAttribute('type', 'button');
+        sButton.setAttribute('class', 'searchButton');
         //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
         var thEl = table_columns.keys[i].getThEl();  
         YAHOO.util.Event.addListener(sButton, 'click', table.fnFilterchange);

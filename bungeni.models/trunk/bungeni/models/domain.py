@@ -199,7 +199,7 @@ class Parliament( Group ):
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")
     motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")  
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")       
-
+    offices = one2many("offices", "bungeni.models.domain.OfficeContainer", "parliament_id")   
 
 class MemberOfParliament ( GroupMembership ):    
     """
@@ -263,6 +263,15 @@ class CommitteeMember( GroupMembership ):
     
 class CommitteeType( object):
     """ Type of Committee """
+        
+        
+class Office( Group ):
+    """ parliamentary Office like speakers office,
+    clerks office etc. internal only"""
+    officemembers = one2many("officemembers", "bungeni.models.domain.OfficeMemberContainer", "group_id") 
+        
+class OfficeMember( GroupMembership ):
+    """ clerks, .... """        
         
 class ExtensionGroup( Group ):
     """ Extend selectable users for a group membership """
@@ -351,9 +360,7 @@ class Question( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
         "content_id")
-    log = one2many("log", 
-        "bungeni.models.domain.QuestionChangeContainer",
-        "content_id")
+
     
     
     def getParentQuestion( self ):
@@ -393,9 +400,7 @@ class Motion( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.MotionVersionContainer",
         "content_id")
-    log = one2many("log", 
-        "bungeni.models.domain.MotionChangeContainer",
-        "content_id")        
+      
 
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
@@ -425,9 +430,6 @@ class Bill( ParliamentaryItem ):
         "bungeni.models.domain.BillVersionContainer",
         "content_id")
 
-    log = one2many("log", 
-        "bungeni.models.domain.BillChangeContainer",
-        "content_id")
         
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")

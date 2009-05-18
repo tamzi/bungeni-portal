@@ -237,7 +237,14 @@ governments = rdb.Table(
    rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
    )
-
+   
+offices = rdb.Table(
+   "offices",
+   metadata,
+   rdb.Column( "office_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
+   )
+   
 parliaments = rdb.Table(
    "parliaments",
    metadata,

@@ -157,9 +157,14 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(constituencies),
                        (implementedBy(domain.Constituency), ILocation))
         
-        offices = records[u"offices"] = Section(
-            title=_(u"Offices"),
-            description=_(u"Overview of parliamentary offices."))
+        offices = records[u"offices"] = \
+                        domain.OfficeContainer()
+        provideAdapter(location.ContainerLocation(offices),
+                       (implementedBy(domain.Office), ILocation))        
+        
+        #Section(
+        #    title=_(u"Offices"),
+        #    description=_(u"Overview of parliamentary offices."))
 
         committees = records[u"committees"] = domain.CommitteeContainer()
         provideAdapter(location.ContainerLocation(committees),

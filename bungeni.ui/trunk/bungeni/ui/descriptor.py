@@ -737,6 +737,23 @@ class ExtensionGroupDescriptor( GroupDescriptor ):
         dict(name="parliament_id", omit=True),           
     ])   
      
+class OfficeDescriptor( GroupDescriptor ):
+    display_name = _(u"Office")
+    container_name = _(u"Offices")
+    custom_validators = [validations.validate_date_range_within_parent,]
+    
+    fields = deepcopy( GroupDescriptor.fields )    
+ 
+class OfficeMemberDescriptor( ModelDescriptor ):    
+    display_name = _(u"Office Member")
+    container_name = _(u"Office Member")
+    
+    fields = deepcopy(GroupMembershipDescriptor.fields)
+    custom_validators = [validations.validate_date_range_within_parent,]
+    schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
+            InactiveNoEndDate]   
+
+     
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")
     container_name = _(u"Ministries")

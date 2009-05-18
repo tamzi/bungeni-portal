@@ -77,6 +77,11 @@ mapper( domain.ExtensionGroup, schema.extension_groups,
         )                         
 
 
+mapper( domain.Office, schema.offices,
+        inherits=domain.Group,
+        polymorphic_on=schema.groups.c.type,
+        polymorphic_identity='office'
+        )   
 
    
 mapper( domain.StaffMember, 
@@ -193,6 +198,12 @@ mapper( domain.PartyMember,
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='partymember',        
+        )  
+                
+mapper( domain.OfficeMember, 
+        inherits=domain.GroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='officemember',        
         )  
         
 #mapper( domain.MemberOfParty, 

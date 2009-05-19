@@ -34,6 +34,9 @@ public class ExceptionManager implements ErrorHandler
 	/* This is the string that will contain the path to the original ODF document*/
 	public String ODFDocument;
 	
+	/* This is the ODF string that contains all the section names and infos of the original document */
+	public String ODFSectionString; 
+	
 	/**
 	 * Private constructor used to create the ExceptionManager instance
 	 * @throws IOException 
@@ -84,9 +87,6 @@ public class ExceptionManager implements ErrorHandler
      */
     public void error(SAXParseException ex)  
     {
-    	//Create the Section Info String 
-    	ODFUtility.getInstance().ExtractSection(this.ODFDocument);
-    	
     	//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
@@ -123,9 +123,14 @@ public class ExceptionManager implements ErrorHandler
                 Node node =	(Node)this.parser.getProperty("http://apache.org/xml/properties/dom/current-element-node");
                 System.err.println(node.getLocalName());
                 if (node.getAttributes().getNamedItem("id") != null)
+                {
                 	 System.err.println(node.getAttributes().getNamedItem("id").getNodeValue());
+                	 System.err.println("Starting with the words: " + getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue()));
+                }
                 if (node.getAttributes().getNamedItem("name") != null)
-               	 System.err.println(node.getAttributes().getNamedItem("name").getNodeValue());
+                {
+               	     System.err.println(node.getAttributes().getNamedItem("name").getNodeValue());
+                }
             }
             catch (SAXException e)
         	{
@@ -169,8 +174,6 @@ public class ExceptionManager implements ErrorHandler
 
     public void fatalError(SAXParseException ex) 
     {
-    	//Create the Section Info String 
-    	ODFUtility.getInstance().ExtractSection(this.ODFDocument);
     	
     	//the message of the exception
 		String exceptionMessage = ex.getMessage();
@@ -215,9 +218,6 @@ public class ExceptionManager implements ErrorHandler
 		//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
-		//Create the Section Info String 
-    	ODFUtility.getInstance().ExtractSection(this.ODFDocument);
-    	
     	//check what type of text the exception launch
 		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
 		{
@@ -256,6 +256,10 @@ public class ExceptionManager implements ErrorHandler
 	{
 		//set the ODFDocument for the exception manager
 		this.ODFDocument = aPathToODFDocument;
+		
+		//Create the Section Info String 
+    	this.ODFSectionString = ODFUtility.getInstance().ExtractSection(this.ODFDocument);
+    
 	}
 
 	/**
@@ -266,5 +270,30 @@ public class ExceptionManager implements ErrorHandler
     {
     	//set the DOM parser of the object to the given one
     	this.parser = aDOMParser;
+    }
+    
+    private String getStartingWords(String anId)
+    {
+    	//the result that will contain the first words of the section 
+    	String result = null; 
+    	
+    	//get the the lines of the sections string into an array
+    	String[] sections = this.ODFSectionString.split("\n");
+    	   	
+    	//iterate all the line of the sections string
+    	for (int i = 0; i < sections.length; i++)
+    	{
+    		//split the line at the colons 
+    		String[] idAndName = sections[i].split(":");
+    		
+    		//check if the id of the section is equal to the given one
+    		if(idAndName[0].compareTo(anId) == 0)
+    		{
+    			//assign the first words of the section to the result 
+    			result = idAndName[1];
+    		}
+    	}
+    	
+    	return result;
     }
 }

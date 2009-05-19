@@ -101,13 +101,13 @@ def member_fk_column( name, title, default=""):
 
 def lookup_fk_column(name, title, domain_model, field, default=""):
     def getter( item, formatter ):
-        value = getattr( item, name)
+        value = getattr(item, name)
         if not value:
             return default
         session = Session()
-        member = session.query( domain_model ).get( value )
-        return member.__dict__[field]
-    return column.GetterColumn( title, getter )
+        member = session.query(domain_model).get(value)
+        return  getattr(member,field)
+    return column.GetterColumn(title, getter)
      
      
 def inActiveDead_Column( name, title, default):
@@ -872,15 +872,9 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               property = schema.Choice(
                 title=_(u"Owner"),
                 description=_(u"Select the user who should own this document."),
-                source=DatabaseSource(domain.User, 
-                title_field='fullname', 
-                token_field='user_id', 
-                value_field = 'user_id' )), 
-              listing_column=vocab_column( "owner_id" , _(u'Owner'),
-               DatabaseSource(domain.User, 
-                title_field='fullname', 
-                token_field='user_id', 
-                value_field = 'user_id' ), ),              
+                source=vocabulary.MemberOfParliamentSource('owner_id'),),
+                listing_column=member_fk_column("owner_id", 
+                    _(u'Member of Parliament')),              
               listing = True 
             ),            
         dict(name="language", 
@@ -1705,12 +1699,9 @@ class TabledDocumentDescriptor( ModelDescriptor):
                         title_field='fullname', 
                         token_field='user_id', 
                         value_field = 'user_id' )), 
-            listing_column=vocab_column( "owner_id" , _(u'Owner'),
-                DatabaseSource(domain.User, 
-                    title_field='fullname', 
-                    token_field='user_id', 
-                    value_field = 'user_id' ), ),              
-              listing = True 
+                listing_column=member_fk_column("owner_id", 
+                    _(u'Member of Parliament')),              
+                listing = True 
             ),        
         dict( name="table_date", 
             label=_(u"Date"), 

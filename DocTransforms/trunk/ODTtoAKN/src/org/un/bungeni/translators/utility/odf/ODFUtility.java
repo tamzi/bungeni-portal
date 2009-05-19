@@ -189,16 +189,18 @@ public class ODFUtility
         } 
     }
     
-    public void ExtractSection(String pathToOdf) 
+    public String ExtractSection(String pathToOdf) 
     {
         try 
         {
             this.configureXtractSections(pathToOdf);
-            System.out.print(this.outputSectionInfo());
+            return this.outputSectionInfo();
+            //System.out.print(this.outputSectionInfo());
         } 
         catch (Exception ex) 
         {
             System.out.println(ex.getMessage());
+            return null;
         }
     }
 }

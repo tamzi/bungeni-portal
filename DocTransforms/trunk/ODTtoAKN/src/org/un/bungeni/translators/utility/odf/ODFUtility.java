@@ -2,6 +2,7 @@ package org.un.bungeni.translators.utility.odf;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.StringWriter;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.OutputKeys;
@@ -14,8 +15,11 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.openoffice.odf.doc.OdfDocument;
+import org.openoffice.odf.doc.OdfFileDom;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
 
 /**
  * This class supplies several methods useful for the management of the ODF documents. 
@@ -26,6 +30,15 @@ public class ODFUtility
 	/* The instance of this ODFUtility object*/
 	private static ODFUtility instance = null;
 	
+	/*The Logger*/
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(ODFUtility.class.getName());
+    
+	/* The path to the ODF File used by the ExstractSection*/
+	private String fullPathToOdfFile = "";
+    
+	/*The ODF package used by the ExtractSection*/
+	private OdfDocument odfPackage ;
+
 
 	/**
 	 * Private constructor used to create the ODFUtility instance
@@ -123,4 +136,70 @@ public class ODFUtility
         return returnFile;
 		
 	}
+	
+	 /**
+     * loads the input file as a odf document
+     * @param odfFile - path to odf file e.g. /home/undesa/files/file_with_sections.odt
+     */
+    public void configureXtractSections(String odfFile) 
+    {
+        try 
+        {
+            //get full path to file
+            fullPathToOdfFile = odfFile;
+            //load the odf package
+            odfPackage = OdfDocument.loadDocument(odfFile);
+        } 
+        catch (Exception ex) 
+        {
+            log.error("XtractSections() = " + ex.getMessage());
+        }
+    }
+    
+    /**
+     * Outputs the section info as a ":" delimited file.
+     * @return
+     */
+    public String outputSectionInfo() 
+    {
+        StringWriter out = new StringWriter();
+        try 
+        {
+            OdfFileDom fileDom = odfPackage.getContentDom();
+            NodeList sectionList = fileDom.getElementsByTagName("text:section");
+            
+            // FileWriter fw = new FileWriter(outputFile);
+            for (int i = 0; i < sectionList.getLength(); i++) 
+            {
+                Element elem = (Element)sectionList.item(i);
+                String outputLine = elem.getAttribute("text:name");
+                String secContent = elem.getTextContent();
+                secContent = (secContent.length() > 80 ? secContent.substring(0, 80) : secContent);
+                secContent = secContent.replace("\n", "");
+                outputLine = outputLine + ":" + secContent + "\n";
+                out.append(outputLine);
+            }
+        } 
+        catch (Exception ex) 
+        {
+            log.error("outputSectionInfo : "  + ex.getMessage());
+        } 
+        finally 
+        {
+            return out.toString();
+        }
+    }
+    
+    public void ExtractSection(String pathToOdf) 
+    {
+        try 
+        {
+            this.configureXtractSections(pathToOdf);
+            System.out.print(this.outputSectionInfo());
+        } 
+        catch (Exception ex) 
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
 }

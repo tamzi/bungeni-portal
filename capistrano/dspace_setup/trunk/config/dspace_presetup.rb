@@ -48,6 +48,12 @@ set :tomcat_install_dirname, File.basename(tomcat_install_archive, ".tar.gz")
 set :tomcat_download_command, get_download_command(tomcat_download_url, tomcat_install_archive)
 set :tomcat_home, "#{user_install_root}/#{tomcat_install_dirname}"
 set :tomcat_download_dir, "#{user_build_root}/#{tomcat_install_dirname}"
+set :tomcat_server_xml, "#{tomcat_home}/conf/server.xml"
+
+
+set :tomcat_host, "localhost"
+set :tomcat_port, "9000"
+
 
 ##### Maven #####
 set :maven_install_archive, "maven.tar.gz"
@@ -72,12 +78,21 @@ set :pg_data, "#{pg_home}/data"
 set :pg_download_dir, "#{user_build_root}/#{pg_install_dirname}"
 
 ##### DSpace #####
+set :dspace_version, File.basename(dspace_download_url, "-release.tar.gz") # e.g. 'dspace-1.5.2'
 set :dspace_install_archive, "dspace.tar.gz"
+set :dspace_installation_name, "Bungeni Dspace"
 set :dspace_install_dirname, File.basename(dspace_install_archive, ".tar.gz")
 set :dspace_download_command, get_download_command(dspace_download_url, dspace_install_archive)
 set :dspace_home, "#{user_install_root}/#{dspace_install_dirname}"
 set :dspace_download_dir, "#{user_build_root}/#{dspace_install_dirname}"
-
+set :dspace_config_file, "dspace.cfg.erb"
+set :dspace_db_user_name, "undesa"
+set :dspace_db_user_password, "undesa"
+set :dspace_smtp, "localhost"
+set :dspace_db_name, "dspace"
+set :dspace_maven_root, "#{dspace_download_dir}/#{dspace_install_dirname}"
+set :dspace_maven_target_dir, "#{dspace_maven_root}/dspace/target/#{dspace_version}-build.dir"
+set :dspace_server_xml, "#{tomcat_home}/conf/server_dspace.xml"
 
 namespace :dspace_presetup do
 	
@@ -112,7 +127,7 @@ namespace :dspace_presetup do
     end
 
     desc "Install java6 jvm"
-    task :setup_jvm, :roles=> [:app] do
+    task :jvm, :roles=> [:app] do
 	[
 	"rm -rf #{java6_home}",
 	"cd #{java6_download_dir} && #{java6_download_command} && chmod ug+x ./#{java6_install_binary}",
@@ -123,7 +138,7 @@ namespace :dspace_presetup do
     end
 
     desc "Install Tomcat"
-    task :setup_tomcat, :roles=> [:app] do
+    task :tomcat, :roles=> [:app] do
 	[
 	"rm -rf #{tomcat_home}",
 	"cd #{tomcat_download_dir} && #{tomcat_download_command}",
@@ -133,7 +148,7 @@ namespace :dspace_presetup do
     end
 	
     desc "Install Maven"
-    task :setup_maven, :roles=> [:app] do
+    task :maven, :roles=> [:app] do
 	[
 	"rm -rf #{maven_home}",
 	"cd #{maven_download_dir} && #{maven_download_command}",
@@ -143,7 +158,7 @@ namespace :dspace_presetup do
     end
 
     desc "Install Ant"
-    task :setup_ant, :roles=> [:app] do
+    task :ant, :roles=> [:app] do
 	[
 	"rm -rf #{ant_home}",
 	"cd #{ant_download_dir} && #{ant_download_command}",
@@ -153,7 +168,7 @@ namespace :dspace_presetup do
     end
 	
     desc "Install Postgres"
-    task :setup_postgres, :roles=> [:app] do
+    task :postgres, :roles=> [:app] do
 	[
 	"rm -rf #{pg_home}",
 	"cd #{pg_download_dir} && #{pg_download_command}",
@@ -169,13 +184,12 @@ namespace :dspace_presetup do
     end
 
     desc "Install DSpace"
-    task :setup_dspace, :roles=> [:app] do
+    task :dspace, :roles=> [:app] do
 	[
 	"rm -rf #{dspace_home}",
 	"cd #{dspace_download_dir} && #{dspace_download_command}",
 	"cd #{dspace_download_dir} && mkdir ./#{dspace_install_dirname} && tar xvzf #{dspace_install_archive} -C ./#{dspace_install_dirname} --strip-components=1"
-#	"cd #{dspace_download_dir} &&  mv ./#{dspace_install_dirname} #{dspace_home}"
 	].each {|cmd| run cmd}
     end
-   
+    
 end

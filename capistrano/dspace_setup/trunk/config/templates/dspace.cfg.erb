@@ -30,13 +30,13 @@ dspace.dir = <%=dspace_home%>
 # Change to xmlui if you wish to use the xmlui as the default, or remove
 # "/jspui" and set webapp of your choice as the "ROOT" webapp in
 # the servlet engine.
-dspace.url = http://<%=tomcat_host%>:<%tomcat_port%>/jspui
+dspace.url = http://<%=tomcat_host%>:<%=tomcat_port%>/jspui
 
 # DSpace host name - should match base URL.  Do not include port number
 dspace.hostname = <%=tomcat_host%>
 
 # Name of the site
-dspace.name = <%=dspace_installation_name%>
+dspace.name = '<%=dspace_installation_name%>'
 
 ##### Database settings #####
 
@@ -47,7 +47,7 @@ db.name = postgres
 
 # URL for connecting to database
 #db.url = ${default.db.url}
-db.url = jdbc:postgresql://localhost:5432/dspace
+db.url = jdbc:postgresql://localhost:5432/<%=dspace_db_name%>
 
 # JDBC Driver
 #db.driver = ${default.db.driver}
@@ -56,8 +56,8 @@ db.driver = org.postgresql.Driver
 # Database username and password
 #db.username = ${default.db.username}
 #db.password = ${default.db.password}
-db.username = <%=dspace_user_name%>
-db.password = <%=dspace_password%>
+db.username = <%=dspace_db_user_name%>
+db.password = <%=dspace_db_user_password%>
 
 # Schema name - if your database contains multiple schemas, you can avoid problems with
 # retrieving the definitions of duplicate object names by specifying

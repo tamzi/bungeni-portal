@@ -10,6 +10,7 @@ from ore.alchemist.container import valueKey
 #import ore.alchemist
 from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
+import sqlalchemy.sql.expression as sql
 import schema, domain
 
 from i18n import _
@@ -136,7 +137,158 @@ mapper (substitution_member, _substitution_user,
                     },          
         )                                    
 
-                                                                
+class SpecializedSource( object ):
+    interface.implements( IContextSourceBinder )
+    def __init__( self, token_field, title_field, value_field ):
+        self.token_field = token_field
+        self.value_field = value_field
+        self.title_field = title_field
+            
+    def constructQuery( self, context ):
+        raise NotImplementedError("Must be implemented by subclass.")
+        
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()
+        
+        terms = []
+        title_field = self.title_field or self.token_field
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, self.value_field), 
+                    token = getattr( ob, self.token_field),
+                    title = getattr( ob, title_field) ,
+                    ))
+                    
+        return vocabulary.SimpleVocabulary( terms )
+
+class MemberOfParliament( object ):
+    """ Member of Parliament = user join group membership"""
+    
+member_of_parliament = rdb.join( schema.user_group_memberships, 
+                    schema.users,
+                    schema.user_group_memberships.c.user_id == 
+                    schema.users.c.user_id)    
+
+mapper(MemberOfParliament, member_of_parliament)
+        
+
+class MemberOfParliamentImmutableSource(SpecializedSource):
+    
+    def __init__(self, value_field):
+        self.value_field = value_field
+    
+    def _get_parliament_id(self, context):
+        parliament_id = getattr(context, 'parliament_id', None)
+        if parliament_id is None:
+            if context.__parent__ is None:
+                return None
+            else:    
+                parliament_id = self._get_parliament_id(context.__parent__)            
+        return parliament_id                
+        
+    def constructQuery(self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        user_id = getattr(trusted, self.value_field, None)
+        if user_id:
+            query = session.query( domain.User 
+                    ).filter(domain.User.user_id == 
+                        user_id).order_by(domain.User.last_name,
+                            domain.User.first_name,
+                            domain.User.middle_name)                                                                                                                 
+            return query
+        else:
+            parliament_id = self._get_parliament_id(trusted)
+            if parliament_id:
+                query = session.query(MemberOfParliament).filter(
+                    sql.and_(MemberOfParliament.group_id ==
+                            parliament_id,
+                            MemberOfParliament.active_p ==
+                            True)).order_by(MemberOfParliament.last_name,
+                            MemberOfParliament.first_name,
+                            MemberOfParliament.middle_name) 
+            else:
+                query = session.query(MemberOfParliament).order_by(MemberOfParliament.last_name,
+                            MemberOfParliament.first_name,
+                            MemberOfParliament.middle_name)                
+        return query                                                                                                           
+
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()        
+        terms = []
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "%s %s" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        user_id = getattr(context, self.value_field, None) 
+        if user_id:
+            if len(query.filter(schema.users.c.user_id == user_id).all()) == 0:
+                session = Session()            
+                ob = session.query(domain.User).get(user_id)
+                terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "(%s %s)" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        return vocabulary.SimpleVocabulary( terms )
+
+class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
+
+    def constructQuery(self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        user_id = getattr(trusted, self.value_field, None)
+        parliament_id = self._get_parliament_id(trusted)        
+        if user_id:
+            if parliament_id:
+                query = session.query( MemberOfParliament
+                        ).filter(
+                        sql.or_(
+                        sql.and_(MemberOfParliament.user_id == user_id,
+                                MemberOfParliament.group_id ==
+                                parliament_id),
+                        sql.and_(MemberOfParliament.group_id ==
+                                parliament_id,
+                                MemberOfParliament.active_p ==
+                                True)                     
+                        )).order_by(
+                            MemberOfParliament.last_name,
+                            MemberOfParliament.first_name,
+                            MemberOfParliament.middle_name).distinct()                                                                                                                       
+                return query
+            else:
+                query = session.query(MemberOfParliament).order_by(
+                            MemberOfParliament.last_name,
+                            MemberOfParliament.first_name,
+                            MemberOfParliament.middle_name)                 
+        else:
+            if parliament_id:
+                query = session.query(MemberOfParliament).filter(                    
+                    sql.and_(MemberOfParliament.group_id ==
+                            parliament_id,
+                            MemberOfParliament.active_p ==
+                            True)).order_by(
+                                MemberOfParliament.last_name,
+                                MemberOfParliament.first_name,
+                                MemberOfParliament.middle_name)
+            else:
+                query = session.query(MemberOfParliament).order_by(
+                            MemberOfParliament.last_name,
+                            MemberOfParliament.first_name,
+                            MemberOfParliament.middle_name)                
+        return query   
+
+
+
 
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering

@@ -116,24 +116,58 @@ public class ExceptionManager implements ErrorHandler
 	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
         	
             System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
-            System.err.println(message);
+            //System.err.println(message);
             
             try
             {
+            	//this will store the section id
+            	String sectionId = "";
+            	
+            	//this will store the section name
+            	String sectionName = ""; 
+            	
+            	//this is the message that shows the id the name and the starting words of the found problem
+            	String messageId = resourceBundle.getString("VALIDATION_FAILED_TEXT") + "\n";
+            	
+            	//get the current visited node
                 Node node =	(Node)this.parser.getProperty("http://apache.org/xml/properties/dom/current-element-node");
-                System.err.println(node.getLocalName());
+                
+                //get the name of the node
+                sectionName = node.getLocalName();
+                
                 if (node.getAttributes().getNamedItem("id") != null)
                 {
-                	 System.err.println(node.getAttributes().getNamedItem("id").getNodeValue());
-                	 System.err.println("Starting with the words: " + getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue()));
+                	 //get the section id 
+                	 sectionId = node.getAttributes().getNamedItem("id").getNodeValue();
+                	 //System.err.println(node.getAttributes().getNamedItem("id").getNodeValue());
+                	 //System.err.println("Starting with the words: " + getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue()));
                 }
                 if (node.getAttributes().getNamedItem("name") != null)
                 {
-               	     System.err.println(node.getAttributes().getNamedItem("name").getNodeValue());
+                	//get the section name
+                	sectionName = node.getAttributes().getNamedItem("name").getNodeValue();
+               	    //System.err.println(node.getAttributes().getNamedItem("name").getNodeValue());
                 }
+                
+                //complete the message to show 
+                messageId = messageId + 
+                			resourceBundle.getString("SECTION_TYPE_LEFT") +
+                			sectionName +
+                			"\n" +
+                			resourceBundle.getString("SECTION_ID_LEFT") +
+                			sectionId +
+                			"\n" +
+                			resourceBundle.getString("STARTING_WORD_TEXT_LEFT") +
+                			getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue());
+    			
+                //print the messages 
+                System.err.println(messageId);
+                System.err.println(message);
+                  
             }
             catch (SAXException e)
         	{
+            	//print the stack trace 
         		e.printStackTrace();
         	} 
         }

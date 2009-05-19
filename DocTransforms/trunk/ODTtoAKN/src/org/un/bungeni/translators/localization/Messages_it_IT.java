@@ -13,7 +13,7 @@ public class Messages_it_IT extends ListResourceBundle {
 	    { "MISSING_ATTRIBUTE_LEFT_TEXT",
 	      "L'informazione addizionale '" },
 	    { "MISSING_ATTRIBUTE_CENTER_TEXT",
-	      "' è obbligatoria per la sezione '" },
+	      "' è obbligatoria per l'elemento '" },
 		{ "MISSING_ATTRIBUTE_RIGHT_TEXT",
 		  "'" },
 		{ "TRANSLATION_TO_METALEX_FAILED_TEXT",
@@ -26,6 +26,13 @@ public class Messages_it_IT extends ListResourceBundle {
 		  "C'è stato un problema durante la creazione dell'XSLT a partire dalla pipeline" },
 		{ "IOEXCEPTION_TEXT",
 		  "Uno dei documenti non è stato trovato o non è stato prodotto correttamente" },
+		{ "STARTING_WORD_TEXT_LEFT",
+		  "Che inizia con le parole: "},
+		{ "SECTION_TYPE_LEFT",
+		  "Nella sezione di tipo: "},
+		{ "SECTION_ID_LEFT",
+		  "Con id: "},
+
 	};
 	
 	

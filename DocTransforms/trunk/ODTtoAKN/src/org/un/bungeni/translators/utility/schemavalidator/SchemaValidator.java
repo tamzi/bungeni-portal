@@ -61,12 +61,13 @@ public class SchemaValidator implements SchemaValidatorInterface
 	/**
 	 * This method validate a document through a schema
 	 * @param aDocument the document to validate
+	 * @param aPathToODFDocument the path of the original ODF document
 	 * @param aSchemaPath the path of the schema that must be used for the validation 
 	 * @throws SAXException 
 	 * @throws IOException 
 	 * @throws MissingAttributeException 
 	 */
-	public void validate(File aDocument, String aSchemaPath) throws SAXException, IOException, ParserConfigurationException
+	public void validate(File aDocument, String aPathToODFDocument,String aSchemaPath) throws SAXException, IOException, ParserConfigurationException
 	{
 		 //create a dom parser
 		 DOMParser domParser = new DOMParser();
@@ -83,6 +84,9 @@ public class SchemaValidator implements SchemaValidatorInterface
 			
 		 //get the exception manager and set the dom parser as parser
 		 ExceptionManager.getInstance().setDOMParser(domParser);
+		 
+		 //set the path of the original ODF file to the ExceptionManager
+		 ExceptionManager.getInstance().setODFDocument(aPathToODFDocument);
 			 
 		 //set the error handler of the parser to the ExceptionManager
 		 domParser.setErrorHandler(ExceptionManager.getInstance()); 

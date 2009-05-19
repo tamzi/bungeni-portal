@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.xerces.parsers.DOMParser;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
+import org.un.bungeni.translators.utility.odf.ODFUtility;
 import org.w3c.dom.Node;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -29,6 +30,9 @@ public class ExceptionManager implements ErrorHandler
 	
 	/* This is the DOM parser that will contain the references to the elements in witch errors occur*/
 	public DOMParser parser;
+	
+	/* This is the string that will contain the path to the original ODF document*/
+	public String ODFDocument;
 	
 	/**
 	 * Private constructor used to create the ExceptionManager instance
@@ -73,13 +77,16 @@ public class ExceptionManager implements ErrorHandler
 		return instance;
 	}
 	
-	
-    /**
+
+	/**
      * Report a non-fatal error
      * @param ex the error condition
      */
     public void error(SAXParseException ex)  
     {
+    	//Create the Section Info String 
+    	ODFUtility.getInstance().ExtractSection(this.ODFDocument);
+    	
     	//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
@@ -162,7 +169,10 @@ public class ExceptionManager implements ErrorHandler
 
     public void fatalError(SAXParseException ex) 
     {
-		//the message of the exception
+    	//Create the Section Info String 
+    	ODFUtility.getInstance().ExtractSection(this.ODFDocument);
+    	
+    	//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
 		//check what type of text the exception launch
@@ -205,7 +215,10 @@ public class ExceptionManager implements ErrorHandler
 		//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
-		//check what type of text the exception launch
+		//Create the Section Info String 
+    	ODFUtility.getInstance().ExtractSection(this.ODFDocument);
+    	
+    	//check what type of text the exception launch
 		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
 		{
 			//compile the regex
@@ -235,7 +248,17 @@ public class ExceptionManager implements ErrorHandler
        }
     }
     
-    /**
+	/**
+	 * Set the path of the original ODF document
+	 * @param aPathToODFDocument the path of the original ODF document
+	 */
+    public void setODFDocument(String aPathToODFDocument)
+	{
+		//set the ODFDocument for the exception manager
+		this.ODFDocument = aPathToODFDocument;
+	}
+
+	/**
      * This element is used to set the DOMParser of this object
      * @param aDOMParser the DOMParser to set for this object
      */

@@ -62,7 +62,7 @@ public class AHTranslator implements Translator
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
 	 */
-	public File translate(String documentPath,String aSectionPath,String pipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
+	public File translate(String documentPath,String pipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
 	{
 		//build the XSLT from the pipeline
 		File xslt = this.buildXSLT(pipelinePath);

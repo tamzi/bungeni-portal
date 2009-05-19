@@ -1,9 +1,16 @@
 # encoding: utf-8
+
+from dateutil import relativedelta
+import datetime, calendar
+
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.traversing.browser import absoluteURL 
 from zope.formlib import form
+from zope.security.proxy import removeSecurityProxy
+
+import sqlalchemy.sql.expression as sql
 
 from alchemist import ui
 from ore.alchemist import Session
@@ -11,9 +18,11 @@ from ore.alchemist.model import queryModelDescriptor
 
 from bungeni.models import domain
 from bungeni.ui.i18n import _
+import bungeni.core.globalsettings as prefs
 from bungeni.core.workflows.question import states as qw_state
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
+from bungeni.ui.utils import getDisplayDate
 
 from fields import BungeniAttributeDisplay
 
@@ -477,3 +486,195 @@ class SchedulingMinutesViewlet(DisplayViewlet):
     def get_add_url(self):
         return '%s/discussions/add' % absoluteURL(
             self.context, self.request)
+            
+            
+class SessionCalendarViewlet( viewlet.ViewletBase ):
+    """
+    display a monthly calendar with all sittings for a session
+    """
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.query = None
+        self.Date=datetime.date.today()
+        self.Data = []
+        session = Session()
+        self.type_query = session.query(domain.SittingType)        
+
+    def _getDisplayDate(self, request):
+        display_date = getDisplayDate(self.request)                    
+        session = self.context
+        if display_date:
+            if session.end_date:
+                if display_date > session.end_date:
+                    display_date = session.end_date
+            if session.start_date > display_date:
+                display_date = session.start_date
+        else:
+            display_date = session.end_date                            
+        return display_date                            
+        
+    def current_sittings_query(self, date):
+        session = removeSecurityProxy(self.context)
+        group_id = session.parliament_id
+        start_date = session.start_date
+        if start_date.month < date.month:
+            start_date = datetime.date(date.year, date.month, 1)
+        end_date = session.end_date
+        if end_date:
+            if end_date.month > date.month:
+                end_date = date + relativedelta.relativedelta(day=31)
+        else:
+            end_date = date + relativedelta.relativedelta(day=31)                                                   
+        session = Session()
+
+        s_filter = sql.and_(
+                domain.GroupSitting.group_id == group_id,
+                sql.between(                        
+                    domain.GroupSitting.start_date,
+                    start_date, end_date)
+                    )            
+        return session.query(domain.GroupSitting).filter(s_filter).order_by(
+                domain.GroupSitting.start_date)
+        
+
+    def previous(self):
+        """
+        return link to the previous month 
+        if the session start date is prior to the current month
+        """                   
+        session = self.context
+        if self.Date.month == 1:
+            month = 12
+            year = self.Date.year - 1
+        else:
+            month = self.Date.month -1
+            year = self.Date.year  
+        try:
+            prevdate = datetime.date(year,month,self.Date.day)
+        except:
+            # in case we try to move to Feb 31st (or so)                      
+            prevdate = datetime.date(year,month,15)                   
+        if session.start_date < datetime.date( 
+                self.Date.year, self.Date.month, 1):            
+            return ('<a href="?date=' 
+                + datetime.date.strftime(prevdate,'%Y-%m-%d') 
+                + '"> &lt;&lt; </a>' )
+        else:
+            return ""
+        
+    def next(self):
+        """
+        return link to the next month if the end date
+        of the session is after the 1st of the next month
+        """        
+        session = self.context
+        if self.Date.month == 12:
+            month = 1
+            year = self.Date.year + 1
+        else:
+            month = self.Date.month + 1
+            year = self.Date.year        
+        try:
+            nextdate = datetime.date(year,month,self.Date.day)
+        except:
+            # if we try to move from 31 of jan to 31 of feb or so
+            nextdate = datetime.date(year,month,15)    
+        if session:
+            if session.end_date < datetime.date(year,month,1):
+                return ""                                                
+        return ('<a href="?date=' 
+                + datetime.date.strftime(nextdate,'%Y-%m-%d' )
+                + '"> &gt;&gt; </a>' )
+
+
+    def getData(self):
+        """
+        return the data of the query
+        """
+        sit_types ={}
+        type_results = self.type_query.all()
+        for sit_type in type_results:
+            sit_types[sit_type.sitting_type_id] = sit_type.sitting_type
+        data_list=[]      
+        path = '../../sittings/'       
+        results = self.query.all()
+        for result in results:            
+            data ={}
+            data['sittingid']= ('sid_' + str(result.sitting_id) )     
+            data['sid'] =  result.sitting_id                   
+            data['short_name'] = ( datetime.datetime.strftime(result.start_date,'%H:%M')
+                                    + ' - ' + datetime.datetime.strftime(result.end_date,'%H:%M')
+                                    + ' (' + sit_types[result.sitting_type_id] + ')')
+            data['start_date'] = result.start_date
+            data['end_date'] = result.end_date
+            data['start_time'] = result.start_date.time()
+            data['end_time'] = result.end_date.time()            
+            data['day'] = result.start_date.date()
+            data['url']= ( path + 'obj-' + str(result.sitting_id) )   
+            data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
+                           '_stid_' + str( result.sitting_type))                                                
+            data_list.append(data)            
+        return data_list
+
+    def getTdId(self, Date):
+        """
+        return an Id for that td element:
+        consiting of tdid- + date
+        like tdid-2008-01-17
+        """
+        return 'tdid-' + datetime.date.strftime(Date,'%Y-%m-%d') 
+
+    def getDayClass(self, Date):
+        """
+        return the class settings for that calendar day
+        """
+        css_class = ""
+        if self.Date.month != Date.month:
+            css_class = css_class + "other-month "           
+        if Date < datetime.date.today():
+            css_class = css_class + "past-date "    
+        if Date == datetime.date.today():
+            css_class = css_class + "current-date "  
+        if Date.weekday() in prefs.getWeekendDays():
+            css_class = css_class + "weekend-date "             
+        session = Session()    
+        query = session.query(domain.HoliDay).filter(domain.HoliDay.holiday_date == Date)
+        results = query.all()
+        if results:        
+            css_class = css_class + "holyday-date "          
+        return css_class.strip()
+            
+    def getWeekNo(self, Date):
+        """
+        return the weeknumber for a given date
+        """
+        return Date.isocalendar()[1]
+
+
+    def getSittings4Day(self, Date):
+        """
+        return the sittings for that day
+        """
+        day_data=[]      
+        for data in self.Data:
+            if data['day'] == Date:
+                day_data.append(data)
+        return day_data                
+        
+
+    def update(self):
+        """
+        refresh the query
+        """                
+        self.Date = self._getDisplayDate(self.request)
+        if not self.Date:
+            self.Date=datetime.date.today()                            
+        self.query = self.current_sittings_query(self.Date)               
+        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
+        self.monthname = datetime.date.strftime(self.Date,'%B %Y')
+        self.Data = self.getData()
+    
+    render = ViewPageTemplateFile ('templates/session_calendar_viewlet.pt')            

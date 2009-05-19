@@ -146,9 +146,10 @@ public class ODFUtility
         try 
         {
             //get full path to file
-            fullPathToOdfFile = odfFile;
+            this.fullPathToOdfFile = odfFile;
+            
             //load the odf package
-            odfPackage = OdfDocument.loadDocument(odfFile);
+            this.odfPackage = OdfDocument.loadDocument(this.fullPathToOdfFile);
         } 
         catch (Exception ex) 
         {
@@ -179,15 +180,13 @@ public class ODFUtility
                 outputLine = outputLine + ":" + secContent + "\n";
                 out.append(outputLine);
             }
+            return out.toString();
         } 
         catch (Exception ex) 
         {
             log.error("outputSectionInfo : "  + ex.getMessage());
-        } 
-        finally 
-        {
             return out.toString();
-        }
+        } 
     }
     
     public void ExtractSection(String pathToOdf) 

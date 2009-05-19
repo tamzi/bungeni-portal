@@ -51,91 +51,6 @@ SittingTypeOnly = DatabaseSource(
     token_field='sitting_type_id',
     value_field='sitting_type_id')
 
-class mps_sitting( object ):
-    """ returns the mps for a sitting """
-    
-
-_mp_sitting = rdb.join(
-    schema.sittings, 
-    schema.user_group_memberships,
-    schema.sittings.c.group_id == schema.user_group_memberships.c.group_id).join(
-    schema.users,
-    schema.user_group_memberships.c.user_id == schema.users.c.user_id)
-
-                                                                
-mapper( mps_sitting, _mp_sitting,
-          properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           )
-                    },)
-                    
-class mp_ministers( object ):
-    """ returns the MPs which are members of the parliament for a (given) ministry
-    (potential ministers)
-    """
-
-_mp_ministers = rdb.join(schema.ministries, schema.governments,
-                        schema.ministries.c.government_id == schema.governments.c.government_id).join(
-                            schema.parliaments,
-                            schema.governments.c.parliament_id == schema.parliaments.c.parliament_id).join(
-                                schema.user_group_memberships,
-                                schema.parliaments.c.parliament_id == schema.user_group_memberships.c.group_id).join(
-                                    schema.users,
-                                    schema.user_group_memberships.c.user_id == schema.users.c.user_id)
-                    
-mapper( mp_ministers, _mp_ministers,
-        properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           )
-                    },)     
-                    
-                    
-class mp_committees( object ):
-    """ Returns the MPs that are members of the parliament for a (given) committee
-    (potential committee members)"""
-    
-_mp_comittee = rdb.join(schema.committees,  schema.parliaments,
-                        schema.committees.c.parliament_id == schema.parliaments.c.parliament_id).join(
-                                schema.user_group_memberships,
-                                schema.parliaments.c.parliament_id == schema.user_group_memberships.c.group_id).join(
-                                    schema.users,
-                                    schema.user_group_memberships.c.user_id == schema.users.c.user_id)
-mapper( mp_committees, _mp_comittee,
-        properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           )
-                    },)                                         
-
-#class title_in_group( object ):
-#     """ Titles for members in groups"""     
-#_user_group_type = rdb.join(schema.groups, schema.user_role_type,
-#                            schema.groups.c['type'] == schema.user_role_type.c.group_type)                            
-#mapper( title_in_group, _user_group_type)
-
-class substitution_member( object):
-    """ replaced by this Member  """
-    
-_substitution_user = rdb.join( schema.user_group_memberships, schema.users,
-                                schema.user_group_memberships.c.user_id == schema.users.c.user_id)
-
-mapper (substitution_member, _substitution_user,
-        properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           )
-                    },          
-        )                                    
 
 class SpecializedSource( object ):
     interface.implements( IContextSourceBinder )
@@ -175,7 +90,7 @@ mapper(MemberOfParliament, member_of_parliament)
         
 
 class MemberOfParliamentImmutableSource(SpecializedSource):
-    
+    """if a user is allready assigned to the context the user will not be editable """
     def __init__(self, value_field):
         self.value_field = value_field
     
@@ -242,7 +157,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
         return vocabulary.SimpleVocabulary( terms )
 
 class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
-
+    """ you may change the user in this context """
     def constructQuery(self, context):
         session= Session()
         trusted=removeSecurityProxy(context)

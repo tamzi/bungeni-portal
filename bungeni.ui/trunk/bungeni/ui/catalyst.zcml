@@ -106,8 +106,7 @@
      echo="False"
     />    
     
-    
-    
+   
   <db:catalyst
      class="bungeni.models.domain.OfficeMember"
      descriptor=".descriptor.OfficeMemberDescriptor"

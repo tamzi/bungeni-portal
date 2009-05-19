@@ -19,7 +19,6 @@ public interface Translator
 	/**
 	 * Translate the given document according to the given pipeline
 	 * @param aDocumentPath the path of the document to translate 
-	 * @param aSectionFilePath the path of the file that contains the section and the ids of the sections in the original document 
 	 * @param aPipelinePath the path of the pipeline to apply to the document in order to translate it 
 	 * @return a File containing the translated document
 	 * @throws TransformerException 
@@ -30,7 +29,7 @@ public interface Translator
 	 * @throws XPathExpressionException 
 	 * @throws Exception 
 	 */
-	public File translate(String aDocumentPath, String aSectionsFilePath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, Exception;
+	public File translate(String aDocumentPath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, Exception;
 	
 	/**
 	 * Create and return an XSLT builded upon the instructions of the given pipeline. 

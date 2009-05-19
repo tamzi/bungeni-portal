@@ -149,7 +149,7 @@ public class ExceptionManager implements ErrorHandler
     		}
         	else
         	{
-        		System.err.println("cazzo");
+        		System.err.println("");
         			
         	}
        }

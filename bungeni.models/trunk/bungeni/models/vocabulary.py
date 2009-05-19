@@ -19,7 +19,7 @@ from i18n import _
 #SecurityLevelSource = DatabaseSource( model.SecurityLevel, 'short_name', 'id' )
 
 
-ParliamentMembers = ObjectSource( domain.User, 'name', 'member_id' )
+
 PoliticalParties  = ObjectSource( domain.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( domain.ParliamentSession, 'short_name', 'session_id')
 QuestionType = vocabulary.SimpleVocabulary.fromItems( [(_(u"Ordinary"), "O"), (_(u"Private Notice"), "P")] )
@@ -145,6 +145,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
         user_id = getattr(context, self.value_field, None) 
         if user_id:
             if len(query.filter(schema.users.c.user_id == user_id).all()) == 0:
+                #the user is not a member of this parliament 
                 session = Session()            
                 ob = session.query(domain.User).get(user_id)
                 terms.append( 

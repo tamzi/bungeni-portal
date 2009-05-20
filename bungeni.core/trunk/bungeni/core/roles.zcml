@@ -14,13 +14,17 @@
   <role id="bungeni.Speaker" title="Speaker Office" />    
   <role id="bungeni.Everybody" title="Everybody" />
   <role id="bungeni.Admin" title="Bungeni Admin"/>
-  <role id="bungeni.Anonymous" title="Bungeni Visitor"/>
+  <role id="bungeni.Anybody" title="Bungeni Visitor"/>
+  
+  <!--grant role="bungeni.Anybody" principal="zope.anybody" /-->
+
 
   <!-- generic view permission grants -->
   
   <grant permission="zope.View" role="bungeni.MP" />
   <grant permission="zope.View" role="bungeni.Clerk" />      
   <grant permission="zope.View" role="bungeni.Speaker" />
+  <grant permission="zope.View" role="bungeni.Owner" />  
 
   <!-- translation -->
   
@@ -40,6 +44,10 @@
 
   <grant permission="bungeni.committee.Add" role="bungeni.Clerk" />
   
+<!-- parliamentary items permissions:
+    note that the workflow sets these permissions 
+    on a workflow state change -->  
+  
   <grant permission="bungeni.question.Add" role="bungeni.MP" />    
   <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
@@ -57,7 +65,7 @@
   <grant permission="bungeni.parliament.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
-  <grant permission="bungeni.parliament.View" role="bungeni.Everybody" />    
+  <!--grant permission="bungeni.parliament.View" role="bungeni.Everybody" /-->    
   
   <grant permission="bungeni.bill.Add" role="bungeni.MP" />
   <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />

@@ -2,15 +2,11 @@
 
 set :application, "bungeni-dspace"
 set :bungeni_username, "undesa"
-
-## set :deploy_to_root, Proc.new { Capistrano::CLI.password_prompt('Deploy within this folder: ') }
-#set :deploy_to, "#{user_install_root}/#{application}"
-#was set :deploy_to, "/home/bungeni/bungeni_deploy/#{application}"
-#set :install_dir, "#{deploy_to}/current"
-
 set :user, "#{bungeni_username}"
 set :use_sudo, false
 set :app_host, "localhost"
+## force prompt if any unknown prompts pop up
+
 
 #### ROLE SETTING ####
 #

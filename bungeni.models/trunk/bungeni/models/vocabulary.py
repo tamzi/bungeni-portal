@@ -145,7 +145,10 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
         user_id = getattr(context, self.value_field, None) 
         if user_id:
             if len(query.filter(schema.users.c.user_id == user_id).all()) == 0:
-                #the user is not a member of this parliament 
+                # the user is not a member of this parliament 
+                # this should not happen in real life
+                # but if we do not add it her the view form will 
+                # throw an exception 
                 session = Session()            
                 ob = session.query(domain.User).get(user_id)
                 terms.append( 

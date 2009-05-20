@@ -1,10 +1,8 @@
 # encoding: utf-8
 
-import zope.security.management
+
 import copy
 import datetime
-
-from sqlalchemy import sql
 
 from zope import component
 from zope.event import notify
@@ -15,6 +13,11 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.form.browser import MultiCheckBoxWidget
 from zope.traversing.browser import absoluteURL
 from zope.security.proxy import removeSecurityProxy
+import zope.security.management
+
+
+from sqlalchemy import sql
+
 from ore.alchemist import Session
 from alchemist.ui import generic
 

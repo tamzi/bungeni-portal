@@ -7,7 +7,7 @@
      name="view"
      for="bungeni.models.interfaces.IBill"
      class=".common.DisplayForm"
-     permission="bungeni.bill.View"
+     permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
@@ -40,7 +40,7 @@
      name="view"
      for="bungeni.models.interfaces.IMotion"
      class=".common.DisplayForm"
-     permission="bungeni.motion.View"
+     permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
@@ -72,7 +72,7 @@
      name="view"
      for="bungeni.models.interfaces.IQuestion"
      class=".common.DisplayForm"
-     permission="bungeni.question.View"
+     permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
@@ -104,7 +104,7 @@
      name="view"
      for="bungeni.models.interfaces.IResponse"
      class=".common.DisplayForm"
-     permission="bungeni.response.View"
+     permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 

@@ -418,13 +418,4 @@
      weight="10"
      />
   
-  <browser:viewlet
-     name="bungeni.viewlet.session-calendar"
-     manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.SessionCalendarViewlet"
-     for="bungeni.models.interfaces.IParliamentSession"
-     permission="zope.View"
-     weight="10"
-     />  
-  
 </configure>

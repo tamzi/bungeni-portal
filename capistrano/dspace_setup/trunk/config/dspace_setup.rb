@@ -43,9 +43,13 @@ namespace :dspace_setup do
 	### 
 	run "echo 'Setting up dspace with tomcat'"
 	update_tomcat_serverxml tomcat_server_xml
+	update_tomcat_usersxml tomcat_users_xml
 	run "sleep 3"
 	run "cp -f #{tomcat_server_xml} #{tomcat_server_xml}.`date +%F-%s`.bak"
 	run "cp -f #{dspace_server_xml} #{tomcat_server_xml}"
+	run "cp -f #{tomcat_users_xml} #{tomcat_users_xml}.`date +%F-%s`.bak"
+	run "cp -f #{dspace_tomcatusers_xml} #{tomcat_users_xml}"
+
     end
 
     desc "Build DSpace with Maven "
@@ -58,6 +62,21 @@ namespace :dspace_setup do
 	].each {|cmd| run cmd}	
     end
 
+    desc "Create Admin user for Dspace "
+    task :create_admin, :roles=> [:app] do
+	[
+	"echo #{dspace_admin_email} > #{dspace_home}/adm.txt",
+	"echo #{dspace_admin_fname} >> #{dspace_home}/adm.txt",
+	"echo #{dspace_admin_lname} >> #{dspace_home}/adm.txt",
+	"echo #{dspace_admin_password} >> #{dspace_home}/adm.txt",
+	"echo #{dspace_admin_password} >> #{dspace_home}/adm.txt",
+	"echo y >> #{dspace_home}/adm.txt",
+	"cd #{dspace_home}/bin && ./create-administrator < #{dspace_home}/adm.txt"
+#	"cd #{dspace_maven_target_dir} && JAVA_HOME=#{java6_home} #{ant_home}/bin/ant fresh_install"
+#	"JAVA_HOME=#{java6_home} && cd #{dspace_maven_root} && #{ant_home}/bin/ant",
+#	"JAVA_HOME=#{java6_home} && cd #{dspace_maven_root} && #{ant_home}/bin/ant fresh_install"
+	].each {|cmd| run cmd}	
+    end
     
    
 end

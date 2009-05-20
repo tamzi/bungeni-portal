@@ -7,7 +7,7 @@
   
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.View"
+     permission="zope.Public"
      name="index"
      template="templates/app-index.pt"
      />
@@ -36,7 +36,7 @@
   <browser:page
      name="current"
      for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.View"
+     permission="zope.Public"
      class=".redirect.RedirectToCurrent"
      />
 
@@ -173,7 +173,7 @@
   
   <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
-     permission="zope.View"
+     permission="zope.Public"
      name="jsonlisting"
      class=".container.ContainerJSONListing"
      />
@@ -189,7 +189,7 @@
   
   <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
-     permission="zope.View"
+     permission="zope.Public"
      name="index"
      menu="context_actions"
      title="Listing"

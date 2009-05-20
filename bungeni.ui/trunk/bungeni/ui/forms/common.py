@@ -26,6 +26,7 @@ from alchemist.ui.core import handle_edit_action
 from alchemist.ui.core import setUpFields
 from zope.app.form.interfaces import IDisplayWidget
 
+
 try:
     from sqlalchemy.exceptions import IntegrityError
 except ImportError:
@@ -160,7 +161,6 @@ class DisplayForm(ui.DisplayForm):
     template = ViewPageTemplateFile('templates/content-view.pt')
     
     def __call__(self):
-        #self.form_fields = filterFields(self.context, self.form_fields)
         return super(DisplayForm, self).__call__()    
 
 class AddForm(BaseForm, ui.AddForm):

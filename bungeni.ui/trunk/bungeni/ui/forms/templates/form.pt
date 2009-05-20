@@ -98,7 +98,7 @@
                 <metal:block define-slot="top-fieldset">
                 </metal:block>
 
-                <table class="listing side-by-side" tal:omit-tag="not:side_by_side">
+                <table class="listing side-by-side" style="table-layout: fixed"  tal:omit-tag="not:side_by_side">
 
                   <tal:groups define="fallback python: dict(fallback=view.widgets);
                                       groups view/widget_groups|fallback;
@@ -147,7 +147,7 @@
                         </tr>
                         
                         <tr>
-                          <td valign="top" width="30%">
+                          <td valign="top" width="30%" style="overflow: auto">
                             <div tal:content="structure widget/render_original" />
                           </td>
                           <td valign="top">

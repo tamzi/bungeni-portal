@@ -7,33 +7,43 @@
 
   <state id="draft" title="draft motion">
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
-    <grant permission="bungeni.motion.View" role="bungeni.Owner" />    
-    <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />    
+    <grant permission="zope.View" role="bungeni.Owner" />    
+    <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />   
+    <deny permission="zope.View" role="bungeni.MP" />     
+    <deny permission="zope.View" role="bungeni.Clerk" />       
+    <deny permission="zope.View" role="bungeni.Speaker" />  
+    <deny permission="zope.View" role="bungeni.Everybody" /> 
+    <deny permission="zope.View" role="bungeni.Minister" />   
+    <deny permission="zope.View" role="zope.Member" />   
+    <deny permission="zope.View" role="zope.anybody" />      
+    <deny permission="zope.View" role="zope.Anybody" />      
+    <deny permission="zope.View" role="zope.Authenticated" />   
+    <deny permission="zope.View" role="zope.Everybody" />             
   </state>
 
   <state id="submitted" title="Motion submitted">
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />
-    <!--deny permission="bungeni.motion.View" role="bungeni.Owner" /-->    
+    <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />    
     <!--grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /-->
-    <grant permission="bungeni.motion.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
   <state id="received" title="Motion received by clerks office">  
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.motion.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
   <state id="complete" title="Motion complete">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <grant permission="bungeni.motion.View" role="bungeni.Speaker" />         
+    <grant permission="zope.View" role="bungeni.Speaker" />         
   </state>
 
   <state id="admissible" title="Motion admissible">  
-    <grant permission="bungeni.motion.View" role="bungeni.Everybody" />   
+    <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <grant permission="bungeni.motion.View" role="bungeni.Speaker" />             
+    <grant permission="zope.View" role="bungeni.Speaker" />             
   </state>    
 
   <state id="inadmissible" title="Motion inadmissible">     

@@ -12,13 +12,9 @@
     <deny permission="zope.View" role="bungeni.MP" />     
     <deny permission="zope.View" role="bungeni.Clerk" />       
     <deny permission="zope.View" role="bungeni.Speaker" />  
+    <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Minister" />        
-    <deny permission="zope.View" role="zope.Member" />   
-    <deny permission="zope.View" role="zope.anybody" />      
-    <deny permission="zope.View" role="zope.Anybody" />      
-    <deny permission="zope.View" role="zope.Authenticated" />   
-    <deny permission="zope.View" role="zope.Everybody" />         
+    <deny permission="zope.View" role="bungeni.Anybody" />          
   </state>
 
   <state id="submitted" title="response submitted">
@@ -31,6 +27,7 @@
   <state id="complete" title="response completed">
     <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Everybody" />
+    <grant permission="zope.View" role="bungeni.Anybody" />    
   </state>
 
   <transition 

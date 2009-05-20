@@ -6,14 +6,14 @@
        ``bungeni.core.workflow`` roles / permissions -->
 
   <role id="zope.Manager" title="Site Manager" />
-  <role id="zope.Member" title="Site Member" />
+  <role id="bungeni.Admin" title="Bungeni Admin"/>
+    
   <role id="bungeni.MP" title="Member of parliament" />
   <role id="bungeni.Owner" title="Owner" />
   <role id="bungeni.Minister" title="Minister" />
   <role id="bungeni.Clerk" title="Clerks Office" />
   <role id="bungeni.Speaker" title="Speaker Office" />    
   <role id="bungeni.Everybody" title="All authenticated users" />
-  <role id="bungeni.Admin" title="Bungeni Admin"/>
   <role id="bungeni.Anybody" title="Bungeni Visitor"/>
   
   <!-- Anonymous grants -->

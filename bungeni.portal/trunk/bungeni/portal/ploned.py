@@ -9,7 +9,7 @@ class PlonedLayout(object):
     def __init__(self, context, request):
         template = layout.bungeni
         
-        def render(**kwargs):
+        def render(slots, **kwargs):
             kwargs['attributes'] = {
                 'plone.body.attributes': {
                     'class': "section-bungeni",
@@ -17,7 +17,7 @@ class PlonedLayout(object):
                 }
 
             return template.render_macro(
-                "", global_scope=False, parameters=kwargs)
+                "", global_scope=False, slots=slots, parameters=kwargs)
 
         self.macro = Macro(render)
 

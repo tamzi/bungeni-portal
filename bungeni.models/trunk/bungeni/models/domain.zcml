@@ -9,7 +9,7 @@
   
   <class class=".domain.Bill">
     <require permission="zope.Public" attributes="files"/>
-    <require permission="bungeni.bill.View"
+    <require permission="zope.View"
              attributes="submission_date
                         status
                         identifier
@@ -51,7 +51,7 @@
 
   <class class=".domain.Response">
     <require permission="zope.Public" attributes="files"/>
-    <require permission="bungeni.response.View"
+    <require permission="zope.View"
              attributes="response_text
                         sitting_time
                         language
@@ -67,7 +67,7 @@
 
   <class class=".domain.Question">
     <require permission="zope.Public" attributes="files"/>  
-    <require permission="bungeni.question.View"
+    <require permission="zope.View"
              attributes="submission_date
                         status
                         short_name
@@ -111,7 +111,7 @@
   </class>             
 
   <class class=".domain.Motion">
-    <require permission="bungeni.motion.View"
+    <require permission="zope.View"
              attributes="parliamentary_item_id
                         owner_id
                         language

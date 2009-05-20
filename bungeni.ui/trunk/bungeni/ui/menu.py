@@ -6,6 +6,7 @@ from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
 from zope.app.publisher.browser.menu import BrowserMenuItem
+from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.traversing.browser import absoluteURL
 from z3c.menu.ready2go import item
@@ -18,6 +19,21 @@ from bungeni.core.translation import get_available_translations
 from bungeni.core import schedule
 from bungeni.models import queries
 from bungeni.ui.i18n import  _
+from bungeni.ui.utils import urljoin
+
+def get_actions(name, context, request):
+    menu = component.getUtility(IBrowserMenu, name)
+    items = menu.getMenuItems(context, request)
+
+    site_url = absoluteURL(getSite(), request)
+    url = absoluteURL(context, request)
+
+    for item in items:
+        item['url'] = urljoin(url, item['action'])
+        item['id'] = item['title'].lower().replace(' ', '-')
+        item['icon'] = urljoin(site_url, item['icon'])
+
+    return items
 
 class GlobalMenuItem( item.GlobalMenuItem ):
     pass
@@ -237,10 +253,11 @@ class WorkflowMenu(BrowserMenu):
                      description="",
                      action=transition_url,
                      selected=False,
+                     transition_id=tid,
                      icon=None,
                      extra=extra,
                      submenu=None))
-                     
+
         return results
 
 class CalendarSubMenuItem(BrowserSubMenuItem):

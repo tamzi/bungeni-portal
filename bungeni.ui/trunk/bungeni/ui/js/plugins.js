@@ -74,6 +74,46 @@
           discussion.append($("<div>"+html+"</div>"));
         }});
 
+    // ajax workflow
+    var selects = calendar.find('#scheduling-table select.workflow-status');
+    $.each(selects, function(i, o) {
+        var select = $(o);
+        var form = select.parents("form").eq(0);
+        select.change(function(event) {
+            var selected = select.children().eq(o.selectedIndex);
+            $("#kss-spinner").show();
+            form.ajaxSubmit({
+                dataType: "html",
+                complete: function(xmlHttp) {
+                  $("#kss-spinner").hide();
+                  if (xmlHttp.status != 200) {
+                    var tid = selected.attr('value');
+                    top.location.href = form.attr('action')+
+                      '?next_url=...&transition='+tid;
+                  } else {
+                    var data = xmlHttp.responseXML;
+                    var html = $(data.documentElement);
+                    var title = html.children().eq(0);
+                    var options = html.find("option");
+                    
+                    select.children().remove();
+                    $.each(options, function(j, p) {
+                        var option = $("<option />");
+                        option.text($(p).text());
+                        option.attr('value', $(p).attr('value'));
+                        select.append(option);
+                      });
+
+                    o.selectedIndex = 0;
+                    select.siblings(".state-title").text(title.text());
+
+                    if (options.length == 1)
+                      select.hide();
+                  }
+                }});
+          });
+      });
+    
     // create and insert category rows
     var current = null;
     $.each(calendar.find("a[rel=category]"), function(i, o) {
@@ -92,8 +132,8 @@
 
         category_row.insertBefore(row);
       });
-    
-    $.each(calendar.find("select"), function(i, o) {
+
+    $.each(calendar.find("select.select-heading"), function(i, o) {
         var dropdown = $(o);
         var row = dropdown.parents("tr").eq(0);
 
@@ -296,28 +336,34 @@
 
       });
   };
+
+  function post_workflow_transition(href) {
+    var url_parts = href.split('?');
+    var url = url_parts[0];
+    var args = url_parts[1].split('=');
+    if (args[0] == 'transition') {
+      var transition_id = args[1];
+
+      var input = $('<input type="hidden" name="transition"/>').
+        attr("value", transition_id);
+
+      var form = $("<form/>").
+        attr("method", "POST").
+        attr("action", url).
+        appendTo(document.body);
+
+      input.appendTo(form);
+      form.get(0).submit();
+
+      form.remove();
+    }
+  };
   
   $.fn.bungeniPostWorkflowActionMenuItem = function() {
     $(this).click(function() {
-        var url_parts = $(this).attr("href").split('?');
-        var url = url_parts[0];
-        var args = url_parts[1].split('=');
-        if (args[0] == 'transition') {
-          var transition_id = args[1];
-          
-          var input = $('<input type="hidden" name="transition"/>').
-            attr("value", transition_id);
-          
-          var form = $("<form/>").
-            attr("method", "POST").
-            attr("action", url).
-            appendTo(document.body);
-          
-          input.appendTo(form);
-          form.get(0).submit();
-          
-          return false;
-        }
+        var href = $(this).attr("href");
+        post_workflow_transition(href);
+        return false;
       });
   };
   

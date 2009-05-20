@@ -15,7 +15,6 @@ from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
 from zope.security.proxy import removeSecurityProxy
@@ -28,8 +27,8 @@ from zope.datetime import rfc1123_date
 
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
-from bungeni.ui.utils import urljoin
 from bungeni.ui.utils import is_ajax_request
+from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
@@ -44,6 +43,7 @@ from ploned.ui.interfaces import IViewView
 from ploned.ui.interfaces import IStructuralView
 from ore.alchemist.container import stringKey
 from ore.alchemist import Session
+from ore.workflow.interfaces import IWorkflowInfo
 
 from zc.resourcelibrary import need
 
@@ -51,29 +51,17 @@ class TIME_SPAN:
     daily = _(u"Daily")
     weekly = _(u"Weekly")
 
-def get_scheduling_actions(scheduling, request):
-    return get_actions("scheduling_actions", scheduling, request)
+def get_scheduling_actions(context, request):
+    return get_actions("scheduling_actions", context, request)
 
-def get_sitting_actions(sitting, request):
-    return get_actions("sitting_actions", sitting, request)
+def get_sitting_actions(context, request):
+    return get_actions("sitting_actions", context, request)
 
-def get_discussion_actions(sitting, request):
-    return get_actions("discussion_actions", sitting, request)
+def get_discussion_actions(context, request):
+    return get_actions("discussion_actions", context, request)
 
-def get_actions(name, context, request):
-    menu = component.getUtility(IBrowserMenu, name)
-    items = menu.getMenuItems(context, request)
-
-    site_url = absoluteURL(getSite(), request)
-    url = absoluteURL(context, request)
-    
-    return [{
-        'url': urljoin(url, item['action']),
-        'title': item['title'],
-        'id': item['title'].lower().replace(' ', '-'),
-        'description': item['description'],
-        'icon': urljoin(site_url, item['icon'])} for item in items
-            ]
+def get_workflow_actions(context, request):
+    return get_actions("context_workflow", context, request)
 
 def get_sitting_items(sitting, request, include_actions=False):
     items = []
@@ -90,12 +78,16 @@ def get_sitting_items(sitting, request, include_actions=False):
 
         discussions = tuple(scheduling.discussions.values())
         discussion = discussions and discussions[0] or None
+
+        info = IWorkflowInfo(item, None)
+        state_title = info.workflow().workflow.states[item.status].title
         
         record = {
             'title': props.title,
             'description': props.description,
             'name': stringKey(scheduling),
             'status': item.status,
+            'state_title': state_title,
             'category_id': scheduling.category_id,
             'category': scheduling.category,
             'discussion': discussion,
@@ -104,6 +96,7 @@ def get_sitting_items(sitting, request, include_actions=False):
         
         if include_actions:
             record['actions'] = get_scheduling_actions(scheduling, request)
+            record['workflow'] = get_workflow_actions(item, request)
 
             discussion_actions = get_discussion_actions(discussion, request)
             if discussion_actions:
@@ -541,7 +534,7 @@ class AgendaReportingView(ReportingView):
             'sittings': self.get_sittings(date, time_span),
             'display_minutes': self.display_minutes,
             }
-            
+
         document = self.get_odf_document()
         archive = tempfile.NamedTemporaryFile(suffix=".odt")
         document.process("content.xml", self, **options)

@@ -7,7 +7,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.app.schema.vocabulary import IVocabularyFactory
-from zc.table import batching, column
+from zc.table import column
 
 from sqlalchemy import orm
 import sqlalchemy as rdb
@@ -15,13 +15,14 @@ import sqlalchemy as rdb
 from ore.workflow import interfaces
 from ore.alchemist.interfaces import IAlchemistContainer
 from ore.alchemist.interfaces import IAlchemistContent
+from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.ui.core import BaseForm
 
 from bungeni.core.i18n import _
 from bungeni.core import audit
-
 from bungeni.ui.forms.workflow import TransitionHandler
 from bungeni.ui.table import TableFormatter
+from bungeni.ui.menu import get_actions
 
 class WorkflowVocabulary(object):
     zope.interface.implements(IVocabularyFactory)
@@ -216,9 +217,11 @@ class WorkflowView(BrowserView):
         return self.template()
         
 class WorkflowChangeStateView(WorkflowView):
-    def __call__(self, transition=None):
+    ajax_template = ViewPageTemplateFile('templates/workflow_ajax.pt')
+    
+    def __call__(self, headless=False, transition=None):
         method = self.request['REQUEST_METHOD']
-        
+
         if transition:
             wf = interfaces.IWorkflow(self.context) 
             state_transition = wf.getTransitionById(transition)
@@ -235,6 +238,22 @@ class WorkflowChangeStateView(WorkflowView):
             assert len(actions) == 1
 
             # execute action
-            return actions[0].success({})
+            result = actions[0].success({})
 
+        if headless is True:
+            actions = get_actions("context_workflow", self.context, self.request)
+            state_title = IWorkflowInfo(self.context).workflow().workflow.states[
+                self.context.status].title
+            result = self.ajax_template(actions=actions, state_title=state_title)
+
+            if require_confirmation is True:
+                self.request.response.setStatus(403)
+            else:
+                self.request.response.setStatus(200)
+                self.request.response.setResult(result)
+                self.request.response.setHeader("Content-Type", "text/xml")
+
+            return result
+            
         return self.template()
+

@@ -53,7 +53,7 @@ set :tomcat_server_xml, "#{tomcat_home}/conf/server.xml"
 set :tomcat_users_xml, "#{tomcat_home}/conf/tomcat-users.xml"
 
 set :tomcat_host, "localhost"
-set :tomcat_port, "9000"
+set :tomcat_port, "20000" ## do not use 9000
 set :tomcat_admin_user, "admin"
 set :tomcat_admin_password, "admin"
 

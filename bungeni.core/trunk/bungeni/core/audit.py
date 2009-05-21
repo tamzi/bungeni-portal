@@ -30,8 +30,7 @@ def getAuditableParent(obj):
                 parent = None  
 
 def getAuditor( ob ):
-    auditor = globals()['%sAuditor'%(ob.__class__.__name__)]
-    return auditor
+    return globals().get('%sAuditor' %(ob.__class__.__name__))
     
 def objectAdded( ob, event):
     auditor = getAuditor( ob )

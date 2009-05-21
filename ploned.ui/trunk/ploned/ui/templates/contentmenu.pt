@@ -7,9 +7,10 @@
 
         <dl class="actionMenu"
             tal:attributes="id menuItem/extra/id"
-            tal:define="submenu menuItem/submenu"
+            tal:define="submenu menuItem/submenu;
+                        state menuItem/extra/state|nothing"
             tal:omit-tag="menuItem/extra/hideChildren | nothing"
-            tal:condition="python: submenu is None or len(submenu)">
+            tal:condition="python: submenu is None or len(submenu) or state">
           <dt tal:define="state_class menuItem/extra/class | nothing;
                           state_class python:state_class and state_class or ''"
               tal:attributes="class string:actionMenuHeader label-${state_class}"

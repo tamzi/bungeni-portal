@@ -486,6 +486,7 @@ sittings = rdb.Table(
    # like rdb.ForeignKey('group_sittings.sitting_id')
    # to make it possible to delete the original sitting
    rdb.Column( "recurring_id", rdb.Integer ),
+   rdb.Column( "status", rdb.Unicode(48) ),
    # venues for sittings   
    rdb.Column( "venue_id", rdb.Integer, rdb.ForeignKey('venues.venue_id'))
    )   

@@ -71,7 +71,7 @@
       manager=".interfaces.IContentViewsManager"
       class=".viewlet.ContentViewsViewlet"
       template="templates/contentviews.pt"
-      permission="zope.ManageContent"
+      permission="zope.Public"
       weight="10"
       />
          
@@ -92,7 +92,7 @@
       for="*"
       manager=".interfaces.IContentViewsManager"
       template="templates/contentactions.pt"
-      permission="zope.ManageContent"
+      permission="zope.Public"
       weight="20"
       />
    

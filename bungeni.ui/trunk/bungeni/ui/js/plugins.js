@@ -63,17 +63,27 @@
         var id = $(o).attr('id');
       });
 
-    form.ajaxForm({
-        'beforeSubmit': function() { $("#kss-spinner").show() },
-          'success': function(html, status, form) {
-          $("#kss-spinner").hide();
-          var discussion = form.siblings(".discussion");
-          form.siblings("a.expandable").triggerHandler("click");
-          var html = form.find("textarea").val();
-          discussion.empty();
-          discussion.append($("<div>"+html+"</div>"));
-        }});
+    form.submit(function(event) {
+        $("#kss-spinner").show();
+        var textarea = $(this).find("textarea");
+        var id = textarea.attr('id');
+        var editor = editors[id];
+        if (editor) {
+          editor.saveHTML();
+        };
 
+        $(this).ajaxSubmit({
+            'success': function(html, status, form) {
+              $("#kss-spinner").hide();
+              var discussion = form.siblings(".discussion");
+              form.siblings("a.expandable").triggerHandler("click");
+              var html = textarea.val();
+              discussion.empty();
+              discussion.append($("<div>"+html+"</div>"));
+            }});
+        return false;
+      });
+    
     // ajax workflow
     var selects = calendar.find('#scheduling-table select.workflow-status');
     $.each(selects, function(i, o) {

@@ -14,6 +14,8 @@ Kapil Thangavelu
 import zope.component
 
 from zope.security.proxy import removeSecurityProxy
+from zope.security import checkPermission
+
 from zope.interface import providedBy, Interface
 from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
 from zope.app.publisher.browser.menu import BrowserMenu, getMenu
@@ -55,7 +57,13 @@ class PloneBrowserMenu(BrowserMenu):
         menu = tuple(zope.component.getAdapters(
             (object, request), self.getMenuItemType()))
         result = [item for name, item in menu]
-
+        # filter out all items which you do not have 
+        # the permissions for 
+        security_checked_result = []
+        for item in result:
+            if checkPermission(item.permission, object):  
+                security_checked_result.append(item)      
+        result = security_checked_result
         # Now order the result. This is not as easy as it seems.
         #
         # (1) Look at the interfaces and put the more specific menu entries
@@ -114,7 +122,7 @@ class PloneBrowserMenu(BrowserMenu):
                 'selected': u'',
                 'icon': item.icon,
                 'extra': extra,
-                'submenu': submenu})
+                'submenu': submenu})                  
 
         if selected is not None:
             items[selected]['selected'] = u'selected'

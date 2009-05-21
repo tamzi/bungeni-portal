@@ -205,7 +205,7 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
         if info is None:
             return {'id': 'plone-contentmenu-workflow'}
 
-        state = info.state().getState()            
+        state = info.state().getState()
         stateTitle = info.workflow().workflow.states[state].title
         
         return {'id'         : 'plone-contentmenu-workflow',
@@ -242,7 +242,9 @@ class WorkflowMenu(BrowserMenu):
         for transition in transitions:
             tid = transition
             state_transition = wf.getTransitionById(transition)
-            transition_url = url + '/@@change_workflow_state?transition=%s' % tid
+            transition_url = url + \
+                             '/@@change_workflow_state?'\
+                             'transition=%s&next_url=...' % tid
 
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,

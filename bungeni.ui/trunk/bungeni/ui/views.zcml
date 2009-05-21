@@ -136,7 +136,7 @@
      permission="zope.Public"/>
 
   <browser:page 
-     for="bungeni.models.interfaces.IBungeniContent"
+     for="ore.alchemist.interfaces.IAlchemistContent"
      name="change_workflow_state"
      class=".workflow.WorkflowChangeStateView"
      permission="zope.ManageContent"/>

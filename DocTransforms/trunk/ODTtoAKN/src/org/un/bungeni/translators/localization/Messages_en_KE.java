@@ -28,10 +28,14 @@ public class Messages_en_KE extends ListResourceBundle {
 		  "Some of the needed document was not found or was not produced correctly" },
 		{ "STARTING_WORD_TEXT_LEFT",
 		  "Starting with the words: "},
+		{ "SECTION_PARENT_TYPE_LEFT",
+		  "Included in the section with type: "},
 		{ "SECTION_TYPE_LEFT",
 		  "In the section with type: "},
 		{ "SECTION_ID_LEFT",
 		  "Having ID: "},
+		{ "PROBLEM_DESCRIPTION_LEFT",
+		  "The problem is: "},
 	};
 	
 	

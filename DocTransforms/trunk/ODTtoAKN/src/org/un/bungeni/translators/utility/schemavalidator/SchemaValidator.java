@@ -77,8 +77,18 @@ public class SchemaValidator implements SchemaValidatorInterface
 	 */
 	public void validate(File aDocument, String aPathToODFDocument,String aSchemaPath) throws SAXException, IOException, ParserConfigurationException
 	{
+		
+		 //create a SAX parser factory 
+		 SAXParserFactory factory = SAXParserFactory.newInstance();
+		
+		 //create the parset
+         SAXParser saxParser = factory.newSAXParser();
+    
+         //parse the document and save the locations of all the elements into the LocationHandler 
+		 saxParser.parse(new InputSource(aDocument.toURI().toString()), LocationHandler.getInstance());
+
 		 //create a dom parser
-		 /*DOMParser domParser = new DOMParser();
+		 DOMParser domParser = new DOMParser();
 			 
 		 //set the features of the parser that specifies that the document must be validated 
 		 domParser.setFeature("http://xml.org/sax/features/validation",true);
@@ -100,11 +110,11 @@ public class SchemaValidator implements SchemaValidatorInterface
 		 domParser.setErrorHandler(ExceptionManager.getInstance()); 
 		 
 		 //parse the document and validate it
-		 domParser.parse(new InputSource(aDocument.toURI().toString()));*/
+		 domParser.parse(new InputSource(aDocument.toURI().toString()));
 		
 		// System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema","com.saxonica.jaxp.SchemaFactoryImpl");
 	     
-		 SAXParserFactory factory = SAXParserFactory.newInstance();
+		 /*SAXParserFactory factory = SAXParserFactory.newInstance();
 		 SchemaFactory sfactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
          Schema schema = sfactory.newSchema(new File(aSchemaPath));
          factory.setValidating(true);
@@ -118,7 +128,7 @@ public class SchemaValidator implements SchemaValidatorInterface
   	
          
 		 //parse the document and validate it
-		 domParser.parse(new InputSource(aDocument.toURI().toString()), LocationHandler.getInstance());
+		 domParser.parse(new InputSource(aDocument.toURI().toString()), LocationHandler.getInstance());*/
 	}
 }
 

@@ -28,11 +28,14 @@ public class Messages_it_IT extends ListResourceBundle {
 		  "Uno dei documenti non è stato trovato o non è stato prodotto correttamente" },
 		{ "STARTING_WORD_TEXT_LEFT",
 		  "Che inizia con le parole: "},
+		{ "SECTION_PARENT_TYPE_LEFT",
+		  "Inserita nella sezione di tipo: "},
 		{ "SECTION_TYPE_LEFT",
 		  "Nella sezione di tipo: "},
 		{ "SECTION_ID_LEFT",
 		  "Con id: "},
-
+		{ "PROBLEM_DESCRIPTION_LEFT",
+		  "Il problema è: "},
 	};
 	
 	

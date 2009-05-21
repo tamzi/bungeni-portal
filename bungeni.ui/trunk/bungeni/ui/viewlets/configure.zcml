@@ -6,7 +6,7 @@
   <include file="workspace.zcml" />
   <include file="schedule.zcml" />
   
-  <!-- navigation -->
+  <!-- navigation  - the navigation is Public -->
   
   <browser:viewlet
      name="bungeni.navigation.breadcrumbs"

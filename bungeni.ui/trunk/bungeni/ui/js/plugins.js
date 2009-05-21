@@ -78,6 +78,7 @@
     var selects = calendar.find('#scheduling-table select.workflow-status');
     $.each(selects, function(i, o) {
         var select = $(o);
+        var label = select.siblings(".state-title");
         var form = select.parents("form").eq(0);
         select.change(function(event) {
             var selected = select.children().eq(o.selectedIndex);
@@ -86,7 +87,12 @@
                 dataType: "html",
                 complete: function(xmlHttp) {
                   $("#kss-spinner").hide();
+                  o.selectedIndex = 0;
+                  select.blur();
+                  
                   if (xmlHttp.status != 200) {
+                    select.attr('disabled', 'disabled');
+                    label.text("");
                     var tid = selected.attr('value');
                     top.location.href = form.attr('action')+
                       '?next_url=...&transition='+tid;
@@ -104,8 +110,7 @@
                         select.append(option);
                       });
 
-                    o.selectedIndex = 0;
-                    select.siblings(".state-title").text(title.text());
+                    label.text(title.text());
 
                     if (options.length == 1)
                       select.hide();

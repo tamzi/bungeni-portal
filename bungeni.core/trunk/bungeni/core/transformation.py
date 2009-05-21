@@ -123,7 +123,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
     <xsl:template match="processing-instruction()|comment()"/>
 
     <xsl:template match="html:html//html:p/text()">
-      <text:span>
+      <text:span text:style="Boldface">
         <xsl:value-of select="." />
       </text:span>
     </xsl:template>
@@ -133,7 +133,9 @@ class HtmlFragmentOpenDocumentTransform(Transform):
         <xsl:attribute name="text:name">
            <xsl:value-of select="@name" />
         </xsl:attribute>
+        <text:p>
         <xsl:apply-templates />
+        </text:p>
       </text:section>
     </xsl:template>
 
@@ -184,7 +186,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
                     "urn:oasis:names:tc:opendocument:xmlns:text:1.0"] = name
 
         data = unicode(result_tree)
-        
+
         # strip XML declaration since this transform deals with
         # fragments.
         data = data.lstrip('<?xml version="1.0"?>')

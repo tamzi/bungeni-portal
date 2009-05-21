@@ -109,18 +109,16 @@ public class ExceptionManager implements ErrorHandler
         	    element = m.group(3).toString();
         	}
         	//create the text of the exception
-    		String message = resourceBundle.getString("MISSING_ATTRIBUTE_LEFT_TEXT") +
-	  		                 attribute +
-	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_CENTER_TEXT") +
-	  		                 element +
-	  		                 resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
-        	
-            System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
-            //System.err.println(message);
-            
+    		String message = 	resourceBundle.getString("PROBLEM_DESCRIPTION_LEFT") +
+	     				     	resourceBundle.getString("MISSING_ATTRIBUTE_LEFT_TEXT") +
+    					     	attribute +
+    					     	resourceBundle.getString("MISSING_ATTRIBUTE_CENTER_TEXT") +
+    					     	element +
+    					     	resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
             try
             {
-            	//this will store the section id
+            	
+            	/*Create the message for the section*/
             	String sectionId = "";
             	
             	//this will store the section name
@@ -129,39 +127,93 @@ public class ExceptionManager implements ErrorHandler
             	//this is the message that shows the id the name and the starting words of the found problem
             	String messageId = resourceBundle.getString("VALIDATION_FAILED_TEXT") + "\n";
             	
+            	//get the line and column number
+            	String errorLocation = 	ex.getLineNumber() +
+            							"-" +
+            							ex.getColumnNumber();
+            	
+            	//get the elements location string
+            	String elementsLocationString = LocationHandler.getInstance().getElementsLocation();
+            	
+            	//split the elements location string in lines
+            	String[] elementsLocationsLines = elementsLocationString.split("\n");
+            	
+            	//iterate the lines and find the one regarding the current element
+            	for (int i = 0; i < elementsLocationsLines.length; i++)
+            	{
+            		//get the location of the element
+            		String elementLocation = elementsLocationsLines[i].split(",")[0];
+            		
+            		//if it is not the line regarding the current element continue
+            		if(elementLocation.compareTo(errorLocation) != 0)
+            		{
+            			//continue
+            			continue;
+            		}
+            		//else get the section type and id
+            		else
+            		{
+            			//get the section type
+            			sectionName = elementsLocationsLines[i].split(",")[1].split(":")[0];
+            		
+            			//get the section id
+            			sectionId = elementsLocationsLines[i].split(",")[1].split(":")[1];
+            		}
+            	}
+                
+                //complete the message to show 
+                messageId = 	messageId + 
+                				resourceBundle.getString("SECTION_TYPE_LEFT") +
+                				sectionName +
+                				", " +
+                				resourceBundle.getString("SECTION_ID_LEFT") +
+                				sectionId + 
+                				", " +
+                				resourceBundle.getString("STARTING_WORD_TEXT_LEFT") +
+                    			getStartingWords(sectionId);
+        			
+                /*Create the message for the parent section*/
+            	//this will store the section id
+            	String sectionIdParent = "";
+            	
+            	//this will store the section name
+            	String sectionNameParent = ""; 
+            	
+            	//this is the message that shows the id the name and the starting words of the found problem
+            	String messageIdParent = "";
+            	
             	//get the current visited node
                 Node node =	(Node)this.parser.getProperty("http://apache.org/xml/properties/dom/current-element-node");
                 
                 //get the name of the node
-                sectionName = node.getLocalName();
+                sectionNameParent = node.getLocalName();
                 
                 if (node.getAttributes().getNamedItem("id") != null)
                 {
                 	 //get the section id 
-                	 sectionId = node.getAttributes().getNamedItem("id").getNodeValue();
-                	 //System.err.println(node.getAttributes().getNamedItem("id").getNodeValue());
-                	 //System.err.println("Starting with the words: " + getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue()));
+                	 sectionIdParent = node.getAttributes().getNamedItem("id").getNodeValue();
                 }
                 if (node.getAttributes().getNamedItem("name") != null)
                 {
                 	//get the section name
-                	sectionName = node.getAttributes().getNamedItem("name").getNodeValue();
-               	    //System.err.println(node.getAttributes().getNamedItem("name").getNodeValue());
+                	sectionNameParent = node.getAttributes().getNamedItem("name").getNodeValue();
                 }
                 
                 //complete the message to show 
-                messageId = messageId + 
-                			resourceBundle.getString("SECTION_TYPE_LEFT") +
-                			sectionName +
-                			"\n" +
-                			resourceBundle.getString("SECTION_ID_LEFT") +
-                			sectionId +
-                			"\n" +
-                			resourceBundle.getString("STARTING_WORD_TEXT_LEFT") +
-                			getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue());
+                messageIdParent = 	messageIdParent + 
+                					resourceBundle.getString("SECTION_PARENT_TYPE_LEFT") +
+                					sectionNameParent +
+                					", " +
+                					resourceBundle.getString("SECTION_ID_LEFT") +
+                					sectionIdParent; 
+                			//"\n" +
+                			//resourceBundle.getString("STARTING_WORD_TEXT_LEFT") +
+                			//getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue());
     			
+                
                 //print the messages 
                 System.err.println(messageId);
+                System.err.println(messageIdParent);
                 System.err.println(message);
                   
             }

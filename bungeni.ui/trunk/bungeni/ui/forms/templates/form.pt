@@ -44,21 +44,20 @@
               id="alchemist-form"
               enctype="multipart/form-data">
 
-
-          <dl class="portalMessage info"                                                                                                              
+          <dl class="portalMessage info"
               tal:condition="view/status"
               tal:define="mtype string:info"
-              tal:attributes="class string:portalMessage ${mtype};">                                                                                  
-            <dt tal:content="python:mtype.capitalize()"                                                                                             
-                i18n:translate="">                                                                                                                  
-              Info                                                                                                                                
-            </dt>                                                                                                                                   
-            <dd tal:content="view/status | nothing"                                                                                             
-                i18n:translate="">                                                                                                                  
-              The status message.                                                                                                                 
-            </dd>                                                                                                                                   
-          </dl>        
-
+              tal:attributes="class string:portalMessage ${mtype};">
+            <dt tal:content="python:mtype.capitalize()"
+                i18n:translate="">
+              Info
+            </dt>
+            <dd tal:content="view/status | nothing"
+                i18n:translate="">
+              The status message.
+            </dd>
+          </dl>
+          
           <div class="invariant-errors"
                tal:define="errors view/invariantErrors|python:();
                            messages python: [error.message for error in errors];

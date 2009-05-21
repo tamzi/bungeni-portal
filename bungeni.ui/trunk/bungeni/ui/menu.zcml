@@ -89,7 +89,7 @@
      for="bungeni.models.interfaces.IBungeniApplication"
      title="Add parliamentary content..."
      action="add_content"
-     permission="zope.ManageContent"
+     permission="zope.View"
      submenu="context_additems"
      />
 
@@ -406,7 +406,7 @@
      for="*"
      title="Motion"
      action="/business/motions/add"
-     permission="zope.ManageContent"
+     permission="bungeni.motion.Add"
      />
 
   <browser:menuItem
@@ -414,7 +414,7 @@
      for="*"
      title="Question"
      action="./business/questions/add"
-     permission="zope.ManageContent"
+     permission="bungeni.question.Add"
      />
 
   <browser:menuItem

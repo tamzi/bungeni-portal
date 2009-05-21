@@ -76,13 +76,14 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
            has_wfstate = False
         self.wf_status = wf_state       
         self.has_status = has_wfstate
-    
+        self.entries = self.getFeedEntries()
+        
     def render( self ):
         columns = self.columns
         formatter = self.formatter_factory(
             self.context,
             self.request,
-            self.getFeedEntries(),
+            self.entries,
             prefix="results",
             visible_column_names = [c.name for c in columns],
             columns = columns)
@@ -93,16 +94,21 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     @property
     def _log_table( self ):
         auditor = audit.getAuditor( self.context )
-        return auditor.change_table
-        
+        if auditor is not None:
+            return auditor.change_table
+
     def getFeedEntries( self ):
         instance = removeSecurityProxy( self.context )        
         mapper = orm.object_mapper( instance )
+
+        table = self._log_table
+        if table is None:
+            return ()
         
-        query = self._log_table.select().where(
-            rdb.and_( self._log_table.c.content_id == rdb.bindparam('content_id'),
-            rdb.and_(self._log_table.c.action == 'workflow') )
-            ).order_by(self._log_table.c.change_id.desc())
+        query = table.select().where(
+            rdb.and_(table.c.content_id == rdb.bindparam('content_id'),
+            rdb.and_(table.c.action == 'workflow') )
+            ).order_by(table.c.change_id.desc())
 
         content_id = mapper.primary_key_from_instance( instance )[0] 
         content_changes = query.execute( content_id = content_id )
@@ -121,7 +127,7 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
     actions = ()
-
+    
     render = ViewPageTemplateFile ('templates/viewlet.pt')
     
     def update(self, transition=None):

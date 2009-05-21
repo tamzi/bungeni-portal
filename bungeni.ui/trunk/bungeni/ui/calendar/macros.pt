@@ -114,7 +114,7 @@
                       <label for="body_text" i18n:translate="">
                         Discussion
                       </label>
-                      <textarea name="body_text" lines="5"
+                      <textarea class="discussion" name="body_text" lines="5"
                                 tal:define="body_text item/discussion/body_text;
                                             id repeat/item/number"
                                 tal:attributes="id string:discussion-textarea-$id"

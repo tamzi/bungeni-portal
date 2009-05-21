@@ -345,23 +345,21 @@
   function post_workflow_transition(href) {
     var url_parts = href.split('?');
     var url = url_parts[0];
-    var args = url_parts[1].split('=');
-    if (args[0] == 'transition') {
-      var transition_id = args[1];
+    var params = url_parts[1].split('&');
+    
+    var form = $("<form/>").
+      attr("method", "POST").
+      attr("action", url).
+      appendTo(document.body);
 
-      var input = $('<input type="hidden" name="transition"/>').
-        attr("value", transition_id);
+    $.each(params, function(i, o) {
+        var args = o.split('=');
+        var input = $('<input type="hidden" name="'+args[0]+'"/>').
+          attr("value", args[1]);
+        input.appendTo(form);
+      });
 
-      var form = $("<form/>").
-        attr("method", "POST").
-        attr("action", url).
-        appendTo(document.body);
-
-      input.appendTo(form);
-      form.get(0).submit();
-
-      form.remove();
-    }
+    form.get(0).submit();
   };
   
   $.fn.bungeniPostWorkflowActionMenuItem = function() {

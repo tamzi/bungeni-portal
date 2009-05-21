@@ -72,7 +72,7 @@ class DefaultAction(form.Action):
     def submitted(self):
         return True
 
-class BaseForm(object):
+class BaseForm(form.FormBase):
     """Base form class for Bungeni content.
 
     Headless submission
@@ -96,20 +96,22 @@ class BaseForm(object):
 
     Adapts = None
     CustomValidation = None
-
+    
     legends = {}
+    status = None
     
     def __init__(self, *args):
         super(BaseForm, self).__init__(*args)
 
-        if self.request.get("headless", "").lower() in TRUE_VALS:
+        if str(self.request.get("headless", "")).lower() in TRUE_VALS:
             self.setPrefix(NO_PREFIX)
 
             # in headless mode, the first action defined is submitted
             # by default
-            default_action = tuple(self.actions)[0]
-            self.actions = form.Actions(
-                DefaultAction(default_action))
+            for action in self.actions:
+                default = DefaultAction(action)
+                self.actions = form.Actions(default)
+                break
 
         # the ``_next_url`` attribute is used internally by our
         # superclass to implement formlib's ``nextURL`` method
@@ -130,7 +132,7 @@ class BaseForm(object):
         return groups
 
     def update(self):
-        self.status = self.request.get('portal_status_message', '')
+        self.status = self.request.get('portal_status_message', self.status)
         self.form_fields = filterFields(self.context, self.form_fields)
         super(BaseForm, self).update()
         set_widget_errors(self.widgets, self.errors)

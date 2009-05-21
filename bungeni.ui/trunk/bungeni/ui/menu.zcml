@@ -398,7 +398,7 @@
      for="*"
      title="Bill"
      action="/business/bills/add"
-     permission="zope.ManageContent"
+     permission="bungeni.bill.Add"
      />
 
   <browser:menuItem
@@ -432,6 +432,7 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      action="/"
      title="Workspace"
+     permission="zope.View"     
      />
 
   <browser:menuItem
@@ -440,6 +441,7 @@
      layer=".interfaces.IBungeniSkin"
      action="/"
      title="Home"
+     permission="zope.Public"     
      />
 
    <browser:menuItem
@@ -447,6 +449,7 @@
      for="*"
      action="/business"
      title="Business"
+     permission="zope.Public"          
      />
 
    <browser:menuItem
@@ -454,6 +457,7 @@
       for="*"
       action="/members"
       title="Members"
+     permission="zope.Public"           
       />
 
    <browser:menuItem
@@ -461,6 +465,7 @@
       for="*"
       action="/archive"
       title="Archive"
+     permission="zope.Public"           
       />
 
   <browser:menuItem
@@ -477,7 +482,47 @@
      action="edit"
      title="Edit"
      order="10"
+     permission="zope.ManageContent"                
      />
+     
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IBill"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.bill.Edit"           
+     />
+
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IQuestion"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.question.Edit"           
+     />
+
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IMotion"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.motion.Edit"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IResponse"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.response.Edit"           
+     />
+
 
   <browser:menuItem
      menu="context_actions"
@@ -602,6 +647,7 @@
       for="*"
       action="/motions/add"
       title="Create motion"
+      permission="bungeni.motion.Add"            
       />
    
    <browser:menuItem
@@ -609,6 +655,7 @@
       for="*"
       action="/questions/add"
       title="Create question"
+      permission="bungeni.question.Add"            
       />
    
    <browser:menuItem
@@ -616,6 +663,7 @@
       for="*"
       action="/bills/add"
       title="Create bill"
+      permission="bungeni.bill.Add"      
       />
 
 </configure>

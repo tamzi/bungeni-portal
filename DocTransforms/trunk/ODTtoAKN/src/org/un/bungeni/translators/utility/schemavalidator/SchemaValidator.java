@@ -2,11 +2,19 @@ package org.un.bungeni.translators.utility.schemavalidator;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+
 import org.apache.xerces.parsers.DOMParser;
 import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.utility.exceptionmanager.ExceptionManager;
+import org.un.bungeni.translators.utility.exceptionmanager.LocationHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
@@ -70,7 +78,7 @@ public class SchemaValidator implements SchemaValidatorInterface
 	public void validate(File aDocument, String aPathToODFDocument,String aSchemaPath) throws SAXException, IOException, ParserConfigurationException
 	{
 		 //create a dom parser
-		 DOMParser domParser = new DOMParser();
+		 /*DOMParser domParser = new DOMParser();
 			 
 		 //set the features of the parser that specifies that the document must be validated 
 		 domParser.setFeature("http://xml.org/sax/features/validation",true);
@@ -90,9 +98,23 @@ public class SchemaValidator implements SchemaValidatorInterface
 			 
 		 //set the error handler of the parser to the ExceptionManager
 		 domParser.setErrorHandler(ExceptionManager.getInstance()); 
-			 
+		 
 		 //parse the document and validate it
-		 domParser.parse(new InputSource(aDocument.toURI().toString()));
+		 domParser.parse(new InputSource(aDocument.toURI().toString()));*/
+		
+	     SAXParserFactory factory = SAXParserFactory.newInstance();
+         SchemaFactory sfactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+         sfactory.setErrorHandler(ExceptionManager.getInstance());
+         Schema schema = sfactory.newSchema(new File(aSchemaPath));
+         factory.setValidating(true);
+         factory.setSchema(schema);
+            
+         ///set the schema somewhere
+         SAXParser domParser = factory.newSAXParser();
+        
+         
+		 //parse the document and validate it
+		 domParser.parse(new InputSource(aDocument.toURI().toString()), LocationHandler.getInstance());
 	}
 }
 

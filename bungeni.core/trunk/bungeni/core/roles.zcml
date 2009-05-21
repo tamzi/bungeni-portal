@@ -35,6 +35,7 @@
 
   <grant permission="bungeni.session.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.sitting.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.sitting.Delete" role="bungeni.Clerk" />
   <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />

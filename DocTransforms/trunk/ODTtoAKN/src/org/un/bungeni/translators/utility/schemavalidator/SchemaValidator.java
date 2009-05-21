@@ -102,15 +102,20 @@ public class SchemaValidator implements SchemaValidatorInterface
 		 //parse the document and validate it
 		 domParser.parse(new InputSource(aDocument.toURI().toString()));*/
 		
-	     SAXParserFactory factory = SAXParserFactory.newInstance();
-         SchemaFactory sfactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		// System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema","com.saxonica.jaxp.SchemaFactoryImpl");
+	     
+		 SAXParserFactory factory = SAXParserFactory.newInstance();
+		 SchemaFactory sfactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
          Schema schema = sfactory.newSchema(new File(aSchemaPath));
          factory.setValidating(true);
+         factory.setNamespaceAware(true);
          factory.setSchema(schema);
-            
+        
+         
          ///set the schema somewhere
          SAXParser domParser = factory.newSAXParser();
         
+  	
          
 		 //parse the document and validate it
 		 domParser.parse(new InputSource(aDocument.toURI().toString()), LocationHandler.getInstance());

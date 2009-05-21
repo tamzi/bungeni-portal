@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<workflow
+   id="groupsitting-workflow"
+   title="Group-sitting workflow"
+   description="Workflow for a group-sitting."
+   initial_state="">
+
+  <state id="draft" title="Draft">
+    <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.sitting.Delete" role="bungeni.Owner" />
+  </state>
+  
+  <state id="scheduled" title="Scheduled">
+    <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+  </state>
+
+  <state id="published" title="Published">
+    <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+  </state>
+
+  <transition
+     id="create-groupsitting"
+     title="Create"
+     trigger="automatic"
+     source=""
+     destination="draft"
+     action=""
+     condition=""
+     />
+  
+  <transition
+     id="schedule"
+     title="Schedule"
+     trigger="manual"
+     source="draft"
+     destination="scheduled"
+     action=""
+     condition=""
+     require_confirmation="true"
+     />
+  
+  <transition
+     id="publish"
+     title="Publish"
+     trigger="manual"
+     source="scheduled"
+     destination="published"
+     action=""
+     condition=""
+     require_confirmation="true"
+     />
+
+</workflow>
+

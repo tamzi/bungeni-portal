@@ -18,13 +18,13 @@
      />     
   
   <adapter
-     for=".interfaces.IBungeniContent"
+     for="ore.alchemist.interfaces.IAlchemistContent"
      provides="zope.securitypolicy.interfaces.IPrincipalRoleMap"
      factory="alchemist.security.role.LocalPrincipalRoleMap"
      />
   
   <adapter
-     for=".interfaces.IBungeniContent"
+     for="ore.alchemist.interfaces.IAlchemistContent"
      provides="zope.securitypolicy.interfaces.IRolePermissionMap"
      factory="alchemist.security.permission.LocalRolePermissionMap"
      />

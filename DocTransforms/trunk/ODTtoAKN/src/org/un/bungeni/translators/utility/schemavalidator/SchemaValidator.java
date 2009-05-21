@@ -104,7 +104,6 @@ public class SchemaValidator implements SchemaValidatorInterface
 		
 	     SAXParserFactory factory = SAXParserFactory.newInstance();
          SchemaFactory sfactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-         sfactory.setErrorHandler(ExceptionManager.getInstance());
          Schema schema = sfactory.newSchema(new File(aSchemaPath));
          factory.setValidating(true);
          factory.setSchema(schema);

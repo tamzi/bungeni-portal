@@ -13,7 +13,7 @@
      for="*"
      manager="ploned.ui.interfaces.IPortalHeaderManager"
      class=".navigation.BreadCrumbsViewlet"
-     permission="zope.View"
+     permission="zope.Public"
      weight="60"
      />     
 
@@ -22,7 +22,7 @@
      for="*"
      manager="ploned.ui.interfaces.IPortalHeaderManager"
      class=".navigation.GlobalSectionsViewlet"
-     permission="zope.View"
+     permission="zope.Public"
      weight="40"
      />     
 
@@ -30,7 +30,7 @@
      name="bungeni.navigation.navtree"
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".navigation.NavigationTreeViewlet"
-     permission="zope.View"
+     permission="zope.Public"
      weight="1"
      />
 

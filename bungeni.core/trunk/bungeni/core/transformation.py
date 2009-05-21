@@ -73,8 +73,10 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
                     text:name="Section-...">
-          <text:span>Hello, </text:span>
-          <text:span text:style-name="Boldface">world!</text:span>
+          <text:p>
+              <text:span>Hello, </text:span>
+              <text:span text:style-name="Boldface">world!</text:span>
+          </text:p>
       </text:section>
 
     Root text-nodes gets wrapped in a <text:span> node.
@@ -83,9 +85,11 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
                     text:name="Section-...">
-          <text:span>Hello, </text:span>
-          <text:span text:style-name="Boldface">world</text:span>
-          <text:span>!</text:span>
+          <text:p>
+              <text:span>Hello, </text:span>
+              <text:span text:style-name="Boldface">world</text:span>
+              <text:span>!</text:span>
+          </text:p>
       </text:section>
 
     Emphasis:
@@ -95,11 +99,13 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
                     text:name="Section-...">
-          <text:span>Hello, </text:span>
-          <text:span text:style-name="Boldface">world</text:span>
-          <text:span>and</text:span>
-          <text:span text:style-name="Emphasized">universe</text:span>
-          <text:span>!</text:span>
+          <text:p>
+              <text:span>Hello, </text:span>
+              <text:span text:style-name="Boldface">world</text:span>
+              <text:span>and</text:span>
+              <text:span text:style-name="Emphasized">universe</text:span>
+              <text:span>!</text:span>
+          </text:p>
       </text:section>
 
     """

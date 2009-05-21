@@ -14,6 +14,7 @@
 
   <permission id="bungeni.session.Add" title="Add session" />
   <permission id="bungeni.sitting.Add" title="Add sitting" />
+  <permission id="bungeni.sitting.Edit" title="Edit sitting" />
   <permission id="bungeni.sitting.Delete" title="Delete sitting" />
   <permission id="bungeni.sitting.Reorder" title="Reorder schedulings" />
   <permission id="bungeni.itemschedule.Add" title="Add item scheduling" />

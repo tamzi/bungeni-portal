@@ -16,11 +16,10 @@ from ore.workflow import interfaces
 from ore.alchemist.interfaces import IAlchemistContainer
 from ore.alchemist.interfaces import IAlchemistContent
 from ore.workflow.interfaces import IWorkflowInfo
-from alchemist.ui.core import BaseForm
-
+from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.core.i18n import _
 from bungeni.core import audit
-from bungeni.ui.forms.workflow import TransitionHandler
+from bungeni.ui.forms.common import BaseForm
 from bungeni.ui.table import TableFormatter
 from bungeni.ui.menu import get_actions
 
@@ -109,29 +108,6 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
         content_changes = query.execute( content_id = content_id )
         return map( dict, content_changes)
     
-def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
-    """ bind workflow transitions into formlib actions """
-
-    if wf_name:
-        success_factory = lambda tid: TransitionHandler( tid, wf_name )
-    else:
-        success_factory = TransitionHandler
-
-    actions = []
-    for tid in transitions:
-        d = {}
-        if success_factory:
-            d['success'] = success_factory( tid )
-        if wf is not None:
-            action = form.Action( _(unicode(wf.getTransitionById( tid ).title)), **d )
-        else:
-            action = form.Action( tid, **d )
-        action.form = form_instance
-        action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
-        
-        actions.append( action )  
-    return actions
-    
 class WorkflowComment(object):
     note = u""
     
@@ -172,7 +148,7 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
             self.form_fields = self.form_fields.omit('notes')
             
         self.setUpWidgets()
-        
+
     def setupActions(self, transition):
         self.wf = interfaces.IWorkflowInfo( self.context )
 

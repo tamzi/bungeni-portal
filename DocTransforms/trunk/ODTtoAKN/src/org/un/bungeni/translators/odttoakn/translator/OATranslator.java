@@ -145,7 +145,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
-	  		
+			System.out.println(e.getMessage());
+			
 			//print the message and the exception into the logger
 			//logger.fatal((new TranslationFailedException(message)).getStackTrace());
 			
@@ -157,6 +158,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//get the message to print
 			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
 	  		
+			System.out.println(e.getMessage());
 			//print the message and the exception into the logger
 			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
 			
@@ -168,6 +170,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//get the message to print
 			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
 	  		
+			System.out.println(message);
 			//print the message and the exception into the logger
 			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
 			
@@ -178,7 +181,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("IOEXCEPTION_TEXT");
-	  		
+			System.out.println(e.getMessage());
+			
 			//print the message and the exception into the logger
 			//logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
 			
@@ -228,7 +232,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
-	  		
+			System.out.println(e.getMessage());
+			 		
 			//print the message and the exception into the logger
 			//logger.fatal((new TranslationFailedException(message)).getStackTrace());
 			
@@ -239,7 +244,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
-	  		
+			System.out.println(e.getMessage());
+			
 			//print the message and the exception into the logger
 			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
 			
@@ -250,7 +256,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
-	  		
+			System.out.println(e.getMessage());
+			
 			//print the message and the exception into the logger
 			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
 			
@@ -261,7 +268,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("IOEXCEPTION_TEXT");
-	  		
+			System.out.println(e.getMessage());
+				
 			//print the message and the exception into the logger
 			//logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
 			
@@ -307,7 +315,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("TRANSLATION_TO_METALEX_FAILED_TEXT");
-	  		
+			System.out.println(e.getMessage());
+				
 			//print the message and the exception into the logger
 			//logger.fatal((new TranslationToMetalexFailedException(message)).getStackTrace());
 			
@@ -344,7 +353,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("XSLT_BUILDING_FAILED_TEXT");
-	  		
+			System.out.println(e.getMessage());
+				
 			//print the message and the exception into the logger
 			//logger.fatal((new XSLTBuildingException(message)).getStackTrace());
 			

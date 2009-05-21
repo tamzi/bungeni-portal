@@ -132,10 +132,13 @@ public class LocationHandler extends DefaultHandler
     	//the message of the exception
 		String exceptionMessage = ex.getMessage();
 		
+		System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
+		System.err.println(exceptionMessage);
+	        
 		//check what type of text the exception launch
 		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
 		{
-			//compile the regex
+			/*//compile the regex
 			Pattern p = Pattern.compile("(.*)Attribute '(.*)' must appear on element '(.*)'");
         	//set the input
 			Matcher m = p.matcher(exceptionMessage);
@@ -211,14 +214,14 @@ public class LocationHandler extends DefaultHandler
         	{
             	//print the stack trace 
         		e.printStackTrace();
-        	} 
+        	} */
         }
 		else if (exceptionMessage.matches("(.*)The content of element '(.*)' is not complete(.*)"))
 		{
 			
 			System.err.println("At line " + ex.getLineNumber()  + " of " + ex.getSystemId() + ':');
 	        System.err.println(exceptionMessage);
-	        Node node = null;
+	        /*Node node = null;
 
     		try {
     			
@@ -239,7 +242,7 @@ public class LocationHandler extends DefaultHandler
         	{
         		System.err.println("");
         			
-        	}
+        	}*/
        }
     }
 

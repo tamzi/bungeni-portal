@@ -15,33 +15,32 @@ from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.core.i18n import _
 
 def filterFields(context, form_fields):
-    omit_names=[]
+    omit_names = []
+    
     if IAlchemistContent.providedBy(context):
         ctx = context
         for field in form_fields:
-            if security.canWrite( ctx, field.__name__):
-                #r/w
+            try:
+                can_write = security.canWrite( ctx, field.__name__)
+                can_read = security.canAccess( ctx, field.__name__)
+            except AttributeError:
+                can_write = can_read = False
+
+            if can_write:
                 continue
-            if security.canAccess( ctx, field.__name__):                
+            
+            if can_read:
                 field.for_display = True
-                #r/o
             else:
                 omit_names.append(field.__name__)
-                #ignore                                  
-    elif  IAlchemistContainer.providedBy(context):
-        #domain_model = removeSecurityProxy( context.domain_model )
-        #ctx = ProxyFactory(domain_model())
-        pass
-    else:
+    elif not IAlchemistContainer.providedBy(context):
         ctx=getattr(context, 'context', None)
         if ctx:
             filterFields(ctx, form_fields)
         else:            
             raise NotImplementedError   
-    #import pdb; pdb.set_trace()        
  
     return form_fields.omit(*omit_names)   
-
 
 class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     mode = "view"

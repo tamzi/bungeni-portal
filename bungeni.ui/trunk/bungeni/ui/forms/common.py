@@ -133,10 +133,13 @@ class BaseForm(form.FormBase):
 
     def update(self):
         self.status = self.request.get('portal_status_message', self.status)
-        self.form_fields = filterFields(self.context, self.form_fields)
+        self.form_fields = self.filter_fields()
         super(BaseForm, self).update()
         set_widget_errors(self.widgets, self.errors)
-        
+
+    def filter_fields(self):
+        return self.form_fields
+
     def validate(self, action, data):    
         """Validation that require context must be called here,
         invariants may be defined in the descriptor."""
@@ -195,6 +198,9 @@ class AddForm(BaseForm, ui.AddForm):
         """
         
         return self.validate(action, data)
+
+    def filter_fields(self):
+        return filterFields(self.context, self.form_fields)
 
     def update(self):
         super(AddForm, self).update()
@@ -333,6 +339,9 @@ class EditForm(BaseForm, ui.EditForm):
             errors += validator(action, data, self.context, self.context.__parent__)
         
         return errors
+
+    def filter_fields(self):
+        return filterFields(self.context, self.form_fields)
 
     def setUpWidgets(self, ignore_request=False):
         super(EditForm, self).setUpWidgets(ignore_request=ignore_request)

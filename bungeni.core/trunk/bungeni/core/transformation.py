@@ -74,19 +74,19 @@ class HtmlFragmentOpenDocumentTransform(Transform):
                     text:name="Section-...">
           <text:p>
               <text:span>Hello, </text:span>
-              <text:span text:style-name="Boldface">world!</text:span>
+              <text:span text:style-name="Strong_20_Emphasis">world!</text:span>
           </text:p>
       </text:section>
 
     Root text-nodes gets wrapped in a <text:span> node.
     
-      >>> print "".join(transform.transform(('Hello, <b>world</b>!',)).data)
+      >>> print "".join(transform.transform(('Hello, <strong>world</strong>!',)).data)
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
                     text:name="Section-...">
           <text:p>
               <text:span>Hello, </text:span>
-              <text:span text:style-name="Boldface">world</text:span>
+              <text:span text:style-name="Strong_20_Emphasis">world</text:span>
               <text:span>!</text:span>
           </text:p>
       </text:section>
@@ -100,9 +100,9 @@ class HtmlFragmentOpenDocumentTransform(Transform):
                     text:name="Section-...">
           <text:p>
               <text:span>Hello, </text:span>
-              <text:span text:style-name="Boldface">world</text:span>
+              <text:span text:style-name="Strong_20_Emphasis">world</text:span>
               <text:span>and</text:span>
-              <text:span text:style-name="Emphasized">universe</text:span>
+              <text:span text:style-name="Emphasis">universe</text:span>
               <text:span>!</text:span>
           </text:p>
       </text:section>
@@ -128,7 +128,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
     <xsl:template match="processing-instruction()|comment()"/>
 
     <xsl:template match="html:html//html:p/text()">
-      <text:span text:style="Boldface">
+      <text:span>
         <xsl:value-of select="." />
       </text:span>
     </xsl:template>
@@ -144,20 +144,14 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       </text:section>
     </xsl:template>
 
-    <xsl:template match="html:b">
-      <text:span text:style-name="Boldface">
+    <xsl:template match="html:b | html:strong">
+      <text:span text:style-name="Strong_20_Emphasis">
         <xsl:apply-templates select="node()"/>
       </text:span>
     </xsl:template>
 
-    <xsl:template match="html:em">
-      <text:span text:style-name="Emphasized">
-        <xsl:apply-templates select="node()"/>
-      </text:span>
-    </xsl:template>
-
-    <xsl:template match="html:i">
-      <text:span text:style-name="Italic">
+    <xsl:template match="html:em | html:i">
+      <text:span text:style-name="Emphasis">
         <xsl:apply-templates select="node()"/>
       </text:span>
     </xsl:template>
@@ -186,9 +180,10 @@ class HtmlFragmentOpenDocumentTransform(Transform):
             for element in result_tree.xpath(
                 ".//text:%s" % tag, namespaces={
                     'text': "urn:oasis:names:tc:opendocument:xmlns:text:1.0"}):
-                element.attrib[
-                    "{%s}style-name" % \
-                    "urn:oasis:names:tc:opendocument:xmlns:text:1.0"] = name
+                key = "{%s}style-name" % \
+                      "urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                if key not in element.attrib:
+                    element.attrib[key] = name
 
         data = unicode(result_tree)
 

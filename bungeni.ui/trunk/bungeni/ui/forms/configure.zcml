@@ -87,6 +87,14 @@
      permission="bungeni.itemschedule.Edit"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />  
+     
+  <browser:page
+     name="edit"
+     for="bungeni.models.domain.ScheduledItemDiscussion"
+     class=".common.EditForm"
+     permission="bungeni.itemschedule.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />       
   
   <browser:page
      name="translate"

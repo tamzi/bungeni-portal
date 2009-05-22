@@ -1,4 +1,5 @@
 import operator
+import datetime
 
 from zope import component
 
@@ -307,9 +308,15 @@ class CalendarMenu(BrowserMenu):
 
         contexts = []
         app = getSite()
+        today = datetime.date.today()
         committees = app[u"business"]["committees"].values()
 
-        contexts.extend(map(schedule.CommitteeSchedulingContext, committees))
+        # add activate committee
+        for committee in committees:
+            if (committee.end_date is None or committee.end_date >= today) and \
+               (committee.start_date is None or committee.start_date <= today):
+                contexts.append(schedule.CommitteeSchedulingContext(committee))
+
         contexts.append(schedule.PlenarySchedulingContext(app))
 
         for context in contexts:

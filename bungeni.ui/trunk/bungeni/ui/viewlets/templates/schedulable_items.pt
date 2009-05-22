@@ -8,7 +8,6 @@
                          title item/description"
          tal:content="item/title" />
     </td>
-    <td i18n:translate="" tal:content="item/state" />
-    <td tal:content="item/date" />
+    <td i18n:translate="" tal:content="item/date" />
   </tr>
 </tal:items>

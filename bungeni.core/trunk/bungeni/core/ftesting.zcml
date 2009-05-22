@@ -8,17 +8,42 @@
   <include package="zope.app.zcmlfiles" />
   <include package="zope.component" file="meta.zcml" />
   <include package="zope.app.component" file="meta.zcml" />
-
   <include package="zope.security" file="meta.zcml" />
   <include package="zope.app.securitypolicy" file="meta.zcml" />  
   <securityPolicy 
       component="zope.securitypolicy.zopepolicy.ZopeSecurityPolicy" />
+
+  <!-- Principals -->
+  
+  <unauthenticatedPrincipal
+     id="zope.anybody"
+     title="Unauthenticated User" />
+  
+  <unauthenticatedGroup
+     id="zope.Anybody"
+     title="Unauthenticated Users"
+     />
+
+  <authenticatedGroup
+     id="zope.Authenticated"
+     title="Authenticated Users"
+     />
+  
+  <everybodyGroup
+     id="zope.Everybody"
+     title="All Users"
+     />
+
+  <!-- Roles -->
+
+  <role id="zope.Member" title="Member" />
+  
+  <!-- App configuration -->
   
   <include package="bungeni.core" file="roles.zcml" />  
   <include package="bungeni.core" file="permissions.zcml" />  
   <include package="bungeni.core.workflows" file="grants.zcml" />  
   <include package="bungeni.core.workflows" file="permissions.zcml" />
-
 
   <include package="ore.alchemist" file="meta.zcml"/>
   <include package="alchemist.catalyst" file="meta.zcml"/>
@@ -27,6 +52,8 @@
   <include package="ore.alchemist" />
   <include package="ore.xapian" />
   <include package="z3c.pt" />
+
+  <!-- DB setup -->
   
   <db:engine
      name="bungeni-db"

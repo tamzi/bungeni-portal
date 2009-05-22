@@ -4,11 +4,14 @@ $Id: $
 from zope import interface
 from zope import event
 from zope.lifecycleevent import ObjectCreatedEvent
+from zope.security import canAccess, canWrite
+from zope.security.proxy import removeSecurityProxy
+from zope.security.interfaces import Unauthorized, ForbiddenAttribute
 
 from sqlalchemy import orm
 from ore.alchemist import container
 from ore.alchemist import Session
-from zope.security.proxy import removeSecurityProxy
+
 
 from i18n import _
 
@@ -29,17 +32,49 @@ class Versioned(container.PartialContainer):
             value = getattr(source, column.name)
             setattr(dest, column.name, value)
 
+    def _copy_writeableFields( self, source, dest, context):
+        """ only revert the fields which the user
+        has edit rights for"""
+        table = orm.class_mapper(source.__class__).mapped_table
+
+        for column in table.columns:
+            if column.primary_key:
+                continue
+
+            value = getattr(source, column.name)
+            try:
+                if canWrite(context, column.name):
+                    setattr(dest, column.name, value)
+            except ForbiddenAttribute:
+                setattr(dest, column.name, value)
+                
+    def has_write_permission(self, context):
+        """check that  the user has the rights to edit 
+             the object, if not we assume he has no rights 
+             to make a version             
+             assumption is here that if he has the rights on any of the fields
+             he may create a version."""             
+        table = orm.class_mapper(context.__class__).mapped_table            
+        for column in table.columns:
+            if canWrite(context, column.name):
+                return True
+        else:
+            return False
 
     def create( self, message, manual = False ):
         """Store the existing state of the adapted context as a new
         version."""
-
-        version = self.domain_model()
         context = self.__parent__
+        if manual:
+            if not self.has_write_permission(context):
+                raise Unauthorized             
+                            
+        version = self.domain_model()
         trusted = removeSecurityProxy(context)
         
         # set values on version from context
         self._copyFields(trusted, version)
+        
         
         # content domain ids are typically not in the interfaces
         # manually inspect and look for one, by hand to save on the new version
@@ -67,18 +102,13 @@ class Versioned(container.PartialContainer):
         reverted state."""
 
         context = self.__parent__
+        if not self.has_write_permission(context):
+            raise Unauthorized 
+                    
         trusted = removeSecurityProxy(context)
         ctx_class = trusted.__class__
-        
-        has_wf_status = hasattr(context, 'status')
-        if has_wf_status:
-            wf_status = context.status
             
-        # set values on version from context
-        self._copyFields(version, trusted)
-
-        if has_wf_status:
-            context.status = wf_status
+        self._copy_writeableFields(version, trusted, context)
             
         msg = _(u"Reverted to previous version $version.",
                 mapping={'version': version.version_id})

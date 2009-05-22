@@ -39,14 +39,15 @@ def setQuestionDefaults(info, context):
 
 def setSubmissionDate(info, context):
     instance = removeSecurityProxy(context)
-    if instance.submission_date != None:
+    if instance.submission_date == None:
         instance.submission_date = datetime.date.today()    
+    import pdb; pdb.set_trace()        
     versions =  bungeni.core.interfaces.IVersioned(instance)
     versions.create('New version created upon submission to clerks office')
     
 def setApprovalDate(info, context):
     instance = removeSecurityProxy(context)
-    if instance.approval_date != None:
+    if instance.approval_date == None:
         instance.approval_date = datetime.date.today()  
     versions =  bungeni.core.interfaces.IVersioned(instance)            
     versions.create('New Version created upon approval by speakers office')
@@ -57,7 +58,7 @@ def setApprovalDate(info, context):
 
 def setMinistrySubmissionDate(info, context):
     instance = removeSecurityProxy(context)
-    if instance.ministry_submit_date != None:
+    if instance.ministry_submit_date == None:
         instance.ministry_submit_date = datetime.date.today()  
 
 def setQuestionScheduleHistory(info, context):
@@ -83,12 +84,12 @@ def getQuestionSubmissionAllowed(info, context):
 
 def setBillSubmissionDate( info, context ):
     instance = removeSecurityProxy(context)
-    if instance.submission_date != None:
+    if instance.submission_date == None:
         instance.submission_date = datetime.date.today()
 
 def setBillPublicationDate( info, context ):
     instance = removeSecurityProxy(context)
-    if instance.publication_date != None:
+    if instance.publication_date == None:
         instance.publication_date = datetime.date.today()
 
 def submitResponse( info, context ):

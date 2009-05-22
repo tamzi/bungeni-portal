@@ -139,7 +139,7 @@
      for="ore.alchemist.interfaces.IAlchemistContent"
      name="change_workflow_state"
      class=".workflow.WorkflowChangeStateView"
-     permission="zope.ManageContent"/>
+     permission="zope.View"/>
 
   <!-- versions -->
   
@@ -180,7 +180,7 @@
   
   <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
-     permission="zope.View"
+     permission="zope.Public"
      name="jsontableheaders"
      class=".container.ContainerJSONTableHeaders"
      />     

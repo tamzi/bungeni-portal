@@ -11,7 +11,6 @@ from plone.transforms.message import PloneMessageFactory as _
 from plone.transforms.stringiter import StringIter
 from plone.transforms.transform import Transform
 from plone.transforms.transform import TransformResult
-from plone.transforms.utils import html_bodyfinder
 
 class TransformationAdapter(object):
     interface.implements(ITraversable)

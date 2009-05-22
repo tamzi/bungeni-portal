@@ -11,6 +11,8 @@
   
   <state id="archived" title="Archived">
     <deny permission="zope.ManageContent" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Everybody" />
+    <grant permission="zope.View" role="bungeni.Anybody" />
   </state>
 
   <transition

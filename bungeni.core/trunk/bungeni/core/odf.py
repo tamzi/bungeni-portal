@@ -34,8 +34,9 @@ class OpenDocument(object):
         template = ViewPageTemplate(
             bytes, encoding='utf-8', omit_default_prefix=False)
         bound_template = template.bind(view)
-        self.contents[info] = bound_template(**kwargs)
-        
+        result = bound_template(**kwargs)
+        self.contents[info] = result.encode('utf-8')
+
     def save(self, filename):
         outfile = zipfile.ZipFile(filename, 'w')
         try:

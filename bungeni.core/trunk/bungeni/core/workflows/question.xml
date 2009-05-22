@@ -35,7 +35,8 @@
   </state>
 
   <state id="admissible" title="admissible Question">
-    <grant permission="zope.View" role="bungeni.Everybody" />      
+    <grant permission="zope.View" role="bungeni.Everybody" />    
+    <grant permission="zope.View" role="bungeni.Anybody" />          
     <!-- TODO permissions for the ministry the question is directed to, maybe to be set in the action? -->    
   </state>
 

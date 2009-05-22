@@ -50,7 +50,7 @@
      name="reorder"
      for="bungeni.models.domain.ItemScheduleContainer"
      class=".forms.ItemScheduleContainerReorderForm"
-     permission="zope.ManageContent"
+     permission="bungeni.sitting.Reorder"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
@@ -58,7 +58,7 @@
      name="reorder"
      for="bungeni.models.domain.ItemSchedule"
      class=".forms.ItemScheduleReorderForm"
-     permission="zope.ManageContent"
+     permission="bungeni.sitting.Reorder"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
@@ -66,9 +66,27 @@
      name="delete"
      for="bungeni.models.domain.ItemSchedule"
      class=".forms.ItemScheduleDeleteForm"
-     permission="zope.ManageContent"
+     permission="bungeni.itemschedule.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
+  
+   <browser:page
+     name="add"
+     for="bungeni.models.interfaces.IItemScheduleContainer"
+     class=".common.AddForm"
+     permission="bungeni.itemschedule.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />   
+  
+  
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.domain.ItemSchedule"
+     class=".common.EditForm"
+     permission="bungeni.itemschedule.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />  
   
   <browser:page
      name="translate"

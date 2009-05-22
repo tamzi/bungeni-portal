@@ -1,7 +1,5 @@
 #### CONFIG VARIABLE SETTING ####
 
-set :application, "bungeni-dspace"
-set :bungeni_username, "undesa"
 set :user, "#{bungeni_username}"
 set :use_sudo, false
 set :app_host, "localhost"

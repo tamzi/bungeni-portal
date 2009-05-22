@@ -174,7 +174,14 @@
                         active
                         item_status" />
   </class>                        
-
+  <class class=".domain.ScheduledItemDiscussion">
+    <require permission="zope.View"
+             attributes="schedule_id
+                        body_text sitting_time" />
+    <require permission="bungeni.itemschedule.Edit"
+             set_attributes=" item_id
+                        body_text sitting_time" />
+  </class>      
 
 </configure>
 

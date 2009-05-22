@@ -107,9 +107,13 @@ class Versioned(container.PartialContainer):
                     
         trusted = removeSecurityProxy(context)
         ctx_class = trusted.__class__
-            
+        wf_status = getattr(context, 'status')
+                                
         self._copy_writeableFields(version, trusted, context)
             
+        if wf_status:
+            context.status = wf_status
+                        
         msg = _(u"Reverted to previous version $version.",
                 mapping={'version': version.version_id})
 

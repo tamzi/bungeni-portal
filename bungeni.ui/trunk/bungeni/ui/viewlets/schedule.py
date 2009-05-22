@@ -24,6 +24,7 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.workflow.interfaces import IWorkflow
 
 from bungeni.ui.i18n import _
+from bungeni.ui.calendar.utils import datetimedict
 
 class SchedulablesViewlet(viewlet.ViewletBase):
     """Renders a portlet which calls upon the scheduling viewlet
@@ -90,7 +91,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             'title': properties.title,
             'name': type(item).__name__,
             'description': properties.description,
-            'date': item.changes[-1].date,
+            'date': _(u"$F", mapping=
+                      datetimedict.fromdatetime(item.changes[-1].date)),
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,
             'url': absoluteURL(item, self.request)} for item, properties in \

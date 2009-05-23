@@ -128,50 +128,44 @@ class AppSetup(object):
             description=_(u"Visit the digital document repository."))
 
         # archive/records
-        bills = records[u"bills"] = domain.BillContainer()
-        provideAdapter(location.ContainerLocation(bills),
+        records[u"bills"] = domain.BillContainer()
+        provideAdapter(location.ContainerLocation(bills, records[u"bills"]),
                        (implementedBy(domain.Bill), ILocation))
 
-        motions = records[u"motions"] = domain.MotionContainer()
-        provideAdapter(location.ContainerLocation(motions),
+        records[u"motions"] = domain.MotionContainer()
+        provideAdapter(location.ContainerLocation(motions, records[u"motions"]),
                        (implementedBy(domain.Motion), ILocation))
 
-        questions = records[u"questions"] = domain.QuestionContainer()
-        provideAdapter(location.ContainerLocation(questions),
+        records[u"questions"] = domain.QuestionContainer()
+        provideAdapter(location.ContainerLocation(questions, records[u"questions"]),
                        (implementedBy(domain.Question), ILocation))
 
-        parliaments = records[u"parliaments"] = domain.ParliamentContainer()
-        provideAdapter(location.ContainerLocation(parliaments),
+        records[u"parliaments"] = domain.ParliamentContainer()
+        provideAdapter(location.ContainerLocation(records[u"parliaments"]),
                        (implementedBy(domain.Parliament), ILocation))
 
-        members = records[u"members"] = domain.UserContainer()
-        provideAdapter(location.ContainerLocation(members),
+        records[u"members"] = domain.UserContainer()
+        provideAdapter(location.ContainerLocation(current, records[u"members"]),
                        (implementedBy(domain.User), ILocation))
-        
-        parties = records[u"parties"] = domain.PoliticalPartyContainer()
-        provideAdapter(location.ContainerLocation(parties),
+
+        records[u"parties"] = domain.PoliticalPartyContainer()
+        provideAdapter(location.ContainerLocation(records[u"parties"]),
                        (implementedBy(domain.PoliticalParty), ILocation))
 
-        constituencies = records[u"constituencies"] = \
-                         domain.ConstituencyContainer()
-        provideAdapter(location.ContainerLocation(constituencies),
+        records[u"constituencies"] = domain.ConstituencyContainer()
+        provideAdapter(location.ContainerLocation(records[u"constituencies"]),
                        (implementedBy(domain.Constituency), ILocation))
-        
-        offices = records[u"offices"] = \
-                        domain.OfficeContainer()
-        provideAdapter(location.ContainerLocation(offices),
-                       (implementedBy(domain.Office), ILocation))        
-        
-        #Section(
-        #    title=_(u"Offices"),
-        #    description=_(u"Overview of parliamentary offices."))
 
-        committees = records[u"committees"] = domain.CommitteeContainer()
-        provideAdapter(location.ContainerLocation(committees),
+        records[u"offices"] = domain.OfficeContainer()
+        provideAdapter(location.ContainerLocation(records[u"offices"]),
+                       (implementedBy(domain.Office), ILocation))
+
+        records[u"committees"] = domain.CommitteeContainer()
+        provideAdapter(location.ContainerLocation(committees, records[u"committees"]),
                        (implementedBy(domain.Committee), ILocation))
 
-        governments = records[u"governments"] = domain.GovernmentContainer()
-        provideAdapter(location.ContainerLocation(governments),
+        records[u"governments"] = domain.GovernmentContainer()
+        provideAdapter(location.ContainerLocation(records[u"governments"]),
                        (implementedBy(domain.Government), ILocation))
 
         ##########

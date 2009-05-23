@@ -9,6 +9,7 @@ from zope.traversing.browser import absoluteURL
 from zope.location.interfaces import ILocation
 from zope.viewlet import viewlet
 from zc.resourcelibrary import need
+from zope.app.component.hooks import getSite
 
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
@@ -49,13 +50,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
     """
 
     model = states = container = None
-    
-    render = ViewPageTemplateFile('templates/schedulable_items.pt')
 
-    @property
-    def title(self):
-        descriptor = queryModelDescriptor(self.container.domain_model)
-        return descriptor.container_name
+    render = ViewPageTemplateFile('templates/schedulable_items.pt')
 
     @property
     def app(self):
@@ -66,30 +62,26 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             parent = parent.__parent__
         raise ValueError("Unable to locate application.")
 
-    @property
-    def container(self):
-        gsm = component.getSiteManager()
-        adapter = gsm.adapters.lookup(
-            (interface.implementedBy(self.model),
-             interface.providedBy(self)), ILocation)        
-        return adapter.container
-    
     def update(self):
         need('yui-dragdrop')
         need('yui-container')
-        
+
         session = Session()
-        items = session.query(self.model).filter(
-            self.model.status.in_(self.states))
+        items = tuple(session.query(self.model).filter(
+            self.model.status.in_(self.states)))
 
         # add location to items
-        items = [contained(item, self.container, stringKey(item))
-                 for item in items]
+        gsm = component.getSiteManager()
+        adapter = gsm.adapters.lookup(
+            (interface.implementedBy(self.model),
+             interface.providedBy(self)), ILocation)
+
+        items = [adapter(item, None) for item in items]
 
         # for each item, format dictionary for use in template
         self.items = [{
             'title': properties.title,
-            'name': type(item).__name__,
+            'name': item.__class__.__name__,
             'description': properties.description,
             'date': _(u"$F", mapping=
                       datetimedict.fromdatetime(item.changes[-1].date)),
@@ -106,8 +98,8 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
     states = (
         bill_wf_state[u"submitted"].id,
         bill_wf_state[u"first_reading_postponed"].id,
-        bill_wf_state[u"second_reading"].id, 
-        bill_wf_state[u"second_reading_postponed"].id, 
+        bill_wf_state[u"second_reading"].id,
+        bill_wf_state[u"second_reading_postponed"].id,
         bill_wf_state[u"whole_house"].id,
         bill_wf_state[u"whole_house_postponed"].id,
         bill_wf_state[u"report_reading"].id,
@@ -115,7 +107,7 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
         bill_wf_state[u"third_reading"].id,
         bill_wf_state[u"third_reading_postponed"].id,
         )
-    
+
 class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     model = domain.Question
 

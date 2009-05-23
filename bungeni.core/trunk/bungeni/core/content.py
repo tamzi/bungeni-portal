@@ -41,6 +41,11 @@ class Section(OrderedContainer):
             return obj
         return item
 
+    def __setitem__(self, key, value):
+        super(Section, self).__setitem__(key, value)
+        value.__parent__ = self
+        value.__name__ = key
+
     def browserDefault(self, request):
         default_name = self.default_name
         if default_name is None:
@@ -50,10 +55,10 @@ class Section(OrderedContainer):
     def publishTraverse(self, request, nm):
         traverser = ItemTraverser(self, request)
         return traverser.publishTraverse(request, nm)
-    
+
 class QueryContent(object):
     interface.implements(IQueryContent, IDCDescriptiveProperties)
-    
+
     def __init__(self, query, title=None, description=None, marker=None):
         if marker is not None:
             def query(parent, query=query):
@@ -63,5 +68,3 @@ class QueryContent(object):
         self.query = query
         self.title = title
         self.description = description
-
-    

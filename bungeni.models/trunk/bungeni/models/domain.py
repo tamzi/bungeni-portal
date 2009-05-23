@@ -540,6 +540,20 @@ class ItemSchedule(Entity):
         "bungeni.models.domain.ScheduledItemDiscussionContainer",
         "schedule_id")
 
+    @property
+    def getItem(self):
+        session = Session()
+        s_item = self.item
+        s_item.__parent__ = self
+        return s_item
+        
+    @property
+    def getDiscussion(self):
+        session = Session()
+        s_discussion = self.discussion
+        s_discussion.__parent__ = self
+        return s_discussion
+
 class ItemScheduleCategory(Entity):
     """ category of a scheduled item used to
     get the 'headings' when producing the agenda/ minutes

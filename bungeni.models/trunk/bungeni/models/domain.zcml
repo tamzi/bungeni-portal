@@ -164,6 +164,8 @@
                         planned_order
                         real_order
                         active
+                        getItem
+                        getDiscussion
                         item_status" />
     <require permission="bungeni.itemschedule.Edit"
              set_attributes=" item_id

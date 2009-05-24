@@ -146,23 +146,29 @@ class ItemScheduleReorderForm(PageForm):
         category = self.context.category
 
         swap_category_with = None
-        
-        if mode == 'up':
-            if category and index < len(ordering) + 1:
-                prev = container[ordering[index+1]]
-                prev.category_id = self.context.category_id
+
+        if mode == 'up' and index > 0:
+            # if this item has a category assigned, and there's an
+            # item after it, swap categories with it
+            if category and index < len(ordering) - 1:
+                next = container[ordering[index+1]]
+                next.category_id = self.context.category_id
                 self.context.category_id = None
-            elif index > 0:
+            # else we exchange planned order with the item immediately
+            # before us;
+            elif category:
+                self.context.category_id = None
+            else:
                 prev = container[ordering[index-1]]
                 planned_order = self.context.planned_order
                 self.context.planned_order = prev.planned_order
                 prev.planned_order = planned_order
                 swap_category_with = prev
-                
+
         if mode == 'down':
             if index < len(ordering) + 1:
                 next = container[ordering[index+1]]
-                
+
                 # if next item has a category, swap, reset and skip
                 # reordering
                 if next.category_id is not None:
@@ -173,7 +179,7 @@ class ItemScheduleReorderForm(PageForm):
                     self.context.planned_order = next.planned_order
                     next.planned_order = planned_order
                     swap_category_with = next
-                    
+
         if swap_category_with is not None:
             category_id = self.context.category_id
             self.context.category_id = swap_category_with.category_id
@@ -192,7 +198,7 @@ class ItemScheduleDeleteForm(DeleteForm):
 
         1) For category maintenance, move the scheduling to the bottom
         of the container.
-        
+
         2) Delete any discussion items that have been associated to
         this scheduling.
         """

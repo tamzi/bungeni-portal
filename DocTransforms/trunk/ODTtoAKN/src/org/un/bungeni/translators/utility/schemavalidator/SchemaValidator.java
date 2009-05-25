@@ -3,12 +3,9 @@ package org.un.bungeni.translators.utility.schemavalidator;
 import java.io.File;
 import java.io.IOException;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import org.apache.xerces.parsers.DOMParser;
 import org.un.bungeni.translators.exceptions.MissingAttributeException;

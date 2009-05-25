@@ -68,7 +68,7 @@ public class OATranslatorTest
 		//OAXSLProcBuilder.newInstance().createXSLProc(GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/");
 				
 		//perform a translation
-		File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
+		File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main2.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		//File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		
 		//input stream

@@ -13,13 +13,37 @@ from ore.alchemist import Session
 from sqlalchemy.exceptions import UnboundExecutionError
 import sqlalchemy as rdb
 
-from bungeni.models.domain import User
+from bungeni.models import domain 
 
 import logging
 log = logging.getLogger("bungeni.portal")
 
+def getUserGroups(user_id):
+    session = Session()
+    query = session.query( domain.GroupMembership 
+                    ).filter( 
+                        rdb.and_(
+                            domain.GroupMembership.user_id ==
+                            user_id,
+                            domain.GroupMembership.active_p == 
+                            True))
+    results = query.all()
+    for result in results:
+        yield u'group.%s.%i' % ( result.group.type,
+                result.group.group_id )
+                                                
+    
+                
+
+
+
 class AlchemistWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
+    
+    def getGroups(self, id ):
+        session = Session()
+        db_user = session.query(domain.User).filter(domain.User.login==id).all()
+        return getUserGroups(db_user[0].user_id)
     
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
@@ -37,10 +61,10 @@ class AlchemistWhoPlugin(object):
             log.warn(e)
             return
         
-        results = session.query(User).filter(
+        results = session.query(domain.User).filter(
                 rdb.and_(
-                    User.login==unicode(login),
-                    User.active_p=='A')               
+                    domain.User.login==unicode(login),
+                    domain.User.active_p=='A')               
                 ).all()
 
         if len(results) != 1:
@@ -57,10 +81,16 @@ class AlchemistWhoPlugin(object):
                 'email': user.email,
                 'title': u"%s, %s" % (user.last_name, user.first_name),
                 'type': user.type,
+                'groups' : tuple( self.getGroups(userid)) + (userid,),
                 })
 
 class GlobalAuthWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
+    
+    def getGroups(self, id):
+        session = Session()
+        db_user = session.query(domain.User).filter(domain.User.login==id).all()
+        return getUserGroups(db_user[0].user_id)
     
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
@@ -93,5 +123,6 @@ class GlobalAuthWhoPlugin(object):
         if principal is not None:
             identity.update({
                 'title': principal.title,
-                'groups': tuple(principal.groups) + (principal.id,),
+                #'groups': tuple(principal.groups) + (principal.id,),
+                'groups' : tuple( self.getGroups(userid)) + (userid,),                
                 })

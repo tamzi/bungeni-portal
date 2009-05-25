@@ -22,6 +22,7 @@ namespace :dspace_install do
 		"dspace_presetup:dspace",
 		"dspace_setup:create_db",
 		"dspace_setup:setup_dspace_cfg",
+		"dspace_setup:setup_dspace_dsrun",
 		"dspace_setup:build_dspace",
 		"dspace_setup:create_admin",
 		"dspace_setup:setup_tomcat_cfg",

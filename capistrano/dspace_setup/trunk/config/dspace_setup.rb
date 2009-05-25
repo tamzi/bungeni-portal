@@ -37,6 +37,13 @@ namespace :dspace_setup do
         put buffer, "#{dspace_download_dir}/#{dspace_install_dirname}/dspace/config/dspace.cfg", :mode => 0644
     end
 
+    desc "Configure DSpace cfg "
+    task :setup_dspace_dsrun, :roles=> [:app] do
+        file = File.join(File.dirname(__FILE__), "templates", "dsrun.erb")
+        template = File.read(file)
+        buffer = ERB.new(template).result(binding)
+        put buffer, "#{dspace_download_dir}/#{dspace_install_dirname}/dspace/bin/dsrun", :mode => 0754
+    end
 
     desc "Configure Tomcat  "
     task :setup_tomcat_cfg, :roles=> [:app] do

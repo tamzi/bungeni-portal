@@ -11,6 +11,7 @@ from repoze.who.interfaces import IMetadataProvider
 
 from ore.alchemist import Session
 from sqlalchemy.exceptions import UnboundExecutionError
+import sqlalchemy as rdb
 
 from bungeni.models.domain import User
 
@@ -36,7 +37,11 @@ class AlchemistWhoPlugin(object):
             log.warn(e)
             return
         
-        results = session.query(User).filter_by(login=unicode(login)).all()
+        results = session.query(User).filter(
+                rdb.and_(
+                    User.login==unicode(login),
+                    User.active_p=='A')               
+                ).all()
 
         if len(results) != 1:
             return None

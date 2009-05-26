@@ -15,7 +15,7 @@ from plone.transforms.transform import TransformResult
 class TransformationAdapter(object):
     interface.implements(ITraversable)
     default_source_mimetype = 'text/plain'
-    
+
     def __init__(self, context):
         self.context = context
 
@@ -23,10 +23,10 @@ class TransformationAdapter(object):
         assert len(furtherPath) >= 3
         source_mimetype = "%s/%s" % (name, furtherPath.pop())
         mimetype = "%s/%s" % (furtherPath.pop(), furtherPath.pop())
-        
+
         styles = tuple(furtherPath)
         del furtherPath[:]
-        
+
         engine = component.getUtility(ITransformEngine)
         result = engine.transform(
             (self.context,), source_mimetype, mimetype, options={'styles': styles})
@@ -35,7 +35,7 @@ class TransformationAdapter(object):
             raise RuntimeError(
                 "Unable to transform data from mime-type '%s' to '%s'." % (
                     source_mimetype, mimetype))
-                
+
         return u"".join(result.data)
 
 class HtmlFragmentOpenDocumentTransform(Transform):
@@ -45,10 +45,16 @@ class HtmlFragmentOpenDocumentTransform(Transform):
     Currently supported elements:
 
     - b
+    - strong
     - em
+    - span
     - i
+    - ul
+    - li
 
     To-do:
+
+    - ol
 
     - table
     - tbody
@@ -63,11 +69,37 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       >>> import lxml.usedoctest
 
     Instantiate transform.
-      
+
       >>> transform = HtmlFragmentOpenDocumentTransform()
 
+    Paragraph wrapping.
+
+      >>> print "".join(transform.transform(('Hello, <p>world!</p>',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:p>
+             <text:span>Hello, </text:span>
+          </text:p>
+          <text:p>
+             <text:span>world!</text:span>
+          </text:p>
+      </text:section>
+
+    Missing paragraph.
+
+      >>> print "".join(transform.transform(('<em>Hello</em>, <b>world</b><span>!</span>',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:p>
+              <text:span text:style-name="Emphasis">Hello</text:span>,
+              <text:span text:style-name="Strong_20_Emphasis">world</text:span>!
+          </text:p>
+      </text:section>
+
     Boldface.
-    
+
       >>> print "".join(transform.transform(('Hello, <b>world!</b>',)).data)
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
@@ -79,7 +111,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       </text:section>
 
     Root text-nodes gets wrapped in a <text:span> node.
-    
+
       >>> print "".join(transform.transform(('Hello, <strong>world</strong>!',)).data)
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
@@ -92,7 +124,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       </text:section>
 
     Emphasis:
-    
+
       >>> print "".join(transform.transform(
       ...    ('Hello, <b>world</b> and <em>universe</em>!',)).data)
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
@@ -105,6 +137,25 @@ class HtmlFragmentOpenDocumentTransform(Transform):
               <text:span text:style-name="Emphasis">universe</text:span>
               <text:span>!</text:span>
           </text:p>
+      </text:section>
+
+      >>> print "".join(transform.transform(
+      ...    ('<ul><li>ABC</li><li>DEF</li></ul>',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:list>
+              <text:list-item>
+                 <text:p>
+                    ABC
+                 </text:p>
+              </text:list-item>
+              <text:list-item>
+                 <text:p>
+                    DEF
+                 </text:p>
+              </text:list-item>
+          </text:list>
       </text:section>
 
     """
@@ -127,21 +178,46 @@ class HtmlFragmentOpenDocumentTransform(Transform):
 
     <xsl:template match="processing-instruction()|comment()"/>
 
-    <xsl:template match="html:html//html:p/text()">
-      <text:span>
-        <xsl:value-of select="." />
-      </text:span>
-    </xsl:template>
-    
     <xsl:template match="html:html">
       <text:section>
         <xsl:attribute name="text:name">
            <xsl:value-of select="@name" />
         </xsl:attribute>
-        <text:p>
         <xsl:apply-templates />
-        </text:p>
       </text:section>
+    </xsl:template>
+
+    <xsl:key name="adjacent"
+             match="html:body/*"
+             use="generate-id((preceding-sibling::text() |
+                               preceding-sibling::html:em |
+                               preceding-sibling::html:strong |
+                               preceding-sibling::html:i |
+                               preceding-sibling::html:b |
+                               preceding-sibling::html:span)[1])" />
+
+    <xsl:template match="html:body">
+    <xsl:apply-templates select="html:p | html:ul" />
+    <xsl:for-each select="*[key('adjacent', generate-id())]">
+    <text:p>
+    <xsl:variable name="id" select="generate-id()"/>
+    <xsl:for-each select=". | following-sibling::node()[key('adjacent', $id)]">
+    <xsl:apply-templates select="." />
+    </xsl:for-each>
+    </text:p>
+    </xsl:for-each>
+    </xsl:template>
+
+    <xsl:template match="html:p">
+      <text:p>
+         <xsl:apply-templates select="node()" />
+      </text:p>
+    </xsl:template>
+
+    <xsl:template match="html:ul">
+      <text:list>
+         <xsl:apply-templates select="node()"/>
+      </text:list>
     </xsl:template>
 
     <xsl:template match="html:b | html:strong">
@@ -156,9 +232,27 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       </text:span>
     </xsl:template>
 
+    <xsl:template match="html:p/text()">
+      <text:span>
+         <xsl:value-of select="." />
+      </text:span>
+    </xsl:template>
+
+    <xsl:template match="html:li/text()">
+      <text:p>
+         <xsl:value-of select="." />
+      </text:p>
+    </xsl:template>
+
+    <xsl:template match="html:li">
+        <text:list-item>
+            <xsl:apply-templates select="node()"/>
+        </text:list-item>
+    </xsl:template>
+
     </xsl:stylesheet>
     """))
-    
+
     def transform(self, data, options={}):
         if self._validate(data) is None:
             return None
@@ -173,7 +267,7 @@ class HtmlFragmentOpenDocumentTransform(Transform):
         # reparse as valid XML, then apply transform
         doc = lxml.etree.fromstring(body)
         result_tree = self.xslt_transform(doc)
-        
+
         # apply styles (optional)
         for style in options.get('styles', ()):
             tag, name = style.split(':')

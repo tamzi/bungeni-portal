@@ -88,6 +88,15 @@ class HtmlFragmentOpenDocumentTransform(Transform):
 
     Missing paragraph.
 
+      >>> print "".join(transform.transform(('<em>Hello</em>',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:p>
+              <text:span text:style-name="Emphasis">Hello</text:span>
+          </text:p>
+      </text:section>
+
       >>> print "".join(transform.transform(('<em>Hello</em>, <b>world</b><span>!</span>',)).data)
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
@@ -140,19 +149,36 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       </text:section>
 
       >>> print "".join(transform.transform(
-      ...    ('<ul><li>ABC</li><li>DEF</li></ul>',)).data)
+      ...    ('<ul><li><em>ABC</em></li><li>DEF</li></ul>',)).data)
       <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
                     xmlns:html="http://www.w3.org/1999/xhtml"
                     text:name="Section-...">
           <text:list>
               <text:list-item>
                  <text:p>
-                    ABC
+                   <text:span text:style-name="Emphasis">ABC</text:span>
                  </text:p>
               </text:list-item>
               <text:list-item>
                  <text:p>
                     DEF
+                 </text:p>
+              </text:list-item>
+          </text:list>
+      </text:section>
+
+    Formatting of list items.
+
+      >>> print "".join(transform.transform(
+      ...    ('<ul><li><em>ABC</em>, <b>DEF</b>!</li></ul>',)).data)
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
+                    xmlns:html="http://www.w3.org/1999/xhtml"
+                    text:name="Section-...">
+          <text:list>
+              <text:list-item>
+                 <text:p>
+                     <text:span text:style-name="Emphasis">ABC</text:span>,
+                     <text:span text:style-name="Strong_20_Emphasis">DEF</text:span>!
                  </text:p>
               </text:list-item>
           </text:list>
@@ -188,16 +214,16 @@ class HtmlFragmentOpenDocumentTransform(Transform):
     </xsl:template>
 
     <xsl:key name="adjacent"
-             match="html:body/*"
+             match="text() | html:em | html:strong | html:b | html:i | html:span"
              use="generate-id((preceding-sibling::text() |
                                preceding-sibling::html:em |
                                preceding-sibling::html:strong |
                                preceding-sibling::html:i |
                                preceding-sibling::html:b |
-                               preceding-sibling::html:span)[1])" />
+                               preceding-sibling::html:span | .)[1])" />
 
-    <xsl:template match="html:body">
-    <xsl:for-each select="*">
+    <xsl:template match="html:body | html:li">
+    <xsl:for-each select="node()">
     <xsl:if test="key('adjacent', generate-id())">
     <text:p>
     <xsl:variable name="id" select="generate-id()"/>
@@ -219,9 +245,13 @@ class HtmlFragmentOpenDocumentTransform(Transform):
     </xsl:template>
 
     <xsl:template match="html:ul">
-      <text:list>
-         <xsl:apply-templates select="node()"/>
-      </text:list>
+    <text:list>
+    <xsl:for-each select="html:li">
+    <text:list-item>
+    <xsl:apply-templates select="." />
+    </text:list-item>
+    </xsl:for-each>
+    </text:list>
     </xsl:template>
 
     <xsl:template match="html:b | html:strong">
@@ -240,18 +270,6 @@ class HtmlFragmentOpenDocumentTransform(Transform):
       <text:span>
          <xsl:value-of select="." />
       </text:span>
-    </xsl:template>
-
-    <xsl:template match="html:li/text()">
-      <text:p>
-         <xsl:value-of select="." />
-      </text:p>
-    </xsl:template>
-
-    <xsl:template match="html:li">
-        <text:list-item>
-            <xsl:apply-templates select="node()"/>
-        </text:list-item>
     </xsl:template>
 
     </xsl:stylesheet>

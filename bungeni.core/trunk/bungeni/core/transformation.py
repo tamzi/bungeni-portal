@@ -197,14 +197,18 @@ class HtmlFragmentOpenDocumentTransform(Transform):
                                preceding-sibling::html:span)[1])" />
 
     <xsl:template match="html:body">
-    <xsl:apply-templates select="html:p | html:ul" />
-    <xsl:for-each select="*[key('adjacent', generate-id())]">
+    <xsl:for-each select="*">
+    <xsl:if test="key('adjacent', generate-id())">
     <text:p>
     <xsl:variable name="id" select="generate-id()"/>
     <xsl:for-each select=". | following-sibling::node()[key('adjacent', $id)]">
     <xsl:apply-templates select="." />
     </xsl:for-each>
     </text:p>
+    </xsl:if>
+    <xsl:if test="self::html:p | self::html:ul">
+    <xsl:apply-templates select="." />
+    </xsl:if>
     </xsl:for-each>
     </xsl:template>
 

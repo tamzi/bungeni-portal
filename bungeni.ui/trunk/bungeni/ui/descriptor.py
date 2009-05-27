@@ -27,7 +27,6 @@ from bungeni.ui.constraints import check_email
 
 from bungeni.models import domain
 from bungeni.models import vocabulary
-from bungeni.models.utils import get_db_user_id
 from bungeni.ui.forms import validations
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import get_all_languages
@@ -894,7 +893,6 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                 title=_(u"Owner"),
                 description=_(u"Select the user who should own this document."),
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
-                #default=get_db_user_id()
                 ),
               listing_column=member_fk_column("owner_id", 
                     _(u'Member of Parliament')),              

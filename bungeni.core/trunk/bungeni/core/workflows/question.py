@@ -38,9 +38,13 @@ class actions:
         """
         utils.setQuestionDefaults(info, context)
         user_id = utils.getUserId()
-        if not user_id:
-            user_id ='-'
-        zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)     
+        if user_id:
+            zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
+                ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
+        owner_id = utils.getOwnerId( context )
+        if owner_id and (owner_id != user_id):
+            zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
+                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)                            
 
     @staticmethod
     def makePrivate(info,context):

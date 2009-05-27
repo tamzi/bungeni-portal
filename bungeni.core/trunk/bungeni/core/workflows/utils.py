@@ -22,6 +22,10 @@ def getUserId( ):
         if IRequest.providedBy(participation):
             return participation.principal.id
 
+def getOwnerId( context ):
+    if context:
+        owner_id = getattr(context, 'owner_id', None)
+        return dbutils.get_user_login(owner_id)
 
 def createVersion(info, context):
     """Create a new version of an object and return it."""
@@ -41,7 +45,6 @@ def setSubmissionDate(info, context):
     instance = removeSecurityProxy(context)
     if instance.submission_date == None:
         instance.submission_date = datetime.date.today()    
-    import pdb; pdb.set_trace()        
     versions =  bungeni.core.interfaces.IVersioned(instance)
     versions.create('New version created upon submission to clerks office')
     

@@ -13,6 +13,9 @@ from bungeni.core.translation import is_translation
 from bungeni.core.translation import get_language_by_name
 from bungeni.core.i18n import _
 
+from zope.securitypolicy.interfaces import IPrincipalRoleMap
+
+
 class DublinCoreMetadataAdapter(object):
     """Generic dublin core metadata adapter which will retrieve
     metadata attributes lazily.
@@ -56,13 +59,14 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
+        #prm = IPrincipalRoleMap(self.context)
         context = removeSecurityProxy(self.context)
         if context.question_number is None:
             return context.short_name
             
         return "#%d: %s" % (
-            self.context.question_number,
-            self.context.short_name)
+            context.question_number,
+            context.short_name)
 
     @property
     def description(self):

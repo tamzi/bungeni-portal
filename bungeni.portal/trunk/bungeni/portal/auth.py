@@ -13,7 +13,7 @@ from ore.alchemist import Session
 from sqlalchemy.exceptions import UnboundExecutionError
 import sqlalchemy as rdb
 
-from bungeni.models import domain 
+from bungeni.models import domain, delegation 
 
 import logging
 log = logging.getLogger("bungeni.portal")
@@ -23,25 +23,19 @@ def getUserGroups(login_id):
     db_user = session.query(domain.User).filter(domain.User.login==login_id).all()
     if len(db_user) == 1:
         user_id = db_user[0].user_id
-        gquery = session.query( domain.GroupMembership 
+        query = session.query( domain.GroupMembership 
                     ).filter( 
                         rdb.and_(
                             domain.GroupMembership.user_id ==
                             user_id,
                             domain.GroupMembership.active_p == 
                             True))
-        gresults = gquery.all()
-        for result in gresults:
+        results = query.all()
+        for result in results:
             yield result.group.group_principal_id
-        dquery = session.query(domain.UserDelegation).filter(
-                    rdb.and_(
-                    domain.User.active_p=='A',
-                    domain.UserDelegation.delegation_id == user_id)
-                    )
-        dresults = dquery.all()                    
-        for result in dresults:  
-            if result.user.active_p == 'A':                                        
-                yield result.user.login
+        results = delegation.get_user_delegations(user_id)                   
+        for result in results:  
+            yield result.login
                 
 
 

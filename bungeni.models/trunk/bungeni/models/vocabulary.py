@@ -5,13 +5,15 @@ from zope import interface
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema import vocabulary
 from zope.security.proxy import removeSecurityProxy
+
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
+
 #import ore.alchemist
 from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
 import sqlalchemy.sql.expression as sql
-import schema, domain
+import schema, domain, utils, delegation
 
 from i18n import _
 
@@ -90,7 +92,8 @@ mapper(MemberOfParliament, member_of_parliament)
         
 
 class MemberOfParliamentImmutableSource(SpecializedSource):
-    """if a user is allready assigned to the context the user will not be editable """
+    """if a user is allready assigned to the context 
+    the user will not be editable """
     def __init__(self, value_field):
         self.value_field = value_field
     
@@ -125,7 +128,8 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                             MemberOfParliament.first_name,
                             MemberOfParliament.middle_name) 
             else:
-                query = session.query(MemberOfParliament).order_by(MemberOfParliament.last_name,
+                query = session.query(MemberOfParliament).order_by(
+                            MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
                             MemberOfParliament.middle_name)                
         return query                                                                                                           
@@ -206,8 +210,23 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                             MemberOfParliament.middle_name)                
         return query   
 
+class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
+    """ A logged in User will only be able to choose
+    himself if he is a member of parliament or those 
+    Persons who gave him rights to act on his behalf"""
+    def constructQuery(self, context):
+        query = super(MemberOfParliamentDelegationSource, 
+                self).constructQuery(context)
+        user_id = utils.get_db_user_id()
+        if user_id:            
+            user_ids=[user_id,]
+            for result in delegation.get_user_delegations(user_id):
+                user_ids.append(result.user_id)
+            query = query.filter(
+                domain.MemberOfParliament.user_id.in_(user_ids))                        
+        return query
 
-
+        
 
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering
@@ -228,7 +247,14 @@ class QuerySource( object ):
         return value_key         
         
         
-    def __init__( self, domain_model, token_field, title_field, value_field, filter_field, filter_value=None, order_by_field=None,  ):
+    def __init__( self, 
+                    domain_model, 
+                    token_field, 
+                    title_field, 
+                    value_field, 
+                    filter_field, 
+                    filter_value=None, 
+                    order_by_field=None,  ):
         self.domain_model = domain_model
         self.token_field = token_field
         self.value_field = value_field

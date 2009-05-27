@@ -472,7 +472,19 @@
     echo="False"
     />
 
-
+  <!-- delgate rights to act on behalf of user -->
+  
+ <db:catalyst
+    class="bungeni.models.domain.UserDelegation"
+    descriptor=".descriptor.UserDelegationDescriptor"
+    interface_module="bungeni.models.interfaces"
+    ui_module="bungeni.ui.content"
+    echo="False"
+    />
+  
+  
+  
+  
     
 
 </configure>

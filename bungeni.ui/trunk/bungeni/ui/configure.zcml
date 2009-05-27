@@ -99,6 +99,6 @@
 
    <utility
       component=".workflow.workflow_vocabulary_factory"
-      name="workflow_vocabulary" />
+      name="bungeni.vocabulary.workflow" />
            
 </configure>

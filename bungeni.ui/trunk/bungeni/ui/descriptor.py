@@ -27,6 +27,7 @@ from bungeni.ui.constraints import check_email
 
 from bungeni.models import domain
 from bungeni.models import vocabulary
+from bungeni.models.utils import get_db_user_id
 from bungeni.ui.forms import validations
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import get_all_languages
@@ -326,6 +327,26 @@ class UserDescriptor( ModelDescriptor ):
     schema_invariants = [DeathBeforeLife, IsDeceased]
     custom_validators = []
 
+class UserDelegationDescriptor( ModelDescriptor ):
+    """ delegate rights to act on behalf of that user """
+    display_name=_(u"Delegate to user")
+    container_name=_(u"Delegations")
+    fields = [
+        dict( name="user_id",
+              omit=True,
+            ),     
+        dict( name="delegation_id",
+              property=schema.Choice( 
+                title=_(u"User"), 
+                source=DatabaseSource(domain.User,  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("delegation_id", 
+                    _(u'User')), 
+              listing=True,
+            ),     
+]                        
 
 class StaffMemberDescriptor( UserDescriptor ):
     display_name = _(u"Staff member")
@@ -872,8 +893,10 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               property = schema.Choice(
                 title=_(u"Owner"),
                 description=_(u"Select the user who should own this document."),
-                source=vocabulary.MemberOfParliamentSource('owner_id'),),
-                listing_column=member_fk_column("owner_id", 
+                source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
+                #default=get_db_user_id()
+                ),
+              listing_column=member_fk_column("owner_id", 
                     _(u'Member of Parliament')),              
               listing = True 
             ),            
@@ -910,7 +933,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             label=_(u"Status"), 
              property=schema.Choice(
                  title=u"Status",
-                 vocabulary="workflow_vocabulary",
+                 vocabulary="bungeni.vocabulary.workflow",
                  ),
             add=False,
             listing=True, 
@@ -1437,7 +1460,7 @@ class ResponseDescriptor( ModelDescriptor ):
             label=_(u"Status"), 
              property=schema.Choice(
                  title=u"Status",
-                 vocabulary="workflow_vocabulary",
+                 vocabulary="bungeni.vocabulary.workflow",
                  ),
             add=False,
             listing=True, 

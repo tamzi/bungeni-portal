@@ -28,6 +28,7 @@ mapper( domain.Group, schema.groups,
             },
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='group'
+        
         )
 
 # Keywords for groups
@@ -37,8 +38,25 @@ mapper( domain.Group, schema.groups,
 #                
 #                   })
 
-
-
+# delegate rights to act on behalf of a user
+mapper (domain.UserDelegation, schema.user_delegations, 
+        properties={
+            'user': relation( domain.User,
+                        primaryjoin=rdb.and_(
+                            schema.user_delegations.c.user_id==
+                            schema.users.c.user_id ),
+                      uselist=False,
+                      lazy=True ),  
+            'delegation': relation( domain.User,
+                        primaryjoin=rdb.and_(
+                            schema.user_delegations.c.delegation_id==
+                            schema.users.c.user_id,
+                            schema.users.c.active_p=='A'
+                             ),
+                      uselist=False,
+                      lazy=True ),                                                        
+                }                      
+        )
 # group subclasses
 mapper( domain.Government, schema.governments,
         inherits=domain.Group,                

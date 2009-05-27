@@ -124,5 +124,5 @@ class GlobalAuthWhoPlugin(object):
             identity.update({
                 'title': principal.title,
                 #'groups': tuple(principal.groups) + (principal.id,),
-                'groups' : tuple( self.getGroups(userid)) + (userid,),                
+                'groups' : tuple( self.getGroups(userid)) + (principal.id,),                
                 })

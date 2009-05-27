@@ -41,6 +41,10 @@ class actions:
             user_id ='-'
         zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)   
         utils.setParliamentId(info, context)
+        owner_id = utils.getOwnerId( context )
+        if owner_id and (owner_id != user_id):
+            zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
+                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)  
 
     @staticmethod
     def submit( info, context ):

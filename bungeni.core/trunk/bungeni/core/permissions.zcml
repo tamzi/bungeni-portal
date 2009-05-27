@@ -65,6 +65,5 @@
     <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
     <permission id="bungeni.edit.historical" title="Edit historical data" />
 
-
 </configure>
            

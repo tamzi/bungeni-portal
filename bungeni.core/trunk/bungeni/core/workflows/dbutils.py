@@ -9,6 +9,13 @@ import bungeni.models.domain as domain
 import bungeni.models.schema as schema
 import bungeni.core.globalsettings as prefs
 
+def get_user_login(user_id):
+    if user_id:
+        session=Session()
+        user = session.query(domain.User).get(user_id)
+        return user.login
+
+
 def setQuestionParliamentId(question):
     if not question.parliament_id:
         question.parliament_id = prefs.getCurrentParliamentId()

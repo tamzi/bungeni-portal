@@ -123,6 +123,16 @@ users = rdb.Table(
 #    rdb.Column( "type", rdb.Unicode(16) ),   
 #    )
 
+
+# delegate rights to act on behalf of a user to another user
+user_delegations = rdb.Table(
+    "user_delegations",
+    metadata,
+    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id'), primary_key=True ),
+    rdb.Column( "delegation_id", rdb.Integer, rdb.ForeignKey( 'users.user_id'), primary_key=True)
+    )
+
+
 # specific user classes
 parliament_memberships = rdb.Table(
    "parliament_memberships",

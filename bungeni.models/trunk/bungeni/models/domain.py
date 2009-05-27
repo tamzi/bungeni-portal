@@ -93,10 +93,12 @@ class User( Entity ):
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}    
     addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
-    
+    delegations = one2many( "delegations", "bungeni.models.domain.UserDelegationContainer", "user_id" )   
 
 
-
+class UserDelegation(Entity):
+    """ Delgate rights to act on behalf of a user 
+    to another user """
     
     
 class StaffMember( User ):
@@ -123,6 +125,10 @@ class Group( Entity ):
 
     users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
+    
+    @property
+    def group_principal_id(self):
+        return u"group.%s.%i" % (self.type, self.group_id)
     
 class GroupMembership( Entity ):
     """ a user's membership in a group- abstract

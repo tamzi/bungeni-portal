@@ -18,21 +18,30 @@ from bungeni.models import domain
 import logging
 log = logging.getLogger("bungeni.portal")
 
-def getUserGroups(user_id):
+def getUserGroups(login_id):
     session = Session()
-    query = session.query( domain.GroupMembership 
+    db_user = session.query(domain.User).filter(domain.User.login==login_id).all()
+    if len(db_user) == 1:
+        user_id = db_user[0].user_id
+        gquery = session.query( domain.GroupMembership 
                     ).filter( 
                         rdb.and_(
                             domain.GroupMembership.user_id ==
                             user_id,
                             domain.GroupMembership.active_p == 
                             True))
-    results = query.all()
-    for result in results:
-        yield u'group.%s.%i' % ( result.group.type,
-                result.group.group_id )
-                                                
-    
+        gresults = gquery.all()
+        for result in gresults:
+            yield result.group.group_principal_id
+        dquery = session.query(domain.UserDelegation).filter(
+                    rdb.and_(
+                    domain.User.active_p=='A',
+                    domain.UserDelegation.delegation_id == user_id)
+                    )
+        dresults = dquery.all()                    
+        for result in dresults:  
+            if result.user.active_p == 'A':                                        
+                yield result.user.login
                 
 
 
@@ -41,10 +50,9 @@ class AlchemistWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
     
     def getGroups(self, id ):
-        session = Session()
-        db_user = session.query(domain.User).filter(domain.User.login==id).all()
-        return getUserGroups(db_user[0].user_id)
-    
+        return getUserGroups (id)
+
+            
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
             return None
@@ -87,10 +95,9 @@ class AlchemistWhoPlugin(object):
 class GlobalAuthWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
     
-    def getGroups(self, id):
-        session = Session()
-        db_user = session.query(domain.User).filter(domain.User.login==id).all()
-        return getUserGroups(db_user[0].user_id)
+    def getGroups(self, id):        
+        return getUserGroups(id)
+           
     
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):

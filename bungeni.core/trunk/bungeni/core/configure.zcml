@@ -25,9 +25,6 @@
      factory=".app.BungeniApp"
      />
 
-  <!-- Custom permissions -->
-  <include file="permissions.zcml" />
-  
   <!-- Setup Domain Model Audit/ObjectLog Feature-->  
   <include file="audit.zcml"/>
   
@@ -46,10 +43,6 @@
      provides="bungeni.models.interfaces.IBungeniSettings"
      factory=".globalsettings.BungeniSettings"
      />
-
-  <!-- Roles and permissions -->
-  <include file="permissions.zcml" />
-  <include file="roles.zcml" />
 
   <!-- Assignment Infrastructure moved to bungeni.model -->
   <!--include file="assignment.zcml"/-->

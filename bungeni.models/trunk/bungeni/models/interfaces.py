@@ -261,3 +261,16 @@ class IDateRangeFilter(interface.Interface):
 class IChange(interface.Interface):
     """ Marker for Change (log table) """
         
+        
+class IParliament(interface.Interface):
+    """ marker interface for group parliament """
+
+class IMinistry(interface.Interface):
+    """ marker interface for group ministry """            
+
+class ICommittee(interface.Interface):
+    """ marker interface for group ministry """ 
+    
+class IPoliticalParty(interface.Interface):
+    """ marker interface for political party """   
+    

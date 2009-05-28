@@ -18,24 +18,38 @@ from bungeni.models import domain, delegation
 import logging
 log = logging.getLogger("bungeni.portal")
 
-def getUserGroups(login_id):
+def _get_groups(user_id):
     session = Session()
-    db_user = session.query(domain.User).filter(domain.User.login==login_id).all()
+    query = session.query( domain.GroupMembership 
+                ).filter( 
+                    rdb.and_(
+                        domain.GroupMembership.user_id ==
+                        user_id,
+                        domain.GroupMembership.active_p == 
+                        True))
+    return  query.all()    
+
+
+def getUserGroups(login_id, groups=[]):
+    """ get group for users:
+    a) the groups defined by his user_group_memberships
+    b) the users who have him assigned as a delegation
+    c) the groups of the delegation user.
+    """    
+    groups.append(login_id)                
+    session = Session()
+    db_user = session.query(domain.User).filter(
+                domain.User.login==login_id).all()
     if len(db_user) == 1:
         user_id = db_user[0].user_id
-        query = session.query( domain.GroupMembership 
-                    ).filter( 
-                        rdb.and_(
-                            domain.GroupMembership.user_id ==
-                            user_id,
-                            domain.GroupMembership.active_p == 
-                            True))
-        results = query.all()
+        results = _get_groups(user_id)
         for result in results:
-            yield result.group.group_principal_id
+            groups.append(result.group.group_principal_id)
         results = delegation.get_user_delegations(user_id)                   
         for result in results:  
-            yield result.login
+            if (result.login not in groups):
+                groups = groups + getUserGroups(result.login, groups)
+    return groups                    
                 
 
 
@@ -77,22 +91,18 @@ class AlchemistWhoPlugin(object):
     def add_metadata(self, environ, identity):
         userid = identity.get('repoze.who.userid')
         user = self.get_user(userid)
-
         if user is not None:
             identity.update({
                 'email': user.email,
                 'title': u"%s, %s" % (user.last_name, user.first_name),
                 'type': user.type,
-                'groups' : tuple( self.getGroups(userid)) + (userid,),
+                'groups' : tuple( self.getGroups(userid)) ,
                 })
 
 class GlobalAuthWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
-    
-    def getGroups(self, id):        
-        return getUserGroups(id)
+
            
-    
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
             return None
@@ -120,10 +130,8 @@ class GlobalAuthWhoPlugin(object):
     def add_metadata(self, environ, identity):
         login = identity.get('repoze.who.userid')
         principal = self.get_principal_by_login(login)
-
         if principal is not None:
             identity.update({
                 'title': principal.title,
-                #'groups': tuple(principal.groups) + (principal.id,),
-                'groups' : tuple( self.getGroups(principal.id)) + (principal.id,),                
+                'groups': tuple(principal.groups) + (principal.id,),
                 })

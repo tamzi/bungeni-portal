@@ -31,6 +31,9 @@
   <!-- Setup Domain Model Versioning Feature-->
   <include file="version.zcml"/>
 
+  <!-- events -->
+  <include file="events.zcml" />
+
   <!-- Setup WebDAV -->
   <!--include file="webdav.zcml" /-->
                  

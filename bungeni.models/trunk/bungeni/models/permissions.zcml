@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta"
+           i18n_domain="bungeni">
+  
+  <!-- Note: Permissions for workflow transitions are defined in:       
+       workflows/grant.zcml
+       workflows/permissions.zcml
+    -->
+    
+  <permission id="bungeni.edit.Historical" title="Edit historical content" />
+  <permission id="bungeni.TranslateContent" title="Translate content" />
+
+  <permission id="bungeni.session.Add" title="Add session" />
+  <permission id="bungeni.sitting.Add" title="Add sitting" />
+  <permission id="bungeni.sitting.Edit" title="Edit sitting" />
+  <permission id="bungeni.sitting.Delete" title="Delete sitting" />
+  <permission id="bungeni.sitting.Reorder" title="Reorder schedulings" />
+  <permission id="bungeni.itemschedule.Add" title="Add item scheduling" />
+  <permission id="bungeni.itemschedule.Edit" title="Edit item scheduling" />
+  <permission id="bungeni.itemschedule.Delete" title="Delete item scheduling" />
+  <permission id="bungeni.itemschedulecategory.Add"
+              title="Add item scheduling category" />
+  <permission id="bungeni.itemschedulediscussion.Edit"
+              title="Edit item scheduling discussion" />
+  
+  <permission id="bungeni.committee.Add" title="Add committee" />
+  
+  <permission id="bungeni.question.Add" title="Add Question" />
+  <permission id="bungeni.question.Edit" title="Edit Question" />
+  <permission id="bungeni.question.Delete" title="Delete Question" />
+  <permission id="bungeni.question.View" title="View Question" />
+
+  <!-- Note that if you remove or change the redefinePermission directive
+       you have to adjust the permissions for the workflow states in  
+       workflows/question.xml and the field level permissions in 
+       bungeni.models domain.zcml accordingly -->
+  
+  <meta:redefinePermission from="bungeni.question.View" to="zope.View" />
+  
+  <permission id="bungeni.motion.Add" title="Add Motion" />
+  <permission id="bungeni.motion.Edit" title="Edit Motion" />
+  <permission id="bungeni.motion.Delete" title="Delete Motion" />
+  <permission id="bungeni.motion.View" title="View Motion" />
+  <meta:redefinePermission from="bungeni.motion.View" to="zope.View" />    
+  
+  <permission id="bungeni.response.Add" title="Add Response" />
+  <permission id="bungeni.response.Edit" title="Edit Response" />
+  <permission id="bungeni.response.Delete" title="Delete Response" />
+  <permission id="bungeni.response.View" title="View Response" />
+  <meta:redefinePermission from="bungeni.response.View" to="zope.View" />    
+  
+  <permission id="bungeni.parliament.Add" title="Add Parliament" />
+  <permission id="bungeni.parliament.Edit" title="Edit Parliament" />
+  <permission id="bungeni.parliament.Delete" title="Delete Parliament" />
+  <permission id="bungeni.parliament.View" title="View Parliament" />  
+  <meta:redefinePermission from="bungeni.parliament.View" to="zope.View" />
+  
+  <permission id="bungeni.bill.Add" title="Add Bill" />
+  <permission id="bungeni.bill.Edit" title="Edit Bill" />
+  <permission id="bungeni.bill.Delete" title="Delete Bill" />
+  <permission id="bungeni.bill.View" title="View Bill" />  
+  <meta:redefinePermission from="bungeni.bill.View" to="zope.View" />
+  
+  <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
+  <permission id="bungeni.edit.historical" title="Edit historical data" />
+  
+</configure>

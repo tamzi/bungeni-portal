@@ -5,6 +5,7 @@ from zope import interface
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema import vocabulary
 from zope.security.proxy import removeSecurityProxy
+from zope.security import checkPermission
 
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
@@ -217,6 +218,7 @@ class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
     def constructQuery(self, context):
         query = super(MemberOfParliamentDelegationSource, 
                 self).constructQuery(context)
+        #XXX clerks cannot yet choose MPs freely                
         user_id = utils.get_db_user_id()
         if user_id:            
             user_ids=[user_id,]

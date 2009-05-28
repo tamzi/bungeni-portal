@@ -2,7 +2,9 @@ from zope import schema, component
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.formlib import form
-from bungeni.models import domain, interfaces
+from ore.alchemist import Session
+
+from bungeni.models import domain, interfaces, utils
 from alchemist.ui import content
 
 from alchemist.catalyst.ui import EditForm
@@ -103,11 +105,19 @@ class UserSettings( EditForm ):
     form_fields = form_fields.omit( 'user_id', 'login', 'date_of_death','status')
     
     def update( self ):
-        settings = interfaces.IBungeniUserSettings( self.request.principal, None )
+        session = Session()
+        query = session.query(domain.User).filter(
+            domain.User.login == self.request.principal.id)
+        results = query.all()
+        if len(results) == 1:
+            user = results[0]
+        else:
+            user = None            
+        settings = interfaces.IBungeniUserSettings( user, None )
         if settings is None:
             raise SyntaxError("User Settings Only For Database Users")
         self.adapters = { interfaces.IBungeniUserSettings : settings,
-                          interfaces.IUser : self.request.principal }
+                          interfaces.IUser : user }
         
         super( UserSettings, self).update()
     

@@ -5,7 +5,7 @@ from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 from ore.alchemist import Session
 
-import  domain
+import domain
 
 def getUserId( ):
     interaction = getInteraction()

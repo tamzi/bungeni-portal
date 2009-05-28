@@ -12,11 +12,11 @@ def get_user_delegations(user_id):
     session = Session()
     query = session.query(domain.UserDelegation).filter(
                 rdb.and_(
-                domain.User.active_p=='A',
                 domain.UserDelegation.delegation_id == user_id)
-                )
-                
+                )                
     results = query.all()                    
     for result in results:  
-        if result.user.active_p == 'A':                                        
+        if ((result.user.active_p == 'A') and
+            (result.delegation.active_p == 'A')):                                        
             yield result.user
+            

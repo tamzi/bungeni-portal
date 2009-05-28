@@ -149,7 +149,6 @@ def UserSettingFactory( iface ):
                 return default
             return value
         def set( self, value, field_name=fs.__name__):
-            import pdb; pdb.set_trace()
             self[field_name]=value
             
         fields[ fs.__name__ ] = property( get, set )
@@ -175,6 +174,7 @@ def GlobalSettingFactory( iface ):
                       
     return klass
 
+BungeniSettings = GlobalSettingFactory( interfaces.IBungeniSettings )
 
 class SettingsUtility( object ):
     """ allow for lookup of settings in a context less fashion.. ie

@@ -100,9 +100,13 @@ class SecondaryNavigationViewlet(object):
                 'url': url})
 
     def get_menu_items(self, container, name):
-        menu = component.getUtility(IBrowserMenu, name=name)
-        items = menu.getMenuItems(container, self.request)
-
+        
+        try:    
+            menu = component.getUtility(IBrowserMenu, name=name)        
+            items = menu.getMenuItems(container, self.request)
+        except:
+            return
+            
         local_url = absoluteURL(container, self.request)
         site_url = absoluteURL(getSite(), self.request)
         request_url = self.request.getURL()

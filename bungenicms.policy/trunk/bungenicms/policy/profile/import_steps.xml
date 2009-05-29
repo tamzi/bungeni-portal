@@ -16,4 +16,8 @@
                handler="bungenicms.policy.setuphandlers.setup_plonepas"
                title="Set up ``bungeni.plonepas`` authentication">
   </import-step>
+  <import-step id="bungenicms.policy.setup_z2_roles" version="1"
+               handler="bungenicms.policy.setuphandlers.setup_z2_roles"
+               title="Set up Zope 2 roles">
+  </import-step>
 </import-steps>

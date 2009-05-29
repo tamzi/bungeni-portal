@@ -306,9 +306,6 @@ class UserManager( BasePlugin ):
         if self._uid(principal_id) is None and self._gid(principal_id) is None:
             return
 
-        if not roles:
-            return True
-
         session = Session()
         connection = session.connection(domain.Group)
         
@@ -323,12 +320,12 @@ class UserManager( BasePlugin ):
         
             # update existing
             connection.execute(
-                security_schema.principal_role_map.update().values(
-                    principal_id=principal_id,
-                    role_id=role_id,
-                    setting=False,
-                    object_type=None,
-                    object_id=None))
+                security_schema.principal_role_map.update().where(
+                    rdb.and_(
+                        security_schema.principal_role_map.c.principal_id==principal_id,
+                        security_schema.principal_role_map.c.object_type==None,
+                        security_schema.principal_role_map.c.object_id==None)).values(
+                    setting=False))
 
         # insert new global mappings
         for role_id in tuple(roles):
@@ -378,8 +375,12 @@ class UserManager( BasePlugin ):
         connection = session.connection(domain.Group)
         mappings = connection.execute(rdb.select(
             [security_schema.principal_role_map.c.role_id],
-            security_schema.principal_role_map.c.principal_id == principal_id))
-        
+            rdb.and_(
+                security_schema.principal_role_map.c.principal_id==principal_id,
+                security_schema.principal_role_map.c.setting==True,
+                security_schema.principal_role_map.c.object_type==None,
+                security_schema.principal_role_map.c.object_id==None)))
+
         role_names = []
         for (role_name,) in mappings:
             role_names.append(role_name)

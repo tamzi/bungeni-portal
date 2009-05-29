@@ -16,6 +16,9 @@ from datetime import datetime
 import sqlalchemy as rdb
 import schema
 
+from bungeni.models import domain
+from ore.alchemist import Session
+
 manage_addBungeniGroupManagerForm = PageTemplateFile('zmi/group-plugin-add.pt', globals())
 
 def manage_addBungeniGroupManager(self, id, db_utility, title='', REQUEST=None):
@@ -53,12 +56,16 @@ class GroupManager( BasePlugin, Cacheable ):
 
         o May assign groups based on values in the REQUEST object, if present
         """
-        res = rdb.select( [ schema.groups.c.short_name ],
-                          rdb.and_( schema.users.c.login == principal.getId(),
-                                    schema.user_group_memberships.c.user_id == schema.users.c.user_id,
-#                                    schema.groups.c.end_date >= datetime.now(),
-                                    schema.groups.c.group_id == schema.user_group_memberships.c.group_id ) ).execute()
-        return [ r[0] for r in res]
+
+        session = Session()
+
+        return [r.group_principal_id
+                for r in session.query(domain.Group).filter(
+                    rdb.and_(
+                        schema.users.c.login == principal.getId(),
+                        schema.user_group_memberships.c.user_id == schema.users.c.user_id,
+                        schema.groups.c.group_id == schema.user_group_memberships.c.group_id))]
+
     #
     # IGroupsEnumeration implementation
     #        
@@ -70,32 +77,39 @@ class GroupManager( BasePlugin, Cacheable ):
                        , **kw
                        ):
         """ see IGroupEnumeration """
+
+        session = Session()
+        
         if id is None:
             clause = None
         elif isinstance( id, (list, tuple)) and exact_match:
             statements = []
             for i in id:
-                statements.append( schema.groups.c.short_name == i )
+                statements.append( domain.Group.group_principal_id == i )
             clause = rdb.or_( *statements )
         elif isinstance( id, (list, tuple)) and not exact_match:
-            clause = rdb.or_(*(map( schema.groups.c.short_name.contains, id )))
+            clause = rdb.or_(*(map( domain.Group.group_principal_id.contains, id )))
         elif not exact_match:
-            clause = schema.groups.c.short_name.contains( id )
+            clause = domain.Group.group_principal_id.contains( id )
         else:
-            clause = schema.groups.c.short_name == id
+            clause = domain.Group.group_principal_id == id
 
 
-        query = rdb.select( [ schema.groups.c.short_name ] )
+        query = session.query(domain.Group)
         if clause:
-            query = query.where( clause )
+            query = query.filter(clause)
         if sort_by:
             assert sort_by in ('group_id', 'short_name')
             query = query.order_by( getattr( schema.groups.c, sort_by ) )
 
+        if exact_match:
+            max_results = 1
+            
         if max_results is not None and isinstance( max_results, int ):
             query = query.limit( max_results )
 
-        return [ dict( id=r[0], plugin=self.id ) for r in query.execute()]
+        return [dict( id=r.group_principal_id, title=r.short_name, plugin=self.id )
+                for r in query.all()]
 
     ####################
     # IGroupManagement 
@@ -133,6 +147,8 @@ class GroupManager( BasePlugin, Cacheable ):
         Edit the given group. plugin specific
         return True on success
         """
+
+        raise NotImplemented("Group updates not implemented.")
         d = {}
         if 'title' in kw:
             d['full_name'] = kw['title']
@@ -141,9 +157,11 @@ class GroupManager( BasePlugin, Cacheable ):
 
         if not d:
             return True
+
+        session = Session()
+        session.update(domain.Group).filter(
+            domain.Group.group_principal_id == id).values(**d)
         
-        group_id = rdb.select( [schema.groups.c.group_id], schema.groups.c.short_name == id ).one()
-        schema.groups.update( schema.c.group_id == group_id ).values( **d )
         return True
 
     def setRolesForGroup(self, group_id, roles=()):
@@ -212,23 +230,24 @@ class GroupManager( BasePlugin, Cacheable ):
     # IGroupIntrospection
     ###########################
     def _gid( self, name ):
-        res = rdb.select( [schema.groups.c.group_id ], schema.groups.c.short_name == name ).execute()
-        gid_tuple = res.fetchone()
-        if not gid_tuple:
-            return None
-        return gid_tuple[0]
+        session = Session()
+        groups = session.query(domain.Group).filter(
+            domain.Group.group_principal_id == name).all()
+        if not groups:
+            return
+        return groups[0].group_principal_id
 
     def _uid( self, login):
-        cols = [ schema.users.c.user_id ]
-        res = rdb.select( cols,
-                          rdb.and_( schema.users.c.login == login,
-                                    schema.users.c.active_p == 'A' )).execute()
-                       
-        uid_tuple = res.fetchone()
-        if not uid_tuple:
-            return None
-        return uid_tuple[0]
-    
+        session = Session()
+        user = session.query(domain.User).filter(
+            rdb.and_(
+                domain.User.login == login,
+                domain.User.active_p == 'A')
+            ).one()
+        if user is None:
+            return
+        return user.user_id
+
     def getGroupById(self, group_id):
         """
         Returns the portal_groupdata-ish object for a group
@@ -237,7 +256,7 @@ class GroupManager( BasePlugin, Cacheable ):
         gid = self._gid( group_id )
         if not gid:
             return None
-        return PloneGroup( group_id ).__of__( self )
+        return PloneGroup(gid).__of__( self )
 
     #################################
     # these interface methods are suspect for scalability.
@@ -247,33 +266,36 @@ class GroupManager( BasePlugin, Cacheable ):
         """
         Returns an iteration of the available groups
         """
-        
-        res = rdb.select( [ schema.groups.c.short_name ],
-                          #schema.groups.c.end_date > datetime.now()
-                          ).execute()
-        return [ PloneGroup(r[0]).__of__(self) for r in res]
+
+        session = Session()
+        groups = session.query(domain.Group)
+        return [PloneGroup(r.group_principal_id).__of__(self) for r in groups]
         
     def getGroupIds( self ):
         """
         Returns a list of the available groups
         """
-        res = rdb.select( [ schema.groups.c.short_name ],
-                          #schema.groups.c.end_date > datetime.now()
-                          ).execute()
-        return [r[0] for r in res]
+
+        session = Session()
+        session = Session()
+        groups = session.query(domain.Group)
+        return [r.group_principal_id for r in groups]
 
     def getGroupMembers(self, group_id):
         """
         return the members of the given group
         """
-        ugm = schema.user_group_memberships
-        res = rdb.select( [ schema.users.c.login ],
-                          rdb.and_( schema.users.c.user_id == ugm.c.user_id,
-                                    schema.groups.c.group_id == ugm.c.group_id,
-                                    schema.groups.c.short_name == group_id ) ).execute()
-        return [ r[0] for r in res]
 
-            
+        session = Session()
+        ugm = schema.user_group_memberships
+
+        users = session.query(domain.User).filter(
+            rdb.and_(schema.users.c.user_id == ugm.c.user_id,
+                     schema.groups.c.group_id == ugm.c.group_id,
+                     domain.Group.group_principal_id == group_id))
+        
+        return [r.user_id for r in users]
+
 classImplements( GroupManager,
                  IGroupsPlugin,
                  IGroupEnumerationPlugin,

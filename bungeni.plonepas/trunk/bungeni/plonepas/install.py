@@ -25,9 +25,12 @@ def install_pas_plugins( self ):
             ['IAuthenticationPlugin',
              'IUserEnumerationPlugin',
              'IUserManagement',
-             'IUserAdderPlugin']
+             'IUserAdderPlugin',
+             'IRolesPlugin',
+             'IRoleAssignerPlugin',
+             'IRoleEnumerationPlugin']
             )        
-    
+
 def uninstall_pas_plugins( self ):
     pas = self.acl_users
     if group_id in pas.objectIds():

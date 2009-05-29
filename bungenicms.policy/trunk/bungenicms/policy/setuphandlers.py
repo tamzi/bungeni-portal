@@ -1,5 +1,7 @@
 import logging
 
+from zope import component
+from zope.securitypolicy.interfaces import IRole
 from Products.PluggableAuthService.interfaces.plugins import *
 from bungeni.plonepas.install import install as install_plonepas
 
@@ -120,6 +122,16 @@ def setup_plonepas(context):
 
     portal = context.getSite()
     return install_plonepas(portal)
-    
 
-    
+def setup_z2_roles(context):
+    if context.readDataFile('marker.txt') is None:
+        return    
+
+    portal = context.getSite()
+    roles = list(portal.__ac_roles__)
+    for name, role in component.getUtilitiesFor(IRole):
+        if name not in roles:
+            roles.append(name)
+    roles.sort()
+    portal.__ac_roles__ = tuple(roles)
+

@@ -15,4 +15,7 @@
      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
      />
 
+  <include package="zope.securitypolicy" file="meta.zcml" />
+  <include package="bungeni.models" file="roles.zcml" />
+                    
 </configure>

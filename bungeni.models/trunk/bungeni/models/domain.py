@@ -126,10 +126,6 @@ class Group( Entity ):
     users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     
-    @property
-    def group_principal_id(self):
-        return u"group.%s.%i" % (self.type, self.group_id)
-    
 class GroupMembership( Entity ):
     """ a user's membership in a group- abstract
     basis for ministers, committeemembers, etc

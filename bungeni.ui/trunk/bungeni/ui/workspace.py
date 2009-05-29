@@ -3,8 +3,14 @@ from zope import component
 from zope.publisher.browser import BrowserView
 from zope.securitypolicy.interfaces import IRole
 from ploned.ui.interfaces import IViewView
+from bungeni.core.globalsettings import getCurrentParliamentId
+from ore.alchemist import Session
+from bungeni.models import domain
+
 
 import interfaces
+
+
 
 def getRoles(context=None):
     return [role_id for role_id, role in \
@@ -23,7 +29,14 @@ class WorkspaceView(BrowserView):
     
     def __init__(self, context, request):
         super(WorkspaceView, self).__init__(context, request)
-
+        parliament_id = getCurrentParliamentId()
+        if parliament_id:
+            session = Session()
+            parliament = session.query(domain.Parliament).get(parliament_id)
+            self.context= parliament
+            self.context.__parent__ = context
+            self.context.__name__ = "Workspace"
+            
         for role_id in getRoles():
             iface = role_interface_mapping.get(role_id)
             if iface is not None:

@@ -100,7 +100,7 @@ class SecondaryNavigationViewlet(object):
                 'url': url})
 
     def get_menu_items(self, container, name):
-        
+        #XXX ad hoc fix - todo: write a utility for this navigation structure
         try:    
             menu = component.getUtility(IBrowserMenu, name=name)        
             items = menu.getMenuItems(container, self.request)

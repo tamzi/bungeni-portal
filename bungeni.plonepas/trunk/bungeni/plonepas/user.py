@@ -11,10 +11,14 @@ from Products.PluggableAuthService.utils import classImplements
 from Products.PluggableAuthService.interfaces.plugins import IAuthenticationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserEnumerationPlugin
 from Products.PluggableAuthService.interfaces.plugins import IUserAdderPlugin
+from Products.PluggableAuthService.interfaces.plugins import IRolesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IRoleAssignerPlugin
+from Products.PluggableAuthService.interfaces.plugins import IRoleEnumerationPlugin
 
 from Products.PlonePAS.interfaces.plugins import IUserManagement
 from Products.PlonePAS.interfaces.capabilities import IDeleteCapability
 from Products.PlonePAS.interfaces.capabilities import IPasswordSetCapability
+from Products.PlonePAS.interfaces.capabilities import IAssignRoleCapability
 
 from Products.PluggableAuthService.permissions import ManageUsers
 from Products.PluggableAuthService.permissions import SetOwnPassword
@@ -23,6 +27,10 @@ from Products.PageTemplates.PageTemplateFile import PageTemplateFile
 
 import sqlalchemy as rdb
 import schema
+from alchemist.security import schema as security_schema
+from ore.alchemist import Session
+
+from bungeni.models import domain
 
 manage_addBungeniUserManagerForm = PageTemplateFile('zmi/user-plugin-add.pt', globals())
 
@@ -49,7 +57,6 @@ def safeencode(v):
     return v
 
 class UserManager( BasePlugin ):
-
     meta_type = 'Bungeni User Manager'
     security = ClassSecurityInfo()
 
@@ -178,8 +185,11 @@ class UserManager( BasePlugin ):
 
         if max_results is not None and isinstance( max_results, int ):
             query =query.limit( max_results )
-            
-        return [ dict( id=safeencode(r[0]), login=safeencode(r[0]), pluginid=self.id ) for r in query.execute()]
+
+        session = Session()
+        connection = session.connection(domain.Group)
+
+        return [ dict( id=safeencode(r[0]), login=safeencode(r[0]), pluginid=self.id ) for r in connection.execute(query)]
 
     #
     # IUserAdderPlugin implementation
@@ -263,10 +273,12 @@ class UserManager( BasePlugin ):
         if auth:
             cols.extend( [schema.users.c.password, schema.users.c.salt ] )
 
-        
-        res = rdb.select( cols,
+        session = Session()
+        connection = session.connection(domain.Group)
+
+        res = connection.execute(rdb.select( cols,
                           rdb.and_( schema.users.c.login == login,
-                                    schema.users.c.active_p == 'A' )).execute()
+                                    schema.users.c.active_p == 'A' )))
                        
         uid_tuple = res.fetchone()
         if not uid_tuple:
@@ -274,14 +286,182 @@ class UserManager( BasePlugin ):
         if auth:
             return uid_tuple
         return uid_tuple[0]
-                         
 
+    def _gid( self, name ):
+        session = Session()
+        groups = session.query(domain.Group).filter(
+            domain.Group.group_principal_id == name).all()
+        if not groups:
+            return
+        return groups[0].group_principal_id
+
+    def allowRoleAssign(self, prinicipal_id, role_id):
+        if role_id.startswith('bungeni.'):
+            return True
+
+    """ Assign a role to an identified principal
+    """
+
+    def assignRolesToPrincipal(self, roles, principal_id, setting=True):
+        if self._uid(principal_id) is None and self._gid(principal_id) is None:
+            return
+
+        if not roles:
+            return True
+
+        session = Session()
+        connection = session.connection(domain.Group)
+        
+        if setting is True:
+            # delete global mappings
+            connection.execute(security_schema.principal_role_map.delete().where(
+                rdb.and_(
+                    security_schema.principal_role_map.c.principal_id == principal_id,
+                    security_schema.principal_role_map.c.object_id == None,
+                    security_schema.principal_role_map.c.object_type == None)))
+
+        
+            # update existing
+            connection.execute(
+                security_schema.principal_role_map.update().values(
+                    principal_id=principal_id,
+                    role_id=role_id,
+                    setting=False,
+                    object_type=None,
+                    object_id=None))
+
+        # insert new global mappings
+        for role_id in tuple(roles):
+            connection.execute(
+                security_schema.principal_role_map.insert().values(
+                    principal_id=principal_id,
+                    role_id=role_id,
+                    setting=setting,
+                    object_type=None,
+                    object_id=None))
+
+            # remove from roles so other plugins won't attempt to
+            # assign as well
+            roles.remove(role_id)
+
+        return True
+    
+    def doAssignRoleToPrincipal(self, principal_id, role ):
+
+        """ Create a principal/role association in a Role Manager
+
+        o Return a Boolean indicating whether the role was assigned or not
+        """
+
+        return self.assignRolesToPrincipal((role,), principal_id)
+
+    def doRemoveRoleFromPrincipal(self, principal_id, role ):
+
+        """ Remove a principal/role association from a Role Manager
+
+        o Return a Boolean indicating whether the role was removed or not
+        """
+
+        return self.assignRolesToPrincipal((role,), principal_id, False)
+
+    def getRolesForPrincipal(self, principal, request=None ):
+
+        """ principal -> ( role_1, ... role_N )
+
+        o Return a sequence of role names which the principal has.
+
+        o May assign roles based on values in the REQUEST object, if present.
+        """
+
+        principal_id = principal.getId()
+        session = Session()
+        connection = session.connection(domain.Group)
+        mappings = connection.execute(rdb.select(
+            [security_schema.principal_role_map.c.role_id],
+            security_schema.principal_role_map.c.principal_id == principal_id))
+        
+        role_names = []
+        for (role_name,) in mappings:
+            role_names.append(role_name)
+        return role_names
+
+
+    """ Allow querying roles by ID, and searching for roles.
+    """
+    def enumerateRoles( self,
+                        id=None
+                      , exact_match=False
+                      , sort_by=None
+                      , max_results=None
+                      , **kw
+                      ):
+
+        """ -> ( role_info_1, ... role_info_N )
+
+        o Return mappings for roles matching the given criteria.
+
+        o 'id' in combination with 'exact_match' true, will
+          return at most one mapping per supplied ID ('id' and 'login'
+          may be sequences).
+
+        o If 'exact_match' is False, then 'id' may be treated by 
+          the plugin as "contains" searches (more complicated searches 
+          may be supported by some plugins using other keyword arguments).
+
+        o If 'sort_by' is passed, the results will be sorted accordingly.
+          known valid values are 'id' (some plugins may support others).
+
+        o If 'max_results' is specified, it must be a positive integer,
+          limiting the number of returned mappings.  If unspecified, the
+          plugin should return mappings for all roles satisfying the 
+          criteria.
+
+        o Minimal keys in the returned mappings:
+        
+          'id' -- (required) the role ID
+
+          'pluginid' -- (required) the plugin ID (as returned by getId())
+
+          'properties_url' -- (optional) the URL to a page for updating the
+                              role's properties.
+
+          'members_url' -- (optional) the URL to a page for updating the
+                           principals to whom the role is assigned.
+
+        o Plugin *must* ignore unknown criteria.
+
+        o Plugin may raise ValueError for invalid critera.
+
+        o Insufficiently-specified criteria may have catastrophic
+          scaling issues for some implementations.
+        """
+
+        pluginid = self.getId()
+        session = Session()
+        connection = session.connection(domain.Group)
+        
+        mappings = connection.execute(rdb.select(
+            [security_schema.principal_role_map.c.role_id]))
+        
+        role_ids = []
+        for (role_id,) in mappings:
+            role_ids.append(role_id)
+        
+        return [{
+            'id': role_id,
+            'pluginid': pluginid,
+            } for role_id in role_ids]
+            
 classImplements( UserManager,
                  IAuthenticationPlugin,
                  IUserEnumerationPlugin,
                  IUserAdderPlugin,
                  IUserManagement,
                  IDeleteCapability,
-                 IPasswordSetCapability)
+                 IPasswordSetCapability,
+                 IRolesPlugin,
+                 IRoleAssignerPlugin,
+                 IRoleEnumerationPlugin,
+                 IAssignRoleCapability )
 
 InitializeClass( UserManager )        

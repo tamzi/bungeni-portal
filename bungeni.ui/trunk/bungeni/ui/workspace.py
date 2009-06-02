@@ -35,7 +35,7 @@ class WorkspaceView(BrowserView):
             parliament = session.query(domain.Parliament).get(parliament_id)
             self.context= parliament
             self.context.__parent__ = context
-            self.context.__name__ = "Workspace"
+            self.context.__name__ = ""
             
         for role_id in getRoles():
             iface = role_interface_mapping.get(role_id)

@@ -34,13 +34,13 @@ def validate_start_date_within_parent( parent, data ):
     errors =[]   
     if data['start_date'] is not None:
         start = get_date(data['start_date'])    
-        if parent.start_date is not None:
+        if getattr(parent, 'start_date', None):
             pstart = get_date(parent.start_date)
             if start < pstart:
                 errors.append( interface.Invalid( 
                 _(u"Start date must be after (%s)") % pstart, 
                 "start_date" ))
-        if parent.end_date is not None:
+        if getattr(parent, 'end_date', None):
             pend = get_date(parent.end_date)
             if start > pend:
                 errors.append( interface.Invalid( 
@@ -57,13 +57,13 @@ def validate_end_date_within_parent( parent, data ):
     errors =[]   
     if data['end_date'] is not None:
         end = get_date(data['end_date'])                
-        if parent.start_date is not None:
+        if getattr(parent, 'start_date', None):
             pstart = get_date(parent.start_date)
             if end < pstart:
                 errors.append( interface.Invalid( 
                 _(u"End date must be after (%s)")  % pstart, 
                 "end_date" ))
-        if parent.end_date is not None:
+        if getattr(parent, 'end_date', None):
             pend = get_date(parent.end_date)        
             if end > pend:
                 errors.append( interface.Invalid( 

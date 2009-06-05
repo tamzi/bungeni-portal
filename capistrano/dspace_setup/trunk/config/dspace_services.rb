@@ -22,6 +22,15 @@ namespace :dspace_services do
 	].each {|cmd| run cmd}	
     end
 
+    task :restart_tomcat, :roles=> [:app] do
+	[
+	"echo 'Restarting Tomcat'"
+	].each {|cmd| run cmd}
+    end
+
+    after "dspace_services:restart_tomcat", "dspace_services:stop_tomcat", "dspace_services:start_tomcat"
+
+
     task :pg_start, :roles=>[:app] do 
 	[
 	"echo 'Starting Postgres'",

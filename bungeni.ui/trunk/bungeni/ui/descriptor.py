@@ -763,7 +763,15 @@ class OfficeDescriptor( GroupDescriptor ):
     custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )    
- 
+    fields.extend([
+        dict(name="office_type", listing=False,
+            property = schema.Choice( title= _(u"Type"),
+                description = _(u"Type of Office"),
+                source = vocabulary.OfficeType),
+                )
+        ])                
+    
+    
 class OfficeMemberDescriptor( ModelDescriptor ):    
     display_name = _(u"Office Member")
     container_name = _(u"Office Member")

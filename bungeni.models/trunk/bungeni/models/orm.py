@@ -25,7 +25,9 @@ mapper( domain.Group, schema.groups,
         properties={
             'members': relation( domain.GroupMembership ),
             'group_principal_id': column_property(
-                ("group." + schema.groups.c.type + "." + rdb.cast(schema.groups.c.group_id, rdb.String)).label('group_principal_id')),
+                ("group." + schema.groups.c.type + "." + 
+                rdb.cast(schema.groups.c.group_id, rdb.String)
+                ).label('group_principal_id')),
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,

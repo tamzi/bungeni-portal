@@ -9,6 +9,7 @@ from zope.securitypolicy.interfaces import IPrincipalRoleMap
 
 from ore.alchemist import Session
 from bungeni.core import audit
+from bungeni.models import interfaces
 
 
 def consignatory_added(ob, event): 
@@ -43,7 +44,19 @@ def consignatory_modified(ob, event):
             title)
     if ob.item:                        
         audit.objectContained( ob.item, event)
-        
+
+
+def get_parliament(context):
+    """go up until we find a parliament """
+    parent = context.__parent__
+    while parent:
+        if  interfaces.IParliament.providedBy(parent):
+            return parent
+        else:
+            try:
+                parent = parent.__parent__              
+            except:
+                parent = None      
 
 def group_added_or_modified(context, group, role):
     """ when a group is added we 
@@ -74,4 +87,20 @@ def committee_added_modified(ob,event):
     trusted = removeSecurityProxy(ob)
     group_added_or_modified(ob, trusted, 'bungeni.CommitteeMember')
 
-            
+
+def office_added_modified(ob, event):
+    """ when an office is added or modified we 
+    add/edit the local role at parliament level """
+    trusted = removeSecurityProxy(ob)
+    parliament = get_parliament(trusted)
+    if parliament:
+        if trusted.office_type == "S":
+            role = "bungeni.Speaker"
+        elif trusted.office_type == "C":
+            role = "bungeni.Clerk"
+        else: 
+            raise NotImplementedError            
+        group_added_or_modified(parliament, trusted, role)                         
+    else:
+        raise NotImplementedError                        
+        

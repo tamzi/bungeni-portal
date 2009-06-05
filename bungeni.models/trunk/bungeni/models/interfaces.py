@@ -273,4 +273,8 @@ class ICommittee(interface.Interface):
     
 class IPoliticalParty(interface.Interface):
     """ marker interface for political party """   
-          
+
+class IOffice(interface.Interface):
+    """ marker interface for a parliamentary office """           
+    
+    

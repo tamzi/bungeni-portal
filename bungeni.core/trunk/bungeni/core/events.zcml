@@ -40,6 +40,18 @@
      />     
   
   
+  <subscriber
+     for="bungeni.models.interfaces.IOffice
+            zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".events.office_added_modified"
+     />
+
+  <subscriber
+     for="bungeni.models.interfaces.IOffice
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+     handler=".events.office_added_modified"
+     />       
+  
   <!--subscriber
      for="bungeni.models.interfaces.IPoliticalParty
             zope.lifecycleevent.interfaces.IObjectCreatedEvent"

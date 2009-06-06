@@ -11,12 +11,7 @@ import java.util.ResourceBundle;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.log4j.Logger;
-import org.un.bungeni.translators.exceptions.DocumentNotFoundException;
 import org.un.bungeni.translators.exceptions.TranslationFailedException;
-import org.un.bungeni.translators.exceptions.TranslationToMetalexFailedException;
-import org.un.bungeni.translators.exceptions.ValidationFailedException;
-import org.un.bungeni.translators.exceptions.XSLTBuildingException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;

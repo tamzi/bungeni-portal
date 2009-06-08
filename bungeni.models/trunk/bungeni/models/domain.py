@@ -240,6 +240,8 @@ class Ministry( Group ):
     """
     #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     ministers = one2many("ministers","bungeni.models.domain.MinisterContainer", "group_id")
+    questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "ministry_id")
+    
     
 class Minister( GroupMembership ):
     """ A Minister

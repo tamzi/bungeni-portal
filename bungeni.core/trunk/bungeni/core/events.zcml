@@ -52,17 +52,17 @@
      handler=".events.office_added_modified"
      />       
   
-  <!--subscriber
+  <subscriber
      for="bungeni.models.interfaces.IPoliticalParty
             zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".events.committee_added_modified"
+     handler=".events.party_added_modified"
      />
 
   <subscriber
      for="bungeni.models.interfaces.IPoliticalParty
           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-     handler=".events.committee_added_modified"
-     /-->     
+     handler=".events.party_added_modified"
+     />     
   
   
 </configure>

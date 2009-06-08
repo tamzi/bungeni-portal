@@ -22,6 +22,7 @@ public class OdtTranslateTest {
 		currentDirectory = System.getProperty("user.dir");
 		currentDocType = "debaterecord";
 		paramMap.put("OdfFileURL", currentDirectory + "/bin/debaterecord_ken_eng_2008_12_17_main.odt");
+		paramMap.put("OutputFilePath", currentDirectory + "/bin/debaterecord_ken_eng_2008_12_17_main.xml");
 		paramMap.put("TranslatorRootFolder", currentDirectory + "/bin/");
 		paramMap.put("TranslatorConfigFile", "configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
 		paramMap.put("CurrentDocType", currentDocType);

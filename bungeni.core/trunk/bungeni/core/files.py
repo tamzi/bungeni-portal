@@ -111,6 +111,7 @@ class ContainedDirectory( SubversionDirectory ):
         i.context = directory.getSVNContext()
         i.__parent__ = context
         i.__name__ = 'files'
+        i.title = 'Files'
         return i
     
     def getSVNContext( self ):
@@ -120,6 +121,9 @@ class ContainedDirectory( SubversionDirectory ):
         item = super(ContainedDirectory, self).__getitem__(key)
         interface.alsoProvides(item, ILocation)
         return item
+        
+    def items(self):
+        return        
     
 class DirectoryLocation(object):
     """

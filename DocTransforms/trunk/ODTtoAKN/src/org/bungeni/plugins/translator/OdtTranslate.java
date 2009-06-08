@@ -14,7 +14,10 @@ import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
 
 /**
- * @author ashok
+ * Bridging class that implements the IEditorPlugin interface for interacting with the bungeni editor.
+ * The IEditorPlugin interface is described here :
+ * http://code.google.com/p/bungeni-editor/
+ * @author Ashok Hariharan
  *
  */
 public class OdtTranslate implements IEditorPlugin {
@@ -22,12 +25,6 @@ public class OdtTranslate implements IEditorPlugin {
     private static org.apache.log4j.Logger log            =
         Logger.getLogger(OdtTranslate.class.getName());
 
-	 /**
-     * Supported Params :
-     * OdfFileURL = url to odf file
-     * SettingsFolder = path to settings folder
-     * CurrentDocType = current document type
-     */
     private HashMap                      editorParams    = null;
     private String                       odfFileUrl      = null;
     private String 					 	 outputFilePath = null;
@@ -84,20 +81,37 @@ public class OdtTranslate implements IEditorPlugin {
 		return null;
 	}
 
+	/**
+	 * The following parameters are supported and mandatory:
+	 * OdfFileURL - full path to the Odf file being translated
+	 * OutputFilePath - full path to the output Xml file to be generated
+	 * TranslatorRootFolder - root folder for the translator usually the folder containing the main directories used by the translator. Path must end in a "/"
+	 * TranslatorConfigFile - the configuration file for the document type being transformed (this is a relative path - relative to the translator root folder)
+	 * CurrentDocType - the document type being translated
+	 * CallerPanel  - the UI JPanel invoking the translator
+	 * PluginMode - 2 modes are supported odt2akn and akn2html.
+	 * ParentFrame - the JFrame object to use as the parent frame for any UI interactions
+	 */
 	public void setParams(HashMap inputParams) {
         try {
             log.debug("setting inputparams");
+            
+            //first recieve the input parameters for the plugin from the parameter map
             this.editorParams    = inputParams;
             this.odfFileUrl      = (String) this.editorParams.get("OdfFileURL");
             this.outputFilePath = (String) this.editorParams.get("OutputFilePath");
             this.translatorRootFolder = (String) this.editorParams.get("TranslatorRootFolder");
             this.translatorConfigFile = (String)  this.editorParams.get("TranslatorConfigFile");
             this.currentDocType  = (String) this.editorParams.get("CurrentDocType");
-            this.callerPanel = this.editorParams.get("CallerPanel");
             this.pluginMode = (String) this.editorParams.get("PluginMode");
             if (this.editorParams.containsKey("ParentFrame")) {
-                    this.callerFrame = (javax.swing.JFrame) this.editorParams.get("ParentFrame");
+                this.callerFrame = (javax.swing.JFrame) this.editorParams.get("ParentFrame");
             }
+            if (this.editorParams.containsKey("CallerPanel")) {
+            	this.callerPanel = this.editorParams.get("CallerPanel");
+            }
+            
+            //set the parameters for the translator now
             appInit();
             
             } catch (Exception ex) {

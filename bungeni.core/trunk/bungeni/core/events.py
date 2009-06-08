@@ -88,6 +88,10 @@ def committee_added_modified(ob,event):
     group_added_or_modified(ob, trusted, 'bungeni.CommitteeMember')
 
 
+def party_added_modified(ob,event):
+    trusted = removeSecurityProxy(ob)
+    group_added_or_modified(ob, trusted, 'bungeni.PartyMember')
+
 def office_added_modified(ob, event):
     """ when an office is added or modified we 
     add/edit the local role at parliament level """

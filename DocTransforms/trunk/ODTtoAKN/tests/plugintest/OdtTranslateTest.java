@@ -2,6 +2,7 @@ package plugintest;
 
 import static org.junit.Assert.*;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.bungeni.plugins.translator.OdtTranslate;
@@ -36,8 +37,14 @@ public class OdtTranslateTest {
 
 	@Test
 	public final void testExec() {
+		File foutput  = new File((String) paramMap.get("OutputFilePath"));
+		if (foutput.exists()) {
+			foutput.delete();
+		}
 		testObject.setParams(paramMap);
 		testObject.exec();
+		File fnewout =  new File((String) paramMap.get("OutputFilePath"));
+		assertTrue("Ooutput file was not created", fnewout.exists() == true);
 	}
 
 	@Test

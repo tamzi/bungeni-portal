@@ -30,6 +30,7 @@ public class OdtTranslate implements IEditorPlugin {
      */
     private HashMap                      editorParams    = null;
     private String                       odfFileUrl      = null;
+    private String 					 	 outputFilePath = null;
     private String                       translatorRootFolder = null;
     private String						 translatorConfigFile = null;
     private String						 currentDocType = null;
@@ -37,6 +38,9 @@ public class OdtTranslate implements IEditorPlugin {
 	private javax.swing.JFrame			 callerFrame = null;
 	private String 						 pluginMode = null;
 	
+	public OdtTranslate(){
+		//for call by reflection
+	}
 	
 	public String exec() {
 		FileInputStream fis = null;
@@ -85,6 +89,7 @@ public class OdtTranslate implements IEditorPlugin {
             log.debug("setting inputparams");
             this.editorParams    = inputParams;
             this.odfFileUrl      = (String) this.editorParams.get("OdfFileURL");
+            this.outputFilePath = (String) this.editorParams.get("OutputFilePath");
             this.translatorRootFolder = (String) this.editorParams.get("TranslatorRootFolder");
             this.translatorConfigFile = (String)  this.editorParams.get("TranslatorConfigFile");
             this.currentDocType  = (String) this.editorParams.get("CurrentDocType");
@@ -113,6 +118,6 @@ public class OdtTranslate implements IEditorPlugin {
 	}
 	
 	private String getOutputFileName() {
-		return new String(); // generate output file name here 
+		return this.outputFilePath;
 	}
 }

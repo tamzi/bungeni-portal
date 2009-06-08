@@ -375,19 +375,26 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
 
         elif ILocation.providedBy(context):
             url = absoluteURL(context, self.request)
-            props = IDCDescriptiveProperties.providedBy(context) and \
-                context or IDCDescriptiveProperties(context)
+            #props = IDCDescriptiveProperties.providedBy(context) and \
+            #    context or IDCDescriptiveProperties(context)
+            if IDCDescriptiveProperties.providedBy(context):
+                props = IDCDescriptiveProperties(context)
+            else:
+                props = context                
             props = proxy.removeSecurityProxy(props)
 
             selected = len(chain) == 0
             if selected and IReadContainer.providedBy(context):
                 nodes = []
-                self.expand_containers(nodes, context.items(), url, chain, context)
+                try:
+                    self.expand_containers(nodes, context.items(), url, chain, context)
+                except:
+                    pass                    
             else:
                 nodes = self.expand(chain)
-            
+            i_id = getattr(props, 'id','N/A')
             items.append(
-                {'title': props.title,
+                {'title': getattr(props, 'title', i_id),
                  'url': url,
                  'current': True,
                  'selected': selected,

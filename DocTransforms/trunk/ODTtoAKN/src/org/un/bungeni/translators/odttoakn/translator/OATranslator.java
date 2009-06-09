@@ -57,8 +57,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		//create the Properties object
 		Properties properties = new Properties();
 	
+		String pathToPropertiesFile = GlobalConfigurations.getApplicationPathPrefix() + GlobalConfigurations.getConfigurationFilePath();
 		//read the properties file
-		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + GlobalConfigurations.getConfigurationFilePath());
+		InputStream propertiesInputStream = new FileInputStream(pathToPropertiesFile);
 		
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
@@ -120,11 +121,19 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//create the XSLT that transforms the metalex
 			File xslt = this.buildXSLT(aPipelinePath);
 		
+			//Stream for metalex file
+			StreamSource ssMetalex = new StreamSource(metalexFile);
+			//streamsource to xslt that transforms the metalex
+			StreamSource ssXslt = new StreamSource(xslt);
+					
+			XSLTTransformer xsltTransformer = XSLTTransformer.getInstance();
 			//apply the XSLT to the document 
-			StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
-		
+			StreamSource result = xsltTransformer.transform(ssMetalex, ssXslt);
+			//stream the AN xslt file
+			StreamSource ssAnXsltpath = new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath));
+			
 			//apply to the result the XSLT that insert the namespace
-			StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
+			StreamSource resultWithNamespace = xsltTransformer.transform(result, ssAnXsltpath);
 		
 			//create the file that will be returned in case the validation do not fail
 			File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
@@ -193,7 +202,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 * @return the translated document
 	 * @throws Exception 
 	 * @throws TransformerFactoryConfigurationError 
-	 */
+	 */ 
+	//Unused API comment out for now
+	/*
 	public File translate(File aDocumentHandle, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
 		try
@@ -206,10 +217,16 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			
 			//create the XSLT that transforms the metalex
 			File xslt = this.buildXSLT(aPipelinePath);
-			
+			//Stream for metalex file
+			StreamSource ssMetalex = new StreamSource(metalexFile);
+			//streamsource to xslt that transforms the metalex
+			StreamSource ssXslt = new StreamSource(xslt);
+					
+			XSLTTransformer xsltTransformer = XSLTTransformer.getInstance();
 			//apply the XSLT to the document 
-			StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
-			
+			StreamSource result = xsltTransformer.transform(ssMetalex, ssXslt);
+			//stream the AN xslt file
+			StreamSource ssAnXsltpath = new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath));
 			//apply to the result the XSLT that insert the namespace
 			StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
 			
@@ -271,7 +288,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//RETURN null
 			return null;
 		}
-	}
+	} */
 
 	/**
 	 * Translate an ODF stream source to the METALEX format

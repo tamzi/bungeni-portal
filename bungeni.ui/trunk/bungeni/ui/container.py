@@ -35,20 +35,7 @@ def dateFilter( request ):
     else:
         filter_by = ''          
     return filter_by            
-
-def getFullPath( context):
-    #BBB use absoluteURL
-    """
-    traverse up to get the full path
-    """
-    path = ''
-    if context.__parent__:
-        path =  getFullPath(context.__parent__) + path
-    if context.__name__:
-        path = path + context.__name__ + '/'
-    if len(path) == 0:
-        return '/'    
-    return path       
+  
     
 def getFields( context ):
     """ get all fields that will be displayed 

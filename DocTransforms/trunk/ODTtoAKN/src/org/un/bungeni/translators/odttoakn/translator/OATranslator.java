@@ -113,7 +113,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		try
 		{
 			//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-			StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
+			ODFUtility odfUtil = ODFUtility.getInstance();
+			File mergedOdfFile  = odfUtil.mergeODF(aDocumentPath);
+			StreamSource ODFDocument = new StreamSource(mergedOdfFile);
 
 			//translate the document to METALEX
 			File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);

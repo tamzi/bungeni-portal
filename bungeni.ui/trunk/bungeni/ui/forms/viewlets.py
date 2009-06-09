@@ -599,7 +599,7 @@ class SessionCalendarViewlet( viewlet.ViewletBase ):
         for sit_type in type_results:
             sit_types[sit_type.sitting_type_id] = sit_type.sitting_type
         data_list=[]      
-        path = '../../sittings/'       
+        path = '/calendar/group/sittings/'       
         results = self.query.all()
         for result in results:            
             data ={}

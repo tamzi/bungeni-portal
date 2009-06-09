@@ -6,7 +6,9 @@ package org.bungeni.plugins.translator;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import org.apache.log4j.Logger;
 import org.bungeni.plugins.IEditorPlugin;
@@ -15,8 +17,9 @@ import org.un.bungeni.translators.odttoakn.translator.OATranslator;
 
 /**
  * Bridging class that implements the IEditorPlugin interface for interacting with the bungeni editor.
- * The IEditorPlugin interface is described here :
- * http://code.google.com/p/bungeni-editor/
+ * The IEditorPlugin interface is described 
+ * http://code.google.com/p/bungeni-editor/source/browse/plugins/BungeniEditorPluginInterface/src/org/bungeni/plugins/IEditorPlugin.java
+ * 
  * @author Ashok Hariharan
  *
  */
@@ -30,6 +33,7 @@ public class OdtTranslate implements IEditorPlugin {
     private String 					 	 outputFilePath = null;
     private String                       translatorRootFolder = null;
     private String						 translatorConfigFile = null;
+    private String						 translatorPipeline = null;
     private String						 currentDocType = null;
 	private Object					     callerPanel = null;
 	private javax.swing.JFrame			 callerFrame = null;
@@ -43,13 +47,21 @@ public class OdtTranslate implements IEditorPlugin {
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		String retvalue = "";
+		final ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
 		try 
 		{
+			System.out.println("getting translator instance");
+			Thread.currentThread().setContextClassLoader(OdtTranslate.class.getClassLoader());
 			OATranslator myTranslator = OATranslator.getInstance();
+
+			System.out.println("calling translate");
 			
-			File translation = myTranslator.translate(this.odfFileUrl,GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
-			//File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
+			String fullPathToPipeline = GlobalConfigurations.getApplicationPathPrefix() + this.translatorPipeline;
 			
+			File translation = myTranslator.translate(this.odfFileUrl, fullPathToPipeline);
+			
+			System.out.println("writing outputs");
+
 			//input stream
 			fis  = new FileInputStream(translation);
 			
@@ -66,12 +78,17 @@ public class OdtTranslate implements IEditorPlugin {
 			    }
 			 fis.close();
 			 fos.close();
+			 retvalue = "success";
 		} 
-		catch (IOException e) 
+		catch (Exception e) 
 		{
+			FileWriter fw = new FileWriter("/home/undesa/log.txt");
+			e.printStackTrace(new PrintWriter(fw));
+			fw.close();
 			log.error("exec()", e);
 		}  
 		finally{
+			Thread.currentThread().setContextClassLoader(savedClassLoader);
 		    return retvalue;
 		}	
 	}
@@ -87,6 +104,7 @@ public class OdtTranslate implements IEditorPlugin {
 	 * OutputFilePath - full path to the output Xml file to be generated
 	 * TranslatorRootFolder - root folder for the translator usually the folder containing the main directories used by the translator. Path must end in a "/"
 	 * TranslatorConfigFile - the configuration file for the document type being transformed (this is a relative path - relative to the translator root folder)
+	 * TranslatorPipeline - the translator pipeline to use for the transformation
 	 * CurrentDocType - the document type being translated
 	 * CallerPanel  - the UI JPanel invoking the translator
 	 * PluginMode - 2 modes are supported odt2akn and akn2html.
@@ -102,6 +120,7 @@ public class OdtTranslate implements IEditorPlugin {
             this.outputFilePath = (String) this.editorParams.get("OutputFilePath");
             this.translatorRootFolder = (String) this.editorParams.get("TranslatorRootFolder");
             this.translatorConfigFile = (String)  this.editorParams.get("TranslatorConfigFile");
+            this.translatorPipeline = (String) this.editorParams.get("TranslatorPipeline");
             this.currentDocType  = (String) this.editorParams.get("CurrentDocType");
             this.pluginMode = (String) this.editorParams.get("PluginMode");
             if (this.editorParams.containsKey("ParentFrame")) {

@@ -253,7 +253,9 @@ offices = rdb.Table(
    metadata,
    rdb.Column( "office_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
-   rdb.Column( "office_type", rdb.String(1), # is the MP elected, nominated, ex officio member, ...
+   #Speakers office or Clerks office, the members of members of
+   #this group will get local roles in the parliament accordingly
+   rdb.Column( "office_type", rdb.String(1),  
                 rdb.CheckConstraint("office_type in ('S','C')"),
                 nullable=False ),
    )

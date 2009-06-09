@@ -1,6 +1,7 @@
 """
 $Id: $
 """
+import datetime
 from zope import interface
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema import vocabulary
@@ -63,6 +64,15 @@ class SpecializedSource( object ):
         self.token_field = token_field
         self.value_field = value_field
         self.title_field = title_field
+
+    def _get_parliament_id(self, context):
+        parliament_id = getattr(context, 'parliament_id', None)
+        if parliament_id is None:
+            if context.__parent__ is None:
+                return None
+            else:    
+                parliament_id = self._get_parliament_id(context.__parent__)            
+        return parliament_id  
             
     def constructQuery( self, context ):
         raise NotImplementedError("Must be implemented by subclass.")
@@ -99,16 +109,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
     the user will not be editable """
     def __init__(self, value_field):
         self.value_field = value_field
-    
-    def _get_parliament_id(self, context):
-        parliament_id = getattr(context, 'parliament_id', None)
-        if parliament_id is None:
-            if context.__parent__ is None:
-                return None
-            else:    
-                parliament_id = self._get_parliament_id(context.__parent__)            
-        return parliament_id                
-        
+                          
     def constructQuery(self, context):
         session= Session()
         trusted=removeSecurityProxy(context)
@@ -152,8 +153,8 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
         user_id = getattr(context, self.value_field, None) 
         if user_id:
             if len(query.filter(schema.users.c.user_id == user_id).all()) == 0:
-                # the user is not a member of this parliament 
-                # this should not happen in real life
+                # The user is not a member of this parliament. 
+                # This should not happen in real life
                 # but if we do not add it her the view form will 
                 # throw an exception 
                 session = Session()            
@@ -230,7 +231,90 @@ class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
                 domain.MemberOfParliament.user_id.in_(user_ids))                        
         return query
 
-        
+class MinistrySource(SpecializedSource):
+    """ Ministries in the current parliament """
+
+    def __init__(self, value_field):
+        self.value_field = value_field    
+    
+    def constructQuery( self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        ministry_id = getattr(trusted, self.value_field, None)
+        parliament_id = self._get_parliament_id(trusted)
+        today = datetime.date.today()   
+        if parliament_id:
+            governments = session.query(domain.Government).filter(
+                sql.and_(
+                    domain.Government.parliament_id == parliament_id,
+                    sql.or_( 
+                        sql.and_(
+                            domain.Government.start_date <= today,
+                            domain.Government.end_date == None
+                            ),
+                        sql.between(today, 
+                                domain.Government.start_date,
+                                domain.Government.end_date)                        
+                        )
+                    ))  
+            government = governments.all()
+            if len(government) == 1:
+                gov_id = government[0].government_id
+                if ministry_id:
+                    query = session.query(domain.Ministry).filter(
+                        sql.or_(
+                            domain.Ministry.ministry_id == ministry_id,
+                            sql.and_(
+                                domain.Ministry.government_id == gov_id,
+                                sql.or_( 
+                                    sql.and_(
+                                        domain.Ministry.start_date <= today,
+                                        domain.Ministry.end_date == None
+                                        ),
+                                    sql.between(today, 
+                                            domain.Ministry.start_date,
+                                            domain.Ministry.end_date)                        
+                                    )
+                                ))  
+                    )
+                else:
+                    query = session.query(domain.Ministry).filter(
+                            sql.and_(
+                                domain.Ministry.government_id == gov_id,
+                                sql.or_( 
+                                    sql.and_(
+                                        domain.Ministry.start_date <= today,
+                                        domain.Ministry.end_date == None
+                                        ),
+                                    sql.between(today, 
+                                            domain.Ministry.start_date,
+                                            domain.Ministry.end_date)                        
+                                    )
+                                ))                                                       
+            else:
+                if ministry_id:
+                    query = session.query(domain.Ministry).filter(
+                            domain.Ministry.ministry_id == ministry_id)                          
+                else:                    
+                    query = session.query(domain.Ministry)            
+        else:
+            query = session.query(domain.Ministry)
+        return query     
+               
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()        
+        terms = []
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'ministry_id'), 
+                    token = getattr( ob, 'ministry_id'),
+                    title = "%s - %s" % (getattr( ob, 'short_name') ,
+                            getattr( ob, 'full_name'))
+                    ))
+
+        return vocabulary.SimpleVocabulary( terms )                
 
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering

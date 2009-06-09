@@ -66,6 +66,14 @@
      for="bungeni.models.interfaces.IVersion
           zope.lifecycleevent.IObjectCreatedEvent" />
 
+
+  <!-- group workflow -->
+
+  <adapter
+     for="bungeni.models.interfaces.IBungeniGroup"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.GroupWorkflowAdapter" />   
+
   <!-- group-sitting workflow -->
 
   <adapter

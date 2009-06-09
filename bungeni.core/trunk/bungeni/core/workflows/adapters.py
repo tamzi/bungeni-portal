@@ -8,6 +8,7 @@ import motion
 import response
 import version
 import groupsitting
+import groups
 
 from bungeni.models import domain
 from bungeni.models.interfaces import IVersion
@@ -37,3 +38,5 @@ VersionWorkflowAdapter = workflow.AdaptedWorkflow(
 GroupSittingWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groupsitting, IVersion))
 
+GroupWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(groups, domain.Group))

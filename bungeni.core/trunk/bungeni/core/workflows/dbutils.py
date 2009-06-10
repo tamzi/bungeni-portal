@@ -121,4 +121,26 @@ def getMinsiteryEmails(ministry):
         addresses.append(address)
     return ' ,'.join(addresses)
         
+def deactivateGroupMembers(group):
+    """ upon dissolution of a group all group members
+    are deactivated and get the end date of the group"""
+    session = Session()
+    group_id = group.group_id
+    end_date = group.end_date
+    assert(end_date != None)    
+    connection = session.connection(domain.Group)
+    connection.execute(schema.user_group_memberships.update().where(
+        rdb.and_(
+            schema.user_group_memberships.c.group_id == group_id,
+            schema.user_group_memberships.c.active_p == True)
+            ).values(active_p = False)
+        )
+    connection.execute(schema.user_group_memberships.update().where(
+        rdb.and_(
+            schema.user_group_memberships.c.group_id == group_id,
+            schema.user_group_memberships.c.end_date == None)
+            ).values(end_date = end_date)
+        )
+    
+
     

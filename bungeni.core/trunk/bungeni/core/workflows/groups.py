@@ -4,6 +4,8 @@ from bungeni.core.workflows import dbutils
 class conditions:
     @staticmethod
     def has_end_date(info, context):
+        """ a group can only be dissolved if 
+         an end date is set """
         return context.end_date != None
 
     
@@ -21,7 +23,11 @@ class actions:
     
     @staticmethod
     def dissolve(info, context):                
-        pass
+        """ when a group is dissolved all members of this 
+        group get the end date of the group (if they do not
+        have one yet) and there active_p status gets set to
+        False"""
+        dbutils.deactivateGroupMembers(context)
         
     @staticmethod
     def deactivate(info, context):

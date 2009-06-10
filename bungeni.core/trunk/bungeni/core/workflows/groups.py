@@ -22,3 +22,7 @@ class actions:
     @staticmethod
     def dissolve(info, context):                
         pass
+        
+    @staticmethod
+    def deactivate(info, context):
+        pass        

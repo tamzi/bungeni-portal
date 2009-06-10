@@ -28,6 +28,8 @@ class actions:
         have one yet) and there active_p status gets set to
         False"""
         dbutils.deactivateGroupMembers(context)
+        groups = dbutils.endChildGroups(context)
+        utils.dissolveChildGroups(groups,context)
         
     @staticmethod
     def deactivate(info, context):

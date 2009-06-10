@@ -1,3 +1,4 @@
+import zope.securitypolicy.interfaces
 from bungeni.core.workflows import utils
 from bungeni.core.workflows import dbutils
 
@@ -19,7 +20,7 @@ class actions:
                 
     @staticmethod
     def activate(info, context):
-        pass
+        utils.set_group_local_role(context)
     
     @staticmethod
     def dissolve(info, context):                
@@ -30,7 +31,8 @@ class actions:
         dbutils.deactivateGroupMembers(context)
         groups = dbutils.endChildGroups(context)
         utils.dissolveChildGroups(groups,context)
+        utils.unset_group_local_role(context)
         
     @staticmethod
     def deactivate(info, context):
-        pass        
+        utils.unset_group_local_role(context)      

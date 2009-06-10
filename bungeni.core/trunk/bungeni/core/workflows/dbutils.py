@@ -173,7 +173,7 @@ def endChildGroups(group):
                     parliament_id,
                     end_date)                         
         for office in offices:                    
-            yield offices
+            yield office
         political_groups =  _end_parliament_group(domain.PoliticalParty,
                     parliament_id,
                     end_date)    

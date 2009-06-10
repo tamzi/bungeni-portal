@@ -3,7 +3,7 @@
  <!-- Audit events are defined in audit.zcml, workflow events in
  workflows/configure.zcml -->
 
-  <subscriber
+  <!--subscriber
      for="bungeni.models.interfaces.IParliament
             zope.lifecycleevent.interfaces.IObjectCreatedEvent"
      handler=".events.parliament_added_modified"
@@ -62,7 +62,7 @@
      for="bungeni.models.interfaces.IPoliticalParty
           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
      handler=".events.party_added_modified"
-     />     
+     /-->     
   
   
 </configure>

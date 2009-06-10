@@ -125,8 +125,8 @@ public final class AHPipelineResolver implements org.un.bungeni.translators.inte
 		outputNode.setAttribute("method", "xhtml");
 		
 		//set the doctype-public and doctype-system attribute of the output element
-		outputNode.setAttribute("doctype-public", "-//W3C//DTD XHTML 1.0 Strict//EN");
-		outputNode.setAttribute("doctype-system", "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+		//outputNode.setAttribute("doctype-public", "-//W3C//DTD XHTML 1.0 Strict//EN");
+		//outputNode.setAttribute("doctype-system", "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
 
 		//get the stylesheet node of the produced XSLT
 		Element stylesheetNode = (Element)pipeline.getElementsByTagName("xsl:stylesheet").item(0);

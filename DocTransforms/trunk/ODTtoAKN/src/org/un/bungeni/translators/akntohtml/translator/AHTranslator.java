@@ -70,6 +70,7 @@ public class AHTranslator implements Translator
 		//apply the XSLT to the document 
 		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(new File(documentPath)), new StreamSource(xslt));
 		
+		
 		//write the stream to a File and return it
 		return StreamSourceUtility.getInstance().writeToFile(result);
 	}

@@ -29,6 +29,7 @@
   <permission id="bungeni.bill.SelectCommittee" title="Assign a bill to a committee" />
   <permission id="bungeni.bill.ChangeStatus" title="Reject/Approve a bill" />
   <permission id="bungeni.bill.Withdraw" title="Withdraw a bill" />
-
+  <!-- Grroup Workflow Permissions -->
+  <permission id="bungeni.group.Manage" title="Manage Bungeni groups" />
   
 </configure>

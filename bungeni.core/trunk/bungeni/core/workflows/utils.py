@@ -1,20 +1,78 @@
-
 import datetime
-from zope.security.proxy import removeSecurityProxy
-from zope import component
 
+from zope import component
+from zope.security.proxy import removeSecurityProxy
+from zope.securitypolicy.interfaces import IPrincipalRoleMap
 from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 
 from ore.workflow.interfaces import IWorkflowInfo, InvalidTransitionError
 import ore.workflow.workflow
+from ore.alchemist import Session
 
 import bungeni.core.interfaces
-import bungeni.models.interfaces
+import bungeni.models.interfaces as interfaces
 import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
 
 import dbutils
+
+def get_parliament(context):
+    """go up until we find a parliament """
+    parent = context.__parent__
+    while parent:
+        if  interfaces.IParliament.providedBy(parent):
+            return parent
+        else:
+            try:
+                parent = parent.__parent__              
+            except:
+                parent = None      
+    if not parent:
+        parliament_id = context.parliament_id
+        session = Session()
+        parliament = session.query(domain.Parliament).get(parliament_id)
+        return parliament
+        
+
+def _get_group_local_role(group):
+    if interfaces.IParliament.providedBy(group):
+        return "bungeni.MP"  
+    elif interfaces.IMinistry.providedBy(group):
+        return "bungeni.Minister"
+    elif interfaces.ICommittee.providedBy(group): 
+        return "bungeni.CommitteeMember"
+    elif interfaces.IPoliticalParty.providedBy(group):   
+        return "bungeni.PartyMember"
+    elif interfaces.IOffice.providedBy(group):
+        if group.office_type == "S":
+            return "bungeni.Speaker"
+        elif group.office_type == "C":
+            return "bungeni.Clerk"
+        else: 
+            raise NotImplementedError 
+    else:
+        return None            
+        
+def _get_group_context(context):
+    if interfaces.IOffice.providedBy(context):
+        return get_parliament(context)
+    else:
+        return context
+
+def set_group_local_role(context):
+    role = _get_group_local_role(context)
+    group = removeSecurityProxy(context)    
+    ctx = _get_group_context(context) 
+    IPrincipalRoleMap(ctx).assignRoleToPrincipal(
+            role, group.group_principal_id)        
+            
+def unset_group_local_role(context):
+    role = _get_group_local_role(context)
+    group = removeSecurityProxy(context)         
+    ctx = _get_group_context(context)
+    IPrincipalRoleMap(ctx).unsetRoleForPrincipal(
+            role, group.group_principal_id)
 
 def getUserId( ):
     interaction = getInteraction()

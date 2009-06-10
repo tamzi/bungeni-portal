@@ -164,18 +164,21 @@ def endChildGroups(group):
     assert(end_date != None)
     if interfaces.IParliament.providedBy(group):
         parliament_id = group.parliament_id
-        committees = _end_parliament_group(domain.Committees, 
+        committees = _end_parliament_group(domain.Committee, 
                     parliament_id,
                     end_date)
-        yield committees
+        for committee in committees:                    
+            yield committee
         offices = _end_parliament_group(domain.Office,  
                     parliament_id,
                     end_date)                         
-        yield offices
+        for office in offices:                    
+            yield offices
         political_groups =  _end_parliament_group(domain.PoliticalParty,
                     parliament_id,
-                    end_date)          
-        yield political_groups                                     
+                    end_date)    
+        for political_group in political_groups:                          
+            yield political_group                                    
     elif interfaces.IGovernment.providedBy(group):
         government_id = group.government_id
         ministries = session.query(domain.Ministry).filter(

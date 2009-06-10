@@ -7,6 +7,7 @@ from sqlalchemy.orm import mapper
 from ore.alchemist import Session
 import bungeni.models.domain as domain
 import bungeni.models.schema as schema
+import bungeni.models.interfaces as interfaces
 import bungeni.core.globalsettings as prefs
 
 def get_user_login(user_id):
@@ -141,6 +142,51 @@ def deactivateGroupMembers(group):
             schema.user_group_memberships.c.end_date == None)
             ).values(end_date = end_date)
         )
+
+def endChildGroups(group):
+    """ upon dissolution of a parliament for all committees,
+    offices and political groups of this parliament the end date is 
+    set 
+    or upon dissolution of a government for all ministries 
+    of this government the end date is set
+    (in order to be able to dissolve those groups)"""
+    def _end_parliament_group(group_class, parent_id, end_date):
+        groups = session.query(group_class).filter(
+            rdb.and_(group_class.status == 'active',
+                group_class.parliament_id == parliament_id)).all()          
+        for group in groups:
+            if group.end_date == None:
+                group.end_date = end_date   
+        return groups                              
     
+    session = Session()
+    end_date = group.end_date   
+    assert(end_date != None)
+    if interfaces.IParliament.providedBy(group):
+        parliament_id = group.parliament_id
+        committees = _end_parliament_group(domain.Committees, 
+                    parliament_id,
+                    end_date)
+        yield committees
+        offices = _end_parliament_group(domain.Office,  
+                    parliament_id,
+                    end_date)                         
+        yield offices
+        political_groups =  _end_parliament_group(domain.PoliticalParty,
+                    parliament_id,
+                    end_date)          
+        yield political_groups                                     
+    elif interfaces.IGovernment.providedBy(group):
+        government_id = group.government_id
+        ministries = session.query(domain.Ministry).filter(
+            rdb.and_(domain.Ministry.status == 'active',
+                domain.Ministry.government_id == government_id)
+                ).all()
+        for ministry in ministries:
+            if ministry.end_date == None:
+                ministry.end_date = end_date
+            yield ministry
+            
+         
 
     

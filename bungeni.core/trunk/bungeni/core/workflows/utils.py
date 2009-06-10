@@ -142,6 +142,9 @@ def response_allow_complete(info, context):
     else:
         return False        
             
-             
+def dissolveChildGroups(groups, context):
+    for group in groups:
+        IWorkflowInfo(group).fireTransition('dissolve')
+        
           
     

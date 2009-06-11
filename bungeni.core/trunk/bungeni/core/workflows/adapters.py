@@ -9,6 +9,7 @@ import response
 import version
 import groupsitting
 import groups
+import address
 
 from bungeni.models import domain
 from bungeni.models.interfaces import IVersion
@@ -37,6 +38,7 @@ VersionWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(version, IVersion))
 GroupSittingWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groupsitting, IVersion))
-
 GroupWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groups, domain.Group))
+AdressWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(address, domain.UserAddress))   

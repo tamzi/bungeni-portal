@@ -291,5 +291,12 @@ class ChangeDescriptiveProperties(DescriptiveProperties):
     def title(self):
         return self.context.action   
         
-        
+
+class UserAddressDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IUserAddress)  
+    
+    @property
+    def title(self):
+        return u"Address"   
+                
 

@@ -316,6 +316,42 @@ class MinistrySource(SpecializedSource):
 
         return vocabulary.SimpleVocabulary( terms )                
 
+class MemberTitleSource(SpecializedSource):
+    """ get titles (i.e. roles/functions) in the current context """
+    
+    def __init__(self, value_field):
+        self.value_field = value_field 
+    
+    def _get_user_type(self, context):
+        user_type = getattr(context, 'membership_type', None)
+        if not user_type:            
+            user_type = self._get_user_type(context.__parent__)                        
+        return user_type
+    
+    def constructQuery( self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        user_type = self._get_user_type(trusted)  
+        titles = session.query(domain.MemberTitle).filter(
+            domain.MemberTitle.user_type == user_type).order_by(
+                domain.MemberTitle.sort_order)
+        return titles
+
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()        
+        terms = []
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_role_type_id'), 
+                    token = getattr( ob, 'user_role_type_id'),
+                    title = getattr( ob, 'user_role_name'),
+                    ))
+        return vocabulary.SimpleVocabulary( terms )  
+
+                    
+
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering
     note that the domain_model *must* not have a where and order_by clause 

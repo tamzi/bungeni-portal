@@ -277,4 +277,6 @@ class IPoliticalParty(interface.Interface):
 class IOffice(interface.Interface):
     """ marker interface for a parliamentary office """           
     
-    
+class IUserAddress(interface.Interface):
+    """ marker interface addresses of a user """
+        

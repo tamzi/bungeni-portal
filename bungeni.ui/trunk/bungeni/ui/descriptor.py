@@ -670,10 +670,87 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
     custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]
+
+class AddressTypeDescriptor( ModelDescriptor ):
+    display_name =_(u"Address type")
+    container_name =_(u"Address types")
+    
+    fields = [
+        dict( name="address_type_id", omit=True ),
+        dict( name="address_type_name", label=_(u"Address Type") ),
+    ]
+        
+class AddressDescriptor ( ModelDescriptor ):
+    display_name = _(u"Address")
+    container_name = _(u"Addresses")
+    
+    fields = [        
+        dict( name="address_id", omit=True ),
+        dict( name="role_title_id", omit=True ),
+        dict( name="user_id", omit=True ),
+        dict( name="address_type_id", 
+            property = schema.Choice(
+            title =_(u"Address Type"),
+            source=DatabaseSource(domain.AddressType, 
+                title_field='address_type_name',
+                token_field='address_type_id',
+                value_field='address_type_id'),)
+             ),                                                                
+        dict( name="po_box", label=_(u"P.O. Box") ),
+        dict( name="address", 
+                property = schema.TextLine( 
+                    title =_(u"Address"),required=False ),
+              edit_widget=zope.app.form.browser.TextAreaWidget, 
+              add_widget=zope.app.form.browser.TextAreaWidget,
+              ),        
+        dict( name="city", label=_(u"City") ),
+        dict( name="zipcode", label=_(u"Zip Code") ),
+        dict( name="country",  
+                property = schema.Choice( title=_(u"Country"), 
+                source=DatabaseSource(domain.Country, 
+                     title_field='country_name',
+                     token_field='country_id', 
+                     value_field='country_id' ),                                        
+                required=True ), 
+             ),
+        dict( name="phone",  
+                property = schema.Text( title=_(u"Phone Number(s)"), 
+                description=_(u"Enter one phone number per line"), 
+                required=False ),
+              edit_widget=zope.app.form.browser.TextAreaWidget, 
+              add_widget=zope.app.form.browser.TextAreaWidget,
+              #view_widget=zope.app.form.browser.ListDisplayWidget,
+              ),
+        dict( name="fax", 
+                property = schema.Text( 
+                    title=_(u"Fax Number(s)"),  
+                    description=_(u"Enter one fax number per line"), 
+                    required=False ),
+              edit_widget=zope.app.form.browser.TextAreaWidget, 
+              add_widget=zope.app.form.browser.TextAreaWidget,              
+              ),
+        dict( name="email", 
+              property = schema.TextLine( 
+                title =_(u"Email"), 
+                description=_(u"Email address"),
+                constraint=check_email,
+                required=False
+                ),
+             ),
+        dict( name="im_id", 
+            label=_(u"Instant Messenger Id"), 
+            description=_(u"ICQ, AOL IM, GoogleTalk...")),
+        dict( name="status", omit=True ),
+        ]
+        
+    schema_invariants = [POBoxOrAddress]
+
     
 class MemberRoleTitleDescriptor( ModelDescriptor ):
     display_name= _(u"Title")
     container_name= _(u"Titles")
+    
+    address_fields = deepcopy(AddressDescriptor.fields)
     
     fields = [
         dict( name='role_title_id', omit=True),
@@ -703,10 +780,12 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
                     _(u'End Date')), 
                     edit_widget=SelectDateWidget, 
                     add_widget=SelectDateWidget), 
-    ]
-       
-    schema_invariants = [EndAfterStart]     
-    #custom_validators = validations.validate_date_range_within_parent
+    ] + address_fields
+    
+    
+           
+    schema_invariants = [EndAfterStart, POBoxOrAddress]     
+    custom_validators = [validations.validate_date_range_within_parent]
         
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Staff")
@@ -1592,79 +1671,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
                 listing=True ),
         ]
 
-class AddressTypeDescriptor( ModelDescriptor ):
-    display_name =_(u"Address type")
-    container_name =_(u"Address types")
-    
-    fields = [
-        dict( name="address_type_id", omit=True ),
-        dict( name="address_type_name", label=_(u"Address Type") ),
-    ]
-        
-class AddressDescriptor ( ModelDescriptor ):
-    display_name = _(u"Address")
-    container_name = _(u"Addresses")
-    
-    fields = [        
-        dict( name="address_id", omit=True ),
-        dict( name="role_title_id", omit=True ),
-        dict( name="user_id", omit=True ),
-        dict( name="address_type_id", 
-            property = schema.Choice(
-            title =_(u"Address Type"),
-            source=DatabaseSource(domain.AddressType, 
-                title_field='address_type_name',
-                token_field='address_type_id',
-                value_field='address_type_id'),)
-             ),                                                                
-        dict( name="po_box", label=_(u"P.O. Box") ),
-        dict( name="address", 
-                property = schema.TextLine( 
-                    title =_(u"Address"),required=False ),
-              edit_widget=zope.app.form.browser.TextAreaWidget, 
-              add_widget=zope.app.form.browser.TextAreaWidget,
-              ),        
-        dict( name="city", label=_(u"City") ),
-        dict( name="zipcode", label=_(u"Zip Code") ),
-        dict( name="country",  
-                property = schema.Choice( title=_(u"Country"), 
-                source=DatabaseSource(domain.Country, 
-                     title_field='country_name',
-                     token_field='country_id', 
-                     value_field='country_id' ),                                        
-                required=True ), 
-             ),
-        dict( name="phone",  
-                property = schema.Text( title=_(u"Phone Number(s)"), 
-                description=_(u"Enter one phone number per line"), 
-                required=False ),
-              edit_widget=zope.app.form.browser.TextAreaWidget, 
-              add_widget=zope.app.form.browser.TextAreaWidget,
-              #view_widget=zope.app.form.browser.ListDisplayWidget,
-              ),
-        dict( name="fax", 
-                property = schema.Text( 
-                    title=_(u"Fax Number(s)"),  
-                    description=_(u"Enter one fax number per line"), 
-                    required=False ),
-              edit_widget=zope.app.form.browser.TextAreaWidget, 
-              add_widget=zope.app.form.browser.TextAreaWidget,              
-              ),
-        dict( name="email", 
-              property = schema.TextLine( 
-                title =_(u"Email"), 
-                description=_(u"Email address"),
-                constraint=check_email,
-                required=False
-                ),
-             ),
-        dict( name="im_id", 
-            label=_(u"Instant Messenger Id"), 
-            description=_(u"ICQ, AOL IM, GoogleTalk...")),
-        dict( name="status", omit=True ),
-        ]
-        
-    schema_invariants = [POBoxOrAddress]		
+		
 ################
 # Hansard
 ################

@@ -73,7 +73,7 @@ public class AHTranslatorTest {
 		        if (fos != null) fos.close();
 		}	
 		
-		File xslt = AHTranslator.getInstance().buildXSLT("resources/akntohtml/minixslt/pipeline.xsl");
+		//File xslt = AHTranslator.getInstance().buildXSLT("resources/akntohtml/minixslt/pipeline.xsl");
 		//input stream
 		/*FileInputStream fis  = new FileInputStream(xslt);
 		

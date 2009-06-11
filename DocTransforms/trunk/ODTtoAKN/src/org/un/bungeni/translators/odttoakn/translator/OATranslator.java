@@ -11,7 +11,11 @@ import java.util.ResourceBundle;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.un.bungeni.translators.exceptions.DocumentNotFoundException;
 import org.un.bungeni.translators.exceptions.TranslationFailedException;
+import org.un.bungeni.translators.exceptions.TranslationToMetalexFailedException;
+import org.un.bungeni.translators.exceptions.ValidationFailedException;
+import org.un.bungeni.translators.exceptions.XSLTBuildingException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
@@ -45,7 +49,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	private ResourceBundle resourceBundle;
 	
 	/*This is the logger*/
-	//private static Logger logger = logger.getLogger("org.un.bungeni.translators.odttoakn.translator.OATranslator");
+	private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger("org.un.bungeni.translators.odttoakn.translator.OATranslator");
 	
 	/**
 	 * Private constructor used to create the Translator instance
@@ -151,10 +155,10 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
-			//System.out.println(e.getMessage());
+			System.out.println(message);
 			
 			//print the message and the exception into the logger
-			//logger.fatal((new TranslationFailedException(message)).getStackTrace());
+			logger.fatal((new TranslationFailedException(message)).getStackTrace());
 			
 			//RETURN null
 			return null;
@@ -164,9 +168,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//get the message to print
 			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
 	  		
-			System.out.println(e.getMessage());
+			System.out.println(message);
 			//print the message and the exception into the logger
-			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
+			logger.fatal((new ValidationFailedException(message)).getStackTrace());
 			
 			//RETURN null
 			return null;
@@ -178,7 +182,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	  		
 			System.out.println(message);
 			//print the message and the exception into the logger
-			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
+			logger.fatal((new ValidationFailedException(message)).getStackTrace());
 			
 			//RETURN null
 			return null;
@@ -190,7 +194,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			System.out.println(e.getMessage());
 			
 			//print the message and the exception into the logger
-			//logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
+			logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
 			
 			//RETURN null
 			return null;
@@ -329,10 +333,10 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("TRANSLATION_TO_METALEX_FAILED_TEXT");
-			System.out.println(e.getMessage());
+			System.out.println(message);
 				
 			//print the message and the exception into the logger
-			//logger.fatal((new TranslationToMetalexFailedException(message)).getStackTrace());
+			logger.fatal((new TranslationToMetalexFailedException(message)).getStackTrace());
 			
 			//RETURN null
 			return null;
@@ -367,10 +371,10 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("XSLT_BUILDING_FAILED_TEXT");
-			System.out.println(e.getMessage());
+			System.out.println(message);
 				
 			//print the message and the exception into the logger
-			//logger.fatal((new XSLTBuildingException(message)).getStackTrace());
+			logger.fatal((new XSLTBuildingException(message)).getStackTrace());
 			
 			//RETURN null
 			return null;

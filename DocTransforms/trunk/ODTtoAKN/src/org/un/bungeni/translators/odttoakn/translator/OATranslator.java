@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -43,6 +44,12 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	
 	/* The resource bundle for the messages */
 	private ResourceBundle resourceBundle;
+	
+	/* The languages allowed for the translator*/
+	/*private Locale[] supportedLocales = {
+			Locale.ENGLISH,
+			Locale.ITALIAN
+	};*/
 
 	/*This is the logger*/
 	//private static Logger logger = //logger.getLogger("org.un.bungeni.translators.odttoakn.translator.OATranslator");
@@ -74,7 +81,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		this.akomantosoAddNamespaceXSLTPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("akomantosoAddNamespaceXSLTPath");
 		
 		//create the resource bundle
-		this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
+		//this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
+		this.resourceBundle = ResourceBundle.getBundle("LabelsBundle");
 	}
 
 	/**

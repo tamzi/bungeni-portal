@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
-import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -45,14 +44,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	/* The resource bundle for the messages */
 	private ResourceBundle resourceBundle;
 	
-	/* The languages allowed for the translator*/
-	/*private Locale[] supportedLocales = {
-			Locale.ENGLISH,
-			Locale.ITALIAN
-	};*/
-
 	/*This is the logger*/
-	//private static Logger logger = //logger.getLogger("org.un.bungeni.translators.odttoakn.translator.OATranslator");
+	//private static Logger logger = logger.getLogger("org.un.bungeni.translators.odttoakn.translator.OATranslator");
 	
 	/**
 	 * Private constructor used to create the Translator instance
@@ -81,8 +74,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		this.akomantosoAddNamespaceXSLTPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("akomantosoAddNamespaceXSLTPath");
 		
 		//create the resource bundle
-		//this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
-		this.resourceBundle = ResourceBundle.getBundle("LabelsBundle");
+		this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
 	}
 
 	/**
@@ -159,7 +151,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		{
 			//get the message to print
 			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			
 			//print the message and the exception into the logger
 			//logger.fatal((new TranslationFailedException(message)).getStackTrace());

@@ -54,9 +54,8 @@ public class ExceptionManager implements ErrorHandler
 		properties.loadFromXML(propertiesInputStream);
 		
 		//create the resource bundle
-		//this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
-		this.resourceBundle = ResourceBundle.getBundle("LabelsBundle");
-}
+		this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
+	}
 		
 	/**
 	 * Get the current instance of the ExceptionManager class 

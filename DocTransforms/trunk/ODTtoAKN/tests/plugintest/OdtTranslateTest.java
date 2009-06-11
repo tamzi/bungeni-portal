@@ -26,7 +26,7 @@ public class OdtTranslateTest {
 		paramMap.put("OutputFilePath", currentDirectory + "/bin/debaterecord_ken_eng_2008_12_17_main.xml");
 		paramMap.put("TranslatorRootFolder", currentDirectory + "/bin/");
 		paramMap.put("TranslatorConfigFile", "configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
-		paramMap.put("TranslatorPipeline","odttoakn/minixslt/debaterecord/pipeline.xsl" );
+		paramMap.put("TranslatorPipeline","odttoakn/minixslt/debaterecord/pipeline_editor.xsl" );
 		paramMap.put("CurrentDocType", currentDocType);
 		paramMap.put("CallerPanel", null);
 		paramMap.put("PluginMode", "odt2akn");

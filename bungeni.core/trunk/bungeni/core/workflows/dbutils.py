@@ -121,6 +121,23 @@ def getMinsiteryEmails(ministry):
         address = '"%s %s" <%s>' % (result.first_name, result.last_name, result.email)
         addresses.append(address)
     return ' ,'.join(addresses)
+
+def deactivateGroupMemberTitles(group):
+    session = Session()
+    group_id = group.group_id
+    end_date = group.end_date
+    assert(end_date != None)    
+    connection = session.connection(domain.Group)    
+    group_members = rdb.select([schema.user_group_memberships.c.user_id],
+             schema.user_group_memberships.c.group_id == group_id)
+    connection.execute(schema.role_titles.update(
+                ).where(rdb.and_( 
+                    schema.role_titles.c.membership_id.in_(group_members),
+                    schema.role_titles.c.end_date == None) 
+                    ).values(end_date=end_date)
+                    )         
+        
+
         
 def deactivateGroupMembers(group):
     """ upon dissolution of a group all group members
@@ -142,7 +159,8 @@ def deactivateGroupMembers(group):
             schema.user_group_memberships.c.end_date == None)
             ).values(end_date = end_date)
         )
-
+    deactivateGroupMemberTitles(group)
+    
 def endChildGroups(group):
     """ upon dissolution of a parliament for all committees,
     offices and political groups of this parliament the end date is 

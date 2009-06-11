@@ -211,6 +211,7 @@
   <adapter factory=".dc.ResponseDescriptiveProperties" />
   <adapter factory=".dc.ConstituencyDescriptiveProperties" />
   <adapter factory=".dc.ChangeDescriptiveProperties" />
+  <adapter factory=".dc.UserAddressDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

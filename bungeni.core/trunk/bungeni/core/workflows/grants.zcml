@@ -12,19 +12,16 @@
   <grant permission="bungeni.question.Withdraw" role="bungeni.Owner"/>
   <grant permission="bungeni.question.Write_answer" role="bungeni.Minister" />  
   <!-- response workflow permissions -->
-  <!--grant permission="bungeni.response.Create" role="zope.Member" /-->
-  <!-- TODO the permission should be granted to the clerks office upon scheduling,
-  or to the relevant ministry upon assignment to answer in writing -->
   <grant permission="bungeni.response.Submit" role="bungeni.Owner"/>
   <grant permission="bungeni.response.Complete" role="bungeni.Clerk"/>  
   <!--TODO motion workflow permissions -->
-  <grant permission="bungeni.motion.Submit" role="zope.Member"/>
-  <grant permission="bungeni.motion.Recieve" role="zope.Member"/>
-  <grant permission="bungeni.motion.clerk.Review" role="zope.Member"/>
-  <grant permission="bungeni.motion.speaker.Review"  role="zope.Member"/>
-  <grant permission="bungeni.motion.Schedule" role="zope.Member"/>
-  <grant permission="bungeni.motion.Debate" role="zope.Member"/>
-  <grant permission="bungeni.motion.Withdraw" role="zope.Member"/>
+  <grant permission="bungeni.motion.Submit" role="bungeni.Owner"/>
+  <grant permission="bungeni.motion.Recieve" role="bungeni.Clerk"/>
+  <grant permission="bungeni.motion.clerk.Review" role="bungeni.Clerk"/>
+  <grant permission="bungeni.motion.speaker.Review"  role="bungeni.Speaker"/>
+  <grant permission="bungeni.motion.Schedule" role="bungeni.Clerk"/>
+  <grant permission="bungeni.motion.Debate" role="bungeni.Clerk"/>
+  <grant permission="bungeni.motion.Withdraw" role="bungeni.Owner"/>
   
   <!-- Bill Workflow permissions -->
   <grant permission="bungeni.bill.Submit" role="bungeni.Clerk" />
@@ -35,6 +32,8 @@
 
   <!-- Group workflow permissions -->
   <grant permission="bungeni.group.Manage" role="bungeni.Clerk" />
-
-
+  <!-- User addresses -->
+  <grant permission="bungeni.address.Manage" role="bungeni.Clerk" />
+  <grant permission="bungeni.address.Manage" role="bungeni.Owner" />
+    
 </configure>

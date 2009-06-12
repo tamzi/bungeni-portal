@@ -43,6 +43,7 @@ default_run_options[:pty] = true
 set :deploy_to, "#{deploy_to_root}/#{application}"
 #was set :deploy_to, "/home/bungeni/bungeni_deploy/#{application}"
 set :buildout_dir, "#{deploy_to}/current"
+set :local_buildout_config_file , "buildout_local.cfg"
 
 set :user, "#{bungeni_username}"
 set :use_sudo, false

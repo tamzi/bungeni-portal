@@ -13,6 +13,8 @@ nodaemon = false
 
 [supervisorctl]
 serverurl = http://<%=app_host%>:8888
+username = admin
+password = admin
 
 [rpcinterface:supervisor]
 supervisor.rpcinterface_factory=supervisor.rpcinterface:make_main_rpcinterface

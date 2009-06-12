@@ -7,6 +7,17 @@ namespace :bungeni_tasks do
         template = File.read(file)
         buffer = ERB.new(template).result(binding)
         put buffer, "#{buildout_dir}/supervisord.conf", :mode => 0644
+	run "echo 'Supervisor service manager has been configured, and can be accessed on http://#{app_host}:8888'"
+	run "echo 'You can start bungeni by running cap bungeni_services:start_bungeni'"
+    end
+
+    desc "write supervisor config file"
+    task :localbuildout_config, :roles => [:app] do
+        file = File.join(File.dirname(__FILE__), "templates", local_buildout_config_file+".erb")
+        template = File.read(file)
+        buffer = ERB.new(template).result(binding)
+        put buffer, "#{buildout_dir}/#{local_buildout_config_file}", :mode => 0644
+	run "echo 'Local buildout configuration has been generated'"
     end
 
     ## setup easy_install for the python and then install supervisord
@@ -27,6 +38,11 @@ namespace :bungeni_tasks do
     desc "full buildout"
     task :buildout_full, :roles=> :app do
       run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600"
+    end
+
+    desc "full buildout"
+    task :buildout_full_local, :roles=> :app do
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_local.cfg -v"
     end
 
     desc "optimisitic builout"
@@ -73,19 +89,21 @@ namespace :bungeni_tasks do
 
     desc "stop bungeni"
     task :stop_bungeni, :roles=> :app do
-      run "#{supervisorctl} stop bungeni"
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf stop bungeni"
     end
 
     desc "start bungeni"
     task :start_bungeni, :roles=> :app do
-      run "#{supervisorctl} start bungeni"
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf start bungeni"
     end
 
 
 
     desc "stop supervisor"
     task :stop_supervisor, :roles=> :app do
-      run "#{supervisorctl} shutdown"
+      #bug in supervisorctl 3.0a
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf shutdown"
+      #run "ps auxww | grep python | grep -i supervisord | awk '{print $2}' | xargs kill -2 2> /dev/null ; true"
     end
 
 ## run python_setup automatically aftter deploy:setup

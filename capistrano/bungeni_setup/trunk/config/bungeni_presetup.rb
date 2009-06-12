@@ -18,14 +18,14 @@
 
 ### only the following 2 parameters need to be set by the user to customize
 ### this installation script for different computers
-set :user_build_root, "/home/bungeni/cap_builds"
-set :user_install_root, "/home/bungeni/cap_installs"
+set :user_build_root, "/home/undesa/cap_builds"
+set :user_install_root, "/home/undesa/cap_installs"
 
 #### download URLs for components #####
 ### can be set to a http / ftp url or an absolute path to the file on the computer
-set :python_download_url, "/home/bungeni/cache/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
+set :python_download_url, "/home/undesa/cache/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
 set :python_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7b1.tar.gz"
-set :svn_download_url,  "/home/bungeni/cache/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
+set :svn_download_url,  "/home/undesa/cache/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
 
 
 ##### Component Specific Parameters ##### 

@@ -734,8 +734,9 @@ class AddressDescriptor ( ModelDescriptor ):
                 title =_(u"Email"), 
                 description=_(u"Email address"),
                 constraint=check_email,
-                required=False
+                required=False                
                 ),
+                listing = True,
              ),
         dict( name="im_id", 
             label=_(u"Instant Messenger Id"), 

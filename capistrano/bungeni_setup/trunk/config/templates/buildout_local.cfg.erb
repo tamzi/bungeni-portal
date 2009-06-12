@@ -1,0 +1,15 @@
+[buildout]
+extends = buildout.cfg
+index = <%=local_buildout_index%>
+
+[postgresql]
+url = <%=pg_download_url%>
+
+[xapian]
+url = <%=xapian_download_url%>
+
+[xapian-bindings]
+url = <%=xapian_binding_download_url%>
+
+[exist]
+url = <%=exist_download_url%>

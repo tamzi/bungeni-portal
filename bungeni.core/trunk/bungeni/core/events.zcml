@@ -63,6 +63,11 @@
           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
      handler=".events.party_added_modified"
      /-->     
-  
+     
+    <subscriber
+     for="bungeni.models.interfaces.IBungeniGroupMembership
+          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+     handler=".events.group_member_modified"
+     /> 
   
 </configure>

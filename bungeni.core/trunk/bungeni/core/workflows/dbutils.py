@@ -135,7 +135,7 @@ def deactivateGroupMemberTitles(group):
                     schema.role_titles.c.membership_id.in_(group_members),
                     schema.role_titles.c.end_date == None) 
                     ).values(end_date=end_date)
-                    )         
+                )         
         
 
         

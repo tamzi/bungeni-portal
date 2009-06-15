@@ -63,7 +63,7 @@ RelatedItemsField =  ReferenceField(
 HelpCenterReferenceManualPage = ReferenceManualPage.HelpCenterReferenceManualPage
 
 HelpCenterReferenceManualPage.schema['description'].required = 0
-HelpCenterReferenceManualPage.schema['body'].required = 0
+
 
 #CompositePageSchema['title'].required = 0
 #CompositePageSchema['text'].required = 0

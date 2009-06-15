@@ -64,7 +64,8 @@ class GroupManager( BasePlugin, Cacheable ):
                     rdb.and_(
                         schema.users.c.login == principal.getId(),
                         schema.user_group_memberships.c.user_id == schema.users.c.user_id,
-                        schema.groups.c.group_id == schema.user_group_memberships.c.group_id))]
+                        schema.groups.c.group_id == schema.user_group_memberships.c.group_id,
+                        schema.user_group_memberships.c.active_p == True))]
 
     #
     # IGroupsEnumeration implementation
@@ -95,7 +96,8 @@ class GroupManager( BasePlugin, Cacheable ):
             clause = domain.Group.group_principal_id == id
 
 
-        query = session.query(domain.Group)
+        query = session.query(domain.Group).filter(
+                        domain.Group.status == 'active')
         if clause:
             query = query.filter(clause)
         if sort_by:
@@ -177,7 +179,7 @@ class GroupManager( BasePlugin, Cacheable ):
     #   IDeleteCapability implementation
     #
     def allowDeletePrincipal(self, principal_id):
-        """True iff this plugin can delete a certain group."""
+        """True if this plugin can delete a certain group."""
         if self.getGroupById(principal_id):
             return True
         return False
@@ -268,7 +270,8 @@ class GroupManager( BasePlugin, Cacheable ):
         """
 
         session = Session()
-        groups = session.query(domain.Group)
+        groups = session.query(domain.Group).filter(
+            domain.Group.status == 'active')
         return [PloneGroup(r.group_principal_id).__of__(self) for r in groups]
         
     def getGroupIds( self ):
@@ -278,7 +281,8 @@ class GroupManager( BasePlugin, Cacheable ):
 
         session = Session()
         session = Session()
-        groups = session.query(domain.Group)
+        groups = session.query(domain.Group).filter(
+            domain.Group.status == 'active')
         return [r.group_principal_id for r in groups]
 
     def getGroupMembers(self, group_id):
@@ -292,9 +296,9 @@ class GroupManager( BasePlugin, Cacheable ):
         users = session.query(domain.User).filter(
             rdb.and_(schema.users.c.user_id == ugm.c.user_id,
                      schema.groups.c.group_id == ugm.c.group_id,
-                     domain.Group.group_principal_id == group_id))
-        
-        return [r.user_id for r in users]
+                     domain.Group.group_principal_id == group_id,
+                     ugm.c.active_p == True)).all()        
+        return [r.login for r in users]
 
 classImplements( GroupManager,
                  IGroupsPlugin,

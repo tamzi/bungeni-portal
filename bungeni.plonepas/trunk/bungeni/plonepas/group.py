@@ -65,7 +65,7 @@ class GroupManager( BasePlugin, Cacheable ):
                         schema.users.c.login == principal.getId(),
                         schema.user_group_memberships.c.user_id == schema.users.c.user_id,
                         schema.groups.c.group_id == schema.user_group_memberships.c.group_id,
-                        schema.user_group_memberships.c.active_p == True))]
+                        schema.user_group_memberships.c.active_p == True)).all() ]
 
     #
     # IGroupsEnumeration implementation
@@ -271,7 +271,7 @@ class GroupManager( BasePlugin, Cacheable ):
 
         session = Session()
         groups = session.query(domain.Group).filter(
-            domain.Group.status == 'active')
+            domain.Group.status == 'active').all()
         return [PloneGroup(r.group_principal_id).__of__(self) for r in groups]
         
     def getGroupIds( self ):
@@ -282,7 +282,7 @@ class GroupManager( BasePlugin, Cacheable ):
         session = Session()
         session = Session()
         groups = session.query(domain.Group).filter(
-            domain.Group.status == 'active')
+            domain.Group.status == 'active').all()
         return [r.group_principal_id for r in groups]
 
     def getGroupMembers(self, group_id):

@@ -57,7 +57,7 @@
 <br/><br/>
 
     <div class="listingBar" tal:condition="python: next or prev"
-              tal:define="next python:pos < num_sibl-1;
+              tal:define="next python:pos &lt; num_sibl-1;
                    prev python:pos != 0;">
    <table class="navtable"><tr> 
     <td class="leftcell">  
@@ -128,7 +128,7 @@
           </div>
       
     <div class="listingBar" tal:condition="python: next or prev"
-              tal:define="next python:pos < num_sibl-1;
+              tal:define="next python:pos &lt; num_sibl-1;
                    prev python:pos != 0;">
    <table class="navtable"><tr> 
     <td class="leftcell">  

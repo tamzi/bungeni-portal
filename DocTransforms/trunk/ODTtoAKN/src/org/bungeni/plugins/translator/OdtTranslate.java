@@ -28,6 +28,8 @@ public class OdtTranslate implements IEditorPlugin {
     private static org.apache.log4j.Logger log            =
         Logger.getLogger(OdtTranslate.class.getName());
 
+    private static OdtTranslate thisTranslator = null;
+    
     private HashMap                      editorParams    = null;
     private String                       odfFileUrl      = null;
     private String 					 	 outputFilePath = null;
@@ -43,15 +45,22 @@ public class OdtTranslate implements IEditorPlugin {
 		//for call by reflection
 	}
 	
+	public static OdtTranslate getInstance(){
+		if (OdtTranslate.thisTranslator == null) {
+			thisTranslator = new OdtTranslate();
+		}
+		return thisTranslator;
+	}
+	
 	public String exec() {
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		String retvalue = "";
-		final ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
+	//	final ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
 		try 
 		{
 			System.out.println("getting translator instance");
-			Thread.currentThread().setContextClassLoader(OdtTranslate.class.getClassLoader());
+			//Thread.currentThread().setContextClassLoader(OdtTranslate.class.getClassLoader());
 			OATranslator myTranslator = OATranslator.getInstance();
 
 			System.out.println("calling translate");
@@ -88,7 +97,7 @@ public class OdtTranslate implements IEditorPlugin {
 			log.error("exec()", e);
 		}  
 		finally{
-			Thread.currentThread().setContextClassLoader(savedClassLoader);
+		//	Thread.currentThread().setContextClassLoader(savedClassLoader);
 		    return retvalue;
 		}	
 	}

@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -76,7 +77,7 @@ public final class OAPipelineResolver implements org.un.bungeni.translators.inte
 			String elementName = (String)XPathResolver.getInstance().evaluate(pipeline, "//xslt[@href='" + xsltURI + "']/@name", XPathConstants.STRING);
 			
 			//get the XSLT file
-			File XSLTFile = new File(xsltURI);
+			File XSLTFile = new File(GlobalConfigurations.getApplicationPathPrefix() + xsltURI);
 			
 			//open the pointed XSLT as a DOM document
 			Document XSLTDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XSLTFile);

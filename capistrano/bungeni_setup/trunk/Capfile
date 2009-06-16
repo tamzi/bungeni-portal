@@ -8,4 +8,8 @@ load 'config/bungeni_tasks'
 load 'config/bungeni_update'
 load 'config/bungeni_install'
 load 'config/bungeni_services'
+### now for plone stuff
+load 'config/plone_presetup'
+load 'config/ploneconfigvars'
+load 'config/plone_tasks'
 load 'config/deploy'

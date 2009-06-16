@@ -56,7 +56,8 @@ class GroupManager( BasePlugin, Cacheable ):
 
         o May assign groups based on values in the REQUEST object, if present
         """
-
+        #XXX TODO: user delegations!, implement search for groups 
+        # recursivly for this use case
         session = Session()
 
         return [r.group_principal_id
@@ -122,6 +123,7 @@ class GroupManager( BasePlugin, Cacheable ):
         Create a group with the supplied id, roles, and groups.
         return True if the operation suceeded
         """
+        raise NotImplementedError
         insert = schema.groups.insert()
         insert.values( short_name = id,
                        full_name = kw.get('title',''),
@@ -136,6 +138,7 @@ class GroupManager( BasePlugin, Cacheable ):
         Add a given principal to the group.
         return True on success
         """
+        raise NotImplementedError        
         insert = schema.user_group_memberships.insert()
         group_id = self._gid( group_id )
         user_id  = self._uid( principal_id )
@@ -150,7 +153,7 @@ class GroupManager( BasePlugin, Cacheable ):
         return True on success
         """
 
-        raise NotImplemented("Group updates not implemented.")
+        raise NotImplementedError("Group updates not implemented.")
         d = {}
         if 'title' in kw:
             d['full_name'] = kw['title']
@@ -180,6 +183,8 @@ class GroupManager( BasePlugin, Cacheable ):
     #
     def allowDeletePrincipal(self, principal_id):
         """True if this plugin can delete a certain group."""
+        return False
+        # handled in bungeni PIS
         if self.getGroupById(principal_id):
             return True
         return False
@@ -188,14 +193,17 @@ class GroupManager( BasePlugin, Cacheable ):
     #   IGroupCapability implementation
     #
     def allowGroupAdd(self, user_id, group_id):
-        """True iff this plugin will allow adding a certain user to a certain group."""
+        """True if this plugin will allow adding a certain user to a certain group."""
+        return False
+        # this is to be handled in the PIS
         present = self.enumerateGroups(id=group_id)
         if present: return True   # if we have a group, we can add users to it
                                   # slightly naive, but should be okay.
         return False
 
     def allowGroupRemove(self, user_id, group_id):
-        """True iff this plugin will allow removing a certain user from a certain group."""
+        """True if this plugin will allow removing a certain user from a certain group."""
+        return False
         present = self._gid(group_id)
         if not present: return False   # if we don't have a group, we can't do anything
         
@@ -208,6 +216,7 @@ class GroupManager( BasePlugin, Cacheable ):
         Remove the given group
         return True on success
         """
+        return False
         # XXX also need to delete all memberships in the group, just set group as inactive
         gid = self._gid( group_id )
         schema.groups.delete().where( schema.groups.c.group_id == gid ).execute()
@@ -217,6 +226,8 @@ class GroupManager( BasePlugin, Cacheable ):
         remove the given principal from the group
         return True on success
         """
+        raise NotImplementedError
+        
         group_id = self._gid( group_id )
         user_id  = self._uid( principal_id )
         if not group_id or not user_id:
@@ -237,7 +248,7 @@ class GroupManager( BasePlugin, Cacheable ):
             domain.Group.group_principal_id == name).all()
         if not groups:
             return
-        return groups[0].group_principal_id
+        return groups[0].group_id
 
     def _uid( self, login):
         session = Session()

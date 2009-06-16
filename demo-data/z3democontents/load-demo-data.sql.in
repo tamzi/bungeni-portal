@@ -224,6 +224,9 @@ update users set active_p = 'D' where date_of_death is not null;
     WHERE ( "parliaments"."parliament_id" = "groups"."group_id" AND "user_group_memberships"."group_id" = "groups"."group_id" ));
 */
 
+UPDATE groups SET status = 'draft';
+
+
 copy public.sitting_attendance( sitting_id, member_id, attendance_id)
 from '%(directory)s/data/demodata/sitting_attendance.csv'
 csv;

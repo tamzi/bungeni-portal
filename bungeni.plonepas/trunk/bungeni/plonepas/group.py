@@ -98,7 +98,9 @@ class GroupManager( BasePlugin, Cacheable ):
 
 
         query = session.query(domain.Group).filter(
-                        domain.Group.status == 'active')
+                        rdb.and_( clause,
+                            domain.Group.status == 'active')
+                        )                            
         if clause:
             query = query.filter(clause)
         if sort_by:
@@ -184,7 +186,7 @@ class GroupManager( BasePlugin, Cacheable ):
     def allowDeletePrincipal(self, principal_id):
         """True if this plugin can delete a certain group."""
         return False
-        # handled in bungeni PIS
+
         if self.getGroupById(principal_id):
             return True
         return False
@@ -195,7 +197,7 @@ class GroupManager( BasePlugin, Cacheable ):
     def allowGroupAdd(self, user_id, group_id):
         """True if this plugin will allow adding a certain user to a certain group."""
         return False
-        # this is to be handled in the PIS
+
         present = self.enumerateGroups(id=group_id)
         if present: return True   # if we have a group, we can add users to it
                                   # slightly naive, but should be okay.

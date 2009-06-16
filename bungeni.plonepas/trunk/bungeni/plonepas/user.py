@@ -172,24 +172,27 @@ class UserManager( BasePlugin ):
         else:
             clause = schema.users.c.login == id
 
-        query = rdb.select( [ schema.users.c.login ],
-                            rdb.and_(
-                                clause,
-                                schema.users.c.active_p == 'A',
-                                schema.users.c.login != None
+        session = Session()        
+        query = session.query(domain.User).filter(
+                        rdb.and_( clause,
+                            schema.users.c.active_p == 'A',
+                            schema.users.c.login != None
                                 ) )
-
         if sort_by:
             assert sort_by in ('login', 'last_name')
             query = query.order_by( getattr( schema.users.c, sort_by ) )
-
+        else:
+            query = query.order_by(schema.users.c.last_name, schema.users.c.first_name)
+                    
         if max_results is not None and isinstance( max_results, int ):
             query =query.limit( max_results )
 
-        session = Session()
-        connection = session.connection(domain.Group)
-
-        return [ dict( id=safeencode(r[0]), login=safeencode(r[0]), pluginid=self.id ) for r in connection.execute(query)]
+        return [ dict( id=safeencode(r.login), 
+                title= u"%s %s" %(r.first_name, r.last_name),  
+                fullname= u"%s %s" %(r.first_name, r.last_name),
+                email = (r.email),      
+                login=safeencode(r.login), pluginid=self.id ) 
+                for r in query.all()]
 
     #
     # IUserAdderPlugin implementation

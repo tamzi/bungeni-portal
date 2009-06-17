@@ -149,6 +149,9 @@ public class OdtTranslate implements IEditorPlugin {
             }
 	}
 
+	public HashMap getParams() {
+		return this.editorParams;
+	}
 	/*** Application code **/
 	private void appInit(){
 		//Do application initialization here

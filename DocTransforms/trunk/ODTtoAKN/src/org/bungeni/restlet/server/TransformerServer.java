@@ -1,5 +1,8 @@
 package org.bungeni.restlet.server;
 
+import java.io.File;
+
+import org.bungeni.restlet.TransformerRestletDefaultConfiguration;
 import org.bungeni.restlet.resources.OdtResource;
 import org.bungeni.restlet.restlets.TransformParamsRestlet;
 import org.restlet.Application;
@@ -14,16 +17,9 @@ public class TransformerServer extends Application {
    private static Component serverComponent = null;
    private static int SERVER_PORT = 8182;
    private static String SERVER_TMP_FOLDER = "/home/undesa/tmp";
-   private static Restlet setParamsRestlet;
+   public static final String SERVER_CONFIG_FILE = "transformer.ini";
+   private static Restlet setParamsRestlet  = null;
 
-   static {
-       try {
-            setParamsRestlet = new TransformParamsRestlet();
-       } catch (Exception ex) {
-           log.error("TransformServer.setParamsRestlet : ", ex);
-       }
-
-   }
 
    public static void setServerPort(int nPort) {
        SERVER_PORT = nPort;
@@ -33,16 +29,44 @@ public class TransformerServer extends Application {
        SERVER_TMP_FOLDER = sFolder;
    }
 
-   public static TransformerServer startServer() {
+@SuppressWarnings("finally")
+private static boolean configServer(String workingDir) {
+	   boolean bState = false;
+	   try {
+		   String iniFile = workingDir + File.separator + SERVER_CONFIG_FILE;
+		   File fIni = new File(iniFile);
+		   if (fIni.exists()) {
+			   TransformerRestletDefaultConfiguration config = TransformerRestletDefaultConfiguration.getInstance(fIni);
+			   SERVER_PORT = config.getServerPort();
+			   SERVER_TMP_FOLDER = config.getServerTmpFolder();
+			   bState = true;
+		   } 
+	   } catch (Exception ex) {
+		   log.error("configServer :", ex);
+		   ex.printStackTrace(System.out);
+	   } finally {
+		   return bState;
+	   }
+	  
+   }
+   
+   
+   @SuppressWarnings("finally")
+public static TransformerServer startServer(String workingDir) {
             TransformerServer ts = null;
             try {
-            	//to do .. bootstrap stuff to read server settings from properties file
                 if (serverComponent == null) {
-                    serverComponent = new Component();
-                    serverComponent.getServers().add(Protocol.HTTP, SERVER_PORT);
-                    ts = new TransformerServer();
-                    serverComponent.getDefaultHost().attach("", ts);
-                    serverComponent.start();
+                	if (configServer(workingDir)) {
+                		serverComponent = new Component();
+                		serverComponent.getServers().add(Protocol.HTTP, SERVER_PORT);
+                		ts = new TransformerServer();
+                		serverComponent.getDefaultHost().attach("", ts);
+                		//create the restlet instance here, before calling start
+                		setParamsRestlet = new TransformParamsRestlet(workingDir);
+                		serverComponent.start();
+                	} else {
+                		System.out.println("Failed while configuring TransformServer");
+                	}
                 } else {
                     if (serverComponent.isStopped()) {
                         serverComponent.start();
@@ -72,6 +96,6 @@ public class TransformerServer extends Application {
       }
 
      public static void main(String[] args) {
-         TransformerServer trans =TransformerServer.startServer();
+    	 TransformerServer.startServer(System.getProperty("user.dir"));
      }
 }

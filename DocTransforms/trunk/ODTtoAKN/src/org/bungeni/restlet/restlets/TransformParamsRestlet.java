@@ -1,8 +1,11 @@
 package org.bungeni.restlet.restlets;
 
+import java.io.File;
 import java.util.HashMap;
 
 import org.bungeni.plugins.translator.OdtTranslate;
+import org.bungeni.restlet.TransformerRestletDefaultConfiguration;
+import org.bungeni.restlet.server.TransformerServer;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
 import org.restlet.data.Method;
@@ -12,43 +15,65 @@ import org.restlet.data.Status;
 
 /**
  * Sets the dynamic parameters for the Odt Transformer.
- * Currently the only dynamic parameter is the document type
+ * Currently the only dynamic parameter is the document type and the plugin mode
+ * - First an http post is sent to set the parameters o
  * @author Ashok Hariharan
  */
-public class TransformParamsRestlet extends Restlet {
+ public class TransformParamsRestlet extends Restlet {
     private String documentType ;
     private String pluginMode;
+    private String workingDir;
     
+    TransformParamsRestlet restletInstance = null;
     
-private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(TransformParamsRestlet.class.getName());
+    public TransformParamsRestlet (String workDir) {
+    	this.workingDir = workDir;
+    }
+    
+    public TransformParamsRestlet getInstance(String workDir) {
+    	if (restletInstance == null) {
+    		restletInstance = new TransformParamsRestlet(workDir);
+    	}
+    	return restletInstance;
+    }
+    
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(TransformParamsRestlet.class.getName());
 
+	public void setDefaultParameters(HashMap paramMap) {
+		File iniFile = new File (this.workingDir + File.separator + TransformerServer.SERVER_CONFIG_FILE);
+		if (iniFile.exists()) {
+			TransformerRestletDefaultConfiguration defConfig = TransformerRestletDefaultConfiguration.getInstance(iniFile);
+			paramMap.put("TranslatorRootFolder", this.workingDir);
+			paramMap.put("TranslatorConfigFile", defConfig.getTranslatorConfigFile(this.documentType, this.pluginMode));
+			paramMap.put("TranslatorPipeline", defConfig.getTranslatorPipeline(this.documentType, this.pluginMode) );
+			paramMap.put("CurrentDocType", this.documentType);
+			paramMap.put("CallerPanel", null);
+			paramMap.put("PluginMode", this.pluginMode);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
 	private void setTranslatorParams() {
 		OdtTranslate translator = OdtTranslate.getInstance();
 		//set the parameters for the server
 		//get the default parameters
-		String currentDirectory = System.getProperty("user.dir");
+		HashMap translatorParameterMap = new HashMap();
+		setDefaultParameters(translatorParameterMap);
+		System.out.println(translatorParameterMap);
+		translator.setParams(translatorParameterMap);
 		// this parameter is set at runtime before calling exec
 		//paramMap.put("OdfFileURL", currentDirectory + "/bin/debaterecord_ken_eng_2008_12_17_main.odt");
 		//this parameter is set at runtime before calling exec
 		//paramMap.put("OutputFilePath", currentDirectory + "/bin/debaterecord_ken_eng_2008_12_17_main.xml");
-		HashMap<String, Object> translatorParameterMap = new HashMap<String, Object>();
 		//set the root directory / path prefix for the translator
-		translatorParameterMap.put("TranslatorRootFolder", currentDirectory);
-		if (this.pluginMode.equals("odt2akn")) {
-			
-		} else if (this.pluginMode.equals("akn2html")) {
-			//do this later
-		}
-		
-		if (this.documentType.equals("debaterecord")) {
-			paramMap.put("TranslatorConfigFile", "configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
-			paramMap.put("TranslatorPipeline","odttoakn/minixslt/debaterecord/pipeline.xsl" );
-			paramMap.put("CurrentDocType", documentType);
-		}
+		//translatorParameterMap.put("TranslatorRootFolder", currentDirectory);
+
+		/*
 		paramMap.put("CallerPanel", null);
 		paramMap.put("PluginMode", "odt2akn");
+		*/
 		//set the dynamic parameters
-		translator.setParams(inputParams)
+		//translator.setParams(inputParams)
 	}
 	
 	
@@ -60,6 +85,7 @@ private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(T
             Form postedForm = request.getEntityAsForm();
             this.documentType = (String) postedForm.getFirstValue("DocumentType");
             this.pluginMode = (String) postedForm.getFirstValue("PluginMode");
+            this.setTranslatorParams();
             System.out.println("doc type = "+ this.documentType);
             response.setStatus(Status.SUCCESS_NO_CONTENT);
         } else {
@@ -70,4 +96,8 @@ private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(T
        }
    }
 
+   public static void main(String[] args) {
+	   TransformParamsRestlet r = new TransformParamsRestlet(System.getProperty("user.dir"));
+	   r.setTranslatorParams();
+   }
 }

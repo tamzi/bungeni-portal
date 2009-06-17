@@ -45,6 +45,23 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 		return true;
 	}
 	
+	private String getOdtFolderPath(){
+		
+		String folderPath = TransformerServer.getTempFileFolder() + File.separator + "odt";
+	     File fFolder = new File(folderPath);
+	     if (!fFolder.exists()) fFolder.mkdirs();
+        
+	     return folderPath;
+        
+	}
+	
+	private String getXmlFolderPath() {
+		String folderPath = TransformerServer.getTempFileFolder() + File.separator + "xml";
+	    File fFolder = new File(folderPath);
+	    if (!fFolder.exists()) fFolder.mkdirs();
+	    return folderPath;
+	}
+	
 	/**
 	 * Accept the posted odt file
 	 * @param fileName
@@ -52,10 +69,10 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 	 */
 	private String recieveOdtFile(String fileName, Representation entity) {
 		FileOutputStream odtFile = null;
-	     String folderPath = TransformerServer.getTempFileFolder() + File.separator + "odt";
-	     File fFolder = new File(folderPath);
-	     if (!fFolder.exists()) fFolder.mkdirs();
-         File file = new File(folderPath + File.separator + fileName);
+		
+		String folderPath = getOdtFolderPath();
+		
+		File file = new File(folderPath + File.separator + fileName);
          try {
              //overwrite the existing file
         	 odtFile = new FileOutputStream(file, false);
@@ -87,13 +104,16 @@ public class OdtResource  extends org.restlet.resource.Resource  {
                 String fileName = requestHeaders.getFirstValue("X-Odt-File");
                 //write the file to a folder path on the server
                 String odfFile = recieveOdtFile(fileName, entity);
+                int nIndex = fileName.indexOf(".");
+                String xmlFile = fileName.substring(0, nIndex) + ".xml";
+                String outputFile = getXmlFolderPath() + File.separator + xmlFile;
+            
                 //do the transform here ---
                 OdtTranslate transInstance = OdtTranslate.getInstance();
                 transInstance.getParams().put("OdfFileURL", odfFile);
-                transInstance.getParams().put("OutputFilePath",
-                this.odfFileUrl      = (String) this.editorParams.get("OdfFileURL");
-                this.outputFilePath = (String) this.editorParams.get("OutputFilePath");
-                     
+                transInstance.getParams().put("OutputFilePath",outputFile);
+                //TODO call the transform here
+                
                 //transform end
                 //for now return a dummy response
                 File outputXml = new File ("/home/undesa/Desktop/out.xml");

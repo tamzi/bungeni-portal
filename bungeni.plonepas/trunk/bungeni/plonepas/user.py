@@ -373,7 +373,6 @@ class UserManager( BasePlugin ):
         """
 
         principal_id = principal.getId()
-        #print principal_id
         session = Session()
         connection = session.connection(domain.Group)
         mappings = connection.execute(rdb.select(
@@ -383,11 +382,9 @@ class UserManager( BasePlugin ):
                 security_schema.principal_role_map.c.setting==True,
                 security_schema.principal_role_map.c.object_type==None,
                 security_schema.principal_role_map.c.object_id==None)))
-        #import pdb; pdb.set_trace()  
         role_names = []        
         for (role_name,) in mappings:
             role_names.append(role_name)  
-        #print role_names                            
         return role_names
 
 

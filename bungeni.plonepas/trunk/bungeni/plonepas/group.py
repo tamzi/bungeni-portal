@@ -66,6 +66,7 @@ class GroupManager( BasePlugin, Cacheable ):
                         schema.users.c.login == principal.getId(),
                         schema.user_group_memberships.c.user_id == schema.users.c.user_id,
                         schema.groups.c.group_id == schema.user_group_memberships.c.group_id,
+                        schema.groups.c.status == 'active',
                         schema.user_group_memberships.c.active_p == True)).all() ]
 
     #
@@ -247,10 +248,13 @@ class GroupManager( BasePlugin, Cacheable ):
     def _gid( self, name ):
         session = Session()
         groups = session.query(domain.Group).filter(
-            domain.Group.group_principal_id == name).all()
+            rdb.and_(domain.Group.status == 'active', 
+                domain.Group.group_principal_id == name)
+                ).all()
         if not groups:
             return
-        return groups[0].group_id
+        #return groups[0].group_id
+        return groups[0].group_principal_id
 
     def _uid( self, login):
         session = Session()

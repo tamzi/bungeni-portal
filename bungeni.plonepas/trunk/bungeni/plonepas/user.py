@@ -259,7 +259,7 @@ class UserManager( BasePlugin ):
         e_pass = encrypt( password, salt )
         schema.users.update().where( schema.users.c.user_id == uid ).values(
             salt = salt,
-            password = password
+            password = e_pass
             ).execute()
 
    #

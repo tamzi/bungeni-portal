@@ -10,6 +10,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.bungeni.plugins.IEditorPlugin;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
@@ -91,13 +94,9 @@ public class OdtTranslate implements IEditorPlugin {
 		} 
 		catch (Exception e) 
 		{
-			FileWriter fw = new FileWriter("/home/undesa/log.txt");
-			e.printStackTrace(new PrintWriter(fw));
-			fw.close();
 			log.error("exec()", e);
 		}  
 		finally{
-		//	Thread.currentThread().setContextClassLoader(savedClassLoader);
 		    return retvalue;
 		}	
 	}
@@ -149,9 +148,20 @@ public class OdtTranslate implements IEditorPlugin {
             }
 	}
 
+	public void updateParams(HashMap updateMap) {
+		Set updateKeys = updateMap.keySet();
+		Iterator updKeyIterator = updateKeys.iterator();
+		while (updKeyIterator.hasNext()) {
+			String key = (String) updKeyIterator.next();
+			this.editorParams.put(key, updateMap.get(key));
+		}
+		setParams(editorParams);
+	}
+	
 	public HashMap getParams() {
 		return this.editorParams;
 	}
+	
 	/*** Application code **/
 	private void appInit(){
 		//Do application initialization here

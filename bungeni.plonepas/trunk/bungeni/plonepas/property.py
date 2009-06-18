@@ -24,10 +24,10 @@ class PropertyProvider( BasePlugin, Cacheable ):
         """Get property values for a user or group.
         Returns a dictionary of values or a PropertySheet.
         """
-        #view_name = createViewName('getPropertiesForUser', user.getUserName())
-        #cached_info = self.ZCacheable_get(view_name=view_name)
-        #if cached_info is not None:
-        #    return MutablePropertySheet(self.id, **cached_info)
+        view_name = createViewName('getPropertiesForUser', user.getUserName())
+        cached_info = self.ZCacheable_get(view_name=view_name)
+        if cached_info is not None:
+            return MutablePropertySheet(self.id, **cached_info)
         data = None               
         session = Session()        
         if user.isGroup():
@@ -43,24 +43,40 @@ class PropertyProvider( BasePlugin, Cacheable ):
             users = session.query(domain.User).filter(
                 domain.User.login == user.getUserName()).all()
             if len(users) == 1:
-                user = users[0]
+                b_user = users[0]
                 data =  {
-                    'fullname' : u"%s %s" %(user.first_name, user.last_name),
-                    'email' : user.email or u"",
-                    'description' : user.description or u"",
+                    'fullname' : u"%s %s" %(b_user.first_name, b_user.last_name),
+                    'email' : b_user.email or u"",
+                    'description' : b_user.description or u"",
                     }    
-        if data:      
-            return data               
-        #self.ZCacheable_set(data, view_name=view_name)
-        #sheet = MutablePropertySheet(self.id, **data)
-        #return sheet
+        if data:              
+            self.ZCacheable_set(data, view_name=view_name)
+            sheet = MutablePropertySheet(self.id, **data)
+            return sheet
 
         
     #
     # IMutablePropertiesPlugin implementation
     #
     def setPropertiesForUser(self, user, propertysheet):
-        pass
+        session = Session()
+        if user.isGroup():
+            groups = session.query(domain.Group).filter(
+                domain.Group.group_principal_id == user.getUserName()).all()
+            if len(groups) == 1:
+                group = groups[0]     
+                #we do not set any attributes from plone here                           
+        else:
+            users = session.query(domain.User).filter(
+                domain.User.login == user.getUserName()).all()
+            if len(users) == 1:
+                b_user = users[0]
+                email =  propertysheet.getProperty('email')
+                if email:   
+                    b_user.email = email
+        propertysheet =  self.getPropertiesForUser(user)                                                                     
+        view_name = createViewName('getPropertiesForUser', user) #.getUserName())
+        cached_info = self.ZCacheable_invalidate(view_name=view_name)        
 
 classImplements(PropertyProvider,
                 IPropertiesPlugin,

@@ -97,7 +97,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			} 
 			catch (Exception e) 
 			{
-				e.printStackTrace();
+				logger.error("getInstance", e);
 			} 
 		}
 		//otherwise return the instance

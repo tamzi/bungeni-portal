@@ -1,18 +1,70 @@
 
+from ore.alchemist import Session
+from bungeni.models import domain
 
-class PropertyProvider( object ):
+from OFS.Cache import Cacheable
 
+from Products.PluggableAuthService.plugins.BasePlugin import BasePlugin
+from Products.PluggableAuthService.utils import classImplements
+from Products.PluggableAuthService.interfaces.plugins import IPropertiesPlugin
+from Products.PluggableAuthService.interfaces.plugins import IUpdatePlugin
+from Products.PluggableAuthService.utils import createViewName
+
+from Products.PlonePAS.interfaces.plugins import IMutablePropertiesPlugin
+from Products.PlonePAS.sheet import MutablePropertySheet
+
+
+class PropertyProvider( BasePlugin, Cacheable ):
+
+    def __init__(self, id, title=""):
+        self.id = self.id = id
+        self.title = title
 
     def getPropertiesForUser(self, user, request=None):
         """Get property values for a user or group.
-
         Returns a dictionary of values or a PropertySheet.
         """
-        pass
+        #view_name = createViewName('getPropertiesForUser', user.getUserName())
+        #cached_info = self.ZCacheable_get(view_name=view_name)
+        #if cached_info is not None:
+        #    return MutablePropertySheet(self.id, **cached_info)
+        data = None               
+        session = Session()        
+        if user.isGroup():
+            groups = session.query(domain.Group).filter(
+                domain.Group.group_principal_id == user.getUserName()).all()
+            if len(groups) == 1:
+                group = groups[0]
+                data =  { 
+                    'title' : group.short_name or u"",
+                    'description' : group.description or u"",
+                    }
+        else:
+            users = session.query(domain.User).filter(
+                domain.User.login == user.getUserName()).all()
+            if len(users) == 1:
+                user = users[0]
+                data =  {
+                    'fullname' : u"%s %s" %(user.first_name, user.last_name),
+                    'email' : user.email or u"",
+                    'description' : user.description or u"",
+                    }    
+        if data:      
+            return data               
+        #self.ZCacheable_set(data, view_name=view_name)
+        #sheet = MutablePropertySheet(self.id, **data)
+        #return sheet
 
+        
     #
     # IMutablePropertiesPlugin implementation
     #
     def setPropertiesForUser(self, user, propertysheet):
         pass
+
+classImplements(PropertyProvider,
+                IPropertiesPlugin,
+                IUpdatePlugin,
+                IMutablePropertiesPlugin)
+
     

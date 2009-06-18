@@ -74,7 +74,6 @@ class PropertyProvider( BasePlugin, Cacheable ):
                 email =  propertysheet.getProperty('email')
                 if email:   
                     b_user.email = email
-        propertysheet =  self.getPropertiesForUser(user)                                                                     
         view_name = createViewName('getPropertiesForUser', user) #.getUserName())
         cached_info = self.ZCacheable_invalidate(view_name=view_name)        
 

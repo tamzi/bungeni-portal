@@ -15,9 +15,21 @@ import org.restlet.data.Protocol;
 public class TransformerServer extends Application {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(TransformerServer.class.getName());
    private static Component serverComponent = null;
+   /**
+    * Set from configServer()
+    */
    private static int SERVER_PORT = 8182;
+   /**
+    * Set from configServer()
+    */
    private static String SERVER_TMP_FOLDER = "/home/undesa/tmp";
+   /**
+    * This is assumed to be in the root folder
+    */
    public static final String SERVER_CONFIG_FILE = "transformer.ini";
+   /**
+    * Initialized in startServer()
+    */
    private static Restlet setParamsRestlet  = null;
 
 
@@ -29,7 +41,7 @@ public class TransformerServer extends Application {
        SERVER_TMP_FOLDER = sFolder;
    }
 
-@SuppressWarnings("finally")
+
 private static boolean configServer(String workingDir) {
 	   boolean bState = false;
 	   try {
@@ -42,17 +54,17 @@ private static boolean configServer(String workingDir) {
 			   bState = true;
 		   } 
 	   } catch (Exception ex) {
-		   log.error("configServer :", ex);
-		   ex.printStackTrace(System.out);
+		   log.error("configServer", ex);
 	   } finally {
-		   return bState;
+		   
 	   }
-	  
+	   return bState;
    }
    
    
-   @SuppressWarnings("finally")
+  
 public static TransformerServer startServer(String workingDir) {
+	   		System.out.println("Starting server with working directory : " + workingDir);
             TransformerServer ts = null;
             try {
                 if (serverComponent == null) {
@@ -79,14 +91,18 @@ public static TransformerServer startServer(String workingDir) {
             } catch (Exception ex) {
                 log.error("startServer : " , ex);
             } finally {
-                return ts;
-            }
+              }
+            return ts;
+            
      }
 
     public static String getTempFileFolder() {
         return SERVER_TMP_FOLDER;
     }
 
+    /**
+     * Called before serverComponent.start();
+     */
      @Override
       public Restlet createRoot() {
         Router router = new Router(getContext());
@@ -96,6 +112,6 @@ public static TransformerServer startServer(String workingDir) {
       }
 
      public static void main(String[] args) {
-    	 TransformerServer.startServer(System.getProperty("user.dir"));
+    	 TransformerServer.startServer("/Users/ashok/Projects/ODTTranslator/translator/ODTtoAKN/bin/");
      }
 }

@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.bungeni.plugins.translator.OdtTranslate;
 import org.bungeni.restlet.server.TransformerServer;
@@ -62,6 +63,13 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 	    return folderPath;
 	}
 	
+	private String getOutputXmlFile(String fileName){
+	     int nIndex = fileName.indexOf(".");
+         String xmlFile = fileName.substring(0, nIndex) + ".xml";
+         String outputFile = getXmlFolderPath() + File.separator + xmlFile;
+         return outputFile;
+	}
+	
 	/**
 	 * Accept the posted odt file
 	 * @param fileName
@@ -95,43 +103,37 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 	@Override
 	public void acceptRepresentation(Representation entity) {
 		log.debug("acceptRepresentation :  media type = " + entity.getMediaType());
-        {
-            FileOutputStream os = null;
             try {
                 //get the submission headers, for the name of the input file
                 Form requestHeaders = (Form) getRequest().getAttributes().get("org.restlet.http.headers");
                 log.debug("output form headers = " + requestHeaders);
                 String fileName = requestHeaders.getFirstValue("X-Odt-File");
                 //write the file to a folder path on the server
-                String odfFile = recieveOdtFile(fileName, entity);
-                int nIndex = fileName.indexOf(".");
-                String xmlFile = fileName.substring(0, nIndex) + ".xml";
-                String outputFile = getXmlFolderPath() + File.separator + xmlFile;
-            
-                //do the transform here ---
+                final String odfFile = recieveOdtFile(fileName, entity);
+                //get the path and name of the output xml file
+                final String outputXmlFile = getOutputXmlFile(fileName);
+                //Now start the transform
                 OdtTranslate transInstance = OdtTranslate.getInstance();
-                transInstance.getParams().put("OdfFileURL", odfFile);
-                transInstance.getParams().put("OutputFilePath",outputFile);
+                HashMap paramMap = new HashMap(){{
+                	put("OdfFileURL", odfFile);
+                    put("OutputFilePath",outputXmlFile);
+                }};
+                transInstance.updateParams(paramMap);
                 //TODO call the transform here
-                
+                System.out.println("trans map = " + transInstance.getParams());
+                transInstance.exec();
                 //transform end
                 //for now return a dummy response
-                File outputXml = new File ("/home/undesa/Desktop/out.xml");
-                Representation returnResponse = new FileRepresentation(outputXml,
-				MediaType.APPLICATION_XML, 0);
-                getResponse().setEntity(returnResponse);
+               File outputXml = new File (outputXmlFile);
+               Representation returnResponse = new FileRepresentation(outputXml,
+            		   MediaType.APPLICATION_XML, 0);
+               getResponse().setEntity(returnResponse);
 
-            } catch (FileNotFoundException ex) {
-                log.error("acceptRepresentation : ", ex);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 log.error("acceptRepresentation : ", e);
+                
             } finally {
-                try {
-                    os.close();
-                } catch (IOException ex) {
-                    log.error("acceptRepresentation : ", ex);
-                }
+             
             }
-        }
-	}
+    }
 }

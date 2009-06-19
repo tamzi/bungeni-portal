@@ -236,6 +236,31 @@ COPY "public"."role_titles" ("membership_id", "title_name_id", "start_date", "en
 FROM '%(directory)s/data/demodata/role_titles.csv' csv ;
 
 
+/* do away with the specialization for groups */
+
+UPDATE groups SET parent_group_id = 
+    (SELECT parliament_id FROM government 
+    WHERE government.government_id = groups.group_id)
+WHERE groups.parent_group_id IS NULL;
+
+UPDATE groups SET parent_group_id = 
+    (SELECT government_id FROM ministries 
+    WHERE ministries.ministry_id = groups.group_id)
+WHERE groups.parent_group_id IS NULL;
+
+UPDATE groups SET parent_group_id = 
+    (SELECT parliament_id FROM committees 
+    WHERE committees.committee_id = groups.group_id)
+WHERE groups.parent_group_id IS NULL;    
+
+
+UPDATE groups SET parent_group_id = 
+    (SELECT parliament_id FROM political_parties 
+    WHERE political_parties.party_id = groups.group_id)
+WHERE groups.parent_group_id IS NULL;    
+
+
+
 /*get all sequences */
 select  sequence_name from information_schema.sequences
 where sequence_schema='public';

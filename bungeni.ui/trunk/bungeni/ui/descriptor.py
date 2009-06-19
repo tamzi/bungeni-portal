@@ -347,11 +347,7 @@ class UserDelegationDescriptor( ModelDescriptor ):
             ),     
 ]                        
 
-class StaffMemberDescriptor( UserDescriptor ):
-    display_name = _(u"Staff member")
-    container_name = _(u"Staff members")
-    
-    fields = deepcopy( UserDescriptor.fields )	        
+       
         
 class HansardReporterDescriptor( UserDescriptor ):
 	

@@ -17,6 +17,7 @@ from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 
 from bungeni.models import domain
+from bungeni.models.utils import get_offices_held_for_user_in_parliament
 from bungeni.ui.i18n import _
 import bungeni.core.globalsettings as prefs
 from bungeni.core.workflows.question import states as qw_state
@@ -371,6 +372,32 @@ class ResponseViewlet( BungeniAttributeDisplay ):
             super(ResponseViewlet, self).setupActions()
         else:
             self.actions = self.add_action.actions
+
+class OfficesHeldViewlet( viewlet.ViewletBase ):
+    for_display = True                    
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.query = None            
+     
+    
+    def update(self):
+        """
+        refresh the query
+        """       
+        trusted = removeSecurityProxy(self.context)        
+        user_id = trusted.user_id                
+        parliament_id = trusted.group_id
+        self.offices_held = get_offices_held_for_user_in_parliament(
+                user_id, parliament_id)
+                        
+         
+    
+    
+    render = ViewPageTemplateFile ('templates/offices_held_viewlet.pt')    
+
         
 class BillTimeLineViewlet( viewlet.ViewletBase ):
     """

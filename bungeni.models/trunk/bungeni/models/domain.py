@@ -100,14 +100,7 @@ class UserDelegation(Entity):
     """ Delgate rights to act on behalf of a user 
     to another user """
     
-    
-class StaffMember( User ):
-    """
-    A staff member
-    """    
-
-
-
+  
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
     """

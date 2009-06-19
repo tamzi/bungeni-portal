@@ -63,7 +63,8 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
             whereclause =
             rdb.and_(
                 schema.groups.c.group_id.in_(group_ids),
-                schema.user_group_memberships.c.user_id == user_id)                
+                schema.user_group_memberships.c.user_id == user_id),  
+            order_by = schema.role_titles.c.start_date                                     
             )
     return connection.execute(offices_held)           
             

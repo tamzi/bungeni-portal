@@ -128,6 +128,11 @@ class GroupMembership( Entity ):
     sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}  
 
 
+class OfficesHeld( Entity ):
+    """ Offices held by this group member """
+    
+
+
 class StaffGroupMembership( GroupMembership ):
     """ 
     staff assigned to groups (committees, ministries,...)

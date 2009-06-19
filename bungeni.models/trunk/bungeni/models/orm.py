@@ -106,27 +106,6 @@ mapper( domain.Office, schema.offices,
         )   
 
    
-mapper( domain.StaffMember, 
-        inherits=domain.User,
-          properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           ),
-           'short_name' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name).label('short_name')
-                                           ),
-           'sort_by_name' : column_property(
-                             (schema.users.c.last_name + u" " + 
-                             schema.users.c.first_name).label('sort_by_name')
-                                           )                                           
-                    },
-        polymorphic_identity='staff'
-      )
-
 
                 
 

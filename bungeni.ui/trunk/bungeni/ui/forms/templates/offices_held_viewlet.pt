@@ -1,0 +1,24 @@
+<dt id="fieldsetlegend-offices-held" i18n:translate="">
+  Offices held
+</dt>
+
+<dd id="fieldset-offices-held">
+  <table class="listing">
+    <thead>
+      <tr>
+        <th> Group </th>
+        <th> Type </th>
+        <th> from </th>
+        <th> to </th>            
+        <th> Title </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="result view/offices_held"> 
+        <tal:loop tal:repeat="data result">
+          <td> <span tal:content="data" />  </td>
+        </tal:loop>           
+      </tr>
+    </tbody>  
+  </table>
+</dd>

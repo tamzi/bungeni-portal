@@ -167,6 +167,8 @@
      weight="10"
      />
 
+
+
   <browser:viewlet
      name="bungeni.viewlet.mp-personal-info"
      manager="alchemist.ui.interfaces.IContentViewManager"
@@ -174,6 +176,15 @@
      for="bungeni.models.interfaces.IMemberOfParliament"
      permission="zope.View"
      weight="20"
+     />
+
+  <browser:viewlet
+     name="bungeni.viewlet.offices-held"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.OfficesHeldViewlet"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     permission="zope.View"
+     weight="30"
      />
 
   <!--browser:viewlet

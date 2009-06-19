@@ -302,14 +302,6 @@
     />
     
 
-     
-  <db:catalyst
-     class="bungeni.models.domain.StaffMember"
-     descriptor=".descriptor.StaffMemberDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
-     echo="False"
-     />     
   <db:catalyst
      class="bungeni.models.domain.PartyMember"
      descriptor=".descriptor.PartyMemberDescriptor"

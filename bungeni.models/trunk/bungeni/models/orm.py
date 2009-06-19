@@ -28,6 +28,7 @@ mapper( domain.Group, schema.groups,
                 ("group." + schema.groups.c.type + "." + 
                 rdb.cast(schema.groups.c.group_id, rdb.String)
                 ).label('group_principal_id')),
+             'contained_groups' : relation( domain.Group),                
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,
@@ -485,10 +486,9 @@ mapper( domain.UserAddress, schema.addresses)
 
 # get the current gov and parliament for a ministry
 _ministry_gov_parliament = rdb.join ( schema.ministries, schema.governments,
-                                     schema.ministries.c.government_id == schema.governments.c.government_id)
+     schema.ministries.c.government_id == schema.governments.c.government_id)
 mapper(domain.MinistryInParliament, _ministry_gov_parliament)                                     
                                     
 
-        
 
     

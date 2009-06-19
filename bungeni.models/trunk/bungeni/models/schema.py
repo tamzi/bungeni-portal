@@ -238,7 +238,8 @@ groups = rdb.Table(
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.Date, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),  #
-   rdb.Column( "type", rdb.String(30),  nullable=False )
+   rdb.Column( "type", rdb.String(30),  nullable=False ),
+   rdb.Column( "parent_group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),   
    )
 
 governments = rdb.Table(

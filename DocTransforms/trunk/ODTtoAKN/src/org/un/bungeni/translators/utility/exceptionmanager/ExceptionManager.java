@@ -3,6 +3,7 @@ package org.un.bungeni.translators.utility.exceptionmanager;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -34,8 +35,14 @@ public class ExceptionManager implements ErrorHandler
 	/* This is the string that will contain the path to the original ODF document*/
 	public String ODFDocument;
 	
+	/*This is the logger*/
+	private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(ExceptionManager.class.getName());
+
+	
 	/* This is the ODF string that contains all the section names and infos of the original document */
 	public String ODFSectionString; 
+	
+	private ArrayList<ValidationError> validationErrors = new ArrayList<ValidationError>(0);
 	
 	/**
 	 * Private constructor used to create the ExceptionManager instance
@@ -73,7 +80,7 @@ public class ExceptionManager implements ErrorHandler
 			} 
 			catch (Exception e) 
 			{
-				e.printStackTrace();
+				logger.error("getInstance", e);
 			} 
 		}
 		//otherwise return the instance
@@ -89,7 +96,7 @@ public class ExceptionManager implements ErrorHandler
     {
     	//the message of the exception
 		String exceptionMessage = ex.getMessage();
-		
+		ValidationError validationError = new ValidationError();
 		//check what type of text the exception launch
 		if(exceptionMessage.matches("(.*)Attribute '(.*)' must appear on element '(.*)'.")) 
 		{
@@ -105,9 +112,13 @@ public class ExceptionManager implements ErrorHandler
         	{
         	    //get the attribute name
         		attribute = m.group(2).toString();
+        		validationError.setMissingAttribute(attribute);
         		//get element name
         	    element = m.group(3).toString();
+        	    validationError.setMissingAtributeFor(element);
         	}
+        	
+        
         	//create the text of the exception
     		String message = 	resourceBundle.getString("PROBLEM_DESCRIPTION_LEFT") +
 	     				     	resourceBundle.getString("MISSING_ATTRIBUTE_LEFT_TEXT") +
@@ -115,7 +126,8 @@ public class ExceptionManager implements ErrorHandler
     					     	resourceBundle.getString("MISSING_ATTRIBUTE_CENTER_TEXT") +
     					     	element +
     					     	resourceBundle.getString("MISSING_ATTRIBUTE_RIGHT_TEXT");
-            try
+            validationError.getFullErrorMessage().add(0, message);
+    		try
             {
             	
             	/*Create the message for the section*/
@@ -129,8 +141,11 @@ public class ExceptionManager implements ErrorHandler
             	
             	//get the line and column number
             	String errorLocation = 	ex.getLineNumber() +
-            							"-" +
+            	                      						"-" +
             							ex.getColumnNumber();
+            	validationError.setColNo(ex.getColumnNumber());
+            	validationError.setLineNo(ex.getLineNumber());
+            	
             	
             	//get the elements location string
             	String elementsLocationString = LocationHandler.getInstance().getElementsLocation();
@@ -155,12 +170,15 @@ public class ExceptionManager implements ErrorHandler
             		{
             			//get the section type
             			sectionName = elementsLocationsLines[i].split(",")[1].split(":")[0];
-            		
+            			validationError.setSectionType(sectionName);
             			//get the section id
             			sectionId = elementsLocationsLines[i].split(",")[1].split(":")[1];
+            			validationError.setSectionId(sectionId);
             		}
             	}
                 
+            	String startingWords = getStartingWords(sectionId);
+            	
                 //complete the message to show 
                 messageId = 	messageId + 
                 				resourceBundle.getString("SECTION_TYPE_LEFT") +
@@ -170,8 +188,11 @@ public class ExceptionManager implements ErrorHandler
                 				sectionId + 
                 				", " +
                 				resourceBundle.getString("STARTING_WORD_TEXT_LEFT") +
-                    			getStartingWords(sectionId);
-        			
+                    			startingWords;
+                
+                validationError.setStartingWords(startingWords);
+                validationError.getFullErrorMessage().add(0, messageId);
+                       			
                 /*Create the message for the parent section*/
             	//this will store the section id
             	String sectionIdParent = "";
@@ -198,7 +219,8 @@ public class ExceptionManager implements ErrorHandler
                 	//get the section name
                 	sectionNameParent = node.getAttributes().getNamedItem("name").getNodeValue();
                 }
-                
+                validationError.setParentSectionType(sectionNameParent);
+                validationError.setParentSection(sectionIdParent);
                 //complete the message to show 
                 messageIdParent = 	messageIdParent + 
                 					resourceBundle.getString("SECTION_PARENT_TYPE_LEFT") +
@@ -210,12 +232,12 @@ public class ExceptionManager implements ErrorHandler
                 			//resourceBundle.getString("STARTING_WORD_TEXT_LEFT") +
                 			//getStartingWords(node.getAttributes().getNamedItem("id").getNodeValue());
     			
-                
+                validationError.getFullErrorMessage().add(0, messageIdParent);
                 //print the messages 
                 System.err.println(messageId);
                 System.err.println(messageIdParent);
                 System.err.println(message);
-                  
+                System.err.println(validationError.getXmlString()); 
             }
             catch (SAXException e)
         	{
@@ -279,6 +301,7 @@ public class ExceptionManager implements ErrorHandler
         	{
         	    //get the attribute name
         		attribute = m.group(2).toString();
+        	
         		//get element name
         	    element = m.group(3).toString();
         	}

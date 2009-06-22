@@ -1,7 +1,9 @@
 package org.bungeni.restlet.resources;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -14,6 +16,7 @@ import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.resource.FileRepresentation;
 import org.restlet.resource.Representation;
+import org.restlet.resource.StringRepresentation;
 import org.restlet.resource.Variant;
 
 /**
@@ -121,12 +124,17 @@ public class OdtResource  extends org.restlet.resource.Resource  {
                 transInstance.updateParams(paramMap);
                 //TODO call the transform here
                 System.out.println("trans map = " + transInstance.getParams());
-                transInstance.exec();
+                String validationErrors = transInstance.exec();
                 //transform end
                 //for now return a dummy response
                File outputXml = new File (outputXmlFile);
-               Representation returnResponse = new FileRepresentation(outputXml,
-            		   MediaType.APPLICATION_XML, 0);
+               String transXml = "";
+               if (outputXml.exists()) {
+            	   transXml = readTextFile(outputXml);
+               }
+               String responseMessage = generateResponseMessage("0", fileName, validationErrors, transXml);
+               Representation returnResponse = new StringRepresentation(responseMessage,
+            		   MediaType.APPLICATION_XML);
                getResponse().setEntity(returnResponse);
 
             } catch (Exception e) {
@@ -136,4 +144,65 @@ public class OdtResource  extends org.restlet.resource.Resource  {
              
             }
     }
+	
+	private String readTextFile(File fFile) throws IOException {
+		StringBuffer sb = new StringBuffer(1024);
+		FileReader freader = new FileReader(fFile);
+		BufferedReader reader = new BufferedReader(freader);
+				
+		char[] chars = new char[1024];
+		int numRead = 0;
+		while( (numRead = reader.read(chars)) > -1){
+			sb.append(String.valueOf(chars));	
+		}
+
+		reader.close();
+
+		return sb.toString();
+	}
+
+	
+	private String generateResponseMessage(String state, String sourceFile, String errors, String xmlString) {
+		
+		 /* <TransformerRespose>
+		 * <sourceFile></sourceFile>
+		 * <transformResult>
+		 *  <state></state>
+		 *  <!-- for state; 0 = success / -1 = output with errors / -2 = failure -->
+		 *  <errors>
+		 *      <![CDATA[
+		 *
+		 *      ]]>
+		 *  </errors>
+		 *  <output>
+		 *      <![CDATA[
+		 *
+		 *      ]]>
+		 * </output>
+		 * </transformResult>
+		 * </TransformerResponse>
+		 */
+		
+		 return "<TransformerRespose>" + 
+		 "<sourceFile>\n" +
+		 sourceFile + 
+		 "</sourceFile>\n" +
+		 "<transformResult>\n" +
+		  "<state>"  +  state + "</state>\n" +
+		 	"<errors>" +
+		  		"<![CDATA[" + 
+		  		errors +
+		     "]]>" +
+		 "</errors>\n" +
+		 " <output>\n" +
+		 "<![CDATA[\n" + 
+		 	xmlString + 
+		 "]]>\n" +
+		 "</output>\n" + 
+		 "</transformResult>\n" +
+		 "</TransformerResponse>\n";
+		 
+		
+		
+	}
 }

@@ -183,7 +183,7 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 		 * </TransformerResponse>
 		 */
 		
-		 return "<TransformerRespose>" + 
+		 return "<TransformerResponse>" + 
 		 "<sourceFile>\n" +
 		 sourceFile + 
 		 "</sourceFile>\n" +

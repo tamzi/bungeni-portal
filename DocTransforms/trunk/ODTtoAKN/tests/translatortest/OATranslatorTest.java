@@ -70,13 +70,13 @@ public class OATranslatorTest
 		//perform a translation
 		File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main2.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		//File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
+		System.out.println("OUTPUTTING ERRORS = \n\n" + myTranslator.getValidationErrors());
 		
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);
 		
 		//output stream 
 		FileOutputStream fos = new FileOutputStream("resources/resultAKN_db.xml");
-		
 		//copy the file
 		try 
 		{
@@ -92,7 +92,8 @@ public class OATranslatorTest
 		}
 		finally 
 		{
-		        if (fis != null) fis.close();
+		
+			if (fis != null) fis.close();
 		        if (fos != null) fos.close();
 		}	
 		

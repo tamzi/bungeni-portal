@@ -8,10 +8,13 @@ import org.bungeni.restlet.TransformerRestletDefaultConfiguration;
 import org.bungeni.restlet.server.TransformerServer;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
+import org.restlet.data.MediaType;
 import org.restlet.data.Method;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.data.Status;
+
+import com.sun.tools.javac.code.Type.MethodType;
 
 /**
  * Sets the dynamic parameters for the Odt Transformer.
@@ -76,6 +79,13 @@ import org.restlet.data.Status;
 		//translator.setParams(inputParams)
 	}
 	
+	private String __SYNTAX__ = 
+		"To use this API use HTTP Post, the following parameters are mandatory :\n" +
+		"DocumentType = type of document ," +
+		"PluginMode = odt2akn or akn2html ";
+		
+		
+		
 	
    @Override
     public void handle(Request request, Response response) {
@@ -88,6 +98,8 @@ import org.restlet.data.Status;
             this.setTranslatorParams();
             System.out.println("doc type = "+ this.documentType);
             response.setStatus(Status.SUCCESS_NO_CONTENT);
+        } else if (request.getMethod().equals(Method.GET)){
+            response.setEntity(__SYNTAX__, MediaType.TEXT_PLAIN);
         } else {
             response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
         }

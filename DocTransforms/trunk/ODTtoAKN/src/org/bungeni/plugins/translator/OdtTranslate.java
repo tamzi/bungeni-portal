@@ -90,15 +90,13 @@ public class OdtTranslate implements IEditorPlugin {
 			    }
 			 fis.close();
 			 fos.close();
-			 retvalue = "success";
+			 retvalue = myTranslator.getValidationErrors();
 		} 
 		catch (Exception e) 
 		{
 			log.error("exec()", e);
 		}  
-		finally{
-		    return retvalue;
-		}	
+	   return retvalue;
 	}
 
 	public Object exec2(Object[] arg0) {

@@ -1,6 +1,8 @@
 package org.bungeni.restlet.resources;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -146,19 +148,11 @@ public class OdtResource  extends org.restlet.resource.Resource  {
     }
 	
 	private String readTextFile(File fFile) throws IOException {
-		StringBuffer sb = new StringBuffer(1024);
-		FileReader freader = new FileReader(fFile);
-		BufferedReader reader = new BufferedReader(freader);
-				
-		char[] chars = new char[1024];
-		int numRead = 0;
-		while( (numRead = reader.read(chars)) > -1){
-			sb.append(String.valueOf(chars));	
-		}
-
-		reader.close();
-
-		return sb.toString();
+		byte[] buffer = new byte[(int)fFile.length()];
+		DataInputStream in = new DataInputStream(new FileInputStream(fFile));
+		in.readFully(buffer);
+		String s = new String(buffer);
+		return s;
 	}
 
 	
@@ -183,23 +177,23 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 		 * </TransformerResponse>
 		 */
 		
-		 return "<TransformerResponse>" + 
-		 "<sourceFile>\n" +
+		 return "<TransformerResponse>\n" + 
+		 "\t<sourceFile>" +
 		 sourceFile + 
 		 "</sourceFile>\n" +
-		 "<transformResult>\n" +
-		  "<state>"  +  state + "</state>\n" +
-		 	"<errors>" +
-		  		"<![CDATA[" + 
+		 "\t<transformResult>\n" +
+		  "\t\t<state>"  +  state + "</state>\n" +
+		 	"\t\t<errors>\n" +
+		  		"\t\t\t<![CDATA[" + 
 		  		errors +
-		     "]]>" +
-		 "</errors>\n" +
-		 " <output>\n" +
-		 "<![CDATA[\n" + 
+		     "]]>\n" +
+		 "\t\t</errors>\n" +
+		 " \t\t<output>\n" +
+		 "\t\t\t<![CDATA[\n" + 
 		 	xmlString + 
-		 "]]>\n" +
-		 "</output>\n" + 
-		 "</transformResult>\n" +
+		 "\n]]>\n" +
+		 "\t\t</output>\n" + 
+		 "\t</transformResult>\n" +
 		 "</TransformerResponse>\n";
 		 
 		

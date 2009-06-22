@@ -42,7 +42,10 @@ public class ExceptionManager implements ErrorHandler
 	/* This is the ODF string that contains all the section names and infos of the original document */
 	public String ODFSectionString; 
 	
-	private ArrayList<ValidationError> validationErrors = new ArrayList<ValidationError>(0);
+	/**
+	 * Array of validation error messages
+	 */
+	private ArrayList<ValidationError> validationErrors ;
 	
 	/**
 	 * Private constructor used to create the ExceptionManager instance
@@ -59,16 +62,18 @@ public class ExceptionManager implements ErrorHandler
 			
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
-		
+	
+		this.validationErrors = new ArrayList<ValidationError>(0);
 		//create the resource bundle
 		this.resourceBundle = ResourceBundle.getBundle(properties.getProperty("resourceBundlePath"));		
+	
 	}
 		
 	/**
 	 * Get the current instance of the ExceptionManager class 
 	 * @return the ExceptionManager instance
 	*/
-	public static ExceptionManager getInstance()
+	public static synchronized ExceptionManager getInstance()
 	{
 		//if the instance is null create a new instance
 		if (instance == null)
@@ -88,6 +93,16 @@ public class ExceptionManager implements ErrorHandler
 	}
 	
 
+	/**
+	 * Prevent cloning of singleton
+	 */
+	 public Object clone() throws CloneNotSupportedException
+	  {
+	    throw new CloneNotSupportedException(); 
+	  
+	  }
+
+	 
 	/**
      * Report a non-fatal error
      * @param ex the error condition
@@ -237,7 +252,7 @@ public class ExceptionManager implements ErrorHandler
                 System.err.println(messageId);
                 System.err.println(messageIdParent);
                 System.err.println(message);
-                System.err.println(validationError.getXmlString()); 
+                this.validationErrors.add(validationError);
             }
             catch (SAXException e)
         	{
@@ -405,4 +420,17 @@ public class ExceptionManager implements ErrorHandler
     	
     	return result;
     }
+
+    /**
+     * Clears the error message queue
+     */
+	public void init() {
+		
+		validationErrors.clear();
+		
+	}
+	
+	public ArrayList<ValidationError> getValidationErrors() {
+		return this.validationErrors;
+	}
 }

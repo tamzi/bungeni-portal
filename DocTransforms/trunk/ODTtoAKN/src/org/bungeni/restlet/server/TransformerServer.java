@@ -9,7 +9,13 @@ import org.restlet.Application;
 import org.restlet.Component;
 import org.restlet.Restlet;
 import org.restlet.Router;
+import org.restlet.data.Form;
+import org.restlet.data.MediaType;
+import org.restlet.data.Method;
 import org.restlet.data.Protocol;
+import org.restlet.data.Request;
+import org.restlet.data.Response;
+import org.restlet.data.Status;
 
 
 public class TransformerServer extends Application {
@@ -99,6 +105,8 @@ public static TransformerServer startServer(String workingDir) {
     public static String getTempFileFolder() {
         return SERVER_TMP_FOLDER;
     }
+    
+    private String SERVER_RUNNING_RESPONSE="SERVER_RUNNING";
 
     /**
      * Called before serverComponent.start();
@@ -106,6 +114,15 @@ public static TransformerServer startServer(String workingDir) {
      @Override
       public Restlet createRoot() {
         Router router = new Router(getContext());
+        router.attach("/", new Restlet(){
+        	@Override
+            public void handle(Request request, Response response) {
+        		if (request.getMethod().equals(Method.GET)){
+        			response.setEntity(SERVER_RUNNING_RESPONSE, MediaType.TEXT_PLAIN);
+        		}
+             
+           }
+        });
         router.attach("/convert_to_anxml", OdtResource.class);
         router.attach("/set_convert_params",setParamsRestlet);
         return router;

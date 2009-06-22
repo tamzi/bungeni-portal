@@ -123,7 +123,6 @@ class MyMotionsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        import pdb; pdb.set_trace()        
         try:
             user_id = self._parent.user_id    
         except:
@@ -131,6 +130,42 @@ class MyMotionsViewlet( ViewletBase ):
         qfilter = ( domain.Motion.owner_id == user_id )        
         motions = session.query(domain.Motion).filter(qfilter)
         self.query = motions        
+
+class MyGroupsViewlet( ViewletBase ):
+    name = "My Groups"
+    list_id = "my_groups"    
+    def getData(self):
+        """
+        return the data of the query
+        """      
+        data_list = []
+        results = self.query.all()
+       
+        for result in results:            
+            data ={}
+            data['qid']= ( 'g_' + str(result.group_id) )              
+            data['subject'] = str(result.type) + u' ' +  result.short_name  + ' (' + result.status + ')'
+            data['title'] = result.short_name  + ' (' + result.type + ')'
+            data['result_item_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            data['url'] = '/business/groups/obj-' + str(result.group_id)
+            data_list.append(data)            
+        return data_list
+    
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        try:
+            user_id = self._parent.user_id    
+        except:
+            user_id = None     
+        #qfilter = ( domain.Motion.owner_id == user_id )        
+        #motions = session.query(domain.Motion).filter(qfilter)
+        #self.query = motions        
+
+
 
 
 

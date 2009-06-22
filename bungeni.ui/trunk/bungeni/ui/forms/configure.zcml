@@ -158,14 +158,14 @@
      weight="10"
      />          
 
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.viewlet.mp-titles"
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.TitleViewlet"
      for="bungeni.models.interfaces.IMemberOfParliament"
      permission="zope.View"
      weight="10"
-     />
+     /-->
 
 
 

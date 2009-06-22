@@ -86,7 +86,7 @@ class MyQuestionsViewlet( ViewletBase ):
         """
         session = Session()
         try:
-            user_id = self.request.principal.user_id    
+            user_id = self._parent.user_id    
         except:
             user_id = None     
         qfilter = ( domain.Question.owner_id == user_id )
@@ -123,8 +123,9 @@ class MyMotionsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
+        import pdb; pdb.set_trace()        
         try:
-            user_id = self.request.principal.user_id    
+            user_id = self._parent.user_id    
         except:
             user_id = None     
         qfilter = ( domain.Motion.owner_id == user_id )        

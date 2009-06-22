@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -19,6 +20,7 @@ import org.un.bungeni.translators.exceptions.XSLTBuildingException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
+import org.un.bungeni.translators.utility.exceptionmanager.ValidationError;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
 import org.un.bungeni.translators.utility.schemavalidator.SchemaValidator;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
@@ -85,7 +87,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 * Get the current instance of the Translator 
 	 * @return the translator instance
 	 */
-	public static OATranslator getInstance()
+	public static synchronized OATranslator getInstance()
 	{
 		//if the instance is null create a new instance
 		if (instance == null)
@@ -104,6 +106,15 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		return instance;
 	}
 
+	/**
+	 * Prevent cloning of singleton instance
+	 */
+	 public Object clone() throws CloneNotSupportedException
+	  {
+	    throw new CloneNotSupportedException(); 
+	  }
+
+	 
 	/**
 	 * Transforms the document at the given path using the pipeline at the given path 
 	 * @param aDocumentPath the path of the document to translate
@@ -201,101 +212,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		}
 	}
 
-	/**
-	 * Transforms the document at the given path using the pipeline at the given path 
-	 * @param aDocumentPath the path of the document to translate
-	 * @param aPipelinePath the path of the pipeline to use for the translation 
-	 * @return the translated document
-	 * @throws Exception 
-	 * @throws TransformerFactoryConfigurationError 
-	 */ 
-	//Unused API comment out for now
-	/*
-	public File translate(File aDocumentHandle, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
-	{
-		try
-		{
-			//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-			StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
 	
-			//translate the document to METALEX
-		    File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
-			
-			//create the XSLT that transforms the metalex
-			File xslt = this.buildXSLT(aPipelinePath);
-			//Stream for metalex file
-			StreamSource ssMetalex = new StreamSource(metalexFile);
-			//streamsource to xslt that transforms the metalex
-			StreamSource ssXslt = new StreamSource(xslt);
-					
-			XSLTTransformer xsltTransformer = XSLTTransformer.getInstance();
-			//apply the XSLT to the document 
-			StreamSource result = xsltTransformer.transform(ssMetalex, ssXslt);
-			//stream the AN xslt file
-			StreamSource ssAnXsltpath = new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath));
-			//apply to the result the XSLT that insert the namespace
-			StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
-			
-			//create the file that will be returned in case the validation do not fail
-			File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
-			
-			//validate the produced document
-			//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
-			SchemaValidator.getInstance().validate(fileToReturn,aDocumentHandle.getAbsolutePath(),this.akomantosoSchemaPath);
-			
-			//write the stream to a File and return it
-			return fileToReturn;
-		}
-		catch(TransformerException e)
-		{
-			//get the message to print
-			String message = resourceBundle.getString("TRANSLATION_FAILED_TEXT");
-			System.out.println(e.getMessage());
-			 		
-			//print the message and the exception into the logger
-			//logger.fatal((new TranslationFailedException(message)).getStackTrace());
-			
-			//RETURN null
-			return null;
-		}
-		catch(SAXException e)
-		{
-			//get the message to print
-			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
-			System.out.println(e.getMessage());
-			
-			//print the message and the exception into the logger
-			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
-			
-			//RETURN null
-			return null;
-		}
-		catch(ParserConfigurationException e)
-		{
-			//get the message to print
-			String message = resourceBundle.getString("VALIDATION_FAILED_TEXT");
-			System.out.println(e.getMessage());
-			
-			//print the message and the exception into the logger
-			//logger.fatal((new ValidationFailedException(message)).getStackTrace());
-			
-			//RETURN null
-			return null;
-		}
-		catch(IOException e)
-		{
-			//get the message to print
-			String message = resourceBundle.getString("IOEXCEPTION_TEXT");
-			System.out.println(e.getMessage());
-				
-			//print the message and the exception into the logger
-			//logger.fatal((new DocumentNotFoundException(message)).getStackTrace());
-			
-			//RETURN null
-			return null;
-		}
-	} */
-
 	/**
 	 * Translate an ODF stream source to the METALEX format
 	 * @param ODFDocument the ODFStreamSource to translate
@@ -379,6 +296,19 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//RETURN null
 			return null;
 		}
+	}
+	
+	public String getValidationErrors() {
+		ArrayList<ValidationError> validationErrors = SchemaValidator.getInstance().getValidationErrors();
+		StringBuffer errorBuffer = new StringBuffer();
+		errorBuffer.append("<validationErrors>\n");
+		if (validationErrors != null) {
+			for (ValidationError error : validationErrors) {
+				errorBuffer.append(error.getXmlString());
+			}
+		}
+		errorBuffer.append("</validationErrors>");
+		return errorBuffer.toString();
 	}
 	
 }

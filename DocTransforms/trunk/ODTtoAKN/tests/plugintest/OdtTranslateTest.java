@@ -43,7 +43,8 @@ public class OdtTranslateTest {
 			foutput.delete();
 		}
 		testObject.setParams(paramMap);
-		testObject.exec();
+		String sErrors = testObject.exec();
+		System.out.println("Translation Errors = \n\n" + sErrors);
 		File fnewout =  new File((String) paramMap.get("OutputFilePath"));
 		assertTrue("Ooutput file was not created", fnewout.exists() == true);
 	}

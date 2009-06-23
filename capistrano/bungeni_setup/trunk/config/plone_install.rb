@@ -19,4 +19,17 @@ namespace :plone_install do
     end
 
 
+#### After Hooks ####
+
+	after "plone_install:setup_from_cache", 
+		"plone_tasks:python_setup",
+		"plone_tasks:plone_checkout"
+
+	after "plone_install:full_from_cache",
+		"plone_install:setup_from_cache",
+		"plone_tasks:bootstrap_bo",
+		"plone_tasks:localbuildout_config",
+		"plone_taksks:buildout_full_local"
+		
+
 end

@@ -2,67 +2,6 @@
 <configure xmlns="http://namespaces.zope.org/zope">
  <!-- Audit events are defined in audit.zcml, workflow events in
  workflows/configure.zcml -->
-
-  <!--subscriber
-     for="bungeni.models.interfaces.IParliament
-            zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".events.parliament_added_modified"
-     />
-
-  <subscriber
-     for="bungeni.models.interfaces.IParliament
-          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-     handler=".events.parliament_added_modified"
-     />
-  
-  <subscriber
-     for="bungeni.models.interfaces.IMinistry
-            zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".events.ministry_added_modified"
-     />
-
-  <subscriber
-     for="bungeni.models.interfaces.IMinistry
-          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-     handler=".events.ministry_added_modified"
-     />
-     
-  <subscriber
-     for="bungeni.models.interfaces.ICommittee
-            zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".events.committee_added_modified"
-     />
-
-  <subscriber
-     for="bungeni.models.interfaces.ICommittee
-          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-     handler=".events.committee_added_modified"
-     />     
-  
-  
-  <subscriber
-     for="bungeni.models.interfaces.IOffice
-            zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".events.office_added_modified"
-     />
-
-  <subscriber
-     for="bungeni.models.interfaces.IOffice
-          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-     handler=".events.office_added_modified"
-     />       
-  
-  <subscriber
-     for="bungeni.models.interfaces.IPoliticalParty
-            zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".events.party_added_modified"
-     />
-
-  <subscriber
-     for="bungeni.models.interfaces.IPoliticalParty
-          zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-     handler=".events.party_added_modified"
-     /-->     
      
     <subscriber
      for="bungeni.models.interfaces.IBungeniGroupMembership

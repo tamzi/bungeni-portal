@@ -1,8 +1,9 @@
 # encoding: utf-8
 import datetime
 
-from zope.app.pagetemplate import ViewPageTemplateFile
+import sqlalchemy.sql.expression as sql
 
+from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.viewlet import viewlet
 
 from ore.alchemist import Session
@@ -10,6 +11,7 @@ from ore.alchemist import Session
 from bungeni.core.workflows.question import states as question_wf_state #[u"questionstates
 from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionstates
 from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
+
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
@@ -157,15 +159,12 @@ class MyGroupsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        try:
-            user_id = self._parent.user_id    
-        except:
-            user_id = None     
-        #qfilter = ( domain.Motion.owner_id == user_id )        
-        #motions = session.query(domain.Motion).filter(qfilter)
-        #self.query = motions        
-
-
+        user_id = self._parent.user_id    
+        parliament_id = self._parent.context.parliament_id
+        group_ids = self._parent.user_group_ids
+        gfilter = domain.Group.group_id.in_(group_ids)
+        groups = session.query(domain.Group).filter(gfilter)
+        self.query = groups            
 
 
 

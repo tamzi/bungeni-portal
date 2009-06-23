@@ -43,6 +43,18 @@
      weight="70"
      />   
 
+  <browser:viewlet
+     name="bungeni.workspace.my-groups"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.MyGroupsViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="80"
+     />   
+
+
+
 
   <!-- clerks workspace -->
 

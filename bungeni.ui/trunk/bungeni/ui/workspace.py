@@ -6,7 +6,7 @@ from ploned.ui.interfaces import IViewView
 from bungeni.core.globalsettings import getCurrentParliamentId
 from ore.alchemist import Session
 from bungeni.models import domain
-from bungeni.models.utils import get_db_user_id
+from bungeni.models.utils import get_db_user_id, get_group_ids_for_user_in_parliament
 
 
 import interfaces
@@ -53,7 +53,8 @@ class WorkspaceView(BrowserView):
             self.context.__parent__ = context
             self.context.__name__ = ""
             self.user_id = get_db_user_id()
-            
+            self.user_group_ids = get_group_ids_for_user_in_parliament(
+                    self.user_id, parliament_id)
         
             
         for role_id in getRoles():

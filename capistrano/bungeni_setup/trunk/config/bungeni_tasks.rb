@@ -50,6 +50,12 @@ namespace :bungeni_tasks do
       run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -N"
     end
 
+    desc "optimisitic builout"
+    task :buildout_opt_local, :roles=> :app do
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_local.cfg -N"
+    end
+
+
     desc "update source"
     task :bungeni_upd, :roles=> :app do
       run "cd #{buildout_dir} && svn up"

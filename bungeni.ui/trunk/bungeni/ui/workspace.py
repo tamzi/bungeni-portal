@@ -1,7 +1,8 @@
 from zope import interface
 from zope import component
 from zope.publisher.browser import BrowserView
-from zope.securitypolicy.interfaces import IRole
+from zope.securitypolicy.interfaces import IRole, IPrincipalRoleMap
+from zope.security.proxy import ProxyFactory
 from ploned.ui.interfaces import IViewView
 from bungeni.core.globalsettings import getCurrentParliamentId
 from ore.alchemist import Session
@@ -28,9 +29,17 @@ def getMinistriesForUser(user_id, parliament_id):
 
 
 
-def getRoles(context=None):
-    return [role_id for role_id, role in \
-            component.getUtilitiesFor(IRole, context)]
+def getRoles(context, request):
+    #return [role_id for role_id, role in \
+    #        component.getUtilitiesFor(IRole, context)]
+    #eeks we have to 
+    prm =  IPrincipalRoleMap( context )
+    pn = request.principal.id
+    roles = list(prm.getRolesForPrincipal(pn))
+    pg = request.principal.groups.keys()
+    for pn in pg:
+        roles = roles + list(prm.getRolesForPrincipal(pn))
+    return roles
 
 role_interface_mapping = {
     u'bungeni.Admin': interfaces.IAdministratorWorkspace,
@@ -49,16 +58,17 @@ class WorkspaceView(BrowserView):
         if parliament_id:
             session = Session()
             parliament = session.query(domain.Parliament).get(parliament_id)
-            self.context= parliament
+            self.context = parliament
             self.context.__parent__ = context
             self.context.__name__ = ""
+            self.request = request
             self.user_id = get_db_user_id()
             self.user_group_ids = get_group_ids_for_user_in_parliament(
                     self.user_id, parliament_id)
         
-            
-        for role_id in getRoles():
-            iface = role_interface_mapping.get(role_id)
+        roles = getRoles(self.context, self.request)
+        for role_id in roles:
+            iface = role_interface_mapping.get(role_id[0])
             if iface is not None:
                 interface.alsoProvides(self, iface)
 

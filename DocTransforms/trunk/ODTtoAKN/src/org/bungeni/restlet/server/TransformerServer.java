@@ -48,6 +48,11 @@ public class TransformerServer extends Application {
    }
 
 
+   /**
+    * configures the server by reading transformer.ini
+    * @param workingDir
+    * @return
+    */
 private static boolean configServer(String workingDir) {
 	   boolean bState = false;
 	   try {
@@ -68,7 +73,12 @@ private static boolean configServer(String workingDir) {
    }
    
    
-  
+  /**
+   * API used to start the transformer server
+   * @param workingDir - the directory to be used as the working directory by the transformer server.
+   * The resource folders for the transformer are assumed to be subdirectories of this folder
+   * @return - TransformerServer -handle to transformer server
+   */
 public static TransformerServer startServer(String workingDir) {
 	   		System.out.println("Starting server with working directory : " + workingDir);
             TransformerServer ts = null;
@@ -131,4 +141,14 @@ public static TransformerServer startServer(String workingDir) {
      public static void main(String[] args) {
     	 TransformerServer.startServer("/Users/ashok/Projects/ODTTranslator/translator/ODTtoAKN/bin/");
      }
+
+     /**
+      * Returns the server port
+      * @return Integer
+      */
+	public static int getServerPort() {
+		return SERVER_PORT;
+	}
+
+
 }

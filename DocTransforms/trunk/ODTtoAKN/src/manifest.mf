@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: org.bungeni.restlet.server.TransformerServer
+Class-Path: lib/xercesImpl.jar lib/odfdom.jar lib/editorplugininterfac
+ e.jar lib/org.restlet.jar lib/com.noelios.restlet.jar lib/ini4j-0.5.1
+ .jar lib/saxon9.jar lib/saxon9-dom.jar lib/saxon9-xpath.jar lib/saxon
+ 9-xqj.jar lib/saxon9-xom.jar lib/saxon9-s9api.jar lib/saxon9-jdom.jar
+  lib/saxon9-dom4j.jar lib/log4j-1.2.15.jar lib/saxon9-sql.jar

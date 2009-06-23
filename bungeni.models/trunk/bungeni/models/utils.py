@@ -64,13 +64,26 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
             rdb.and_(
                 schema.groups.c.group_id.in_(group_ids),
                 schema.user_group_memberships.c.user_id == user_id),  
-            order_by = schema.role_titles.c.start_date                                     
+            order_by = [schema.role_titles.c.start_date, schema.role_titles.c.end_date]                                     
             )
     return connection.execute(offices_held)           
             
     
-
-
+def get_group_ids_for_user_in_parliament(user_id, parliament_id):
+    """ get the groups a user is member of for a specific parliament """
+    session = Session()
+    connection = session.connection(domain.Group)
+    group_ids  = get_all_group_ids_in_parliament(parliament_id)
+    my_groups = rdb.select([schema.user_group_memberships.c.group_id],
+        rdb.and_(schema.user_group_memberships.c.active_p == True,
+            schema.user_group_memberships.c.user_id == user_id,
+            schema.user_group_memberships.c.group_id.in_(group_ids)),
+        distinct=True)
+    my_group_ids = []
+    for group_id in connection.execute(my_groups):
+        my_group_ids.append(group_id[0])
+    return my_group_ids
+                                    
 
         
         

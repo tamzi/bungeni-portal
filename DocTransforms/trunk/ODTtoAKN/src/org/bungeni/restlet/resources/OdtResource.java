@@ -12,7 +12,7 @@ import java.net.URL;
 import java.util.HashMap;
 
 import org.bungeni.plugins.translator.OdtTranslate;
-import org.bungeni.restlet.Test;
+
 import org.bungeni.restlet.docs.Documentation;
 import org.bungeni.restlet.server.TransformerServer;
 import org.bungeni.restlet.utils.CommonUtils;

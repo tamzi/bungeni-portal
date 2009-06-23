@@ -41,7 +41,7 @@ class QuestionInStateViewlet( ViewletBase ):
             else:
                 data['subject'] = result.short_name
             data['title'] = result.short_name
-            data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['result_item_class'] = 'workflow-state-' + result.status
             data['url'] = '/business/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
@@ -76,7 +76,7 @@ class MyQuestionsViewlet( ViewletBase ):
             else:
                 data['subject'] = result.short_name + ' (' + result.status + ')'
             data['title'] = result.short_name + ' (' + result.status + ')'
-            data['result_item_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['result_item_class'] = 'workflow-state-' + result.status 
             data['url'] = '/business/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
@@ -114,7 +114,7 @@ class MyMotionsViewlet( ViewletBase ):
             else:
                 data['subject'] =  result.short_name  + ' (' + result.status + ')'
             data['title'] = result.short_name  + ' (' + result.status + ')'
-            data['result_item_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            data['result_item_class'] = 'workflow-state-' + result.status             
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
@@ -146,10 +146,11 @@ class MyGroupsViewlet( ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'g_' + str(result.group_id) )              
-            data['subject'] = str(result.type) + u' ' +  result.short_name  + ' (' + result.status + ')'
+            data['subject'] = (result.short_name  + u' (' + 
+                result.status + u' ' + result.type.capitalize() + u')')
             data['title'] = result.short_name  + ' (' + result.type + ')'
-            data['result_item_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
-            data['url'] = '/business/groups/obj-' + str(result.group_id)
+            data['result_item_class'] = 'workflow-state-' + result.status              
+            data['url'] = '#' 
             data_list.append(data)            
         return data_list
     
@@ -316,9 +317,11 @@ class MotionInStateViewlet( ViewletBase ):
             data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name
             data['title'] = result.short_name
             if result.approval_date:
-                data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+                data['result_item_class'] = ('workflow-state-' + 
+                    result.status  + 'sc-after-' + 
+                    datetime.date.strftime(result.approval_date, '%Y-%m-%d'))
             else:         
-                data['result_item_class'] = 'sc-after-'       
+                data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
@@ -421,7 +424,10 @@ class BillItemsViewlet( ViewletBase ):
             data['qid']= ( 'b_' + str(result.bill_id) )                         
             data['subject'] = u'B ' + result.short_name
             data['title'] = result.short_name
-            data['result_item_class'] = 'sc-after-'  + datetime.date.strftime(result.publication_date, '%Y-%m-%d')
+            data['result_item_class'] = ('workflow-state-' + 
+                result.status  + 
+                'sc-after-' + 
+                datetime.date.strftime(result.publication_date, '%Y-%m-%d'))
             data_list.append(data)            
         return data_list
     

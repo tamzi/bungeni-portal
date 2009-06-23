@@ -7,10 +7,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 
 import org.bungeni.plugins.translator.OdtTranslate;
+import org.bungeni.restlet.Test;
+import org.bungeni.restlet.docs.Documentation;
 import org.bungeni.restlet.server.TransformerServer;
+import org.bungeni.restlet.utils.CommonUtils;
 import org.restlet.Context;
 import org.restlet.data.Form;
 import org.restlet.data.MediaType;
@@ -49,6 +54,24 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 	@Override
 	public boolean allowPost() {
 		return true;
+	}
+	
+	/**
+	 * Allow a get to enable the documentaiton display
+	 */
+	public boolean allowGet(){
+		return true;
+	}
+	
+	private static final String __DOC__ = "/org/bungeni/restlet/docs/convert_to_anxml.html";
+	
+	/**
+	 * A get simply displays the documentation page
+	 */
+	public void handleGet(){
+		String sDoc = Documentation.getDocumentation(__DOC__);
+		StringRepresentation srep = new StringRepresentation(sDoc, MediaType.TEXT_HTML);
+		getResponse().setEntity(srep);
 	}
 	
 	private String getOdtFolderPath(){
@@ -94,9 +117,8 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 			log.error("recieveOdtFile:" , e);
 		} catch (IOException e) {
 			log.error("recieveOdtFile:" , e);
-		} finally {
-			return file.getPath();
-		}
+		} 
+		return file.getPath();
  	}
 
 	/**
@@ -132,7 +154,7 @@ public class OdtResource  extends org.restlet.resource.Resource  {
                File outputXml = new File (outputXmlFile);
                String transXml = "";
                if (outputXml.exists()) {
-            	   transXml = readTextFile(outputXml);
+            	   transXml = CommonUtils.readTextFile(outputXml);
                }
                String responseMessage = generateResponseMessage("0", fileName, validationErrors, transXml);
                Representation returnResponse = new StringRepresentation(responseMessage,
@@ -147,13 +169,9 @@ public class OdtResource  extends org.restlet.resource.Resource  {
             }
     }
 	
-	private String readTextFile(File fFile) throws IOException {
-		byte[] buffer = new byte[(int)fFile.length()];
-		DataInputStream in = new DataInputStream(new FileInputStream(fFile));
-		in.readFully(buffer);
-		String s = new String(buffer);
-		return s;
-	}
+
+	
+
 
 	
 	private String generateResponseMessage(String state, String sourceFile, String errors, String xmlString) {

@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.bungeni.plugins.translator.OdtTranslate;
 import org.bungeni.restlet.TransformerRestletDefaultConfiguration;
+import org.bungeni.restlet.docs.Documentation;
 import org.bungeni.restlet.server.TransformerServer;
 import org.restlet.Restlet;
 import org.restlet.data.Form;
@@ -13,6 +14,7 @@ import org.restlet.data.Method;
 import org.restlet.data.Request;
 import org.restlet.data.Response;
 import org.restlet.data.Status;
+import org.restlet.resource.StringRepresentation;
 
 import com.sun.tools.javac.code.Type.MethodType;
 
@@ -79,10 +81,8 @@ import com.sun.tools.javac.code.Type.MethodType;
 		//translator.setParams(inputParams)
 	}
 	
-	private String __SYNTAX__ = 
-		"To use this API use HTTP Post, the following parameters are mandatory :\n" +
-		"DocumentType = type of document ," +
-		"PluginMode = odt2akn or akn2html ";
+	private String __DOC__ = 
+		"/org/bungeni/restlet/docs/set_convert_params.html";
 		
 		
 		
@@ -99,7 +99,8 @@ import com.sun.tools.javac.code.Type.MethodType;
             System.out.println("doc type = "+ this.documentType);
             response.setStatus(Status.SUCCESS_NO_CONTENT);
         } else if (request.getMethod().equals(Method.GET)){
-            response.setEntity(__SYNTAX__, MediaType.TEXT_PLAIN);
+        	StringRepresentation srepdoc = new StringRepresentation(Documentation.getDocumentation(__DOC__), MediaType.TEXT_HTML);
+            response.setEntity(srepdoc);
         } else {
             response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
         }

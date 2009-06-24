@@ -17,6 +17,7 @@ def get_user_delegations(user_id):
     results = query.all()                    
     for result in results:  
         if ((result.user.active_p == 'A') and
+            (len(result.user.login) > 1) and
             (result.delegation.active_p == 'A')):                                        
             yield result.user
             

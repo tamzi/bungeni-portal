@@ -29,7 +29,7 @@ namespace :plone_install do
 		"plone_install:setup_from_cache",
 		"plone_tasks:bootstrap_bo",
 		"plone_tasks:localbuildout_config",
-		"plone_taksks:buildout_full_local"
+		"plone_tasks:buildout_full_local"
 		
 
 end

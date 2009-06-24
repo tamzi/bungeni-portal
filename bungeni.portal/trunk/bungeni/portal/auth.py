@@ -37,7 +37,7 @@ def _get_groups(user_id):
     return  query.all()    
 
 
-def getUserGroups(login_id, groups=[]):
+def getUserGroups(login_id, groups):
     """ get group for users:
     a) the groups defined by his user_group_memberships
     b) the users who have him assigned as a delegation

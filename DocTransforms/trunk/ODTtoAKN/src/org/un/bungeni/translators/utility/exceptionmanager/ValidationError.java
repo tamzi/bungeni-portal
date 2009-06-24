@@ -96,7 +96,7 @@ public class ValidationError {
 	}
 	
 	public String Xml_startingWords(){
-		return "<startingWord>" + getStartingWords() + "</startingWords>\n";
+		return "<startingWords>" + getStartingWords() + "</startingWords>\n";
 	}
 	
 	public void setStartingWords(String startingWords) {

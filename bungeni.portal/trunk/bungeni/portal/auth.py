@@ -16,7 +16,14 @@ import sqlalchemy as rdb
 from bungeni.models import domain, delegation 
 
 import logging
+
 log = logging.getLogger("bungeni.portal")
+log.setLevel(logging.DEBUG)
+# create console handler and set level to debug
+ch = logging.StreamHandler()
+ch.setLevel(logging.DEBUG)
+log.addHandler(ch)
+
 
 def _get_groups(user_id):
     session = Session()
@@ -35,8 +42,9 @@ def getUserGroups(login_id, groups=[]):
     a) the groups defined by his user_group_memberships
     b) the users who have him assigned as a delegation
     c) the groups of the delegation user.
-    """    
-    groups.append(login_id)                
+    """        
+    if login_id not in groups:
+        groups.append(login_id)                
     session = Session()
     db_user = session.query(domain.User).filter(
                 domain.User.login==login_id).all()
@@ -44,7 +52,8 @@ def getUserGroups(login_id, groups=[]):
         user_id = db_user[0].user_id
         results = _get_groups(user_id)
         for result in results:
-            groups.append(result.group.group_principal_id)
+            if (result.group.group_principal_id not in groups):
+                groups.append(result.group.group_principal_id)
         results = delegation.get_user_delegations(user_id)                   
         for result in results:  
             if (result.login not in groups):
@@ -58,13 +67,13 @@ class AlchemistWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
     
     def getGroups(self, id ):
-        return getUserGroups (id)
+        return getUserGroups(id, [])
 
             
     def authenticate(self, environ, identity):
         if not ('login' in identity and 'password' in identity):
             return None
-        
+        #log.debug("Authenticate user: %s" % identity['login'])
         user = self.get_user(identity['login'])
 
         if user and user.checkPassword(identity['password']):
@@ -90,14 +99,18 @@ class AlchemistWhoPlugin(object):
 
     def add_metadata(self, environ, identity):
         userid = identity.get('repoze.who.userid')
-        user = self.get_user(userid)
+        user = self.get_user(userid) 
+        groups = None       
         if user is not None:
+            groups = tuple( self.getGroups(userid))
             identity.update({
                 'email': user.email,
                 'title': u"%s, %s" % (user.last_name, user.first_name),
                 'type': user.type,
-                'groups' : tuple( self.getGroups(userid)) ,
+                'groups' : groups,
                 })
+        #log.debug("Groups for user %s returned by db: %s" % (userid, str(groups)))
+        #log.debug("Groups stored for user %s in identity: %s" % (userid, str(identity.get('groups'))))
 
 class GlobalAuthWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)

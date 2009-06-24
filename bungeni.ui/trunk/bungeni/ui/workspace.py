@@ -32,7 +32,8 @@ def getMinistriesForUser(user_id, parliament_id):
 def getRoles(context, request):
     #return [role_id for role_id, role in \
     #        component.getUtilitiesFor(IRole, context)]
-    #eeks we have to 
+    # eeks we have to loop through all groups of the
+    # principal to get all roles
     prm =  IPrincipalRoleMap( context )
     pn = request.principal.id
     roles = list(prm.getRolesForPrincipal(pn))
@@ -65,8 +66,9 @@ class WorkspaceView(BrowserView):
             self.user_id = get_db_user_id()
             self.user_group_ids = get_group_ids_for_user_in_parliament(
                     self.user_id, parliament_id)
-        
+
         roles = getRoles(self.context, self.request)
+
         for role_id in roles:
             iface = role_interface_mapping.get(role_id[0])
             if iface is not None:

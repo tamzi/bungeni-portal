@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 import java.util.ResourceBundle;
@@ -119,12 +120,13 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 * Transforms the document at the given path using the pipeline at the given path 
 	 * @param aDocumentPath the path of the document to translate
 	 * @param aPipelinePath the path of the pipeline to use for the translation 
-	 * @return the translated document
+	 * @return a hashmap containing handles to both the AN xml and the Metalex file ("anxml", "metalex")
 	 * @throws Exception 
 	 * @throws TransformerFactoryConfigurationError 
 	 */
-	public File translate(String aDocumentPath, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
+	public HashMap<String, File> translate(String aDocumentPath, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
+		HashMap<String, File> translatedFiles = new HashMap<String,File>();
 		try
 		{
 			//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
@@ -134,7 +136,8 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 
 			//translate the document to METALEX
 			File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
-		
+			translatedFiles.put("metalex", metalexFile);
+			
 			//create the XSLT that transforms the metalex
 			File xslt = this.buildXSLT(aPipelinePath);
 		
@@ -154,13 +157,14 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		
 			//create the file that will be returned in case the validation do not fail
 			File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+			translatedFiles.put("anxml", fileToReturn);
 			
 			//validate the produced document
 			//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
 			SchemaValidator.getInstance().validate(fileToReturn,aDocumentPath,this.akomantosoSchemaPath);
 			
 			//write the stream to a File and return it
-			return fileToReturn;
+			//return fileToReturn;
 		}
 		catch(TransformerException e)
 		{
@@ -210,6 +214,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//RETURN null
 			return null;
 		}
+		return translatedFiles;
 	}
 
 	

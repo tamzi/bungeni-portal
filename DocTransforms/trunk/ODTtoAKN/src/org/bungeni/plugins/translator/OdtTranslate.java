@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.bungeni.plugins.IEditorPlugin;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
+import org.un.bungeni.translators.utility.files.FileUtility;
 
 /**
  * Bridging class that implements the IEditorPlugin interface for interacting with the bungeni editor.
@@ -36,6 +37,7 @@ public class OdtTranslate implements IEditorPlugin {
     private HashMap                      editorParams    = null;
     private String                       odfFileUrl      = null;
     private String 					 	 outputFilePath = null;
+    private String 						 outputMetalexFilePath = null;
     private String                       translatorRootFolder = null;
     private String						 translatorConfigFile = null;
     private String						 translatorPipeline = null;
@@ -70,27 +72,15 @@ public class OdtTranslate implements IEditorPlugin {
 			
 			String fullPathToPipeline = GlobalConfigurations.getApplicationPathPrefix() + this.translatorPipeline;
 			
-			File translation = myTranslator.translate(this.odfFileUrl, fullPathToPipeline);
+			HashMap<String, File> filesMap = myTranslator.translate(this.odfFileUrl, fullPathToPipeline);
 			
 			System.out.println("writing outputs");
-
-			//input stream
-			fis  = new FileInputStream(translation);
-			
-			//output stream 
-			fos = new FileOutputStream(getOutputFileName());
-			
-			//copy the file
-	
-				byte[] buf = new byte[1024];
-			    int i = 0;
-			    while ((i = fis.read(buf)) != -1) 
-			    {
-			            fos.write(buf, 0, i);
-			    }
-			 fis.close();
-			 fos.close();
-			 retvalue = myTranslator.getValidationErrors();
+			FileUtility futils = FileUtility.getInstance();
+			File foutputAnxml = new File(this.outputFilePath);
+			File foutputMetalex = new File(this.outputMetalexFilePath);
+			futils.copyFile(filesMap.get("anxml"), foutputAnxml);
+			futils.copyFile(filesMap.get("metalex"), foutputMetalex);
+			retvalue = myTranslator.getValidationErrors();
 		} 
 		catch (Exception e) 
 		{
@@ -124,6 +114,7 @@ public class OdtTranslate implements IEditorPlugin {
             this.editorParams    = inputParams;
             this.odfFileUrl      = (String) this.editorParams.get("OdfFileURL");
             this.outputFilePath = (String) this.editorParams.get("OutputFilePath");
+            this.outputMetalexFilePath = (String) this.editorParams.get("OutputMetalexFilePath");
             this.translatorRootFolder = (String) this.editorParams.get("TranslatorRootFolder");
             this.translatorConfigFile = (String)  this.editorParams.get("TranslatorConfigFile");
             this.translatorPipeline = (String) this.editorParams.get("TranslatorPipeline");

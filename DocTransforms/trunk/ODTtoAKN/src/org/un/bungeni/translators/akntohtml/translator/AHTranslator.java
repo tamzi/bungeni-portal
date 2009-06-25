@@ -2,6 +2,7 @@
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -54,7 +55,7 @@ public class AHTranslator implements Translator
 	 * Translate the given document into HTML according to the given pipeline
 	 * @param aDocumentPath the path of the document to translate 
 	 * @param aPipelinePath the path of the pipeline to apply to the document in order to translate it into HTML
-	 * @return a File containing the translated document
+	 * @return a HashMap containing the translated document
 	 * @throws TransformerException 
 	 * @throws TransformerFactoryConfigurationError 
 	 * @throws ParserConfigurationException 
@@ -62,7 +63,7 @@ public class AHTranslator implements Translator
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
 	 */
-	public File translate(String documentPath,String pipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
+	public HashMap<String,File> translate(String documentPath,String pipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
 	{
 		//build the XSLT from the pipeline
 		File xslt = this.buildXSLT(pipelinePath);
@@ -72,7 +73,12 @@ public class AHTranslator implements Translator
 		
 		
 		//write the stream to a File and return it
-		return StreamSourceUtility.getInstance().writeToFile(result);
+		File outputHtml =  StreamSourceUtility.getInstance().writeToFile(result);
+		
+		HashMap<String, File> translateMap = new HashMap<String, File>();
+		translateMap.put("html", outputHtml);
+		return translateMap;
+		
 	}
 	
 	/**

@@ -158,20 +158,33 @@ class UserManager( BasePlugin ):
         elif id is None:
             clause = None
             for key, value in kw.items():
-                column = getattr(schema.users.c, key)
-                clause = rdb.and_(clause, column.contains(value))
+                column = getattr(schema.users.c, key, None)
+                if column:
+                    clause = rdb.and_(clause, column.contains(value))
+                else:
+                    like_val ='%' + str(value) +'%'
+                    clause = rdb.and_(clause, 
+                        rdb.or_(schema.users.c.login.like(like_val),
+                                schema.users.c.first_name.like(like_val),
+                                schema.users.c.last_name.like(like_val)
+                            )                
+                        )
         elif isinstance( id, (list, tuple)) and exact_match:
             statements = []
             for i in id:
                 statements.append( schema.users.c.login == i )
             clause = rdb.or_( *statements )
         elif isinstance( id, (list, tuple)) and not exact_match:
-            clause = rdb.or_(*(map( schema.users.c.login.contains, id )))
+            like_val ='%' + str(id) +'%'
+            clause = rdb.or_(*(map( schema.users.c.login.like, like_val)))
         elif not exact_match:
-            clause = schema.users.c.login.contains( id )
+            like_val ='%' + str(id) +'%'
+            clause = rdb.or_(schema.users.c.login.like(like_val),
+                             schema.users.c.first_name.like(like_val),
+                             schema.users.c.last_name.like(like_val)
+                            )
         else:
             clause = schema.users.c.login == id
-
         session = Session()        
         query = session.query(domain.User).filter(
                         rdb.and_( clause,

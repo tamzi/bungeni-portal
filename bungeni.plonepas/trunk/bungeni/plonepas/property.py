@@ -24,7 +24,7 @@ class PropertyProvider( BasePlugin, Cacheable ):
         """Get property values for a user or group.
         Returns a dictionary of values or a PropertySheet.
         """
-        view_name = createViewName('getPropertiesForUser', user.getUserName())
+        view_name = createViewName('getPropertiesForUser', user)
         cached_info = self.ZCacheable_get(view_name=view_name)
         if cached_info is not None:
             return MutablePropertySheet(self.id, **cached_info)
@@ -74,7 +74,7 @@ class PropertyProvider( BasePlugin, Cacheable ):
                 email =  propertysheet.getProperty('email')
                 if email:   
                     b_user.email = email
-        view_name = createViewName('getPropertiesForUser', user) #.getUserName())
+        view_name = createViewName('getPropertiesForUser', user) 
         cached_info = self.ZCacheable_invalidate(view_name=view_name)        
 
 classImplements(PropertyProvider,

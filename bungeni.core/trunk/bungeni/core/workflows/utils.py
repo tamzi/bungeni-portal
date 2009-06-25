@@ -44,6 +44,8 @@ def _get_group_local_role(group):
         return "bungeni.CommitteeMember"
     elif interfaces.IPoliticalParty.providedBy(group):   
         return "bungeni.PartyMember"
+    elif interfaces.IGovernment.providedBy(group):   
+        return "bungeni.Government"        
     elif interfaces.IOffice.providedBy(group):
         if group.office_type == "S":
             return "bungeni.Speaker"

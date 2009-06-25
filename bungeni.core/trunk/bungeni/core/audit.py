@@ -98,7 +98,7 @@ class AuditorFactory( object ):
                     )
             elif IRelationChange.providedBy(attr):
                 attrset.append( attr.description )
-
+        attrset.append(getattr(object, 'note', u""))
         description = u", ".join( attrset )
         return self._objectChanged(u'modified', object, description )
         

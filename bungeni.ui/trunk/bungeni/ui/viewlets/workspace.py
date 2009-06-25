@@ -142,15 +142,28 @@ class MyGroupsViewlet( ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-       
+        parliament_id = self._parent.context.parliament_id
+        government_id = self._parent.government_id
         for result in results:            
             data ={}
             data['qid']= ( 'g_' + str(result.group_id) )              
             data['subject'] = (result.short_name  + u' (' + 
                 result.status + u' ' + result.type.capitalize() + u')')
             data['title'] = result.short_name  + ' (' + result.type + ')'
-            data['result_item_class'] = 'workflow-state-' + result.status              
-            data['url'] = '#' 
+            data['result_item_class'] = 'workflow-state-' + result.status   
+            url = "/archive/browse/parliaments/obj-" + str(parliament_id) 
+            if type(result) == domain.Parliament:
+                data['url'] = url
+            elif type(result) == domain.Committee:   
+                data['url'] = url + '/committees/obj-' + str(result.group_id) 
+            elif type(result) == domain.PoliticalParty:   
+                data['url'] = url + '/politicalparties/obj-' + str(result.group_id)                                                  
+            elif type(result) == domain.Ministry:   
+                data['url'] = url + ('/governments/obj-%s/ministries/obj-%s' % (
+                        str(government_id), str(result.group_id) ))                                      
+            else:               
+                data['url'] = '#' 
+            
             data_list.append(data)            
         return data_list
     

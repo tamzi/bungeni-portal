@@ -48,6 +48,11 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     form_name = _(u"General")    
     has_data = True
 
+    def get_note(self):
+        """ return Notes if supplied by context"""
+        if getattr(self.context, 'note', False):
+            return self.context.note
+
     def setupActions(self):
         return
         wf = self.wf = interfaces.IWorkflowInfo(self.context, None)

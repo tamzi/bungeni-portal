@@ -2,6 +2,7 @@ package org.un.bungeni.translators.interfaces;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -29,7 +30,7 @@ public interface Translator
 	 * @throws XPathExpressionException 
 	 * @throws Exception 
 	 */
-	public File translate(String aDocumentPath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, Exception;
+	public HashMap<String, File> translate(String aDocumentPath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, Exception;
 	
 	/**
 	 * Create and return an XSLT builded upon the instructions of the given pipeline. 

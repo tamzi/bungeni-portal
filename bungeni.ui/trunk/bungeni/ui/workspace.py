@@ -4,11 +4,13 @@ from zope.publisher.browser import BrowserView
 from zope.securitypolicy.interfaces import IRole, IPrincipalRoleMap
 from zope.security.proxy import ProxyFactory
 from ploned.ui.interfaces import IViewView
-from bungeni.core.globalsettings import getCurrentParliamentId
+
 from ore.alchemist import Session
+import sqlalchemy.sql.expression as sql
+
 from bungeni.models import domain
 from bungeni.models.utils import get_db_user_id, get_group_ids_for_user_in_parliament
-
+from bungeni.core.globalsettings import getCurrentParliamentId
 
 import interfaces
 
@@ -66,7 +68,16 @@ class WorkspaceView(BrowserView):
             self.user_id = get_db_user_id()
             self.user_group_ids = get_group_ids_for_user_in_parliament(
                     self.user_id, parliament_id)
-
+            governments = session.query(domain.Government).filter(
+                sql.and_(                
+                    domain.Government.parent_group_id == parliament.group_id,
+                    domain.Government.status == 'active')
+                    ).all()
+            if len(governments) == 1:
+                self.government_id =  governments[0].group_id
+            else:
+                self.government_id = None
+                                               
         roles = getRoles(self.context, self.request)
 
         for role_id in roles:

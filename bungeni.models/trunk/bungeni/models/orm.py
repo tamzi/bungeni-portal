@@ -288,7 +288,13 @@ mapper( domain.ParliamentSession, schema.parliament_sessions )
 mapper( domain.GroupSitting, schema.sittings,
         properties = {
             'sitting_type': relation(
-                domain.SittingType, uselist=False)
+                domain.SittingType, uselist=False),
+            'group': relation( domain.Group,
+                               primaryjoin=schema.sittings.c.group_id==schema.groups.c.group_id,
+                               uselist=False,
+                               lazy=True ),  
+            'start_date' :  column_property(schema.sittings.c.start_date.label('start_date')), 
+            'end_date' :  column_property(schema.sittings.c.end_date.label('end_date')),                                             
             })
 
 mapper( domain.ResourceType, schema.resource_types )
@@ -401,7 +407,8 @@ mapper(domain.ItemSchedule, schema.items_schedule,
                domain.ScheduledItemDiscussion,
                uselist=False,
                cascade='all, delete-orphan'),
-           'category': relation( domain.ItemScheduleCategory, uselist=False),
+           'category': relation( domain.ItemScheduleCategory, uselist=False),    
+           'sitting' : relation( domain.GroupSitting, uselist=False),     
            }
        ) 
 

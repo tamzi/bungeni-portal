@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- WARNING :: THIS FILE HAS USER CREATED MODIFICATIONS - DO NOT AUTO-GENERATE using eclipse -->
+<!-- WARNING: To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="ODTtoAKN">
+	<property environment="env"/>
+	<property name="junit.output.dir" value="junit"/>
+	<property name="debuglevel" value="source,lines,vars"/>
+	<property name="target" value="1.6"/>
+	<property name="source" value="1.6"/>
+	
+	<!--Ashok 26/6/2009 -- added properties used for creating jar distribution -->
+	<property name="dist.home" value="dist" />
+	<!-- assumption is all required libs are in lib folder -->
+	<property name="lib.home" value="lib" />
+	<property name="build.jar.dir" value="bin/jar" />
+	<property name="build.jar.tmpdir" value="bin/jartmp" />
+	<property name="jar.filename" value="odttransformer.jar" />
+	<!-- end new properties -->
+	
+	<path id="ODTtoAKN.classpath">
+		<pathelement location="bin"/>
+		<pathelement location="lib/saxon9-dom.jar"/>
+		<pathelement location="lib/saxon9-dom4j.jar"/>
+		<pathelement location="lib/saxon9-jdom.jar"/>
+		<pathelement location="lib/saxon9-s9api.jar"/>
+		<pathelement location="lib/saxon9-sql.jar"/>
+		<pathelement location="lib/saxon9-xom.jar"/>
+		<pathelement location="lib/saxon9-xpath.jar"/>
+		<pathelement location="lib/saxon9-xqj.jar"/>
+		<pathelement location="lib/saxon9.jar"/>
+		<pathelement location="lib/junit.jar"/>
+		<pathelement location="lib/odfdom.jar"/>
+		<pathelement location="lib/xercesImpl.jar"/>
+		<pathelement location="lib/log4j-1.2.15.jar"/>
+		<pathelement location="lib/editorplugininterface.jar"/>
+		<pathelement location="lib/com.noelios.restlet.jar"/>
+		<pathelement location="lib/org.restlet.jar"/>
+		<pathelement location="lib/ini4j-0.5.1.jar"/>
+	</path>
+	<target name="init">
+		<mkdir dir="bin"/>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="src" excludes="**/*.launch, **/*.java"/>
+		</copy>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="resources" excludes="**/*.launch, **/*.java"/>
+		</copy>
+		<copy includeemptydirs="false" todir="bin">
+			<fileset dir="tests" excludes="**/*.launch, **/*.java"/>
+		</copy>
+	</target>
+	<target name="clean">
+		<delete dir="bin"/>
+	</target>
+	<target depends="clean" name="cleanall"/>
+	<target depends="build-subprojects,build-project" name="build"/>
+	<target name="build-subprojects"/>
+	<target depends="init" name="build-project">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+			<src path="src"/>
+			<classpath refid="ODTtoAKN.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+			<src path="resources"/>
+			<classpath refid="ODTtoAKN.classpath"/>
+		</javac>
+		<javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+			<src path="tests"/>
+			<classpath refid="ODTtoAKN.classpath"/>
+		</javac>
+	</target>
+	
+	<!--Ashok 26/6/2009 -- add task to create a jar file with a manifest -->
+	<target name="jar" depends="build" description="create a jar file">
+	    <delete dir="${build.jar.dir}" />
+	    <delete dir="${build.jar.tmpdir}" />
+	    <mkdir dir="${build.jar.dir}"/>
+		<mkdir dir="${build.jar.tmpdir}/localisation"/>
+		<mkdir dir="${build.jar.tmpdir}/org"/>
+		<!--generate a class-path attribute for the manifest-->
+		<pathconvert property="libs.project" pathsep=" ">
+			<mapper>
+				<chainedmapper><!-- remove absolute path -->
+					<flattenmapper/><!-- add lib/ prefix -->
+					<globmapper from="*" to="lib/*"/>
+				</chainedmapper>
+			</mapper>
+			<path><!-- lib.home contains all jar files, in several subdirectories -->
+				<fileset dir="${lib.home}">
+					<include name="**/*.jar"/>
+					<!-- we dont want to include junit as it is used for testing and not in a live distribution-->
+					<exclude name="**/junit*.jar" />
+				</fileset>
+			</path>
+		</pathconvert>
+		<copy includeemptydirs="true" todir="${build.jar.tmpdir}/localisation">
+			<fileset dir="resources/localisation" excludes="**/*.launch, **/*.java"/>
+		</copy>
+		<copy includeemptydirs="true" todir="${build.jar.tmpdir}/org">
+			<fileset dir="bin/org" excludes="**/*.launch, **/*.java"/>
+		</copy>
+		<!-- create the jar file -->
+		<jar destfile="${build.jar.dir}/${jar.filename}" basedir="${build.jar.tmpdir}">
+			<manifest>
+				<attribute name="Main-Class" value="org.bungeni.restlet.server.TransformerServer"/>
+				<attribute name="Class-Path" value="${libs.project}"/>
+			</manifest>
+		</jar>
+	</target>
+	
+	
+	<!--Ashok 26/6/2009 -- add task to create a jar distribution with the required libs -->
+	<target name="dist" depends="jar">
+		<delete dir="${dist.home}" />
+		<mkdir dir="${dist.home}/lib" />
+		<copy todir="${dist.home}" file="${build.jar.dir}/${jar.filename}" />
+		<copy todir="${dist.home}/lib" filtering="off" >
+			<flattenmapper />
+			<fileset dir="${lib.home}" includes="**/*.jar" excludes="**/junit*.jar" />
+		</copy>
+	</target>
+	
+	<target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+	<target name="OATranslatorTest">
+		<mkdir dir="${junit.output.dir}"/>
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml"/>
+			<test name="translatortest.OATranslatorTest" todir="${junit.output.dir}"/>
+			<classpath refid="ODTtoAKN.classpath"/>
+		</junit>
+	</target>
+	<target name="OdtTranslateTest">
+		<mkdir dir="${junit.output.dir}"/>
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml"/>
+			<test name="plugintest.OdtTranslateTest" todir="${junit.output.dir}"/>
+			<classpath refid="ODTtoAKN.classpath"/>
+		</junit>
+	</target>
+	<target name="tests">
+		<mkdir dir="${junit.output.dir}"/>
+		<junit fork="yes" printsummary="withOutAndErr">
+			<formatter type="xml"/>
+			<classpath refid="ODTtoAKN.classpath"/>
+		</junit>
+	</target>
+	<target name="TransformerServer">
+		<java classname="org.bungeni.restlet.server.TransformerServer" failonerror="true" fork="yes">
+			<classpath refid="ODTtoAKN.classpath"/>
+		</java>
+	</target>
+	<target name="junitreport">
+		<junitreport todir="${junit.output.dir}">
+			<fileset dir="${junit.output.dir}">
+				<include name="TEST-*.xml"/>
+			</fileset>
+			<report format="frames" todir="${junit.output.dir}"/>
+		</junitreport>
+	</target>
+</project>

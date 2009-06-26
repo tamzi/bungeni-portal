@@ -4,6 +4,7 @@ package translatortest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -43,13 +44,9 @@ public class AHTranslatorTest {
 	{
 		//set the application path prefix
 		GlobalConfigurations.setApplicationPathPrefix("");
-		
-		//perform a translation
-		//AHXSLProcBuilder.newInstance().createXSLProc("resources/akntohtml/minixslt/");
-		File translation = AHTranslator.getInstance().translate("resources/Act_Kenya_1980-01-01.xml", "resources/akntohtml/minixslt/pipeline.xsl");
-	
+		HashMap<String,File> transFiles = AHTranslator.getInstance().translate("resources/Act_Kenya_1980-01-01.xml","resources/akntohtml/minixslt/pipeline.xsl");
 		//input stream
-		FileInputStream fis  = new FileInputStream(translation);
+		FileInputStream fis  = new FileInputStream(transFiles.get("html"));
 		
 		//output stream 
 		FileOutputStream fos = new FileOutputStream("resources/resultHTML_bill.html");

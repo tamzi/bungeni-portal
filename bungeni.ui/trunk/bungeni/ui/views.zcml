@@ -157,7 +157,7 @@
      name="whats-on"
      for="bungeni.core.interfaces.ISection"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     template="templates/whatson.pt"
+     class=".viewlets.whatson.WhatsOnBrowserView"     
      permission="zope.Public"
      />
   

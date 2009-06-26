@@ -1,0 +1,87 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@standard_macros/page">
+  
+  <div metal:fill-slot="body" i18n:domain="bungeni">
+    <h1 i18n:translate="">What's on</h1>
+    <p i18n:translate="" class="documentDescription">
+      An overview of the daily operations of the parliament.
+    </p>
+    <p tal:content="view/get_date_range" />
+    <dl class="portlet">
+        <dt i18n:translate=""> Upcoming sittings </dt>
+        <dd>
+            <ul tal:define="days view/get_sittings">
+              <li tal:repeat="day days">
+                <li>
+                  <span tal:content="day/day" />
+                  <ul tal:define="sittings day/sittings" >
+                    <li tal:repeat="sitting sittings">
+                        <span tal:content="sitting/start" /> 
+                        -
+                        <span tal:content="sitting/end" /> 
+                        <span tal:content="sitting/type" /> 
+                        <span tal:content="sitting/name" />                         
+                    </li>
+                  </ul> 
+                </li>                
+              </li>
+            </ul>
+        </dd>
+    </dl>
+    <dl class="portlet">
+        <dt i18n:translate=""> Bills </dt>
+        <dd>
+            <ul tal:define="days view/get_bills">
+              <li tal:repeat="day days">
+                <li>
+                  <span tal:content="day/day" />
+                  <ul tal:define="items day/items" >
+                    <li tal:repeat="item items">
+                        <span tal:content="item/name" />    
+                        (<span tal:content="item/status" />)                      
+                    </li>
+                  </ul> 
+                </li>                
+              </li>
+            </ul>
+        </dd>
+    </dl>
+    <dl class="portlet">
+        <dt i18n:translate=""> Motions </dt>
+        <dd>
+            <ul tal:define="days view/get_motions">
+              <li tal:repeat="day days">
+                <li>
+                  <span tal:content="day/day" />
+                  <ul tal:define="items day/items" >
+                    <li tal:repeat="item items">
+                        <span tal:content="item/name" />    
+                        (<span tal:content="item/status" />)                     
+                    </li>
+                  </ul> 
+                </li>                
+              </li>
+            </ul>
+        </dd>
+    </dl>
+    <dl class="portlet">
+        <dt i18n:translate=""> Questions </dt>
+        <dd>
+            <ul tal:define="days view/get_questions">
+              <li tal:repeat="day days">
+                <li>
+                  <span tal:content="day/day" />
+                  <ul tal:define="items day/items" >
+                    <li tal:repeat="item items">
+                        <span tal:content="item/name" />    
+                        (<span tal:content="item/status" />)                     
+                    </li>
+                  </ul> 
+                </li>                
+              </li>
+            </ul>
+        </dd>
+    </dl>    
+  </div>
+</html>

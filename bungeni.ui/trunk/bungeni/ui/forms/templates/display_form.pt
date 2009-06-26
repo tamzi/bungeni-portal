@@ -22,9 +22,7 @@
             i18n:translate="">Info</dt>
 
         <dd tal:content="view/status | nothing"
-            i18n:translate="">The status message.</dd>
-                    
-        
+            i18n:translate="">The status message.</dd>                     
       </dl>        
       <dl class="portalMessage info"
           tal:condition="note"
@@ -32,11 +30,7 @@
           tal:attributes="class string:portalMessage ${mtype};">
         <dt tal:content="python:mtype.capitalize()"
             i18n:translate="">Info</dt>
-
         <dd tal:content="note" />
-            
-                    
-        
       </dl>       
       
       <div class="invariant-errors" tal:condition="view/invariantErrors|nothing">

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- WARNING :: THIS FILE HAS USER CREATED MODIFICATIONS - DO NOT AUTO-GENERATE using eclipse -->
+<!-- WARNING :: THIS FILE HAS USER CREATED MODIFICATIONS DO NOT AUTOGENERATE using eclipse -->
 <!-- WARNING: To include a user specific buildfile here, simply create one in the same
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. -->
@@ -10,7 +10,7 @@
 	<property name="target" value="1.6"/>
 	<property name="source" value="1.6"/>
 	
-	<!--Ashok 26/6/2009 -- added properties used for creating jar distribution -->
+	<!--Ashok 26/6/2009  added properties used for creating jar distribution -->
 	<property name="dist.home" value="dist" />
 	<!-- assumption is all required libs are in lib folder -->
 	<property name="lib.home" value="lib" />
@@ -74,7 +74,7 @@
 		</javac>
 	</target>
 	
-	<!--Ashok 26/6/2009 -- add task to create a jar file with a manifest -->
+	<!--Ashok 26/6/2009  add task to create a jar file with a manifest -->
 	<target name="jar" depends="build" description="create a jar file">
 	    <delete dir="${build.jar.dir}" />
 	    <delete dir="${build.jar.tmpdir}" />
@@ -113,7 +113,7 @@
 	</target>
 	
 	
-	<!--Ashok 26/6/2009 -- add task to create a jar distribution with the required libs -->
+	<!--Ashok 26/6/2009  add task to create a jar distribution with the required libs -->
 	<target name="dist" depends="jar">
 		<delete dir="${dist.home}" />
 		<mkdir dir="${dist.home}/lib" />

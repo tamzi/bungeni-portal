@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.bungeni.plugins.translator.OdtTranslate;
 
@@ -98,6 +99,16 @@ public class OdtResource  extends org.restlet.resource.Resource  {
          return outputFile;
 	}
 	
+	private String getOutputMetalexFile(String fileName){
+	     int nIndex = fileName.indexOf(".");
+        String xmlFile = fileName.substring(0, nIndex) + "_metalex.xml";
+        String outputFile = getXmlFolderPath() + File.separator + xmlFile;
+        return outputFile;
+	}
+	
+	
+	
+	
 	/**
 	 * Accept the posted odt file
 	 * @param fileName
@@ -139,24 +150,29 @@ public class OdtResource  extends org.restlet.resource.Resource  {
                 final String odfFile = recieveOdtFile(fileName, entity);
                 //get the path and name of the output xml file
                 final String outputXmlFile = getOutputXmlFile(fileName);
+                
+                final String outputMetalexFile = getOutputMetalexFile(fileName);
                 //Now start the transform
                 OdtTranslate transInstance = OdtTranslate.getInstance();
                 HashMap paramMap = new HashMap(){{
                 	put("OdfFileURL", odfFile);
+                	put("OutputMetalexFilePath", outputMetalexFile);
                     put("OutputFilePath",outputXmlFile);
                 }};
                 transInstance.updateParams(paramMap);
-                //TODO call the transform here
+                //call the transform here
                 System.out.println("trans map = " + transInstance.getParams());
                 String validationErrors = transInstance.exec();
                 //transform end
-                //for now return a dummy response
-               File outputXml = new File (outputXmlFile);
-               String transXml = "";
-               if (outputXml.exists()) {
-            	   transXml = CommonUtils.readTextFile(outputXml);
-               }
-               String responseMessage = generateResponseMessage("0", fileName, validationErrors, transXml);
+              //Now return a response
+               //get the output AnXMl
+                HashMap<String,String> outputXmlMap = new HashMap<String,String>();
+                String transXml = getXmlContent(outputXmlFile);
+                outputXmlMap.put("xml", transXml);
+                String transMetalex = getXmlContent(outputMetalexFile);
+                outputXmlMap.put("metalex", transMetalex);
+                
+               String responseMessage = generateResponseMessage("0", fileName, validationErrors, outputXmlMap);
                Representation returnResponse = new StringRepresentation(responseMessage,
             		   MediaType.APPLICATION_XML);
                getResponse().setEntity(returnResponse);
@@ -170,11 +186,38 @@ public class OdtResource  extends org.restlet.resource.Resource  {
     }
 	
 
+	private String getXmlContent(String soutputFile) {
+        File outputXml = new File (soutputFile);
+        String transXml = "";
+        if (outputXml.exists()) {
+     	   try {
+			transXml = CommonUtils.readTextFile(outputXml);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			log.error("getXmlFile", e);
+		}
+        }
+        return transXml;
+	}
 	
 
-
+private String generateOutputElements(HashMap<String,String> xmlout) {
+	StringBuffer sbf = new StringBuffer();
+	for (Iterator<String> itrXml = xmlout.keySet().iterator(); itrXml.hasNext(); ) {
+		String outName = itrXml.next();
+		String outXml = xmlout.get(outName);
+		sbf.append("\t\t<output name=\""+ outName + "\">");
+		sbf.append("\t\t\t<![CDATA[\n");
+		sbf.append(outXml);
+		sbf.append("\n]]>\n");
+		sbf.append("\t\t</output>\n");
+	}
+	return sbf.toString();
+}
 	
-	private String generateResponseMessage(String state, String sourceFile, String errors, String xmlString) {
+	
+	
+	private String generateResponseMessage(String state, String sourceFile, String errors, HashMap<String,String> xmlout) {
 		
 		 /* <TransformerRespose>
 		 * <sourceFile></sourceFile>
@@ -206,11 +249,7 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 		  		errors +
 		     "]]>\n" +
 		 "\t\t</errors>\n" +
-		 " \t\t<output>\n" +
-		 "\t\t\t<![CDATA[\n" + 
-		 	xmlString + 
-		 "\n]]>\n" +
-		 "\t\t</output>\n" + 
+		 generateOutputElements(xmlout) + 
 		 "\t</transformResult>\n" +
 		 "</TransformerResponse>\n";
 		 

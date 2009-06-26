@@ -2,6 +2,7 @@
 Auditing of Changes for Domain Objects
 """
 from datetime import datetime
+from types import StringTypes
 
 from zope.security.proxy import removeSecurityProxy
 from zope.security.management import getInteraction
@@ -97,9 +98,14 @@ class AuditorFactory( object ):
                     [ attr.interface[a].title for a in attr.attributes]
                     )
             elif IRelationChange.providedBy(attr):
-                attrset.append( attr.description )
+                if attr.description:
+                    attrset.append( attr.description )
         attrset.append(getattr(object, 'note', u""))
-        description = u", ".join( attrset )
+        str_attrset = []
+        for a in attrset:
+            if type(a) in StringTypes:
+                str_attrset.append(a)                
+        description = u", ".join( str_attrset )
         return self._objectChanged(u'modified', object, description )
         
     def objectStateChanged( self, object, event):

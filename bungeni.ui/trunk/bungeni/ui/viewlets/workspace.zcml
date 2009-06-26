@@ -32,6 +32,17 @@
      permission="zope.View"
      weight="20"
      />   
+     
+  <browser:viewlet
+     name="bungeni.workspace.my-draft-questions"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.DraftQuestionViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="30"
+     /> 
+          
 
   <browser:viewlet
      name="bungeni.workspace.my-motions"

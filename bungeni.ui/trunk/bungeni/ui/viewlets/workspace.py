@@ -190,6 +190,19 @@ class DraftQuestionViewlet( QuestionInStateViewlet ):
     state = question_wf_state[u"draft"].id
     list_id = "draft_questions"
 
+    def update(self):
+        """
+        refresh the query
+        """
+        super(DraftQuestionViewlet, self).update()
+        session = Session()
+        try:
+            user_id = self._parent.user_id    
+        except:
+            user_id = None     
+        qfilter = ( domain.Question.owner_id == user_id )        
+        self.query = self.query.filter(qfilter).order_by(domain.Question.question_id.desc())  
+
 class SubmittedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the submitted questions
@@ -243,6 +256,16 @@ class ClarifyMPQuestionViewlet( QuestionInStateViewlet ):
     name = question_wf_state[u"clarify_mp"].title
     state = question_wf_state[u"clarify_mp"].id
     list_id = "clarify_mp_questions"  
+    
+    def update(self):
+        super(ClarifyMPQuestionViewlet, self).update()
+        session = Session()
+        try:
+            user_id = self._parent.user_id    
+        except:
+            user_id = None     
+        qfilter = ( domain.Question.owner_id == user_id )        
+        self.query = self.query.filter(qfilter).order_by(domain.Question.question_id.desc())
  
 
 class ClarifyClerkQuestionViewlet( QuestionInStateViewlet ):

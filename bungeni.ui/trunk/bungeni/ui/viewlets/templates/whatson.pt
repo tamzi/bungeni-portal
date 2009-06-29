@@ -20,7 +20,7 @@
                         <span tal:content="sitting/start" /> 
                         -
                         <span tal:content="sitting/end" /> 
-                        <span tal:content="sitting/type" /> 
+                        (<span tal:content="sitting/type" />)
                         <span tal:content="sitting/name" />                         
                     </li>
                   </ul> 
@@ -34,12 +34,14 @@
         <dd>
             <ul tal:define="days view/get_bills">
               <li tal:repeat="day days">
-                <li>
+                <li>                  
                   <span tal:content="day/day" />
                   <ul tal:define="items day/items" >
                     <li tal:repeat="item items">
-                        <span tal:content="item/name" />    
-                        (<span tal:content="item/status" />)                      
+                        <a tal:attributes="href item/url">
+                          <span tal:content="item/name" />    
+                          (<span tal:content="item/status" />)                      
+                        </a>
                     </li>
                   </ul> 
                 </li>                
@@ -56,8 +58,10 @@
                   <span tal:content="day/day" />
                   <ul tal:define="items day/items" >
                     <li tal:repeat="item items">
-                        <span tal:content="item/name" />    
-                        (<span tal:content="item/status" />)                     
+                      <a tal:attributes="href item/url">
+                          <span tal:content="item/name" />    
+                          (<span tal:content="item/status" />)                      
+                        </a>                    
                     </li>
                   </ul> 
                 </li>                
@@ -74,8 +78,10 @@
                   <span tal:content="day/day" />
                   <ul tal:define="items day/items" >
                     <li tal:repeat="item items">
-                        <span tal:content="item/name" />    
-                        (<span tal:content="item/status" />)                     
+                       <a tal:attributes="href item/url">
+                          <span tal:content="item/name" />    
+                          (<span tal:content="item/status" />)                      
+                        </a>                  
                     </li>
                   </ul> 
                 </li>                

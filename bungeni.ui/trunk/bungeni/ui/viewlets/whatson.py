@@ -91,6 +91,8 @@ class WhatsOnBrowserView(BrowserView):
                 s_list.append({
                     'name': schedule.item.short_name,
                     'status' : schedule.item.status,
+                    'url' : ('/business/' + schedule.item.type + 's/obj-' + 
+                        str(schedule.item.parliamentary_item_id))
                      })
                 s_dict['day'] = day
                 s_dict['items'] = s_list     

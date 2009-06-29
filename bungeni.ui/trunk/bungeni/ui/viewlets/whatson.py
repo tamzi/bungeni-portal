@@ -54,11 +54,21 @@ class WhatsOnBrowserView(BrowserView):
                 if s_dict:
                     day_list.append(s_dict)
                 s_dict = {}
+            if sitting.group.type == 'parliament':
+                url = '/archive/browse/parliaments/obj-%i/sittings/obj-%i' % (
+                    sitting.group.group_id, sitting.sitting_id)
+            elif sitting.group.type == 'committee':
+                url = '/archive/browse/parliaments/obj-%i/committees/obj-%i/sittings/obj-%i' % (
+                    sitting.group.parent_group_id, sitting.group.group_id, 
+                    sitting.sitting_id)                    
+            else:
+                url ='#'                                    
             s_list.append({
                 'start': sitting.start_date.strftime("%H:%M"),
                 'end' : sitting.end_date.strftime("%H:%M"),
                 'type' : sitting.group.type,
-                'name' : sitting.group.short_name })
+                'name' : sitting.group.short_name,
+                'url' : url })
             s_dict['day'] = day
             s_dict['sittings'] = s_list                               
                                 

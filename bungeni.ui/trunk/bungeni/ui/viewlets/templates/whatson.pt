@@ -17,11 +17,13 @@
                   <span tal:content="day/day" />
                   <ul tal:define="sittings day/sittings" >
                     <li tal:repeat="sitting sittings">
+                      <a tal:attributes="href sitting/url">
                         <span tal:content="sitting/start" /> 
                         -
                         <span tal:content="sitting/end" /> 
                         (<span tal:content="sitting/type" />)
-                        <span tal:content="sitting/name" />                         
+                        <span tal:content="sitting/name" /> 
+                      </a>                        
                     </li>
                   </ul> 
                 </li>                

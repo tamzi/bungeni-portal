@@ -110,7 +110,6 @@ class VersionLogView(BaseForm):
         for column in table.columns:
             try:
                 if canWrite(self.context, column.name):
-                    import pdb; pdb.set_trace()
                     return True
             except ForbiddenAttribute:
                 pass                    
@@ -161,6 +160,14 @@ class VersionLogView(BaseForm):
 
     def setUpWidgets( self, ignore_request=False):
         # setup widgets in data entry mode not bound to context
+        actions = self.actions
+        self.actions = []
+        for action in actions:
+            if getattr(action, 'condition', None):
+                if action.condition(self, self.context):
+                    self.actions.append(action) 
+            else:
+                self.actions.append(action)                                   
         self.adapters = {}
         self.widgets = form.setUpDataWidgets(
             self.form_fields, self.prefix, self.context, self.request,

@@ -4,10 +4,10 @@ import domain
 def between(column):
     return sql.and_(
         sql.or_(
-            column > sql.bindparam("start_date"),
+            column >= sql.bindparam("start_date"),
             sql.bindparam("start_date") == None),
         sql.or_(
-            column < sql.bindparam("end_date"),
+            column <= sql.bindparam("end_date"),
             sql.bindparam("end_date") == None),
         )
 
@@ -27,3 +27,9 @@ question_filter = sql.or_(
     between(domain.Question.ministry_submit_date),
     between(domain.Question.approval_date),
     )
+
+group_filter = sql.or_(
+    between(domain.Group.start_date),
+    between(domain.Group.end_date),
+    domain.Group.end_date == None,
+    )    

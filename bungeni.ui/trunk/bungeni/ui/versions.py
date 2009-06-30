@@ -7,7 +7,11 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.browser import queryDefaultViewName
 from zope.formlib import form
 from zope.security.proxy import removeSecurityProxy
+from zope.security import canWrite
+from zope.security.interfaces import ForbiddenAttribute
 from zope.traversing.browser import absoluteURL
+
+from sqlalchemy import orm
 
 from ore.alchemist.interfaces import IIModelInterface
 
@@ -94,13 +98,32 @@ class VersionLogView(BaseForm):
         # update and render
         formatter.updateBatching()
         return formatter()
+
+    def has_write_permission(self, context):
+        """check that  the user has the rights to edit 
+             the object, if not we assume he has no rights 
+             to make a version             
+             assumption is here that if he has the rights on any of the fields
+             he may create a version."""  
+        trusted = removeSecurityProxy( self.context)                
+        table = orm.class_mapper(trusted.__class__).mapped_table   
+        for column in table.columns:
+            try:
+                if canWrite(self.context, column.name):
+                    import pdb; pdb.set_trace()
+                    return True
+            except ForbiddenAttribute:
+                pass                    
+        else:
+            return False
+
             
-    @form.action(label=_("New Version") )
+    @form.action(label=_("New Version"), condition=has_write_permission)
     def handle_new_version( self, action, data ):
         self._versions.create( message = data['commit_message'], manual=True )        
         self.status = _(u"New Version Created")
 
-    @form.action(label=_("Revert To") )
+    @form.action(label=_("Revert To"), condition=has_write_permission)
     def handle_revert_version( self, action, data):
         selected = getSelected( self.selection_column, self.request )  
         if len(selected) != 1:

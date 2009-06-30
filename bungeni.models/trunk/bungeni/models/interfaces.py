@@ -236,7 +236,6 @@ class IDirectoryLocation( interface.Interface ):
     repo_path = schema.ASCIILine()
     object_id = schema.Int()
     object_type = schema.ASCIILine()
-    #directory = schema.Object( interfaces.I)
 
 class IProxiedDirectory( interface.Interface ):
     """ an interface for a contained directory we can attach menu links

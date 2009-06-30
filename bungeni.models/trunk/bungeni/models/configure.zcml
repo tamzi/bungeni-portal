@@ -46,6 +46,37 @@
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.question_filter" />
 
+
+  <!--adapter
+     for=".domain.Group"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" /-->
+  <!--adapter
+     for=".domain.Parliament"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" />
+  <adapter
+     for=".domain.PoliticalParty"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" />
+  <adapter
+     for=".domain.Committee"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" />
+
+  <adapter
+     for=".domain.Government"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" />                    
+  <adapter
+     for=".domain.Ministry"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" />          
+  <adapter
+     for=".domain.Office"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_filter" /-->     
+     
   <!-- vocabularies -->
 
   <utility

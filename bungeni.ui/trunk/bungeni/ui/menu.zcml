@@ -106,7 +106,7 @@
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
-     title="Home"
+     title="My Workspace"
      action=""
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
@@ -540,6 +540,7 @@
      order="30"
      />
 
+
   <browser:menuItem
      menu="context_actions"
      for="bungeni.core.interfaces.IAuditable"
@@ -572,6 +573,26 @@
      title="Workflow"
      order="30"
       />           
+
+<!-- context actions menu for file attachments -->
+
+  <browser:menuItem
+     menu="context_actions"
+     for="ore.library.interfaces.ILibraryContainer"
+     action="../../view"
+     title="View"
+     order="0"
+     />
+     
+  <browser:menuItem
+     menu="context_actions"
+     for="ore.library.interfaces.ILibraryContainer"
+     action=""
+     title="Files"
+     order="30"
+     />
+
+
 
    <browser:viewlet
      name="dashboard"

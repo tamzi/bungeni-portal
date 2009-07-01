@@ -29,7 +29,10 @@ question_filter = sql.or_(
     )
 
 group_filter = sql.or_(
-    between(domain.Group.start_date),
-    between(domain.Group.end_date),
-    domain.Group.end_date == None,
+    domain.Group.start_date.between(sql.bindparam("start_date"), sql.bindparam("end_date")),
+    domain.Group.end_date.between(sql.bindparam("start_date"), sql.bindparam("end_date")),
+    sql.and_(
+        domain.Group.start_date <= sql.bindparam("end_date"),
+        domain.Group.start_date >= sql.bindparam("start_date"),
+        domain.Group.end_date == None),
     )    

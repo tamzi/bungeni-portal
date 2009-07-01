@@ -127,6 +127,9 @@ class GroupMembership( Entity ):
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}  
 
+    @property
+    def image(self):
+        return self.user.image
 
 class OfficesHeld( Entity ):
     """ Offices held by this group member """

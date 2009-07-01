@@ -129,20 +129,6 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
                                   primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
                                   uselist=False,
                                   lazy=True ),
-            'sort_by_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.last_name + u" " + 
-                             schema.users.c.first_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('sort_by_name')
-                                           ),  
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
-                             schema.users.c.last_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('short_name')
-                                           ),
 
             },
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
@@ -156,12 +142,6 @@ mapper ( domain.MemberOfParliament ,
          inherits=domain.GroupMembership,
          primary_key=[schema.user_group_memberships.c.membership_id], 
           properties={
-            'image' :  column_property( 
-                             rdb.sql.select(
-                             [(schema.users.c.image)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('image')
-                                           ),
             'constituency': relation( domain.Constituency,
                               primaryjoin=(schema.parliament_memberships.c.constituency_id==
                                     schema.constituencies.c.constituency_id),
@@ -248,24 +228,6 @@ mapper( domain.MemberOfParty, _mpm,
 # staff assigned to a group (committee, ...)
 
 mapper( domain.StaffGroupMembership, schema.user_group_memberships,
-        properties={
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('short_name')
-                                           ),
-            'sort_by_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.last_name + u" " + 
-                             schema.users.c.first_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('sort_by_name')
-                                           ),
-                                           
-          },
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='staff',
       )
@@ -462,23 +424,7 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
         properties={
             'user': relation( domain.User,
                               uselist=False,
-                              lazy=True ),
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.first_name + u", " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
-                             schema.sitting_attendance.c.member_id==schema.users.c.user_id
-                                    ).distinct().label('short_name')
-                                           ),
-            'sort_by_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.last_name + u" " + 
-                             schema.users.c.first_name)],
-                             schema.sitting_attendance.c.member_id==schema.users.c.user_id
-                                    ).distinct().label('sort_by_name')
-                                           ),
-                                           
+                              lazy=False ),
                   }
          )
 mapper( domain.AttendanceType, schema.attendance_type )

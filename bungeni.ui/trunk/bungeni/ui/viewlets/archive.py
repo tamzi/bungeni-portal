@@ -1,3 +1,4 @@
+import datetime
 from zope import interface
 from zope import schema
 from zope.i18n import translate
@@ -43,8 +44,13 @@ class ArchiveDatesForm(form.PageForm):
                 return False
         return True                
             
-            
-    
+    def get_start_end_restictions(self, context):
+        parent = context
+        while not hasattr(parent,'start_date'):
+            parent = getattr(parent, '__parent__', None)            
+            if parent is None:
+                return None, None           
+        return getattr(parent, 'start_date', None), getattr(parent, 'end_date', None)
 
     def setUpWidgets(self, ignore_request=False, cookie=None):
         if ignore_request is False:
@@ -70,8 +76,13 @@ class ArchiveDatesForm(form.PageForm):
             self.widgets['parliament']._messageNoValue = _(
                 u"Select parliament...")
         except KeyError:
-            pass                
-                                        
+            pass   
+        start, end = self.get_start_end_restictions(self.context)                         
+        self.widgets['start_date'].set_min_date(start)
+        self.widgets['end_date'].set_min_date(start)                                        
+        self.widgets['start_date'].set_max_date(end)
+        self.widgets['end_date'].set_max_date(end)   
+        
         
     @form.action(u"Filter")
     def handle_filter(self, action, data):
@@ -84,7 +95,20 @@ class ArchiveDatesForm(form.PageForm):
                 self.status = _("Invalid Date Range")
                 unset_date_range(self.request)
                 return
-                        
+        start, end = self.get_start_end_restictions(self.context)                        
+        if start_date and end:            
+            if start_date > end:                    
+                  self.status = (_("Start date must be before %s") %
+                        end.strftime("%d %B %Y"))
+                  unset_date_range(self.request)
+                  return                        
+        if end_date and start:
+            if end_date < start:
+                  self.status = (_("End date must be after %s") %
+                        start.strftime("%d %B %Y"))                                                
+                  unset_date_range(self.request)
+                  return
+                                
         set_date_range(self.request, start_date, end_date)
         self.request.response.redirect(
             "?portal_status_message=%s" % translate(

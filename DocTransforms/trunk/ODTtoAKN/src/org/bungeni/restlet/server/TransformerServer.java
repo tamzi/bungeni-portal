@@ -135,6 +135,22 @@ public static TransformerServer startServer(String workingDir) {
         });
         router.attach("/convert_to_anxml", OdtResource.class);
         router.attach("/set_convert_params",setParamsRestlet);
+        router.attach("/stop_server", new Restlet(){
+        	@Override
+            public void handle(Request request, Response response) {
+        		if (request.getMethod().equals(Method.GET)){
+        			try {
+        				response.setEntity("Stoping Server", MediaType.TEXT_PLAIN);
+						serverComponent.stop();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						log.error("/stop_server : unable to stop server.", e);
+					}
+        		} else {
+        	       response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);
+        		}
+        	}
+        });
         return router;
       }
 

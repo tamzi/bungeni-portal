@@ -3,7 +3,7 @@
 	<elements>
 		<element id="1" bungeniSectionType="root" result="debateRecord" />
 		<element id="2" bungeniSectionType="body" result="debate"/>
-		<element id="3" bungeniSectionType="MastHead" result="preface" />
+		<element id="3" bungeniSectionType="Preface" result="preface" />
 		<element id="4" bungeniSectionType="Observation" result="scene"/>
 		<element id="5" bungeniSectionType="TabledDocuments" result="papers" mantain="id"/>
  	    <element id="6" bungeniSectionType="TabledDocumentsList" result="other" mantain="id"/>

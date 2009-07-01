@@ -20,7 +20,7 @@
 
     <xsl:template match="*[@name='body']">
         <body>
-            <xsl:apply-templates select="*[@name != 'MastHead' and @name != 'Preamble' and @name != 'Conclusion' and @name != 'meta']"/>
+            <xsl:apply-templates select="*[@name != 'Preface' and @name != 'Preamble' and @name != 'Conclusion' and @name != 'meta']"/>
         </body>
     </xsl:template>
     

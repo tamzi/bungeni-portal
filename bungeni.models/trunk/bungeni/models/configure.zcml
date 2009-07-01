@@ -51,7 +51,7 @@
      for=".domain.Group"
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_filter" /-->
-  <!--adapter
+  <adapter
      for=".domain.Parliament"
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_filter" />
@@ -72,7 +72,7 @@
      for=".domain.Ministry"
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_filter" />          
-  <adapter
+  <!--adapter
      for=".domain.Office"
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_filter" /-->     

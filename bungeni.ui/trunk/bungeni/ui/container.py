@@ -161,6 +161,30 @@ class ContainerJSONListing( BrowserView ):
     paging, batching, sorting, json contents of a container
     """
     
+    def get_query(self):
+        """Prepare query.
+
+        If the model has start- and end-dates, constrain the query to
+        objects appearing within those dates.
+        """
+        
+        unproxied = proxy.removeSecurityProxy(self.context)
+        model = unproxied.domain_model
+        session = Session()
+        query = unproxied._query
+
+        start_date, end_date = get_date_range(self.request)
+        if start_date or end_date:
+            date_range_filter = component.getSiteManager().adapters.lookup(
+                (interface.implementedBy(model),), IDateRangeFilter)
+
+            if date_range_filter is not None:
+                query = query.filter(date_range_filter).params(
+                    start_date=start_date, end_date=end_date)
+
+        return query
+    
+    
     def appendSort( self, sort_key, columns):
         domain_model = proxy.removeSecurityProxy(self.context.domain_model)
         if sort_key and ( sort_key in columns ):
@@ -283,7 +307,7 @@ class ContainerJSONListing( BrowserView ):
 
     def getBatch( self, start=0, limit=20, order_by=None):
         context = proxy.removeSecurityProxy( self.context )    
-        query=context._query            
+        query=self.get_query()     
         # fetch the nodes from the container
         filter_by = dateFilter( self.request )
         if filter_by:  

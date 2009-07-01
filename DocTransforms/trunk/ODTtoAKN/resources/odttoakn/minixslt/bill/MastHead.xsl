@@ -18,7 +18,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="*[@name='MastHead']">
+    <xsl:template match="*[@name='Preface']">
         <preface>
  
             <xsl:apply-templates />

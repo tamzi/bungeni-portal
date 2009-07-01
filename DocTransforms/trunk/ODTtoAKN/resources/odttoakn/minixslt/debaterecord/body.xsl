@@ -25,7 +25,7 @@
                         <xsl:apply-templates select="." />
                 </subdivision>
             </xsl:for-each>
-             <xsl:apply-templates select="*[@name != 'MastHead' and @name != 'Conclusion' and @name != 'Observation' and @name != 'meta']"/>
+             <xsl:apply-templates select="*[@name != 'Preface' and @name != 'Conclusion' and @name != 'Observation' and @name != 'meta']"/>
         </debate>
     </xsl:template>
     

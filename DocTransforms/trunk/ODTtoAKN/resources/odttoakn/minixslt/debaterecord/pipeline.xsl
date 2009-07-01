@@ -27,8 +27,8 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="*[@name='MastHead']">
-		<xslt step="2" name="MastHead" href="odttoakn/minixslt/debaterecord/MastHead.xsl" />
+	<xsl:template match="*[@name='Preface']">
+		<xslt step="2" name="Preface" href="odttoakn/minixslt/debaterecord/MastHead.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 

@@ -141,10 +141,11 @@ public static TransformerServer startServer(String workingDir) {
         		if (request.getMethod().equals(Method.GET)){
         			try {
         				response.setEntity("Stoping Server", MediaType.TEXT_PLAIN);
-						serverComponent.stop();
+						System.exit(0);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						log.error("/stop_server : unable to stop server.", e);
+						System.exit(0);
 					}
         		} else {
         	       response.setStatus(Status.CLIENT_ERROR_BAD_REQUEST);

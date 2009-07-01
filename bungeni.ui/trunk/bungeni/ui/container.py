@@ -55,32 +55,37 @@ def secured_iterator(permission, query, parent):
         if checkPermission("zope.View", proxied):
             yield item
 
+def get_query(context, request):
+    """Prepare query.
+
+    If the model has start- and end-dates, constrain the query to
+    objects appearing within those dates.
+    """
+    
+    unproxied = proxy.removeSecurityProxy(context)
+    model = unproxied.domain_model
+    session = Session()
+    query = unproxied._query
+
+    start_date, end_date = get_date_range(request)
+    if start_date or end_date:
+        date_range_filter = component.getSiteManager().adapters.lookup(
+            (interface.implementedBy(model),), IDateRangeFilter)
+        if start_date is None:
+            start_date = datetime.date(1900,1,1)
+        if end_date is None:
+            end_date = datetime.date(2100,1,1)  
+        if date_range_filter is not None:
+            query = query.filter(date_range_filter).params(
+                start_date=start_date, end_date=end_date)
+
+    return query
+
+
+
 class ContainerListing(container.ContainerListing):
     interface.implements(IViewView)
 
-    def get_query(self):
-        """Prepare query.
-
-        If the model has start- and end-dates, constrain the query to
-        objects appearing within those dates.
-        """
-        
-        unproxied = proxy.removeSecurityProxy(self.context)
-        model = unproxied.domain_model
-        session = Session()
-        query = unproxied._query
-
-        start_date, end_date = get_date_range(self.request)
-
-        if start_date or end_date:
-            date_range_filter = component.getSiteManager().adapters.lookup(
-                (interface.implementedBy(model),), IDateRangeFilter)
-
-            if date_range_filter is not None:
-                query = query.filter(date_range_filter).params(
-                    start_date=start_date, end_date=end_date)
-
-        return query
 
     @property
     def formatter( self ):
@@ -94,7 +99,7 @@ class ContainerListing(container.ContainerListing):
 
         context = proxy.removeSecurityProxy(self.context)
         model = context.domain_model
-        query = self.get_query()
+        query = get_query(self.context, self.request)
         table = query.table
         names = table.columns.keys()
         order_list = []
@@ -160,29 +165,6 @@ class ContainerJSONListing( BrowserView ):
     """
     paging, batching, sorting, json contents of a container
     """
-    
-    def get_query(self):
-        """Prepare query.
-
-        If the model has start- and end-dates, constrain the query to
-        objects appearing within those dates.
-        """
-        
-        unproxied = proxy.removeSecurityProxy(self.context)
-        model = unproxied.domain_model
-        session = Session()
-        query = unproxied._query
-
-        start_date, end_date = get_date_range(self.request)
-        if start_date or end_date:
-            date_range_filter = component.getSiteManager().adapters.lookup(
-                (interface.implementedBy(model),), IDateRangeFilter)
-
-            if date_range_filter is not None:
-                query = query.filter(date_range_filter).params(
-                    start_date=start_date, end_date=end_date)
-
-        return query
     
     
     def appendSort( self, sort_key, columns):
@@ -307,7 +289,7 @@ class ContainerJSONListing( BrowserView ):
 
     def getBatch( self, start=0, limit=20, order_by=None):
         context = proxy.removeSecurityProxy( self.context )    
-        query=self.get_query()     
+        query=get_query(self.context, self.request)     
         # fetch the nodes from the container
         filter_by = dateFilter( self.request )
         if filter_by:  

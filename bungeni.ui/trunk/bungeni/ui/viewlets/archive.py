@@ -54,6 +54,15 @@ class ArchiveDatesForm(form.PageForm):
 
         self.widgets['parliament']._messageNoValue = _(
             u"Select parliament...")
+
+    def get_context_date_restrictions(self, context):
+        """
+        find out if on the current context we
+        have start_date and end_date
+        """
+        start_date = getattr(context, 'start_date', None)
+        end_date = getattr(context, 'end_date', None)
+                                
         
     @form.action(u"Filter")
     def handle_filter(self, action, data):
@@ -61,8 +70,14 @@ class ArchiveDatesForm(form.PageForm):
         end_date = data.get('end_date')
         params = {}
 
+        if start_date and end_date:
+            if start_date > end_date:
+                self.status = "Invalid Date Range"
+                unset_date_range(self.request)
+                return
+                        
         set_date_range(self.request, start_date, end_date)
-        
+        self.get_context_date_restrictions(self.context)
         self.request.response.redirect(
             "?portal_status_message=%s" % translate(
                 _(u"Date range set.")))

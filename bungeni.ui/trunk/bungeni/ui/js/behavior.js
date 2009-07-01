@@ -4,13 +4,13 @@
       var menu_links = $('#plone-contentmenu-workflow dd.actionMenuContent a');
       menu_links.bungeniPostWorkflowActionMenuItem();
 
+      // set up parliament date range selection
+      $("select[id=form.parliament]").bungeniTimeRangeSelect(false, false);
+
       // set up time range form automation
       var errors = $(".groupsitting-form .widget.error").length > 0;
-      
       $(".groupsitting-form .widget-dropdownwidget select").
         bungeniTimeRangeSelect(true, !errors);
-      $(".section-form .widget-dropdownwidget select").
-        bungeniTimeRangeSelect(false, false);
 
       // set up calendar resizing
       $("#calendar-table").bungeniSafeResize();

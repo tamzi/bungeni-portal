@@ -3,7 +3,7 @@
 	<elements>
 		<element id="1" bungeniSectionType="root" result="bill" />
 		<element id="2" bungeniSectionType="body" result="body"/>
-		<element id="3" bungeniSectionType="MastHead" result="preface" />
+		<element id="3" bungeniSectionType="Preface" result="preface" />
 		<element id="3" bungeniSectionType="Preamble" result="preamble" />
 		<element id="5" bungeniSectionType="Part" result="part" mantain="id"/>
  	    <element id="6" bungeniSectionType="Chapter" result="chapter" mantain="id"/>

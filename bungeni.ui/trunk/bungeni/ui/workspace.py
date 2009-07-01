@@ -14,21 +14,6 @@ from bungeni.core.globalsettings import getCurrentParliamentId
 
 import interfaces
 
-def is_group_member(user_id, group):
-    pass
-
-def getCommitteesForUser(user_id, parliament_id):
-    pass
-    
-def getDelegationsForUser(user_id, parliament_id):
-    pass
-    
-def getPoliticalPartiesForUser(user_id, parliament_id):
-    pass
-    
-def getMinistriesForUser(user_id, parliament_id):
-    pass
-
 
 
 def getRoles(context, request):

@@ -242,6 +242,9 @@ class SelectDateWidget( SimpleInputWidget):
     minYearDelta = 100
     maxYearDelta = 5
     
+    minDate = None
+    maxDate = None
+    
     @property
     def time_zone( self ):
         """ returns something like:  tzinfo=<DstTzInfo 'Africa/Nairobi' LMT+2:27:00 STD> 
@@ -251,6 +254,12 @@ class SelectDateWidget( SimpleInputWidget):
         except TypeError:
             time_zone = pytz.UTC
         return time_zone
+
+    def set_min_date(self, date):
+        self.minDate = date
+    
+    def set_max_date(self, date):
+        self.maxDate = date
 
     def _days(self):
         dl = []
@@ -280,12 +289,16 @@ class SelectDateWidget( SimpleInputWidget):
     @property    
     def _years(self):
         minYear = self.minYear
+        if self.minDate:
+            minYear = self.minDate.year            
         if minYear is None:
             minYear = datetime.date.today().year - int(self.minYearDelta)
         maxYear = self.maxYear
+        if self.maxDate:
+            maxYear = self.maxDate.year
         if maxYear is None:
             maxYear = datetime.date.today().year + int(self.maxYearDelta)
-        return range( maxYear, minYear, -1 )                     
+        return range( maxYear, minYear-1, -1 )                     
     
     @property
     def _day_name(self):

@@ -68,7 +68,7 @@ class ContainerListing(container.ContainerListing):
         unproxied = proxy.removeSecurityProxy(self.context)
         model = unproxied.domain_model
         session = Session()
-        query = session.query(model)
+        query = unproxied._query
 
         start_date, end_date = get_date_range(self.request)
 

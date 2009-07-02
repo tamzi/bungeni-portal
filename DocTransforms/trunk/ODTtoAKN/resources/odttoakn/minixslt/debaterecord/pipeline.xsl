@@ -37,13 +37,13 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="*[@name='TabledDocuments']">
-		<xslt step="4" name="TabledDocuments" href="odttoakn/minixslt/debaterecord/TabledDocuments.xsl" />
+	<xsl:template match="*[@name='PapersLaid']">
+		<xslt step="4" name="PapersLaid" href="odttoakn/minixslt/debaterecord/TabledDocuments.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="*[@name='TabledDocumentsList']">
-		<xslt step="5" name="TabledDocumentsList" href="odttoakn/minixslt/debaterecord/TabledDocumentsList.xsl" />
+	<xsl:template match="*[@name='PapersLaidList']">
+		<xslt step="5" name="PapersLaidList" href="odttoakn/minixslt/debaterecord/TabledDocumentsList.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 

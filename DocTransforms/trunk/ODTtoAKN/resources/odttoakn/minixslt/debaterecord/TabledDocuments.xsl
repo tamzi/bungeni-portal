@@ -18,7 +18,7 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="*[@name='TabledDocuments']">
+    <xsl:template match="*[@name='PapersLaid']">
         <papers>
 			<xsl:if test="@id">
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>

@@ -284,6 +284,7 @@
      title="Add new question..."
      action="/business/questions/add"
      permission="bungeni.question.Add"
+     layer=".interfaces.IBusinessSectionLayer"
      order="100"
      />
 
@@ -302,6 +303,7 @@
      title="Add new bill..."
      action="/business/bills/add"
      permission="bungeni.bill.Add"
+     layer=".interfaces.IBusinessSectionLayer"
      order="100"
      />
 
@@ -320,6 +322,7 @@
      title="Add new motion..."
      action="/business/motions/add"
      permission="bungeni.motion.Add"
+     layer=".interfaces.IBusinessSectionLayer"
      order="100"
      />
 
@@ -338,6 +341,7 @@
      title="Add new committee..."
      action="/business/committees/add"
      permission="bungeni.committee.Add"
+     layer=".interfaces.IBusinessSectionLayer"
      order="100"
      />
 

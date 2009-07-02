@@ -7,6 +7,7 @@ import interfaces
 
 mapping = (
     (re.compile(r'^archive(/.*)?$'), interfaces.IArchiveSectionLayer),
+    (re.compile(r'^business(/.*)?$'), interfaces.IBusinessSectionLayer),
     )
 
 @component.adapter(IBeforeTraverseEvent)

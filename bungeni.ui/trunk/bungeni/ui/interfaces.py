@@ -27,3 +27,7 @@ class IMPWorkspace(IBrowserView):
 
 class IArchiveSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the archive."""
+
+class IBusinessSectionLayer(IDefaultBrowserLayer):
+    """Requests for an object within the business section."""
+

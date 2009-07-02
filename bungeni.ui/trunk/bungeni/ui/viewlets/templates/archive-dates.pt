@@ -2,12 +2,14 @@
   
   <dt class="portletHeader">
     <span class="portletTopLeft"></span>
-    <span class="tile">Dates</span>
+    <span class="tile">Filter by date or parliament</span>
     <span class="portletTopRight"></span>
   </dt>
   
   <dd class="portletItem lastItem">
     <tal:form replace="structure view/form" />
+    <div class="visualClear"><!-- nothing here --></div>
   </dd>
+
 </dl>
 

@@ -194,12 +194,11 @@ class Parliament( Group ):
     sort_on = 'start_date'
     sessions = one2many("sessions", "bungeni.models.domain.ParliamentSessionContainer", "parliament_id")
     committees = one2many("committees", "bungeni.models.domain.CommitteeContainer", "parliament_id")
-    #mps = one2many("mps","bungeni.models.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parliament_id")
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "group_id")
-    extensionmembers = one2many("extensionmembers", "bungeni.models.domain.ExtensionGroupContainer",
-                                 "parliament_id")
+    #extensionmembers = one2many("extensionmembers", "bungeni.models.domain.ExtensionGroupContainer",
+    #                             "parliament_id")
     politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parliament_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "parliament_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")

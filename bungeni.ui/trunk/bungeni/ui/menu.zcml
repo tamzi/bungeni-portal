@@ -210,7 +210,25 @@
      permission="bungeni.ministry.Add"
      order="100"
      />
-          
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.UserContainer"
+     title="Add user..."
+     action="./add"
+     permission="bungeni.user.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.ConstituencyContainer"
+     title="Add constituency..."
+     action="./add"
+     permission="bungeni.constituency.Add"
+     order="100"
+     />
+                    
      
      
   <!--browser:menuItem

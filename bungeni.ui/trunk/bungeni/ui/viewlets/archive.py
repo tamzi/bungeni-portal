@@ -36,7 +36,7 @@ class ArchiveDatesForm(form.PageForm):
     form_fields = form.Fields(IDateRangeSchema, render_context=True)
     form_fields['start_date'].custom_widget = SelectDateWidget
     form_fields['end_date'].custom_widget = SelectDateWidget
-    form_description = _(u"Filter the archive by date range.")
+    #form_description = _(u"Filter the archive by date range.")
 
     def is_in_parliament(self, context):
         parent = context

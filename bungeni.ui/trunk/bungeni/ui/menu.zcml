@@ -137,6 +137,101 @@
      permission="bungeni.sitting.Add"
      order="100"
      />
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.ParliamentContainer"
+     title="Add parliament..."
+     action="./add"
+     permission="bungeni.parliament.Add"
+     order="100"
+     />
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.CommitteeContainer"
+     title="Add committee..."
+     action="./add"
+     permission="bungeni.committee.Add"
+     order="100"
+     />
+          
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.ParliamentSessionContainer"
+     title="Add session..."
+     action="./add"
+     permission="bungeni.session.Add"
+     order="100"
+     />     
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.GovernmentContainer"
+     title="Add government..."
+     action="./add"
+     permission="bungeni.government.Add"
+     order="100"
+     />     
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MemberOfParliamentContainer"
+     title="Add MP..."
+     action="./add"
+     permission="bungeni.mp.Add"
+     order="100"
+     />
+          
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.OfficeContainer"
+     title="Add office..."
+     action="./add"
+     permission="bungeni.office.Add"
+     order="100"
+     />
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.PoliticalPartyContainer"
+     title="Add political group..."
+     action="./add"
+     permission="bungeni.party.Add"
+     order="100"
+     />
+     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MinistryContainer"
+     title="Add ministry..."
+     action="./add"
+     permission="bungeni.ministry.Add"
+     order="100"
+     />
+          
+     
+     
+  <!--browser:menuItem
+     menu="context_additems"
+     for="bungeni.models.domain.Parliament"
+     title="Add comittee"
+     action="./committees/add"
+     permission="bungeni.committee.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="context_additems"
+     for="bungeni.models.domain.Parliament"
+     title="Add government"
+     action="./governments/add"
+     permission="bungeni.parliament.Add"
+     order="100"
+     /-->
+     
+
 
   <browser:menuItem
      menu="plone_contentmenu"
@@ -417,12 +512,12 @@
      permission="bungeni.question.Add"
      />
 
-  <browser:menuItem
+  <!--browser:menuItem
      for="ore.alchemist.interfaces.IAlchemistContainer"
      menu="context_actions"
      title="Listing"
      action="index"
-     />
+     /-->
 
   <!-- primary navigation (top-level sections) -->
   

@@ -50,8 +50,26 @@ table.side-by-side th span.fieldRequired {
   float: left;
   clear: none;
   margin-right: 1em;
+  width: 25em;
 }
 
 #portletArchiveDates #actionsView {
-  clear: both;
+  float: right;
+}
+
+#portletArchiveDates .formHelp {
+  display: none;
+}
+
+#portletArchiveDates .portletItem {
+  padding-bottom: 0;
+}
+  
+#portletArchiveDates label {
+  float: left;
+  margin-right: 0.6em;
+}
+
+#portletArchiveDates .documentDescription {
+  display: none;
 }

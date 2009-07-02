@@ -25,6 +25,11 @@
               title="Edit item scheduling discussion" />
   
   <permission id="bungeni.committee.Add" title="Add committee" />
+  <permission id="bungeni.committee.Edit" title="Edit committee" />
+  <permission id="bungeni.committee.Delete" title="Delete committee" />
+  <permission id="bungeni.committee.View" title="View committee" />  
+  <meta:redefinePermission from="bungeni.committee.View" to="zope.View" />
+  
   
   <permission id="bungeni.question.Add" title="Add Question" />
   <permission id="bungeni.question.Edit" title="Edit Question" />
@@ -65,4 +70,37 @@
   <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
   <permission id="bungeni.edit.historical" title="Edit historical data" />
   
+  
+  <permission id="bungeni.party.Add" title="Add party" />
+  <permission id="bungeni.party.Edit" title="Edit party" />
+  <permission id="bungeni.party.Delete" title="Delete party" />
+  <permission id="bungeni.party.View" title="View party" />  
+  <meta:redefinePermission from="bungeni.party.View" to="zope.View" />
+  
+  <permission id="bungeni.government.Add" title="Add government" />
+  <permission id="bungeni.government.Edit" title="Edit government" />
+  <permission id="bungeni.government.Delete" title="Delete government" />
+  <permission id="bungeni.government.View" title="View government" />  
+  <meta:redefinePermission from="bungeni.government.View" to="zope.View" />
+  
+  <permission id="bungeni.office.Add" title="Add office" />
+  <permission id="bungeni.office.Edit" title="Edit office" />
+  <permission id="bungeni.office.Delete" title="Delete office" />
+  <permission id="bungeni.office.View" title="View office" />  
+  <meta:redefinePermission from="bungeni.office.View" to="zope.View" />
+  
+  <permission id="bungeni.ministry.Add" title="Add ministry" />
+  <permission id="bungeni.ministry.Edit" title="Edit ministry" />
+  <permission id="bungeni.ministry.Delete" title="Delete ministry" />
+  <permission id="bungeni.ministry.View" title="View ministry" />  
+  <meta:redefinePermission from="bungeni.ministry.View" to="zope.View" />
+
+  <permission id="bungeni.mp.Add" title="Add mp" />
+  <permission id="bungeni.mp.Edit" title="Edit mp" />
+  <permission id="bungeni.mp.Delete" title="Delete mp" />
+  <permission id="bungeni.mp.View" title="View mp" />  
+  <meta:redefinePermission from="bungeni.mp.View" to="zope.View" />
+  
+
+
 </configure>

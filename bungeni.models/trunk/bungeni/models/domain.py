@@ -89,6 +89,9 @@ class User( Entity ):
         attempt = self.encode( password_attempt )
         return attempt == self.password
 
+    @property
+    def fullname(self):
+        return "%s %s" % (self.first_name, self.last_name)
 
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}    
@@ -451,7 +454,7 @@ class Consignatory( Entity ):
 class ParliamentSession( Entity ):
     """
     """
-    sort_on = 'start_date'
+    sort_on = ['start_date',]
     
     
 class Rota( object ):

@@ -45,3 +45,13 @@ table.side-by-side th span.fieldRequired {
 .yui-toolbar-group ul {
   list-style-image: none;
 }
+
+#portletArchiveDates form .field {
+  float: left;
+  clear: none;
+  margin-right: 1em;
+}
+
+#portletArchiveDates #actionsView {
+  clear: both;
+}

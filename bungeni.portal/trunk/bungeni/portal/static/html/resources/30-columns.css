@@ -34,9 +34,8 @@
 }
 
 .inlinePortlet {
-    width: 24em;
-    float: right;
-    margin-left: 1em;
+    width: 100%;
+    float: left;
 }
 
 #contentBottomLeft {

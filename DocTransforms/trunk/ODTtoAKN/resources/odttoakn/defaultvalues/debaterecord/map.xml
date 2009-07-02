@@ -5,8 +5,8 @@
 		<element id="2" bungeniSectionType="body" result="debate"/>
 		<element id="3" bungeniSectionType="Preface" result="preface" />
 		<element id="4" bungeniSectionType="Observation" result="scene"/>
-		<element id="5" bungeniSectionType="TabledDocuments" result="papers" mantain="id"/>
- 	    <element id="6" bungeniSectionType="TabledDocumentsList" result="other" mantain="id"/>
+		<element id="5" bungeniSectionType="PapersLaid" result="papers" mantain="id"/>
+ 	    <element id="6" bungeniSectionType="PapersLaidList" result="other" mantain="id"/>
  	    <element id="7" bungeniSectionType="GroupActivity" result="subdivision" mantain="id,name"/>
  	    <element id="8" bungeniSectionType="Speech" result="speech" mantain="id"/>
  		<element id="9" bungeniSectionType="QuestionsContainer" result="subdivision" mantain="id,name"/>

@@ -18,10 +18,12 @@ class ArchiveDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
         start_date = schema.Date(
             title=_(u"Start date"),
+            description=_(u"Leave blank or set lower limit."),
             required=False)
 
         end_date = schema.Date(
             title=_(u"End date"),
+            description=_(u"Leave blank or set upper limit."),
             required=False)
 
         parliament = schema.Choice(

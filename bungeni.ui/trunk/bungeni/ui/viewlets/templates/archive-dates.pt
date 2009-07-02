@@ -1,4 +1,4 @@
-<dl class="portlet portletNavigationTree inlinePortlet">
+<dl id="portletArchiveDates" class="portlet inlinePortlet">
   
   <dt class="portletHeader">
     <span class="portletTopLeft"></span>

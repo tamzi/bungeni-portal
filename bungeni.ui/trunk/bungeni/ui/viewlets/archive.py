@@ -17,17 +17,17 @@ from bungeni.ui.widgets import SelectDateWidget
 class ArchiveDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
         start_date = schema.Date(
-            title=_(u"Start date"),
+            title=_(u"From"),
             description=_(u"Leave blank or set lower limit."),
             required=False)
 
         end_date = schema.Date(
-            title=_(u"End date"),
+            title=_(u"To"),
             description=_(u"Leave blank or set upper limit."),
             required=False)
 
         parliament = schema.Choice(
-            title=_(u"Filter by parliament"),
+            title=_(u"Or"),
             description=_(u"Set date range to that of a given particular parliament."),
             vocabulary="bungeni.vocabulary.Parliaments",
             required=False)

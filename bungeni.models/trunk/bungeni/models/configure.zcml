@@ -51,6 +51,7 @@
      for=".domain.Group"
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_filter" /-->
+     
   <adapter
      for=".domain.Parliament"
      provides=".interfaces.IDateRangeFilter"
@@ -72,11 +73,50 @@
      for=".domain.Ministry"
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_filter" />          
-  <!--adapter
+  <adapter
      for=".domain.Office"
      provides=".interfaces.IDateRangeFilter"
-     factory=".daterange.group_filter" /-->     
+     factory=".daterange.group_filter" />     
      
+     
+  <!--adapter
+     for=".domain.GroupMembership"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_membership_filter" /-->      
+          
+  <adapter
+     for=".domain.MemberOfParliament"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_membership_filter" />  
+          
+  <adapter
+     for=".domain.CommitteeMember"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_membership_filter" />  
+
+  <adapter
+     for=".domain.Minister"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_membership_filter" /> 
+     
+  <adapter
+     for=".domain.PartyMember"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_membership_filter" />      
+
+ <!--sessions and sittings date range-->
+
+  <adapter
+     for=".domain.ParliamentSession"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.session_filter" /> 
+
+  <adapter
+     for=".domain.GroupSitting"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.sitting_filter" /> 
+
+
   <!-- vocabularies -->
 
   <utility

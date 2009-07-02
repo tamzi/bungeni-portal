@@ -7,13 +7,7 @@ import domain
 
 # Users
 # general representation of a person
-mapper( domain.User, schema.users,
-          properties={
-             'fullname' : column_property(
-                 (schema.users.c.first_name + u" " + 
-                  schema.users.c.middle_name + u" " + 
-                  schema.users.c.last_name).label('fullname')
-                 ),}, 
+mapper( domain.User, schema.users,         
         polymorphic_on=schema.users.c.type,
         polymorphic_identity='user',
        )

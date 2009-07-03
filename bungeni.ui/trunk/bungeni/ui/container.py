@@ -192,11 +192,14 @@ class ContainerJSONListing( BrowserView ):
         we assume that they are character fields """   
         str_filter = ''                
         for f in field_filters:
-            if len(f) > 0:
-                if len(str_filter) > 0:
-                    str_filter = str_filter + operator
-                str_filter = str_filter + ( 'lower(' +
-                        fieldname + ") LIKE '%%" + f.lower() +"%%' ")
+            if len(str_filter) > 0:
+                str_filter = str_filter + operator
+            else:
+                str_filter = '('                
+            str_filter = str_filter + ( 'lower(' +
+                    fieldname + ") LIKE '%%" + f.lower() +"%%' ")
+        if len(str_filter) > 0:
+            str_filter = str_filter + ')'                    
         return str_filter
 
     def getFilter(self):
@@ -221,7 +224,7 @@ class ContainerJSONListing( BrowserView ):
                                 r_filterstr = r_filterstr + operator
                             else:
                                  r_filterstr = r_filterstr + " ("                                 
-                            r_filterstr = r_filterstr + self._getFilterStr(
+                            r_filterstr = r_filterstr  + self._getFilterStr(
                                 field_name, field_filters, " OR ")                       
                         if r_filterstr != "":
                              r_filterstr = r_filterstr + ") "
@@ -251,7 +254,7 @@ class ContainerJSONListing( BrowserView ):
                                 field_filters, operator)                         
                     else:            
                         str_filter = (str_filter + 
-                            field.__name__ + ' = ' + field_filter)                            
+                            field.__name__ + ' = ' + field_filter)  
         return str_filter                
 
     def getSort( self ):

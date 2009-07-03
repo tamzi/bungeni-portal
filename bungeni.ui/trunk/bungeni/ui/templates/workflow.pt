@@ -11,7 +11,6 @@
       <em i18n:name="state" tal:content="view/get_wf_state" />.
     </p>
 
-    <div tal:replace="structure view/action_viewlet/render" />
     
     <h2>History</h2>
     
@@ -26,7 +25,7 @@
            tal:replace="structure viewlet/render" />
       
     </tal:history>
-
+    <div tal:replace="structure view/action_viewlet/render" />
   </div>
   
 </html>  

@@ -18,21 +18,20 @@
             </label>
             <br />
             
-            <span class="actionButtons"
+            <!--span class="actionButtons"
                   tal:condition="view/availableActions">
 
               <tal:loop tal:repeat="action view/actions">
                 <tal:buttons condition="python: action.__name__ in ('form.actions.diff', 'form.actions.view')">
-
-	          <input type="submit" class="context"
-	                 id="" name="" value=""
-	                 tal:attributes="id action/__name__;
-			                 name action/__name__;
-			   	         value python:str(action.label);"
-		         i18n:attributes="value" />
+	              <input type="submit" class="context"
+	                     id="" name="" value=""
+	                     tal:attributes="id action/__name__;
+			                     name action/__name__;
+			       	         value python:str(action.label);"
+		             i18n:attributes="value" />
                 </tal:buttons>
               </tal:loop>						
-            </span>
+            </span-->
           </div>
           <div tal:replace="structure view/extra" />
         </div>
@@ -42,14 +41,13 @@
             <span class="actionButtons"
                   tal:condition="view/availableActions">
               <tal:loop tal:repeat="action view/actions">
-	        <input type="submit" class="context"
+	            <input type="submit" class="context"
 	               id="" name="" value=""
-                       tal:condition="python: action.__name__ not in ('form.actions.diff', 'form.actions.view')"
 	               tal:attributes="id action/__name__;
 			               name action/__name__;
 			   	       value python:str(action.label);"
-		       i18n:attributes="value" />
-	      </tal:loop>						
+		            i18n:attributes="value" />
+	          </tal:loop>						
             </span>
           </div>
         </div>

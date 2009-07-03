@@ -22,7 +22,8 @@ mapper( domain.Group, schema.groups,
                 ("group." + schema.groups.c.type + "." + 
                 rdb.cast(schema.groups.c.group_id, rdb.String)
                 ).label('group_principal_id')),
-             'contained_groups' : relation( domain.Group),                
+             'contained_groups' : relation( domain.Group, 
+                    backref='parent_group'),                
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,

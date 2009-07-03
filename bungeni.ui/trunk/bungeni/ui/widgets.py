@@ -245,8 +245,6 @@ class SelectDateWidget( SimpleInputWidget):
     minYearDelta = 100
     maxYearDelta = 5
     
-    minDate = None
-    maxDate = None
     
     js_template = open(path + '/templates/yui-calwidget.js', 'r').read()
     
@@ -257,7 +255,8 @@ class SelectDateWidget( SimpleInputWidget):
         need('yui-container')
         need('yui-element')
         need('yui-button')
-    
+        self.minDate = datetime.date.today() - datetime.timedelta(self.minYearDelta*365)
+        self.maxDate = datetime.date.today() + datetime.timedelta(self.maxYearDelta*365)
     
     @property
     def time_zone( self ):
@@ -274,16 +273,27 @@ class SelectDateWidget( SimpleInputWidget):
         return self.name.replace(".","__")
 
     def set_min_date(self, date):
-        self.minDate = date
-    
+        if date:
+            self.minDate = date
+        else:            
+            self.minDate = datetime.date.today() - datetime.timedelta(self.minYearDelta*365)    
     def set_max_date(self, date):
-        self.maxDate = date
+        if date:
+            self.maxDate = date
+        else:
+            self.maxDate = datetime.date.today() + datetime.timedelta(self.maxYearDelta*365)                    
 
     def get_js(self):
+        pagedate = datetime.date.today()
+        if self.maxDate < pagedate:
+            pagedate = self.maxDate
         return self.js_template % {'name' : self.field_name,
                     'sel_day': self._day_name,
                     'sel_month' : self._month_name,
-                    'sel_year' : self._year_name }
+                    'sel_year' : self._year_name,
+                    'mindate' : self.minDate.strftime("%m/%d/%Y"),
+                    'maxdate' : self.maxDate.strftime("%m/%d/%Y"), 
+                    'pagedate' : pagedate.strftime('%m/%Y') }
 
     def _days(self):
         dl = []

@@ -255,6 +255,7 @@ class ContainerJSONListing( BrowserView ):
                     else:            
                         str_filter = (str_filter + 
                             field.__name__ + ' = ' + field_filter)  
+        print str_filter                            
         return str_filter                
 
     def getSort( self ):

@@ -3,6 +3,7 @@
       metal:use-macro="context/@@standard_macros/page">
   
   <div metal:fill-slot="body" i18n:domain="bungeni">
+  <div id="whats-on-overview" >
     <h1 i18n:translate="">What's on</h1>
     <p i18n:translate="" class="documentDescription">
       An overview of the daily operations of the parliament.
@@ -90,6 +91,7 @@
               </li>
             </ul>
         </dd>
-    </dl>    
+    </dl> 
+  </div>     
   </div>
 </html>

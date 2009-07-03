@@ -176,8 +176,14 @@ class ContainerJSONListing( BrowserView ):
     def _getFilterStr(self, fieldname, field_filter):
         """ if we are filtering for replaced fields
         we assume that they are character fields """
-        str_filter = ( 'lower(' +
-                        fieldname + ") LIKE '%%" + field_filter.lower() +"%%' ")
+        field_filters = field_filter.strip().split(' ')
+        str_filter = ''
+        for f in field_filters:
+            if len(f) > 0:
+                if len(str_filter) > 0:
+                    str_filter = str_filter + ' OR '
+                str_filter = str_filter + ( 'lower(' +
+                        fieldname + ") LIKE '%%" + f.lower() +"%%' ")
         return str_filter
 
     def getFilter(self):
@@ -207,8 +213,7 @@ class ContainerJSONListing( BrowserView ):
                                 types.String) or
                                 (domain_model.c[field.__name__].type.__class__ ==
                                 types.Unicode)):
-                            str_filter = ( str_filter + 'lower(' +
-                                field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%' ")
+                            str_filter = self._getFilterStr(field.__name__, field_filter)             
                         else:            
                             str_filter = (str_filter + 
                                 field.__name__ + ' = ' + field_filter)
@@ -217,8 +222,7 @@ class ContainerJSONListing( BrowserView ):
                             types.String) or
                             (domain_model.c[field.__name__].type.__class__ ==
                             types.Unicode)):
-                        str_filter = ( str_filter + 'lower(' +
-                            field.__name__ + ") LIKE '%%" + field_filter.lower() +"%%' ")
+                        str_filter = self._getFilterStr(field.__name__, field_filter)                         
                     else:            
                         str_filter = (str_filter + 
                             field.__name__ + ' = ' + field_filter)                            

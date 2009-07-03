@@ -134,7 +134,7 @@ class VersionLogView(BaseForm):
         self.status = (_(u"Reverted to Previous Version %s") %(version.version_id))
 
     @form.action(
-        label=_("Show Differences"), name="diff",
+        label=_("Show Differences"), name="diff",        
         validator=lambda form, action, data: ())
     def handle_diff_version( self, action, data):
         self.status = _("Displaying differences.")
@@ -167,7 +167,9 @@ class VersionLogView(BaseForm):
                 if action.condition(self, self.context):
                     self.actions.append(action) 
             else:
-                self.actions.append(action)                                   
+                self.actions.append(action)           
+        if not self.has_write_permission(self.context):                                        
+            self.form_fields = self.form_fields.omit('commit_message')
         self.adapters = {}
         self.widgets = form.setUpDataWidgets(
             self.form_fields, self.prefix, self.context, self.request,

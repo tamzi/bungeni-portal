@@ -30,7 +30,6 @@ class ChangeBaseView( BrowserView ):
                                             self.getFeedEntries(),
                                             prefix="results",
                                             visible_column_names = [c.name for c in columns],
-                                            #sort_on = ('name', False)
                                             columns = columns )
         formatter.cssClasses['table'] = 'listing'
         formatter.updateBatching()

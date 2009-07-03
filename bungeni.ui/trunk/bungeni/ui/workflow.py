@@ -148,10 +148,9 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
 
         # after we transition we have different actions
         self.setupActions(transition)
-        
         # only display the notes field to comment if there is an action
         if len(self.actions) == 0: 
-            self.form_fields = self.form_fields.omit('notes')
+            self.form_fields = self.form_fields.omit('note')
             
         self.setUpWidgets()
 

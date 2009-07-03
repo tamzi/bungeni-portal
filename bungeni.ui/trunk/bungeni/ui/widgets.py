@@ -2,7 +2,7 @@
 
 import datetime, pytz
 import itertools
-
+import os
 from zope.datetime import parseDatetimetz
 from zope.datetime import DateTimeError
 from zope.security.proxy import removeSecurityProxy
@@ -16,6 +16,9 @@ from zope.app.form.browser.itemswidgets import  RadioWidget
 
 from zc.resourcelibrary import need
 from bungeni.core.i18n import _
+
+
+path = os.path.split(os.path.abspath(__file__))[0]
 
 class MultiDateTextAreaWidget(TextAreaWidget):
     def _toFieldValue(self, value):
@@ -234,7 +237,7 @@ class SelectDateWidget( SimpleInputWidget):
     """ A more user freindly date input """
     
     __call__ = ViewPageTemplateFile('templates/datewidget.pt')
-    
+        
     _missing = u''
     minYear = None
     maxYear = None
@@ -244,6 +247,17 @@ class SelectDateWidget( SimpleInputWidget):
     
     minDate = None
     maxDate = None
+    
+    js_template = open(path + '/templates/yui-calwidget.js', 'r').read()
+    
+    def __init__(self, *args):
+        super(SelectDateWidget, self).__init__(*args)
+        need('yui-core')
+        need('yui-calendar')
+        need('yui-container')
+        need('yui-element')
+        need('yui-button')
+    
     
     @property
     def time_zone( self ):
@@ -255,11 +269,21 @@ class SelectDateWidget( SimpleInputWidget):
             time_zone = pytz.UTC
         return time_zone
 
+    @property
+    def field_name(self):
+        return self.name.replace(".","__")
+
     def set_min_date(self, date):
         self.minDate = date
     
     def set_max_date(self, date):
         self.maxDate = date
+
+    def get_js(self):
+        return self.js_template % {'name' : self.field_name,
+                    'sel_day': self._day_name,
+                    'sel_month' : self._month_name,
+                    'sel_year' : self._year_name }
 
     def _days(self):
         dl = []

@@ -229,8 +229,81 @@
      order="100"
      />
                     
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.CommitteeMemberContainer"
+     title="Add committee member..."
+     action="./add"
+     permission="bungeni.committeemember.Add"
+     order="100"
+     />     
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.CommitteeStaffContainer"
+     title="Add committee staff..."
+     action="./add"
+     permission="bungeni.committeestaff.Add"
+     order="100"
+     />     
+
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MinisterContainer"
+     title="Add minister..."
+     action="./add"
+     permission="bungeni.minister.Add"
+     order="100"
+     />
+   
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.OfficeMemberContainer"
+     title="Add office member..."
+     action="./add"
+     permission="bungeni.office.Add"
+     order="100"
+     />   
+   
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.ResponseContainer"
+     title="Add response..."
+     action="./add"
+     permission="bungeni.response.Add"
+     order="100"
+     />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.UserAddressContainer"
+     title="Add address..."
+     action="./add"
+     permission="bungeni.address.Add"
+     order="100"
+     />
      
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.UserDelegationContainer"
+     title="Add delegation..."
+     action="./add"
+     permission="bungeni.delegation.Add"
+     order="100"
+     />
      
+          
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MemberRoleTitleContainer"
+     title="Add title/function..."
+     action="./add"
+     permission="bungeni.function.Add"
+     order="100"
+     />
+
+
   <!--browser:menuItem
      menu="context_additems"
      for="bungeni.models.domain.Parliament"

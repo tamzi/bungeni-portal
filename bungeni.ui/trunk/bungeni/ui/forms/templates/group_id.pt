@@ -1,0 +1,5 @@
+<div id="workgroup-id-section">
+  <b> workgroup id </b>
+  <span tal:content="view/parent_group_principal_id" />
+  <span tal:content="view/my_group_principal_id" />
+</div>

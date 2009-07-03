@@ -27,6 +27,29 @@ from bungeni.ui.utils import getDisplayDate
 
 from fields import BungeniAttributeDisplay
 
+class GroupIdViewlet(viewlet.ViewletBase):
+    """ display the group and parent group
+    principal id """
+    parent_group_principal_id = None
+    my_group_principal_id = None
+    
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        
+    def update(self):
+        session = Session()
+        trusted = removeSecurityProxy(self.context)    
+        self.parent_group_principal_id = ("group.parliament.%i" %              
+                trusted.parent_group_id)
+        self.my_group_principal_id = trusted.group_principal_id        
+        
+    render = ViewPageTemplateFile ('templates/group_id.pt')  
+
+
 class ResponseQuestionViewlet(viewlet.ViewletBase):    
     """
     Display the question when adding/editing a response

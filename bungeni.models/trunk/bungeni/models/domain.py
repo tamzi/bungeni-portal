@@ -128,7 +128,7 @@ class GroupMembership( Entity ):
     """
     interface.implements( interfaces.IBungeniGroupMembership )
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}  
+    sort_replace = {'user_id': ['last_name', 'first_name']}  
 
     @property
     def image(self):
@@ -174,7 +174,7 @@ class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}  
+    sort_replace = {'user_id': ['last_name', 'first_name',]}  
     
 class AttendanceType( object ):
     """
@@ -211,7 +211,7 @@ class MemberOfParliament ( GroupMembership ):
     defined by groupmembership and aditional data
     """    
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name'], 'constituency_id':['name']}      
+    sort_replace = {'user_id': ['last_name', 'first_name'], 'constituency_id':['name']}      
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
     party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
 
@@ -337,7 +337,7 @@ class ParliamentaryItem( Entity ):
     """
     """
     interface.implements( interfaces.IBungeniContent )
-    sort_replace = {'owner_id': ['last_name', 'first_name', 'middle_name']}  
+    sort_replace = {'owner_id': ['last_name', 'first_name']}  
        
     # votes
 

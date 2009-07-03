@@ -94,7 +94,7 @@ class User( Entity ):
         return "%s %s" % (self.first_name, self.last_name)
 
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name', 'middle_name']}    
+    sort_replace = {'user_id': ['last_name', 'first_name']}    
     addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
     delegations = one2many( "delegations", "bungeni.models.domain.UserDelegationContainer", "user_id" )   
 

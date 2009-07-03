@@ -748,13 +748,13 @@
      order="30"
      />  
    
-   <browser:menuItem
+   <!--browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IBungeniContent"
      action="similar"
      title="Similar"
      order="30"
-      />       
+      /-->       
      
    <browser:menuItem
      menu="context_actions"

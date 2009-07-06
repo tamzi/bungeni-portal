@@ -1,8 +1,5 @@
-<div xmlns:tal="http://xml.zope.org/namespaces/tal">
-   <!--script type="text/javascript" src="dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"
-           tal:attributes="src context/++resource++dhtmlgoodies_calendar.js"></script>
-   <link type="text/css" rel="stylesheet" href="dhtmlgoodies_calendar/dhtmlgoodies_calendar.css" media="screen"
-         tal:attributes="href context/++resource++dhtmlgoodies_calendar.css" /-->  
+<div xmlns:tal="http://xml.zope.org/namespaces/tal" class="datepicker-div">
+
     <script type="text/javascript" tal:content="structure view/get_js"> </script>
                     
     <span tal:define="form_value view/_getFormValue" 
@@ -34,15 +31,7 @@
                 <option value="01" selected="selected" tal:condition="curr" tal:attributes="value day" tal:content="day">01</option>
             </tal:option>
           </tal:loop>
-        </select>    
-        <!--input type="button" 
-               value="Cal" 
-               onclick="displayCalendarSelectBox(document.forms[0].year,document.forms[0].month,document.forms[0].day,false,false,this)"
-               tal:attributes="onclick
-               string:displayCalendarSelectBox(document.forms[0].${view/_year_name},
-                                               document.forms[0].${view/_month_name},
-                                               document.forms[0].${view/_day_name},
-                                               false,false,this)" /-->
+        </select>            
     </span>
 
 </div>

@@ -23,11 +23,23 @@
                     var year = aDate[0], month = aDate[1], day = aDate[2];
                     var selMonth = document.getElementById("%(sel_month)s");
                     var selDay = document.getElementById("%(sel_day)s");
-                    var selYear = document.getElementById("%(sel_year)s");                    
-                    selMonth.selectedIndex = month;
-                    selDay.selectedIndex = day;
+                    var selYear = document.getElementById("%(sel_year)s"); 
+                    for (var y=0;y<selMonth.options.length;y++) {
+                        if (selMonth.options[y].value == month) {
+                            selMonth.selectedIndex = y;
+                            break;
+                            }
+                        }                   
+                    //selMonth.selectedIndex = month;
+                    //selDay.selectedIndex = day;
+                    for (var y=0;y<selDay.options.length;y++) {
+                        if (selDay.options[y].value == day) {
+                            selDay.selectedIndex = y;
+                            break;
+                            }
+                        }
                     for (var y=0;y<selYear.options.length;y++) {
-                        if (selYear.options[y].text == year) {
+                        if (selYear.options[y].value == year) {
                             selYear.selectedIndex = y;
                             break;
                             }

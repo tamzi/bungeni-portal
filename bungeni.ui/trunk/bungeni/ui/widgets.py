@@ -288,6 +288,8 @@ class SelectDateWidget( SimpleInputWidget):
         pagedate = datetime.date.today()
         if self.maxDate < pagedate:
             pagedate = self.maxDate
+        if (type(self._data) == datetime.date) or (type(self._data) == datetime.datetime):
+            pagedate = self._data             
         return self.js_template % {'name' : self.field_name,
                     'sel_day': self._day_name,
                     'sel_month' : self._month_name,

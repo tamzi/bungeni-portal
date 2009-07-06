@@ -19,7 +19,7 @@ from bungeni.ui.widgets import ImageDisplayWidget
 from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
 from bungeni.ui.widgets import OneTimeEditWidget
-from ore.yuiwidget import calendar
+#from ore.yuiwidget import calendar
 
 
 from alchemist.ui import widgets
@@ -263,8 +263,8 @@ class UserDescriptor( ModelDescriptor ):
               edit_widget=CustomRadioWidget ),
         dict( name="date_of_birth", 
               label=_(u"Date of Birth"), 
-              edit_widget=calendar.CalendarWidget, 
-              add_widget=calendar.CalendarWidget),
+              edit_widget=SelectDateWidget, 
+              add_widget=SelectDateWidget),
         dict( name="birth_country", 
               property = schema.Choice( 
               title=_(u"Country of Birth"), 
@@ -295,8 +295,8 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="date_of_death", label=_(u"Date of Death"),
               #view_permission="bungeni.user.AdminRecord",
               edit_permission="bungeni.user.AdminRecord",
-              edit_widget=calendar.CalendarWidget, 
-              add_widget=calendar.CalendarWidget),
+              edit_widget=SelectDateWidget, 
+              add_widget=SelectDateWidget),
         dict( name="password", omit=True ),
         dict( name="active_p", label=_(u"Status"), 
               property = schema.Choice( 
@@ -540,8 +540,8 @@ class GroupDescriptor( ModelDescriptor ):
                 listing=True, 
                 listing_column=day_column("start_date", 
                     _(u'Start Date')), 
-                edit_widget=calendar.CalendarWidget, 
-                add_widget=calendar.CalendarWidget),
+                edit_widget=SelectDateWidget, 
+                add_widget=SelectDateWidget),
         dict( name="end_date", 
                 label=_(u"End Date"), 
                 listing=True, 
@@ -581,8 +581,8 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="election_date",
               label=_(u"Election Date"), 
               description=_(u"Date the of the election"),
-              edit_widget=calendar.CalendarWidget, 
-              add_widget=calendar.CalendarWidget
+              edit_widget=SelectDateWidget, 
+              add_widget=SelectDateWidget
               ),        
         dict( name="start_date",
               label=_(u"In power from"), 
@@ -768,8 +768,8 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
                 listing=True, 
                 listing_column=day_column("start_date",
                      _(u'Start Date')), 
-                edit_widget=calendar.CalendarWidget, 
-                add_widget=calendar.CalendarWidget),
+                edit_widget=SelectDateWidget, 
+                add_widget=SelectDateWidget),
         dict( name="end_date", 
                 label=_(u"End Date"), 
                 listing=True, 

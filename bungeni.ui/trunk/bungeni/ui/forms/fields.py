@@ -63,7 +63,8 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
 
     def setUpWidgets(self, ignore_request=False):
         self.form_fields = filterFields(self.context, self.form_fields)
-        super(BungeniAttributeDisplay, self).setUpWidgets(ignore_request=ignore_request)
+        super(BungeniAttributeDisplay, 
+                self).setUpWidgets(ignore_request=ignore_request)
             
     def update( self ):
         self.setupActions()

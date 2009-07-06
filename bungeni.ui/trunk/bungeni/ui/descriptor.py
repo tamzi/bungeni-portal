@@ -1,15 +1,24 @@
-
-from ore.alchemist import Session
-from ore.alchemist.model import ModelDescriptor
-from ore.alchemist.vocabulary import DatabaseSource
+# encoding: utf-8
 from copy import deepcopy
+
 from zope import schema, interface
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 
 from zc.table import column
 import zope.app.form.browser
-#from z3c.form.browser import image
+
+from ore.alchemist import Session
+from ore.alchemist.model import ModelDescriptor
+from ore.alchemist.vocabulary import DatabaseSource
+
+from alchemist.ui import widgets
+
+from bungeni.models import domain
+from bungeni.models import vocabulary
+
+from bungeni.core.translation import get_default_language
+from bungeni.core.translation import get_all_languages
 
 from bungeni.ui.widgets import SelectDateWidget, SelectDateTimeWidget
 from bungeni.ui.widgets import CustomRadioWidget
@@ -19,17 +28,8 @@ from bungeni.ui.widgets import ImageDisplayWidget
 from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
 from bungeni.ui.widgets import OneTimeEditWidget
-#from ore.yuiwidget import calendar
-
-
-from alchemist.ui import widgets
 from bungeni.ui.constraints import check_email
-
-from bungeni.models import domain
-from bungeni.models import vocabulary
 from bungeni.ui.forms import validations
-from bungeni.core.translation import get_default_language
-from bungeni.core.translation import get_all_languages
 from bungeni.ui.i18n import _
 
 

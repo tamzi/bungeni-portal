@@ -463,7 +463,7 @@ class SelectDateTimeWidget(SelectDateWidget):
 
     def _minutes(self):
         ml = []
-        for i in range( 0, 60 ):
+        for i in range( 0, 60, 5 ):
             ml.append( '%02d' % (i) )
         return ml
 

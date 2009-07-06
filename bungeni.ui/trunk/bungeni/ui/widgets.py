@@ -245,8 +245,9 @@ class SelectDateWidget( SimpleInputWidget):
     minYearDelta = 100
     maxYearDelta = 5
     
-    
-    js_template = open(path + '/templates/yui-calwidget.js', 'r').read()
+    js_file = open(path + '/templates/yui-calwidget.js', 'r')
+    js_template = js_file.read()
+    js_file.close()
     
     def __init__(self, *args):
         super(SelectDateWidget, self).__init__(*args)

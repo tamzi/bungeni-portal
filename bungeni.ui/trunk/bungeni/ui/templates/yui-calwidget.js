@@ -87,12 +87,19 @@
 		// Create an Overlay instance to house the Calendar instance
 		oCalendarMenu = new YAHOO.widget.Overlay("%(name)s-calendarmenu", { visible: false });
 		// Create a Button instance of type "menu"
+		/*var oButton = new YAHOO.widget.Button( "%(name)s-calendarpicker",
+		                                    {type: "menu", 											 
+										    menu: oCalendarMenu, 
+										    });*/
+
 		var oButton = new YAHOO.widget.Button({ 
 											type: "menu", 
 											id: "%(name)s-calendarpicker", 
-											label: "Choose A Date", 
+											label: '<img src="/++resource++calbtn.gif" alt="calendar"/> ', 
 											menu: oCalendarMenu, 
 											container: "%(name)s-datefields" });
+
+										    
 		oButton.on("appendTo", function () {
 			// Create an empty body element for the Overlay instance in order 
 			// to reserve space to render the Calendar instance into.

@@ -16,12 +16,12 @@ from bungeni.ui.widgets import SelectDateWidget
 
 class ArchiveDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
-        start_date = schema.Date(
+        range_start_date = schema.Date(
             title=_(u"From"),
             description=_(u"Leave blank or set lower limit."),
             required=False)
 
-        end_date = schema.Date(
+        range_end_date = schema.Date(
             title=_(u"To"),
             description=_(u"Leave blank or set upper limit."),
             required=False)
@@ -34,8 +34,8 @@ class ArchiveDatesForm(form.PageForm):
 
     template = NamedTemplate('alchemist.subform')
     form_fields = form.Fields(IDateRangeSchema, render_context=True)
-    form_fields['start_date'].custom_widget = SelectDateWidget
-    form_fields['end_date'].custom_widget = SelectDateWidget
+    form_fields['range_start_date'].custom_widget = SelectDateWidget
+    form_fields['range_end_date'].custom_widget = SelectDateWidget
     #form_description = _(u"Filter the archive by date range.")
 
     def is_in_parliament(self, context):
@@ -61,8 +61,8 @@ class ArchiveDatesForm(form.PageForm):
             start_date = end_date = None
 
         context = type("context", (), {
-            'start_date': start_date,
-            'end_date': end_date,
+            'range_start_date': start_date,
+            'range_end_date': end_date,
             'parliament': None})
 
         self.adapters = {
@@ -80,16 +80,16 @@ class ArchiveDatesForm(form.PageForm):
         except KeyError:
             pass   
         start, end = self.get_start_end_restictions(self.context)                         
-        self.widgets['start_date'].set_min_date(start)
-        self.widgets['end_date'].set_min_date(start)                                        
-        self.widgets['start_date'].set_max_date(end)
-        self.widgets['end_date'].set_max_date(end)   
+        self.widgets['range_start_date'].set_min_date(start)
+        self.widgets['range_end_date'].set_min_date(start)                                        
+        self.widgets['range_start_date'].set_max_date(end)
+        self.widgets['range_end_date'].set_max_date(end)   
         
         
     @form.action(u"Filter")
     def handle_filter(self, action, data):
-        start_date = data.get('start_date')
-        end_date = data.get('end_date')
+        start_date = data.get('range_start_date')
+        end_date = data.get('range_end_date')
         params = {}
 
         if start_date and end_date:

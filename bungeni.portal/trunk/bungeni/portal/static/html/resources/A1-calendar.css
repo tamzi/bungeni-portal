@@ -188,14 +188,10 @@ a.expandable.enabled span {
   background-position: -20px 0%;
 }
 
-.calendarpicker button { 
-    background: url(/++resource++calbtn.gif) center center no-repeat; 
-    text-align: left; 
-    text-indent: -10em; 
-    overflow: hidden; 
-    *margin-left: 10em; /* For IE */ 
-    *padding: 0 3em;    /* For IE */ 
-    white-space: nowrap; 
-} 
+
+div.widget-selectdatewidget {
+white-space: nowrap;
+}
+
 
 

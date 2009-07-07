@@ -1,15 +1,80 @@
-* {                                             margin: 0; padding: 0; vertical-align: baseline; }      
-body {                                          line-height: 1; cursor: default; }
-a {                                             cursor: pointer; }
+
+* {margin: 0; padding: 0; vertical-align: baseline; }      
+body {line-height: 1; cursor: default; }
+a {cursor: pointer; }
 
 /* Uncomment the following code if the outline of links upon clicking annoy you. 
    (Warning: Accesibility wise, this is a not a wise decision to enable.) 
 */
 /*:focus {                                      outline: 0; }*/
 
-q:before, q:after {                             content: ""; }
-img {                                           border: 0; display: block; }
-h1, h2, h3, h4, h5, h6 {                        font-size: 100%; font-weight: normal; }
-ol, ul {                                        list-style-type: none; }
-table {                                         border-collapse: collapse; border-spacing: 0; }
-caption, th, td {                               text-align: left; font-weight: normal; }
+q:before, q:after {content: ""; }
+img {border: 0; display: block; }
+h1, h2, h3, h4, h5, h6 {font-size: 100%; font-weight: normal; }
+ol, ul {list-style-type: none; }
+table {border-collapse: collapse; border-spacing: 0; }
+caption, th, td {text-align: left; font-weight: normal; }
+
+#portal-logo img {
+  background: url('../images/bungeni-logo.jpg') no-repeat;
+}
+
+
+#bungeni-workspace .visualClear {
+clear:none;
+display:block;
+}
+
+#bungeni-workspace .documentContent {
+display:none;
+}
+
+.main-content .contentActions {
+display:none;
+}
+
+#review-portlet dd.portletItem {
+    height: 8em;
+    overflow: auto;
+}
+
+#portal-column-two .contentActions {
+  display: none;
+}
+
+#portal-column-two .contentViews {
+  display: none;
+}
+
+
+#bungeni-workspace #portaltab-index_html {
+  display:none;
+}
+
+#bungeni-workspace #portal-column-one {
+  display:none;
+}
+
+.selected {
+  display:none;
+}
+
+#portal-column-two .visualPadding {
+  padding-top: 1em;
+}
+
+#portal-personaltools {
+  margin-top: -2em;
+  margin-bottom: 2em;
+}
+
+div#portal-globalnav ul.level0 li#portaltab-index_html {
+  display:none;
+}
+
+.kssActive div#portal-globalnav ul.level0 li#portaltab-index_html {
+  display: inline;
+} 
+.template-front-page div#portal-globalnav ul.level0 li#portaltab-:first-child {
+  display:none;
+}

@@ -60,13 +60,13 @@ def _get_group_context(context):
     if interfaces.IOffice.providedBy(context):
         return get_parliament(context)
     else:
-        return context
+        return removeSecurityProxy(context)
 
 def set_group_local_role(context):
     role = _get_group_local_role(context)
     group = removeSecurityProxy(context)    
     ctx = _get_group_context(context) 
-    IPrincipalRoleMap(group).assignRoleToPrincipal(
+    IPrincipalRoleMap(ctx).assignRoleToPrincipal(
             role, group.group_principal_id)        
             
 def unset_group_local_role(context):

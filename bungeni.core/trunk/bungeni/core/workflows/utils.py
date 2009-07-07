@@ -66,7 +66,7 @@ def set_group_local_role(context):
     role = _get_group_local_role(context)
     group = removeSecurityProxy(context)    
     ctx = _get_group_context(context) 
-    IPrincipalRoleMap(ctx).assignRoleToPrincipal(
+    IPrincipalRoleMap(group).assignRoleToPrincipal(
             role, group.group_principal_id)        
             
 def unset_group_local_role(context):

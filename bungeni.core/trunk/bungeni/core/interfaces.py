@@ -4,8 +4,14 @@ from zope.location.interfaces import ILocation
 from zope.container.interfaces import IContainer
 from zope.container.interfaces import IContentContainer
 from zope.dublincore.interfaces import IDCDescriptiveProperties
+from zope.container.interfaces import IReadContainer
 
 from bungeni.models.interfaces import IVersion
+
+class INavigationProxy(IReadContainer):
+    __target__ = interface.Attribute(
+        """Navigation target. May be virtual host root and should be
+        checked, when computing URLs.""")
 
 class ISection(IContentContainer, IDCDescriptiveProperties):
     """Represents a section in the site, e.g. /business."""

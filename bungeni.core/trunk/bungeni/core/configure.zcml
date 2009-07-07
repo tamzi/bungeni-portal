@@ -250,6 +250,13 @@
      component=".translation.language_vocabulary_factory"
      name="language_vocabulary" />
   
-  
+
+  <view
+     for=".interfaces.INavigationProxy"
+     factory=".vhost.ProxyAwareAbsoluteURL"
+     type="zope.publisher.interfaces.http.IHTTPRequest"
+     permission="zope.Public"
+     provides="zope.traversing.browser.interfaces.IAbsoluteURL"
+     />
   
 </configure>

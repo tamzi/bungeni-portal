@@ -5,8 +5,9 @@ from zope.proxy import removeAllProxies
 from zope.proxy.decorator import DecoratorSpecificationDescriptor
 from zope.security.checker import getCheckerForInstancesOf
 from zope.location.interfaces import ILocation
-from zope.container.interfaces import IReadContainer
 from zope.dublincore.interfaces import IDCDescriptiveProperties
+
+from interfaces import INavigationProxy
 
 class ClassAndInstanceDescr(object):
 
@@ -59,7 +60,7 @@ class NavigationProxy(ProxyBase):
     that of another.
     """
 
-    zope.interface.implements(IReadContainer)
+    zope.interface.implements(INavigationProxy)
     
     __slots__ = '__target__', '__Security_checker__'
     __safe_for_unpickling__ = True

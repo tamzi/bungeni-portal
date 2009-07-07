@@ -40,8 +40,8 @@ class rh(view):
         try:
             proto, host, port = name.split(":")
         except ValueError:
-            raise ValueError("Vhost directive should have the form "
-                             "++vh++protocol:host:port")
+            raise ValueError("Rhost directive should have the form "
+                             "++rh++protocol:host:port")
 
         rhost = IAnnotations(self.request)[annotation_key] = ResourceHost(
             host, proto, port)

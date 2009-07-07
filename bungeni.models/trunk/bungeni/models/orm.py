@@ -1,6 +1,6 @@
 
 import sqlalchemy as rdb
-from sqlalchemy.orm import mapper, relation, column_property, deferred
+from sqlalchemy.orm import mapper, relation, column_property, deferred, backref
 
 import schema
 import domain
@@ -23,7 +23,10 @@ mapper( domain.Group, schema.groups,
                 rdb.cast(schema.groups.c.group_id, rdb.String)
                 ).label('group_principal_id')),
              'contained_groups' : relation( domain.Group, 
-                    backref='parent_group'),                
+                    backref =  
+                    backref('parent_group',  
+                    remote_side=schema.groups.c.group_id)
+                    ),                
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,

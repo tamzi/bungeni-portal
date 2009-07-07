@@ -26,9 +26,16 @@ def get_url(context, request, path):
 
     path = os.path.abspath(path)
     gsm = component.getSiteManager()
-    site_url = str(component.getMultiAdapter(
-        (getSite(), request), IAbsoluteURL))
+    site = getSite()
     
+    base = component.queryMultiAdapter(
+        (site, request), IAbsoluteURL, name="resource")
+    if base is None: 
+        site_url = str(component.getMultiAdapter(
+            (site, request), IAbsoluteURL))
+    else:
+        site_url = str(base)
+
     for name, resource in gsm.adapters.lookupAll(
         (interface.providedBy(request),), interface.Interface):
 

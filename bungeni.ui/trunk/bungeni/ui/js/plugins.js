@@ -593,7 +593,7 @@
           rowsPerPageOptions: [10,25,50,100],
           //pageLinks: 5
           }),
-    initialRequest : 'start=0&limit=20',
+    initialRequest : 'start=0&limit=25',
     generateRequest : RequestBuilder, 
     sortedBy : { dir : YAHOO.widget.DataTable.CLASS_ASC },
     dynamicData: true, // Enables dynamic server-driven data

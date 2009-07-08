@@ -44,6 +44,12 @@ namespace :plone_tasks do
       run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -N"
     end
 
+    
+    desc "optimisitic builout local"
+    task :buildout_opt_local, :roles=> :app do
+      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -Ni -c #{plone_local_buildout_config_file} -v"
+    end
+
     desc "update source"
     task :plone_upd, :roles=> :app do
       run "cd #{plone_buildout_dir} && svn up"

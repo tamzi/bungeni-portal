@@ -67,7 +67,8 @@ class AlchemistWhoPlugin(object):
     interface.implements(IAuthenticator, IMetadataProvider)
     
     def getGroups(self, id ):
-        return getUserGroups(id, [])
+        groups = getUserGroups(id, [])
+        return groups + ['bungeni.Everybody', 'bungeni.Anybody']
 
             
     def authenticate(self, environ, identity):
@@ -86,12 +87,12 @@ class AlchemistWhoPlugin(object):
             log.warn(e)
             return
         
-        results = session.query(domain.User).filter(
+        query = session.query(domain.User).filter(
                 rdb.and_(
                     domain.User.login==unicode(login),
                     domain.User.active_p=='A')               
-                ).all()
-
+                )
+        results = query.all()
         if len(results) != 1:
             return None
 

@@ -238,8 +238,14 @@ class ContainerJSONListing( BrowserView ):
                                 self._get_field_filters_and_operator(
                                         field_filter))                                
                             str_filter = self._getFilterStr(field.__name__, 
-                                    field_filters, operator)             
-                        else:            
+                                    field_filters, operator)      
+                        elif ((domain_model.c[field.__name__].type.__class__ == 
+                                types.Date) or 
+                               (domain_model.c[field.__name__].type.__class__ == 
+                               types.DateTime)):
+                            f_name= "to_char(" + field.__name__ + ", 'YYYY-MM-DD')"
+                            str_filter = self._getFilterStr( f_name, [field_filter], "")                                            
+                        else:
                             str_filter = (str_filter + 
                                 field.__name__ + ' = ' + field_filter)
                 elif field.__name__   in domain_model.c:                      
@@ -251,11 +257,16 @@ class ContainerJSONListing( BrowserView ):
                                 self._get_field_filters_and_operator(
                                     field_filter) )                           
                         str_filter = self._getFilterStr(field.__name__, 
-                                field_filters, operator)                         
+                                field_filters, operator)                                 
+                    elif ((domain_model.c[field.__name__].type.__class__ == 
+                                types.Date) or 
+                               (domain_model.c[field.__name__].type.__class__ == 
+                               types.DateTime)):
+                        f_name= "to_char(" + field.__name__ + ", 'YYYY-MM-DD')"
+                        str_filter = self._getFilterStr( f_name, [field_filter], "")                        
                     else:            
                         str_filter = (str_filter + 
                             field.__name__ + ' = ' + field_filter)  
-        print str_filter                            
         return str_filter                
 
     def getSort( self ):

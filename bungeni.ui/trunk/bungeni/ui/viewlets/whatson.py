@@ -17,21 +17,27 @@ class WhatsOnBrowserView(BrowserView):
     start_date = datetime.date.today()
     end_date = datetime.date.today() + datetime.timedelta(10)
     
-    def get_date_range(self):
-        start = self.request.form.get( 'start', None)
+    def get_end_date(self):
+        self.get_items()                   
         end = self.request.form.get( 'end', None)
-        if (start != None) and (end != None):
+        if end:
             try:
-                start_date = datetime.datetime.strptime(start,"%Y-%m-%d")
                 end_date  = datetime.datetime.strptime(end,"%Y-%m-%d")
-                self.start_date = start_date.date()
                 self.end_date = end_date.date()
             except:
                 pass
-        start_end = (self.start_date.strftime("%A %d %B %Y - ") +
-            self.end_date.strftime("%A %d %B %Y"))
-        self.get_items()            
-        return start_end            
+        return self.end_date.strftime("%A %d %B %Y")
+
+
+    def get_start_date(self):
+        start = self.request.form.get( 'start', None)
+        if start:
+            try:
+                start_date = datetime.datetime.strptime(start,"%Y-%m-%d")
+                self.start_date = start_date.date()
+            except:
+                pass
+        return self.start_date.strftime("%A %d %B %Y")                                
         
     def get_sittings(self):
         session = Session()        

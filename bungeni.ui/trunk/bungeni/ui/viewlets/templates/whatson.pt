@@ -8,7 +8,10 @@
     <p i18n:translate="" class="documentDescription">
       An overview of the daily operations of the parliament.
     </p>
-    <p tal:content="view/get_date_range" />
+    <p>
+    From: <span tal:replace="view/get_start_date" />
+    to: <span tal:replace="view/get_end_date" />
+    </p>
     <dl class="portlet">
         <dt i18n:translate=""> Upcoming sittings </dt>
         <dd>

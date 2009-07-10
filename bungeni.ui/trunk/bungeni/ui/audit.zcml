@@ -7,7 +7,7 @@
      for="bungeni.models.interfaces.IBungeniContent"
      class=".audit.ChangeLog"
      name="audit-log"
-     permission="zope.Public"
+     permission="bungeni.auditlog.View"
      template="templates/changes.pt"
      />
 

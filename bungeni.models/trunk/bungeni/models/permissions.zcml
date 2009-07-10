@@ -149,5 +149,7 @@
   <permission id="bungeni.function.View" title="View tile/function" />  
   <meta:redefinePermission from="bungeni.function.View" to="zope.View" />
 
+  <permission id="bungeni.auditlog.View" title="View audit log" />  
+
 
 </configure>

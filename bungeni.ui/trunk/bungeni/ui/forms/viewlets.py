@@ -633,8 +633,9 @@ class SessionCalendarViewlet( viewlet.ViewletBase ):
             # if we try to move from 31 of jan to 31 of feb or so
             nextdate = datetime.date(year,month,15)    
         if session:
-            if session.end_date < datetime.date(year,month,1):
-                return ""                                                
+            if session.end_date:
+                if session.end_date < datetime.date(year,month,1):
+                    return ""                                                
         return ('<a href="?date=' 
                 + datetime.date.strftime(nextdate,'%Y-%m-%d' )
                 + '"> &gt;&gt; </a>' )

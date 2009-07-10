@@ -736,6 +736,7 @@
      for="bungeni.core.interfaces.IAuditable"
      action="audit-log"
      title="Audit Log"
+     permission="bungeni.auditlog.View"
      order="30"
      />  
   

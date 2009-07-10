@@ -88,7 +88,13 @@ mapper( domain.Ministry, schema.ministries,
 mapper( domain.Committee, schema.committees,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='committee'
+        polymorphic_identity='committee',
+        properties={
+            'committee_type': relation( domain.CommitteeType,
+                              uselist=False,
+                              lazy=False ),
+            },                              
+        
         )    
         
 mapper( domain.ExtensionGroup, schema.extension_groups,

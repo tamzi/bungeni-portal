@@ -191,7 +191,7 @@ class GroupItemAssignment( object ):
 class Parliament( Group ):
     """ a parliament
     """    
-    sort_on = 'start_date'
+    sort_on = ['start_date']
     sessions = one2many("sessions", "bungeni.models.domain.ParliamentSessionContainer", "parliament_id")
     committees = one2many("committees", "bungeni.models.domain.CommitteeContainer", "parliament_id")
     governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parliament_id")
@@ -258,14 +258,14 @@ class Committee( Group ):
     """        
     committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
     committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")
-    
+    sort_replace = {'committee_type_id': ['committee_type',]}  
+        
 
 class CommitteeMember( GroupMembership ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
 
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )  
-
     
 class CommitteeType( object):
     """ Type of Committee """

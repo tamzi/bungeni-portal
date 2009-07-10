@@ -537,6 +537,6 @@ def generate_recurring_sitting_dates(start_date, repeat, repeat_until,
         count += 1
         if repeat and count > repeat:
             break
-        if repeat_until and date > repeat_until:
+        if repeat_until and date.date() > repeat_until:
             break
         yield date.date()

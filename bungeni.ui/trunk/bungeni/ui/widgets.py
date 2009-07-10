@@ -275,14 +275,28 @@ class SelectDateWidget( SimpleInputWidget):
 
     def set_min_date(self, date):
         if date:
-            self.minDate = date
+            if type(date) == datetime.date:
+                self.minDate = date
+            elif type(date) == datetime.datetime:                
+                self.minDate = date.date()
+            else:
+                self.minDate = (datetime.date.today() - 
+                            datetime.timedelta(self.minYearDelta*365))                    
         else:            
-            self.minDate = datetime.date.today() - datetime.timedelta(self.minYearDelta*365)    
+            self.minDate = (datetime.date.today() - 
+                    datetime.timedelta(self.minYearDelta*365))    
     def set_max_date(self, date):
         if date:
-            self.maxDate = date
+            if type(date) == datetime.date:
+                self.maxDate = date
+            elif type(date) == datetime.datetime:                
+                self.maxDate = date.date()   
+            else:
+                self.maxDate = (datetime.date.today() + 
+                        datetime.timedelta(self.maxYearDelta*365))                         
         else:
-            self.maxDate = datetime.date.today() + datetime.timedelta(self.maxYearDelta*365)                    
+            self.maxDate = (datetime.date.today() + 
+                    datetime.timedelta(self.maxYearDelta*365))                    
 
     def get_js(self):
         pagedate = datetime.date.today()

@@ -290,26 +290,21 @@ class ContainerJSONListing( BrowserView ):
         else:
             if sort_key and ( sort_key in domain_model.c ):
                 sort_keys = [sort_key, ]        
-        # get sort in sqlalchemy form        
-            #column = domain_model.c[sort_key]
         for sort_key in sort_keys:                    
             if sort_dir == 'desc':
                 columns.append( sql.desc(sort_key) )
             else:
-                columns.append( sort_key )
-        #table = orm.class_mapper(domain_model)
-        #import pdb; pdb.set_trace()                
-        #XXX TODO rewrite this to new list based replaced sort!                
-        #if getattr(domain_model,'sort_on',None):
-        #    if domain_model.sort_on in domain_model.c and domain_model.sort_on != sort_keys:
-        #        # if a default sort is defined append it here (this will also serve as secondary sort)
-        #        for default_sort in domain_model.sort_on:
-        #            columns.append( default_sort )
-        #if getattr(domain_model,'short_name',None):            
-        #    if 'short_name' in domain_model.c and not('short_name' in sort_keys) and not('short_name' in default_sort):
-        #        # last if it has a short name sort by that
-        #        columns.append('short_name')
-                        
+                columns.append( sort_key )                     
+        sort_defaults = getattr(domain_model,'sort_on',None)
+        sort_default_dir = getattr(domain_model,'sort_dir',None)
+        sd_dir = sql.asc
+        if sort_default_dir:
+            if sort_default_dir == "desc":
+                sd_dir = sql.desc
+        if sort_defaults:
+            for sort_key in sort_defaults:
+                if sort_key not in columns:
+                    columns.append(sd_dir(sort_key))        
         return columns
     
     def getOffsets( self ):

@@ -235,7 +235,7 @@ class MemberOfParty( GroupMembership ):
 class Government( Group ):
     """ a government
     """
-    sort_on = 'start_date'
+    sort_on = ['start_date']
     ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "government_id")
 
 class Ministry( Group ):
@@ -454,6 +454,7 @@ class ParliamentSession( Entity ):
     """
     """
     sort_on = ['start_date',]
+    sort_dir = 'desc'
     
     
 class Rota( object ):

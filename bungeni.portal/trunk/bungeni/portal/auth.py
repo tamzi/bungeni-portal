@@ -68,7 +68,7 @@ class AlchemistWhoPlugin(object):
     
     def getGroups(self, id ):
         groups = getUserGroups(id, [])
-        return groups + ['bungeni.Everybody', 'bungeni.Anybody']
+        return groups + ['zope.Authenticated', 'zope.anybody']
 
             
     def authenticate(self, environ, identity):

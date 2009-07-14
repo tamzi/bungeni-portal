@@ -303,7 +303,7 @@ class ContainerJSONListing( BrowserView ):
                 sd_dir = sql.desc
         if sort_defaults:
             for sort_key in sort_defaults:
-                if sort_key not in columns:
+                if sort_key not in sort_keys:
                     columns.append(sd_dir(sort_key))        
         return columns
     

@@ -1155,7 +1155,8 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
         dict( name="motion_number", 
             label=_(u"Identifier"), 
             add=False, 
-            edit = False),
+            edit = False,
+            listing=True),
 
 
         # TODO omit for now
@@ -1236,7 +1237,8 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
     fields = deepcopy( ParliamentaryItemDescriptor.fields )    
     fields.extend([
         dict( name="question_id", omit=True),
-        dict( name="question_number", omit=True),
+        dict( name="question_number", label=_(u"Question Number"),
+            listing=True, add=False, edit=False),
         dict( name="short_name", omit=True),
         dict( name="supplement_parent_id",
             label=_(u"Initial/supplementary question"), 
@@ -1276,7 +1278,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
              ),
         dict( name="sitting_time", 
             label=_(u"Sitting Time"), 
-            listing=False ),
+            listing=False ),         
         ])
 
 class QuestionVersionDescriptor( VersionDescriptor ):
@@ -1335,7 +1337,7 @@ class MotionAmendmentDescriptor( ModelDescriptor ):
                 label=_(u"Vote Date"),  
                 edit_widget=SelectDateWidget, 
                 add_widget=SelectDateWidget),
-        dict( name="accepted_p",  label=_(u"Accepted")),
+        dict( name="accepted_p",  label=_(u"Accepted")),           
         ]
         
 class SittingDescriptor( ModelDescriptor ):

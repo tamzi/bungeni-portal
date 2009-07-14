@@ -7,7 +7,7 @@
  <metal:slot fill-slot="javascript_head_slot">
    <script type="text/javascript" tal:attributes="src string:${context/portal_url}/TabbedSubpages.js" src=""></script>
    <LINK tal:attributes="href string:${context/portal_url}/TabbedSubpages.css"
-         href="TabbedSubpages.css" rel="stylesheet" type="text/css">
+         href="TabbedSubpages.css" rel="stylesheet" type="text/css"/>
  </metal:slot>
 </head>
 <body>

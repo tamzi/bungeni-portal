@@ -35,6 +35,7 @@ class SchedulablesViewlet(viewlet.ViewletBase):
     title = _(u"Scheduling")
 
     def __init__(self, context, request, view, manager):
+        import pdb; pdb.set_trace()
         while not ISchedulingContext.providedBy(context):
             context = context.__parent__
             if context is None:

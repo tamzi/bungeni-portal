@@ -603,7 +603,7 @@
      menu="context_additems"
      for="*"
      title="Question"
-     action="./business/questions/add"
+     action="/business/questions/add"
      permission="bungeni.question.Add"
      />
 

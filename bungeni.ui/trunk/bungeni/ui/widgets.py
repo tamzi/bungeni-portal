@@ -322,18 +322,18 @@ class SelectDateWidget( SimpleInputWidget):
     def _months(self):
         """ return a dict of month values and names"""
         months = [
-            { 'num' : '01' , 'name' : _(u'January')},
-            { 'num' : '02' , 'name' : _(u'February')},
-            { 'num' : '03' , 'name' : _(u'March')},
-            { 'num' : '04' , 'name' : _(u'April')},
+            { 'num' : '01' , 'name' : _(u'Jan')},
+            { 'num' : '02' , 'name' : _(u'Feb')},
+            { 'num' : '03' , 'name' : _(u'Mar')},
+            { 'num' : '04' , 'name' : _(u'Apr')},
             { 'num' : '05' , 'name' : _(u'May')},
-            { 'num' : '06' , 'name' : _(u'June')},
-            { 'num' : '07' , 'name' : _(u'July')},
-            { 'num' : '08' , 'name' : _(u'August')},
-            { 'num' : '09' , 'name' : _(u'September')},
-            { 'num' : '10' , 'name' : _(u'October')},
-            { 'num' : '11' , 'name' : _(u'November')},
-            { 'num' : '12' , 'name' : _(u'December')}
+            { 'num' : '06' , 'name' : _(u'Jun')},
+            { 'num' : '07' , 'name' : _(u'Jul')},
+            { 'num' : '08' , 'name' : _(u'Aug')},
+            { 'num' : '09' , 'name' : _(u'Sep')},
+            { 'num' : '10' , 'name' : _(u'Oct')},
+            { 'num' : '11' , 'name' : _(u'Nov')},
+            { 'num' : '12' , 'name' : _(u'Dec')}
             ]
         return months
         

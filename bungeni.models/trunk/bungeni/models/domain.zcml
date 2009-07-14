@@ -80,6 +80,7 @@
                         response_type
                         full_name
                         question_type
+                        question_number
                         sitting_time
                         receive_notification
                         parliament_id

@@ -366,7 +366,8 @@ class Question( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
         "content_id")
-
+    sort_on = ['question_number','submission_date']
+    sort_dir = 'desc'
     
     
     def getParentQuestion( self ):
@@ -407,7 +408,9 @@ class Motion( ParliamentaryItem ):
         "bungeni.models.domain.MotionVersionContainer",
         "content_id")
       
-
+    sort_on = ['motion_number','submission_date']
+    sort_dir = 'desc'
+    
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
 
@@ -435,7 +438,8 @@ class Bill( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.BillVersionContainer",
         "content_id")
-
+    sort_on = ['submission_date']
+    sort_dir = 'desc'
         
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")

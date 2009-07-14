@@ -106,6 +106,7 @@ users = rdb.Table(
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A", #activ/inactiv/deceased
                 ), 
+   rdb.Column( "recieve_notification", rdb.Boolean, nullable=False, default=True),                
    rdb.Column( "type", rdb.String(30), nullable=False  ),
    )
 

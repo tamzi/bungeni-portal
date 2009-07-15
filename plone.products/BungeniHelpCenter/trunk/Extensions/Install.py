@@ -27,20 +27,23 @@ def install(self, reinstall=False):
 
     from Products.ResourceRegistries.config import CSSTOOLNAME, JSTOOLNAME
 
-    expr = 'python:getattr(here, \'portal_type\', None) in [\'%s\',\'%s\']'%('BungeniReferenceManualPage', 'BungeniTutorialPage') 
-
     csstool = getToolByName(portal, CSSTOOLNAME)
     for (id, media) in RESOURCES_CSS.iteritems():
         csstool.manage_removeStylesheet(id=id)
         csstool.manage_addStylesheet(id=id, media=media,\
-                                     rel='stylesheet', enabled=True, cookable=True, expression=expr)
+                                     rel='stylesheet', enabled=True, cookable=True)
         print >> out, 'Registered CSS resource:', id
 
     jstool = getToolByName(portal, JSTOOLNAME)
+    expr = 'python:getattr(here, \'portal_type\', None) in [\'%s\',\'%s\']'%('BungeniHelpCenterReferenceManualPage', 'BungeniHelpCenterTutorialPage', 'TabbedSubpages', 'CompositePage') 
+    
     for id in RESOURCES_JS:
         jstool.manage_removeScript(id=id)
         jstool.manage_addScript(id=id,
-                                enabled=True, cookable=True, compression='none', expression=expr)
+                                enabled=True,
+                                cookable=True,
+                                compression='none',
+                                expression=expr)
         print >> out, 'Registered JS resource:', id
 
     # If the config contains a list of dependencies, try to install them

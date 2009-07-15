@@ -86,7 +86,7 @@
 
   <browser:subMenuItem
      menu="plone_contentmenu"
-     for="bungeni.models.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IParliament"
      title="Add parliamentary content..."
      action="add_content"
      permission="zope.View"

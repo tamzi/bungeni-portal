@@ -9,13 +9,25 @@ from sqlalchemy.orm import eagerload, lazyload
 import sqlalchemy.sql.expression as sql
 
 from ploned.ui.interfaces import IViewView
+
 from bungeni.models import domain, schema
+from bungeni.core.globalsettings import getCurrentParliamentId
 
 class WhatsOnBrowserView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/whatson.pt")
     interface.implements(IViewView)
     start_date = datetime.date.today()
     end_date = datetime.date.today() + datetime.timedelta(10)
+    
+    def __init__(self, context, request):
+        super(WhatsOnBrowserView, self).__init__(context, request)
+        parliament_id = getCurrentParliamentId()
+        if parliament_id:
+            session = Session()
+            parliament = session.query(domain.Parliament).get(parliament_id)
+            self.context = parliament
+            self.context.__parent__ = context
+            self.context.__name__ = ""    
     
     def get_end_date(self):
         self.get_items()                   
@@ -103,12 +115,12 @@ class WhatsOnBrowserView(BrowserView):
                     day = sday
                     if s_dict:
                         day_list.append(s_dict)
-                    s_dict = {}
+                    s_dict = {}                    
                 s_list.append({
                     'name': schedule.item.short_name,
                     'status' : schedule.item.status,
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
-                        str(schedule.item.parliamentary_item_id))
+                        str(schedule.item.parliamentary_item_id)),                                            
                      })
                 s_dict['day'] = day
                 s_dict['items'] = s_list     

@@ -31,6 +31,7 @@
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".navigation.NavigationTreeViewlet"
      permission="zope.Public"
+     layer="bungeni.ui.interfaces.IArchiveSectionLayer"     
      weight="1"
      />
 

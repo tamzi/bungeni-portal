@@ -7,7 +7,7 @@ product_globals = globals()
 PRODUCT_DEPENDENCIES = []
 DEPENDENCIES = ['PloneHelpCenter', 'AddRemoveWidget', 'PortalTaxonomy']
 
-RESOURCES_CSS = {'TabbedSubpages.css' : 'screen'}
+RESOURCES_CSS = {'TabbedSubpages.css' : 'screen', 'helpcenter.css': 'screen',}
 RESOURCES_JS = ('TabbedSubpages.js',)
 TYPE_PARAMS = {}
 TYPE_PARAMS['TabbedSubpages'] = { 'portal_type' : 'TabbedSubpages'
@@ -49,5 +49,8 @@ BUNGENI_REFERENCEABLE_TYPES = (
     'HelpCenterHowToFolder',
     'HelpCenterLink',
     'HelpCenterLinkFolder',
+    'CompositePage',
+    'TabbedSubPages',    
+    
 
 )

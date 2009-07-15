@@ -405,6 +405,7 @@
      title="Add committee..."
      action="/business/committees/add"
      permission="bungeni.committee.Add"
+     layer=".interfaces.IBusinessSectionLayer"     
      order="100"
      />
 

@@ -155,7 +155,10 @@ class MyGroupsViewlet( ViewletBase ):
             if type(result) == domain.Parliament:
                 data['url'] = url
             elif type(result) == domain.Committee:   
-                data['url'] = url + '/committees/obj-' + str(result.group_id) 
+                #data['url'] = url + '/committees/obj-' + str(result.group_id) 
+                data['url'] = ('/groups/' + 
+                    result.parent_group.group_principal_id + 
+                    '/' + result.group_principal_id)
             elif type(result) == domain.PoliticalParty:   
                 data['url'] = url + '/politicalparties/obj-' + str(result.group_id)                                                  
             elif type(result) == domain.Ministry:   

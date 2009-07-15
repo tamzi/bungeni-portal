@@ -50,7 +50,7 @@ BUNGENI_REFERENCEABLE_TYPES = (
     'HelpCenterLink',
     'HelpCenterLinkFolder',
     'CompositePage',
-    'TabbedSubPages',    
+    'TabbedSubpages',    
     
 
 )

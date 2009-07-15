@@ -509,12 +509,12 @@ def validate_non_overlapping_sitting(action, data, context, container, *fields):
     sittings = group.sittings
 
     for sitting in queries.get_sittings_between(sittings, start, end):
-        return [interface.Invalid(
-            _(u"One or more events would be scheduled for $F, which "
-              "overlaps with an existing sitting.",
-              mapping=datetimedict.fromdatetime(start)),
-            *fields)]
-        
+        if context != sitting:
+            return [interface.Invalid(
+                _(u"One or more events would be scheduled for $F, which "
+                  "overlaps with an existing sitting.",
+                  mapping=datetimedict.fromdatetime(start)),
+                *fields)]        
     return []
 
 def generate_recurring_sitting_dates(start_date, repeat, repeat_until,

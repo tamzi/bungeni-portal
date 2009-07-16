@@ -296,6 +296,17 @@ class GroupSittingAddForm(AddForm):
 
       >>> len(sittings)
       6
+   
+   create sitting for each monday and thursday
+      >>> for key, sitting in sittings.items():
+      ...   print sitting.start_date.date()
+      1999-10-04
+      1999-10-07
+      1999-10-11
+      1999-10-14
+      1999-10-18
+      1999-10-21
+      
 
     Asking to create another set of sittings will fail because of
     validation constraints.
@@ -304,7 +315,7 @@ class GroupSittingAddForm(AddForm):
       ...    None, data, None, sittings)
       [Invalid(...overlaps...)]
 
-    Demonstrate date edge-case:
+    Demonstrate date edge-cases:
     
       >>> data.update({
       ...     'start_date': datetime(1999, 10, 1, 7, 0),
@@ -313,6 +324,16 @@ class GroupSittingAddForm(AddForm):
       >>> validations.validate_recurring_sittings(
       ...    None, data, None, sittings)
       [Invalid(...overlaps...)]
+
+    
+      >>> data.update({
+      ...     'start_date': datetime(1999, 10, 1, 10, 0),
+      ...     'end_date': datetime(1999, 10, 1, 11, 0)})
+
+      >>> validations.validate_recurring_sittings(
+      ...    None, data, None, sittings)
+      [Invalid(...overlaps...)]
+
 
     Cleanup.
 

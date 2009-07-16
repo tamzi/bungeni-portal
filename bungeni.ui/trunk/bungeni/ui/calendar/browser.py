@@ -32,6 +32,7 @@ from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
+from bungeni.core.schedule import PlenarySchedulingContext
 from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
@@ -175,7 +176,6 @@ class CalendarView(BrowserView):
     def __init__(self, context, request):
         super(CalendarView, self).__init__(
             ISchedulingContext(context), request)
-
         self.context.__name__ = self.__name__
         self.context.title = self.short_name
         interface.alsoProvides(self.context, ILocation)

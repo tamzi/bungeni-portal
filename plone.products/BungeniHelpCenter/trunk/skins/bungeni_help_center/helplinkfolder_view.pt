@@ -5,14 +5,18 @@
   i18n:domain="plonehelpcenter">
 
   <head>
-    <metal:block fill-slot="css_slot">
-      <metal:block metal:use-macro="here/phc_macros/macros/azcss">
-      </metal:block>
-    </metal:block>
-    <metal:block fill-slot="javascript_head_slot">
-      <metal:block metal:use-macro="here/phc_macros/macros/azjs">
-      </metal:block>
-    </metal:block>    
+
+  <div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
+     <script type="text/javascript"
+             tal:attributes="src string:${context/portal_url}/helplink_az_listing.js"
+             src="">
+     </script>
+  </div>     
+     
+  <div metal:fill-slot="css_slot" tal:omit-tag="">     
+     <link type="text/css" rel="stylesheet"
+           tal:attributes="href string:${context/portal_url}/helplink_az_listing.css"/>
+  </div>         
 
   </head>
 

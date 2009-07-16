@@ -27,15 +27,15 @@
       Identity Image 
     </div>
     
-    <table class="sectionIndex" tal:condition="not:noSections">
+    <table class="sectionIndex">
         <thead>
             <tr><th i18n:translate="phc_index_sections">Categories</th></tr>
         </thead>
         <tbody>
             <tr tal:repeat="section sections">
-                <td><a tal:attributes="href python:'%s/helplinkfolder_sections#%s'% (here.absolute_url(), section['id'],)">
-                        <span tal:content="python:here.trunc(section['section'])"/>
-                        <span tal:content="python:section['section']" class="hovertooltip"/></a>
+                <td><a tal:attributes="href python:'%s/helplinkfolder_sections#%s'% (here.absolute_url(), section['title'],)">
+                        <span tal:content="python:here.trunc(section['title'])"/>
+                        <span tal:content="python:section['title']" class="hovertooltip"/></a>
                 </td>
             </tr>
         </tbody>
@@ -54,11 +54,11 @@
 
     <div tal:repeat="section sections">
 
-        <h2 tal:condition="not:noSections">
+        <h2>
           <b><a class="link-anchor" 
-              tal:content="section/section"
+              tal:content="section/title"
 	      i18n:translate=""
-              tal:attributes="name section/id;
+              tal:attributes="name section/title;
                               href python:'%s/helplinkfolder_sections#%s'% (here.absolute_url(), section['id'],)">
               Section Heading
             </a></b>

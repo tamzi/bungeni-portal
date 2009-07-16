@@ -260,6 +260,7 @@ def getItemsBySections(self, **kwargs):
 
     'id'      : A normalised string representing the section
     'section' : The name of the section
+    'title'   : The title of the section - (caters for items with no section)
     'items'   : A list of catalog brains for items in this section
 
     The first item will have an section title of 'No section' and contain
@@ -275,15 +276,22 @@ def getItemsBySections(self, **kwargs):
     # in the order the vocab specifies them.
 
     sections = []
-    for s in ['No section'] + list(self.getSectionsVocab()):
+    
+    sections.append({'id'       : 'no-section',
+                     'section'  : '',
+                     'title' : 'No category',
+                     'items'    : []})
+    
+    for s in list(self.getSectionsVocab()):
         t = s.encode(charset)
         sections.append({'id'      : plone_utils.normalizeString(t),
                          'section' : t,
+                         'title' : t,
                          'items'   : []})
 
     # Then insert each how-to in the appropriate audience/section
     for b in brains:
-        itemSections = b.getSections or ['No section']
+        itemSections = b.getSections
         matchedSections = [s for s in sections if s['section'] in itemSections]
         for s in matchedSections:
             s['items'].append(b)

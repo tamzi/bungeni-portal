@@ -4,18 +4,18 @@
       i18n:domain="plonehelpcenter">
 <body>
   <head>
-    <metal:block fill-slot="css_slot">
-      <metal:block metal:use-macro="here/phc_macros/macros/azcss">
-      </metal:block>
-    </metal:block>
-    <metal:block fill-slot="javascript_head_slot">
-      <metal:block metal:use-macro="here/phc_macros/macros/azjs">
-      </metal:block>
-    </metal:block>    
+    <div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
+      <script type="text/javascript"
+              tal:attributes="src string:${context/portal_url}/helplink_az_listing.js"
+              src="">
+      </script>
+    </div>     
+    
+    <div metal:fill-slot="css_slot" tal:omit-tag="">     
+      <link type="text/css" rel="stylesheet"
+            tal:attributes="href string:${context/portal_url}/helplink_az_listing.css"/>
+    </div>         
   </head>
-
-      
-
 
 <div metal:fill-slot="main"
      tal:define="chapters python:here.aq_parent.getFolderContents(contentFilter = {'portal_type' : ['HelpCenterLink'], 'sort_on':'getSections'});
@@ -45,7 +45,7 @@
    <br/><br/>
 
     <div class="listingBar" tal:condition="python: next or prev"
-              tal:define="next python:pos < num_sibl-1;
+              tal:define="next python:pos &lt; num_sibl-1;
                    prev python:pos != 0;">
    <table class="navtable"><tr> 
     <td class="leftcell">  
@@ -56,8 +56,6 @@
                      tabindex="2"
                      href="">
                     <img tal:replace="structure here/arrowLeft.gif" />
-                    <!--<span i18n:translate="label_previous">Previous: </span>-->
-                    <!--<span tal:replace="prevsib/Title" />-->
                     <span tal:content="python:here.trunc(prevsib.Title)" /><span tal:content="prevsib/Title" class="hovertooltip" tal:condition="python:len(prevsib.Title) > len(here.trunc(prevsib.Title))"/>                     
                   </a>
                </span>
@@ -70,8 +68,7 @@
                    tal:attributes="href python:str(nextsib.getId) + '/helplink_view_section'"
                    tabindex="1"
                    href="">
-                  <!--<span i18n:translate="label_next">Next: </span>-->
-                  <!--<span tal:replace="nextsib/Title" />-->
+
                   <span tal:content="python:here.trunc(nextsib.Title)" /><span tal:content="nextsib/Title" class="hovertooltip" tal:condition="python:len(nextsib.Title) > len(here.trunc(nextsib.Title))"/>                   
                   <img tal:replace="structure here/arrowRight.gif" /> 
                    </a>
@@ -130,7 +127,7 @@
     </div>    
 
     <div class="listingBar" tal:condition="python: next or prev"
-              tal:define="next python:pos < num_sibl-1;
+              tal:define="next python:pos &lt; num_sibl-1;
                    prev python:pos != 0;">
    <table class="navtable"><tr> 
     <td class="leftcell">  
@@ -141,8 +138,6 @@
                      tabindex="2"
                      href="">
                     <img tal:replace="structure here/arrowLeft.gif" />
-                    <!--<span i18n:translate="label_previous">Previous: </span>-->
-                    <!--<span tal:replace="prevsib/Title" />-->
                     <span tal:content="python:here.trunc(prevsib.Title)" /><span tal:content="prevsib/Title" class="hovertooltip" tal:condition="python:len(prevsib.Title) > len(here.trunc(prevsib.Title))"/> 
                   </a>
                </span>
@@ -155,8 +150,6 @@
                    tal:attributes="href python:str(nextsib.getId) + '/helplink_view_section'"
                    tabindex="1"
                    href="">
-                  <!--<span i18n:translate="label_next">Next: </span>-->
-                  <<!--span tal:replace="nextsib/Title" />-->
                   <span tal:content="python:here.trunc(nextsib.Title)" /><span tal:content="nextsib/Title" class="hovertooltip" tal:condition="python:len(nextsib.Title) > len(here.trunc(nextsib.Title))"/>                   
                   <img tal:replace="structure here/arrowRight.gif" /> 
                    </a>

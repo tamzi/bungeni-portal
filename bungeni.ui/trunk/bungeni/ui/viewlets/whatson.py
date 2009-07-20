@@ -60,7 +60,7 @@ class WhatsOnBrowserView(BrowserView):
                 self.start_date,
                 self.end_date))).order_by(
                     schema.sittings.c.start_date).options(
-                    eagerload('group'))
+                    eagerload('group'), eagerload('sitting_type'))
         sittings = query.all()
         day = u''
         day_list = []
@@ -103,6 +103,7 @@ class WhatsOnBrowserView(BrowserView):
         query = session.query(domain.ItemSchedule).filter( 
             where_clause).order_by('start_date').options(
                     eagerload('sitting'), eagerload('item'),
+                    eagerload('sitting.sitting_type'),
                     lazyload('item.owner'))
         self.itemschedules = query.all()                            
                 
@@ -125,7 +126,8 @@ class WhatsOnBrowserView(BrowserView):
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
                         str(schedule.item.parliamentary_item_id)),  
                     'group_type': schedule.sitting.group.type,
-                    'group_name' : schedule.sitting.group.short_name,                                                                                      
+                    'group_name' : schedule.sitting.group.short_name,
+                    'sitting_type' : schedule.sitting.sitting_type.sitting_type,
                      })
                 s_dict['day'] = day
                 s_dict['items'] = s_list     

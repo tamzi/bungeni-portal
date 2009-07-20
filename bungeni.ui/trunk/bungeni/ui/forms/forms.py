@@ -297,7 +297,7 @@ class GroupSittingAddForm(AddForm):
       >>> len(sittings)
       6
    
-   create sitting for each monday and thursday
+   Sittings were created for each monday and thursday.
       >>> for key, sitting in sittings.items():
       ...   print sitting.start_date.date()
       1999-10-04

@@ -54,10 +54,11 @@ class WhatsOnBrowserView(BrowserView):
     def get_sittings(self):
         session = Session()        
         query = session.query(domain.GroupSitting).filter(
+            sql.and_( schema.sittings.c.status != 'draft',
             sql.between(
                 schema.sittings.c.start_date,   
                 self.start_date,
-                self.end_date)).order_by(
+                self.end_date))).order_by(
                     schema.sittings.c.start_date).options(
                     eagerload('group'))
         sittings = query.all()
@@ -88,8 +89,10 @@ class WhatsOnBrowserView(BrowserView):
                 'name' : sitting.group.short_name,
                 'url' : url })
             s_dict['day'] = day
-            s_dict['sittings'] = s_list                               
-                                
+            s_dict['sittings'] = s_list                 
+        else:
+            if s_dict:
+                day_list.append(s_dict)                                                                      
         return day_list
 
     def get_items(self):
@@ -120,7 +123,9 @@ class WhatsOnBrowserView(BrowserView):
                     'name': schedule.item.short_name,
                     'status' : schedule.item.status,
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
-                        str(schedule.item.parliamentary_item_id)),                                            
+                        str(schedule.item.parliamentary_item_id)),  
+                    'group_type': schedule.sitting.group.type,
+                    'group_name' : schedule.sitting.group.short_name,                                                                                      
                      })
                 s_dict['day'] = day
                 s_dict['items'] = s_list     

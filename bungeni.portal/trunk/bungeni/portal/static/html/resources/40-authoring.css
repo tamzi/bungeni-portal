@@ -488,5 +488,8 @@ div.formControls input.hidden {
     background-color: white;
 }
 
+.contentViewsLeftPort li:hover {
+    background-color: white;
+}
 
 

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- changed from being a container for procedural motions to being an individual subdivision element
-identifying a motion -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 version="2.0">
     <xsl:output indent="yes" method="xml" encoding="UTF-8"/>
@@ -20,7 +18,7 @@ identifying a motion -->
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="*[@name='ProceduralMotion']">
+    <xsl:template match="*[@name='NoticeOfMotion']">
         <subdivision>
 			<xsl:if test="@id">
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>

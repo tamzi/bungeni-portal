@@ -484,3 +484,9 @@ div.formControls input.hidden {
 
 }
 
+.contentViewsLeftPort li.selected {
+    background-color: white;
+}
+
+
+

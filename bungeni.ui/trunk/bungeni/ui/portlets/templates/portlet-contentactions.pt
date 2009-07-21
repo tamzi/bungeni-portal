@@ -1,5 +1,6 @@
 <dl class="portlet"
-    i18n:domain="bungeni">
+    i18n:domain="bungeni"
+    tal:condition="view/context_actions">
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>

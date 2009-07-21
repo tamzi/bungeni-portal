@@ -125,19 +125,21 @@ class AppSetup(object):
 
         documents = archive["documents"] = Section(
             title=_(u"Documents"),
-            description=_(u"Visit the digital document repository."))
+            description=_(u"Visit the digital document repository."),
+            default_name="@@browse-archive")
+            
 
         # archive/records
-        records[u"bills"] = domain.BillContainer()
-        provideAdapter(location.ContainerLocation(bills, records[u"bills"]),
+        documents[u"bills"] = domain.BillContainer()
+        provideAdapter(location.ContainerLocation(bills, documents[u"bills"]),
                        (implementedBy(domain.Bill), ILocation))
 
-        records[u"motions"] = domain.MotionContainer()
-        provideAdapter(location.ContainerLocation(motions, records[u"motions"]),
+        documents[u"motions"] = domain.MotionContainer()
+        provideAdapter(location.ContainerLocation(motions, documents[u"motions"]),
                        (implementedBy(domain.Motion), ILocation))
 
-        records[u"questions"] = domain.QuestionContainer()
-        provideAdapter(location.ContainerLocation(questions, records[u"questions"]),
+        documents[u"questions"] = domain.QuestionContainer()
+        provideAdapter(location.ContainerLocation(questions, documents[u"questions"]),
                        (implementedBy(domain.Question), ILocation))
 
         records[u"parliaments"] = domain.ParliamentContainer()

@@ -123,7 +123,6 @@ class PlenarySchedulingContext(PrincipalGroupSchedulingContext):
     @property
     def group_id(self):
         """Return current parliament's group id."""
-
         return getCurrentParliamentId()
     
 class CommitteeSchedulingContext(PrincipalGroupSchedulingContext):

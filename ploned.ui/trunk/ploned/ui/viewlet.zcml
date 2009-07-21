@@ -65,7 +65,8 @@
 
  <!-- TODO: The content actions viewlet should require zope.ManageContent -->
  
-   <browser:viewlet
+  <!-- content tabs moved from  IContentViewsManager to a portlet --> 
+   <!--browser:viewlet
       name="plone.content.tabs"
       for="*"
       manager=".interfaces.IContentViewsManager"
@@ -73,7 +74,7 @@
       template="templates/contentviews.pt"
       permission="zope.Public"
       weight="10"
-      />
+      /-->
          
    <browser:viewlet
       name="plone.content.personaltools"

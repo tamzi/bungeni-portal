@@ -1,6 +1,5 @@
 <div i18n:domain="plone"
      tal:omit-tag="">
-
         <h5 class="hiddenStructure"
             i18n:translate="heading_views">Views</h5>
 

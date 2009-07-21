@@ -31,3 +31,6 @@ class IArchiveSectionLayer(IDefaultBrowserLayer):
 class IBusinessSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the business section."""
 
+class IMembersSectionLayer(IDefaultBrowserLayer):
+    """Requests for an object within the members section."""
+

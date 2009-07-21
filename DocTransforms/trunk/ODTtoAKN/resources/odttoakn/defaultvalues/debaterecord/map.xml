@@ -13,9 +13,15 @@
 		<element id="10" bungeniSectionType="QuestionAnswer" result="questions" mantain="id"/>
  		<element id="11" bungeniSectionType="Question" result="question" mantain="id"/>
 		<element id="12" bungeniSectionType="PointOfOrder" result="pointOfOrder" mantain="id"/>
-		<element id="13" bungeniSectionType="ProceduralMotion" result="proceduralMotions" mantain="id"/>
-		<element id="14" bungeniSectionType="MotionsContainer" result="noticesOfMotion" mantain="id"/>
+		<element id="13" bungeniSectionType="PMotionsContainer" result="proceduralMotions" mantain="id"/>
+		<element id="14" bungeniSectionType="NMotionsContainer" result="noticesOfMotion" mantain="id"/>
+		<element id="15" bungeniSectionType="NoticeOfMotion" result="subdivision" mantain="id,name"/>
+		<!-- renamed to PMotionsContainer 
+		<element id="42" bungeniSectionType="ProceduralMotion" result="subdivision" mantain="id,name"/>
+		-->
+		<!--
 		<element id="15" bungeniSectionType="Motion" result="subdivision" mantain="id,name"/>
+		-->
 		<element id="16" bungeniSectionType="Person" result="from"/>
 		<element id="17" bungeniSectionType="ActionEvent" result="subdivision" mantain="id"/>
 		<element id="18" bungeniSectionType="Communication" result="communication" mantain="id"/>
@@ -43,5 +49,11 @@
 		<element id="39" bungeniSectionType="references" result="references" mantain="source"/>
 		<element id="40" bungeniSectionType="TLCOrganization" result="TLCOrganization" mantain="id,href,showAs" />
 		<element id="41" bungeniSectionType="TLCPerson" result="TLCPerson" mantain="id,href,showAs" />
+		<!-- new elements AN 2009 release -->
+		<element id="43" bungeniSectionType="PersonalStatement" result="subdivision" mantain="id,name"/>
+		<element id="44" bungeniSectionType="MinisterialStatement" result="subdivision" mantain="id,name"/>
+	    <element id="45" bungeniSectionType="Petitions" result="petitions" mantain="id"/>
+ 	    <element id="46" bungeniSectionType="PetitionsList" result="other" mantain="id"/>
+		
 	</elements> 
 </map>

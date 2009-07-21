@@ -716,6 +716,7 @@
 
   <browser:menuItem
      menu="context_actions"
+     layer=".interfaces.IBusinessSectionLayer"     
      for="bungeni.models.interfaces.ICommittee"
      action="./calendar"
      title="Calendar"

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- changed from being a container for procedural motions to being an individual subdivision element
-identifying a motion -->
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
                 version="2.0">
     <xsl:output indent="yes" method="xml" encoding="UTF-8"/>
@@ -20,17 +18,14 @@ identifying a motion -->
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="*[@name='ProceduralMotion']">
-        <subdivision>
+    <xsl:template match="*[@name='PetitionsList']">
+        <other>
 			<xsl:if test="@id">
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
 			</xsl:if>
-			<!--<xsl:if test="@name">
-				<xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
-			</xsl:if> -->
 
             <xsl:apply-templates />
-        </subdivision>
+        </other>
     </xsl:template>
     
     <xsl:template match="text()">

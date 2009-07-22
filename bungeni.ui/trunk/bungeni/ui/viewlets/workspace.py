@@ -584,12 +584,39 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
 class MPItemPendingViewlet(ItemInStageViewlet):
     """ scheduled or pending written answer """
     name = "Items pending"
-    states = []
+    states = [
+        question_wf_state[u"scheduled"].id,
+        question_wf_state[u"postponed"].id,
+        question_wf_state[u"response_pending"].id,        
+        question_wf_state[u"deferred"].id,
+        question_wf_state[u"responded"].id,
+        motion_wf_state[u"deferred"].id,
+        motion_wf_state[u"postponed"].id,
+        motion_wf_state[u"scheduled"].id
+        ]
     list_id = "items-pending" 
 
 
-#class MPItemFinal
+class MPItemSuccessEndViewlet(ItemInStageViewlet):
+    """ items in end status that were discussed/answered ..."""
+    name = "Items succesfully tabled"
+    states = [
+        question_wf_state[u"answered"].id,
+        #question_wf_state[u"debated"].id,
+        motion_wf_state[u"debated"].id,
+        ]
+    list_id = "items-sucess"     
 
-
-
-
+class MPItemFailedEndViewlet(ItemInStageViewlet):
+    """ Items in end status that did not recieve an answer """
+    name = "Items that failed to be tabled"
+    states = [
+        question_wf_state[u"elapsed"].id,
+        question_wf_state[u"withdrawn"].id,
+        question_wf_state[u"inadmissible"].id,        
+        motion_wf_state[u"withdrawn"].id,
+        motion_wf_state[u"elapsed"].id,
+        motion_wf_state[u"inadmissible"].id
+        ]
+    list_id = "items-failed"     
+    

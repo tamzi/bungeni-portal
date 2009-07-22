@@ -97,6 +97,7 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
 
     states = (
         bill_wf_state[u"submitted"].id,
+        bill_wf_state[u"first_reading"].id,        
         bill_wf_state[u"first_reading_postponed"].id,
         bill_wf_state[u"second_reading"].id,
         bill_wf_state[u"second_reading_postponed"].id,

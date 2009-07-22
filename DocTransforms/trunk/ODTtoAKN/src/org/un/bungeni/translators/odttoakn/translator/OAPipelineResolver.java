@@ -75,7 +75,7 @@ public final class OAPipelineResolver implements org.un.bungeni.translators.inte
 			
 			//get the name of the element
 			String elementName = (String)XPathResolver.getInstance().evaluate(pipeline, "//xslt[@href='" + xsltURI + "']/@name", XPathConstants.STRING);
-			
+		
 			//get the XSLT file
 			File XSLTFile = new File(GlobalConfigurations.getApplicationPathPrefix() + xsltURI);
 			

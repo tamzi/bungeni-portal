@@ -4,11 +4,15 @@
       i18n:domain="plonehelpcenter">
 
 <head>
- <metal:slot fill-slot="javascript_head_slot">
-   <script type="text/javascript" tal:attributes="src string:${context/portal_url}/TabbedSubpages.js" src=""></script>
-   <LINK tal:attributes="href string:${context/portal_url}/TabbedSubpages.css"
-         href="TabbedSubpages.css" rel="stylesheet" type="text/css"/>
- </metal:slot>
+
+  <div metal:fill-slot="javascript_head_slot" tal:omit-tag="">
+     <script type="text/javascript"
+             tal:attributes="src string:${context/portal_url}/TabbedSubpages.js">
+     </script>
+     <link type="text/css" rel="stylesheet"
+           tal:attributes="href string:${context/portal_url}/TabbedSubpages.css"/>
+</div>     
+   
 </head>
 <body>
 

@@ -7,6 +7,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.viewlet import viewlet
 
 from ore.alchemist import Session
+from ore.workflow import interfaces
 
 from bungeni.core.workflows.question import states as question_wf_state #[u"questionstates
 from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionstates
@@ -488,4 +489,107 @@ class BillItemsViewlet( ViewletBase ):
                                                                                 bill_wf_state[u"third_reading_postponed"].id ]
                                                                                 ))
         self.query = bills            
+
+
+class ItemInStageViewlet( ViewletBase ):
+    """
+    Group parliamentary items per stage:
+    e.g. action required, in progress, answered/debated,
+    'dead' (withdrawn, elapsed, inadmissible)
+    
+    """
+    name = "Items in Stage"
+    states = []
+    list_id = "items-in-stage"    
+
+    def get_wf_state(self, item):
+        # return human readable workflow title
+        wf = interfaces.IWorkflow(item) 
+        wf_state = interfaces.IWorkflowState(
+            item).getState()
+        return wf.workflow.states[wf_state].title    
+
+    def getData(self):
+        """
+        return the data of the query
+        """      
+        data_list = []
+        results = self.query.all()
+       
+        for result in results:            
+            data ={}
+            wf_state = self.get_wf_state(result)
+            data['qid']= ( 'i-' + str(result.parliamentary_item_id) )                         
+            data['subject'] = ( u'(' + wf_state +  
+                     u') ' + result.short_name)
+            data['title'] = result.short_name      
+            data['result_item_class'] = 'workflow-state-' + result.status       
+            data['url'] = '/business/%ss/obj-%i' %(result.type, 
+                            result.parliamentary_item_id)
+            data_list.append(data)            
+        return data_list
+
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        try:
+            user_id = self._parent.user_id    
+        except:
+            user_id = None     
+        qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
+                domain.ParliamentaryItem.status.in_(self.states),
+                domain.ParliamentaryItem.type.in_(['motion','question'] ))        
+        self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
+            domain.ParliamentaryItem.parliamentary_item_id.desc())  
+
+
+
+class MPItemActionRequiredViewlet( ItemInStageViewlet ): 
+    """
+    Display all questions and motions that require action
+    (e.g. draft, clarification required)
+    """  
+    name = "Action required"
+    states = [motion_wf_state[u"clarify_mp"].id,
+        motion_wf_state[u"draft"].id,
+        question_wf_state[u"clarify_mp"].id,
+        question_wf_state[u"draft"].id,
+        ]
+    list_id = "items-action-required"     
+
+
+    
+
+class MPItemInProgressViewlet(ItemInStageViewlet):
+    """
+    going through the workflow in clerks/speakers office
+    """
+    name = "Items in progress"
+    states = [
+        question_wf_state[u"submitted"].id,
+        question_wf_state[u"received"].id,
+        question_wf_state[u"admissible"].id,
+        question_wf_state[u"clarify_clerk"].id,     
+        question_wf_state[u"complete"].id,  
+        motion_wf_state[u"submitted"].id,
+        motion_wf_state[u"received"].id,
+        motion_wf_state[u"complete"].id,
+        motion_wf_state[u"clarify_clerk"].id,
+        motion_wf_state[u"admissible"].id,
+        ]
+    list_id = "items-in-progress"     
+
+class MPItemPendingViewlet(ItemInStageViewlet):
+    """ scheduled or pending written answer """
+    name = "Items pending"
+    states = []
+    list_id = "items-pending" 
+
+
+#class MPItemFinal
+
+
+
 

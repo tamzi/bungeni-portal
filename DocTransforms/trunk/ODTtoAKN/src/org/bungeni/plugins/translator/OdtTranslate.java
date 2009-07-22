@@ -61,31 +61,49 @@ public class OdtTranslate implements IEditorPlugin {
 		FileInputStream fis = null;
 		FileOutputStream fos = null;
 		String retvalue = "";
+		boolean bExceptionOccured = false;
+		HashMap<String, File> filesMap = new HashMap<String,File>();
+		OATranslator myTranslator = null;
 	//	final ClassLoader savedClassLoader = Thread.currentThread().getContextClassLoader();
 		try 
 		{
 			System.out.println("getting translator instance");
 			//Thread.currentThread().setContextClassLoader(OdtTranslate.class.getClassLoader());
-			OATranslator myTranslator = OATranslator.getInstance();
+			myTranslator = OATranslator.getInstance();
 
 			System.out.println("calling translate");
 			
 			String fullPathToPipeline = GlobalConfigurations.getApplicationPathPrefix() + this.translatorPipeline;
 			
-			HashMap<String, File> filesMap = myTranslator.translate(this.odfFileUrl, fullPathToPipeline);
+			filesMap = myTranslator.translate(this.odfFileUrl, fullPathToPipeline);
 			
-			System.out.println("writing outputs");
+			System.out.println("no exceptions occured : writing outputs");
+			/*
 			FileUtility futils = FileUtility.getInstance();
 			File foutputAnxml = new File(this.outputFilePath);
 			File foutputMetalex = new File(this.outputMetalexFilePath);
 			futils.copyFile(filesMap.get("anxml"), foutputAnxml);
 			futils.copyFile(filesMap.get("metalex"), foutputMetalex);
-			retvalue = myTranslator.getValidationErrors();
+			retvalue = myTranslator.getValidationErrors(); */
 		} 
 		catch (Exception e) 
 		{
 			log.error("exec()", e);
-		}  
+			bExceptionOccured = true;
+		}  finally{
+			if (!bExceptionOccured) {
+				FileUtility futils = FileUtility.getInstance();
+				File foutputAnxml = new File(this.outputFilePath);
+				File foutputMetalex = new File(this.outputMetalexFilePath);
+				try {
+					futils.copyFile(filesMap.get("metalex"), foutputMetalex);
+					futils.copyFile(filesMap.get("anxml"), foutputAnxml);
+				} catch (IOException e) {
+					log.error("exec():finally, writing outputs", e);
+				}
+			}
+			retvalue = myTranslator.getValidationErrors();
+		}
 	   return retvalue;
 	}
 

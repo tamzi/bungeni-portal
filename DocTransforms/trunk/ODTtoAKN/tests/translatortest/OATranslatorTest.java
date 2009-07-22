@@ -69,7 +69,7 @@ public class OATranslatorTest
 		//OAXSLProcBuilder.newInstance().createXSLProc(GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/");
 				
 		//perform a translation
-		HashMap<String, File> translatedFiles = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main2.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
+		HashMap<String, File> translatedFiles = myTranslator.translate("resources/ke_debaterecord_2009-7-26_eng.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		//File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		System.out.println("OUTPUTTING ERRORS = \n\n" + myTranslator.getValidationErrors());
 		

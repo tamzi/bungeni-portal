@@ -24,7 +24,6 @@ from bungeni.core.proxy import LocationProxy
 from bungeni.ui.calendar import utils
 
 from ore.alchemist import Session
-
 from sqlalchemy import sql
 
 def format_date(date):
@@ -89,26 +88,26 @@ class PrincipalGroupSchedulingContext(object):
         except IndexError:
             raise RuntimeError("Group not found (%d)." % self.group_id)
             
-        group.__name__ = name
-        group.__parent__ = self
-
         return group
 
     def get_sittings(self, start_date=None, end_date=None):
         sittings = self.get_group().sittings
         if start_date is None and end_date is None:
             return sittings
-        else:
-            assert start_date and end_date
-            unproxied = removeSecurityProxy(sittings)
-            session = Session()
 
-            unproxied.subset_query = sql.and_(
-                unproxied.subset_query,
-                GroupSitting.start_date.between(
-                    format_date(start_date),
-                    format_date(end_date))
-                )
+        assert start_date and end_date
+        unproxied = removeSecurityProxy(sittings)
+        session = Session()
+
+        unproxied.subset_query = sql.and_(
+            unproxied.subset_query,
+            GroupSitting.start_date.between(
+                format_date(start_date),
+                format_date(end_date))
+            )
+
+        unproxied.__parent__ = ProxyFactory(LocationProxy(
+            unproxied.__parent__, container=self, name="group"))
 
         return sittings
 

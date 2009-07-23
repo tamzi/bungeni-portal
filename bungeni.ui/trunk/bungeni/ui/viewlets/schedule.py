@@ -36,7 +36,7 @@ class SchedulablesViewlet(viewlet.ViewletBase):
 
     def __init__(self, context, request, view, manager):
         while not ISchedulingContext.providedBy(context):
-            context = context.__parent__
+            context = ISchedulingContext(context, context.__parent__)
             if context is None:
                 raise RuntimeError("Unable to locate a scheduling context.")
         super(SchedulablesViewlet, self).__init__(

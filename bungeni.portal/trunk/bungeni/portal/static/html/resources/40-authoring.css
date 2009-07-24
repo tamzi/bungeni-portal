@@ -486,10 +486,12 @@ div.formControls input.hidden {
 
 .contentViewsLeftPort li.selected {
     background-color: white;
+    text-decoration: bold;    
 }
 
 .contentViewsLeftPort li:hover {
     background-color: white;
+    text-decoration: bold;
 }
 
 

@@ -9,10 +9,31 @@ class PlonedLayout(object):
     def __init__(self, context, request):
         template = layout.bungeni
         
-        def render(slots, **kwargs):
+        def render(slots, **kwargs):            
+            ectx = kwargs.get('econtext', None)
+            if ectx:
+                request = ectx.get('request', None)
+            else:
+                request = None                
+            if request:
+                url = request.getURL()
+            else:
+                url = None                
+            if url:
+                path = url.split('//')
+            else:
+                path = ''                
+            if len(path) == 2:
+                spath = path[1].split('/')
+            else:
+                spath = ''
+            if len(spath) > 0:
+                section = '-' + spath[1]
+            else:
+                section = ''                                                                                                                        
             kwargs['attributes'] = {
                 'plone.body.attributes': {
-                    'class': "section-bungeni",
+                    'class': "section-bungeni" + section,
                     }
                 }
 

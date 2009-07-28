@@ -297,7 +297,6 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 				
 			//print the message and the exception into the logger
 			logger.fatal((new XSLTBuildingException(message)).getStackTrace());
-			
 			//RETURN null
 			return null;
 		}

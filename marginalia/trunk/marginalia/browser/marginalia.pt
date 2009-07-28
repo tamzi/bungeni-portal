@@ -5,7 +5,7 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="marginalia">
 <head>
-  <title tal:content="context/title/title">recipe name goes here</title>
+  <!--title tal:content="context/title/title">recipe name goes here</title-->
   <!-- 3rd Party -->
 <script type="text/javascript" src="3rd-party.js"        
      tal:attributes="src context/++resource++jsmarginalia/3rd-party.js"></script>

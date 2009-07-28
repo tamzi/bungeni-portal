@@ -35,7 +35,7 @@ public class OATranslatorTest
 		//GlobalConfigurations.setApplicationPathPrefix("/Users/lucacervone/Documents/AKNTranslatorData/resources/");
 		GlobalConfigurations.setApplicationPathPrefix("resources/");
 		//GlobalConfigurations.setConfigurationFilePath("configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
-		GlobalConfigurations.setConfigurationFilePath("configfiles/odttoakn/TranslatorConfig_debaterecord.xml");
+		GlobalConfigurations.setConfigurationFilePath("configfiles/odttoakn/TranslatorConfig_bill.xml");
 
 		//get the instance of the translator
 		myTranslator = OATranslator.getInstance();
@@ -69,7 +69,7 @@ public class OATranslatorTest
 		//OAXSLProcBuilder.newInstance().createXSLProc(GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/");
 				
 		//perform a translation
-		HashMap<String, File> translatedFiles = myTranslator.translate("resources/ken_bill_2009_1_10_eng_main.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
+		HashMap<String, File> translatedFiles = myTranslator.translate("resources/ken_bill_2009_1_10_eng_main.odt",GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/pipeline.xsl");
 		//File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/debaterecord/pipeline.xsl");
 		System.out.println("OUTPUTTING ERRORS = \n\n" + myTranslator.getValidationErrors());
 		

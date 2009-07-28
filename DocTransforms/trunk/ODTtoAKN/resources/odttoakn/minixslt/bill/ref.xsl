@@ -26,9 +26,6 @@
             <xsl:if test="@id">
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
 			</xsl:if>
-            <xsl:if test="not(@id)">
-				<xsl:attribute name="id"><xsl:value-of select="generate-id()" /></xsl:attribute>
-			</xsl:if>
             <xsl:apply-templates />
         </ref>
     </xsl:template>

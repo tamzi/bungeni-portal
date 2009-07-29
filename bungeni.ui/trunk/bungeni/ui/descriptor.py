@@ -31,6 +31,7 @@ from bungeni.ui.widgets import OneTimeEditWidget
 from bungeni.ui.constraints import check_email
 from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
+from bungeni.ui import diff
 
 
 ###
@@ -311,7 +312,8 @@ class UserDescriptor( ModelDescriptor ):
               property=schema.Text(title=_(u"Notes"), required=False),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor 
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
                ),
         dict( name ="image", 
                 label=_(u"Image"), 
@@ -387,10 +389,11 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                 add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active"), view=False),
         dict( name="notes", 
-                label=_(u"Notes"), 
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor,
-                add_widget=RichTextEditor
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
              ),
         dict( name="substitution_type", 
                 label=_(u"Type of Substitution"), 
@@ -494,7 +497,8 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
                 label=_(u"Notes"), 
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor,
-                add_widget=RichTextEditor
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
              ),
         dict( name="substitution_type", omit=True),
         dict( name="replaced_id", omit=True),
@@ -534,7 +538,8 @@ class GroupDescriptor( ModelDescriptor ):
                     required=False ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor,
-              add_widget=RichTextEditor),
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),
         dict( name="start_date", 
                 label=_(u"Start Date"), 
                 listing=True, 
@@ -576,7 +581,8 @@ class ParliamentDescriptor( GroupDescriptor ):
               property=schema.Text(title=_(u"Description"), required=False),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor 
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
                ),
         dict( name="election_date",
               label=_(u"Election Date"), 
@@ -902,7 +908,8 @@ class ParliamentSession( ModelDescriptor ):
                 required=False ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor,
-              add_widget=RichTextEditor )
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,)
         ])
         
     schema_invariants = [EndAfterStart]        
@@ -937,7 +944,8 @@ class GovernmentDescriptor( ModelDescriptor ):
                 property=schema.Text(title=_(u"Notes") , required=False),
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor,
-                add_widget=RichTextEditor
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
             ),
         dict( name="status", omit=True),
         dict( name="government_id", omit=True), 
@@ -996,7 +1004,8 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               property = schema.Text( title=u"Text" ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
               ),
         dict( name="submission_date", 
             label=_(u"Submission Date"), 
@@ -1062,6 +1071,7 @@ class ChangeDescriptor( ModelDescriptor ):
             view_widget=HTMLDisplay,
             edit_widget=RichTextEditor, 
             add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
             ),        
         ]                 
         
@@ -1102,7 +1112,8 @@ class VersionDescriptor( ModelDescriptor ):
               property = schema.Text( title=u"Text" ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
               ),
         dict( name="submission_date", 
             omit=True),        
@@ -1117,7 +1128,8 @@ class VersionDescriptor( ModelDescriptor ):
               add = True, 
               view = False, 
               view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor, ),    
+              edit_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),    
         dict( name="receive_notification",               
               omit=True ),  
         dict( name="type", 
@@ -1205,7 +1217,8 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                 label=_(u"Summary"), 
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor),
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),
         dict( name="identifier", label=_(u"Identifer"),
                 add=False ),
         dict( name="publication_date", 
@@ -1327,7 +1340,8 @@ class MotionAmendmentDescriptor( ModelDescriptor ):
                 property = schema.Text( title=u"Motion Amendment" ),
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
               ),
         dict( name="submission_date", 
                 label=_(u"Submission Date"),  
@@ -1434,7 +1448,8 @@ class DebateDescriptor ( ModelDescriptor ):
               property = schema.Text( title=u"Transcript" ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
               ),   
         ]             
         
@@ -1513,7 +1528,8 @@ class ResponseDescriptor( ModelDescriptor ):
                 description=_(u"Response to the Question"),
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor ),
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),
         dict( name="sitting_time", 
                 label=_(u"Sitting Time"), 
                 description=_(u"Time of the Sitting"), 
@@ -1552,7 +1568,8 @@ class ResponseVersionDescriptor( ModelDescriptor ):
                 description=_(u"Response to the Question"),
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor ),
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),
         dict( name="sitting_time", 
               omit = True ),
         ]     
@@ -1776,7 +1793,8 @@ class ScheduledItemDiscussionDescriptor(ModelDescriptor):
               property = schema.Text(title=u"Minutes"),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
               ),
 #        dict(name="sitting_time", 
 #             label=_(u"Sitting time"), 

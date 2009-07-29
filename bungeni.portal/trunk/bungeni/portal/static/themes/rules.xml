@@ -1,127 +1,119 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
   <theme href="/static/themes/layout.html" />
- 
-  <match path="exact:/" class="frontpage" />
-  <match path="/business/committees/"  class="load-committees-navigation" />          
-  <match path="/bungeni" class="load-primary-navigation" />
-  <match path="/business/"  class="load-business-navigation" />
-  <match path="/members/"  class="load-member-navigation" />
-  <match path="/business/"  class="load-business-navigation" />
-  <match path="/archive/"  class="load-archive-navigation" />
-  <match path="/" class="primary" />
-
-
-  <rule class="load-committees-navigation">
-    <prepend href="/plone/groups/group.parliament.9/group.committee.196"
-            content=".navTree > li.navTreeCurrentNode"
-            theme="children:#portal-column-content .contentViews" />
-    <prepend content=".contentViews > li"
-            theme="children:#portal-column-content .contentViews" />
+  <match path="exact:/"
+         class="frontpage" />
+  <match path="regex:^/business/committees/obj-([0-9])+(/)?(view)?$"
+         class="workspace" />
+  <match path="regex:^/(business|members|archive|calendar)/?"
+         class="bungeni" />
+  <match path="/"
+         class="primary" />
+  
+  <rule class="workspace">
+    <!-- content -->
+    <prepend content="dl.enableFormTabbing > dt"
+             theme="children:dl.enableFormTabbing" />
+    <prepend content="dl.enableFormTabbing > dd"
+             theme="children:dl.enableFormTabbing" />
+    <replace href="/groups/group.parliament.9/group.committee.196"
+             content="children:#portal-column-content"
+             theme="children:#fieldset-display-form-workspace > div" />
    </rule>
   
-  <rule class="load-business-navigation">
-    <append href="/plone/business"
-            content="#portal-globalnav > li:not(:first-child)"
-            theme="children:#portal-globalnav > ul" />
-    <append content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />
-    <drop content="#portal-globalnav > li"/>
-    <drop content="#portal-globalnav"/>
-    <drop href="/plone"
-          theme="#portal-globalnav > li"/>
-    <replace content="#portal-column-one"
-            theme="#portal-column-one" />
-    <replace content=".contentActions"
-             theme=".contentActions" />
-    <replace content="#region-content"
-             theme="#region-content" />    
-   </rule>
 
-  <rule class="load-archive-navigation">
-    <append href="/plone/archive"
+  <rule class="bungeni">
+    <!-- menu -->
+    <append href="/plone"
             content="#portal-globalnav > li:not(:first-child)"
-            theme="children:#portal-globalnav > ul" />
-    <append content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />    
-    <append href="/plone/archive"
-            content="ul.navTreeLevel1 li"
-            theme="children:#portal-globalnav ul.level1"/>    
-    <drop content="#portal-globalnav"/>    
-    <replace content="#portal-column-one"
-             theme="#portal-column-one"/>    
-    <replace content="#portal-column-content"
-            theme="#portal-column-content" />  
-   </rule>
-
-
-  <rule class="load-member-navigation">
-    <append href="/plone/members"
-            content="#portal-globalnav > li:not(:first-child)"
-            theme="children:#portal-globalnav > ul" />
-    <append content="ul#portal-personaltools li.navigation"
+            theme="children:#portal-globalnav > ul" />    
+    <append href="/plone"
+            content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1"
             if-content=".navigation"/>
     <drop content="#portal-globalnav"/>
+
+    <!-- left portlet -->
     <replace content="#portal-column-one"
             theme="#portal-column-one" />
-    <replace content="#portal-column-content"
-             theme="#portal-column-content" />    
-   </rule>
 
+    <!-- content -->
+    <prepend content="children:#portal-column-content"
+             theme="children:#portal-column-content" />    
+   </rule>
+  
 
   <rule class="frontpage">
-    
-    <prepend href="/business/bills"
-            content="head> script" theme="children:head"/>
+    <!-- header-->
+    <replace content="#portal-logo" theme="#portal-logo" />
+    <replace content="#portal-searchbox" theme="#portal-searchbox" />
+
+    <!-- menu -->
+    <prepend href="/bungeni"
+             content="#portal-globalnav > li:first-child"
+             theme="children:#portal-globalnav > ul" />
+    <append content="#portal-globalnav > li"
+             theme="children:#portal-globalnav > ul" />
+    <drop content="#portal-globalnav > li:first-child"/> 
+    <replace content="#portal-personaltools" theme="#portal-personaltools" />
+    <append href="/bungeni"
+            content="ul#portal-personaltools li.navigation"
+            theme="children:#portal-globalnav ul.level1" />    
+
+    <!-- breadcrumbs -->
+    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
+
+    <!-- content -->
     <prepend href="/bungeni/"
             content="elements:#bungeni-workspace" theme="children:#bungeni-workspace"/>
     <append content=".portletWorkflowReview"
             theme="children:#review-portlet" />
     <prepend href="/business/"
-             content="children:#portal-column-content"
+             content=".contentActions"
+             theme="children:.main-content"/>
+
+    <!-- right portlet -->
+    <prepend href="/business/"
+             content="children:#region-content"
              theme="children:#portal-column-two"/>
     <append content="children:#portal-column-two" theme="children:#portal-column-two" />
-    <replace content="#portal-logo" theme="#portal-logo" />
-    <replace content="#portal-searchbox" theme="#portal-searchbox" />
-    <replace content="#portal-personaltools" theme="#portal-personaltools" />
-    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
-    <prepend href="/bungeni"
-             content="#portal-globalnav > li:first-child"
-             theme="children:#portal-globalnav > ul" />
-    <append href="/bungeni"
-            content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />    
-    <append content="#portal-globalnav > li"
-             theme="children:#portal-globalnav > ul" />
-    <drop content="#portal-globalnav > li:first-child"/>
+    
+    <!-- body attributes -->
     <append content="attributes(class):body"
             theme="attributes:body" />
+    <replace content="attributes(class):body"
+            theme="attributes:dl.enableFormTabbing" />            
     <append href="/bungeni/"
             content="attributes:div#bungeni-workspace"
             theme="attributes:body" />    
-    
   </rule>  
 
   
   <rule class="primary">
+    <!-- header -->
     <replace content="#portal-logo" theme="#portal-logo" />
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
-    <replace content="#portal-personaltools" theme="#portal-personaltools" />
-    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
 
+    <!-- menu -->
     <prepend href="/bungeni"
              content="#portal-globalnav > li:first-child"
              theme="children:#portal-globalnav > ul" />
-    <append content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />    
     <drop content="#portal-globalnav > li:first-child"/>
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
+    <append content="#portal-personaltools .navigation"
+            theme="children:#portal-personaltools" />
+    <append href="/plone"
+            content="children:#portal-personaltools :not(.navigation)"
+            theme="children:#portal-personaltools" />            
+
+    <!-- breadcrumbs -->
+    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
+
+    <!-- content -->
     <append content="children:#portal-column-content" theme="children:.main-content" />
-    <replace content="children:title" theme="children:h1" />
-    <append content="attributes:body" theme="attributes:body" />    
+
+    <!-- body attributes -->
+    <append content="attributes:body" theme="attributes:body" />
    </rule>
-
-
 </ruleset>

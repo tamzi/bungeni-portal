@@ -1,10 +1,10 @@
 <metal:block define-macro="body">
 
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!--html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="marginalia">
-<head>
+<head-->
   <!--title tal:content="context/title/title">recipe name goes here</title-->
   <!-- 3rd Party -->
 <script type="text/javascript" src="3rd-party.js"        
@@ -139,8 +139,8 @@ function bungeniClickCreateAnnotation( event, id ) {
 <link rel="stylesheet" type="text/css" media="all" href="marginalia.css"
       tal:attributes="href context/++resource++marginaliaadmin.css" />
 </tal:cond>
-</head>
-<body>
+<!--/head>
+<body-->
 
 <metal:main tal:define="annotatedUrl string:${context/@@absolute_url};
                         text python:view.getBodyText();
@@ -235,7 +235,7 @@ bar.</div>
 
 </metal:main>
 
-</body>
-</html>
+<!--/body>
+</html-->
 
 </metal:block>

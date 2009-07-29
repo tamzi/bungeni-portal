@@ -414,7 +414,12 @@ public class ExceptionManager implements ErrorHandler
     		if(idAndName[0].compareTo(anId) == 0)
     		{
     			//assign the first words of the section to the result 
-    			result = idAndName[1];
+    			//ashok: sometimes the section is empty and does not have any content, in such cases idAndName[1] will 
+    			//throw an outofbounds exception
+    			if (idAndName.length >= 2)
+    				result = idAndName[1];
+    			else
+    				result = "";
     		}
     	}
     	

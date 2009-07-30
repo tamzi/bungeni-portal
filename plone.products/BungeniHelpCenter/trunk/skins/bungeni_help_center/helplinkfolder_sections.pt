@@ -71,15 +71,17 @@
 
                 <a href="" tal:content="item/Title"
                    tal:attributes="href python:str(item.getId) + '/helplink_view_section';">Item</a>
-
+                <br/>
+                <span tal:content="item/Description">Description</span>                
                 <img src="error_icon.gif" alt="!" class="outdatedMarker"
                      tal:condition="item/isOutdated"
                      title="This item applies to a previous version" 
                      i18n:attributes="title"/>
+                
             </li>
             
             
-            <dd tal:content="item/Description">Description</dd>
+            
           </tal:item>
         </ul>
         <dl>[<a href="helplinkfolder_sections#portal-top">Back</a>]</dl>

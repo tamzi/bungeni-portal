@@ -72,4 +72,40 @@ insert into zope_principal_role_map
 select users.login, 'bungeni.owner' as role_id, true as setting, parliamentary_items.type, parliamentary_items.parliamentary_item_id 
 from users inner join parliamentary_items on users.user_id = parliamentary_items.owner_id;
 
+insert into zope_role_permission_map
+select 'bungeni.Owner' as role_id,
+ 'bungeni.' || parliamentary_items.type ||  '.Edit' as permission_id,
+true as setting,
+parliamentary_items.type as type,
+parliamentary_items.parliamentary_item_id as object_id
+from parliamentary_items;
+
+insert into zope_role_permission_map
+select 'bungeni.Owner' as role_id,
+ 'zope.View' as permission_id,
+true as setting,
+parliamentary_items.type as type,
+parliamentary_items.parliamentary_item_id as object_id
+from parliamentary_items;
+
+insert into zope_role_permission_map
+select 'bungeni.Anybody' as role_id,
+ 'zope.View' as permission_id,
+false as setting,
+parliamentary_items.type as type,
+parliamentary_items.parliamentary_item_id as object_id
+from parliamentary_items;
+
+
+insert into zope_role_permission_map
+select 'bungeni.Everybody' as role_id,
+ 'zope.View' as permission_id,
+false as setting,
+parliamentary_items.type as type,
+parliamentary_items.parliamentary_item_id as object_id
+from parliamentary_items;
+
+
+
+
 

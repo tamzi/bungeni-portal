@@ -22,9 +22,9 @@ from '%(directory)s/data/demodata/motions.csv'
 csv ; 
 
 
+UPDATE "public"."parliamentary_items" set "status" = 'draft';
 
-
-COPY public.question_changes (change_id, content_id, action, date, description, notes, user_id)
+/*COPY public.question_changes (change_id, content_id, action, date, description, notes, user_id)
 from '%(directory)s/data/demodata/question_changes.csv'
 csv ; 
 
@@ -54,6 +54,8 @@ UPDATE public.parliamentary_items
     WHERE type = 'question' 
     AND status = 'draft';
 
+*/
+
 SELECT setval('motion_changes_change_id_seq', 4000);
 
 SELECT setval('bill_changes_change_id_seq', 4000);
@@ -66,6 +68,8 @@ SELECT setval('bill_versions_version_id_seq', 2000);
 SELECT setval('question_versions_version_id_seq', 2000);
 SELECT setval('motion_versions_version_id_seq', 2000);
  
- 
+insert into zope_principal_role_map
+select users.login, 'bungeni.owner' as role_id, true as setting, parliamentary_items.type, parliamentary_items.parliamentary_item_id 
+from users inner join parliamentary_items on users.user_id = parliamentary_items.owner_id;
 
 

@@ -1,12 +1,21 @@
 package org.un.bungeni.translators.utility.files;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.nio.channels.FileChannel;
+
+import org.xml.sax.InputSource;
 
 
 /**
@@ -17,8 +26,25 @@ public class FileUtility
 {
 	/* The instance of this FileUtility object*/
 	private static FileUtility instance = null;
+	
+	/*This is the logger*/
+	private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger("org.un.bungeni.translators.utility.files.FileUtility");
+	
 		
+	 /**
+     * The system line separator string.
+     */
+    public static final String LINE_SEPARATOR;
+    static {
+    	//get the line separator for the platform
+    	StringWriter buf = new StringWriter(4);
+        PrintWriter out = new PrintWriter(buf);
+        out.println();
+        LINE_SEPARATOR = buf.toString();
+    }
 
+    
+	
 	/**
 	 * Private constructor used to create the FileUtility instance
 	 */
@@ -51,20 +77,50 @@ public class FileUtility
 	 */
 	public String FileToString(String aFilePath) throws IOException
 	{
-		//create a File Input Stream
-	    FileInputStream file = new FileInputStream(aFilePath);
-	    
-	    //the byte array that will contains the byte of the file
-	    byte[] b = new byte[file.available()];
-	    
-	    //read the bytes of the file
-	    file.read(b);
-	    
-	    //close the file
-	    file.close ();
-	    
-	    //return the string containing the content of the file
-	    return new String(b);
+	   FileReader fileReader = null;
+	   BufferedReader bufferedReader = null;
+	   StringBuilder textFromFile = new StringBuilder();
+	        try
+	        {
+	            fileReader = new FileReader(aFilePath); // throws FileNotFoundException
+	            bufferedReader = new BufferedReader(fileReader);
+	            // Read through the entire file
+	            String currentLineFromFile = bufferedReader.readLine(); // throws IOException
+	            int i = 0;
+	            while(currentLineFromFile != null)
+	            {
+	                if (i == 0) {
+	                	textFromFile.append(currentLineFromFile);
+	                } else { 
+	            	// Add a carriage return (line break) to preserve the file formatting.
+	                textFromFile.append(LINE_SEPARATOR + currentLineFromFile);
+	                }
+	                currentLineFromFile = bufferedReader.readLine(); // throws IOException
+	            }
+	            return textFromFile.toString();
+	        }
+	        catch (IOException ioException)
+	        {
+	        	log.error("FileToString: file not found ", ioException);
+	        }
+	        finally
+	        {
+	            // Good practice: Close the readers to free up any resources.
+	            try
+	            {
+	                if (bufferedReader != null)
+	                    bufferedReader.close();
+	                if (fileReader != null)
+	                    fileReader.close();
+	            }
+	            catch(IOException ioExceptionIgnore)
+	            {
+	                // Problems while closing the Readers.
+	                // Nothing much we can do and so we ignore.
+	            }
+
+	        }
+	        return textFromFile.toString();
 	}
 	
 	/**
@@ -102,5 +158,48 @@ public class FileUtility
 	         if (inChannel != null) inChannel.close();
 	         if (outChannel != null) outChannel.close();
 	     }
+	 }
+	 
+	 public BufferedReader BufferedFileReader(String sPath ) throws FileNotFoundException {
+		 File fFile = new File(sPath);
+		 return BufferedFileReader (fFile);
+	 }
+	 
+	 public BufferedReader BufferedFileReader (File fFile) throws FileNotFoundException {
+		 BufferedReader bReader = null;
+		 FileReader fReader = new FileReader(fFile);
+	     bReader = new BufferedReader(fReader);
+		 return bReader;
+	 }
+	 
+	 public BufferedReader BufferedFileReader (InputStream iStream) {
+		 return new BufferedReader ( new InputStreamReader ( iStream ) );
+	 }
+	 
+	 public InputSource FileAsInputSource(String sPath) throws FileNotFoundException {
+		 InputSource iFileSource = null;
+		 BufferedReader bReader =BufferedFileReader(sPath);
+		 if (bReader != null) {
+			 iFileSource = new InputSource(bReader);
+		 }
+		 return iFileSource;
+	 }
+	 
+	 public InputSource StreamAsInputSource (InputStream is) {
+		 InputSource iFileSource = null;
+		 BufferedReader bReader = BufferedFileReader(is);
+		 if (bReader != null) {
+			 iFileSource = new InputSource(bReader);
+		 }
+		 return iFileSource;
+	 }
+	 
+	 public InputSource FileAsInputSource(File fFile) throws FileNotFoundException {
+		 InputSource iFileSource = null;
+		 BufferedReader bReader =BufferedFileReader(fFile);
+		 if (bReader != null) {
+			 iFileSource = new InputSource(bReader);
+		 }
+		 return iFileSource;
 	 }
 }

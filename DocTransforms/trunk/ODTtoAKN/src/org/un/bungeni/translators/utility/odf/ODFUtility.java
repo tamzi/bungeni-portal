@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.openoffice.odf.doc.OdfDocument;
 import org.openoffice.odf.doc.OdfFileDom;
+import org.un.bungeni.translators.utility.files.FileUtility;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -100,7 +101,7 @@ public class ODFUtility
 		InputStream odfMetaStream = odf.getMetaStream();
 		
 		//create the dom of the metadata from the stream 
-		Document odfMeta = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(odfMetaStream);
+		Document odfMeta = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(FileUtility.getInstance().StreamAsInputSource(odfMetaStream));
 		
 		//get all the style nodes contained in the in the style.xml file
 		Node stylesNodes = odfStyle.getElementsByTagName("office:styles").item(0);

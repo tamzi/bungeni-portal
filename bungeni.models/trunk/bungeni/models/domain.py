@@ -258,6 +258,7 @@ class Committee( Group ):
     """        
     committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
     committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")
+    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
         
 
@@ -278,7 +279,8 @@ class Office( Group ):
         
 class OfficeMember( GroupMembership ):
     """ clerks, .... """        
-        
+    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
+            
 class ExtensionGroup( Group ):
     """ Extend selectable users for a group membership """
     extmembers = one2many("extmembers", "bungeni.models.domain.ExtensionMemberContainer", "group_id") 

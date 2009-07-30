@@ -101,7 +101,7 @@ public class OAXSLProcBuilder
 	public void createXSLProc(String outputDirectory) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException
 	{
 		//get the default values container
-		Document defaultValuesDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.defaultValuesPath);
+		Document defaultValuesDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(FileUtility.getInstance().FileAsInputSource(this.defaultValuesPath));
 		
 		//retreive the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();

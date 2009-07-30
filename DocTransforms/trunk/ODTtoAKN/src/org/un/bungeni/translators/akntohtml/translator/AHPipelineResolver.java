@@ -8,6 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -58,7 +59,7 @@ public final class AHPipelineResolver implements org.un.bungeni.translators.inte
 	public Document resolve(String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException 
 	{
 		//open the XSLT file into a DOM document
-		Document pipeline = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(aPipelinePath));
+		Document pipeline = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(FileUtility.getInstance().FileAsInputSource(aPipelinePath));
 		
 		//get all the <xslt> elements in the pipeline
 		NodeList xsltElements = (NodeList)XPathResolver.getInstance().evaluate(pipeline, "//xslt", XPathConstants.NODESET);
@@ -79,7 +80,7 @@ public final class AHPipelineResolver implements org.un.bungeni.translators.inte
 			File XSLTFile = new File(xsltURI);
 			
 			//open the pointed XSLT as a DOM document
-			Document XSLTDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(XSLTFile);
+			Document XSLTDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(FileUtility.getInstance().FileAsInputSource(XSLTFile));
 			
 			//get the content of the template of the XSLT
 			Node templateContent = (Node)XPathResolver.getInstance().evaluate(XSLTDoc, "//*:template[@match='akn:" + elementName + "']/*", XPathConstants.NODE);

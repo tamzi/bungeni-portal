@@ -1,6 +1,7 @@
 package org.un.bungeni.translators.odttoakn.translator;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,6 +13,7 @@ import javax.xml.xpath.XPathExpressionException;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.odttoakn.steps.OAXSLTStep;
+import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 
 /**
@@ -51,8 +53,14 @@ public final class OAInputStepsResolver
 			String stepHref = GlobalConfigurations.getApplicationPathPrefix() + nextStep.getHref();
 			
 			//create a stream source by the href of the XSLT
-			StreamSource xsltStream = new StreamSource(new File(stepHref));
-			
+			StreamSource xsltStream = null;
+			try {
+				xsltStream = new StreamSource(FileUtility.getInstance().BufferedFileReader(stepHref));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				//do nothing
+			}
+			if (xsltStream != null)
 			//start the transformation
 			iteratedDocument = XSLTTransformer.getInstance().transform(iteratedDocument, xsltStream);
 		}

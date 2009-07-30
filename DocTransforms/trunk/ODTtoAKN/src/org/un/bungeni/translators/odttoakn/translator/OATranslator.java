@@ -22,6 +22,7 @@ import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.exceptionmanager.ValidationError;
+import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
 import org.un.bungeni.translators.utility.schemavalidator.SchemaValidator;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
@@ -136,6 +137,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 
 			//translate the document to METALEX
 			File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
+		
 			translatedFiles.put("metalex", metalexFile);
 			
 			//create the XSLT that transforms the metalex
@@ -231,7 +233,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		try
 		{
 			//get the File of the configuration 
-			Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
+			Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(FileUtility.getInstance().FileAsInputSource(aConfigurationPath));
 			
 			//create the configuration 
 			OAConfiguration configuration = new OAConfiguration(configurationDoc);

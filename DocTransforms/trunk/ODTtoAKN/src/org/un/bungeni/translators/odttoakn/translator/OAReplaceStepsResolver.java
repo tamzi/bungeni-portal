@@ -13,6 +13,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.odttoakn.steps.OAReplaceStep;
+import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 
 /**
@@ -70,7 +71,7 @@ public final class OAReplaceStepsResolver
 	    out.close();
 	    
 		//create a new StremSource
-		StreamSource tempStreamSource = new StreamSource(tempFile);
+		StreamSource tempStreamSource = new StreamSource(FileUtility.getInstance().BufferedFileReader(tempFile));
 
 		//return the string of the new created document
 		return tempStreamSource;

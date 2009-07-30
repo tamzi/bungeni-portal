@@ -231,13 +231,9 @@ mapper( domain.MemberOfParty, _mpm,
                 
 # staff assigned to a group (committee, ...)
 
-mapper( domain.StaffGroupMembership, schema.user_group_memberships,
-        polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='staff',
-      )
 
 mapper( domain.CommitteeStaff,
-        inherits=domain.StaffGroupMembership,
+        inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='committeestaff',        
         )

@@ -88,7 +88,10 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	    trans.transform(aDocumentSource, new StreamResult(resultString));
 	    
 	    //returns the obtained file
-	    return new StreamSource(((InputStream)new ByteArrayInputStream(resultString.toString().getBytes("UTF-8"))));
+	   // return new StreamSource(((InputStream)new ByteArrayInputStream(resultString.toString().getBytes("UTF-8"))));
+    	//ashok: simplified byte conversion to Stream using StringReader
+	    return new StreamSource(new java.io.StringReader(resultString.toString()));
+    	
 	}
 	
 	/**
@@ -125,7 +128,10 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	    trans.transform(aDocumentSource, new StreamResult(resultString));
 
 	    //returns the obtained file
-	    return new StreamSource(((InputStream)new ByteArrayInputStream(resultString.toString().getBytes())));
+	    //return new StreamSource(((InputStream)new ByteArrayInputStream(resultString.toString().getBytes())));
+		//ashok: simplified byte conversion to Stream using StringReader
+		 
+	    return new StreamSource(new java.io.StringReader(resultString.toString()));
 	}
 
 }

@@ -12,6 +12,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.interfaces.Translator;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
+import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
@@ -69,7 +70,8 @@ public class AHTranslator implements Translator
 		File xslt = this.buildXSLT(pipelinePath);
 		
 		//apply the XSLT to the document 
-		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(new File(documentPath)), new StreamSource(xslt));
+	    FileUtility fileUtil = FileUtility.getInstance();
+		StreamSource result = XSLTTransformer.getInstance().transform(fileUtil.FileAsStreamSource(documentPath), fileUtil.FileAsStreamSource(xslt));
 		
 		
 		//write the stream to a File and return it

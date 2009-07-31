@@ -55,7 +55,7 @@ public final class OAInputStepsResolver
 			//create a stream source by the href of the XSLT
 			StreamSource xsltStream = null;
 			try {
-				xsltStream = new StreamSource(FileUtility.getInstance().BufferedFileReader(stepHref));
+				xsltStream = FileUtility.getInstance().FileAsStreamSource(stepHref);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				//do nothing

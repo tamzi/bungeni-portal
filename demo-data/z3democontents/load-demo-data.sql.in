@@ -377,6 +377,14 @@ WHERE user_id IN
     (SELECT "ugm"."user_id"     
     FROM "public"."user_group_memberships" as ugm
     WHERE ( "ugm"."membership_type" = 'committeestaff' ));
+
+update user_group_memberships set membership_type = 'committeestaff'
+where membership_type = 'committeemember'
+and user_group_memberships.user_id not in (
+select user_id 
+from user_group_memberships  as ugms inner join parliaments 
+	on ugms.group_id = parliaments.parliament_id);    
+    
     
 UPDATE users SET type = 'staff'
 WHERE user_id IN      
@@ -403,4 +411,5 @@ WHERE login IS NULL;
 
 
 
+	
 

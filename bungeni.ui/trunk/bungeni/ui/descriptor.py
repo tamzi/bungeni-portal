@@ -1,6 +1,6 @@
 # encoding: utf-8
 from copy import deepcopy
-
+from datetime import date
 from zope import schema, interface
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
@@ -109,7 +109,24 @@ def lookup_fk_column(name, title, domain_model, field, default=""):
         member = session.query(domain_model).get(value)
         return  getattr(member,field)
     return column.GetterColumn(title, getter)
-     
+
+def current_titles_in_group_column(name, title, default=u""):
+    def getter(item, formatter):
+        value = getattr(item, name)
+        today = date.today()
+        if not value:
+            return default
+        session = Session()
+        title_list = []
+        for title in item.member_titles:
+            if title.start_date <= today:
+                if title.end_date:
+                    if title.end_date >= today:
+                        title_list.append(title.title_name.user_role_name) 
+                else:
+                    title_list.append(title.title_name.user_role_name)    
+        return ", ".join(title_list)                                                            
+    return column.GetterColumn(title, getter)     
      
 def inActiveDead_Column( name, title, default):
     #[(_(u"active"),'A'),(_(u"inactive"), 'I'),(_(u"deceased"), 'D')]
@@ -406,7 +423,10 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                 add = False
                 ), 
         dict( name="group_id", omit=True),
-        dict( name="membership_id", omit=True),
+        dict( name="membership_id", label=_(u"Roles/Titles"),
+            add=False, edit=False, listing=True,
+            listing_column=current_titles_in_group_column("membership_id", 
+                _(u"Roles/Titles"))),
         dict( name="status", omit=True ),
         dict( name="membership_type", omit=True )
         ]

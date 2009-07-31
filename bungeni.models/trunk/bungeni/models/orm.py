@@ -133,7 +133,7 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
                                   primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
                                   uselist=False,
                                   lazy=True ),
-
+            'member_titles': relation( domain.MemberRoleTitle ) 
             },
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='member',            
@@ -429,7 +429,13 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
          )
 mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.MemberTitle, schema.user_role_types )
-mapper( domain.MemberRoleTitle, schema.role_titles.join(schema.addresses))
+mapper( domain.MemberRoleTitle, schema.role_titles.join(schema.addresses),
+    properties={
+        'title_name': relation( domain.MemberTitle,
+                              uselist=False,
+                              lazy=False ),
+    }                              
+)
 
 mapper( domain.AddressType, schema.address_types )
 mapper( domain.UserAddress, schema.addresses)

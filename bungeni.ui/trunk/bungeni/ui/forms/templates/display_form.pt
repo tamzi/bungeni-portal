@@ -58,7 +58,6 @@
             
             <metal:block define-slot="top-fieldset">
             </metal:block>
-            <table>
               <tal:block tal:repeat="widget widgets">
 
                 <!--div tal:condition="python: not widget.visible">
@@ -66,14 +65,15 @@
                     <div tal:content="structure widget"></div>
                 </div-->
                 
-                <tr class="field"
+                <div class="field"
 	            tal:condition="widget/visible"
                     tal:define="description widget/hint;
                                 error widget/error;
                                 odd repeat/widget/odd;
                                 changed widget/changed | nothing"
-                    tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even')">
-                  <td>
+                    tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even');
+                                    id widget/name">
+                  
                     <label tal:attributes="for widget/name">
                       <span i18n:translate=""
                             tal:content="widget/label">label</span>
@@ -90,8 +90,7 @@
                          tal:content="description"
                          tal:condition="description"
                          >field description</div>
-                  </td>
-                  <td>
+
                     <div tal:attributes="class python:'widget'+(error and ' error' or '') + (changed and ' changed' or '')">
                       <div class="widget" tal:content="structure widget"  >
                         <input type="text" />
@@ -100,10 +99,8 @@
                         The Error
                       </div>                    
 	            </div>	      
-	          </td>
-                </tr>
+                </div>
               </tal:block>
-            </table>
           </metal:block>
         </fieldset>
       </metal:block>

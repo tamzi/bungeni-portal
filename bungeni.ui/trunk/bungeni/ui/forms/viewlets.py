@@ -115,7 +115,7 @@ class ConsignatoryViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
-        
+        self.for_display = len(self.context) > 0
 
 class GovernmentViewlet( SubformViewlet ):
 

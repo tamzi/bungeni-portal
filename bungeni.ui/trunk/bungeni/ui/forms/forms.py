@@ -395,7 +395,7 @@ class GroupSittingAddForm(AddForm):
 
     def get_form_fields(self):
         fields = super(GroupSittingAddForm, self).get_form_fields()
-        fields += form.Fields(self.IRecurringEvents)
+        fields = form.Fields(self.IRecurringEvents) + fields
         def MultiCheckBoxWidgetFactory(field, request):
             return MultiCheckBoxWidget(
                 field, field.value_type.vocabulary, request)

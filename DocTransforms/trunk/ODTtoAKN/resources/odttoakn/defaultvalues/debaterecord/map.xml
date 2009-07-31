@@ -49,6 +49,8 @@
 		<element id="39" bungeniSectionType="references" result="references" mantain="source"/>
 		<element id="40" bungeniSectionType="TLCOrganization" result="TLCOrganization" mantain="id,href,showAs" />
 		<element id="41" bungeniSectionType="TLCPerson" result="TLCPerson" mantain="id,href,showAs" />
+		<element id="42" bungeniSectionType="TLCEvent" result="TLCEvent" mantain="id,href,showAs" />
+		
 		<!-- new elements AN 2009 release -->
 		<element id="43" bungeniSectionType="PersonalStatement" result="subdivision" mantain="id,name"/>
 		<element id="44" bungeniSectionType="MinisterialStatement" result="subdivision" mantain="id,name"/>

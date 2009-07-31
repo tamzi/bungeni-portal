@@ -261,5 +261,12 @@
 		<xslt step="45" name="TLCPerson" href="odttoakn/minixslt/debaterecord/TLCPerson.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
+	
+	<xsl:template match="*[@name='TLCEvent']">
+		<xslt step="46" name="TLCEvent" href="odttoakn/minixslt/debaterecord/TLCEvent.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	
 
 </xsl:stylesheet>

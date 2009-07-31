@@ -133,7 +133,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
 			ODFUtility odfUtil = ODFUtility.getInstance();
 			File mergedOdfFile  = odfUtil.mergeODF(aDocumentPath);
-			StreamSource ODFDocument = new StreamSource(mergedOdfFile);
+			StreamSource ODFDocument =FileUtility.getInstance().FileAsStreamSource(mergedOdfFile);
 
 			//translate the document to METALEX
 			File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
@@ -144,15 +144,15 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 			File xslt = this.buildXSLT(aPipelinePath);
 		
 			//Stream for metalex file
-			StreamSource ssMetalex = new StreamSource(metalexFile);
+			StreamSource ssMetalex = FileUtility.getInstance().FileAsStreamSource(metalexFile);
 			//streamsource to xslt that transforms the metalex
-			StreamSource ssXslt = new StreamSource(xslt);
+			StreamSource ssXslt = FileUtility.getInstance().FileAsStreamSource(xslt);
 					
 			XSLTTransformer xsltTransformer = XSLTTransformer.getInstance();
 			//apply the XSLT to the document 
 			StreamSource result = xsltTransformer.transform(ssMetalex, ssXslt);
 			//stream the AN xslt file
-			StreamSource ssAnXsltpath = new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath));
+			StreamSource ssAnXsltpath =   FileUtility.getInstance().FileAsStreamSource(this.akomantosoAddNamespaceXSLTPath);
 			
 			//apply to the result the XSLT that insert the namespace
 			StreamSource resultWithNamespace = xsltTransformer.transform(result, ssAnXsltpath);

@@ -71,7 +71,7 @@ public final class OAReplaceStepsResolver
 	    out.close();
 	    
 		//create a new StremSource
-		StreamSource tempStreamSource = new StreamSource(FileUtility.getInstance().BufferedFileReader(tempFile));
+		StreamSource tempStreamSource = FileUtility.getInstance().FileAsStreamSource(tempFile);
 
 		//return the string of the new created document
 		return tempStreamSource;

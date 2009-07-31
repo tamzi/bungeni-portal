@@ -15,6 +15,8 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.channels.FileChannel;
 
+import javax.xml.transform.stream.StreamSource;
+
 import org.xml.sax.InputSource;
 
 
@@ -32,7 +34,9 @@ public class FileUtility
 	
 		
 	 /**
-     * The system line separator string.
+     * The system line separator string is generated statically,
+     * we dont hardcode for different platforms but determine the line separator
+     * on the fly
      */
     public static final String LINE_SEPARATOR;
     static {
@@ -71,6 +75,7 @@ public class FileUtility
 	
 	/**
 	 * Write the File at the given path to a String
+	 * 30th July - fixed to use bufferedReader to prevent encoding problems
 	 * @param aFilePath the path of the file to retrieve as a String
 	 * @return the String representation of the file
 	 * @throws IOException 
@@ -141,6 +146,12 @@ public class FileUtility
 		out.close();
 	}
 	
+	/**
+	 * Make a copy of the file using the NIO channel API
+	 * @param in source file to copy
+	 * @param out target copy
+	 * @throws IOException
+	 */
 	 public  void copyFile(File in, File out) throws IOException 
 	 {
 	     FileChannel inChannel = new
@@ -160,11 +171,23 @@ public class FileUtility
 	     }
 	 }
 	 
+	 /**
+	  * Returns a bufferedreader for a file path
+	  * @param sPath
+	  * @return
+	  * @throws FileNotFoundException
+	  */
 	 public BufferedReader BufferedFileReader(String sPath ) throws FileNotFoundException {
 		 File fFile = new File(sPath);
 		 return BufferedFileReader (fFile);
 	 }
 	 
+	 /**
+	  * Returns a buffered reader for a file handle
+	  * @param fFile
+	  * @return
+	  * @throws FileNotFoundException
+	  */
 	 public BufferedReader BufferedFileReader (File fFile) throws FileNotFoundException {
 		 BufferedReader bReader = null;
 		 FileReader fReader = new FileReader(fFile);
@@ -172,10 +195,21 @@ public class FileUtility
 		 return bReader;
 	 }
 	 
+	 /**
+	  * Returns a buffered reader for an inputstream
+	  * @param iStream
+	  * @return
+	  */
 	 public BufferedReader BufferedFileReader (InputStream iStream) {
 		 return new BufferedReader ( new InputStreamReader ( iStream ) );
 	 }
 	 
+	 /**
+	  * Returns a file path as an input source
+	  * @param sPath
+	  * @return
+	  * @throws FileNotFoundException
+	  */
 	 public InputSource FileAsInputSource(String sPath) throws FileNotFoundException {
 		 InputSource iFileSource = null;
 		 BufferedReader bReader =BufferedFileReader(sPath);
@@ -185,6 +219,11 @@ public class FileUtility
 		 return iFileSource;
 	 }
 	 
+	 /**
+	  * Converts an InputStream to an InputSource
+	  * @param is
+	  * @return
+	  */
 	 public InputSource StreamAsInputSource (InputStream is) {
 		 InputSource iFileSource = null;
 		 BufferedReader bReader = BufferedFileReader(is);
@@ -194,6 +233,12 @@ public class FileUtility
 		 return iFileSource;
 	 }
 	 
+	 /**
+	  * Takes a File handle and returns the file contents as an InputSource
+	  * @param fFile
+	  * @return
+	  * @throws FileNotFoundException
+	  */
 	 public InputSource FileAsInputSource(File fFile) throws FileNotFoundException {
 		 InputSource iFileSource = null;
 		 BufferedReader bReader =BufferedFileReader(fFile);
@@ -202,4 +247,31 @@ public class FileUtility
 		 }
 		 return iFileSource;
 	 }
+	 
+	 /**
+	  * Takes a path to a file and returns it as a StreamSource
+	  * @param sPath
+	  * @return
+	  * @throws FileNotFoundException
+	  */
+	 public StreamSource FileAsStreamSource(String sPath) throws FileNotFoundException {
+		 StreamSource sSource = null;
+		 BufferedReader bReader = BufferedFileReader(sPath);
+		 sSource = new StreamSource(bReader);
+		 return sSource;
+	 }
+	 
+	 /**
+	  * Takes a File handle to a file and returns it as a StreamSource
+	  * @param sPath
+	  * @return
+	  * @throws FileNotFoundException
+	  */
+	 public StreamSource FileAsStreamSource(File fPath) throws FileNotFoundException {
+		 StreamSource sSource = null;
+		 BufferedReader bReader = BufferedFileReader(fPath);
+		 sSource = new StreamSource(bReader);
+		 return sSource;
+	 }
+	 
 }

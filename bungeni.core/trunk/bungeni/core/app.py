@@ -70,6 +70,13 @@ class AppSetup(object):
             description=_(u"Parliament records and documents."),
             default_name=u"browse")
 
+        admin = self.context["admin"] = Section(
+            title=_(u"Administration"),
+            description=_(u"Administer bungeni settings."),
+            marker=model_interfaces.IBungeniAdmin,
+            default_name=u"index.html" 
+            )
+
         # business section
         whatson = business["whats-on"] = Section(
             title=_(u"What's on"),
@@ -127,7 +134,10 @@ class AppSetup(object):
             title=_(u"Documents"),
             description=_(u"Visit the digital document repository."),
             default_name="@@browse-archive")
-            
+
+        ##########
+        # Admin User Interface
+        #self.context['admin'] = admin = BungeniAdmin()            
 
         # archive/records
         documents[u"bills"] = domain.BillContainer()
@@ -170,11 +180,12 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(records[u"governments"]),
                        (implementedBy(domain.Government), ILocation))
 
-        ##########
-        # Admin User Interface
-        self.context['admin'] = admin = BungeniAdmin()
+
         
-        #admin['users'] = admin_user = domain.UserContainer()
+        #admin['users'] = domain.UserContainer()
+        #provideAdapter(location.ContainerLocation(admin[u"users"]),
+        #               (implementedBy(domain.User), ILocation))    
+                           
         #interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
         #admin['groups'] = domain.GroupContainer()
         

@@ -653,7 +653,7 @@
    <browser:menuItem
       menu="site_actions"
       for="*"
-      action="/archive"
+      action="/archive/browse/parliaments"
       title="Archive"
      permission="zope.Public"           
       />

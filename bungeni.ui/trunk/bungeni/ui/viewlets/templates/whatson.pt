@@ -8,8 +8,10 @@
     <p i18n:translate="" class="documentDescription">
       An overview of the daily operations of the parliament.
     </p>
+    <br/>
     <p>
     From: <span tal:replace="view/get_start_date" />
+    <span class="spacer"> &nbsp; &nbsp; </span>
     to: <span tal:replace="view/get_end_date" />
     </p>
     <dl class="portlet">

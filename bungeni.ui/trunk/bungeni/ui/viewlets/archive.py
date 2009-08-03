@@ -136,3 +136,11 @@ class ArchiveDatesViewlet(object):
 
     def update(self):
         self.form = ArchiveDatesForm(self.context, self.request)
+        
+    @property
+    def title(self):
+        """ Either 'Filter by date or parliament' or
+        'current filter: showing data between start and end'"""
+        pass
+            
+            

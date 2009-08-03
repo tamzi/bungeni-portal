@@ -6,6 +6,8 @@ from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContainer
 from ore.alchemist.model import queryModelDescriptor
 
+from marginalia.interfaces import IMarginaliaAnnotation
+
 from bungeni.models import interfaces
 from bungeni.models import domain
 from bungeni.models import vocabulary
@@ -298,5 +300,13 @@ class UserAddressDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         return u"Address"   
+
+#class MarginaliaDescriptiveProperties(DescriptiveProperties):
+#    component.adapts(IMarginaliaAnnotation)  
+#    
+#    @property
+#    def title(self):
+#        return u"Marginalia"   
+        
                 
 

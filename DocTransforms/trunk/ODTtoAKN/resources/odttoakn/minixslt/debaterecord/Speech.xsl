@@ -29,13 +29,16 @@
             <xsl:if test="@BungeniSpeechTo">
 				<xsl:attribute name="to"><xsl:value-of select="@BungeniSpeechTo" /></xsl:attribute>
 			</xsl:if>
-        <!--    <xsl:if test="@BungeniPersonRole">
-				<xsl:attribute name="as"><xsl:value-of select="@BungeniPersonRole" /></xsl:attribute>
-			</xsl:if> -->
+            <xsl:if test="@BungeniSpeechAs">
+				<xsl:attribute name="as"><xsl:value-of select="@BungeniSpeechAs" /></xsl:attribute>
+			</xsl:if> 
+			<!--
             <from>
                 <xsl:apply-templates select="*[position()=1]/*" />
             </from>
             <xsl:apply-templates select="*[not(position()=1)]" /> 
+            -->
+            <xsl:apply-templates />
         </speech>
     </xsl:template>
     

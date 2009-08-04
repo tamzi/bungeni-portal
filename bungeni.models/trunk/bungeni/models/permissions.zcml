@@ -151,5 +151,17 @@
 
   <permission id="bungeni.auditlog.View" title="View audit log" />  
 
+<!--
+     who is able to amend, comment? Actually, here we have two steps
+     1) the cleark of a committee/chairperson of a committee decide 
+     to post a bill for Amendment or Comments to a specific group
+     2) member of that group OLNLY will able to see and amdend/comment
+-->
+
+  <permission id="bungeni.amendment.Edit" title="Add and edit amendments" />
+  <permission id="bungeni.amendment.View" title="View amendments" />
+  
+  <permission id="bungeni.comment.Edit" title="Add and edit comments" />
+  <permission id="bungeni.comment.View" title="View comments" />  
 
 </configure>

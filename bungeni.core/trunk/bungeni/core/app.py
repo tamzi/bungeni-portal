@@ -156,9 +156,9 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(records[u"parliaments"]),
                        (implementedBy(domain.Parliament), ILocation))
 
-        records[u"members"] = domain.UserContainer()
-        provideAdapter(location.ContainerLocation(current, records[u"members"]),
-                       (implementedBy(domain.User), ILocation))
+        #records[u"members"] = domain.UserContainer()
+        #provideAdapter(location.ContainerLocation(current, records[u"members"]),
+        #               (implementedBy(domain.User), ILocation))
 
         records[u"parties"] = domain.PoliticalPartyContainer()
         provideAdapter(location.ContainerLocation(records[u"parties"]),
@@ -182,9 +182,9 @@ class AppSetup(object):
 
 
         
-        #admin['users'] = domain.UserContainer()
-        #provideAdapter(location.ContainerLocation(admin[u"users"]),
-        #               (implementedBy(domain.User), ILocation))    
+        admin['users'] = domain.UserContainer()
+        provideAdapter(location.ContainerLocation(admin[u"users"]),
+                       (implementedBy(domain.User), ILocation))    
                            
         #interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
         #admin['groups'] = domain.GroupContainer()

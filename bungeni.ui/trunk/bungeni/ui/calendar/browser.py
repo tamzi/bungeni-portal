@@ -203,6 +203,18 @@ class CalendarView(BrowserView):
             (self.context, request), IPublishTraverse)
         return traverser.publishTraverse(request, name)
 
+    def getTitle(self):
+        group = self.context.get_group()
+        if group is None:
+            return u"N/A"
+        else:
+            if group.type == 'parliament':
+                gtype = u'Plenary'
+            else:
+                gtype = group.type.capitalize()
+                                
+            return gtype + ': ' + group.short_name + ' - ' + group.full_name            
+
     def render(self, date, template=None):
         if template is None:
             template = self.template

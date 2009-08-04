@@ -8,7 +8,8 @@ import interfaces
 mapping = (
     (re.compile(r'^archive(/.*)?$'), interfaces.IArchiveSectionLayer),
     (re.compile(r'^business(/.*)?$'), interfaces.IBusinessSectionLayer),
-    (re.compile(r'^members(/.*)?$'), interfaces.IMembersSectionLayer),    
+    (re.compile(r'^members(/.*)?$'), interfaces.IMembersSectionLayer), 
+    (re.compile(r'^admin(/.*)?$'), interfaces.IAdminSectionLayer),        
     )
 
 @component.adapter(IBeforeTraverseEvent)

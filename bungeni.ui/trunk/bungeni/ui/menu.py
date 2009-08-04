@@ -54,6 +54,10 @@ class LogoutAction( GlobalMenuItem ):
         return authenticated
         
 class DashboardAction( GlobalMenuItem ):
+
+    @property
+    def id(self):
+        return "plone-user-id"
     
     @property
     def title( self ):

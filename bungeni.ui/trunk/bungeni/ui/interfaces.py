@@ -34,3 +34,6 @@ class IBusinessSectionLayer(IDefaultBrowserLayer):
 class IMembersSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the members section."""
 
+class IAdminSectionLayer(IDefaultBrowserLayer):
+    """Requests for an object within the admin section."""
+

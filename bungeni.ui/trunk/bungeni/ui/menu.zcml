@@ -809,6 +809,7 @@
 
    <browser:viewlet
      name="dashboard"
+     id="plone-user-id"
      for="*"
      class=".menu.DashboardAction"
      manager="ploned.ui.interfaces.IPersonalBarMenu"

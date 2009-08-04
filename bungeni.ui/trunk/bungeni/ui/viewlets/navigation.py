@@ -83,11 +83,13 @@ class SecondaryNavigationViewlet(object):
                 else:
                     props = IDCDescriptiveProperties(item)
                     title = props.title
-
-                items.append({
-                    'title': title,
-                    'selected': selected,
-                    'url': "%s/%s" % (url, name)})
+                try:
+                    items.append({
+                        'title': title,
+                        'selected': selected,
+                        'url': "%s/%s" % (url, name)})
+                except:
+                    pass
 
         default_view_name = queryDefaultViewName(container, self.request)
         default_view = component.queryMultiAdapter(

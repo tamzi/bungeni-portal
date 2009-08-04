@@ -36,7 +36,7 @@ class ArchiveDatesForm(form.PageForm):
     form_fields = form.Fields(IDateRangeSchema, render_context=True)
     form_fields['range_start_date'].custom_widget = SelectDateWidget
     form_fields['range_end_date'].custom_widget = SelectDateWidget
-    #form_description = _(u"Filter the archive by date range.")
+    form_description = _(u"Filter the archive by date range.")
 
     def is_in_parliament(self, context):
         parent = context
@@ -136,11 +136,5 @@ class ArchiveDatesViewlet(object):
 
     def update(self):
         self.form = ArchiveDatesForm(self.context, self.request)
-        
-    @property
-    def title(self):
-        """ Either 'Filter by date or parliament' or
-        'current filter: showing data between start and end'"""
-        pass
             
             

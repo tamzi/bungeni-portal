@@ -180,6 +180,7 @@
   </div>
     
   <div metal:define-macro="daily">
+  <h2 tal:content="view/getTitle"> calendar of..... </h2>  
     <div class="calendar listing" id="daily-calendar">
       <div id="calendar-header">
         <table class="listing grid">
@@ -268,6 +269,7 @@
   </div>
   
   <div metal:define-macro="weekly">
+  <h2 tal:content="view/getTitle"> calendar of..... </h2>
     <div class="calendar listing" id="weekly-calendar">
       <div id="calendar-header">
         <table class="listing grid">

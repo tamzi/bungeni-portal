@@ -36,13 +36,6 @@
 				</xsl:choose>
 			</xsl:if>
 		</xsl:if>
-		<!--
-        <ref>
-			<xsl:if test="@href">
-				<xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
-			</xsl:if>
-		 </ref>	
-           -->
 		<xsl:apply-templates/>
 	</xsl:template>
 	<xsl:template match="text()">

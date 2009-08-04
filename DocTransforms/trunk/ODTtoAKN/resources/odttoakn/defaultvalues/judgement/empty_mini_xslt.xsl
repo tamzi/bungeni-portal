@@ -18,22 +18,11 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="*[@name='Speech']">
-        <speech>
-			<xsl:if test="@id">
-				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
-			</xsl:if>
-            <xsl:if test="@BungeniSpeechBy">
-				<xsl:attribute name="by"><xsl:value-of select="@BungeniPersonID" /></xsl:attribute>
-			</xsl:if>
-            <xsl:if test="@BungeniSpeechTo">
-				<xsl:attribute name="to"><xsl:value-of select="@BungeniSpeechTo" /></xsl:attribute>
-			</xsl:if>
-            <xsl:if test="@BungeniSpeechAs">
-				<xsl:attribute name="as"><xsl:value-of select="@BungeniSpeechAs" /></xsl:attribute>
-			</xsl:if> 
+    <xsl:template match="element-to-replace">
+        <new-element>
+other-attributes
             <xsl:apply-templates />
-        </speech>
+        </new-element>
     </xsl:template>
     
     <xsl:template match="text()">

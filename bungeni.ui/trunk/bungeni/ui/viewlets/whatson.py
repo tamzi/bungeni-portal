@@ -145,6 +145,19 @@ class WhatsOnBrowserView(BrowserView):
         return self.get_items_by_type(domain.Motion)                
         
                 
-                        
+class WhatsOnPortletBrowserView (WhatsOnBrowserView):       
+    max_items = 5
+    
+    def get_sittings(self):
+        return super(WhatsOnPortletBrowserView,
+                self).get_sittings()[:self.max_items]
+    
+    def get_items_by_type(self, item_type):
+        return super(WhatsOnPortletBrowserView,
+                self).get_items_by_type(item_type)[:self.max_items]
+    
+    
+            
+                 
                         
 

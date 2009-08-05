@@ -57,7 +57,7 @@ class DashboardAction( GlobalMenuItem ):
 
     @property
     def id(self):
-        return "plone-user-id"
+        return "user-id"
     
     @property
     def title( self ):
@@ -66,7 +66,7 @@ class DashboardAction( GlobalMenuItem ):
     @property
     def available( self ):
         authenticated = not IUnauthenticatedPrincipal.providedBy( self.request.principal )
-        return authenticated
+        return  authenticated 
 
 class AdminAction( GlobalMenuItem ):
     

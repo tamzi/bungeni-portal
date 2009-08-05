@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
+import org.un.bungeni.translators.utility.files.FileUtility;
 
 
 /**
@@ -26,6 +27,7 @@ public class OATranslatorTestBase
     protected String m_configFilePath = "";
     protected String m_inputDocument = "";
     protected String m_outputDocument = "";
+    protected String m_comparisonDocument = "";
     protected String m_pipeline = "";
     
 	public OATranslatorTestBase() {
@@ -79,29 +81,17 @@ public class OATranslatorTestBase
 		
 		//input stream
 		FileInputStream fis  = new FileInputStream(translatedFiles.get("anxml"));
-		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream(this.m_outputDocument);
+		File outFile = new File(this.m_outputDocument);
 		//copy the file
-		try 
-		{
-			byte[] buf = new byte[1024];
-		    int i = 0;
-		    while ((i = fis.read(buf)) != -1) 
-		    {
-		            fos.write(buf, 0, i);
-		    }
-		} 
-		catch (Exception e) 
-		{
-		}
-		finally 
-		{
-		
-			if (fis != null) fis.close();
-		        if (fos != null) fos.close();
-		}	
+		FileUtility.getInstance().copyFile(fis, outFile);
+		//compare the generated output with the expected outut
+		String sOut = FileUtility.getInstance().FileToString(this.m_outputDocument).trim();
+		String sExp = FileUtility.getInstance().FileToString(this.m_comparisonDocument).trim();
+		assertEquals("Generated file did not match expected output " , sExp, sOut);
 		
 	}
+	
+
 
 }

@@ -108,7 +108,6 @@ users = rdb.Table(
                 ), 
    # comment out for now - will be used for user preferences                
    #rdb.Column( "recieve_notification", rdb.Boolean, nullable=False, default=True),                
-   rdb.Column( "type", rdb.String(30), nullable=False  ),
    )
 
 # # not in use yet, but potentially for all 

@@ -137,7 +137,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 
 			//translate the document to METALEX
 			File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
-		
+			//FileUtility.getInstance().copyFile(metalexFile, new File("/Users/ashok/out.txt"));
 			translatedFiles.put("metalex", metalexFile);
 			
 			//create the XSLT that transforms the metalex

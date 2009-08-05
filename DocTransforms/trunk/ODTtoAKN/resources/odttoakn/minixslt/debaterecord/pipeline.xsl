@@ -267,6 +267,13 @@
 		<xsl:apply-templates />
 	</xsl:template>
 	
+	<xsl:template match="*[@name='TLCRole']">
+		<xslt step="47" name="TLCRole" href="odttoakn/minixslt/debaterecord/TLCRole.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	
+	
 	
 
 </xsl:stylesheet>

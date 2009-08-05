@@ -383,13 +383,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
     fields = [
         dict( name="user_id",
               property=schema.Choice( 
-                title=_(u"Member of Parliament"), 
+                title=_(u"Name"), 
                 source=DatabaseSource(domain.User,  
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=member_fk_column("user_id", 
-                    _(u'Member of Parliament')), 
+                    _(u'Name')), 
               listing=True,
             ),                 
         dict( name="start_date", label=_(u"Start Date"), 
@@ -436,7 +436,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
     custom_validators = [validations.validate_date_range_within_parent,]                                                       
 
 class MpDescriptor ( ModelDescriptor ):
-    display_name = _(u"Member of parliament")
+    display_name = _(u"Name")
     container_name = _(u"Members of parliament")
     
     fields = deepcopy(GroupMembershipDescriptor.fields)    
@@ -1004,7 +1004,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
                 ),
               listing_column=member_fk_column("owner_id", 
-                    _(u'Member of Parliament')),              
+                    _(u'Name')),              
               listing = True 
             ),            
         dict(name="language", 
@@ -1492,7 +1492,7 @@ class AttendanceDescriptor( ModelDescriptor ):
                     token_field='user_id', 
                     value_field = 'user_id')), 
               listing_column=member_fk_column("member_id", 
-                _(u'Member of Parliament') ) 
+                _(u'Name') ) 
               ),
         dict( name="attendance_id", listing=True, 
                 property = schema.Choice( 
@@ -1763,7 +1763,7 @@ class TabledDocumentDescriptor( ModelDescriptor):
                         token_field='user_id', 
                         value_field = 'user_id' )), 
                 listing_column=member_fk_column("owner_id", 
-                    _(u'Member of Parliament')),              
+                    _(u'Name')),              
                 listing = True 
             ),        
         dict( name="table_date", 

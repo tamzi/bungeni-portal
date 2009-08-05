@@ -4,7 +4,7 @@
   
   <div metal:fill-slot="body" i18n:domain="bungeni">
   <div id="whats-on-overview" >
-    <h1 i18n:translate="">What's on</h1>
+    <h1> <a href="/business" i18n:translate="">What's on</a></h1>
     <p i18n:translate="" class="documentDescription">
       An overview of the daily operations of the parliament.
     </p>

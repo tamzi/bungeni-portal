@@ -785,8 +785,8 @@
      />
 
 
-
-   <browser:viewlet
+  <!-- what is this for? seems to be unused! -->
+   <!--browser:viewlet
      name="dashboard"
      for="*"
      class=".menu.DashboardAction"
@@ -795,7 +795,7 @@
      view=".workspace.WorkspaceView"
      viewName="workspace"
      weight="10"
-     />
+     /-->
 
    <browser:viewlet
      name="login"
@@ -809,12 +809,11 @@
 
    <browser:viewlet
      name="dashboard"
-     id="plone-user-id"
      for="*"
      class=".menu.DashboardAction"
      manager="ploned.ui.interfaces.IPersonalBarMenu"
      permission="zope.Public"
-     viewName="workspace"
+     viewName=""
      weight="10"
      />
      

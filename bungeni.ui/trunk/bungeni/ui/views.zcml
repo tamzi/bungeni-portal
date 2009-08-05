@@ -161,6 +161,16 @@
      permission="zope.Public"
      />
   
+
+  <browser:page
+     name="whats-on-portlet"
+     for="bungeni.models.interfaces.IBungeniApplication"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".viewlets.whatson.WhatsOnPortletBrowserView"     
+     permission="zope.Public"
+     />  
+  
+  
   <browser:page
      name="browse-archive"
      for="bungeni.core.interfaces.ISection"

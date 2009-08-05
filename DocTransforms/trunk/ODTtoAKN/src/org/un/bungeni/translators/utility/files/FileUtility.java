@@ -158,6 +158,17 @@ public class FileUtility
 	         FileInputStream(in).getChannel();
 	     FileChannel outChannel = new
 	         FileOutputStream(out).getChannel();
+	     copyChannel(inChannel, outChannel);
+	 }
+	 
+	 /**
+	  * transfer bytes from input channel to output channel
+	  * @param inChannel
+	  * @param outChannel
+	  * @throws IOException
+	  */
+	 private void copyChannel (FileChannel inChannel, FileChannel outChannel) throws IOException 
+	 {
 	     try {
 	         inChannel.transferTo(0, inChannel.size(),
 	                 outChannel);
@@ -169,6 +180,19 @@ public class FileUtility
 	         if (inChannel != null) inChannel.close();
 	         if (outChannel != null) outChannel.close();
 	     }
+	 }
+	 
+	 /**
+	  * Transfer bytes from FileInputStream to outputChannel
+	  * @param fis
+	  * @param out
+	  * @throws IOException
+	  */
+	 public void copyFile(FileInputStream fis, File out) throws IOException {
+		 FileChannel inChannel = fis.getChannel();
+		 FileChannel outChannel = new FileOutputStream(out).getChannel();
+		 copyChannel(inChannel, outChannel);
+		 
 	 }
 	 
 	 /**
@@ -273,5 +297,7 @@ public class FileUtility
 		 sSource = new StreamSource(bReader);
 		 return sSource;
 	 }
+	 
+	 
 	 
 }

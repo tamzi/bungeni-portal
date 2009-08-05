@@ -8,8 +8,6 @@ import domain
 # Users
 # general representation of a person
 mapper( domain.User, schema.users,         
-        polymorphic_on=schema.users.c.type,
-        polymorphic_identity='user',
        )
 
 mapper (domain.Keyword, schema.keywords)
@@ -238,14 +236,7 @@ mapper( domain.CommitteeStaff,
         polymorphic_identity='committeestaff',        
         )
 
-
-# Reporters XXX
-mapper( domain.HansardReporter, schema.reporters,
-        inherits=domain.User,
-        polymorphic_identity='reporter')
                 
-
-
 mapper( domain.ParliamentSession, schema.parliament_sessions )
 mapper( domain.GroupSitting, schema.sittings,
         properties = {

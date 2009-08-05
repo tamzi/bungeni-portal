@@ -97,6 +97,9 @@
                 <xsl:for-each select="//*[@BungeniSectionType='ActionEvent']">
                     <meta name="TLCEvent" id="{@BungeniEventName}" href="{@BungeniOntology}" showAs="{@BungeniOntologyName}"/> 
                 </xsl:for-each> 
+                <xsl:for-each select="//*[@BungeniSectionType='Speech']">
+                    <meta name="TLCRole" id="{@BungeniSpeechAs}" href="{@BungeniSpeechAsURI}" showAs="{@BungeniSpeechAsDesc}"/> 
+                </xsl:for-each> 
                 
             </mcontainer>
         </mcontainer> 

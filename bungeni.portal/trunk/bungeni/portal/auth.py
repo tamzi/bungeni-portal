@@ -107,7 +107,6 @@ class AlchemistWhoPlugin(object):
             identity.update({
                 'email': user.email,
                 'title': u"%s, %s" % (user.last_name, user.first_name),
-                'type': user.type,
                 'groups' : groups,
                 })
         #log.debug("Groups for user %s returned by db: %s" % (userid, str(groups)))

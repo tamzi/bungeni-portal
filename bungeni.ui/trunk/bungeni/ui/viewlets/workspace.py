@@ -546,6 +546,15 @@ class ItemInStageViewlet( ViewletBase ):
 
 
 
+
+class MPItemDraftViewlet( ItemInStageViewlet ): 
+    name = "Draft Items"
+    states = [motion_wf_state[u"draft"].id,
+        question_wf_state[u"draft"].id,
+        ]
+    list_id = "items-draft"    
+
+
 class MPItemActionRequiredViewlet( ItemInStageViewlet ): 
     """
     Display all questions and motions that require action
@@ -553,9 +562,7 @@ class MPItemActionRequiredViewlet( ItemInStageViewlet ):
     """  
     name = "Action required"
     states = [motion_wf_state[u"clarify_mp"].id,
-        motion_wf_state[u"draft"].id,
         question_wf_state[u"clarify_mp"].id,
-        question_wf_state[u"draft"].id,
         ]
     list_id = "items-action-required"     
 
@@ -578,13 +585,6 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         motion_wf_state[u"complete"].id,
         motion_wf_state[u"clarify_clerk"].id,
         motion_wf_state[u"admissible"].id,
-        ]
-    list_id = "items-in-progress"     
-
-class MPItemPendingViewlet(ItemInStageViewlet):
-    """ scheduled or pending written answer """
-    name = "Items pending"
-    states = [
         question_wf_state[u"scheduled"].id,
         question_wf_state[u"postponed"].id,
         question_wf_state[u"response_pending"].id,        
@@ -592,10 +592,19 @@ class MPItemPendingViewlet(ItemInStageViewlet):
         question_wf_state[u"responded"].id,
         motion_wf_state[u"deferred"].id,
         motion_wf_state[u"postponed"].id,
-        motion_wf_state[u"scheduled"].id
+        motion_wf_state[u"scheduled"].id        
         ]
-    list_id = "items-pending" 
+    list_id = "items-in-progress"     
 
+
+class MPItemArchiveViewlet(ItemInStageViewlet):
+    name = "Archived Items"
+    states = [
+        question_wf_state[u"answered"].id,
+        #question_wf_state[u"debated"].id,
+        motion_wf_state[u"debated"].id,
+        ]
+    list_id = "items-archived"     
 
 class MPItemSuccessEndViewlet(ItemInStageViewlet):
     """ items in end status that were discussed/answered ..."""
@@ -604,6 +613,12 @@ class MPItemSuccessEndViewlet(ItemInStageViewlet):
         question_wf_state[u"answered"].id,
         #question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
+        question_wf_state[u"elapsed"].id,
+        question_wf_state[u"withdrawn"].id,
+        question_wf_state[u"inadmissible"].id,        
+        motion_wf_state[u"withdrawn"].id,
+        motion_wf_state[u"elapsed"].id,
+        motion_wf_state[u"inadmissible"].id        
         ]
     list_id = "items-sucess"     
 

@@ -50,12 +50,13 @@
 		<element id="40" bungeniSectionType="TLCOrganization" result="TLCOrganization" mantain="id,href,showAs" />
 		<element id="41" bungeniSectionType="TLCPerson" result="TLCPerson" mantain="id,href,showAs" />
 		<element id="42" bungeniSectionType="TLCEvent" result="TLCEvent" mantain="id,href,showAs" />
+		<element id="43" bungeniSectionType="TLCRole" result="TLCRole" mantain="id,href,showAs" />
 		
 		<!-- new elements AN 2009 release -->
-		<element id="43" bungeniSectionType="PersonalStatement" result="subdivision" mantain="id,name"/>
-		<element id="44" bungeniSectionType="MinisterialStatement" result="subdivision" mantain="id,name"/>
-	    <element id="45" bungeniSectionType="Petitions" result="petitions" mantain="id"/>
- 	    <element id="46" bungeniSectionType="PetitionsList" result="other" mantain="id"/>
+		<element id="44" bungeniSectionType="PersonalStatement" result="subdivision" mantain="id,name"/>
+		<element id="45" bungeniSectionType="MinisterialStatement" result="subdivision" mantain="id,name"/>
+	    <element id="46" bungeniSectionType="Petitions" result="petitions" mantain="id"/>
+ 	    <element id="47" bungeniSectionType="PetitionsList" result="other" mantain="id"/>
 		
 	</elements> 
 </map>

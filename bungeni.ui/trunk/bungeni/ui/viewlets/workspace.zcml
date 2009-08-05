@@ -14,13 +14,23 @@
   <!-- MPs Workspace -->
   
    <browser:viewlet
+     name="bungeni.workspace.mp-draft"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.MPItemDraftViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="10"
+     />  
+  
+   <browser:viewlet
      name="bungeni.workspace.mp-action-required"
      for="*"
      manager=".interfaces.IWorkspaceManager"
      class=".workspace.MPItemActionRequiredViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="10"
+     weight="20"
      />  
  
    <browser:viewlet
@@ -30,30 +40,21 @@
      class=".workspace.MPItemInProgressViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="20"
+     weight="30"
      />    
 
+
    <browser:viewlet
-     name="bungeni.workspace.mp-pending"
+     name="bungeni.workspace.mp-item-archive"
      for="*"
      manager=".interfaces.IWorkspaceManager"
-     class=".workspace.MPItemPendingViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="30"
-     />       
-  
-   <browser:viewlet
-     name="bungeni.workspace.mp-item-success"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.MPItemSuccessEndViewlet"
+     class=".workspace.MPItemArchiveViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="40"
      />       
   
-   <browser:viewlet
+   <!--browser:viewlet
      name="bungeni.workspace.mp-item-failed"
      for="*"
      manager=".interfaces.IWorkspaceManager"
@@ -61,7 +62,7 @@
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="50"
-     />       
+     /-->       
   
   <!--browser:viewlet
      name="bungeni.workspace.questions-mp-clarify"

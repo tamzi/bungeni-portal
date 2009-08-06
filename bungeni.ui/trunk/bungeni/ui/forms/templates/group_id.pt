@@ -1,5 +1,7 @@
-<div id="workgroup-id-section" style="display: none;">
-  <b> workgroup id </b>
-  <span tal:content="view/parent_group_principal_id" />
-  <span tal:content="view/my_group_principal_id" />
-</div>
+<form id="workgroup-id-section" style="display: none;">
+  <input
+     type="text"
+     id="workgroup-id"
+     name="Workspace"
+     tal:attributes="value string:groups/${view/parent_group_principal_id}/${view/my_group_principal_id}"/>
+</form>

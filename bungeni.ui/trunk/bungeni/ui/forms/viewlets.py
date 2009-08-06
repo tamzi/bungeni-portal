@@ -50,6 +50,26 @@ class GroupIdViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/group_id.pt')  
 
 
+class UserIdViewlet(viewlet.ViewletBase):
+    """ display the users
+    principal id """
+    principal_id = None
+    
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        
+    def update(self):
+        session = Session()
+        trusted = removeSecurityProxy(self.context)    
+        self.principal_id = trusted.user.login    
+        
+    render = ViewPageTemplateFile ('templates/user_id.pt')  
+
+
 class ResponseQuestionViewlet(viewlet.ViewletBase):    
     """
     Display the question when adding/editing a response

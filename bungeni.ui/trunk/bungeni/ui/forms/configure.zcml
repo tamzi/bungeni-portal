@@ -133,12 +133,21 @@
   <browser:viewlet
      name="bungeni.viewlet.group_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
-     class=".viewlets.GroupIdViewlet"
-     for="bungeni.models.interfaces.ICommittee"
+     class=".viewlets.UserIdViewlet"
+     for="bungeni.models.interfaces.IGroupMembership"
      permission="zope.View"
      weight="10"
      />      
      
+  <browser:viewlet
+     name="bungeni.viewlet.user_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".viewlets.GroupIdViewlet"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     weight="10"
+     />        
+  
   
   <!-- GroupSittingAttendance -->
   

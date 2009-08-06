@@ -351,6 +351,119 @@ class MemberTitleSource(SpecializedSource):
         return vocabulary.SimpleVocabulary( terms )  
 
                     
+class UserSource(SpecializedSource):
+    """ All active users """
+    def constructQuery( self, context):
+        session= Session()
+        
+        users = session.query(domain.User).order_by(
+                domain.User.last_name, domain.User.first_name)
+        return users    
+    
+
+class UserNotMPSource(SpecializedSource):
+    """ All users that are NOT a MP """
+        
+    def constructQuery( self, context):
+        session= Session()    
+        trusted=removeSecurityProxy(context)
+        parliament_id = self._get_parliament_id(trusted)
+        connection = session.connection(domain.Parliament)
+        mp_user_ids = sql.select([schema.user_group_memberships.c.user_id], 
+            schema.user_group_memberships.c.group_id == parliament_id)
+        query = session.query(domain.User).filter( sql.and_(
+            sql.not_(domain.User.user_id.in_( mp_user_ids)),
+            domain.User.active_p == 'A'))
+        return query                       
+
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()        
+        terms = []
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "%s %s" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        user_id = getattr(context, self.value_field, None) 
+        if user_id:
+            if len(query.filter(domain.GroupMembership.user_id == user_id).all()) == 0:
+                # The user is not a member of this group. 
+                # This should not happen in real life
+                # but if we do not add it her the view form will 
+                # throw an exception 
+                session = Session()            
+                ob = session.query(domain.User).get(user_id)
+                terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "(%s %s)" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        return vocabulary.SimpleVocabulary( terms )
+
+
+
+class UserNotStaffSource(SpecializedSource):
+    """ all users that are NOT staff """
+    def constructQuery( self, context):
+        session= Session()
+        
+        
+class SubstitutionSource(SpecializedSource):
+    """ active user of the same group """
+    def _get_group_id(self, context):
+        trusted = removeSecurityProxy(context)        
+        group_id = getattr(trusted,'group_id', None)
+        if not group_id:
+             group_id = getattr(trusted.__parent__,'group_id', None)
+        return group_id
+                     
+    def constructQuery( self, context):
+        session= Session()
+        query = session.query(domain.GroupMembership).order_by(
+            'last_name', 'first_name')
+        group_id = self._get_group_id(context)
+        if group_id:
+            query = query.filter(
+                domain.GroupMembership.group_id == group_id)
+        return query                
+                    
+        
+        
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()        
+        terms = []
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob.user, 'user_id'), 
+                    token = getattr( ob.user, 'user_id'),
+                    title = "%s %s" % (getattr( ob.user, 'first_name') ,
+                            getattr( ob.user, 'last_name'))
+                    ))
+        user_id = getattr(context, self.value_field, None) 
+        if user_id:
+            if len(query.filter(domain.GroupMembership.user_id == user_id).all()) == 0:
+                # The user is not a member of this group. 
+                # This should not happen in real life
+                # but if we do not add it her the view form will 
+                # throw an exception 
+                session = Session()            
+                ob = session.query(domain.User).get(user_id)
+                terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "(%s %s)" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        return vocabulary.SimpleVocabulary( terms )
 
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering
@@ -392,7 +505,9 @@ class QuerySource( object ):
         trusted=removeSecurityProxy(context)
         #pdb.set_trace() 
         if self.filter_value:       
-            query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == trusted.__dict__[self.filter_value] )
+            query = session.query( self.domain_model ).filter(
+                self.domain_model.c[self.filter_field] == 
+                trusted.__dict__[self.filter_value] )
         else:
             #pfk = valueKey( context.__parent__.__parent__.__name__ )[0]
             pfk = self.getValueKey(context)

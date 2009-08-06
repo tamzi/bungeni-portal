@@ -1,0 +1,7 @@
+<form id="user-workspace-id-section" style="display: none;">
+  <input
+     type="text"
+     id="user-workspace-id"
+     name="user-workspace"
+     tal:attributes="value string:mebers/${view/principal_id}"/>
+</form>

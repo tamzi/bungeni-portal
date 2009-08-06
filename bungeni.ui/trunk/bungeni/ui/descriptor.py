@@ -840,7 +840,7 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserSource(  
+                source=vocabulary.UserNotMPSource(  
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
@@ -848,7 +848,6 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
                     _(u'Name')), 
               listing=True,
             ),]  
-    
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))     
     custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 

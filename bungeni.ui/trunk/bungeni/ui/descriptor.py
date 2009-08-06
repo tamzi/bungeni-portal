@@ -375,23 +375,12 @@ class HansardReporterDescriptor( UserDescriptor ):
 
 class GroupMembershipDescriptor( ModelDescriptor ):
 
-    SubstitutionSource = DatabaseSource(domain.User,  
+    SubstitutionSource = vocabulary.SubstitutionSource(
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')       
 
-    fields = [
-        dict( name="user_id",
-              property=schema.Choice( 
-                title=_(u"Name"), 
-                source=DatabaseSource(domain.User,  
-                    token_field='user_id', 
-                    title_field='fullname', 
-                    value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
-              listing=True,
-            ),                 
+    fields = [               
         dict( name="start_date", label=_(u"Start Date"), 
             listing_column=day_column("start_date", 
                 _(u'Start Date') ), 
@@ -439,7 +428,19 @@ class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Name")
     container_name = _(u"Members of parliament")
     
-    fields = deepcopy(GroupMembershipDescriptor.fields)    
+    fields = [dict( name="user_id",
+              property=schema.Choice( 
+                title=_(u"Name"), 
+                source=vocabulary.UserSource(  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("user_id", 
+                    _(u'Name')), 
+              listing=True,
+            ),]  
+    
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))    
     constituencySource=DatabaseSource(domain.Constituency,  
                     token_field='constituency_id', 
                     title_field='name', 
@@ -476,7 +477,19 @@ class PartyMemberDescriptor( ModelDescriptor ):
     display_name=_(u"Party member")
     container_name=_(u"Party members")
     
-    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields = [dict( name="user_id",
+              property=schema.Choice( 
+                title=_(u"Name"), 
+                source=vocabulary.UserSource(  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("user_id", 
+                    _(u'Name')), 
+              listing=True,
+            ),]  
+    
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     custom_validators = [validations.validate_date_range_within_parent,
                     validations.validate_party_membership]                                                       
     
@@ -687,8 +700,19 @@ class CommitteeDescriptor( GroupDescriptor ):
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Member")
     container_name = _(u"Members")
+    fields = [dict( name="user_id",
+              property=schema.Choice( 
+                title=_(u"Name"), 
+                source=vocabulary.UserSource(  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("user_id", 
+                    _(u'Name')), 
+              listing=True,
+            ),]  
     
-    fields = deepcopy(GroupMembershipDescriptor.fields)    
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))    
     custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]
@@ -813,8 +837,19 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Staff")
     container_name = _(u"Staff")
+    fields = [dict( name="user_id",
+              property=schema.Choice( 
+                title=_(u"Name"), 
+                source=vocabulary.UserSource(  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("user_id", 
+                    _(u'Name')), 
+              listing=True,
+            ),]  
     
-    fields = deepcopy(GroupMembershipDescriptor.fields)     
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))     
     custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]     
@@ -874,8 +909,19 @@ class OfficeDescriptor( GroupDescriptor ):
 class OfficeMemberDescriptor( ModelDescriptor ):    
     display_name = _(u"Office Member")
     container_name = _(u"Office Member")
+    fields = [dict( name="user_id",
+              property=schema.Choice( 
+                title=_(u"Name"), 
+                source=vocabulary.UserNotMPSource(  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("user_id", 
+                    _(u'Name')), 
+              listing=True,
+            ),]  
     
-    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]   
@@ -898,8 +944,19 @@ class MinistryDescriptor( GroupDescriptor ):
 class MinisterDescriptor( ModelDescriptor ):    
     display_name = _(u"Minister")
     container_name = _(u"Ministers")
+    fields = [dict( name="user_id",
+              property=schema.Choice( 
+                title=_(u"Name"), 
+                source=vocabulary.UserSource(  
+                    token_field='user_id', 
+                    title_field='fullname', 
+                    value_field='user_id')),
+                listing_column=member_fk_column("user_id", 
+                    _(u'Name')), 
+              listing=True,
+            ),]  
     
-    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]

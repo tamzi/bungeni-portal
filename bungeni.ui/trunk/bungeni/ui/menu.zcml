@@ -125,6 +125,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add sitting..."
      action="./group/sittings/add?next_url=..."
+     permission="bungeni.sitting.Add"     
      order="100"
      />
 

@@ -538,7 +538,7 @@ class AgendaReportingView(ReportingView):
 
         options = {
             'title': self.report_name,
-            'date': _(u"$r", mapping=utils.datetimedict.fromdate(date)),
+            'date': _(u"$x", mapping=utils.datetimedict.fromdate(date)),
             'parliament': parliament,
             'session': session,
             'country': u"Republic of Kenya".upper(),

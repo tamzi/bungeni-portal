@@ -4,13 +4,14 @@
             i18n:translate="heading_views">Views</h5>
 
         <ul class="contentViews">
-
+xxxxxxxxxxxxxxxxxxxxxxxxxx
             <tal:views repeat="action view/context_actions">
               <li tal:define="selected action/selected;"
                   tal:attributes="class python:selected and 'selected' or 'plain'">
                 <a href=""
                    tal:content="action/title"
-		   tal:attributes="href action/url|action/action;"
+		   tal:attributes="href action/url|action/action;
+		                    id action/id|nothing"
                    i18n:translate="">
                 View name
                 </a>

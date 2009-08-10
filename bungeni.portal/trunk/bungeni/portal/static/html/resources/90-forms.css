@@ -272,6 +272,18 @@ tr.selected {
   z-index: 999;
 }
 
+div.content-left-column{
+float: left;
+width : 50%;
+}
+
+div.content-right-column{
+float: right;
+width: 50%;
+}
+
+
+
 /*  */
 
 }

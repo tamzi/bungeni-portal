@@ -99,7 +99,7 @@
 
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
-     permission="zope.View"
+     permission="zope.Public"
      name="calendar"
      class=".calendar.browser.CalendarView"
     />

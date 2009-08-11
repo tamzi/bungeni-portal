@@ -1,3 +1,4 @@
+from pyquery import rules
 from deliverance import middleware
 from deliverance import security
 

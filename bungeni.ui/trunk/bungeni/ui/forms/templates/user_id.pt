@@ -3,5 +3,5 @@
      type="text"
      id="user-workspace-id"
      name="user-workspace"
-     tal:attributes="value string:${view/principal_id}"/>
+     tal:attributes="value string:membership/${view/principal_id}"/>
 </form>

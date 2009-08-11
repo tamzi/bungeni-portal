@@ -19,6 +19,7 @@ setup(
     package_data = { '': ['*.txt', '*.zcml'] },
     namespace_packages=['bungeni'],
     install_requires = [
+        'pyquery>=0.3.1',
         'Deliverance',
         'ore.alchemist',
         'bungeni.models',

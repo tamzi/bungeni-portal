@@ -33,7 +33,7 @@ input {
     border-color:#666 #ddd #ddd #666;
     color: Black;
     vertical-align: middle;
-    background: White url(input_background.gif) repeat-x;
+    background: transparent;
     font-size: 1em;
 }
 

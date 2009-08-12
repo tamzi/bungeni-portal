@@ -140,9 +140,9 @@ from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
 
-/*copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes)
+copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes)
 from '%(directory)s/data/demodata/ministers.csv'
-csv;*/
+csv;
 
 copy public.sitting_type (sitting_type_id, sitting_type, start_time, end_time)
 from '%(directory)s/data/demodata/sitting_type.csv'
@@ -234,6 +234,9 @@ csv;
 
 COPY "public"."role_titles" ("membership_id", "title_name_id", "start_date", "end_date") 
 FROM '%(directory)s/data/demodata/role_titles.csv' csv ;
+
+INSERT INTO addresses (role_title_id)
+SELECT role_title_id FROM role_titles;
 
 
 /* do away with the specialization for groups */

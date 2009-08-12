@@ -41,8 +41,7 @@
     
   <class class="Products.ATContentTypes.interface.folder.IATFolder">
     <allow interface=".interfaces.IGroupWorkspacesView" />
-  </class>  
-
+  </class>
   
 </configure>
 

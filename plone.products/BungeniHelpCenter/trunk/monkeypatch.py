@@ -11,9 +11,7 @@ except ImportError:
 
 try:
     from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-    from Products.SearchReferenceWidget.SearchReferenceWidget import SearchReferenceWidget
     PHCReferenceWidget = ReferenceBrowserWidget
-    #PHCReferenceWidget = SearchReferenceWidget
 except ImportError:
     PHCReferenceWidget = ReferenceWidget
 
@@ -36,7 +34,6 @@ from Products.PloneHelpCenter.content import ReferenceManual, ReferenceManualSec
 from Products.PloneHelpCenter.content import HowToFolder
 
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin, fti_meta_type
-from Products.PortalTaxonomy.fields import AttributeField, CategoryField
 from Products.ATContentTypes.content import folder
 
 def getExtraArgs(self):
@@ -181,10 +178,6 @@ PositionField =  StringField('navbar_position',
                                                      ),
                              )
 
-TaxCategoryField = CategoryField('categories')
-
-TaxAttributesField = AttributeField('attribs')
-
 
 # Patching PHCContent
 PHCContent = PHCContent.PHCContent
@@ -321,13 +314,12 @@ HelpCenterGlossary = Glossary.HelpCenterGlossary
 HelpCenterGlossary.schema['description'].required = 0
 
 HelpCenterGlossary.schema = HelpCenterGlossary.schema + \
-    Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, RelatedItemsField),)
 
 HelpCenterGlossary.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterGlossary.schema.moveField('contributors', pos='bottom')
 HelpCenterGlossary.schema.moveField('relatedItems', pos='bottom')
-HelpCenterGlossary.schema.moveField('categories', pos='bottom')
-HelpCenterGlossary.schema.moveField('attribs', pos='bottom')
+
 
 def alphabetise(self):
     items = self.getFolderContents({'sort_on':'sortable_title'})
@@ -363,13 +355,11 @@ HelpCenterFAQFolder.schema['description'].required = 0
 
 HelpCenterFAQFolder.schema = HelpCenterFAQFolder.schema +\
 Schema((BodyField, IdentityField, IdentityPosition, ContributorsField,\
-        RelatedItemsField, RightsField, TaxCategoryField, TaxAttributesField),)
+        RelatedItemsField, RightsField),)
 
 HelpCenterFAQFolder.schema.moveField('contributors', pos='bottom')
 HelpCenterFAQFolder.schema.moveField('relatedItems', pos='bottom')
 HelpCenterFAQFolder.schema.moveField('rights', pos='bottom')
-HelpCenterFAQFolder.schema.moveField('categories', pos='bottom')
-HelpCenterFAQFolder.schema.moveField('attribs', pos='bottom')
 
 HelpCenterFAQFolder.trunc = trunc
 generateMethods(HelpCenterFAQFolder, HelpCenterFAQFolder.schema.fields())
@@ -385,12 +375,11 @@ HelpCenterLinkFolder = LinkFolder.HelpCenterLinkFolder
 HelpCenterLinkFolder.schema['description'].required = 0
 
 HelpCenterLinkFolder.schema = HelpCenterLinkFolder.schema + \
-    Schema((BodyField, IdentityField, IdentityPosition, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, IdentityField, IdentityPosition, RelatedItemsField),)
 
 HelpCenterLinkFolder.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterLinkFolder.schema.moveField('relatedItems', pos='bottom')
-HelpCenterLinkFolder.schema.moveField('categories', pos='bottom')
-HelpCenterLinkFolder.schema.moveField('attribs', pos='bottom')
+
 
 HelpCenterLinkFolder.alphabetise = alphabetise.__get__(None, HelpCenterLinkFolder)
 HelpCenterLinkFolder.trunc = trunc
@@ -402,7 +391,7 @@ HelpCenterLink = Link.HelpCenterLink
 
 HelpCenterLinkFolder.schema['description'].required = 0
 
-HelpCenterLink.schema = HelpCenterLink.schema + Schema((BodyField, TaxCategoryField, TaxAttributesField),)
+HelpCenterLink.schema = HelpCenterLink.schema + Schema((BodyField),)
 HelpCenterLink.schema.moveField('url', pos='bottom')
 HelpCenterLink.schema.moveField('relatedItems', pos='bottom')
 HelpCenterLink.schema.moveField('sections', pos='bottom')
@@ -410,8 +399,6 @@ HelpCenterLink.schema.moveField('contributors', pos='bottom')
 HelpCenterLink.schema.moveField('subject', pos='bottom')
 HelpCenterLink.schema.moveField('startHere', pos='bottom')
 HelpCenterLink.schema.moveField('relatedItems', pos='bottom')
-HelpCenterLinkFolder.schema.moveField('categories', pos='bottom')
-HelpCenterLinkFolder.schema.moveField('attribs', pos='bottom')
 
 generateMethods(HelpCenterLink, HelpCenterLink.schema.fields())
 

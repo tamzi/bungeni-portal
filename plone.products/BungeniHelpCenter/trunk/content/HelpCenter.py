@@ -30,12 +30,9 @@ except ImportError:
     HAS_ISBD = False
 try:
     from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
-    from Products.SearchReferenceWidget.SearchReferenceWidget import SearchReferenceWidget
     PHCReferenceWidget = ReferenceBrowserWidget
-    #PHCReferenceWidget = SearchReferenceWidget
 except ImportError:
     PHCReferenceWidget = ReferenceWidget
-from Products.PortalTaxonomy.fields import AttributeField, CategoryField
 from Products.BungeniHelpCenter.content import roman
 
 def getExtraArgs(self):
@@ -213,10 +210,6 @@ PositionField =  StringField('navbar_position',
                              )
 
 
-TaxCategoryField = CategoryField('categories')
-
-TaxAttributesField = AttributeField('attribs')
-
 RelatedItemsField =  ReferenceField(
         'relatedItems',
         relationship='PloneHelpCenter',
@@ -238,7 +231,7 @@ RelatedItemsField =  ReferenceField(
 HelpCenterReferenceManual = ReferenceManual.HelpCenterReferenceManual
 
 HelpCenterReferenceManualSchema = HelpCenterReferenceManual.schema + Schema((BodyField, IdentityField, IdentityPosition, RightsField,\
- PositionField, TocType, DisType, NavType, TaxCategoryField, TaxAttributesField),)
+ PositionField, TocType, DisType, NavType),)
 
 HelpCenterReferenceManualSchema['description'].required = 0
 HelpCenterReferenceManualSchema.moveField('relatedItems', pos='bottom')
@@ -249,8 +242,6 @@ HelpCenterReferenceManualSchema.moveField('startHere', pos='bottom')
 HelpCenterReferenceManualSchema.moveField('subject', pos='bottom')
 HelpCenterReferenceManualSchema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManualSchema.moveField('rights', pos='bottom')
-HelpCenterReferenceManualSchema.moveField('categories', pos='bottom')
-HelpCenterReferenceManualSchema.moveField('attribs', pos='bottom')
 
 class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReferenceManual):
     """A document that is subdivided in chapters, sections and pages. It can also contain images and files"""
@@ -428,7 +419,7 @@ registerType(BungeniHelpCenterReferenceManual, PROJECTNAME)
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
 HelpCenterTutorialSchema = HelpCenterTutorial.schema +\
-    Schema((BodyField, PositionField, TocType, DisType, NavType, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, PositionField, TocType, DisType, NavType),)
 
 HelpCenterTutorialSchema['description'].required = 0
 HelpCenterTutorialSchema.moveField('body', pos='top')
@@ -731,10 +722,10 @@ registerType(BungeniHelpCenterReferenceManualPage, PROJECTNAME)
 HelpCenterReferenceManualSection = ReferenceManualSection.HelpCenterReferenceManualSection
 
 HelpCenterReferenceManualSection.schema['description'].required = 0
-#HelpCenterReferenceManualSection.schema['body'].required = 0
 
 BungeniHelpCenterReferenceManualSectionSchema = \
-    HelpCenterReferenceManualSection.schema + Schema((RelatedItemsField),)
+    HelpCenterReferenceManualSection.schema + Schema((BodyField, RelatedItemsField),)
+
 
 class BungeniHelpCenterReferenceManualSection(BrowserDefaultMixin, OrderedBaseFolder, HelpCenterReferenceManualSection):
     """A section of a hierarchical document. It can contain sections and pages.
@@ -838,7 +829,7 @@ HelpCenterGlossary = Glossary.HelpCenterGlossary
 HelpCenterGlossary.schema['description'].required = 0
 
 BungeniHelpCenterGlossarySchema = \
-    HelpCenterGlossary.schema + Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
+    HelpCenterGlossary.schema + Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, RelatedItemsField),)
 
 
 class BungeniHelpCenterGlossary(BrowserDefaultMixin, OrderedBaseFolder, HelpCenterGlossary):

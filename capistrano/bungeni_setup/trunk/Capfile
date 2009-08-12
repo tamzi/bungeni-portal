@@ -13,4 +13,10 @@ load 'config/plone_presetup'
 load 'config/ploneconfigvars'
 load 'config/plone_tasks'
 load 'config/plone_install'
+#### now for portal stuff
+load 'config/portalconfigvars'
+load 'config/portal_tasks'
+load 'config/portal_install'
+### now run deploy.rb
 load 'config/deploy'
+

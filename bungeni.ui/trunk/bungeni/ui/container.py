@@ -24,6 +24,7 @@ from bungeni.models.interfaces import IDateRangeFilter
 from bungeni.ui.utils import getDisplayDate
 from bungeni.ui.utils import getFilter
 from bungeni.ui.cookies import get_date_range
+from bungeni.ui.interfaces import IBusinessSectionLayer
 from ploned.ui.interfaces import IViewView
 
 def dateFilter( request ):
@@ -66,8 +67,11 @@ def get_query(context, request):
     model = unproxied.domain_model
     session = Session()
     query = unproxied._query
-
-    start_date, end_date = get_date_range(request)
+    if IBusinessSectionLayer.providedBy(request):
+        start_date = datetime.date.today()
+        end_date=None        
+    else:
+        start_date, end_date = get_date_range(request)                
     if start_date or end_date:
         date_range_filter = component.getSiteManager().adapters.lookup(
             (interface.implementedBy(model),), IDateRangeFilter)
@@ -340,7 +344,6 @@ class ContainerJSONListing( BrowserView ):
         ud_filter = self.getFilter()
         if ud_filter != '':  
             query=query.filter(ud_filter)
-        #import pdb; pdb.set_trace()              
         if order_by:
             query = query.order_by( order_by )  
         nodes = self._get_secured_batch(query, start, limit)                                                  
@@ -374,7 +377,6 @@ class ContainerJSONListing( BrowserView ):
                             d[ f ] = v = getter( n , field)
                         else:
                             d[ f ] = v = field.query( n )    
-                #d[ f ] = v = field.query( n )
                 if isinstance( v, datetime.datetime ):
                     d[f] = v.strftime('%F %I:%M %p')
                 elif isinstance( v, datetime.date ):
@@ -389,7 +391,6 @@ class ContainerJSONListing( BrowserView ):
         start, limit = self.getOffsets( )
         sort_clause = self.getSort()
         batch = self.getBatch( start, limit, sort_clause )
-        #XXX does not work with filtered listings!
         # use the query instead        
         data = dict( length=self.set_size,
                      start=start,

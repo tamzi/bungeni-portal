@@ -1,6 +1,6 @@
 
 ### Defines a sequence of tasks for installing bungeni from scratch ###
-namespace :plone_install do
+namespace :portal_install do
 	
     task :setup, :roles=> [:app] do
 	run "echo 'setting up plone installation'"
@@ -21,14 +21,14 @@ namespace :plone_install do
 
 #### After Hooks ####
 
-	after "plone_install:setup_from_cache", 
-		"plone_tasks:plone_checkout"
+	after "portal_install:setup_from_cache", 
+		"portal_tasks:portal_checkout"
 
-	after "plone_install:full_from_cache",
-		"plone_install:setup_from_cache",
-		"plone_tasks:bootstrap_bo",
-		"plone_tasks:localbuildout_config",
-		"plone_tasks:buildout_full_local"
+	after "portal_install:full_from_cache",
+		"portal_install:setup_from_cache",
+		"portal_tasks:bootstrap_bo",
+		"portal_tasks:localbuildout_config",
+		"portal_tasks:buildout_full_local"
 		
 
 end

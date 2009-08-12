@@ -47,8 +47,14 @@ namespace :plone_tasks do
     
     desc "optimisitic builout local"
     task :buildout_opt_local, :roles=> :app do
-      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -Ni -c #{plone_local_buildout_config_file} -v"
+      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -N -c #{plone_local_buildout_config_file} -v"
     end
+
+    desc "add plone 0 user"
+    task :add_admin_user, :roles=> :app do
+      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/addzope2user admin admin"
+    end
+	
 
     desc "update source"
     task :plone_upd, :roles=> :app do

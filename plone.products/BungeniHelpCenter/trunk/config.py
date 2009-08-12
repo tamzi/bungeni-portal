@@ -4,8 +4,7 @@
 DEFAULT_ADD_CONTENT_PERMISSION = "Add portal content"
 PROJECTNAME = "BungeniHelpCenter"
 product_globals = globals()
-PRODUCT_DEPENDENCIES = []
-DEPENDENCIES = ['PloneHelpCenter', 'AddRemoveWidget', 'PortalTaxonomy']
+DEPENDENCIES = ['PloneHelpCenter', 'AddRemoveWidget']
 
 TYPE_PARAMS = {}
 TYPE_PARAMS['TabbedSubpages'] = { 'portal_type' : 'TabbedSubpages'

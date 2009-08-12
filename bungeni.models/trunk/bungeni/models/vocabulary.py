@@ -368,12 +368,13 @@ class UserNotMPSource(SpecializedSource):
         session= Session()    
         trusted=removeSecurityProxy(context)
         parliament_id = self._get_parliament_id(trusted)
-        connection = session.connection(domain.Parliament)
+        #connection = session.connection(domain.Parliament)
         mp_user_ids = sql.select([schema.user_group_memberships.c.user_id], 
             schema.user_group_memberships.c.group_id == parliament_id)
         query = session.query(domain.User).filter( sql.and_(
             sql.not_(domain.User.user_id.in_( mp_user_ids)),
-            domain.User.active_p == 'A'))
+            domain.User.active_p == 'A')).order_by(
+                domain.User.last_name, domain.User.first_name)
         return query                       
 
     def __call__( self, context=None ):
@@ -422,11 +423,24 @@ class SubstitutionSource(SpecializedSource):
         if not group_id:
              group_id = getattr(trusted.__parent__,'group_id', None)
         return group_id
+
+    def _get_user_id(self, context):
+        trusted = removeSecurityProxy(context)        
+        user_id = getattr(trusted,'user_id', None)
+        if not user_id:
+             user_id = getattr(trusted.__parent__,'user_id', None)
+        return user_id
+
                      
     def constructQuery( self, context):
         session= Session()
         query = session.query(domain.GroupMembership).order_by(
-            'last_name', 'first_name')
+            'last_name', 'first_name').filter(
+            domain.GroupMembership.active_p == True)
+        user_id = self._get_user_id(context)     
+        if user_id:
+             query = query.filter(
+                domain.GroupMembership.user_id != user_id)
         group_id = self._get_group_id(context)
         if group_id:
             query = query.filter(
@@ -447,13 +461,9 @@ class SubstitutionSource(SpecializedSource):
                     title = "%s %s" % (getattr( ob.user, 'first_name') ,
                             getattr( ob.user, 'last_name'))
                     ))
-        user_id = getattr(context, self.value_field, None) 
+        user_id = getattr(context, 'replaced_id', None) 
         if user_id:
-            if len(query.filter(domain.GroupMembership.user_id == user_id).all()) == 0:
-                # The user is not a member of this group. 
-                # This should not happen in real life
-                # but if we do not add it her the view form will 
-                # throw an exception 
+            if len(query.filter(domain.GroupMembership.replaced_id == user_id).all()) == 0:
                 session = Session()            
                 ob = session.query(domain.User).get(user_id)
                 terms.append( 

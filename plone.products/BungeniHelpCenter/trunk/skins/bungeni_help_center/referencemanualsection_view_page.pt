@@ -71,7 +71,7 @@
                 </td>
                 <td valign="top">                                     
       <!--<a href="" tal:attributes="href parent/absolute_url">-->
-        <span tal:content="string:${here/Title}" class="sectionHeading"/>
+       <!-- <span tal:content="string:${here/Title}" class="sectionHeading"/>-->
       <!--</a>-->
       <p class="pmargin">
            <span tal:replace="parent/Description">Description</span>

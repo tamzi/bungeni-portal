@@ -27,7 +27,7 @@
                 <td valign="top"> 
                 <div>                 
                 <b><a href="" tal:attributes="href item/getURL" class="sectionurl" >
-                <span tal:content="python:here.trunc(item.Title)"/><span tal:content="item/Title" class="hovertooltip" tal:condition="python:len(item.Title) > len(here.trunc(item.Title))"/></a></b></div>
+                <span tal:content="python:here.trunc(item.Title)"/><span tal:content="item/Title" class="hovertooltip" tal:condition="python:len(item.Title) > len(here.trunc(item.Title,0,50))"/></a></b></div>
                 
                  <p class="pmargin"><span tal:replace="item/Description">Description</span></p>
                                

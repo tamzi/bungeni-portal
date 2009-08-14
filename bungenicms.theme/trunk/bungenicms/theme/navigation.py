@@ -14,12 +14,12 @@ from Products.CMFCore.interfaces import IFolderish
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.Five import BrowserView
 
-class GlobalSectionsViewlet(common.GlobalSectionsViewlet):
-    index = ViewPageTemplateFile('sections.pt')
+class PersonalBarViewlet(common.PersonalBarViewlet):
+    index = ViewPageTemplateFile('personal_bar.pt')
     subcontext = ()
     
     def update(self):
-        super(GlobalSectionsViewlet, self).update()
+        super(PersonalBarViewlet, self).update()
 
         # compute and set 'subcontext' which is the second-level
         # navigation context

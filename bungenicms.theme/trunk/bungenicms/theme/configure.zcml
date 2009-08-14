@@ -2,16 +2,15 @@
    xmlns="http://namespaces.zope.org/zope"
    xmlns:five="http://namespaces.zope.org/five"
    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-   xmlns:browser="http://namespaces.zope.org/browser"
-   i18n_domain="bungeni">
+   xmlns:browser="http://namespaces.zope.org/browser">
   
   <includeOverrides file="overrides.zcml" />
   <include package="plone.app.layout.viewlets" />
   <include package="Products.CMFPlone.browser" />
   
-  <include package="bungeni.portal" />
-  
   <five:registerPackage package="." />
+  
+  <include file="skins.zcml" />
 
   <genericsetup:registerProfile
      name="default"

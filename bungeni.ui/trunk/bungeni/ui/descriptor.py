@@ -272,7 +272,8 @@ class UserDescriptor( ModelDescriptor ):
                           required=True
                           ),
              ),                                                                                
-        dict( name="login", label=_(u"Login Name")),
+        dict( name="login", label=_(u"Login Name"), 
+            add=True, edit=False, view=True, required=True),
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", 
               property = schema.Choice( 

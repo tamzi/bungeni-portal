@@ -5,6 +5,9 @@
          class="frontpage" />
   <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])+(/)?(view)?$"
          class="workspace-committee" />
+  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
+         class="workspace-committee" />
+  
     <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />
@@ -69,7 +72,7 @@
     <replace content="#portal-column-one"
             theme="#portal-column-one" />
     <drop content=".contentActions"
-          if-content="#user-name" />    
+          if-content="#user-name"/>
     <!-- content -->
     <prepend content="children:#portal-column-content"
              theme="children:#portal-column-content" />    
@@ -87,7 +90,10 @@
              theme="children:#portal-globalnav > ul" />
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
-    <drop content="#portal-globalnav > li:first-child"/> 
+    <drop content="#portal-globalnav > li:first-child"/>
+    <prepend content=".contentActions"
+             theme="children:.main-content"
+             if-content="#user-name"/>            
     <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <append href="/bungeni"
             content="ul#portal-personaltools li.navigation"
@@ -101,10 +107,7 @@
             content="elements:#bungeni-workspace" theme="children:#bungeni-workspace"/>
     <append content=".portletWorkflowReview"
             theme="children:#review-portlet" />
-    <prepend href="/business/"
-             content=".contentActions"
-             theme="children:.main-content"
-             if-content="#user-name"/>
+
 
     <!-- right portlet -->
     <prepend href="/business/"

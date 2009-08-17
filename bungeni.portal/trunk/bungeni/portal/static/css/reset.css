@@ -36,6 +36,10 @@ display:none;
   display:none;
 }
 
+.workspace-content #portletArchiveDates {
+  display: none;
+}
+
 div#portal-globalnav {
   width:100%;
 }

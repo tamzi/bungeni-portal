@@ -106,6 +106,13 @@ parliamentary_items.parliamentary_item_id as object_id
 from parliamentary_items;
 
 
+insert into zope_role_permission_map
+select 'bungeni.MP' as role_id,
+ 'zope.View' as permission_id,
+false as setting,
+parliamentary_items.type as type,
+parliamentary_items.parliamentary_item_id as object_id
+from parliamentary_items;
 
 
 

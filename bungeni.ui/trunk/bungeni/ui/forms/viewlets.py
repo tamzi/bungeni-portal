@@ -16,8 +16,9 @@ from alchemist import ui
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 
-from bungeni.models import domain
+from bungeni.models import domain, interfaces
 from bungeni.models.utils import get_offices_held_for_user_in_parliament
+from bungeni.models.utils import get_parliament_for_group_id
 from bungeni.ui.i18n import _
 import bungeni.core.globalsettings as prefs
 from bungeni.core.workflows.question import states as qw_state
@@ -431,8 +432,13 @@ class OfficesHeldViewlet( viewlet.ViewletBase ):
         refresh the query
         """       
         trusted = removeSecurityProxy(self.context)        
-        user_id = trusted.user_id                
-        parliament_id = trusted.group_id
+        user_id = trusted.user_id   
+        if interfaces.IMemberOfParliament.providedBy(self.context):                     
+            parliament_id = trusted.group_id
+        else:
+            parliament = get_parliament_for_group_id(trusted.group_id)           
+            if parliament:
+                parliament_id = parliament.parliament_id
         self.offices_held = get_offices_held_for_user_in_parliament(
                 user_id, parliament_id)
                         

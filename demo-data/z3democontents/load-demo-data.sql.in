@@ -140,7 +140,7 @@ from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
 
-copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes)
+copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes, membership_type)
 from '%(directory)s/data/demodata/ministers.csv'
 csv;
 

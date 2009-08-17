@@ -84,7 +84,15 @@ def get_group_ids_for_user_in_parliament(user_id, parliament_id):
         my_group_ids.append(group_id[0])
     return my_group_ids
                                     
-
+def get_parliament_for_group_id(group_id):
+    if group_id is None:
+        return None
+    session = Session()
+    group = session.query(domain.Group).get(group_id)
+    if group.type == 'parliament':
+        return group
+    else:
+        return get_parliament_for_group_id(group.parent_group_id)               
         
         
         

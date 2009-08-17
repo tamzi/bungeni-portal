@@ -20,6 +20,8 @@
   
   <rule class="workspace-committee">
     <!-- content -->
+    <prepend content="#portletArchiveDates"
+             theme=".main-content" />
     <prepend content="dl.enableFormTabbing > dt"
              theme="children:dl.enableFormTabbing" />
     <prepend content="dl.enableFormTabbing > dd"

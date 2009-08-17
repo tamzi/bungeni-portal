@@ -15,6 +15,11 @@ caption, th, td {text-align: left; font-weight: normal; }
 
 h1, h2 {color: #C8631B;}
 
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  color: #436976 !important;
+  text-decoration: underline;
+}
+
 /*hide the what's on view from the workspace*/
 #bungeni-workspace .documentContent {
 display:none;
@@ -303,6 +308,16 @@ li.lastFormTab a {
 .yui-skin-sam tr.yui-dt-odd {
   background-color: #F3F3F3;
 }
+
+.yui-skin-sam .yui-dt th, .yui-skin-sam .yui-dt th a {
+  min-width: 16em;
+}
+
+input.searchButton {
+  margin-left: 5px;
+  height: 17px;
+}
+
 
 /*table listings*/
 table.listing, .stx table {

@@ -1,5 +1,9 @@
 <?xml version="1.0"?>
 <import-steps>
+  <import-step id="bungenicms.policy.setup_group_workspaces" version="1"
+               handler="bungenicms.policy.setuphandlers.setup_group_workspaces"
+               title="Set up group workspaces">
+  </import-step>          
   <import-step id="bungenicms.policy.setup_members_folder" version="1"
                handler="bungenicms.policy.setuphandlers.setup_members_folder"
                title="Set up members folder">

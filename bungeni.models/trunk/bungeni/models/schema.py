@@ -712,7 +712,8 @@ agenda_items = rdb.Table(
    rdb.Column( "agenda_item_id", rdb.Integer, 
                 rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
                 primary_key=True ),
-   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),                
+   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),  
+   rdb.Column( "approval_date", rdb.Date,),                 
    )
 
 agenda_item_changes = make_changes_table( agenda_items, metadata )
@@ -860,6 +861,7 @@ tabled_documents = rdb.Table(
         rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
         primary_key=True ),   
     rdb.Column( "link", rdb.String(256)),   
+    rdb.Column( "approval_date", rdb.Date,),                     
 #    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
    )
 

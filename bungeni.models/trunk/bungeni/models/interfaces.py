@@ -130,6 +130,9 @@ class ITabledDocument(IBungeniContent):
     """
     tabled document
     """
+class IAgendaItem(IBungeniContent):
+    pass
+
     
 class IParliamentSession( interface.Interface ):
     pass

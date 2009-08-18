@@ -308,5 +308,21 @@ class UserAddressDescriptiveProperties(DescriptiveProperties):
 #    def title(self):
 #        return u"Marginalia"   
         
-                
+class AgendaItemDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.ITabledDocument)
+
+    @property
+    def title(self):
+        return self.context.short_name
+
+            
+class TabledDocumentDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IAgendaItem)
+
+    @property
+    def title(self):    
+        return self.context.short_name
+
+            
+                                        
 

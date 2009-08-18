@@ -168,3 +168,8 @@ BillAuditor = AuditorFactory( schema.bill_changes )
 MotionAuditor = AuditorFactory( schema.motion_changes )
 QuestionAuditor = AuditorFactory( schema.question_changes )
 ResponseAuditor =  AuditorFactory( schema.response_changes )
+
+AgendaItemAuditor =  AuditorFactory( schema.agenda_item_changes )
+TabledDocumentAuditor =  AuditorFactory( schema.tabled_document_changes )
+
+

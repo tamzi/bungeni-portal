@@ -1,1363 +1,909 @@
-1001,1011,added,2009-03-05 12:23:46.818894,"",,clerk
-1002,1011,workflow,2009-03-05 12:23:46.977989,Create :  [ transition from new to draft question ],,clerk
-1003,1011,modified,2009-03-05 12:23:46.981255,"",,clerk
-1004,1012,added,2009-03-05 12:26:05.747442,"",,clerk
-1005,1012,workflow,2009-03-05 12:26:05.784417,Create :  [ transition from new to draft question ],,clerk
-1006,1012,modified,2009-03-05 12:26:05.786031,"",,clerk
-1007,1013,added,2009-03-05 12:27:19.863655,"",,clerk
-1008,1013,workflow,2009-03-05 12:27:19.898716,Create :  [ transition from new to draft question ],,clerk
-1009,1013,modified,2009-03-05 12:27:19.900581,"",,clerk
-1010,1014,added,2009-03-05 12:28:57.0691,"",,clerk
-1011,1014,workflow,2009-03-05 12:28:57.093522,Create :  [ transition from new to draft question ],,clerk
-1012,1014,modified,2009-03-05 12:28:57.11688,"",,clerk
-1013,1015,added,2009-03-05 12:37:34.396964,"",,clerk
-1014,1015,workflow,2009-03-05 12:37:34.437579,Create :  [ transition from new to draft question ],,clerk
-1015,1015,modified,2009-03-05 12:37:34.439289,"",,clerk
-1016,1016,added,2009-03-05 12:47:01.410952,"",,clerk
-1017,1016,workflow,2009-03-05 12:47:01.448065,Create :  [ transition from new to draft question ],,clerk
-1018,1016,modified,2009-03-05 12:47:01.449812,"",,clerk
-1019,1017,added,2009-03-05 12:48:30.29326,"",,clerk
-1020,1017,workflow,2009-03-05 12:48:30.310643,Create :  [ transition from new to draft question ],,clerk
-1021,1017,modified,2009-03-05 12:48:30.312644,"",,clerk
-1022,1018,added,2009-03-05 12:51:05.356224,"",,clerk
-1023,1018,workflow,2009-03-05 12:51:05.483751,Create :  [ transition from new to draft question ],,clerk
-1024,1018,modified,2009-03-05 12:51:05.48568,"",,clerk
-1025,1019,added,2009-03-05 12:52:12.624251,"",,clerk
-1026,1019,workflow,2009-03-05 12:52:12.658546,Create :  [ transition from new to draft question ],,clerk
-1027,1019,modified,2009-03-05 12:52:12.660211,"",,clerk
-1028,1020,added,2009-03-05 12:54:05.685959,"",,clerk
-1029,1020,workflow,2009-03-05 12:54:05.704541,Create :  [ transition from new to draft question ],,clerk
-1030,1020,modified,2009-03-05 12:54:05.724208,"",,clerk
-1031,1021,added,2009-03-05 12:56:01.245746,"",,clerk
-1032,1021,workflow,2009-03-05 12:56:01.264511,Create :  [ transition from new to draft question ],,clerk
-1033,1021,modified,2009-03-05 12:56:01.266117,"",,clerk
-2001,1011,new-version,2009-04-02 12:36:22.6204,'French' translation added.,,admin
-2002,1011,modified,2009-04-02 12:36:22.678605,"Language, Text, Title, Receive notification",,admin
-2003,1013,new-version,2009-04-02 13:08:38.193473,dasdadadsaa,,admin
-2004,1013,new-version,2009-04-02 13:10:05.281608,'French' translation added.,,admin
-2005,1013,modified,2009-04-02 13:10:05.291544,"Receive notification, Language, Text",,admin
-2006,1020,new-version,2009-04-02 14:15:40.20881,fssfsaddfsa,,admin
-2007,1013,new-version,2009-04-02 15:21:50.089451,vdsvsdvsvdxv,,admin
-2008,1013,new-version,2009-04-02 15:47:59.774302,blalalal,,admin
-2009,1013,new-version,2009-04-02 15:57:36.761612,nananan,,admin
-2010,1013,new-version,2009-04-02 17:27:59.239711,ggdfagfdsgdgf,,admin
-2011,1013,new-version,2009-04-02 17:44:54.286119,dumdidum,,admin
-2012,1013,new-version,2009-04-02 17:46:00.289436,dumdidum dadada,,admin
-2013,1013,new-version,2009-04-02 17:46:43.992004,dumdidum dadada ananananan,,admin
-2014,1013,new-version,2009-04-02 17:51:32.458389,dumdidum dadada ananananan,,admin
-2015,1013,new-version,2009-04-02 17:53:03.096194,djhnfbhsdfhgjksdah,,admin
-2016,1013,new-version,2009-04-02 18:12:47.97079,djhnfbhsdfhgjksdah,,admin
-2017,1013,new-version,2009-04-02 18:13:34.496437,djhnfbhsdfhgjksdah,,admin
-2018,1013,new-version,2009-04-02 18:22:18.436685,with dir,,admin
-2019,1013,new-version,2009-04-02 18:22:53.0317,with dir,,admin
-2020,1013,new-version,2009-04-02 18:23:11.847951,with dir,,admin
-2021,1013,new-version,2009-04-02 18:30:50.345562,sadsadfsadsaf,,admin
-2022,1011,new-version,2009-04-03 16:47:03.024845,x<<x<x<,,admin
-2023,1020,new-version,2009-04-06 12:03:11.531119,czxczczx,,admin
-2024,1013,new-version,2009-04-06 16:38:49.756788,DdADA,,admin
-2025,2001,added,2009-04-07 10:50:42.778363,"",,admin
-2026,2001,workflow,2009-04-07 10:50:42.911435,Create :  [ transition from new to draft question ],,admin
-2027,2001,modified,2009-04-07 10:50:42.91302,"",,admin
-2028,2001,new-version,2009-04-07 10:52:10.533156,'French' translation added.,,admin
-2029,2001,new-version,2009-04-07 10:57:41.800797,'French' translation added.,,admin
-2030,2001,new-version,2009-04-07 10:58:45.483502,'French' translation added.,,admin
-2031,2001,new-version,2009-04-07 11:02:15.07632,'French' translation added.,,admin
-2032,2001,new-version,2009-04-07 11:04:02.918217,'French' translation added.,,admin
-2033,2001,new-version,2009-04-07 11:07:23.602757,'French' translation added.,,admin
-2034,2001,new-version,2009-04-07 11:17:32.549726,'French' translation added.,,admin
-2035,2001,modified,2009-04-07 11:17:32.696192,"Language, Text, Title",,admin
-2036,2001,new-version,2009-04-07 11:21:03.337843,'French' translation added.,,admin
-2037,2001,new-version,2009-04-07 11:23:30.157851,'French' translation added.,,admin
-2038,2001,modified,2009-04-07 11:23:30.234349,"Language, Text, Title",,admin
-2039,2001,new-version,2009-04-07 11:25:00.942887,'French' translation added.,,admin
-2040,2001,modified,2009-04-07 11:25:00.991973,"Language, Text, Title",,admin
-2041,2001,new-version,2009-04-07 11:26:58.331805,'Portuguese' translation added.,,admin
-2042,2001,modified,2009-04-07 11:26:58.399583,"Language, Text, Title",,admin
-2043,2001,new-version,2009-04-07 11:34:40.959826,'Swahili' translation added.,,admin
-2044,2001,modified,2009-04-07 11:34:41.039314,"Language, Text, Title",,admin
-2045,2001,new-version,2009-04-07 11:44:40.128895,'Portuguese' translation added.,,admin
-2046,2001,modified,2009-04-07 11:44:40.182789,"Language, Text, Title",,admin
-2047,2001,new-version,2009-04-07 11:45:07.473389,'Portuguese' translation added.,,admin
-2048,2001,modified,2009-04-07 11:45:07.56078,"Language, Text, Title",,admin
-2049,2001,new-version,2009-04-07 11:46:55.465161,'Portuguese' translation added.,,admin
-2050,2001,modified,2009-04-07 11:46:55.539704,"Language, Text",,admin
-2051,2001,new-version,2009-04-07 11:47:54.451174,'Swahili' translation added.,,admin
-2052,2001,modified,2009-04-07 11:47:54.538954,"Language, Text, Title",,admin
-2053,1017,new-version,2009-04-07 11:50:10.219804,'Swahili' translation added.,,admin
-2054,1017,modified,2009-04-07 11:50:10.312042,"Language, Text, Title, Receive notification",,admin
-2055,1012,new-version,2009-04-07 12:09:20.305098,'French' translation added.,,admin
-2056,1012,modified,2009-04-07 12:09:20.398822,"Language, Text, Title, Receive notification",,admin
-2057,1012,new-version,2009-04-07 12:10:25.72655,'French' translation added.,,admin
-2058,1012,modified,2009-04-07 12:10:25.805896,"Receive notification, Language",,admin
-2059,1012,new-version,2009-04-07 12:37:33.213898,ddfvsdfvsd,,admin
-2060,1012,new-version,2009-04-07 12:39:07.774584,sfsdfsdf,,admin
-2061,1012,new-version,2009-04-07 12:40:08.23506,fsdf<dfdsfs,,admin
-2062,1012,new-version,2009-04-07 12:40:55.476914,'French' translation added.,,admin
-2063,1012,modified,2009-04-07 12:40:55.53018,"Language, Text, Title, Receive notification",,admin
-2064,1020,new-version,2009-04-07 12:55:42.042565,'French' translation added.,,admin
-2065,1020,modified,2009-04-07 12:55:42.184496,"Language, Text, Title, Receive notification",,admin
-2066,1017,new-version,2009-04-07 14:39:43.955261,'French' translation added.,,admin
-2067,1017,modified,2009-04-07 14:39:44.039463,"Language, Title, Receive notification",,admin
-2068,1017,new-version,2009-04-07 14:47:36.560422,'French' translation added.,,admin
-2069,1017,new-version,2009-04-07 14:48:39.252224,'French' translation added.,,admin
-2070,1017,modified,2009-04-07 14:48:39.268405,"Language, Title, Summary, Receive notification",,admin
-2071,1017,new-version,2009-04-07 15:11:59.262282,rrghea,,admin
-2072,1017,new-version,2009-04-07 15:14:48.334909,rrghea,,admin
-2073,1017,new-version,2009-04-07 15:26:00.587448,czxczxcz,,admin
-2074,1017,new-version,2009-04-07 15:27:20.158057,czxczxcz,,admin
-2075,1017,new-version,2009-04-07 15:29:26.757263,czxczxcz,,admin
-2076,1017,new-version,2009-04-07 15:36:26.72855,czxczxcz,,admin
-2077,1017,new-version,2009-04-07 15:39:57.067245,czxczxcz,,admin
-2078,1017,new-version,2009-04-07 15:40:29.364616,;'\k\'';\,,admin
-2079,1017,new-version,2009-04-07 15:40:59.726148,'Swahili' translation added.,,admin
-2080,1017,modified,2009-04-07 15:40:59.739916,"Language, Summary, Receive notification",,admin
-2081,1017,new-version,2009-04-07 15:42:12.253956,thfgshgg,,admin
-2082,1017,new-version,2009-04-07 15:48:23.138177,thfgshgg,,admin
-2083,1017,new-version,2009-04-07 15:49:56.574533,sacascacascc,,admin
-2084,1017,new-version,2009-04-07 15:52:42.291247,sacascacascc,,admin
-2085,1017,new-version,2009-04-07 15:54:57.604235,sacascacascc,,admin
-2086,1017,new-version,2009-04-07 15:55:36.589877,sacascacascc,,admin
-2087,1017,new-version,2009-04-07 15:56:42.490843,sacascacascc,,admin
-2088,1017,new-version,2009-04-07 15:57:20.903037,vxcvcxvxczvxczv,,admin
-2089,1017,new-version,2009-04-07 15:59:20.768556,vzv<<cv<v<v<v,,admin
-2090,1017,new-version,2009-04-07 16:08:48.441917,fdgagadgdafgfdagdf,,admin
-2091,1017,new-version,2009-04-07 16:10:08.685466,sfasfsdfsddgs,,admin
-2092,1017,new-version,2009-04-07 16:12:34.47376,cxzczcZX,,admin
-2093,1017,new-version,2009-04-07 16:12:57.032338,'Portuguese' translation added.,,admin
-2094,1017,modified,2009-04-07 16:12:57.099438,"Language, Summary, Receive notification",,admin
-2095,1017,new-version,2009-04-07 16:15:42.562149,'Portuguese' translation added.,,admin
-2096,1017,modified,2009-04-07 16:15:42.573571,"Language, Summary, Receive notification",,admin
-2097,1012,new-version,2009-04-07 16:17:40.362561,'French' translation added.,,admin
-2098,1012,modified,2009-04-07 16:17:40.407629,"Language, Title, Summary, Receive notification",,admin
-2099,1014,new-version,2009-04-07 16:23:58.602672,'French' translation added.,,admin
-2100,1014,modified,2009-04-07 16:23:58.663271,"Language, Summary, Receive notification",,admin
-2101,1018,new-version,2009-04-07 16:36:43.198037,'Swahili' translation added.,,admin
-2102,1018,modified,2009-04-07 16:36:43.25827,"Language, Summary, Receive notification",,admin
-2103,1018,new-version,2009-04-07 16:37:05.111655,'Portuguese' translation added.,,admin
-2104,1018,modified,2009-04-07 16:37:05.174921,"Language, Summary, Receive notification",,admin
-2105,1018,new-version,2009-04-07 16:37:35.448006,'Swahili' translation added.,,admin
-2106,1018,modified,2009-04-07 16:37:35.530523,"Language, Summary, Receive notification",,admin
-2107,1018,new-version,2009-04-07 16:38:38.729921,'French' translation added.,,admin
-2108,1018,modified,2009-04-07 16:38:38.794238,"Language, Summary, Receive notification",,admin
-2109,1013,new-version,2009-04-08 09:52:17.058563,'Swahili' translation added.,,admin
-2110,1013,new-version,2009-04-08 09:58:44.038611,'Swahili' translation added.,,admin
-2111,1013,new-version,2009-04-08 09:59:46.044638,'Swahili' translation added.,,admin
-2112,1013,new-version,2009-04-08 10:00:36.795142,'Swahili' translation added.,,admin
-2113,1013,new-version,2009-04-08 10:01:51.996293,'Swahili' translation added.,,admin
-2114,1013,new-version,2009-04-08 10:18:07.442484,'Swahili' translation added.,,admin
-2115,1013,modified,2009-04-08 10:18:07.603714,"Language, Summary, Receive notification",,admin
-2116,2001,new-version,2009-04-08 12:11:29.708095,'French' translation added.,,admin
-2117,2001,modified,2009-04-08 12:11:29.781453,"Language, Text, Title",,admin
-2118,2001,new-version,2009-04-08 12:12:25.361945,'Portuguese' translation added.,,admin
-2119,2001,modified,2009-04-08 12:12:25.421652,"Language, Text, Title",,admin
-2120,2001,new-version,2009-04-08 12:36:40.11697,scascacazc,,admin
-2121,2001,new-version,2009-04-08 12:37:55.656701,New version created upon edit.,,admin
-2122,2001,new-version,2009-04-08 12:37:55.732475,New version created upon submission to clerks office,,admin
-2123,2001,new-version,2009-04-08 12:38:03.506108,New version created upon edit.,,admin
-2124,2001,new-version,2009-04-08 12:38:03.568096,New version created upon submission to clerks office,,admin
-2125,2001,new-version,2009-04-08 12:38:06.475243,New version created upon edit.,,admin
-2126,2001,new-version,2009-04-08 12:38:06.529996,New version created upon submission to clerks office,,admin
-2127,2001,new-version,2009-04-08 12:38:24.878023,New version created upon edit.,,admin
-2128,2001,new-version,2009-04-08 12:38:24.920067,New version created upon submission to clerks office,,admin
-2129,2001,new-version,2009-04-08 12:38:34.974063,New version created upon edit.,,admin
-2130,2001,new-version,2009-04-08 12:38:35.020352,New version created upon submission to clerks office,,admin
-2131,2002,added,2009-04-08 14:23:31.173629,"",,admin
-2132,2002,workflow,2009-04-08 14:23:31.192148,Create :  [ transition from new to draft question ],,admin
-2133,2002,modified,2009-04-08 14:23:31.193676,"",,admin
-2134,2002,new-version,2009-04-08 14:25:04.969166,'French' translation added.,,admin
-2135,2002,modified,2009-04-08 14:25:05.081939,"Language, Text, Title",,admin
-2136,2002,new-version,2009-04-08 14:25:17.128078,'Portuguese' translation added.,,admin
-2137,2002,modified,2009-04-08 14:25:17.1578,"Language, Text, Title",,admin
-2138,2002,new-version,2009-04-08 14:26:20.229135,'French' translation added.,,admin
-2139,2002,modified,2009-04-08 14:26:20.282532,"Language, Text, Title",,admin
-2140,2003,added,2009-04-08 14:30:55.391383,"",,admin
-2141,2003,workflow,2009-04-08 14:30:55.407994,Create :  [ transition from new to draft question ],,admin
-2142,2003,modified,2009-04-08 14:30:55.409463,"",,admin
-2143,2003,new-version,2009-04-08 14:32:08.357938,'French' translation added.,,admin
-2144,2003,new-version,2009-04-08 14:32:34.533045,'French' translation added.,,admin
-2145,2003,modified,2009-04-08 14:32:34.563957,"Language, Text, Title",,admin
-2146,2003,new-version,2009-04-08 14:33:22.255262,'Portuguese' translation added.,,admin
-2147,2003,modified,2009-04-08 14:33:22.308764,"Language, Text, Title",,admin
-2148,2004,added,2009-04-08 14:35:16.92065,"",,admin
-2149,2004,workflow,2009-04-08 14:35:16.934573,Create :  [ transition from new to draft question ],,admin
-2150,2004,modified,2009-04-08 14:35:16.936028,"",,admin
-2151,2004,modified,2009-04-08 14:35:37.72249,"Owner, Text",,admin
-2152,2004,new-version,2009-04-08 14:36:32.408258,'French' translation added.,,admin
-2153,2004,new-version,2009-04-08 14:37:08.516479,'French' translation added.,,admin
-2154,2004,modified,2009-04-08 14:37:08.548041,"Language, Text, Title",,admin
-2155,2004,new-version,2009-04-08 14:38:10.03075,'Portuguese' translation added.,,admin
-2156,2004,modified,2009-04-08 14:38:10.085554,"Language, Text, Title",,admin
-2157,2005,added,2009-04-08 14:40:15.101881,"",,admin
-2158,2005,workflow,2009-04-08 14:40:15.144294,Create :  [ transition from new to draft question ],,admin
-2159,2005,modified,2009-04-08 14:40:15.145911,"",,admin
-2164,2005,new-version,2009-04-08 14:42:08.046527,'French' translation added.,,admin
-2165,2005,modified,2009-04-08 14:42:08.078017,"Language, Text, Title",,admin
-2175,2006,new-version,2009-04-08 14:53:47.976366,'French' translation added.,,admin
-2160,2005,new-version,2009-04-08 14:41:12.663107,'French' translation added.,,admin
-2174,2006,modified,2009-04-08 14:52:44.65374,"Text, Date approved, Sitting Time",,admin
-2161,2005,modified,2009-04-08 14:41:12.740311,"Language, Text, Title",,admin
-2162,2005,new-version,2009-04-08 14:41:25.408574,'Portuguese' translation added.,,admin
-2163,2005,modified,2009-04-08 14:41:25.438258,"Language, Text, Title",,admin
-2166,2005,modified,2009-04-08 14:44:41.189433,"Text, Date approved",,admin
-2167,1011,new-version,2009-04-08 14:48:00.559325,New version created upon edit.,,admin
-2168,1011,new-version,2009-04-08 14:48:00.617079,New version created upon submission to clerks office,,admin
-2169,1011,workflow,2009-04-08 14:48:00.651213,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
-2170,1011,modified,2009-04-08 14:48:00.652936,"",,admin
-2171,2006,added,2009-04-08 14:51:40.238624,"",,admin
-2172,2006,workflow,2009-04-08 14:51:40.255088,Create :  [ transition from new to draft question ],,admin
-2173,2006,modified,2009-04-08 14:51:40.256564,"",,admin
-2176,2006,new-version,2009-04-08 14:54:32.087062,'French' translation added.,,admin
-2177,2006,modified,2009-04-08 14:54:32.122797,"Language, Text, Title",,admin
-2178,2006,new-version,2009-04-08 14:55:11.698132,'Portuguese' translation added.,,admin
-2179,2006,modified,2009-04-08 14:55:11.757458,"Language, Text, Title",,admin
-2180,1011,new-version,2009-04-08 15:02:36.059966,New version created upon edit.,,admin
-2181,1011,new-version,2009-04-08 15:02:36.271566,New version created upon workflow transition.,,admin
-2182,2007,added,2009-04-08 15:04:34.062268,"",,admin
-2183,2007,workflow,2009-04-08 15:04:34.079664,Create :  [ transition from new to draft question ],,admin
-2184,2007,modified,2009-04-08 15:04:34.081273,"",,admin
-2185,2007,new-version,2009-04-08 15:06:06.427774,'French' translation added.,,admin
-2186,2007,modified,2009-04-08 15:06:06.50403,"Language, Text, Title",,admin
-2187,2007,new-version,2009-04-08 15:06:45.43268,'Portuguese' translation added.,,admin
-2188,2007,modified,2009-04-08 15:06:45.485934,"Language, Text, Title",,admin
-2189,2007,new-version,2009-04-08 15:07:37.688903,'French' translation added.,,admin
-2190,2007,modified,2009-04-08 15:07:37.741393,"Language, Text, Title",,admin
-2191,2008,added,2009-04-08 15:09:07.722491,"",,admin
-2192,2008,workflow,2009-04-08 15:09:07.739075,Create :  [ transition from new to draft question ],,admin
-2193,2008,modified,2009-04-08 15:09:07.740589,"",,admin
-2194,2008,modified,2009-04-08 15:09:40.508464,"Owner, Text",,admin
-2195,2008,new-version,2009-04-08 15:10:41.372434,'French' translation added.,,admin
-2196,2008,modified,2009-04-08 15:10:41.490045,"Language, Text, Title",,admin
-2197,1011,workflow,2009-04-08 15:10:44.773263,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
-2198,1011,modified,2009-04-08 15:10:44.775358,"",,admin
-2199,2008,new-version,2009-04-08 15:11:41.978782,'French' translation added.,,admin
-2200,2008,modified,2009-04-08 15:11:42.01318,"Language, Title",,admin
-2201,2008,new-version,2009-04-08 15:14:50.101154,'Portuguese' translation added.,,admin
-2202,2008,modified,2009-04-08 15:14:50.178051,"Language, Text, Title",,admin
-2203,2009,added,2009-04-08 15:16:01.021478,"",,admin
-2204,2009,workflow,2009-04-08 15:16:01.039132,Create :  [ transition from new to draft question ],,admin
-2205,2009,modified,2009-04-08 15:16:01.040607,"",,admin
-2206,2009,new-version,2009-04-08 15:18:00.295269,'French' translation added.,,admin
-2207,2009,modified,2009-04-08 15:18:00.367877,"Language, Text, Title",,admin
-2208,2009,new-version,2009-04-08 15:20:57.109236,'French' translation added.,,admin
-2209,2009,modified,2009-04-08 15:20:57.157102,"Language, Text, Title",,admin
-2210,2009,new-version,2009-04-08 15:24:21.428777,'Portuguese' translation added.,,admin
-2211,2009,modified,2009-04-08 15:24:21.481079,"Language, Text, Title",,admin
-2212,2010,added,2009-04-08 15:29:55.298934,"",,admin
-2213,2010,workflow,2009-04-08 15:29:55.315572,Create :  [ transition from new to draft question ],,admin
-2214,2010,modified,2009-04-08 15:29:55.317046,"",,admin
-2215,2010,new-version,2009-04-08 15:32:35.34929,'French' translation added.,,admin
-2216,2010,modified,2009-04-08 15:32:35.418013,"Language, Text, Title",,admin
-2217,2010,new-version,2009-04-08 15:32:39.232743,'Portuguese' translation added.,,admin
-2218,2010,modified,2009-04-08 15:32:39.265057,"Language, Text, Title",,admin
-2219,2010,new-version,2009-04-08 15:35:10.946576,'French' translation added.,,admin
-2220,2010,modified,2009-04-08 15:35:10.999481,"Language, Text, Title",,admin
-2221,1021,new-version,2009-04-08 15:36:04.223854,'French' translation added.,,admin
-2222,1021,modified,2009-04-08 15:36:04.33217,"Language, Text, Summary, Receive notification",,admin
-2223,1021,new-version,2009-04-08 15:38:49.728692,'French' translation added.,,admin
-2224,1021,modified,2009-04-08 15:38:49.787215,"Language, Text, Summary, Receive notification",,admin
-2225,1021,new-version,2009-04-08 15:39:36.680997,New version created upon edit.,,admin
-2226,1021,new-version,2009-04-08 15:39:36.82354,New version created upon submission to clerks office,,admin
-2227,1021,workflow,2009-04-08 15:39:58.714603,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
-2228,1021,modified,2009-04-08 15:39:58.716468,"",,admin
-2229,1021,new-version,2009-04-08 15:40:31.799467,'French' translation added.,,admin
-2230,1021,modified,2009-04-08 15:40:32.003455,"Language, Text, Summary, Receive notification",,admin
-2231,1016,new-version,2009-04-08 15:43:41.670218,'French' translation added.,,admin
-2232,1016,modified,2009-04-08 15:43:41.759239,"Language, Text, Summary, Receive notification",,admin
-2233,2011,added,2009-04-08 15:45:36.916466,"",,admin
-2234,2011,workflow,2009-04-08 15:45:36.935446,Create :  [ transition from new to draft question ],,admin
-2235,2011,modified,2009-04-08 15:45:36.936902,"",,admin
-2236,2011,new-version,2009-04-08 15:46:38.648903,'Portuguese' translation added.,,admin
-2237,2011,modified,2009-04-08 15:46:38.737971,"Language, Text, Title",,admin
-2238,2012,added,2009-04-08 15:47:34.378366,"",,admin
-2239,2012,workflow,2009-04-08 15:47:34.393897,Create :  [ transition from new to draft question ],,admin
-2240,2012,modified,2009-04-08 15:47:34.395355,"",,admin
-2241,2012,new-version,2009-04-08 15:49:05.822492,'Portuguese' translation added.,,admin
-2242,2012,modified,2009-04-08 15:49:05.915097,"Language, Text, Title",,admin
-2243,2012,new-version,2009-04-08 15:50:08.118221,'Portuguese' translation added.,,admin
-2244,2012,modified,2009-04-08 15:50:08.173064,"Language, Text, Title",,admin
-2245,1015,new-version,2009-04-08 15:50:59.922692,'French' translation added.,,admin
-2246,1015,modified,2009-04-08 15:51:00.013673,"Language, Text, Title, Summary, Receive notification",,admin
-2247,1015,new-version,2009-04-08 15:51:42.514621,'French' translation added.,,admin
-2248,1015,modified,2009-04-08 15:51:42.582823,"Language, Text, Summary, Receive notification",,admin
-2249,2013,added,2009-04-08 15:52:53.273561,"",,admin
-2250,2013,workflow,2009-04-08 15:52:53.292492,Create :  [ transition from new to draft question ],,admin
-2251,2013,modified,2009-04-08 15:52:53.293978,"",,admin
-2252,2013,modified,2009-04-08 15:53:20.01865,"Owner, Text",,admin
-2253,2014,added,2009-04-08 15:58:33.557775,"",,admin
-2254,2014,workflow,2009-04-08 15:58:33.588217,Create :  [ transition from new to draft question ],,admin
-2255,2014,modified,2009-04-08 15:58:33.589843,"",,admin
-2256,2011,new-version,2009-04-08 15:59:01.050899,'French' translation added.,,admin
-2257,2011,modified,2009-04-08 15:59:01.097249,"Language, Text, Summary",,admin
-2258,2015,added,2009-04-08 16:02:25.004379,"",,admin
-2259,2015,workflow,2009-04-08 16:02:25.018717,Create :  [ transition from new to draft question ],,admin
-2260,2015,modified,2009-04-08 16:02:25.020183,"",,admin
-2264,2017,added,2009-04-08 16:09:14.57808,"",,admin
-2265,2017,workflow,2009-04-08 16:09:14.595084,Create :  [ transition from new to draft question ],,admin
-2266,2017,modified,2009-04-08 16:09:14.596548,"",,admin
-2273,2020,added,2009-04-08 16:15:24.32701,"",,admin
-2274,2020,workflow,2009-04-08 16:15:24.342265,Create :  [ transition from new to draft question ],,admin
-2275,2020,modified,2009-04-08 16:15:24.343751,"",,admin
-2261,2016,added,2009-04-08 16:02:56.961175,"",,admin
-2262,2016,workflow,2009-04-08 16:02:56.974889,Create :  [ transition from new to draft question ],,admin
-2263,2016,modified,2009-04-08 16:02:56.976382,"",,admin
-2267,2018,added,2009-04-08 16:09:53.627502,"",,admin
-2268,2018,workflow,2009-04-08 16:09:53.64227,Create :  [ transition from new to draft question ],,admin
-2269,2018,modified,2009-04-08 16:09:53.643756,"",,admin
-2270,2019,added,2009-04-08 16:11:27.830824,"",,admin
-2271,2019,workflow,2009-04-08 16:11:27.848559,Create :  [ transition from new to draft question ],,admin
-2272,2019,modified,2009-04-08 16:11:27.850071,"",,admin
-2287,2023,added,2009-04-08 16:27:42.148552,"",,admin
-2288,2023,workflow,2009-04-08 16:27:42.166459,Create :  [ transition from new to draft question ],,admin
-2289,2023,modified,2009-04-08 16:27:42.167958,"",,admin
-2290,2024,added,2009-04-08 16:28:10.232251,"",,admin
-2291,2024,workflow,2009-04-08 16:28:10.254728,Create :  [ transition from new to draft question ],,admin
-2292,2024,modified,2009-04-08 16:28:10.256396,"",,admin
-2293,2025,added,2009-04-08 16:28:44.497642,"",,admin
-2294,2025,workflow,2009-04-08 16:28:44.58048,Create :  [ transition from new to draft question ],,admin
-2295,2025,modified,2009-04-08 16:28:44.582427,"",,admin
-2296,2026,added,2009-04-08 16:29:15.627002,"",,admin
-2297,2026,workflow,2009-04-08 16:29:15.657544,Create :  [ transition from new to draft question ],,admin
-2298,2026,modified,2009-04-08 16:29:15.659017,"",,admin
-2299,2027,added,2009-04-08 16:29:42.180069,"",,admin
-2300,2027,workflow,2009-04-08 16:29:42.222811,Create :  [ transition from new to draft question ],,admin
-2301,2027,modified,2009-04-08 16:29:42.224373,"",,admin
-2302,2028,added,2009-04-08 16:30:21.87699,"",,admin
-2303,2028,workflow,2009-04-08 16:30:21.892551,Create :  [ transition from new to draft question ],,admin
-2304,2028,modified,2009-04-08 16:30:21.894302,"",,admin
-2305,2029,added,2009-04-08 16:31:09.647972,"",,admin
-2306,2029,workflow,2009-04-08 16:31:09.661901,Create :  [ transition from new to draft question ],,admin
-2307,2029,modified,2009-04-08 16:31:09.663397,"",,admin
-2308,2030,added,2009-04-08 16:32:08.644594,"",,admin
-2309,2030,workflow,2009-04-08 16:32:08.727366,Create :  [ transition from new to draft question ],,admin
-2310,2030,modified,2009-04-08 16:32:08.728842,"",,admin
-2316,2032,added,2009-04-08 16:36:18.110436,"",,admin
-2317,2032,workflow,2009-04-08 16:36:18.141973,Create :  [ transition from new to draft question ],,admin
-2318,2032,modified,2009-04-08 16:36:18.143435,"",,admin
-2319,2033,added,2009-04-08 16:37:15.262207,"",,admin
-2320,2033,workflow,2009-04-08 16:37:15.282295,Create :  [ transition from new to draft question ],,admin
-2321,2033,modified,2009-04-08 16:37:15.283767,"",,admin
-2322,2034,added,2009-04-08 16:38:23.479528,"",,admin
-2323,2034,workflow,2009-04-08 16:38:23.507786,Create :  [ transition from new to draft question ],,admin
-2324,2034,modified,2009-04-08 16:38:23.509257,"",,admin
-2325,2035,added,2009-04-08 16:38:45.347474,"",,admin
-2326,2035,workflow,2009-04-08 16:38:45.361556,Create :  [ transition from new to draft question ],,admin
-2327,2035,modified,2009-04-08 16:38:45.36302,"",,admin
-2328,2036,added,2009-04-08 16:40:10.551391,"",,admin
-2329,2036,workflow,2009-04-08 16:40:10.567432,Create :  [ transition from new to draft question ],,admin
-2330,2036,modified,2009-04-08 16:40:10.56889,"",,admin
-2331,2037,added,2009-04-08 16:40:23.996576,"",,admin
-2332,2037,workflow,2009-04-08 16:40:24.011738,Create :  [ transition from new to draft question ],,admin
-2333,2037,modified,2009-04-08 16:40:24.013203,"",,admin
-2334,1011,new-version,2009-04-09 10:16:17.279363,'Swahili' translation added.,,admin
-2335,1011,modified,2009-04-09 10:16:17.521444,"Language, Title, Summary, Receive notification",,admin
-2336,2001,modified,2009-04-09 10:46:25.874265,"Submission Date, Text, Ministry",,admin
-2337,2003,modified,2009-04-09 10:48:50.619115,"Submission Date, Text",,admin
-2338,2004,modified,2009-04-09 10:52:51.449341,Submission Date,,admin
-2339,2005,modified,2009-04-09 10:54:50.36813,"Date approved, Submission Date",,admin
-2340,1011,new-version,2009-04-09 10:56:10.90497,fgsdfgsdaf,,admin
-2341,1011,new-version,2009-04-09 10:56:16.969189,fgsdfgsdaf,,admin
-2342,1011,new-version,2009-04-09 10:56:39.951915,'Portuguese' translation added.,,admin
-2343,1011,modified,2009-04-09 10:56:40.002339,"Language, Summary, Receive notification",,admin
-2344,1011,new-version,2009-04-09 10:57:33.619407,gdfgdfgdfggadfg,,admin
-2345,1015,new-version,2009-04-09 10:58:27.88699,'French' translation added.,,admin
-2346,1015,modified,2009-04-09 10:58:27.966457,"Language, Text, Summary, Receive notification",,admin
-2347,2006,modified,2009-04-09 10:58:59.526841,"Date approved, Submission Date",,admin
-2348,2002,modified,2009-04-09 11:02:08.39674,"Submission Date, Text, Ministry",,admin
-2349,2011,new-version,2009-04-09 11:08:49.880899,'French' translation added.,,admin
-2350,2011,modified,2009-04-09 11:08:49.951858,"Language, Text, Title",,admin
-2351,2011,new-version,2009-04-09 11:09:19.736487,'Portuguese' translation added.,,admin
-2352,2011,modified,2009-04-09 11:09:19.771875,"Language, Text, Title",,admin
-2353,2012,new-version,2009-04-09 11:10:19.462731,'French' translation added.,,admin
-2354,2012,modified,2009-04-09 11:10:19.515078,"Language, Text, Title",,admin
-2355,2013,new-version,2009-04-09 11:11:29.229549,'French' translation added.,,admin
-2356,2013,modified,2009-04-09 11:11:29.282561,"Language, Text, Title",,admin
-2357,2013,new-version,2009-04-09 11:11:59.923128,'Portuguese' translation added.,,admin
-2358,2013,modified,2009-04-09 11:11:59.96745,"Language, Text, Title",,admin
-2359,2014,new-version,2009-04-09 11:12:57.499617,'French' translation added.,,admin
-2360,2014,modified,2009-04-09 11:12:57.587438,"Language, Text, Title",,admin
-2361,2014,new-version,2009-04-09 11:13:51.287407,'French' translation added.,,admin
-2362,2014,modified,2009-04-09 11:13:51.324939,"Language, Text, Title",,admin
-2363,2014,new-version,2009-04-09 11:14:23.317442,'Portuguese' translation added.,,admin
-2364,2014,modified,2009-04-09 11:14:23.371772,"Language, Text, Title",,admin
-2365,2015,new-version,2009-04-09 13:23:45.438999,'French' translation added.,,admin
-2366,2015,new-version,2009-04-09 13:25:26.345808,'French' translation added.,,admin
-2367,2015,modified,2009-04-09 13:25:26.389993,"Language, Text, Title",,admin
-2368,2015,new-version,2009-04-09 13:26:04.077777,'Portuguese' translation added.,,admin
-2369,2015,modified,2009-04-09 13:26:04.135072,"Language, Text, Title",,admin
-2370,2016,new-version,2009-04-09 13:26:45.562787,'French' translation added.,,admin
-2371,2016,modified,2009-04-09 13:26:45.597151,"Language, Text, Title",,admin
-2372,2016,new-version,2009-04-09 13:27:15.161692,'Portuguese' translation added.,,admin
-2373,2016,modified,2009-04-09 13:27:15.195383,"Language, Text, Title",,admin
-2374,2017,new-version,2009-04-09 13:28:18.434139,'French' translation added.,,admin
-2382,2018,new-version,2009-04-09 13:31:06.156629,'Portuguese' translation added.,,admin
-2383,2018,modified,2009-04-09 13:31:06.206853,"Language, Text, Title",,admin
-2384,2019,new-version,2009-04-09 13:32:07.037771,'French' translation added.,,admin
-2388,2019,new-version,2009-04-09 13:33:40.270232,'Portuguese' translation added.,,admin
-2389,2019,modified,2009-04-09 13:33:40.403018,"Language, Text, Title",,admin
-2391,2020,modified,2009-04-09 13:36:30.925381,"Language, Text, Title",,admin
-2394,2020,new-version,2009-04-09 13:41:12.287711,'Portuguese' translation added.,,admin
-2395,2020,modified,2009-04-09 13:41:12.327935,"Language, Text, Title",,admin
-2397,2023,modified,2009-04-09 13:42:02.126705,"Language, Text",,admin
-2403,2024,modified,2009-04-09 14:29:09.306895,"Language, Text, Title",,admin
-2404,2024,new-version,2009-04-09 14:29:34.285473,'French' translation added.,,admin
-2405,2024,modified,2009-04-09 14:29:34.320293,"Language, Text, Title",,admin
-2409,2025,modified,2009-04-09 14:31:00.89049,"Language, Text, Title",,admin
-2412,2025,new-version,2009-04-09 14:31:51.874264,'Portuguese' translation added.,,admin
-2413,2025,modified,2009-04-09 14:31:51.913442,"Language, Text, Title",,admin
-2414,2026,new-version,2009-04-09 14:33:53.456098,'French' translation added.,,admin
-2419,2027,modified,2009-04-09 14:36:58.335742,"Language, Text, Title",,admin
-2420,2027,new-version,2009-04-09 14:44:21.433914,'French' translation added.,,admin
-2421,2027,modified,2009-04-09 14:44:21.479188,"Language, Text, Title",,admin
-2375,2017,modified,2009-04-09 13:28:18.483677,"Language, Text, Title",,admin
-2376,2017,new-version,2009-04-09 13:28:57.131167,'French' translation added.,,admin
-2377,2017,modified,2009-04-09 13:28:57.163757,"Language, Text, Title",,admin
-2378,2017,new-version,2009-04-09 13:29:35.469049,'Portuguese' translation added.,,admin
-2379,2017,modified,2009-04-09 13:29:35.571937,"Language, Text, Title",,admin
-2380,2018,new-version,2009-04-09 13:30:32.446818,'French' translation added.,,admin
-2381,2018,modified,2009-04-09 13:30:32.483135,"Language, Text, Title",,admin
-2385,2019,modified,2009-04-09 13:32:07.173146,"Language, Text, Title",,admin
-2386,2019,new-version,2009-04-09 13:32:30.421,'French' translation added.,,admin
-2387,2019,modified,2009-04-09 13:32:30.456205,"Language, Text, Title",,admin
-2390,2020,new-version,2009-04-09 13:36:30.869028,'French' translation added.,,admin
-2392,2020,new-version,2009-04-09 13:38:00.043083,'French' translation added.,,admin
-2393,2020,modified,2009-04-09 13:38:00.171949,"Language, Text, Title",,admin
-2396,2023,new-version,2009-04-09 13:42:02.07474,'French' translation added.,,admin
-2398,2023,new-version,2009-04-09 14:22:33.442396,'French' translation added.,,admin
-2399,2023,modified,2009-04-09 14:22:33.50912,"Language, Text, Title",,admin
-2400,2023,new-version,2009-04-09 14:24:04.058322,'Portuguese' translation added.,,admin
-2401,2023,modified,2009-04-09 14:24:04.10496,"Language, Text, Title",,admin
-2402,2024,new-version,2009-04-09 14:29:09.233044,'French' translation added.,,admin
-2406,2024,new-version,2009-04-09 14:30:03.976101,'Portuguese' translation added.,,admin
-2407,2024,modified,2009-04-09 14:30:04.035955,"Language, Text, Title",,admin
-2408,2025,new-version,2009-04-09 14:31:00.83404,'French' translation added.,,admin
-2410,2025,new-version,2009-04-09 14:31:23.844868,'French' translation added.,,admin
-2411,2025,modified,2009-04-09 14:31:23.880095,"Language, Text, Title",,admin
-2415,2026,modified,2009-04-09 14:33:53.524235,"Language, Text, Title",,admin
-2416,2026,new-version,2009-04-09 14:35:44.57666,'French' translation added.,,admin
-2417,2026,modified,2009-04-09 14:35:44.629936,"Language, Text, Title",,admin
-2418,2027,new-version,2009-04-09 14:36:58.242717,'French' translation added.,,admin
-2422,2027,new-version,2009-04-09 14:44:47.534231,'Portuguese' translation added.,,admin
-2423,2027,modified,2009-04-09 14:44:47.564871,"Language, Text, Title",,admin
-2424,2028,new-version,2009-04-09 15:07:54.280356,'French' translation added.,,admin
-2425,2028,modified,2009-04-09 15:07:54.401605,"Language, Text, Title",,admin
-2426,2028,new-version,2009-04-09 15:09:02.670127,'French' translation added.,,admin
-2427,2028,modified,2009-04-09 15:09:02.731803,"Language, Text, Title",,admin
-2428,2037,new-version,2009-04-09 15:09:13.333648,'French' translation added.,,admin
-2429,2037,modified,2009-04-09 15:09:13.394375,"Language, Text, Summary",,admin
-2430,2028,new-version,2009-04-09 15:09:34.892751,'Portuguese' translation added.,,admin
-2431,2028,modified,2009-04-09 15:09:34.938081,"Language, Text, Title",,admin
-2432,2037,new-version,2009-04-09 15:09:54.509759,'French' translation added.,,admin
-2433,2037,modified,2009-04-09 15:09:54.546321,"Language, Text, Summary",,admin
-2434,2029,new-version,2009-04-09 15:10:50.555119,'French' translation added.,,admin
-2435,2029,modified,2009-04-09 15:10:50.63859,"Language, Text",,admin
-2436,2029,new-version,2009-04-09 15:11:37.864673,'French' translation added.,,admin
-2437,2029,modified,2009-04-09 15:11:37.931179,"Language, Text, Title",,admin
-2438,2029,new-version,2009-04-09 15:12:53.391548,'Portuguese' translation added.,,admin
-2439,2029,modified,2009-04-09 15:12:53.424248,"Language, Text, Title",,admin
-2440,2030,new-version,2009-04-09 15:13:23.72746,'French' translation added.,,admin
-2441,2030,modified,2009-04-09 15:13:23.816926,"Language, Text",,admin
-2442,2033,new-version,2009-04-09 15:13:39.949769,'French' translation added.,,admin
-2443,2033,modified,2009-04-09 15:13:40.010612,"Language, Text",,admin
-2444,2030,new-version,2009-04-09 15:14:10.893439,'French' translation added.,,admin
-2445,2030,modified,2009-04-09 15:14:10.923948,"Language, Text, Title",,admin
-2446,2030,new-version,2009-04-09 15:15:13.713906,'Portuguese' translation added.,,admin
-2447,2030,modified,2009-04-09 15:15:13.749845,"Language, Text, Title",,admin
-2448,2032,new-version,2009-04-09 15:15:53.965296,'French' translation added.,,admin
-2449,2032,modified,2009-04-09 15:15:54.072917,"Language, Text",,admin
-2450,2032,new-version,2009-04-09 15:16:17.600931,'French' translation added.,,admin
-2451,2032,modified,2009-04-09 15:16:17.632507,"Language, Text, Title",,admin
-2452,2032,new-version,2009-04-09 15:16:47.762354,'Portuguese' translation added.,,admin
-2453,2032,modified,2009-04-09 15:16:47.807131,"Language, Text, Title",,admin
-2454,2034,new-version,2009-04-09 15:17:25.195768,'French' translation added.,,admin
-2455,2034,modified,2009-04-09 15:17:25.265159,Language,,admin
-2456,2034,new-version,2009-04-09 15:17:57.836153,'French' translation added.,,admin
-2457,2034,modified,2009-04-09 15:17:57.891422,"Language, Text, Title",,admin
-2458,2034,new-version,2009-04-09 15:18:40.089008,'Portuguese' translation added.,,admin
-2459,2034,modified,2009-04-09 15:18:40.142262,"Language, Text, Title",,admin
-2460,2033,new-version,2009-04-09 15:19:28.770864,'French' translation added.,,admin
-2461,2033,modified,2009-04-09 15:19:28.788556,"Language, Text, Summary",,admin
-2462,2033,new-version,2009-04-09 15:19:56.899876,'French' translation added.,,admin
-2463,2033,modified,2009-04-09 15:19:56.907307,"Language, Text",,admin
-2464,2033,new-version,2009-04-09 15:22:10.63716,'Portuguese' translation added.,,admin
-2465,2033,modified,2009-04-09 15:22:10.650144,"Language, Text, Title",,admin
-2466,2035,new-version,2009-04-09 15:22:44.999531,'French' translation added.,,admin
-2467,2035,modified,2009-04-09 15:22:45.011402,"Language, Text, Title",,admin
-2468,2033,new-version,2009-04-09 15:24:00.856789,'Swahili' translation added.,,admin
-2469,2033,modified,2009-04-09 15:24:00.946403,"Language, Text, Summary",,admin
-2470,2035,new-version,2009-04-09 15:24:17.908403,'Portuguese' translation added.,,admin
-2471,2035,modified,2009-04-09 15:24:17.920136,"Language, Text, Title",,admin
-2472,2033,new-version,2009-04-09 15:24:59.574244,'Swahili' translation added.,,admin
-2473,2033,modified,2009-04-09 15:24:59.611521,"Language, Text, Summary",,admin
-2474,2036,new-version,2009-04-09 15:25:15.957458,'French' translation added.,,admin
-2475,2036,modified,2009-04-09 15:25:15.968275,"Language, Text, Title",,admin
-2476,2036,new-version,2009-04-09 15:25:41.751051,'Portuguese' translation added.,,admin
-2477,2036,modified,2009-04-09 15:25:41.759606,"Language, Text, Title",,admin
-2481,2037,new-version,2009-04-09 15:26:29.690332,'French' translation added.,,admin
-2482,2037,modified,2009-04-09 15:26:29.700508,"Language, Text, Title",,admin
-2483,2037,new-version,2009-04-09 15:26:59.382192,'Portuguese' translation added.,,admin
-2484,2037,modified,2009-04-09 15:26:59.391246,"Language, Text, Title",,admin
-2503,2041,added,2009-04-09 16:07:06.29732,"",,admin
-2504,2041,workflow,2009-04-09 16:07:06.314979,Create :  [ transition from new to draft question ],,admin
-2505,2041,modified,2009-04-09 16:07:06.316593,"",,admin
-2506,2041,new-version,2009-04-09 16:10:54.554979,'French' translation added.,,admin
-2507,2041,modified,2009-04-09 16:10:54.564322,"Language, Text, Title",,admin
-2510,2041,new-version,2009-04-09 16:17:56.913641,'Portuguese' translation added.,,admin
-2511,2041,modified,2009-04-09 16:17:56.924406,"Language, Text, Title",,admin
-2524,2046,added,2009-04-09 16:28:45.214559,"",,admin
-2525,2046,workflow,2009-04-09 16:28:45.229474,Create :  [ transition from new to draft question ],,admin
-2526,2046,modified,2009-04-09 16:28:45.23095,"",,admin
-2546,2043,new-version,2009-04-09 16:32:46.726934,'French' translation added.,,admin
-2547,2043,modified,2009-04-09 16:32:46.736026,"Language, Text, Title",,admin
-2548,2043,new-version,2009-04-09 16:33:08.275152,'Portuguese' translation added.,,admin
-2549,2043,modified,2009-04-09 16:33:08.283055,"Language, Text, Title",,admin
-2552,2044,new-version,2009-04-09 16:37:37.996378,'Portuguese' translation added.,,admin
-2553,2044,modified,2009-04-09 16:37:38.009653,"Language, Text, Title",,admin
-2512,2042,added,2009-04-09 16:28:28.994378,"",,admin
-2513,2042,workflow,2009-04-09 16:28:29.01457,Create :  [ transition from new to draft question ],,admin
-2514,2042,modified,2009-04-09 16:28:29.016063,"",,admin
-2515,2043,added,2009-04-09 16:28:34.172521,"",,admin
-2516,2043,workflow,2009-04-09 16:28:34.19015,Create :  [ transition from new to draft question ],,admin
-2517,2043,modified,2009-04-09 16:28:34.191623,"",,admin
-2518,2044,added,2009-04-09 16:28:38.275159,"",,admin
-2519,2044,workflow,2009-04-09 16:28:38.293669,Create :  [ transition from new to draft question ],,admin
-2520,2044,modified,2009-04-09 16:28:38.295162,"",,admin
-2521,2045,added,2009-04-09 16:28:42.000501,"",,admin
-2522,2045,workflow,2009-04-09 16:28:42.016067,Create :  [ transition from new to draft question ],,admin
-2523,2045,modified,2009-04-09 16:28:42.017539,"",,admin
-2527,2047,added,2009-04-09 16:28:47.874076,"",,admin
-2528,2047,workflow,2009-04-09 16:28:47.888531,Create :  [ transition from new to draft question ],,admin
-2529,2047,modified,2009-04-09 16:28:47.890511,"",,admin
-2530,2048,added,2009-04-09 16:28:53.445952,"",,admin
-2531,2048,workflow,2009-04-09 16:28:53.459642,Create :  [ transition from new to draft question ],,admin
-2532,2048,modified,2009-04-09 16:28:53.461198,"",,admin
-2533,2049,added,2009-04-09 16:28:57.678902,"",,admin
-2534,2049,workflow,2009-04-09 16:28:57.692956,Create :  [ transition from new to draft question ],,admin
-2535,2049,modified,2009-04-09 16:28:57.694441,"",,admin
-2536,2050,added,2009-04-09 16:29:01.609948,"",,admin
-2537,2050,workflow,2009-04-09 16:29:01.62469,Create :  [ transition from new to draft question ],,admin
-2538,2050,modified,2009-04-09 16:29:01.627747,"",,admin
-2539,2051,added,2009-04-09 16:29:52.594543,"",,admin
-2540,2051,workflow,2009-04-09 16:29:52.607943,Create :  [ transition from new to draft question ],,admin
-2541,2051,modified,2009-04-09 16:29:52.609512,"",,admin
-2542,2042,new-version,2009-04-09 16:31:41.153178,'French' translation added.,,admin
-2543,2042,modified,2009-04-09 16:31:41.164117,"Language, Text, Title",,admin
-2544,2042,new-version,2009-04-09 16:32:08.511494,'Portuguese' translation added.,,admin
-2545,2042,modified,2009-04-09 16:32:08.52535,"Language, Text, Title",,admin
-2550,2044,new-version,2009-04-09 16:34:10.252108,'French' translation added.,,admin
-2551,2044,modified,2009-04-09 16:34:10.265856,"Language, Text, Title",,admin
-2554,2045,new-version,2009-04-09 16:38:55.31637,'French' translation added.,,admin
-2555,2045,modified,2009-04-09 16:38:55.32833,"Language, Text, Title",,admin
-2556,2045,new-version,2009-04-09 16:39:11.959412,'Portuguese' translation added.,,admin
-2557,2045,modified,2009-04-09 16:39:11.971729,"Language, Text, Title",,admin
-2558,2046,new-version,2009-04-09 16:39:52.7608,'French' translation added.,,admin
-2559,2046,modified,2009-04-09 16:39:52.771806,"Language, Text, Title",,admin
-2560,2046,new-version,2009-04-09 16:40:13.51338,'Portuguese' translation added.,,admin
-2561,2046,modified,2009-04-09 16:40:13.524501,"Language, Text, Title",,admin
-2562,2047,new-version,2009-04-09 16:42:18.997571,'French' translation added.,,admin
-2563,2047,modified,2009-04-09 16:42:19.00788,"Language, Text, Title",,admin
-2564,2047,new-version,2009-04-09 16:42:36.362289,'Portuguese' translation added.,,admin
-2565,2047,modified,2009-04-09 16:42:36.371954,"Language, Text, Title",,admin
-2566,2048,new-version,2009-04-09 16:43:15.816675,'Portuguese' translation added.,,admin
-2567,2048,modified,2009-04-09 16:43:15.830916,"Language, Text, Title",,admin
-2568,2048,new-version,2009-04-09 16:43:30.00094,'French' translation added.,,admin
-2569,2048,modified,2009-04-09 16:43:30.012891,"Language, Text, Title",,admin
-2570,2049,new-version,2009-04-09 16:43:53.367614,'French' translation added.,,admin
-2571,2049,modified,2009-04-09 16:43:53.479775,"Language, Text, Title",,admin
-2572,2049,new-version,2009-04-09 16:44:10.417333,'Portuguese' translation added.,,admin
-2573,2049,modified,2009-04-09 16:44:10.530659,"Language, Text, Title",,admin
-2574,2050,new-version,2009-04-09 16:44:55.068251,'French' translation added.,,admin
-2575,2050,modified,2009-04-09 16:44:55.083731,"Language, Text, Title",,admin
-2576,2050,new-version,2009-04-09 16:45:23.065495,'Portuguese' translation added.,,admin
-2577,2050,modified,2009-04-09 16:45:23.080647,"Language, Text, Title",,admin
-2578,2052,added,2009-04-09 16:53:29.210802,"",,admin
-2579,2052,workflow,2009-04-09 16:53:29.224174,Create :  [ transition from new to draft question ],,admin
-2580,2052,modified,2009-04-09 16:53:29.22568,"",,admin
-2581,2053,added,2009-04-09 16:53:36.833493,"",,admin
-2582,2053,workflow,2009-04-09 16:53:36.850492,Create :  [ transition from new to draft question ],,admin
-2583,2053,modified,2009-04-09 16:53:36.852022,"",,admin
-2584,2054,added,2009-04-09 16:54:17.296845,"",,admin
-2585,2054,workflow,2009-04-09 16:54:17.314188,Create :  [ transition from new to draft question ],,admin
-2586,2054,modified,2009-04-09 16:54:17.317417,"",,admin
-2587,2052,modified,2009-04-09 16:54:51.52815,"Submission Date, Text",,admin
-2588,2053,modified,2009-04-09 16:55:31.555351,Text,,admin
-2589,2053,modified,2009-04-09 16:56:09.833247,Submission Date,,admin
-2590,2055,added,2009-04-09 16:57:05.253051,"",,admin
-2591,2055,workflow,2009-04-09 16:57:05.26523,Create :  [ transition from new to draft question ],,admin
-2592,2055,modified,2009-04-09 16:57:05.266713,"",,admin
-2593,2056,added,2009-04-09 16:57:35.135689,"",,admin
-2594,2056,workflow,2009-04-09 16:57:35.156324,Create :  [ transition from new to draft question ],,admin
-2595,2056,modified,2009-04-09 16:57:35.157791,"",,admin
-2596,2057,added,2009-04-09 16:57:59.28708,"",,admin
-2597,2057,workflow,2009-04-09 16:57:59.299931,Create :  [ transition from new to draft question ],,admin
-2598,2057,modified,2009-04-09 16:57:59.301508,"",,admin
-2599,2058,added,2009-04-09 16:58:24.239022,"",,admin
-2600,2058,workflow,2009-04-09 16:58:24.254374,Create :  [ transition from new to draft question ],,admin
-2601,2058,modified,2009-04-09 16:58:24.255848,"",,admin
-2602,2059,added,2009-04-09 16:58:54.614575,"",,admin
-2603,2059,workflow,2009-04-09 16:58:54.628203,Create :  [ transition from new to draft question ],,admin
-2604,2059,modified,2009-04-09 16:58:54.629672,"",,admin
-2605,2060,added,2009-04-09 16:59:20.347645,"",,admin
-2606,2060,workflow,2009-04-09 16:59:20.363686,Create :  [ transition from new to draft question ],,admin
-2607,2060,modified,2009-04-09 16:59:20.365175,"",,admin
-2608,2061,added,2009-04-09 16:59:53.46197,"",,admin
-2609,2061,workflow,2009-04-09 16:59:53.475864,Create :  [ transition from new to draft question ],,admin
-2610,2061,modified,2009-04-09 16:59:53.47734,"",,admin
-2611,2062,added,2009-04-09 17:00:14.999073,"",,admin
-2612,2062,workflow,2009-04-09 17:00:15.014306,Create :  [ transition from new to draft question ],,admin
-2613,2062,modified,2009-04-09 17:00:15.015789,"",,admin
-2614,2063,added,2009-04-09 17:00:50.917079,"",,admin
-2615,2063,workflow,2009-04-09 17:00:50.942797,Create :  [ transition from new to draft question ],,admin
-2616,2063,modified,2009-04-09 17:00:50.944253,"",,admin
-2617,2064,added,2009-04-09 17:01:25.027871,"",,admin
-2618,2064,workflow,2009-04-09 17:01:25.047691,Create :  [ transition from new to draft question ],,admin
-2619,2064,modified,2009-04-09 17:01:25.049173,"",,admin
-2629,2068,added,2009-04-09 17:03:50.24543,"",,admin
-2630,2068,workflow,2009-04-09 17:03:50.26032,Create :  [ transition from new to draft question ],,admin
-2631,2068,modified,2009-04-09 17:03:50.261804,"",,admin
-2644,2073,added,2009-04-09 17:17:19.672209,"",,admin
-2645,2073,workflow,2009-04-09 17:17:19.699004,Create :  [ transition from new to draft question ],,admin
-2646,2073,modified,2009-04-09 17:17:19.700491,"",,admin
-2659,2078,added,2009-04-09 17:18:59.348386,"",,admin
-2660,2078,workflow,2009-04-09 17:18:59.364613,Create :  [ transition from new to draft question ],,admin
-2661,2078,modified,2009-04-09 17:18:59.366113,"",,admin
-2620,2065,added,2009-04-09 17:01:54.23095,"",,admin
-2621,2065,workflow,2009-04-09 17:01:54.243274,Create :  [ transition from new to draft question ],,admin
-2622,2065,modified,2009-04-09 17:01:54.244876,"",,admin
-2632,2069,added,2009-04-09 17:04:16.892854,"",,admin
-2633,2069,workflow,2009-04-09 17:04:16.909918,Create :  [ transition from new to draft question ],,admin
-2634,2069,modified,2009-04-09 17:04:16.911421,"",,admin
-2647,2074,added,2009-04-09 17:17:39.387876,"",,admin
-2648,2074,workflow,2009-04-09 17:17:39.407656,Create :  [ transition from new to draft question ],,admin
-2649,2074,modified,2009-04-09 17:17:39.409168,"",,admin
-2662,2079,added,2009-04-09 17:19:25.746047,"",,admin
-2663,2079,workflow,2009-04-09 17:19:25.759903,Create :  [ transition from new to draft question ],,admin
-2664,2079,modified,2009-04-09 17:19:25.761379,"",,admin
-2623,2066,added,2009-04-09 17:02:17.294133,"",,admin
-2624,2066,workflow,2009-04-09 17:02:17.31036,Create :  [ transition from new to draft question ],,admin
-2625,2066,modified,2009-04-09 17:02:17.311836,"",,admin
-2635,2070,added,2009-04-09 17:05:30.149596,"",,admin
-2636,2070,workflow,2009-04-09 17:05:30.168003,Create :  [ transition from new to draft question ],,admin
-2637,2070,modified,2009-04-09 17:05:30.16949,"",,admin
-2656,2077,added,2009-04-09 17:18:40.748058,"",,admin
-2657,2077,workflow,2009-04-09 17:18:40.764042,Create :  [ transition from new to draft question ],,admin
-2658,2077,modified,2009-04-09 17:18:40.765577,"",,admin
-2626,2067,added,2009-04-09 17:02:50.636976,"",,admin
-2627,2067,workflow,2009-04-09 17:02:50.775744,Create :  [ transition from new to draft question ],,admin
-2628,2067,modified,2009-04-09 17:02:50.777868,"",,admin
-2638,2071,added,2009-04-09 17:05:59.547539,"",,admin
-2639,2071,workflow,2009-04-09 17:05:59.571404,Create :  [ transition from new to draft question ],,admin
-2640,2071,modified,2009-04-09 17:05:59.572899,"",,admin
-2653,2076,added,2009-04-09 17:18:21.521904,"",,admin
-2654,2076,workflow,2009-04-09 17:18:21.536501,Create :  [ transition from new to draft question ],,admin
-2655,2076,modified,2009-04-09 17:18:21.537969,"",,admin
-2641,2072,added,2009-04-09 17:08:39.479255,"",,admin
-2642,2072,workflow,2009-04-09 17:08:39.49446,Create :  [ transition from new to draft question ],,admin
-2643,2072,modified,2009-04-09 17:08:39.495939,"",,admin
-2650,2075,added,2009-04-09 17:17:58.658249,"",,admin
-2651,2075,workflow,2009-04-09 17:17:58.673197,Create :  [ transition from new to draft question ],,admin
-2652,2075,modified,2009-04-09 17:17:58.674674,"",,admin
-2665,2080,added,2009-04-09 17:19:56.800343,"",,admin
-2666,2080,workflow,2009-04-09 17:19:56.81869,Create :  [ transition from new to draft question ],,admin
-2667,2080,modified,2009-04-09 17:19:56.820164,"",,admin
-2668,2081,added,2009-04-09 17:20:21.231563,"",,admin
-2669,2081,workflow,2009-04-09 17:20:21.256875,Create :  [ transition from new to draft question ],,admin
-2670,2081,modified,2009-04-09 17:20:21.258356,"",,admin
-2671,2082,added,2009-04-09 17:20:55.010704,"",,admin
-2672,2082,workflow,2009-04-09 17:20:55.028821,Create :  [ transition from new to draft question ],,admin
-2673,2082,modified,2009-04-09 17:20:55.030291,"",,admin
-2674,2083,added,2009-04-09 17:21:51.437455,"",,admin
-2675,2083,workflow,2009-04-09 17:21:51.465805,Create :  [ transition from new to draft question ],,admin
-2676,2083,modified,2009-04-09 17:21:51.467302,"",,admin
-2677,2084,added,2009-04-09 17:22:18.966768,"",,admin
-2678,2084,workflow,2009-04-09 17:22:18.980385,Create :  [ transition from new to draft question ],,admin
-2679,2084,modified,2009-04-09 17:22:18.981878,"",,admin
-2680,2074,modified,2009-04-14 10:17:42.984412,"Text, Ministry",,admin
-2681,2075,modified,2009-04-14 10:18:10.608336,"Text, Ministry",,admin
-2682,2073,modified,2009-04-14 10:19:06.563904,"Text, Ministry, Response Type",,admin
-2683,2076,modified,2009-04-14 10:19:33.659095,"Text, Response Type",,admin
-2684,2052,new-version,2009-04-14 12:55:12.546854,'French' translation added.,,admin
-2685,2052,modified,2009-04-14 12:55:12.558384,"Language, Text, Title",,admin
-2686,2052,new-version,2009-04-14 12:55:43.70323,'Portuguese' translation added.,,admin
-2687,2052,modified,2009-04-14 12:55:43.715488,"Language, Text, Title",,admin
-2688,2053,new-version,2009-04-14 12:56:55.659125,'French' translation added.,,admin
-2689,2053,modified,2009-04-14 12:56:55.674093,"Language, Text, Title",,admin
-2690,2053,new-version,2009-04-14 12:57:29.315111,'Portuguese' translation added.,,admin
-2691,2053,modified,2009-04-14 12:57:29.327034,"Language, Text, Title",,admin
-2692,2054,new-version,2009-04-14 13:08:44.581273,'French' translation added.,,admin
-2693,2054,modified,2009-04-14 13:08:44.591187,"Language, Text, Title",,admin
-2694,2054,new-version,2009-04-14 13:09:11.284349,'Portuguese' translation added.,,admin
-2695,2054,modified,2009-04-14 13:09:11.356311,"Language, Text, Title",,admin
-2696,2055,new-version,2009-04-14 13:10:31.246963,'French' translation added.,,admin
-2697,2055,modified,2009-04-14 13:10:31.260377,"Language, Text, Title",,admin
-2698,2055,new-version,2009-04-14 13:11:07.22265,'Portuguese' translation added.,,admin
-2699,2055,modified,2009-04-14 13:11:07.234609,"Language, Text, Title",,admin
-2700,2056,new-version,2009-04-14 13:44:08.009217,'French' translation added.,,admin
-2701,2056,modified,2009-04-14 13:44:08.019867,"Language, Text, Title",,admin
-2702,2056,new-version,2009-04-14 13:45:04.274985,'Portuguese' translation added.,,admin
-2703,2056,modified,2009-04-14 13:45:04.28686,"Language, Text, Title",,admin
-2704,2057,new-version,2009-04-14 13:46:24.743092,'French' translation added.,,admin
-2705,2057,modified,2009-04-14 13:46:24.862516,"Language, Text, Title",,admin
-2706,2057,new-version,2009-04-14 13:47:01.720989,'Portuguese' translation added.,,admin
-2707,2057,modified,2009-04-14 13:47:01.731405,"Language, Text, Title",,admin
-2708,2058,new-version,2009-04-14 13:48:16.652629,'French' translation added.,,admin
-2709,2058,modified,2009-04-14 13:48:16.770195,"Language, Text, Title",,admin
-2710,2058,new-version,2009-04-14 13:48:19.55394,'Portuguese' translation added.,,admin
-2711,2058,modified,2009-04-14 13:48:19.562412,"Language, Text, Title",,admin
-2712,2059,new-version,2009-04-14 13:49:14.659083,'French' translation added.,,admin
-2713,2059,modified,2009-04-14 13:49:14.670746,"Language, Text, Title",,admin
-2714,2059,new-version,2009-04-14 13:49:38.300821,'Portuguese' translation added.,,admin
-2715,2059,modified,2009-04-14 13:49:38.31428,"Language, Text, Title",,admin
-2716,2060,new-version,2009-04-14 13:50:22.585253,'French' translation added.,,admin
-2717,2060,modified,2009-04-14 13:50:22.593499,"Language, Text, Title",,admin
-2718,2060,new-version,2009-04-14 13:50:46.769827,'Portuguese' translation added.,,admin
-2719,2060,modified,2009-04-14 13:50:46.784103,"Language, Text, Title",,admin
-2720,2061,new-version,2009-04-14 13:51:56.775147,'French' translation added.,,admin
-2721,2061,modified,2009-04-14 13:51:56.914102,"Language, Text, Title",,admin
-2722,2061,new-version,2009-04-14 13:51:59.201287,'Portuguese' translation added.,,admin
-2723,2061,modified,2009-04-14 13:51:59.241672,"Language, Text, Title",,admin
-2724,2062,new-version,2009-04-14 13:54:33.557135,'French' translation added.,,admin
-2725,2062,modified,2009-04-14 13:54:33.565554,"Language, Text, Title",,admin
-2726,2062,new-version,2009-04-14 14:08:21.083827,'Portuguese' translation added.,,admin
-2727,2062,modified,2009-04-14 14:08:21.094129,"Language, Text, Title",,admin
-2728,2063,new-version,2009-04-14 14:09:15.838652,'Portuguese' translation added.,,admin
-2729,2063,modified,2009-04-14 14:09:15.849688,"Language, Text, Title",,admin
-2730,2063,new-version,2009-04-14 14:09:39.823925,'French' translation added.,,admin
-2731,2063,modified,2009-04-14 14:09:39.833585,"Language, Text, Title",,admin
-2732,2064,new-version,2009-04-14 14:11:00.83742,'French' translation added.,,admin
-2733,2064,modified,2009-04-14 14:11:00.849297,"Language, Text, Title",,admin
-2734,2064,new-version,2009-04-14 14:11:22.700771,'Portuguese' translation added.,,admin
-2735,2064,modified,2009-04-14 14:11:22.709547,"Language, Text, Title",,admin
-2736,2065,new-version,2009-04-14 14:12:06.403468,'French' translation added.,,admin
-2737,2065,modified,2009-04-14 14:12:06.414579,"Language, Text, Title",,admin
-2738,2065,new-version,2009-04-14 14:12:19.444755,'Portuguese' translation added.,,admin
-2739,2065,modified,2009-04-14 14:12:19.453345,"Language, Text, Title",,admin
-2740,2066,new-version,2009-04-14 14:13:25.002957,'French' translation added.,,admin
-2741,2066,modified,2009-04-14 14:13:25.025727,"Language, Text, Title",,admin
-2742,2066,new-version,2009-04-14 14:13:27.892831,'Portuguese' translation added.,,admin
-2743,2066,modified,2009-04-14 14:13:27.901307,"Language, Text, Title",,admin
-2744,2067,new-version,2009-04-14 14:14:05.470572,'French' translation added.,,admin
-2745,2067,modified,2009-04-14 14:14:05.48173,"Language, Text, Title",,admin
-2746,2067,new-version,2009-04-14 14:14:25.731904,'Portuguese' translation added.,,admin
-2747,2067,modified,2009-04-14 14:14:25.743059,"Language, Text, Title",,admin
-2748,2068,new-version,2009-04-14 14:15:30.172689,'Portuguese' translation added.,,admin
-2749,2068,modified,2009-04-14 14:15:30.181805,"Language, Text, Title",,admin
-2750,2068,new-version,2009-04-14 14:15:33.644708,'French' translation added.,,admin
-2751,2068,modified,2009-04-14 14:15:33.654114,"Language, Text, Title",,admin
-2752,2069,new-version,2009-04-14 14:16:14.69994,'French' translation added.,,admin
-2753,2069,modified,2009-04-14 14:16:14.710409,"Language, Text, Title",,admin
-2754,2069,new-version,2009-04-14 14:16:33.131151,'Portuguese' translation added.,,admin
-2755,2069,modified,2009-04-14 14:16:33.143051,"Language, Text, Title",,admin
-2756,2070,new-version,2009-04-14 14:17:24.88026,'French' translation added.,,admin
-2757,2070,modified,2009-04-14 14:17:24.890406,"Language, Text, Title",,admin
-2758,2070,new-version,2009-04-14 14:17:44.35483,'Portuguese' translation added.,,admin
-2759,2070,modified,2009-04-14 14:17:44.365423,"Language, Text, Title",,admin
-2760,2071,new-version,2009-04-14 14:19:07.160585,'French' translation added.,,admin
-2761,2071,modified,2009-04-14 14:19:07.170517,"Language, Text, Title",,admin
-2762,2071,new-version,2009-04-14 14:19:35.247722,'Portuguese' translation added.,,admin
-2763,2071,modified,2009-04-14 14:19:35.258276,"Language, Text, Title",,admin
-2768,2073,new-version,2009-04-14 14:21:28.199947,'French' translation added.,,admin
-2769,2073,modified,2009-04-14 14:21:28.210693,"Language, Text, Title",,admin
-2770,2073,new-version,2009-04-14 14:21:42.416528,'Portuguese' translation added.,,admin
-2771,2073,modified,2009-04-14 14:21:42.425394,"Language, Text, Title",,admin
-2776,2075,new-version,2009-04-14 14:23:32.000819,'French' translation added.,,admin
-2777,2075,modified,2009-04-14 14:23:32.014445,"Language, Text, Title",,admin
-2778,2075,new-version,2009-04-14 14:24:11.324497,'Portuguese' translation added.,,admin
-2779,2075,modified,2009-04-14 14:24:11.333685,"Language, Text, Title",,admin
-2764,2072,new-version,2009-04-14 14:20:35.440127,'French' translation added.,,admin
-2765,2072,modified,2009-04-14 14:20:35.449767,"Language, Text, Title",,admin
-2766,2072,new-version,2009-04-14 14:20:38.333486,'Portuguese' translation added.,,admin
-2767,2072,modified,2009-04-14 14:20:38.342079,"Language, Text, Title",,admin
-2772,2074,new-version,2009-04-14 14:22:25.205571,'French' translation added.,,admin
-2773,2074,modified,2009-04-14 14:22:25.21917,"Language, Text, Title",,admin
-2774,2074,new-version,2009-04-14 14:22:39.010731,'Portuguese' translation added.,,admin
-2775,2074,modified,2009-04-14 14:22:39.154662,"Language, Text, Title",,admin
-2780,2076,new-version,2009-04-14 14:24:49.895089,'French' translation added.,,admin
-2781,2076,modified,2009-04-14 14:24:49.906932,"Language, Text, Title",,admin
-2782,2076,new-version,2009-04-14 14:25:10.109209,'Portuguese' translation added.,,admin
-2783,2076,modified,2009-04-14 14:25:10.119241,"Language, Text, Title",,admin
-2784,2077,new-version,2009-04-14 14:26:01.020054,'French' translation added.,,admin
-2785,2077,modified,2009-04-14 14:26:01.029829,"Language, Text, Title",,admin
-2786,2077,new-version,2009-04-14 14:26:25.536003,'Portuguese' translation added.,,admin
-2787,2077,modified,2009-04-14 14:26:25.545826,"Language, Text, Title",,admin
-2788,2078,new-version,2009-04-14 14:27:35.168697,'French' translation added.,,admin
-2789,2078,modified,2009-04-14 14:27:35.181727,"Language, Text, Title",,admin
-2790,2078,new-version,2009-04-14 14:27:49.788477,'Portuguese' translation added.,,admin
-2791,2078,modified,2009-04-14 14:27:49.799177,"Language, Text, Title",,admin
-2792,2079,new-version,2009-04-14 14:28:32.878633,'French' translation added.,,admin
-2793,2079,modified,2009-04-14 14:28:32.889504,"Language, Text, Title",,admin
-2794,2079,new-version,2009-04-14 14:28:58.016766,'Portuguese' translation added.,,admin
-2795,2079,modified,2009-04-14 14:28:58.12382,"Language, Text, Title",,admin
-2796,2080,new-version,2009-04-14 14:29:54.447503,'French' translation added.,,admin
-2797,2080,modified,2009-04-14 14:29:54.47072,"Language, Text, Title",,admin
-2798,2080,new-version,2009-04-14 14:30:11.795617,'Portuguese' translation added.,,admin
-2799,2080,modified,2009-04-14 14:30:11.805451,"Language, Text, Title",,admin
-2800,2081,new-version,2009-04-14 14:31:00.40124,'French' translation added.,,admin
-2801,2081,modified,2009-04-14 14:31:00.409688,"Language, Text, Title",,admin
-2802,2081,new-version,2009-04-14 14:31:21.074395,'Portuguese' translation added.,,admin
-2803,2081,modified,2009-04-14 14:31:21.088872,"Language, Text, Title",,admin
-2804,2082,new-version,2009-04-14 14:32:33.854411,'French' translation added.,,admin
-2805,2082,modified,2009-04-14 14:32:33.867947,"Language, Text, Title",,admin
-2806,2082,new-version,2009-04-14 14:32:54.023412,'Portuguese' translation added.,,admin
-2807,2082,modified,2009-04-14 14:32:54.034268,"Language, Text, Title",,admin
-2808,2083,new-version,2009-04-14 14:34:01.626788,'Portuguese' translation added.,,admin
-2809,2083,modified,2009-04-14 14:34:01.652236,"Language, Text, Title",,admin
-2810,2083,new-version,2009-04-14 14:34:05.069035,'French' translation added.,,admin
-2811,2083,modified,2009-04-14 14:34:05.078851,"Language, Text, Title",,admin
-2812,2084,new-version,2009-04-14 14:35:55.735554,'French' translation added.,,admin
-2813,2084,modified,2009-04-14 14:35:55.745848,"Language, Text, Title",,admin
-2814,2084,new-version,2009-04-14 14:36:17.787343,'Portuguese' translation added.,,admin
-2815,2084,modified,2009-04-14 14:36:17.841964,"Language, Text, Title",,admin
-2816,2085,added,2009-04-14 16:20:31.148436,"",,admin
-2817,2085,workflow,2009-04-14 16:20:31.194821,Create :  [ transition from new to draft question ],,admin
-2818,2085,modified,2009-04-14 16:20:31.19643,"",,admin
-2819,2086,added,2009-04-14 16:21:31.809556,"",,admin
-2820,2086,workflow,2009-04-14 16:21:31.823862,Create :  [ transition from new to draft question ],,admin
-2821,2086,modified,2009-04-14 16:21:31.825352,"",,admin
-2822,2087,added,2009-04-14 16:23:00.835559,"",,admin
-2823,2087,workflow,2009-04-14 16:23:00.852861,Create :  [ transition from new to draft question ],,admin
-2824,2087,modified,2009-04-14 16:23:00.85435,"",,admin
-2825,2088,added,2009-04-14 16:23:09.429624,"",,admin
-2826,2088,workflow,2009-04-14 16:23:09.446003,Create :  [ transition from new to draft question ],,admin
-2827,2088,modified,2009-04-14 16:23:09.447498,"",,admin
-2828,2089,added,2009-04-14 16:23:43.895729,"",,admin
-2829,2089,workflow,2009-04-14 16:23:43.932436,Create :  [ transition from new to draft question ],,admin
-2830,2089,modified,2009-04-14 16:23:43.933903,"",,admin
-2831,2090,added,2009-04-14 16:24:16.7541,"",,admin
-2832,2090,workflow,2009-04-14 16:24:16.772283,Create :  [ transition from new to draft question ],,admin
-2833,2090,modified,2009-04-14 16:24:16.773756,"",,admin
-2834,2089,modified,2009-04-14 16:24:46.286906,"Submission Date, Text",,admin
-2835,2091,added,2009-04-14 16:27:31.669803,"",,admin
-2836,2091,workflow,2009-04-14 16:27:31.683134,Create :  [ transition from new to draft question ],,admin
-2837,2091,modified,2009-04-14 16:27:31.68464,"",,admin
-2838,2092,added,2009-04-14 16:28:05.009221,"",,admin
-2839,2092,workflow,2009-04-14 16:28:05.023174,Create :  [ transition from new to draft question ],,admin
-2840,2092,modified,2009-04-14 16:28:05.024666,"",,admin
-2841,2093,added,2009-04-14 16:28:54.845711,"",,admin
-2842,2093,workflow,2009-04-14 16:28:54.858419,Create :  [ transition from new to draft question ],,admin
-2843,2093,modified,2009-04-14 16:28:54.859923,"",,admin
-2844,2094,added,2009-04-14 16:30:41.284177,"",,admin
-2845,2094,workflow,2009-04-14 16:30:41.29938,Create :  [ transition from new to draft question ],,admin
-2846,2094,modified,2009-04-14 16:30:41.300825,"",,admin
-2847,2095,added,2009-04-14 16:31:56.09193,"",,admin
-2848,2095,workflow,2009-04-14 16:31:56.106618,Create :  [ transition from new to draft question ],,admin
-2849,2095,modified,2009-04-14 16:31:56.108149,"",,admin
-2850,2096,added,2009-04-14 16:32:05.250026,"",,admin
-2851,2096,workflow,2009-04-14 16:32:05.269358,Create :  [ transition from new to draft question ],,admin
-2852,2096,modified,2009-04-14 16:32:05.270862,"",,admin
-2853,2097,added,2009-04-14 16:39:04.644085,"",,admin
-2854,2097,workflow,2009-04-14 16:39:04.658798,Create :  [ transition from new to draft question ],,admin
-2855,2097,modified,2009-04-14 16:39:04.660314,"",,admin
-2856,2098,added,2009-04-14 16:39:38.829818,"",,admin
-2857,2098,workflow,2009-04-14 16:39:38.842482,Create :  [ transition from new to draft question ],,admin
-2858,2098,modified,2009-04-14 16:39:38.843961,"",,admin
-2859,2099,added,2009-04-14 16:40:04.10585,"",,admin
-2860,2099,workflow,2009-04-14 16:40:04.1186,Create :  [ transition from new to draft question ],,admin
-2861,2099,modified,2009-04-14 16:40:04.120078,"",,admin
-2862,2100,added,2009-04-14 16:40:43.572644,"",,admin
-2863,2100,workflow,2009-04-14 16:40:43.586385,Create :  [ transition from new to draft question ],,admin
-2864,2100,modified,2009-04-14 16:40:43.587869,"",,admin
-2865,2101,added,2009-04-14 16:41:25.744147,"",,admin
-2866,2101,workflow,2009-04-14 16:41:25.760196,Create :  [ transition from new to draft question ],,admin
-2867,2101,modified,2009-04-14 16:41:25.761673,"",,admin
-2868,2102,added,2009-04-14 16:41:48.167537,"",,admin
-2869,2102,workflow,2009-04-14 16:41:48.183284,Create :  [ transition from new to draft question ],,admin
-2870,2102,modified,2009-04-14 16:41:48.184786,"",,admin
-2871,2103,added,2009-04-14 16:42:15.488052,"",,admin
-2872,2103,workflow,2009-04-14 16:42:15.504156,Create :  [ transition from new to draft question ],,admin
-2873,2103,modified,2009-04-14 16:42:15.505708,"",,admin
-2874,2104,added,2009-04-14 16:42:46.131721,"",,admin
-2875,2104,workflow,2009-04-14 16:42:46.146552,Create :  [ transition from new to draft question ],,admin
-2876,2104,modified,2009-04-14 16:42:46.148052,"",,admin
-2877,2105,added,2009-04-15 11:48:00.890356,"",,admin
-2878,2105,workflow,2009-04-15 11:48:00.926891,Create :  [ transition from new to draft question ],,admin
-2879,2105,modified,2009-04-15 11:48:00.92848,"",,admin
-2899,2112,added,2009-04-15 11:50:52.779763,"",,admin
-2900,2112,workflow,2009-04-15 11:50:52.794174,Create :  [ transition from new to draft question ],,admin
-2901,2112,modified,2009-04-15 11:50:52.795658,"",,admin
-2880,2106,added,2009-04-15 11:48:21.366735,"",,admin
-2881,2106,workflow,2009-04-15 11:48:21.383024,Create :  [ transition from new to draft question ],,admin
-2882,2106,modified,2009-04-15 11:48:21.384513,"",,admin
-2902,2113,added,2009-04-15 11:51:16.041588,"",,admin
-2903,2113,workflow,2009-04-15 11:51:16.055808,Create :  [ transition from new to draft question ],,admin
-2904,2113,modified,2009-04-15 11:51:16.057301,"",,admin
-2883,2107,added,2009-04-15 11:48:42.079681,"",,admin
-2884,2107,workflow,2009-04-15 11:48:42.110937,Create :  [ transition from new to draft question ],,admin
-2885,2107,modified,2009-04-15 11:48:42.112419,"",,admin
-2905,2114,added,2009-04-15 11:51:36.117406,"",,admin
-2906,2114,workflow,2009-04-15 11:51:36.13145,Create :  [ transition from new to draft question ],,admin
-2907,2114,modified,2009-04-15 11:51:36.132942,"",,admin
-2886,2108,added,2009-04-15 11:49:06.147097,"",,admin
-2887,2108,workflow,2009-04-15 11:49:06.162729,Create :  [ transition from new to draft question ],,admin
-2888,2108,modified,2009-04-15 11:49:06.164214,"",,admin
-2893,2110,added,2009-04-15 11:50:13.987577,"",,admin
-2894,2110,workflow,2009-04-15 11:50:14.003248,Create :  [ transition from new to draft question ],,admin
-2895,2110,modified,2009-04-15 11:50:14.005069,"",,admin
-2908,2115,added,2009-04-15 12:58:29.100098,"",,admin
-2909,2115,workflow,2009-04-15 12:58:29.114808,Create :  [ transition from new to draft question ],,admin
-2910,2115,modified,2009-04-15 12:58:29.1163,"",,admin
-2889,2109,added,2009-04-15 11:49:20.917749,"",,admin
-2890,2109,workflow,2009-04-15 11:49:20.932558,Create :  [ transition from new to draft question ],,admin
-2891,2109,modified,2009-04-15 11:49:20.93405,"",,admin
-2892,2109,modified,2009-04-15 11:49:57.572056,"Submission Date, Text",,admin
-2896,2111,added,2009-04-15 11:50:31.495789,"",,admin
-2897,2111,workflow,2009-04-15 11:50:31.510386,Create :  [ transition from new to draft question ],,admin
-2898,2111,modified,2009-04-15 11:50:31.511871,"",,admin
-2911,2116,added,2009-04-15 12:59:01.366078,"",,admin
-2912,2116,workflow,2009-04-15 12:59:01.382683,Create :  [ transition from new to draft question ],,admin
-2913,2116,modified,2009-04-15 12:59:01.384271,"",,admin
-2914,2117,added,2009-04-15 12:59:31.624897,"",,admin
-2915,2117,workflow,2009-04-15 12:59:31.639189,Create :  [ transition from new to draft question ],,admin
-2916,2117,modified,2009-04-15 12:59:31.640728,"",,admin
-2917,2118,added,2009-04-15 12:59:58.961332,"",,admin
-2918,2118,workflow,2009-04-15 12:59:58.975542,Create :  [ transition from new to draft question ],,admin
-2919,2118,modified,2009-04-15 12:59:58.977036,"",,admin
-2920,2119,added,2009-04-15 13:00:23.495953,"",,admin
-2921,2119,workflow,2009-04-15 13:00:23.510955,Create :  [ transition from new to draft question ],,admin
-2922,2119,modified,2009-04-15 13:00:23.512446,"",,admin
-2923,2120,added,2009-04-15 13:00:50.578086,"",,admin
-2924,2120,workflow,2009-04-15 13:00:50.595793,Create :  [ transition from new to draft question ],,admin
-2925,2120,modified,2009-04-15 13:00:50.59728,"",,admin
-2926,2121,added,2009-04-15 13:01:16.07988,"",,admin
-2927,2121,workflow,2009-04-15 13:01:16.095562,Create :  [ transition from new to draft question ],,admin
-2928,2121,modified,2009-04-15 13:01:16.097047,"",,admin
-2929,2122,added,2009-04-15 13:01:51.377493,"",,admin
-2930,2122,workflow,2009-04-15 13:01:51.390354,Create :  [ transition from new to draft question ],,admin
-2931,2122,modified,2009-04-15 13:01:51.391884,"",,admin
-2932,2123,added,2009-04-15 13:02:16.727215,"",,admin
-2933,2123,workflow,2009-04-15 13:02:16.807066,Create :  [ transition from new to draft question ],,admin
-2934,2123,modified,2009-04-15 13:02:16.808585,"",,admin
-2935,2124,added,2009-04-15 13:02:50.974432,"",,admin
-2936,2124,workflow,2009-04-15 13:02:50.990732,Create :  [ transition from new to draft question ],,admin
-2937,2124,modified,2009-04-15 13:02:50.992236,"",,admin
-2938,2125,added,2009-04-15 13:03:26.393901,"",,admin
-2939,2125,workflow,2009-04-15 13:03:26.40638,Create :  [ transition from new to draft question ],,admin
-2940,2125,modified,2009-04-15 13:03:26.407886,"",,admin
-2941,2126,added,2009-04-15 13:04:13.648738,"",,admin
-2942,2126,workflow,2009-04-15 13:04:13.662541,Create :  [ transition from new to draft question ],,admin
-2943,2126,modified,2009-04-15 13:04:13.66414,"",,admin
-2944,2127,added,2009-04-15 13:04:36.079698,"",,admin
-2945,2127,workflow,2009-04-15 13:04:36.095922,Create :  [ transition from new to draft question ],,admin
-2946,2127,modified,2009-04-15 13:04:36.097414,"",,admin
-2947,2128,added,2009-04-15 13:05:17.553037,"",,admin
-2948,2128,workflow,2009-04-15 13:05:17.56746,Create :  [ transition from new to draft question ],,admin
-2949,2128,modified,2009-04-15 13:05:17.569044,"",,admin
-2950,2129,added,2009-04-15 13:05:38.264632,"",,admin
-2951,2129,workflow,2009-04-15 13:05:38.280098,Create :  [ transition from new to draft question ],,admin
-2952,2129,modified,2009-04-15 13:05:38.281581,"",,admin
-2953,2130,added,2009-04-15 13:06:08.366455,"",,admin
-2954,2130,workflow,2009-04-15 13:06:08.381964,Create :  [ transition from new to draft question ],,admin
-2955,2130,modified,2009-04-15 13:06:08.383745,"",,admin
-2956,2131,added,2009-04-15 13:06:43.591443,"",,admin
-2957,2131,workflow,2009-04-15 13:06:43.606336,Create :  [ transition from new to draft question ],,admin
-2958,2131,modified,2009-04-15 13:06:43.607837,"",,admin
-2959,2132,added,2009-04-15 13:09:34.354116,"",,admin
-2960,2132,workflow,2009-04-15 13:09:34.370761,Create :  [ transition from new to draft question ],,admin
-2961,2132,modified,2009-04-15 13:09:34.372482,"",,admin
-2962,2133,added,2009-04-15 13:09:42.05518,"",,admin
-2963,2133,workflow,2009-04-15 13:09:42.0711,Create :  [ transition from new to draft question ],,admin
-2964,2133,modified,2009-04-15 13:09:42.072608,"",,admin
-2965,2134,added,2009-04-15 13:09:50.141271,"",,admin
-2966,2134,workflow,2009-04-15 13:09:50.154646,Create :  [ transition from new to draft question ],,admin
-2967,2134,modified,2009-04-15 13:09:50.156152,"",,admin
-2968,2135,added,2009-04-15 13:10:51.695093,"",,admin
-2969,2135,workflow,2009-04-15 13:10:51.710928,Create :  [ transition from new to draft question ],,admin
-2970,2135,modified,2009-04-15 13:10:51.712414,"",,admin
-2971,2136,added,2009-04-15 13:17:39.416421,"",,admin
-2972,2136,workflow,2009-04-15 13:17:39.430822,Create :  [ transition from new to draft question ],,admin
-2973,2136,modified,2009-04-15 13:17:39.432312,"",,admin
-2974,2137,added,2009-04-15 13:18:15.690579,"",,admin
-2975,2137,workflow,2009-04-15 13:18:15.704431,Create :  [ transition from new to draft question ],,admin
-2976,2137,modified,2009-04-15 13:18:15.705958,"",,admin
-2977,2138,added,2009-04-15 13:18:53.382148,"",,admin
-2978,2138,workflow,2009-04-15 13:18:53.400965,Create :  [ transition from new to draft question ],,admin
-2979,2138,modified,2009-04-15 13:18:53.40245,"",,admin
-2980,2139,added,2009-04-15 13:19:59.071627,"",,admin
-2981,2139,workflow,2009-04-15 13:19:59.083844,Create :  [ transition from new to draft question ],,admin
-2982,2139,modified,2009-04-15 13:19:59.085337,"",,admin
-2983,2140,added,2009-04-15 15:25:54.554214,"",,admin
-2984,2140,workflow,2009-04-15 15:25:54.570336,Create :  [ transition from new to draft question ],,admin
-2985,2140,modified,2009-04-15 15:25:54.571842,"",,admin
-2986,2141,added,2009-04-15 15:26:18.991524,"",,admin
-2987,2141,workflow,2009-04-15 15:26:19.008626,Create :  [ transition from new to draft question ],,admin
-2988,2141,modified,2009-04-15 15:26:19.010174,"",,admin
-2989,2142,added,2009-04-15 15:26:37.148627,"",,admin
-2990,2142,workflow,2009-04-15 15:26:37.168091,Create :  [ transition from new to draft question ],,admin
-2991,2142,modified,2009-04-15 15:26:37.169612,"",,admin
-2992,2142,modified,2009-04-15 15:27:06.447536,"Submission Date, Text",,admin
-2993,2143,added,2009-04-15 15:27:53.681919,"",,admin
-2994,2143,workflow,2009-04-15 15:27:53.69805,Create :  [ transition from new to draft question ],,admin
-2995,2143,modified,2009-04-15 15:27:53.699537,"",,admin
-2996,2144,added,2009-04-15 15:28:18.320605,"",,admin
-2997,2144,workflow,2009-04-15 15:28:18.336364,Create :  [ transition from new to draft question ],,admin
-2998,2144,modified,2009-04-15 15:28:18.337857,"",,admin
-2999,2145,added,2009-04-15 15:29:12.132651,"",,admin
-3000,2145,workflow,2009-04-15 15:29:12.146912,Create :  [ transition from new to draft question ],,admin
-3001,2145,modified,2009-04-15 15:29:12.148395,"",,admin
-3002,2146,added,2009-04-15 15:30:24.172121,"",,admin
-3003,2146,workflow,2009-04-15 15:30:24.186753,Create :  [ transition from new to draft question ],,admin
-3004,2146,modified,2009-04-15 15:30:24.188286,"",,admin
-3005,2147,added,2009-04-15 15:30:51.159559,"",,admin
-3006,2147,workflow,2009-04-15 15:30:51.174391,Create :  [ transition from new to draft question ],,admin
-3007,2147,modified,2009-04-15 15:30:51.175974,"",,admin
-3020,2152,added,2009-04-15 15:33:03.11832,"",,admin
-3021,2152,workflow,2009-04-15 15:33:03.183628,Create :  [ transition from new to draft question ],,admin
-3022,2152,modified,2009-04-15 15:33:03.185123,"",,admin
-3035,2157,added,2009-04-15 15:35:27.707905,"",,admin
-3036,2157,workflow,2009-04-15 15:35:27.722583,Create :  [ transition from new to draft question ],,admin
-3037,2157,modified,2009-04-15 15:35:27.724086,"",,admin
-3050,2162,added,2009-04-15 15:38:42.932473,"",,admin
-3051,2162,workflow,2009-04-15 15:38:42.947853,Create :  [ transition from new to draft question ],,admin
-3052,2162,modified,2009-04-15 15:38:42.949346,"",,admin
-3008,2148,added,2009-04-15 15:31:13.369217,"",,admin
-3009,2148,workflow,2009-04-15 15:31:13.382376,Create :  [ transition from new to draft question ],,admin
-3010,2148,modified,2009-04-15 15:31:13.383861,"",,admin
-3023,2153,added,2009-04-15 15:33:29.298672,"",,admin
-3024,2153,workflow,2009-04-15 15:33:29.314568,Create :  [ transition from new to draft question ],,admin
-3025,2153,modified,2009-04-15 15:33:29.316051,"",,admin
-3038,2158,added,2009-04-15 15:36:03.012268,"",,admin
-3039,2158,workflow,2009-04-15 15:36:03.026115,Create :  [ transition from new to draft question ],,admin
-3040,2158,modified,2009-04-15 15:36:03.027623,"",,admin
-3053,2163,added,2009-04-15 15:39:16.064815,"",,admin
-3054,2163,workflow,2009-04-15 15:39:16.08052,Create :  [ transition from new to draft question ],,admin
-3055,2163,modified,2009-04-15 15:39:16.082112,"",,admin
-3011,2149,added,2009-04-15 15:31:50.897845,"",,admin
-3012,2149,workflow,2009-04-15 15:31:50.914498,Create :  [ transition from new to draft question ],,admin
-3013,2149,modified,2009-04-15 15:31:50.915943,"",,admin
-3026,2154,added,2009-04-15 15:33:52.843886,"",,admin
-3027,2154,workflow,2009-04-15 15:33:52.855991,Create :  [ transition from new to draft question ],,admin
-3028,2154,modified,2009-04-15 15:33:52.857481,"",,admin
-3041,2159,added,2009-04-15 15:36:44.829153,"",,admin
-3042,2159,workflow,2009-04-15 15:36:44.84243,Create :  [ transition from new to draft question ],,admin
-3043,2159,modified,2009-04-15 15:36:44.84393,"",,admin
-3014,2150,added,2009-04-15 15:32:12.712159,"",,admin
-3015,2150,workflow,2009-04-15 15:32:12.72732,Create :  [ transition from new to draft question ],,admin
-3016,2150,modified,2009-04-15 15:32:12.728814,"",,admin
-3029,2155,added,2009-04-15 15:34:26.2762,"",,admin
-3030,2155,workflow,2009-04-15 15:34:26.29377,Create :  [ transition from new to draft question ],,admin
-3031,2155,modified,2009-04-15 15:34:26.295257,"",,admin
-3044,2160,added,2009-04-15 15:37:23.244477,"",,admin
-3045,2160,workflow,2009-04-15 15:37:23.260275,Create :  [ transition from new to draft question ],,admin
-3046,2160,modified,2009-04-15 15:37:23.261768,"",,admin
-3017,2151,added,2009-04-15 15:32:38.435671,"",,admin
-3018,2151,workflow,2009-04-15 15:32:38.4526,Create :  [ transition from new to draft question ],,admin
-3019,2151,modified,2009-04-15 15:32:38.454126,"",,admin
-3032,2156,added,2009-04-15 15:34:52.061777,"",,admin
-3033,2156,workflow,2009-04-15 15:34:52.074656,Create :  [ transition from new to draft question ],,admin
-3034,2156,modified,2009-04-15 15:34:52.076144,"",,admin
-3047,2161,added,2009-04-15 15:38:00.978716,"",,admin
-3048,2161,workflow,2009-04-15 15:38:00.995117,Create :  [ transition from new to draft question ],,admin
-3049,2161,modified,2009-04-15 15:38:00.996712,"",,admin
-3056,2085,new-version,2009-04-15 16:24:58.184828,'French' translation added.,,admin
-3057,2085,modified,2009-04-15 16:24:58.197652,"Language, Text, Title",,admin
-3058,2085,new-version,2009-04-15 16:25:01.819987,'Portuguese' translation added.,,admin
-3059,2085,modified,2009-04-15 16:25:01.829871,"Language, Text, Title",,admin
-3060,2086,new-version,2009-04-15 16:53:52.296955,'French' translation added.,,admin
-3061,2086,modified,2009-04-15 16:53:52.305944,"Language, Text, Title",,admin
-3062,2086,new-version,2009-04-15 16:54:12.261714,'Portuguese' translation added.,,admin
-3063,2086,modified,2009-04-15 16:54:12.288595,"Language, Text, Title",,admin
-3064,2087,new-version,2009-04-16 10:50:40.266833,'French' translation added.,,admin
-3065,2087,modified,2009-04-16 10:50:40.31547,"Language, Text, Title",,admin
-3066,2087,new-version,2009-04-16 10:51:37.909754,'Portuguese' translation added.,,admin
-3067,2087,modified,2009-04-16 10:51:37.917747,"Language, Text, Title",,admin
-3068,2088,new-version,2009-04-16 10:54:47.038099,'Portuguese' translation added.,,admin
-3069,2088,modified,2009-04-16 10:54:47.051202,"Language, Text, Title",,admin
-3070,2088,new-version,2009-04-16 10:55:15.727371,'French' translation added.,,admin
-3071,2088,modified,2009-04-16 10:55:25.076491,"Language, Text, Title",,admin
-3072,2089,new-version,2009-04-16 10:56:20.105492,'French' translation added.,,admin
-3073,2089,modified,2009-04-16 10:56:20.117863,"Language, Text, Title",,admin
-3074,2089,new-version,2009-04-16 10:56:41.716827,'Portuguese' translation added.,,admin
-3075,2089,modified,2009-04-16 10:56:41.727144,"Language, Text, Title",,admin
-3076,2090,new-version,2009-04-16 10:57:20.373263,'French' translation added.,,admin
-3077,2090,modified,2009-04-16 10:57:20.381978,"Language, Text, Title",,admin
-3078,2090,new-version,2009-04-16 10:57:43.833809,'Portuguese' translation added.,,admin
-3079,2090,modified,2009-04-16 10:57:43.846119,"Language, Text, Title",,admin
-3080,2091,new-version,2009-04-16 10:58:27.385448,'French' translation added.,,admin
-3081,2091,modified,2009-04-16 10:58:27.396317,"Language, Text, Title",,admin
-3082,2091,new-version,2009-04-16 10:58:49.453212,'Portuguese' translation added.,,admin
-3083,2091,modified,2009-04-16 10:58:49.462005,"Language, Text, Title",,admin
-3084,2092,new-version,2009-04-16 10:59:37.54816,'French' translation added.,,admin
-3085,2092,modified,2009-04-16 10:59:37.557726,"Language, Text, Title",,admin
-3086,2092,new-version,2009-04-16 11:00:05.152691,'Portuguese' translation added.,,admin
-3087,2092,modified,2009-04-16 11:00:05.162567,"Language, Text, Title",,admin
-3088,2093,new-version,2009-04-16 11:01:25.924964,'French' translation added.,,admin
-3089,2093,modified,2009-04-16 11:01:25.938533,"Language, Text",,admin
-3090,2093,new-version,2009-04-16 11:01:28.490949,'Portuguese' translation added.,,admin
-3091,2093,modified,2009-04-16 11:01:28.499552,"Language, Text",,admin
-3092,2094,new-version,2009-04-16 11:04:03.510831,'French' translation added.,,admin
-3093,2094,modified,2009-04-16 11:04:03.525493,"Language, Text, Title",,admin
-3094,2094,new-version,2009-04-16 11:04:22.296205,'Portuguese' translation added.,,admin
-3095,2094,modified,2009-04-16 11:04:22.307347,"Language, Text, Title",,admin
-3096,2095,new-version,2009-04-16 11:05:34.850325,'French' translation added.,,admin
-3097,2095,modified,2009-04-16 11:05:34.862148,"Language, Text, Title",,admin
-3098,2095,new-version,2009-04-16 11:05:52.187808,'Portuguese' translation added.,,admin
-3099,2095,modified,2009-04-16 11:05:52.207058,"Language, Text, Title",,admin
-3100,2096,new-version,2009-04-16 11:07:17.769516,'French' translation added.,,admin
-3101,2096,modified,2009-04-16 11:07:17.779599,"Language, Text, Title",,admin
-3102,2096,new-version,2009-04-16 11:07:48.085872,'Portuguese' translation added.,,admin
-3103,2096,modified,2009-04-16 11:07:48.102246,"Language, Text, Title",,admin
-3104,2097,new-version,2009-04-16 11:08:25.210079,'French' translation added.,,admin
-3105,2097,modified,2009-04-16 11:08:25.224119,"Language, Text, Title",,admin
-3106,2097,new-version,2009-04-16 11:08:41.511555,'Portuguese' translation added.,,admin
-3107,2097,modified,2009-04-16 11:08:41.521994,"Language, Text, Title",,admin
-3108,2098,new-version,2009-04-16 11:41:56.139549,'French' translation added.,,admin
-3109,2098,modified,2009-04-16 11:41:56.149615,"Language, Text, Title",,admin
-3110,2098,new-version,2009-04-16 11:42:18.818469,'Portuguese' translation added.,,admin
-3111,2098,modified,2009-04-16 11:42:18.831452,"Language, Text, Title",,admin
-3112,2099,new-version,2009-04-16 11:44:27.652661,'French' translation added.,,admin
-3113,2099,modified,2009-04-16 11:44:27.663113,"Language, Text, Title",,admin
-3114,2099,new-version,2009-04-16 11:44:52.26407,'Portuguese' translation added.,,admin
-3115,2099,modified,2009-04-16 11:44:52.27887,"Language, Text, Title",,admin
-3116,2100,new-version,2009-04-16 11:46:01.849822,'Portuguese' translation added.,,admin
-3117,2100,modified,2009-04-16 11:46:01.864118,"Language, Text, Title",,admin
-3118,2100,new-version,2009-04-16 11:46:37.396349,'French' translation added.,,admin
-3119,2100,modified,2009-04-16 11:46:37.406332,"Language, Text, Title",,admin
-3120,2101,new-version,2009-04-16 11:54:19.082756,'Portuguese' translation added.,,admin
-3121,2101,modified,2009-04-16 11:54:19.094412,"Language, Text, Title",,admin
-3122,2101,new-version,2009-04-16 11:54:21.871796,'French' translation added.,,admin
-3123,2101,modified,2009-04-16 11:54:21.881864,"Language, Text, Title",,admin
-3124,2102,new-version,2009-04-16 11:55:43.55355,'French' translation added.,,admin
-3125,2102,modified,2009-04-16 11:55:43.645048,"Language, Text, Title",,admin
-3126,2102,new-version,2009-04-16 11:56:53.572731,'Portuguese' translation added.,,admin
-3127,2102,modified,2009-04-16 11:56:53.582919,"Language, Text, Title",,admin
-3128,2103,new-version,2009-04-16 11:58:23.401348,'French' translation added.,,admin
-3129,2103,modified,2009-04-16 11:58:23.411661,"Language, Text, Title",,admin
-3130,2103,new-version,2009-04-16 11:58:43.429436,'Portuguese' translation added.,,admin
-3131,2103,modified,2009-04-16 11:58:43.454141,"Language, Text, Title",,admin
-3132,2104,new-version,2009-04-16 12:00:13.573812,'French' translation added.,,admin
-3133,2104,modified,2009-04-16 12:00:13.650176,"Language, Text, Title",,admin
-3134,2104,new-version,2009-04-16 12:06:17.129801,'Portuguese' translation added.,,admin
-3135,2104,modified,2009-04-16 12:06:17.146397,"Language, Text, Title",,admin
-3136,2105,new-version,2009-04-16 12:08:31.939779,'French' translation added.,,admin
-3137,2105,modified,2009-04-16 12:08:31.950007,"Language, Text, Title",,admin
-3138,2105,new-version,2009-04-16 12:14:46.436109,'Portuguese' translation added.,,admin
-3139,2105,modified,2009-04-16 12:14:46.44621,"Language, Text, Title",,admin
-3156,2110,new-version,2009-04-16 12:30:09.450769,'Portuguese' translation added.,,admin
-3157,2110,modified,2009-04-16 12:30:09.462451,"Language, Text, Title",,admin
-3158,2110,new-version,2009-04-16 12:30:12.771826,'French' translation added.,,admin
-3159,2110,modified,2009-04-16 12:30:12.786963,"Language, Text, Title",,admin
-3164,2112,new-version,2009-04-16 12:33:39.97397,'French' translation added.,,admin
-3165,2112,modified,2009-04-16 12:33:39.986295,"Language, Text, Title",,admin
-3166,2112,new-version,2009-04-16 12:33:41.802365,'Portuguese' translation added.,,admin
-3167,2112,modified,2009-04-16 12:33:41.812199,"Language, Text, Title",,admin
-3184,2117,new-version,2009-04-16 12:52:04.93562,'French' translation added.,,admin
-3185,2117,modified,2009-04-16 12:52:04.946047,"Language, Text, Title",,admin
-3186,2117,new-version,2009-04-16 12:52:24.659618,'Portuguese' translation added.,,admin
-3187,2117,modified,2009-04-16 12:52:24.670273,"Language, Text, Title",,admin
-3196,2120,new-version,2009-04-16 12:58:58.11573,'French' translation added.,,admin
-3197,2120,modified,2009-04-16 12:58:58.127709,"Language, Text, Title",,admin
-3198,2120,new-version,2009-04-16 12:59:15.380094,'Portuguese' translation added.,,admin
-3199,2120,modified,2009-04-16 12:59:15.390291,"Language, Text, Title",,admin
-3140,2106,new-version,2009-04-16 12:16:28.036706,'Portuguese' translation added.,,admin
-3141,2106,modified,2009-04-16 12:16:28.049697,"Language, Text, Title",,admin
-3142,2106,new-version,2009-04-16 12:16:33.054777,'French' translation added.,,admin
-3143,2106,modified,2009-04-16 12:16:33.070894,"Language, Text, Title",,admin
-3152,2109,new-version,2009-04-16 12:27:19.402097,'French' translation added.,,admin
-3153,2109,modified,2009-04-16 12:27:19.414269,"Language, Text, Title",,admin
-3154,2109,new-version,2009-04-16 12:27:39.377209,'Portuguese' translation added.,,admin
-3155,2109,modified,2009-04-16 12:27:39.403137,"Language, Text, Title",,admin
-3160,2111,new-version,2009-04-16 12:32:29.944932,'Portuguese' translation added.,,admin
-3161,2111,modified,2009-04-16 12:32:29.959257,"Language, Text, Title",,admin
-3162,2111,new-version,2009-04-16 12:32:32.958554,'French' translation added.,,admin
-3163,2111,modified,2009-04-16 12:32:32.972041,"Language, Text, Title",,admin
-3180,2116,new-version,2009-04-16 12:50:23.237004,'French' translation added.,,admin
-3181,2116,modified,2009-04-16 12:50:23.246589,"Language, Text, Title",,admin
-3182,2116,new-version,2009-04-16 12:51:23.231298,'Portuguese' translation added.,,admin
-3183,2116,modified,2009-04-16 12:51:23.24297,"Language, Text, Title",,admin
-3144,2107,new-version,2009-04-16 12:21:11.825786,'French' translation added.,,admin
-3145,2107,modified,2009-04-16 12:21:11.83925,"Language, Text, Title",,admin
-3146,2107,new-version,2009-04-16 12:21:32.127397,'Portuguese' translation added.,,admin
-3147,2107,modified,2009-04-16 12:21:32.145799,"Language, Text",,admin
-3168,2113,new-version,2009-04-16 12:34:28.471889,'French' translation added.,,admin
-3169,2113,modified,2009-04-16 12:34:28.482334,"Language, Text, Title",,admin
-3170,2113,new-version,2009-04-16 12:34:49.17667,'Portuguese' translation added.,,admin
-3171,2113,modified,2009-04-16 12:34:49.202191,"Language, Text, Title",,admin
-3188,2118,new-version,2009-04-16 12:53:10.183556,'French' translation added.,,admin
-3189,2118,modified,2009-04-16 12:53:10.195146,"Language, Text, Title",,admin
-3190,2118,new-version,2009-04-16 12:53:36.044556,'Portuguese' translation added.,,admin
-3191,2118,modified,2009-04-16 12:53:36.053672,"Language, Text, Title",,admin
-3208,2123,new-version,2009-04-16 13:02:18.541224,'French' translation added.,,admin
-3209,2123,modified,2009-04-16 13:02:18.556731,"Language, Text, Title",,admin
-3210,2123,new-version,2009-04-16 13:02:37.565232,'Portuguese' translation added.,,admin
-3211,2123,modified,2009-04-16 13:02:37.580056,"Language, Text, Title",,admin
-3148,2108,new-version,2009-04-16 12:22:44.193007,'Portuguese' translation added.,,admin
-3149,2108,modified,2009-04-16 12:22:44.203216,"Language, Text",,admin
-3150,2108,new-version,2009-04-16 12:23:39.525369,'French' translation added.,,admin
-3151,2108,modified,2009-04-16 12:23:39.601728,"Language, Text",,admin
-3176,2115,new-version,2009-04-16 12:36:37.577878,'French' translation added.,,admin
-3177,2115,modified,2009-04-16 12:36:37.58918,"Language, Text, Title",,admin
-3178,2115,new-version,2009-04-16 12:36:54.724726,'Portuguese' translation added.,,admin
-3179,2115,modified,2009-04-16 12:36:54.737609,"Language, Text, Title",,admin
-3204,2122,new-version,2009-04-16 13:01:25.807436,'French' translation added.,,admin
-3205,2122,modified,2009-04-16 13:01:25.817739,"Language, Text, Title",,admin
-3206,2122,new-version,2009-04-16 13:01:44.111807,'Portuguese' translation added.,,admin
-3207,2122,modified,2009-04-16 13:01:44.202811,"Language, Text, Title",,admin
-3172,2114,new-version,2009-04-16 12:35:33.58021,'French' translation added.,,admin
-3173,2114,modified,2009-04-16 12:35:33.590431,"Language, Text, Title",,admin
-3174,2114,new-version,2009-04-16 12:35:49.45658,'Portuguese' translation added.,,admin
-3175,2114,modified,2009-04-16 12:35:49.467606,"Language, Text, Title",,admin
-3192,2119,new-version,2009-04-16 12:54:39.402428,'French' translation added.,,admin
-3193,2119,modified,2009-04-16 12:54:39.419623,"Language, Text, Title",,admin
-3194,2119,new-version,2009-04-16 12:54:55.676075,'Portuguese' translation added.,,admin
-3195,2119,modified,2009-04-16 12:54:55.689305,"Language, Text, Title",,admin
-3200,2121,new-version,2009-04-16 13:00:35.498048,'Portuguese' translation added.,,admin
-3201,2121,modified,2009-04-16 13:00:35.510771,"Language, Text, Title",,admin
-3202,2121,new-version,2009-04-16 13:00:39.026917,'French' translation added.,,admin
-3203,2121,modified,2009-04-16 13:00:39.03772,"Language, Text, Title",,admin
-3212,2124,new-version,2009-04-16 13:03:26.301647,'Portuguese' translation added.,,admin
-3213,2124,modified,2009-04-16 13:03:26.343881,"Language, Text, Title",,admin
-3214,2125,new-version,2009-04-16 13:04:09.830342,'French' translation added.,,admin
-3215,2125,modified,2009-04-16 13:04:09.847799,"Language, Text, Title",,admin
-3216,2125,new-version,2009-04-16 13:04:22.190369,'Portuguese' translation added.,,admin
-3217,2125,modified,2009-04-16 13:04:22.247611,"Language, Text, Title",,admin
-3218,2126,new-version,2009-04-16 13:09:48.343617,'French' translation added.,,admin
-3219,2126,modified,2009-04-16 13:09:48.476305,"Language, Text, Title",,admin
-3220,2126,new-version,2009-04-16 13:10:05.696732,'Portuguese' translation added.,,admin
-3221,2126,modified,2009-04-16 13:10:05.705888,"Language, Text, Title",,admin
-3222,2127,new-version,2009-04-16 13:15:54.850037,'French' translation added.,,admin
-3223,2127,modified,2009-04-16 13:15:54.8621,"Language, Text, Title",,admin
-3224,2127,new-version,2009-04-16 13:16:22.543465,'Portuguese' translation added.,,admin
-3225,2127,modified,2009-04-16 13:16:22.574375,"Language, Text, Title",,admin
-3226,2128,new-version,2009-04-16 14:13:48.540276,'French' translation added.,,admin
-3227,2128,modified,2009-04-16 14:13:48.55041,"Language, Text, Title",,admin
-3228,2128,new-version,2009-04-16 14:14:54.787161,'Portuguese' translation added.,,admin
-3229,2128,modified,2009-04-16 14:14:54.799986,"Language, Text, Title",,admin
-3230,2129,new-version,2009-04-16 14:15:49.001373,'French' translation added.,,admin
-3231,2129,modified,2009-04-16 14:15:49.011777,"Language, Text, Title",,admin
-3232,2129,new-version,2009-04-16 14:16:10.59177,'Portuguese' translation added.,,admin
-3233,2129,modified,2009-04-16 14:16:10.603815,"Language, Text, Title",,admin
-3234,2130,new-version,2009-04-16 14:16:52.339738,'French' translation added.,,admin
-3235,2130,modified,2009-04-16 14:16:52.352289,"Language, Text, Title",,admin
-3236,2130,new-version,2009-04-16 14:17:23.064761,'Portuguese' translation added.,,admin
-3237,2130,modified,2009-04-16 14:17:23.077068,"Language, Text, Title",,admin
-3238,2131,new-version,2009-04-16 14:20:33.996692,'Portuguese' translation added.,,admin
-3239,2131,modified,2009-04-16 14:20:34.010477,"Language, Text, Title",,admin
-3240,2131,new-version,2009-04-16 14:20:36.816824,'French' translation added.,,admin
-3241,2131,modified,2009-04-16 14:20:36.826552,"Language, Text, Title",,admin
-3242,2132,new-version,2009-04-16 14:20:59.659066,'French' translation added.,,admin
-3243,2132,modified,2009-04-16 14:20:59.671235,"Language, Text, Title",,admin
-3244,2132,new-version,2009-04-16 14:21:22.904015,'Portuguese' translation added.,,admin
-3245,2132,modified,2009-04-16 14:21:22.914019,"Language, Text, Title",,admin
-3246,2133,new-version,2009-04-16 14:23:29.960514,'French' translation added.,,admin
-3247,2133,modified,2009-04-16 14:23:29.970678,"Language, Text, Title",,admin
-3248,2133,new-version,2009-04-16 14:23:51.13553,'Portuguese' translation added.,,admin
-3249,2133,modified,2009-04-16 14:23:51.148027,"Language, Text, Title",,admin
-3250,2134,new-version,2009-04-16 14:26:42.596797,'French' translation added.,,admin
-3251,2134,modified,2009-04-16 14:26:42.605663,"Language, Text, Title",,admin
-3252,2134,new-version,2009-04-16 14:26:59.519493,'Portuguese' translation added.,,admin
-3253,2134,modified,2009-04-16 14:26:59.532764,"Language, Text, Title",,admin
-3254,2135,new-version,2009-04-16 14:27:47.845114,'French' translation added.,,admin
-3255,2135,modified,2009-04-16 14:27:47.855161,"Language, Text, Title",,admin
-3256,2135,new-version,2009-04-16 14:28:09.628166,'Portuguese' translation added.,,admin
-3257,2135,modified,2009-04-16 14:28:09.639097,"Language, Text, Title",,admin
-3258,2136,new-version,2009-04-16 14:46:12.056276,'French' translation added.,,admin
-3259,2136,modified,2009-04-16 14:46:12.068903,"Language, Text, Title",,admin
-3260,2136,new-version,2009-04-16 14:46:48.775199,'Portuguese' translation added.,,admin
-3261,2136,modified,2009-04-16 14:46:48.785782,"Language, Text, Title",,admin
-3262,2137,new-version,2009-04-16 15:00:20.055756,'French' translation added.,,admin
-3263,2137,modified,2009-04-16 15:00:20.066092,"Language, Text, Title",,admin
-3264,2137,new-version,2009-04-16 15:00:39.789208,'Portuguese' translation added.,,admin
-3265,2137,modified,2009-04-16 15:00:39.810016,"Language, Text, Title",,admin
-3266,2138,new-version,2009-04-16 15:00:57.335461,'French' translation added.,,admin
-3267,2138,modified,2009-04-16 15:00:57.346265,"Language, Text, Title",,admin
-3268,2138,new-version,2009-04-16 15:01:21.748138,'Portuguese' translation added.,,admin
-3269,2138,modified,2009-04-16 15:01:21.75768,"Language, Text, Title",,admin
-3270,2139,new-version,2009-04-16 15:05:12.775478,'French' translation added.,,admin
-3271,2139,modified,2009-04-16 15:05:12.787594,"Language, Text, Title",,admin
-3272,2139,new-version,2009-04-16 15:05:29.491725,'Portuguese' translation added.,,admin
-3273,2139,modified,2009-04-16 15:05:29.501655,"Language, Text, Title",,admin
-3274,2140,new-version,2009-04-16 15:06:01.201187,'French' translation added.,,admin
-3275,2140,modified,2009-04-16 15:06:01.210966,"Language, Text, Title",,admin
-3276,2140,new-version,2009-04-16 15:06:14.02194,'Portuguese' translation added.,,admin
-3277,2140,modified,2009-04-16 15:06:14.035538,"Language, Text, Title",,admin
-3278,2141,new-version,2009-04-16 15:06:39.611013,'French' translation added.,,admin
-3279,2141,modified,2009-04-16 15:06:39.621487,"Language, Text, Title",,admin
-3280,2141,new-version,2009-04-16 15:07:02.544899,'Portuguese' translation added.,,admin
-3281,2141,modified,2009-04-16 15:07:02.55783,"Language, Text, Title",,admin
-3282,2142,new-version,2009-04-16 15:08:06.611256,'French' translation added.,,admin
-3283,2142,modified,2009-04-16 15:08:06.623938,"Language, Text, Title",,admin
-3284,2142,new-version,2009-04-16 15:08:26.825792,'Portuguese' translation added.,,admin
-3285,2142,modified,2009-04-16 15:08:26.840643,"Language, Text, Title",,admin
-3286,2143,new-version,2009-04-16 15:08:43.343827,'French' translation added.,,admin
-3287,2143,modified,2009-04-16 15:08:43.3568,"Language, Text, Title",,admin
-3288,2143,new-version,2009-04-16 15:08:59.581893,'Portuguese' translation added.,,admin
-3289,2143,modified,2009-04-16 15:08:59.594089,"Language, Text, Title",,admin
-3290,2144,new-version,2009-04-16 15:09:17.681161,'French' translation added.,,admin
-3291,2144,modified,2009-04-16 15:09:17.690718,"Language, Text, Title",,admin
-3292,2144,new-version,2009-04-16 15:09:38.111842,'Portuguese' translation added.,,admin
-3293,2144,modified,2009-04-16 15:09:38.121781,"Language, Text, Title",,admin
-3294,2145,new-version,2009-04-16 15:10:05.886185,'French' translation added.,,admin
-3295,2145,modified,2009-04-16 15:10:05.904982,"Language, Text, Title",,admin
-3296,2145,new-version,2009-04-16 15:10:24.49518,'Portuguese' translation added.,,admin
-3297,2145,modified,2009-04-16 15:10:24.506778,"Language, Text, Title",,admin
-3298,2146,new-version,2009-04-16 15:11:46.416244,'French' translation added.,,admin
-3299,2146,modified,2009-04-16 15:11:46.426219,"Language, Text, Title",,admin
-3300,2146,new-version,2009-04-16 15:12:01.148812,'Portuguese' translation added.,,admin
-3301,2146,modified,2009-04-16 15:12:01.160301,"Language, Text, Title",,admin
-3302,2147,new-version,2009-04-16 15:12:24.698148,'French' translation added.,,admin
-3303,2147,modified,2009-04-16 15:12:24.711492,"Language, Text, Title",,admin
-3304,2147,new-version,2009-04-16 15:12:36.546357,'Portuguese' translation added.,,admin
-3305,2147,modified,2009-04-16 15:12:36.558913,"Language, Text, Title",,admin
-3306,2148,new-version,2009-04-16 15:13:55.755564,'French' translation added.,,admin
-3307,2148,modified,2009-04-16 15:13:55.83655,"Language, Text, Title",,admin
-3308,2148,new-version,2009-04-16 15:14:14.212384,'Portuguese' translation added.,,admin
-3309,2148,modified,2009-04-16 15:14:14.224408,"Language, Text, Title",,admin
-3310,2149,new-version,2009-04-16 15:15:00.407521,'Portuguese' translation added.,,admin
-3311,2149,modified,2009-04-16 15:15:00.417821,"Language, Text, Title",,admin
-3312,2149,new-version,2009-04-16 15:15:04.129403,'French' translation added.,,admin
-3313,2149,modified,2009-04-16 15:15:04.137815,"Language, Text, Title",,admin
-3314,2150,new-version,2009-04-16 15:22:43.848561,'French' translation added.,,admin
-3315,2150,modified,2009-04-16 15:22:43.864696,"Language, Text, Title",,admin
-3316,2150,new-version,2009-04-16 15:22:56.672936,'Portuguese' translation added.,,admin
-3317,2150,modified,2009-04-16 15:22:56.681764,"Language, Text, Title",,admin
-3318,2151,new-version,2009-04-16 15:23:17.859429,'French' translation added.,,admin
-3319,2151,modified,2009-04-16 15:23:17.869731,"Language, Text, Title",,admin
-3320,2151,new-version,2009-04-16 15:23:32.341703,'Portuguese' translation added.,,admin
-3321,2151,modified,2009-04-16 15:23:32.351079,"Language, Text, Title",,admin
-3322,2152,new-version,2009-04-16 15:23:56.268255,'French' translation added.,,admin
-3323,2152,modified,2009-04-16 15:23:56.277588,"Language, Text, Title",,admin
-3324,2152,new-version,2009-04-16 15:24:15.79605,'Portuguese' translation added.,,admin
-3325,2152,modified,2009-04-16 15:24:15.807091,"Language, Text, Title",,admin
-3326,2153,new-version,2009-04-16 15:24:32.859996,'French' translation added.,,admin
-3327,2153,modified,2009-04-16 15:24:32.871176,"Language, Text, Title",,admin
-3328,2153,new-version,2009-04-16 15:24:54.504937,'Portuguese' translation added.,,admin
-3329,2153,modified,2009-04-16 15:24:54.519476,"Language, Text, Title",,admin
-3330,2154,new-version,2009-04-16 15:25:13.127395,'French' translation added.,,admin
-3331,2154,modified,2009-04-16 15:25:13.138857,"Language, Text, Title",,admin
-3332,2154,new-version,2009-04-16 15:25:31.934351,'Portuguese' translation added.,,admin
-3333,2154,modified,2009-04-16 15:25:31.950789,"Language, Text, Title",,admin
-3334,2155,new-version,2009-04-16 15:25:55.750251,'French' translation added.,,admin
-3335,2155,modified,2009-04-16 15:25:55.762727,"Language, Text, Title",,admin
-3336,2155,new-version,2009-04-16 15:26:13.031274,'Portuguese' translation added.,,admin
-3337,2155,modified,2009-04-16 15:26:13.043325,"Language, Text, Title",,admin
-3338,2156,new-version,2009-04-16 15:26:55.023929,'French' translation added.,,admin
-3339,2156,modified,2009-04-16 15:26:55.034526,"Language, Text, Title",,admin
-3340,2156,new-version,2009-04-16 15:27:13.449854,'Portuguese' translation added.,,admin
-3341,2156,modified,2009-04-16 15:27:13.463814,"Language, Text, Title",,admin
-3342,2157,new-version,2009-04-16 15:27:28.370346,'French' translation added.,,admin
-3343,2157,modified,2009-04-16 15:27:28.4012,"Language, Text, Title",,admin
-3344,2157,new-version,2009-04-16 15:27:40.781635,'Portuguese' translation added.,,admin
-3345,2157,modified,2009-04-16 15:27:40.78974,"Language, Text, Title",,admin
-3346,2158,new-version,2009-04-16 15:27:59.215181,'French' translation added.,,admin
-3347,2158,modified,2009-04-16 15:27:59.227213,"Language, Text, Title",,admin
-3348,2158,new-version,2009-04-16 15:28:15.986238,'Portuguese' translation added.,,admin
-3349,2158,modified,2009-04-16 15:28:15.997757,"Language, Text, Title",,admin
-3350,2159,new-version,2009-04-16 15:28:32.353116,'French' translation added.,,admin
-3351,2159,modified,2009-04-16 15:28:32.362852,"Language, Text, Title",,admin
-3354,2160,new-version,2009-04-16 15:29:21.102056,'French' translation added.,,admin
-3355,2160,modified,2009-04-16 15:29:21.113831,"Language, Text, Title",,admin
-3356,2160,new-version,2009-04-16 15:29:36.851245,'Portuguese' translation added.,,admin
-3357,2160,modified,2009-04-16 15:29:36.862465,"Language, Text, Title",,admin
-3358,2161,new-version,2009-04-16 15:30:09.379138,'French' translation added.,,admin
-3359,2161,modified,2009-04-16 15:30:09.390139,"Language, Text, Title",,admin
-3360,2161,new-version,2009-04-16 15:30:24.102158,'Portuguese' translation added.,,admin
-3361,2161,modified,2009-04-16 15:30:24.117744,"Language, Text, Title",,admin
-3362,2162,new-version,2009-04-16 15:30:40.404518,'French' translation added.,,admin
-3363,2162,modified,2009-04-16 15:30:40.413764,"Language, Text, Title",,admin
-3364,2162,new-version,2009-04-16 15:30:55.678918,'Portuguese' translation added.,,admin
-3365,2162,modified,2009-04-16 15:30:55.68973,"Language, Text, Title",,admin
-3366,2163,new-version,2009-04-16 15:32:09.488788,'French' translation added.,,admin
-3367,2163,modified,2009-04-16 15:32:09.499079,"Language, Text, Title",,admin
-3368,2163,new-version,2009-04-16 15:32:23.577852,'Portuguese' translation added.,,admin
-3369,2163,modified,2009-04-16 15:32:23.684106,"Language, Text, Title",,admin
-3352,2159,new-version,2009-04-16 15:28:53.211134,'Portuguese' translation added.,,admin
-3353,2159,modified,2009-04-16 15:28:53.222997,"Language, Text, Title",,admin
+4001,1018,new-version,2009-08-11 16:28:54.263945,New version created upon submission to clerks office,,admin
+4002,1018,workflow,2009-08-11 16:28:54.351466,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4003,1018,modified,2009-08-11 16:28:54.35323,"",,admin
+4004,1018,new-version,2009-08-11 16:30:16.814867,New version created upon workflow transition.,,admin
+4005,1018,workflow,2009-08-11 16:30:16.864992,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4006,1018,modified,2009-08-11 16:30:16.866618,"",,admin
+4007,1013,new-version,2009-08-11 16:56:48.543586,New version created upon submission to clerks office,,admin
+4008,1013,workflow,2009-08-11 16:56:48.612426,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4009,1013,modified,2009-08-11 16:56:48.614251,"",,admin
+4010,1013,new-version,2009-08-11 16:56:53.470367,New version created upon workflow transition.,,admin
+4011,1013,workflow,2009-08-11 16:56:53.524539,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4012,1013,modified,2009-08-11 16:56:53.526143,"",,admin
+4013,1012,new-version,2009-08-13 08:39:20.000779,New version created upon submission to clerks office,,admin
+4014,1012,workflow,2009-08-13 08:39:20.069914,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4015,1012,modified,2009-08-13 08:39:20.071523,"",,admin
+4016,1015,new-version,2009-08-13 08:39:30.476028,New version created upon submission to clerks office,,admin
+4017,1015,workflow,2009-08-13 08:39:30.540861,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4018,1015,modified,2009-08-13 08:39:30.542452,"",,admin
+4019,1017,new-version,2009-08-13 08:48:23.988698,New version created upon submission to clerks office,,admin
+4020,1017,workflow,2009-08-13 08:48:24.209721,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4021,1017,modified,2009-08-13 08:48:24.211315,"",,admin
+4022,1014,new-version,2009-08-13 08:48:32.581101,New version created upon submission to clerks office,,admin
+4023,1014,workflow,2009-08-13 08:48:32.645795,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4024,1014,modified,2009-08-13 08:48:32.647541,"",,admin
+4025,1014,new-version,2009-08-13 08:48:36.846257,New version created upon workflow transition.,,admin
+4026,1014,workflow,2009-08-13 08:48:36.897206,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4027,1014,modified,2009-08-13 08:48:36.898798,"",,admin
+4028,1020,new-version,2009-08-13 08:53:25.825888,New version created upon submission to clerks office,,admin
+4029,1020,workflow,2009-08-13 08:53:25.900048,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4030,1020,modified,2009-08-13 08:53:25.901645,"",,admin
+4031,1016,new-version,2009-08-13 08:53:43.144916,New version created upon submission to clerks office,,admin
+4032,1016,workflow,2009-08-13 08:53:43.20734,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4033,1016,modified,2009-08-13 08:53:43.208938,"",,admin
+4034,1016,new-version,2009-08-13 08:53:47.065398,New version created upon workflow transition.,,admin
+4035,1016,workflow,2009-08-13 08:53:47.112087,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4036,1016,modified,2009-08-13 08:53:47.113672,"",,admin
+4037,1019,new-version,2009-08-13 08:53:49.906137,New version created upon submission to clerks office,,admin
+4038,1019,workflow,2009-08-13 08:53:49.971128,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4039,1019,modified,2009-08-13 08:53:49.972749,"",,admin
+4040,1019,new-version,2009-08-13 08:53:52.896291,New version created upon workflow transition.,,admin
+4041,1019,workflow,2009-08-13 08:53:52.945263,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4042,1019,modified,2009-08-13 08:53:52.946858,"",,admin
+4043,2101,new-version,2009-08-13 08:53:55.872572,New version created upon submission to clerks office,,admin
+4044,2101,workflow,2009-08-13 08:53:55.936681,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4045,2101,modified,2009-08-13 08:53:55.938276,"",,admin
+4046,2110,new-version,2009-08-13 08:54:01.886347,New version created upon submission to clerks office,,admin
+4047,2110,workflow,2009-08-13 08:54:01.948567,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4048,2110,modified,2009-08-13 08:54:01.950223,"",,admin
+4049,2110,new-version,2009-08-13 08:54:05.035571,New version created upon workflow transition.,,admin
+4050,2110,workflow,2009-08-13 08:54:05.094696,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4051,2110,modified,2009-08-13 08:54:05.096432,"",,admin
+4052,2088,new-version,2009-08-13 08:54:07.700093,New version created upon submission to clerks office,,admin
+4053,2088,workflow,2009-08-13 08:54:07.75939,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4054,2088,modified,2009-08-13 08:54:07.761046,"",,admin
+4055,2099,new-version,2009-08-13 08:54:14.737961,New version created upon submission to clerks office,,admin
+4056,2099,workflow,2009-08-13 08:54:14.807551,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4057,2099,modified,2009-08-13 08:54:14.809157,"",,admin
+4058,2016,new-version,2009-08-13 08:54:19.90256,New version created upon submission to clerks office,,admin
+4059,2016,workflow,2009-08-13 08:54:19.971661,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4060,2016,modified,2009-08-13 08:54:19.97325,"",,admin
+4061,2016,new-version,2009-08-13 08:54:22.98095,New version created upon workflow transition.,,admin
+4062,2016,workflow,2009-08-13 08:54:23.044702,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4063,2016,modified,2009-08-13 08:54:23.046413,"",,admin
+4064,2105,new-version,2009-08-13 08:54:26.974881,New version created upon submission to clerks office,,admin
+4065,2105,workflow,2009-08-13 08:54:27.041425,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4066,2105,modified,2009-08-13 08:54:27.043045,"",,admin
+4067,2047,new-version,2009-08-13 08:54:33.579676,New version created upon submission to clerks office,,admin
+4068,2047,workflow,2009-08-13 08:54:33.647646,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4069,2047,modified,2009-08-13 08:54:33.649241,"",,admin
+4070,2047,new-version,2009-08-13 08:54:36.64571,New version created upon workflow transition.,,admin
+4071,2047,workflow,2009-08-13 08:54:36.700376,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4072,2047,modified,2009-08-13 08:54:36.701976,"",,admin
+4073,1011,new-version,2009-08-13 08:54:38.982012,New version created upon submission to clerks office,,admin
+4074,1011,workflow,2009-08-13 08:54:39.055164,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4075,1011,modified,2009-08-13 08:54:39.056867,"",,admin
+4076,1021,new-version,2009-08-13 08:54:45.454287,New version created upon submission to clerks office,,admin
+4077,1021,workflow,2009-08-13 08:54:45.516429,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4078,1021,modified,2009-08-13 08:54:45.518017,"",,admin
+4079,1021,new-version,2009-08-13 08:54:47.923578,New version created upon workflow transition.,,admin
+4080,1021,workflow,2009-08-13 08:54:47.972395,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4081,1021,modified,2009-08-13 08:54:47.973986,"",,admin
+4085,2029,new-version,2009-08-13 08:54:55.807517,New version created upon submission to clerks office,,admin
+4086,2029,workflow,2009-08-13 08:54:55.872558,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4087,2029,modified,2009-08-13 08:54:55.874162,"",,admin
+4082,2007,new-version,2009-08-13 08:54:50.324309,New version created upon submission to clerks office,,admin
+4083,2007,workflow,2009-08-13 08:54:50.387793,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4084,2007,modified,2009-08-13 08:54:50.38937,"",,admin
+4088,2029,new-version,2009-08-13 08:54:59.901925,New version created upon workflow transition.,,admin
+4089,2029,workflow,2009-08-13 08:54:59.960434,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4090,2029,modified,2009-08-13 08:54:59.962022,"",,admin
+4091,2020,new-version,2009-08-13 08:55:02.36917,New version created upon submission to clerks office,,admin
+4092,2020,workflow,2009-08-13 08:55:02.435931,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4093,2020,modified,2009-08-13 08:55:02.437517,"",,admin
+4094,2017,new-version,2009-08-13 08:55:07.358295,New version created upon submission to clerks office,,admin
+4095,2017,workflow,2009-08-13 08:55:07.420456,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4096,2017,modified,2009-08-13 08:55:07.422043,"",,admin
+4097,2024,new-version,2009-08-13 08:55:12.048203,New version created upon submission to clerks office,,admin
+4098,2024,workflow,2009-08-13 08:55:12.111715,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4099,2024,modified,2009-08-13 08:55:12.113305,"",,admin
+4100,2018,new-version,2009-08-13 08:55:17.332442,New version created upon submission to clerks office,,admin
+4101,2018,workflow,2009-08-13 08:55:17.527974,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4102,2018,modified,2009-08-13 08:55:17.529615,"",,admin
+4103,2018,new-version,2009-08-13 08:55:20.507021,New version created upon workflow transition.,,admin
+4104,2018,workflow,2009-08-13 08:55:20.560574,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4105,2018,modified,2009-08-13 08:55:20.562204,"",,admin
+4106,2098,new-version,2009-08-13 08:55:23.83797,New version created upon submission to clerks office,,admin
+4107,2098,workflow,2009-08-13 08:55:23.900952,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4108,2098,modified,2009-08-13 08:55:23.902586,"",,admin
+4109,2098,new-version,2009-08-13 08:55:26.791118,New version created upon workflow transition.,,admin
+4110,2098,workflow,2009-08-13 08:55:26.849024,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4111,2098,modified,2009-08-13 08:55:26.850675,"",,admin
+4112,1016,new-version,2009-08-13 09:02:09.689003,New version created upon workflow transition.,,admin
+4113,1016,workflow,2009-08-13 09:02:09.746333,Complete :  [ transition from Question received by clerk to Question complete ],,admin
+4114,1016,modified,2009-08-13 09:02:09.747918,"",,admin
+4115,2011,new-version,2009-08-13 09:02:16.632932,New version created upon submission to clerks office,,admin
+4116,2011,workflow,2009-08-13 09:02:16.70629,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4117,2011,modified,2009-08-13 09:02:16.707997,"",,admin
+4118,2143,new-version,2009-08-13 09:40:55.805608,New version created upon submission to clerks office,,admin
+4119,2143,workflow,2009-08-13 09:40:55.874115,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4120,2143,modified,2009-08-13 09:40:55.875748,"",,admin
+4121,2107,new-version,2009-08-13 09:41:01.798383,New version created upon submission to clerks office,,admin
+4122,2107,workflow,2009-08-13 09:41:01.857884,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4123,2107,modified,2009-08-13 09:41:01.85951,"",,admin
+4124,2107,new-version,2009-08-13 09:41:04.531174,New version created upon workflow transition.,,admin
+4125,2107,workflow,2009-08-13 09:41:04.588933,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4126,2107,modified,2009-08-13 09:41:04.590549,"",,admin
+4127,2013,new-version,2009-08-13 09:41:07.082,New version created upon submission to clerks office,,admin
+4128,2013,workflow,2009-08-13 09:41:07.144862,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4129,2013,modified,2009-08-13 09:41:07.146463,"",,admin
+4130,2026,new-version,2009-08-13 09:41:12.829197,New version created upon submission to clerks office,,admin
+4131,2026,workflow,2009-08-13 09:41:12.891936,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4132,2026,modified,2009-08-13 09:41:12.89354,"",,admin
+4133,2008,new-version,2009-08-13 09:41:18.252981,New version created upon submission to clerks office,,admin
+4134,2008,workflow,2009-08-13 09:41:18.315712,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4135,2008,modified,2009-08-13 09:41:18.317297,"",,admin
+4136,2008,new-version,2009-08-13 09:41:21.366775,New version created upon workflow transition.,,admin
+4137,2008,workflow,2009-08-13 09:41:21.420666,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4138,2008,modified,2009-08-13 09:41:21.422253,"",,admin
+4139,2001,new-version,2009-08-13 09:41:23.878607,New version created upon submission to clerks office,,admin
+4140,2001,workflow,2009-08-13 09:41:23.940825,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4141,2001,modified,2009-08-13 09:41:23.942418,"",,admin
+4142,2001,new-version,2009-08-13 09:41:26.562688,New version created upon workflow transition.,,admin
+4143,2001,workflow,2009-08-13 09:41:26.613623,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4144,2001,modified,2009-08-13 09:41:26.61522,"",,admin
+4145,2135,new-version,2009-08-13 09:41:28.629266,New version created upon submission to clerks office,,admin
+4146,2135,workflow,2009-08-13 09:41:28.692983,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4147,2135,modified,2009-08-13 09:41:28.694584,"",,admin
+4148,2135,new-version,2009-08-13 09:41:32.225906,New version created upon workflow transition.,,admin
+4149,2135,workflow,2009-08-13 09:41:32.285081,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4150,2135,modified,2009-08-13 09:41:32.286699,"",,admin
+4151,2151,new-version,2009-08-13 09:41:34.348764,New version created upon submission to clerks office,,admin
+4152,2151,workflow,2009-08-13 09:41:34.411952,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4153,2151,modified,2009-08-13 09:41:34.413568,"",,admin
+4154,2092,new-version,2009-08-13 09:41:39.947183,New version created upon submission to clerks office,,admin
+4155,2092,workflow,2009-08-13 09:41:40.012306,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4156,2092,modified,2009-08-13 09:41:40.013918,"",,admin
+4157,2146,new-version,2009-08-13 09:41:47.928297,New version created upon submission to clerks office,,admin
+4158,2146,workflow,2009-08-13 09:41:47.991595,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4159,2146,modified,2009-08-13 09:41:47.993194,"",,admin
+4160,2146,new-version,2009-08-13 09:41:51.293373,New version created upon workflow transition.,,admin
+4161,2146,workflow,2009-08-13 09:41:51.345669,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4162,2146,modified,2009-08-13 09:41:51.347284,"",,admin
+4163,2049,new-version,2009-08-13 09:41:54.451423,New version created upon submission to clerks office,,admin
+4164,2049,workflow,2009-08-13 09:41:54.549466,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4165,2049,modified,2009-08-13 09:41:54.551125,"",,admin
+4166,2146,new-version,2009-08-13 09:43:54.853313,New version created upon workflow transition.,,admin
+4167,2146,workflow,2009-08-13 09:43:54.914664,Complete :  [ transition from Question received by clerk to Question complete ],,admin
+4168,2146,modified,2009-08-13 09:43:54.916283,"",,admin
+4169,2030,new-version,2009-08-13 09:44:01.421113,New version created upon submission to clerks office,,admin
+4170,2030,workflow,2009-08-13 09:44:01.484665,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4171,2030,modified,2009-08-13 09:44:01.486261,"",,admin
+4172,2030,new-version,2009-08-13 09:44:04.273869,New version created upon workflow transition.,,admin
+4173,2030,workflow,2009-08-13 09:44:04.332727,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4174,2030,modified,2009-08-13 09:44:04.334315,"",,admin
+4175,2141,new-version,2009-08-13 09:44:06.561684,New version created upon submission to clerks office,,admin
+4176,2141,workflow,2009-08-13 09:44:06.627698,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4177,2141,modified,2009-08-13 09:44:06.629324,"",,admin
+4178,2037,new-version,2009-08-13 09:44:12.944915,New version created upon submission to clerks office,,admin
+4179,2037,workflow,2009-08-13 09:44:13.027009,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4180,2037,modified,2009-08-13 09:44:13.028855,"",,admin
+4181,2037,new-version,2009-08-13 09:44:16.349236,New version created upon workflow transition.,,admin
+4182,2037,workflow,2009-08-13 09:44:16.397694,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4183,2037,modified,2009-08-13 09:44:16.399286,"",,admin
+4184,2134,new-version,2009-08-13 09:44:18.417808,New version created upon submission to clerks office,,admin
+4185,2134,workflow,2009-08-13 09:44:18.48107,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4186,2134,modified,2009-08-13 09:44:18.482682,"",,admin
+4187,2112,new-version,2009-08-13 09:44:23.363407,New version created upon submission to clerks office,,admin
+4188,2112,workflow,2009-08-13 09:44:23.424117,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4189,2112,modified,2009-08-13 09:44:23.425735,"",,admin
+4190,2015,new-version,2009-08-13 09:44:27.916753,New version created upon submission to clerks office,,admin
+4191,2015,workflow,2009-08-13 09:44:27.981944,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4192,2015,modified,2009-08-13 09:44:27.983657,"",,admin
+4193,2004,new-version,2009-08-13 09:44:32.591162,New version created upon submission to clerks office,,admin
+4194,2004,workflow,2009-08-13 09:44:32.655775,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4195,2004,modified,2009-08-13 09:44:32.657357,"",,admin
+4196,2053,new-version,2009-08-13 09:44:45.490998,New version created upon submission to clerks office,,admin
+4197,2053,workflow,2009-08-13 09:44:45.556025,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4198,2053,modified,2009-08-13 09:44:45.557615,"",,admin
+4199,2053,new-version,2009-08-13 09:44:47.964466,New version created upon workflow transition.,,admin
+4200,2053,workflow,2009-08-13 09:44:48.023615,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4201,2053,modified,2009-08-13 09:44:48.025201,"",,admin
+4202,2057,new-version,2009-08-13 09:44:51.252365,New version created upon submission to clerks office,,admin
+4203,2057,workflow,2009-08-13 09:44:51.320581,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4204,2057,modified,2009-08-13 09:44:51.322181,"",,admin
+4205,2057,new-version,2009-08-13 09:44:54.972807,New version created upon workflow transition.,,admin
+4206,2057,workflow,2009-08-13 09:44:55.031729,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4207,2057,modified,2009-08-13 09:44:55.033353,"",,admin
+4208,2053,new-version,2009-08-13 09:54:16.787886,New version created upon workflow transition.,,admin
+4209,2053,workflow,2009-08-13 09:54:16.847602,Complete :  [ transition from Question received by clerk to Question complete ],,admin
+4210,2053,modified,2009-08-13 09:54:16.849201,"",,admin
+4211,2118,new-version,2009-08-13 09:54:29.70586,New version created upon submission to clerks office,,admin
+4212,2118,workflow,2009-08-13 09:54:29.769198,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4213,2118,modified,2009-08-13 09:54:29.770805,"",,admin
+4214,2009,new-version,2009-08-13 09:54:34.593765,New version created upon submission to clerks office,,admin
+4215,2009,workflow,2009-08-13 09:54:34.659947,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4216,2009,modified,2009-08-13 09:54:34.661534,"",,admin
+4217,2009,new-version,2009-08-13 09:54:37.877455,New version created upon workflow transition.,,admin
+4218,2009,workflow,2009-08-13 09:54:37.935285,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4219,2009,modified,2009-08-13 09:54:37.936905,"",,admin
+4220,2054,new-version,2009-08-13 09:54:40.256496,New version created upon submission to clerks office,,admin
+4221,2054,workflow,2009-08-13 09:54:40.320064,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4222,2054,modified,2009-08-13 09:54:40.321667,"",,admin
+4223,2147,new-version,2009-08-13 09:54:45.108663,New version created upon submission to clerks office,,admin
+4224,2147,workflow,2009-08-13 09:54:45.172042,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4225,2147,modified,2009-08-13 09:54:45.173647,"",,admin
+4226,2147,new-version,2009-08-13 09:54:47.690339,New version created upon workflow transition.,,admin
+4227,2147,workflow,2009-08-13 09:54:47.741,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4228,2147,modified,2009-08-13 09:54:47.742617,"",,admin
+4229,2077,new-version,2009-08-13 09:54:49.667321,New version created upon submission to clerks office,,admin
+4230,2077,workflow,2009-08-13 09:54:49.738972,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4231,2077,modified,2009-08-13 09:54:49.740674,"",,admin
+4232,2077,new-version,2009-08-13 09:54:52.887066,New version created upon workflow transition.,,admin
+4233,2077,workflow,2009-08-13 09:54:52.937049,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4234,2077,modified,2009-08-13 09:54:52.938625,"",,admin
+4235,2139,new-version,2009-08-13 09:54:56.158879,New version created upon submission to clerks office,,admin
+4236,2139,workflow,2009-08-13 09:54:56.224341,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4237,2139,modified,2009-08-13 09:54:56.225997,"",,admin
+4238,2090,new-version,2009-08-13 09:55:00.772894,New version created upon submission to clerks office,,admin
+4239,2090,workflow,2009-08-13 09:55:00.836156,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4240,2090,modified,2009-08-13 09:55:00.837773,"",,admin
+4241,2090,new-version,2009-08-13 09:55:03.165196,New version created upon workflow transition.,,admin
+4242,2090,workflow,2009-08-13 09:55:03.214006,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4243,2090,modified,2009-08-13 09:55:03.21566,"",,admin
+4244,2033,new-version,2009-08-13 09:55:05.704814,New version created upon submission to clerks office,,admin
+4245,2033,workflow,2009-08-13 09:55:05.768095,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4246,2033,modified,2009-08-13 09:55:05.769706,"",,admin
+4247,2033,new-version,2009-08-13 09:55:08.858494,New version created upon workflow transition.,,admin
+4248,2033,workflow,2009-08-13 09:55:08.914031,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4249,2033,modified,2009-08-13 09:55:08.91567,"",,admin
+4250,2010,new-version,2009-08-13 09:55:11.307345,New version created upon submission to clerks office,,admin
+4251,2010,workflow,2009-08-13 09:55:11.371943,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4252,2010,modified,2009-08-13 09:55:11.373528,"",,admin
+4253,2063,new-version,2009-08-13 09:55:16.901222,New version created upon submission to clerks office,,admin
+4254,2063,workflow,2009-08-13 09:55:16.96007,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4255,2063,modified,2009-08-13 09:55:16.961714,"",,admin
+4256,2063,new-version,2009-08-13 09:55:19.310599,New version created upon workflow transition.,,admin
+4257,2063,workflow,2009-08-13 09:55:19.374607,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4258,2063,modified,2009-08-13 09:55:19.376331,"",,admin
+4259,2050,new-version,2009-08-13 09:55:21.362805,New version created upon submission to clerks office,,admin
+4260,2050,workflow,2009-08-13 09:55:21.423867,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4261,2050,modified,2009-08-13 09:55:21.42547,"",,admin
+4262,2131,new-version,2009-08-13 09:55:26.020247,New version created upon submission to clerks office,,admin
+4263,2131,workflow,2009-08-13 09:55:26.088111,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4264,2131,modified,2009-08-13 09:55:26.089713,"",,admin
+4265,2131,new-version,2009-08-13 09:55:29.311524,New version created upon workflow transition.,,admin
+4266,2131,workflow,2009-08-13 09:55:29.367405,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4267,2131,modified,2009-08-13 09:55:29.369019,"",,admin
+4268,2115,new-version,2009-08-13 09:55:31.096428,New version created upon submission to clerks office,,admin
+4269,2115,workflow,2009-08-13 09:55:31.16404,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4270,2115,modified,2009-08-13 09:55:31.165654,"",,admin
+4271,2148,new-version,2009-08-13 09:55:35.479837,New version created upon submission to clerks office,,admin
+4272,2148,workflow,2009-08-13 09:55:35.545253,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4273,2148,modified,2009-08-13 09:55:35.546853,"",,admin
+4274,2148,new-version,2009-08-13 09:55:38.767458,New version created upon workflow transition.,,admin
+4275,2148,workflow,2009-08-13 09:55:38.821342,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4276,2148,modified,2009-08-13 09:55:38.822937,"",,admin
+4277,2133,new-version,2009-08-13 09:55:39.938994,New version created upon submission to clerks office,,admin
+4278,2133,workflow,2009-08-13 09:55:40.001848,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4279,2133,modified,2009-08-13 09:55:40.009166,"",,admin
+4280,2133,new-version,2009-08-13 09:55:42.333078,New version created upon workflow transition.,,admin
+4281,2133,workflow,2009-08-13 09:55:42.382085,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4282,2133,modified,2009-08-13 09:55:42.383726,"",,admin
+4283,2114,new-version,2009-08-13 09:55:44.142979,New version created upon submission to clerks office,,admin
+4284,2114,workflow,2009-08-13 09:55:44.207976,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4285,2114,modified,2009-08-13 09:55:44.209584,"",,admin
+4286,2114,new-version,2009-08-13 09:55:46.452046,New version created upon workflow transition.,,admin
+4287,2114,workflow,2009-08-13 09:55:46.509299,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4288,2114,modified,2009-08-13 09:55:46.510913,"",,admin
+4289,2055,new-version,2009-08-13 09:55:48.948908,New version created upon submission to clerks office,,admin
+4290,2055,workflow,2009-08-13 09:55:49.01936,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4291,2055,modified,2009-08-13 09:55:49.020963,"",,admin
+4292,2154,new-version,2009-08-13 09:55:54.230612,New version created upon submission to clerks office,,admin
+4293,2154,workflow,2009-08-13 09:55:54.296635,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4294,2154,modified,2009-08-13 09:55:54.298255,"",,admin
+4295,2154,new-version,2009-08-13 09:55:57.336099,New version created upon workflow transition.,,admin
+4296,2154,workflow,2009-08-13 09:55:57.393252,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4297,2154,modified,2009-08-13 09:55:57.394912,"",,admin
+4298,2159,new-version,2009-08-13 09:55:59.679865,New version created upon submission to clerks office,,admin
+4299,2159,workflow,2009-08-13 09:55:59.749168,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4300,2159,modified,2009-08-13 09:55:59.750788,"",,admin
+4301,2159,new-version,2009-08-13 09:56:02.123368,New version created upon workflow transition.,,admin
+4302,2159,workflow,2009-08-13 09:56:02.183096,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4303,2159,modified,2009-08-13 09:56:02.184715,"",,admin
+4304,2059,new-version,2009-08-13 09:56:04.098365,New version created upon submission to clerks office,,admin
+4305,2059,workflow,2009-08-13 09:56:04.160581,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4306,2059,modified,2009-08-13 09:56:04.162179,"",,admin
+4307,2048,new-version,2009-08-13 09:56:08.577658,New version created upon submission to clerks office,,admin
+4308,2048,workflow,2009-08-13 09:56:08.645007,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4309,2048,modified,2009-08-13 09:56:08.646615,"",,admin
+4310,2048,new-version,2009-08-13 09:56:11.189394,New version created upon workflow transition.,,admin
+4311,2048,workflow,2009-08-13 09:56:11.249347,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4312,2048,modified,2009-08-13 09:56:11.250942,"",,admin
+4313,2093,new-version,2009-08-13 09:56:13.872675,New version created upon submission to clerks office,,admin
+4314,2093,workflow,2009-08-13 09:56:14.069222,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4315,2093,modified,2009-08-13 09:56:14.070835,"",,admin
+4316,2149,new-version,2009-08-13 10:00:51.770357,New version created upon submission to clerks office,,admin
+4317,2149,workflow,2009-08-13 10:00:51.836527,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4318,2149,modified,2009-08-13 10:00:51.838133,"",,admin
+4319,2035,new-version,2009-08-13 10:00:59.442914,New version created upon submission to clerks office,,admin
+4320,2035,workflow,2009-08-13 10:00:59.50873,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4321,2035,modified,2009-08-13 10:00:59.510334,"",,admin
+4322,2035,new-version,2009-08-13 10:01:03.524917,New version created upon workflow transition.,,admin
+4323,2035,workflow,2009-08-13 10:01:03.577273,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4324,2035,modified,2009-08-13 10:01:03.578864,"",,admin
+4325,2132,new-version,2009-08-13 10:01:09.143723,New version created upon submission to clerks office,,admin
+4326,2132,workflow,2009-08-13 10:01:09.209098,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4327,2132,modified,2009-08-13 10:01:09.21072,"",,admin
+4328,2132,modified,2009-08-13 10:01:23.250895,"",,admin
+4329,2132,workflow,2009-08-13 10:01:23.266699,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4330,2132,modified,2009-08-13 10:01:23.268309,"",,admin
+4331,2051,new-version,2009-08-13 10:01:34.365015,New version created upon submission to clerks office,,admin
+4332,2051,workflow,2009-08-13 10:01:34.424691,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4333,2051,modified,2009-08-13 10:01:34.426299,"",,admin
+4334,2051,modified,2009-08-13 10:01:40.427534,"",,admin
+4335,2051,workflow,2009-08-13 10:01:40.440691,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4336,2051,modified,2009-08-13 10:01:40.442287,"",,admin
+4337,2086,new-version,2009-08-13 10:01:43.171307,New version created upon submission to clerks office,,admin
+4338,2086,workflow,2009-08-13 10:01:43.237599,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4339,2086,modified,2009-08-13 10:01:43.23921,"",,admin
+4340,2086,new-version,2009-08-13 10:01:46.510136,New version created upon workflow transition.,,admin
+4341,2086,workflow,2009-08-13 10:01:46.565775,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4342,2086,modified,2009-08-13 10:01:46.567379,"",,admin
+4343,2061,new-version,2009-08-13 10:01:56.382137,New version created upon submission to clerks office,,admin
+4344,2061,workflow,2009-08-13 10:01:56.449248,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4345,2061,modified,2009-08-13 10:01:56.45085,"",,admin
+4346,2061,new-version,2009-08-13 10:01:59.828968,New version created upon workflow transition.,,admin
+4347,2061,workflow,2009-08-13 10:01:59.88137,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4348,2061,modified,2009-08-13 10:01:59.883014,"",,admin
+4349,2078,new-version,2009-08-13 10:02:03.957453,New version created upon submission to clerks office,,admin
+4350,2078,workflow,2009-08-13 10:02:04.021514,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4351,2078,modified,2009-08-13 10:02:04.023126,"",,admin
+4352,2078,modified,2009-08-13 10:02:08.724508,"",,admin
+4353,2078,workflow,2009-08-13 10:02:08.739616,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4354,2078,modified,2009-08-13 10:02:08.741221,"",,admin
+4355,2095,new-version,2009-08-13 10:02:11.515695,New version created upon submission to clerks office,,admin
+4356,2095,workflow,2009-08-13 10:02:11.584339,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4357,2095,modified,2009-08-13 10:02:11.585957,"",,admin
+4358,2095,new-version,2009-08-13 10:02:14.133368,New version created upon workflow transition.,,admin
+4359,2095,workflow,2009-08-13 10:02:14.223329,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4360,2095,modified,2009-08-13 10:02:14.228055,"",,admin
+4361,2058,new-version,2009-08-13 10:02:17.257224,New version created upon submission to clerks office,,admin
+4362,2058,workflow,2009-08-13 10:02:17.320642,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4363,2058,modified,2009-08-13 10:02:17.322238,"",,admin
+4364,2058,new-version,2009-08-13 10:02:20.000664,New version created upon workflow transition.,,admin
+4365,2058,workflow,2009-08-13 10:02:20.064754,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4366,2058,modified,2009-08-13 10:02:20.066482,"",,admin
+4367,2140,new-version,2009-08-13 10:02:22.3062,New version created upon submission to clerks office,,admin
+4368,2140,workflow,2009-08-13 10:02:22.377039,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4369,2140,modified,2009-08-13 10:02:22.378663,"",,admin
+4370,2140,modified,2009-08-13 10:02:27.334927,"",,admin
+4371,2140,workflow,2009-08-13 10:02:27.3514,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4372,2140,modified,2009-08-13 10:02:27.353107,"",,admin
+4373,2014,new-version,2009-08-13 10:02:44.611507,New version created upon submission to clerks office,,admin
+4374,2014,workflow,2009-08-13 10:02:44.678475,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4375,2014,modified,2009-08-13 10:02:44.680199,"",,admin
+4376,2014,modified,2009-08-13 10:02:49.993857,"",,admin
+4377,2014,workflow,2009-08-13 10:02:50.017034,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4378,2014,modified,2009-08-13 10:02:50.018624,"",,admin
+4379,2003,new-version,2009-08-13 10:02:52.428384,New version created upon submission to clerks office,,admin
+4380,2003,workflow,2009-08-13 10:02:52.492376,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4381,2003,modified,2009-08-13 10:02:52.493964,"",,admin
+4382,2003,new-version,2009-08-13 10:02:56.437992,New version created upon workflow transition.,,admin
+4383,2003,workflow,2009-08-13 10:02:56.490666,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4384,2003,modified,2009-08-13 10:02:56.492273,"",,admin
+4385,2136,new-version,2009-08-13 10:02:58.71107,New version created upon submission to clerks office,,admin
+4386,2136,workflow,2009-08-13 10:02:58.780314,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4387,2136,modified,2009-08-13 10:02:58.781928,"",,admin
+4388,2136,new-version,2009-08-13 10:03:01.328439,New version created upon workflow transition.,,admin
+4389,2136,workflow,2009-08-13 10:03:01.390563,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4390,2136,modified,2009-08-13 10:03:01.392183,"",,admin
+4391,2067,new-version,2009-08-13 10:03:03.702941,New version created upon submission to clerks office,,admin
+4392,2067,workflow,2009-08-13 10:03:03.768512,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4393,2067,modified,2009-08-13 10:03:03.770169,"",,admin
+4394,2067,modified,2009-08-13 10:03:17.532591,"",,admin
+4395,2067,workflow,2009-08-13 10:03:17.547359,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4396,2067,modified,2009-08-13 10:03:17.54896,"",,admin
+4409,2152,modified,2009-08-13 10:03:46.351337,"",,admin
+4410,2152,workflow,2009-08-13 10:03:46.366134,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4411,2152,modified,2009-08-13 10:03:46.367932,"",,admin
+4397,2152,new-version,2009-08-13 10:03:20.63243,New version created upon submission to clerks office,,admin
+4398,2152,workflow,2009-08-13 10:03:20.696454,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4399,2152,modified,2009-08-13 10:03:20.698061,"",,admin
+4406,2070,new-version,2009-08-13 10:03:35.99692,New version created upon submission to clerks office,,admin
+4407,2070,workflow,2009-08-13 10:03:36.069514,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4408,2070,modified,2009-08-13 10:03:36.071126,"",,admin
+4412,2094,modified,2009-08-13 10:03:48.366145,"",,admin
+4413,2094,workflow,2009-08-13 10:03:48.383498,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4414,2094,modified,2009-08-13 10:03:48.385093,"",,admin
+4418,2070,modified,2009-08-13 10:03:53.022774,"",,admin
+4419,2070,workflow,2009-08-13 10:03:53.040121,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4420,2070,modified,2009-08-13 10:03:53.041829,"",,admin
+4400,2094,new-version,2009-08-13 10:03:25.077371,New version created upon submission to clerks office,,admin
+4401,2094,workflow,2009-08-13 10:03:25.141738,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4402,2094,modified,2009-08-13 10:03:25.143346,"",,admin
+4415,2160,modified,2009-08-13 10:03:51.110002,"",,admin
+4416,2160,workflow,2009-08-13 10:03:51.128582,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4417,2160,modified,2009-08-13 10:03:51.130353,"",,admin
+4403,2160,new-version,2009-08-13 10:03:30.590535,New version created upon submission to clerks office,,admin
+4404,2160,workflow,2009-08-13 10:03:30.653327,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4405,2160,modified,2009-08-13 10:03:30.654951,"",,admin
+4421,2062,new-version,2009-08-13 10:04:03.219574,New version created upon submission to clerks office,,admin
+4422,2062,workflow,2009-08-13 10:04:03.281964,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4423,2062,modified,2009-08-13 10:04:03.28359,"",,admin
+4424,2062,new-version,2009-08-13 10:04:07.342637,New version created upon workflow transition.,,admin
+4425,2062,workflow,2009-08-13 10:04:07.401631,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4426,2062,modified,2009-08-13 10:04:07.403232,"",,admin
+4427,2012,new-version,2009-08-13 10:04:09.498849,New version created upon submission to clerks office,,admin
+4428,2012,workflow,2009-08-13 10:04:09.565673,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4429,2012,modified,2009-08-13 10:04:09.567286,"",,admin
+4430,2150,new-version,2009-08-13 10:04:14.90368,New version created upon submission to clerks office,,admin
+4431,2150,workflow,2009-08-13 10:04:14.974862,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4432,2150,modified,2009-08-13 10:04:14.976771,"",,admin
+4433,2073,new-version,2009-08-13 10:04:19.060295,New version created upon submission to clerks office,,admin
+4434,2073,workflow,2009-08-13 10:04:19.121432,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4435,2073,modified,2009-08-13 10:04:19.123049,"",,admin
+4436,2162,new-version,2009-08-13 10:04:23.783392,New version created upon submission to clerks office,,admin
+4437,2162,workflow,2009-08-13 10:04:23.848575,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4438,2162,modified,2009-08-13 10:04:23.850198,"",,admin
+4439,2162,new-version,2009-08-13 10:04:27.382927,New version created upon workflow transition.,,admin
+4440,2162,workflow,2009-08-13 10:04:27.433608,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4441,2162,modified,2009-08-13 10:04:27.435227,"",,admin
+4442,2153,new-version,2009-08-13 10:04:29.673267,New version created upon submission to clerks office,,admin
+4443,2153,workflow,2009-08-13 10:04:29.740781,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4444,2153,modified,2009-08-13 10:04:29.742398,"",,admin
+4445,2153,new-version,2009-08-13 10:04:32.486782,New version created upon workflow transition.,,admin
+4446,2153,workflow,2009-08-13 10:04:32.539027,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4447,2153,modified,2009-08-13 10:04:32.540679,"",,admin
+4448,2079,new-version,2009-08-13 10:04:34.755621,New version created upon submission to clerks office,,admin
+4449,2079,workflow,2009-08-13 10:04:34.817788,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4450,2079,modified,2009-08-13 10:04:34.81941,"",,admin
+4451,2079,new-version,2009-08-13 10:04:38.445936,New version created upon workflow transition.,,admin
+4452,2079,workflow,2009-08-13 10:04:38.501869,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4453,2079,modified,2009-08-13 10:04:38.503493,"",,admin
+4454,2102,new-version,2009-08-13 10:04:40.525595,New version created upon submission to clerks office,,admin
+4455,2102,workflow,2009-08-13 10:04:40.593422,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4456,2102,modified,2009-08-13 10:04:40.595027,"",,admin
+4457,2102,new-version,2009-08-13 10:04:43.287684,New version created upon workflow transition.,,admin
+4458,2102,workflow,2009-08-13 10:04:43.341786,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4459,2102,modified,2009-08-13 10:04:43.343391,"",,admin
+4460,2138,new-version,2009-08-13 10:04:45.219052,New version created upon submission to clerks office,,admin
+4461,2138,workflow,2009-08-13 10:04:45.284455,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4462,2138,modified,2009-08-13 10:04:45.286111,"",,admin
+4463,2150,modified,2009-08-13 10:04:55.253136,"",,admin
+4464,2150,workflow,2009-08-13 10:04:55.267722,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4465,2150,modified,2009-08-13 10:04:55.269437,"",,admin
+4466,2073,modified,2009-08-13 10:04:59.224823,"",,admin
+4467,2073,workflow,2009-08-13 10:04:59.238147,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4468,2073,modified,2009-08-13 10:04:59.239742,"",,admin
+4469,2138,modified,2009-08-13 10:05:13.119272,"",,admin
+4470,2138,workflow,2009-08-13 10:05:13.13578,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4471,2138,modified,2009-08-13 10:05:13.137533,"",,admin
+4472,2113,new-version,2009-08-13 10:05:19.32336,New version created upon submission to clerks office,,admin
+4473,2113,workflow,2009-08-13 10:05:19.384633,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4474,2113,modified,2009-08-13 10:05:19.386241,"",,admin
+4475,2066,new-version,2009-08-13 10:05:25.567664,New version created upon submission to clerks office,,admin
+4476,2066,workflow,2009-08-13 10:05:25.632673,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4477,2066,modified,2009-08-13 10:05:25.634276,"",,admin
+4478,2066,new-version,2009-08-13 10:05:29.616823,New version created upon workflow transition.,,admin
+4479,2066,workflow,2009-08-13 10:05:29.670041,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4480,2066,modified,2009-08-13 10:05:29.671654,"",,admin
+4481,2161,new-version,2009-08-13 10:05:31.945892,New version created upon submission to clerks office,,admin
+4482,2161,workflow,2009-08-13 10:05:32.021017,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4483,2161,modified,2009-08-13 10:05:32.022653,"",,admin
+4484,2161,new-version,2009-08-13 10:05:35.551675,New version created upon workflow transition.,,admin
+4485,2161,workflow,2009-08-13 10:05:35.601734,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4486,2161,modified,2009-08-13 10:05:35.603374,"",,admin
+4487,2129,new-version,2009-08-13 10:05:38.025543,New version created upon submission to clerks office,,admin
+4488,2129,workflow,2009-08-13 10:05:38.091949,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4489,2129,modified,2009-08-13 10:05:38.093677,"",,admin
+4490,2060,new-version,2009-08-13 10:05:42.452238,New version created upon submission to clerks office,,admin
+4491,2060,workflow,2009-08-13 10:05:42.515743,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4492,2060,modified,2009-08-13 10:05:42.517471,"",,admin
+4493,2080,new-version,2009-08-13 10:05:47.788541,New version created upon submission to clerks office,,admin
+4494,2080,workflow,2009-08-13 10:05:47.849464,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4495,2080,modified,2009-08-13 10:05:47.851145,"",,admin
+4502,2068,new-version,2009-08-13 10:05:56.663003,New version created upon workflow transition.,,admin
+4503,2068,workflow,2009-08-13 10:05:56.717857,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4504,2068,modified,2009-08-13 10:05:56.719461,"",,admin
+4496,2080,new-version,2009-08-13 10:05:51.263027,New version created upon workflow transition.,,admin
+4497,2080,workflow,2009-08-13 10:05:51.356037,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4498,2080,modified,2009-08-13 10:05:51.36097,"",,admin
+4511,2108,new-version,2009-08-13 10:06:07.026,New version created upon workflow transition.,,admin
+4512,2108,workflow,2009-08-13 10:06:07.087308,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4513,2108,modified,2009-08-13 10:06:07.088915,"",,admin
+4523,2052,modified,2009-08-13 10:06:30.071547,"",,admin
+4524,2052,workflow,2009-08-13 10:06:30.106539,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4525,2052,modified,2009-08-13 10:06:30.111448,"",,admin
+4499,2068,new-version,2009-08-13 10:05:54.145019,New version created upon submission to clerks office,,admin
+4500,2068,workflow,2009-08-13 10:05:54.212562,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4501,2068,modified,2009-08-13 10:05:54.214171,"",,admin
+4514,2113,modified,2009-08-13 10:06:12.379368,"",,admin
+4515,2113,workflow,2009-08-13 10:06:12.397117,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4516,2113,modified,2009-08-13 10:06:12.398877,"",,admin
+4520,2060,modified,2009-08-13 10:06:23.149154,"",,admin
+4521,2060,workflow,2009-08-13 10:06:23.163284,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4522,2060,modified,2009-08-13 10:06:23.164885,"",,admin
+4505,2052,new-version,2009-08-13 10:05:59.329143,New version created upon submission to clerks office,,admin
+4506,2052,workflow,2009-08-13 10:05:59.405873,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4507,2052,modified,2009-08-13 10:05:59.407499,"",,admin
+4517,2129,modified,2009-08-13 10:06:19.731726,"",,admin
+4518,2129,workflow,2009-08-13 10:06:19.747197,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4519,2129,modified,2009-08-13 10:06:19.748811,"",,admin
+4508,2108,new-version,2009-08-13 10:06:04.50764,New version created upon submission to clerks office,,admin
+4509,2108,workflow,2009-08-13 10:06:04.570036,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4510,2108,modified,2009-08-13 10:06:04.571656,"",,admin
+4526,2142,new-version,2009-08-13 10:07:12.922143,New version created upon submission to clerks office,,admin
+4527,2142,workflow,2009-08-13 10:07:12.980679,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4528,2142,modified,2009-08-13 10:07:12.982294,"",,admin
+4529,2142,new-version,2009-08-13 10:07:15.893006,New version created upon workflow transition.,,admin
+4530,2142,workflow,2009-08-13 10:07:15.942942,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4531,2142,modified,2009-08-13 10:07:15.944555,"",,admin
+4532,2104,new-version,2009-08-13 10:07:18.226247,New version created upon submission to clerks office,,admin
+4533,2104,workflow,2009-08-13 10:07:18.297614,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4534,2104,modified,2009-08-13 10:07:18.299245,"",,admin
+4535,2082,new-version,2009-08-13 10:07:23.468294,New version created upon submission to clerks office,,admin
+4536,2082,workflow,2009-08-13 10:07:23.528812,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4537,2082,modified,2009-08-13 10:07:23.530421,"",,admin
+4538,2082,new-version,2009-08-13 10:07:25.906891,New version created upon workflow transition.,,admin
+4539,2082,workflow,2009-08-13 10:07:25.965914,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4540,2082,modified,2009-08-13 10:07:25.967525,"",,admin
+4541,2128,new-version,2009-08-13 10:07:27.830117,New version created upon submission to clerks office,,admin
+4542,2128,workflow,2009-08-13 10:07:27.898219,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4543,2128,modified,2009-08-13 10:07:27.899856,"",,admin
+4544,2081,new-version,2009-08-13 10:07:33.648794,New version created upon submission to clerks office,,admin
+4545,2081,workflow,2009-08-13 10:07:33.712884,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4546,2081,modified,2009-08-13 10:07:33.714469,"",,admin
+4547,2081,new-version,2009-08-13 10:07:36.24298,New version created upon workflow transition.,,admin
+4548,2081,workflow,2009-08-13 10:07:36.297909,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4549,2081,modified,2009-08-13 10:07:36.29956,"",,admin
+4550,2064,new-version,2009-08-13 10:07:38.098704,New version created upon submission to clerks office,,admin
+4551,2064,workflow,2009-08-13 10:07:38.160773,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4552,2064,modified,2009-08-13 10:07:38.162372,"",,admin
+4553,2065,new-version,2009-08-13 10:07:42.986608,New version created upon submission to clerks office,,admin
+4554,2065,workflow,2009-08-13 10:07:43.053386,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4555,2065,modified,2009-08-13 10:07:43.055,"",,admin
+4556,2065,new-version,2009-08-13 10:07:45.53526,New version created upon workflow transition.,,admin
+4557,2065,workflow,2009-08-13 10:07:45.614402,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4558,2065,modified,2009-08-13 10:07:45.616312,"",,admin
+4559,2085,new-version,2009-08-13 10:07:47.54361,New version created upon submission to clerks office,,admin
+4560,2085,workflow,2009-08-13 10:07:47.605617,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4561,2085,modified,2009-08-13 10:07:47.607228,"",,admin
+4562,2085,new-version,2009-08-13 10:07:50.875746,New version created upon workflow transition.,,admin
+4563,2085,workflow,2009-08-13 10:07:50.935569,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4564,2085,modified,2009-08-13 10:07:50.937272,"",,admin
+4565,2155,new-version,2009-08-13 10:07:53.308704,New version created upon submission to clerks office,,admin
+4566,2155,workflow,2009-08-13 10:07:53.38017,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4567,2155,modified,2009-08-13 10:07:53.381863,"",,admin
+4568,2155,new-version,2009-08-13 10:07:56.684703,New version created upon workflow transition.,,admin
+4569,2155,workflow,2009-08-13 10:07:56.778384,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4570,2155,modified,2009-08-13 10:07:56.782772,"",,admin
+4571,2111,new-version,2009-08-13 10:08:00.164269,New version created upon submission to clerks office,,admin
+4572,2111,workflow,2009-08-13 10:08:00.229826,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4573,2111,modified,2009-08-13 10:08:00.231429,"",,admin
+4574,2002,new-version,2009-08-13 10:08:04.994106,New version created upon submission to clerks office,,admin
+4575,2002,workflow,2009-08-13 10:08:05.061191,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4576,2002,modified,2009-08-13 10:08:05.062799,"",,admin
+4577,2002,new-version,2009-08-13 10:08:08.677589,New version created upon workflow transition.,,admin
+4578,2002,workflow,2009-08-13 10:08:08.734143,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4579,2002,modified,2009-08-13 10:08:08.735828,"",,admin
+4580,2019,new-version,2009-08-13 10:08:11.288945,New version created upon submission to clerks office,,admin
+4581,2019,workflow,2009-08-13 10:08:11.354658,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4582,2019,modified,2009-08-13 10:08:11.356376,"",,admin
+4583,2127,new-version,2009-08-13 10:08:16.380987,New version created upon submission to clerks office,,admin
+4584,2127,workflow,2009-08-13 10:08:16.455128,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4585,2127,modified,2009-08-13 10:08:16.456849,"",,admin
+4586,2127,new-version,2009-08-13 10:08:19.020293,New version created upon workflow transition.,,admin
+4587,2127,workflow,2009-08-13 10:08:19.07512,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4588,2127,modified,2009-08-13 10:08:19.07676,"",,admin
+4589,2137,new-version,2009-08-13 10:08:21.371137,New version created upon submission to clerks office,,admin
+4590,2137,workflow,2009-08-13 10:08:21.438094,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4591,2137,modified,2009-08-13 10:08:21.439745,"",,admin
+4592,2137,new-version,2009-08-13 10:08:24.037601,New version created upon workflow transition.,,admin
+4593,2137,workflow,2009-08-13 10:08:24.091458,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4594,2137,modified,2009-08-13 10:08:24.093078,"",,admin
+4595,2042,new-version,2009-08-13 10:08:26.257144,New version created upon submission to clerks office,,admin
+4596,2042,workflow,2009-08-13 10:08:26.320881,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4597,2042,modified,2009-08-13 10:08:26.322486,"",,admin
+4598,2042,new-version,2009-08-13 10:08:28.914751,New version created upon workflow transition.,,admin
+4599,2042,workflow,2009-08-13 10:08:28.974141,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4600,2042,modified,2009-08-13 10:08:28.975765,"",,admin
+4613,2117,new-version,2009-08-13 10:08:51.15487,New version created upon submission to clerks office,,admin
+4614,2117,workflow,2009-08-13 10:08:51.218507,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4615,2117,modified,2009-08-13 10:08:51.220128,"",,admin
+4616,2117,new-version,2009-08-13 10:08:53.628446,New version created upon workflow transition.,,admin
+4617,2117,workflow,2009-08-13 10:08:53.682279,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4618,2117,modified,2009-08-13 10:08:53.68389,"",,admin
+4625,2071,new-version,2009-08-13 10:09:00.907057,New version created upon submission to clerks office,,admin
+4626,2071,workflow,2009-08-13 10:09:00.979816,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4627,2071,modified,2009-08-13 10:09:00.98143,"",,admin
+4631,2023,new-version,2009-08-13 10:09:07.202442,New version created upon submission to clerks office,,admin
+4632,2023,workflow,2009-08-13 10:09:07.26594,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4633,2023,modified,2009-08-13 10:09:07.267552,"",,admin
+4634,2145,new-version,2009-08-13 10:09:12.257875,New version created upon submission to clerks office,,admin
+4635,2145,workflow,2009-08-13 10:09:12.321263,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4636,2145,modified,2009-08-13 10:09:12.322886,"",,admin
+4643,2124,new-version,2009-08-13 10:09:25.588021,New version created upon workflow transition.,,admin
+4644,2124,workflow,2009-08-13 10:09:25.646402,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4645,2124,modified,2009-08-13 10:09:25.64801,"",,admin
+4652,2032,new-version,2009-08-13 10:09:32.659501,New version created upon submission to clerks office,,admin
+4667,2089,new-version,2009-08-13 10:09:48.877343,New version created upon submission to clerks office,,admin
+4668,2089,workflow,2009-08-13 10:09:48.946122,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4669,2089,modified,2009-08-13 10:09:48.94774,"",,admin
+4601,2158,new-version,2009-08-13 10:08:31.927032,New version created upon submission to clerks office,,admin
+4602,2158,workflow,2009-08-13 10:08:31.989892,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4603,2158,modified,2009-08-13 10:08:31.99152,"",,admin
+4607,2144,new-version,2009-08-13 10:08:39.214084,New version created upon submission to clerks office,,admin
+4608,2144,workflow,2009-08-13 10:08:39.277915,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4609,2144,modified,2009-08-13 10:08:39.279545,"",,admin
+4610,2005,new-version,2009-08-13 10:08:44.987759,New version created upon submission to clerks office,,admin
+4611,2005,workflow,2009-08-13 10:08:45.053845,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4612,2005,modified,2009-08-13 10:08:45.055495,"",,admin
+4604,2158,new-version,2009-08-13 10:08:34.404845,New version created upon workflow transition.,,admin
+4605,2158,workflow,2009-08-13 10:08:34.458355,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4606,2158,modified,2009-08-13 10:08:34.459985,"",,admin
+4619,2076,new-version,2009-08-13 10:08:55.929813,New version created upon submission to clerks office,,admin
+4620,2076,workflow,2009-08-13 10:08:56.001863,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4621,2076,modified,2009-08-13 10:08:56.009212,"",,admin
+4622,2076,new-version,2009-08-13 10:08:58.281826,New version created upon workflow transition.,,admin
+4623,2076,workflow,2009-08-13 10:08:58.342299,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4624,2076,modified,2009-08-13 10:08:58.343907,"",,admin
+4628,2071,new-version,2009-08-13 10:09:03.776995,New version created upon workflow transition.,,admin
+4629,2071,workflow,2009-08-13 10:09:03.830254,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4630,2071,modified,2009-08-13 10:09:03.831897,"",,admin
+4637,2069,new-version,2009-08-13 10:09:18.404917,New version created upon submission to clerks office,,admin
+4638,2069,workflow,2009-08-13 10:09:18.470227,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4639,2069,modified,2009-08-13 10:09:18.471847,"",,admin
+4640,2124,new-version,2009-08-13 10:09:23.161383,New version created upon submission to clerks office,,admin
+4641,2124,workflow,2009-08-13 10:09:23.228924,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4642,2124,modified,2009-08-13 10:09:23.230543,"",,admin
+4646,2046,new-version,2009-08-13 10:09:28.319353,New version created upon submission to clerks office,,admin
+4647,2046,workflow,2009-08-13 10:09:28.388832,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4648,2046,modified,2009-08-13 10:09:28.390432,"",,admin
+4649,2046,new-version,2009-08-13 10:09:30.722232,New version created upon workflow transition.,,admin
+4650,2046,workflow,2009-08-13 10:09:30.778259,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4651,2046,modified,2009-08-13 10:09:30.779892,"",,admin
+4653,2032,workflow,2009-08-13 10:09:32.731021,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4654,2032,modified,2009-08-13 10:09:32.732734,"",,admin
+4655,2032,new-version,2009-08-13 10:09:35.133041,New version created upon workflow transition.,,admin
+4656,2032,workflow,2009-08-13 10:09:35.187327,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4657,2032,modified,2009-08-13 10:09:35.18893,"",,admin
+4658,2025,new-version,2009-08-13 10:09:37.246956,New version created upon submission to clerks office,,admin
+4659,2025,workflow,2009-08-13 10:09:37.318526,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4660,2025,modified,2009-08-13 10:09:37.320134,"",,admin
+4661,2025,new-version,2009-08-13 10:09:41.113194,New version created upon workflow transition.,,admin
+4662,2025,workflow,2009-08-13 10:09:41.167423,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4663,2025,modified,2009-08-13 10:09:41.169024,"",,admin
+4664,2122,new-version,2009-08-13 10:09:43.329696,New version created upon submission to clerks office,,admin
+4665,2122,workflow,2009-08-13 10:09:43.398556,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4666,2122,modified,2009-08-13 10:09:43.400224,"",,admin
+4670,2089,new-version,2009-08-13 10:09:52.918399,New version created upon workflow transition.,,admin
+4671,2089,workflow,2009-08-13 10:09:52.971467,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4672,2089,modified,2009-08-13 10:09:52.973078,"",,admin
+4673,2036,new-version,2009-08-13 10:09:54.853113,New version created upon submission to clerks office,,admin
+4674,2036,workflow,2009-08-13 10:09:54.92158,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4675,2036,modified,2009-08-13 10:09:54.923176,"",,admin
+4676,2072,new-version,2009-08-13 10:09:59.397986,New version created upon submission to clerks office,,admin
+4677,2072,workflow,2009-08-13 10:09:59.462519,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4678,2072,modified,2009-08-13 10:09:59.464132,"",,admin
+4679,2072,new-version,2009-08-13 10:10:01.739103,New version created upon workflow transition.,,admin
+4680,2072,workflow,2009-08-13 10:10:01.798502,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4681,2072,modified,2009-08-13 10:10:01.800169,"",,admin
+4682,2116,new-version,2009-08-13 10:10:04.299063,New version created upon submission to clerks office,,admin
+4683,2116,workflow,2009-08-13 10:10:04.365963,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4684,2116,modified,2009-08-13 10:10:04.367578,"",,admin
+4685,2109,new-version,2009-08-13 10:10:09.959032,New version created upon submission to clerks office,,admin
+4686,2109,workflow,2009-08-13 10:10:10.033527,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4687,2109,modified,2009-08-13 10:10:10.035148,"",,admin
+4688,2109,new-version,2009-08-13 10:10:13.618654,New version created upon workflow transition.,,admin
+4689,2109,workflow,2009-08-13 10:10:13.671525,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4690,2109,modified,2009-08-13 10:10:13.673133,"",,admin
+4691,2156,new-version,2009-08-13 10:10:15.611085,New version created upon submission to clerks office,,admin
+4692,2156,workflow,2009-08-13 10:10:15.674118,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4693,2156,modified,2009-08-13 10:10:15.675779,"",,admin
+4694,2130,new-version,2009-08-13 10:10:20.419387,New version created upon submission to clerks office,,admin
+4695,2130,workflow,2009-08-13 10:10:20.48684,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4696,2130,modified,2009-08-13 10:10:20.488552,"",,admin
+4697,2045,new-version,2009-08-13 10:10:25.682724,New version created upon submission to clerks office,,admin
+4698,2045,workflow,2009-08-13 10:10:25.753282,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4699,2045,modified,2009-08-13 10:10:25.75489,"",,admin
+4700,2045,new-version,2009-08-13 10:10:28.568685,New version created upon workflow transition.,,admin
+4701,2045,workflow,2009-08-13 10:10:28.626863,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4702,2045,modified,2009-08-13 10:10:28.628463,"",,admin
+4703,2163,new-version,2009-08-13 10:10:30.86316,New version created upon submission to clerks office,,admin
+4704,2163,workflow,2009-08-13 10:10:30.93038,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4705,2163,modified,2009-08-13 10:10:30.932015,"",,admin
+4706,2163,new-version,2009-08-13 10:10:34.500372,New version created upon workflow transition.,,admin
+4707,2163,workflow,2009-08-13 10:10:34.554802,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4708,2163,modified,2009-08-13 10:10:34.556525,"",,admin
+4712,2123,new-version,2009-08-13 10:10:40.868792,New version created upon submission to clerks office,,admin
+4713,2123,workflow,2009-08-13 10:10:40.937396,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4714,2123,modified,2009-08-13 10:10:40.939026,"",,admin
+4718,2075,new-version,2009-08-13 10:10:45.99679,New version created upon submission to clerks office,,admin
+4719,2075,workflow,2009-08-13 10:10:46.06973,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4720,2075,modified,2009-08-13 10:10:46.073142,"",,admin
+4721,2075,new-version,2009-08-13 10:10:48.507363,New version created upon workflow transition.,,admin
+4722,2075,workflow,2009-08-13 10:10:48.563627,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4723,2075,modified,2009-08-13 10:10:48.565232,"",,admin
+4709,2097,new-version,2009-08-13 10:10:35.970696,New version created upon submission to clerks office,,admin
+4710,2097,workflow,2009-08-13 10:10:36.033258,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4711,2097,modified,2009-08-13 10:10:36.034877,"",,admin
+4727,2103,new-version,2009-08-13 10:10:56.259789,New version created upon submission to clerks office,,admin
+4728,2103,workflow,2009-08-13 10:10:56.329712,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4729,2103,modified,2009-08-13 10:10:56.331326,"",,admin
+4736,2043,new-version,2009-08-13 10:11:06.588083,New version created upon submission to clerks office,,admin
+4737,2043,workflow,2009-08-13 10:11:06.653833,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4738,2043,modified,2009-08-13 10:11:06.655433,"",,admin
+4760,2157,new-version,2009-08-13 10:11:50.155117,New version created upon submission to clerks office,,admin
+4761,2157,workflow,2009-08-13 10:11:50.226626,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4762,2157,modified,2009-08-13 10:11:50.228256,"",,admin
+4766,2119,new-version,2009-08-13 10:11:55.911855,New version created upon submission to clerks office,,admin
+4767,2119,workflow,2009-08-13 10:11:55.97424,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4768,2119,modified,2009-08-13 10:11:55.975853,"",,admin
+4772,2084,new-version,2009-08-13 10:12:03.553795,New version created upon submission to clerks office,,admin
+4773,2084,workflow,2009-08-13 10:12:03.618324,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4774,2084,modified,2009-08-13 10:12:03.619932,"",,admin
+4775,2125,new-version,2009-08-13 10:12:08.932273,New version created upon submission to clerks office,,admin
+4776,2125,workflow,2009-08-13 10:12:08.998707,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4777,2125,modified,2009-08-13 10:12:09.000324,"",,admin
+4784,2041,new-version,2009-08-13 10:12:15.767666,New version created upon workflow transition.,,admin
+4790,2028,new-version,2009-08-13 10:12:22.705585,New version created upon submission to clerks office,,admin
+4791,2028,workflow,2009-08-13 10:12:22.774147,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4792,2028,modified,2009-08-13 10:12:22.775753,"",,admin
+4805,2091,new-version,2009-08-13 10:12:42.23568,New version created upon workflow transition.,,admin
+4806,2091,workflow,2009-08-13 10:12:42.290996,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4807,2091,modified,2009-08-13 10:12:42.292618,"",,admin
+4715,2123,new-version,2009-08-13 10:10:43.236647,New version created upon workflow transition.,,admin
+4716,2123,workflow,2009-08-13 10:10:43.290659,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4717,2123,modified,2009-08-13 10:10:43.292269,"",,admin
+4724,2096,new-version,2009-08-13 10:10:50.898583,New version created upon submission to clerks office,,admin
+4725,2096,workflow,2009-08-13 10:10:50.962285,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4726,2096,modified,2009-08-13 10:10:50.963901,"",,admin
+4730,2103,new-version,2009-08-13 10:10:59.270547,New version created upon workflow transition.,,admin
+4731,2103,workflow,2009-08-13 10:10:59.331235,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4732,2103,modified,2009-08-13 10:10:59.332841,"",,admin
+4742,2083,new-version,2009-08-13 10:11:12.304956,New version created upon submission to clerks office,,admin
+4743,2083,workflow,2009-08-13 10:11:12.378963,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4744,2083,modified,2009-08-13 10:11:12.380583,"",,admin
+4769,2119,new-version,2009-08-13 10:12:01.600257,New version created upon workflow transition.,,admin
+4770,2119,workflow,2009-08-13 10:12:01.658788,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4771,2119,modified,2009-08-13 10:12:01.660404,"",,admin
+4778,2125,new-version,2009-08-13 10:12:11.348213,New version created upon workflow transition.,,admin
+4779,2125,workflow,2009-08-13 10:12:11.407611,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4780,2125,modified,2009-08-13 10:12:11.409226,"",,admin
+4781,2041,new-version,2009-08-13 10:12:13.233631,New version created upon submission to clerks office,,admin
+4782,2041,workflow,2009-08-13 10:12:13.298545,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4783,2041,modified,2009-08-13 10:12:13.300158,"",,admin
+4786,2041,modified,2009-08-13 10:12:15.830762,"",,admin
+4733,2100,new-version,2009-08-13 10:11:01.395553,New version created upon submission to clerks office,,admin
+4734,2100,workflow,2009-08-13 10:11:01.458673,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4735,2100,modified,2009-08-13 10:11:01.460298,"",,admin
+4739,2043,new-version,2009-08-13 10:11:09.000678,New version created upon workflow transition.,,admin
+4740,2043,workflow,2009-08-13 10:11:09.059608,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4741,2043,modified,2009-08-13 10:11:09.061224,"",,admin
+4745,2083,new-version,2009-08-13 10:11:17.977574,New version created upon workflow transition.,,admin
+4746,2083,workflow,2009-08-13 10:11:18.051594,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4747,2083,modified,2009-08-13 10:11:18.053211,"",,admin
+4748,2087,new-version,2009-08-13 10:11:25.297729,New version created upon submission to clerks office,,admin
+4749,2087,workflow,2009-08-13 10:11:25.365826,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4750,2087,modified,2009-08-13 10:11:25.36743,"",,admin
+4751,2027,new-version,2009-08-13 10:11:34.468143,New version created upon submission to clerks office,,admin
+4752,2027,workflow,2009-08-13 10:11:34.534252,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4753,2027,modified,2009-08-13 10:11:34.535887,"",,admin
+4754,2027,new-version,2009-08-13 10:11:39.913032,New version created upon workflow transition.,,admin
+4755,2027,workflow,2009-08-13 10:11:39.970592,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4756,2027,modified,2009-08-13 10:11:39.972242,"",,admin
+4757,2074,new-version,2009-08-13 10:11:43.511123,New version created upon submission to clerks office,,admin
+4758,2074,workflow,2009-08-13 10:11:43.581615,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4759,2074,modified,2009-08-13 10:11:43.583224,"",,admin
+4763,2157,new-version,2009-08-13 10:11:53.778873,New version created upon workflow transition.,,admin
+4764,2157,workflow,2009-08-13 10:11:53.838834,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4765,2157,modified,2009-08-13 10:11:53.840456,"",,admin
+4785,2041,workflow,2009-08-13 10:12:15.829038,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4787,2120,new-version,2009-08-13 10:12:18.313978,New version created upon submission to clerks office,,admin
+4788,2120,workflow,2009-08-13 10:12:18.377251,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4789,2120,modified,2009-08-13 10:12:18.378869,"",,admin
+4793,2044,new-version,2009-08-13 10:12:27.347217,New version created upon submission to clerks office,,admin
+4794,2044,workflow,2009-08-13 10:12:27.4134,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4795,2044,modified,2009-08-13 10:12:27.415021,"",,admin
+4796,2044,new-version,2009-08-13 10:12:30.514068,New version created upon workflow transition.,,admin
+4797,2044,workflow,2009-08-13 10:12:30.567852,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4798,2044,modified,2009-08-13 10:12:30.569462,"",,admin
+4799,2034,new-version,2009-08-13 10:12:33.152089,New version created upon submission to clerks office,,admin
+4800,2034,workflow,2009-08-13 10:12:33.213988,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4801,2034,modified,2009-08-13 10:12:33.215653,"",,admin
+4802,2091,new-version,2009-08-13 10:12:39.550795,New version created upon submission to clerks office,,admin
+4803,2091,workflow,2009-08-13 10:12:39.64459,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4804,2091,modified,2009-08-13 10:12:39.651456,"",,admin
+4808,2006,new-version,2009-08-13 10:12:44.590413,New version created upon submission to clerks office,,admin
+4809,2006,workflow,2009-08-13 10:12:44.658596,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4810,2006,modified,2009-08-13 10:12:44.660215,"",,admin
+4811,2006,new-version,2009-08-13 10:12:46.967353,New version created upon workflow transition.,,admin
+4812,2006,workflow,2009-08-13 10:12:47.023956,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4813,2006,modified,2009-08-13 10:12:47.025552,"",,admin
+4814,2056,new-version,2009-08-13 10:12:52.023087,New version created upon submission to clerks office,,admin
+4815,2056,workflow,2009-08-13 10:12:52.235667,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4816,2056,modified,2009-08-13 10:12:52.239109,"",,admin
+4817,2056,new-version,2009-08-13 10:12:55.039634,New version created upon workflow transition.,,admin
+4818,2056,workflow,2009-08-13 10:12:55.095962,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4819,2056,modified,2009-08-13 10:12:55.097611,"",,admin
+4820,2126,new-version,2009-08-13 10:12:57.572641,New version created upon submission to clerks office,,admin
+4821,2126,workflow,2009-08-13 10:12:57.637427,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4822,2126,modified,2009-08-13 10:12:57.639048,"",,admin
+4823,2126,new-version,2009-08-13 10:13:01.249593,New version created upon workflow transition.,,admin
+4824,2126,workflow,2009-08-13 10:13:01.308237,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4825,2126,modified,2009-08-13 10:13:01.30985,"",,admin
+4826,2121,new-version,2009-08-13 10:13:07.39781,New version created upon submission to clerks office,,admin
+4827,2121,workflow,2009-08-13 10:13:07.463047,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4828,2121,modified,2009-08-13 10:13:07.464669,"",,admin
+4829,2106,new-version,2009-08-13 10:13:14.819307,New version created upon submission to clerks office,,admin
+4830,2106,workflow,2009-08-13 10:13:14.88544,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,admin
+4831,2106,modified,2009-08-13 10:13:14.88706,"",,admin
+4832,2106,new-version,2009-08-13 10:13:17.400426,New version created upon workflow transition.,,admin
+4833,2106,workflow,2009-08-13 10:13:17.451896,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,admin
+4834,2106,modified,2009-08-13 10:13:17.453505,"",,admin
+4835,2104,modified,2009-08-13 10:13:55.747277,"",,admin
+4836,2104,workflow,2009-08-13 10:13:55.770482,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4837,2104,modified,2009-08-13 10:13:55.772113,"",,admin
+4838,2128,modified,2009-08-13 10:14:38.561858,"",,admin
+4839,2128,workflow,2009-08-13 10:14:38.582772,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4840,2128,modified,2009-08-13 10:14:38.584397,"",,admin
+4841,2064,modified,2009-08-13 10:14:40.920828,"",,admin
+4842,2064,workflow,2009-08-13 10:14:40.934093,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4843,2064,modified,2009-08-13 10:14:40.935747,"",,admin
+4844,2111,modified,2009-08-13 10:14:42.943045,"",,admin
+4845,2111,workflow,2009-08-13 10:14:42.958342,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4846,2111,modified,2009-08-13 10:14:42.9601,"",,admin
+4847,2019,modified,2009-08-13 10:14:45.049657,"",,admin
+4848,2019,workflow,2009-08-13 10:14:45.066446,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4849,2019,modified,2009-08-13 10:14:45.06805,"",,admin
+4850,2144,modified,2009-08-13 10:14:47.025834,"",,admin
+4851,2144,workflow,2009-08-13 10:14:47.040942,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4852,2144,modified,2009-08-13 10:14:47.042668,"",,admin
+4853,2005,modified,2009-08-13 10:14:49.293924,"",,admin
+4854,2005,workflow,2009-08-13 10:14:49.308217,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4855,2005,modified,2009-08-13 10:14:49.309816,"",,admin
+4856,2023,modified,2009-08-13 10:14:55.634695,"",,admin
+4857,2023,workflow,2009-08-13 10:14:55.650215,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4858,2023,modified,2009-08-13 10:14:55.651809,"",,admin
+4859,2145,modified,2009-08-13 10:14:58.159566,"",,admin
+4860,2145,workflow,2009-08-13 10:14:58.175986,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4861,2145,modified,2009-08-13 10:14:58.17761,"",,admin
+4865,2122,modified,2009-08-13 10:15:20.150348,"",,admin
+4866,2122,workflow,2009-08-13 10:15:20.214998,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4867,2122,modified,2009-08-13 10:15:20.231888,"",,admin
+4868,2036,modified,2009-08-13 10:15:27.839729,"",,admin
+4869,2036,workflow,2009-08-13 10:15:27.856343,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4870,2036,modified,2009-08-13 10:15:27.857939,"",,admin
+4874,2156,modified,2009-08-13 10:15:42.744392,"",,admin
+4875,2156,workflow,2009-08-13 10:15:42.757509,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4876,2156,modified,2009-08-13 10:15:42.759125,"",,admin
+4877,2130,modified,2009-08-13 10:15:44.778493,"",,admin
+4878,2130,workflow,2009-08-13 10:15:44.793063,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4879,2130,modified,2009-08-13 10:15:44.794785,"",,admin
+4880,2097,modified,2009-08-13 10:15:50.061579,"",,admin
+4881,2097,workflow,2009-08-13 10:15:50.079766,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4882,2097,modified,2009-08-13 10:15:50.081473,"",,admin
+4883,2096,modified,2009-08-13 10:15:55.716329,"",,admin
+4884,2096,workflow,2009-08-13 10:15:55.730534,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4885,2096,modified,2009-08-13 10:15:55.732152,"",,admin
+4886,2100,modified,2009-08-13 10:16:00.306068,"",,admin
+4887,2100,workflow,2009-08-13 10:16:00.326115,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4888,2100,modified,2009-08-13 10:16:00.327878,"",,admin
+4889,2087,modified,2009-08-13 10:16:06.61904,"",,admin
+4890,2087,workflow,2009-08-13 10:16:06.635867,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4891,2087,modified,2009-08-13 10:16:06.637584,"",,admin
+4892,2074,modified,2009-08-13 10:16:11.174449,"",,admin
+4893,2074,workflow,2009-08-13 10:16:11.196782,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4894,2074,modified,2009-08-13 10:16:11.198502,"",,admin
+4895,2084,modified,2009-08-13 10:16:17.351707,"",,admin
+4896,2084,workflow,2009-08-13 10:16:17.367959,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4897,2084,modified,2009-08-13 10:16:17.369718,"",,admin
+4898,2120,modified,2009-08-13 10:16:24.031178,"",,admin
+4899,2120,workflow,2009-08-13 10:16:24.044423,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4900,2120,modified,2009-08-13 10:16:24.046027,"",,admin
+4901,2028,modified,2009-08-13 10:16:26.70917,"",,admin
+4902,2028,workflow,2009-08-13 10:16:26.730396,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4903,2028,modified,2009-08-13 10:16:26.732264,"",,admin
+4904,2034,modified,2009-08-13 10:16:31.791026,"",,admin
+4905,2034,workflow,2009-08-13 10:16:31.807197,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4906,2034,modified,2009-08-13 10:16:31.808801,"",,admin
+4907,2121,modified,2009-08-13 10:16:42.248583,"",,admin
+4908,2121,workflow,2009-08-13 10:16:42.2627,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4909,2121,modified,2009-08-13 10:16:42.264388,"",,admin
+4862,2069,modified,2009-08-13 10:15:01.477628,"",,admin
+4863,2069,workflow,2009-08-13 10:15:01.494396,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4864,2069,modified,2009-08-13 10:15:01.496012,"",,admin
+4871,2116,modified,2009-08-13 10:15:37.971312,"",,admin
+4872,2116,workflow,2009-08-13 10:15:37.985988,Withdraw :  [ transition from Question submitted to clerk to Question withdrawn ],,admin
+4873,2116,modified,2009-08-13 10:15:37.987596,"",,admin

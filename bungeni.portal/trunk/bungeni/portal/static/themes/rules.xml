@@ -8,15 +8,17 @@
   <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
          class="workspace-committee" />
   
-    <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
+  <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
   <match path="/archive/"  class="load-archive-navigation" />
-  <match path="regex:^/(business|members|archive|calendar)/?"
+  <match path="regex:^/(business|members|archive)/?"
          class="bungeni" />
+                                                                   
+  <match path="/calendar/"  class="load-calendar-navigation" />  
   <match path="/"
-         class="primary" />  
+         class="primary" />
   
   <rule class="workspace-committee">
     <!-- content -->
@@ -79,6 +81,26 @@
     <prepend content="children:#portal-column-content"
              theme="children:#portal-column-content" />    
    </rule>
+
+  <rule class="load-calendar-navigation">
+    <append href="/plone/"
+            content="#portal-globalnav > li:not(:first-child)"
+            theme="children:#portal-globalnav > ul" />
+    <replace href="/bungeni/calendar"
+            content="ul#portal-personaltools li.navigation"
+            theme="children:#portal-globalnav ul.level1" />    
+    <drop content="#portal-globalnav"/>
+    <replace href="/bungeni/"
+             content=".contentActions"
+             theme="children:.main-content"/>
+    <pyquery pyref="bungeni.portal/static/themes/workspace:rules"
+             pyarg-workspace_id=".contentActions"/>    
+    <replace content="#portal-column-one"
+             theme="#portal-column-one"/>    
+    <replace content="#portal-column-content"
+            theme="#portal-column-content" />  
+   </rule>
+  
   
 
   <rule class="frontpage">
@@ -93,9 +115,9 @@
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
     <drop content="#portal-globalnav > li:first-child"/>
-    <prepend content=".contentActions"
-             theme="children:.main-content"
-             if-content="#user-name"/>            
+    <prepend href="/bungeni"
+             content=".contentActions"
+             theme="children:.main-content"/>            
     <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <append href="/bungeni"
             content="ul#portal-personaltools li.navigation"
@@ -144,8 +166,6 @@
     <drop content="#portal-globalnav > li:first-child"/>
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
-    <append content="#portal-personaltools .navigation"
-            theme="children:#portal-personaltools" />
     <append href="/plone"
             content="children:#portal-personaltools :not(.navigation)"
             theme="children:#portal-personaltools" />            

@@ -234,6 +234,23 @@
     ui_module="bungeni.ui.content" 
     echo="False"   
     />
+
+  <db:catalyst
+     class="bungeni.models.domain.TabledDocumentVersion"
+     descriptor=".descriptor.TabledDocumentVersionDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />
+  <db:catalyst
+     class="bungeni.models.domain.TabledDocumentChange"
+     descriptor=".descriptor.TabledDocumentChangeDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />     
+     
+
     
   <!--db:catalyst
     class="bungeni.models.domain.DocumentSource"
@@ -429,6 +446,22 @@
      ui_module="bungeni.ui.content"
      echo="False"
     />       
+
+  <db:catalyst
+     class="bungeni.models.domain.AgendaItemVersion"
+     descriptor=".descriptor.AgendaItemVersionDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />
+  <db:catalyst
+     class="bungeni.models.domain.AgendaItemChange"
+     descriptor=".descriptor.AgendaItemChangeDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content" 
+     echo="False"
+     />     
+    
     
  <!--db:catalyst
      class="bungeni.models.domain.QuestionScheduleHistory"

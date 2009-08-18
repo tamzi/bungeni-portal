@@ -1222,6 +1222,17 @@ class AgendaItemDescriptor( ParliamentaryItemDescriptor):
         dict( name="agenda_item_id", omit=True ), 
         dict( name="group_id", omit=True ),        
     ])
+
+class AgendaItemVersionDescriptor( VersionDescriptor ):
+    display_name = _(u"Agenda Item version")
+    container_name = _(u"Versions")
+    fields = deepcopy(VersionDescriptor.fields)
+
+class AgendaItemChangeDescriptor( ChangeDescriptor ):
+    display_name = _(u"Agenda Item change")
+    container_name = _(u"Changes")
+    fields = deepcopy(ChangeDescriptor.fields)
+    
         
 class MotionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Motion")
@@ -1407,6 +1418,17 @@ class TabledDocumentDescriptor(ParliamentaryItemDescriptor):
         dict( name="tabled_document_id", omit=True ), 
         dict( name="group_id", omit=True ),         
     ])
+    
+class TabledDocumentVersionDescriptor( VersionDescriptor ):
+    display_name = _(u"Tabled Document version")
+    container_name = _(u"Versions")
+    fields = deepcopy(VersionDescriptor.fields)
+
+class TabledDocumentChangeDescriptor( ChangeDescriptor ):
+    display_name = _(u"Tabled Document change")
+    container_name = _(u"Changes")
+    fields = deepcopy(ChangeDescriptor.fields)
+    
 
 class MotionAmendmentDescriptor( ModelDescriptor ):
     display_name = _(u"Motion amendment")

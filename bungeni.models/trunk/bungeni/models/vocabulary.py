@@ -452,27 +452,28 @@ class SubstitutionSource(SpecializedSource):
     def __call__( self, context=None ):
         query = self.constructQuery( context )
         results = query.all()        
-        terms = []
+        tdict = {}
         for ob in results:
-            terms.append( 
-                vocabulary.SimpleTerm( 
-                    value = getattr( ob.user, 'user_id'), 
-                    token = getattr( ob.user, 'user_id'),
-                    title = "%s %s" % (getattr( ob.user, 'first_name') ,
-                            getattr( ob.user, 'last_name'))
-                    ))
+            tdict[getattr( ob.user, 'user_id')] = "%s %s" % (
+                    getattr( ob.user, 'first_name') ,
+                    getattr( ob.user, 'last_name'))
         user_id = getattr(context, 'replaced_id', None) 
         if user_id:
             if len(query.filter(domain.GroupMembership.replaced_id == user_id).all()) == 0:
                 session = Session()            
                 ob = session.query(domain.User).get(user_id)
-                terms.append( 
+                tdict[getattr( ob.user, 'user_id')] = "%s %s" % (
+                            getattr( ob.user, 'first_name') ,
+                            getattr( ob.user, 'last_name'))
+        terms = []
+        for t in tdict.keys():
+            terms.append( 
                 vocabulary.SimpleTerm( 
-                    value = getattr( ob, 'user_id'), 
-                    token = getattr( ob, 'user_id'),
-                    title = "(%s %s)" % (getattr( ob, 'first_name') ,
-                            getattr( ob, 'last_name'))
-                    ))
+                    value = t, 
+                    token = t,
+                    title = tdict[t]
+                    ))        
+        #import pdb; pdb.set_trace()                                        
         return vocabulary.SimpleVocabulary( terms )
 
 class QuerySource( object ):

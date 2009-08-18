@@ -1,0 +1,367 @@
+<?xml version="1.0"?>
+<workflow
+   id="bill-workflow"
+   title="bill Workflow"
+   description="A bill"
+   initial_state="">
+
+  <state id="draft" title="draft tableddocument">
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Owner" />    
+    <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />   
+    <deny permission="zope.View" role="bungeni.MP" />     
+    <deny permission="zope.View" role="bungeni.Clerk" />       
+    <deny permission="zope.View" role="bungeni.Speaker" />  
+    <deny permission="zope.View" role="bungeni.Minister" />  
+    <deny permission="zope.View" role="bungeni.Everybody" /> 
+    <deny permission="zope.View" role="bungeni.Anybody" />          
+  </state>
+
+  <state id="submitted" title="Tabeld document submitted">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
+    <!--deny permission="zope.View" role="bungeni.Owner" /-->    
+    <deny permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />    
+    <!--grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" /-->
+    <grant permission="zope.View" role="bungeni.Clerk" />      
+  </state>
+
+  <state id="received" title="Tabeld document received by clerks office">  
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Clerk" />      
+  </state>
+
+  <state id="complete" title="Tabeld document complete">  
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+    <grant permission="zope.View" role="bungeni.Speaker" />         
+  </state>
+
+  <state id="admissible" title="Tabeld document admissible">  
+    <grant permission="zope.View" role="bungeni.Everybody" />   
+    <grant permission="zope.View" role="bungeni.Anybody" />    
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+    <grant permission="zope.View" role="bungeni.Speaker" />             
+  </state>    
+
+  <state id="inadmissible" title="Tabeld document inadmissible">     
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+  </state>
+  
+  <state id="clarify_clerk" title="Tabeld document needs clarification by Clerks Office">     
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />    
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
+  </state>
+
+  <state id="clarify_mp" title="Tabeld document needs clarification by MP">  
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />    
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />         
+  </state>
+
+
+
+
+
+  <!-- is scheduled for debate at a sitting -->
+  <state id="scheduled" title="Tabeld document scheduled">  
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+  </state>    
+  <!-- admissable tableddocument that cannot be debated -->
+  <state id="deferred" title="Tabeld document deferred">  
+
+  </state>    
+  <!--tableddocument was scheduled for but not debated at the sitting -->
+  <state id="postponed" title="Tabeld document postponed">  
+
+  </state>    
+  <!--defered or postponed tableddocument that were not debated -->
+  <state id="elapsed" title="Tabeld document elapsed">  
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+  </state>    
+  <!--a tableddocument was debated  -->
+  <state id="debated" title="Tabeld document debated">  
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+  </state>
+  
+
+  <state id="withdrawn" title="Tabeld document withdrawn">  
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" /> 
+  </state>
+
+
+  <transition
+     id="create"
+     title="Create"
+     trigger="automatic"
+     source=""
+     destination="draft"
+     permission=""
+     action="bungeni.core.workflows.tableddocument.actions.create"
+     condition=""
+     />
+  <!--transition
+      id="make-private"
+      title="Make private"
+      trigger="manual"
+      source="draft_tableddocument"
+      destination="private_tableddocument"
+      permission="bungeni.tableddocument.Submit"
+      action=""
+      condition=""
+      /-->
+  <!--transition
+      id="re-draft"
+      title="Re draft"
+      trigger="manual"
+      source="private_tableddocument"
+      destination="draft_tableddocument"
+      permission="bungeni.tableddocument.Submit"
+      action=""
+      condition=""
+      /-->
+  
+  <transition
+     id="submit-to-clerk"
+     title="Submit to Clerk"
+     trigger="manual"
+     source="draft"
+     destination="submitted"
+     permission="bungeni.tableddocument.Submit"
+     action="bungeni.core.workflows.tableddocument.actions.submit"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentSubmittedEvent"
+     />
+  
+  <transition
+     id="received-by-clerk"
+     title="Receive"
+     trigger="manual"
+     source="submitted"
+     destination="received"
+     permission="bungeni.tableddocument.Recieve"
+     action="bungeni.core.workflows.tableddocument.actions.received_by_clerk"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentReceivedEvent"
+     />
+  <transition
+     id="require-edit-by-mp"
+     title="Needs Clarification by MP"
+     trigger="manual"
+     source="received"
+     destination="clarify_mp"
+     permission="bungeni.tableddocument.clerk.Review"
+     action="bungeni.core.workflows.tableddocument.actions.require_edit_by_mp"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"
+     />
+  <transition
+     id="complete"
+     title="Complete"
+     trigger="manual"
+     source="received"
+     destination="complete"
+     permission="bungeni.tableddocument.clerk.Review"
+     action="bungeni.core.workflows.tableddocument.actions.complete"
+     condition=""
+     />
+  <transition
+     id="approve"
+     title="Approve"
+     trigger="manual"
+     source="complete"
+     destination="admissible"
+     permission="bungeni.tableddocument.speaker.Review"
+     action="bungeni.core.workflows.tableddocument.actions.approve"
+     condition=""
+     />
+  <transition
+     id="reject"
+     title="Reject"
+     trigger="manual"
+     source="complete"
+     destination="inadmissible"
+     permission="bungeni.tableddocument.speaker.Review"
+     action="bungeni.core.workflows.tableddocument.actions.reject"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentRejectedEvent"
+     />
+  
+  <transition
+     id="redraft-inadmissible"
+     title="Redraft rejected"
+     trigger="manual"
+     source="inadmissible"
+     destination="draft"
+     permission="bungeni.tableddocument.RevertTransitions"
+     action=""
+     condition=""
+     event=""
+     />
+
+  
+  <transition
+     id="require-amendment"
+     title="Needs Clarification"
+     trigger="manual"
+     source="complete"
+     destination="clarify_clerk"
+     permission="bungeni.tableddocument.speaker.Review"
+     action="bungeni.core.workflows.tableddocument.actions.require_amendment"
+     condition=""
+     />
+  <transition
+     id="complete-clarify"
+     title="Complete"
+     trigger="manual"
+     source="clarify_clerk"
+     destination="complete"
+     permission="bungeni.tableddocument.clerk.Review"
+     action=""
+     condition=""
+     />
+  <transition
+     id="mp-clarify"
+     title="Needs Clarification by MP"
+     trigger="manual"
+     source="clarify_clerk"
+     destination="clarify_mp"
+     permission="bungeni.tableddocument.clerk.Review"
+     action="bungeni.core.workflows.tableddocument.actions.mp_clarify"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"    
+     />
+  <transition
+     id="resubmit-clerk"
+     title="Resubmit to clerk"
+     trigger="manual"
+     source="clarify_mp"
+     destination="submitted"
+     permission="bungeni.tableddocument.Submit"
+     action="bungeni.core.workflows.tableddocument.actions.submit"
+     condition=""
+     />
+  <transition
+     id="schedule"
+     title="Schedule"
+     trigger="manual"
+     source="admissible"
+     destination="scheduled"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.schedule"
+     condition="bungeni.core.workflows.tableddocument.conditions.is_scheduled"
+     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"
+     />
+  <transition
+     id="defer"
+     title="Defer"
+     trigger="manual"
+     source="admissible"
+     destination="deferred"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.defer"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentDeferredEvent"
+     />
+  <transition
+     id="elapse-defered"
+     title="Elapse"
+     trigger="manual"
+     source="deferred"
+     destination="elapsed"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.elapse"
+     condition=""
+     />
+
+  <transition
+     id="re-admit-elapsed"
+     title="Readmit elpapsed"
+     trigger="manual"
+     source="elapsed"
+     destination="admissible"
+     permission="bungeni.tableddocument.RevertTransitions"
+     action="bungeni.core.workflows.tableddocument.actions.approve"
+     condition=""
+     />  
+  
+  <transition
+     id="schedule-deferred"
+     title="Schedule"
+     trigger="manual"
+     source="deferred"
+     destination="scheduled"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.schedule"
+     condition="bungeni.core.workflows.tableddocument.conditions.is_scheduled"
+     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"    
+     />
+  <transition
+     id="postpone"
+     title="Postpone"
+     trigger="manual"
+     source="scheduled"
+     destination="postponed"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.postpone"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentPostponedEvent"
+     />
+  <transition
+     id="debate"
+     title="Debate"
+     trigger="manual"
+     source="scheduled"
+     destination="debated"
+     permission="bungeni.tableddocument.Debate"
+     action="bungeni.core.workflows.tableddocument.actions.debate"
+     condition=""
+     event="bungeni.core.workflows.interfaces.ITabledDocumentDebatedEvent"
+     />
+  <transition
+     id="schedule-postponed"
+     title="Schedule"
+     trigger="manual"
+     source="postponed"
+     destination="scheduled"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.schedule"
+     condition="bungeni.core.workflows.tableddocument.conditions.is_scheduled"
+     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"    
+     />
+  <transition
+     id="elapse-postponed"
+     title="Elapse"
+     trigger="manual"
+     source="postponed"
+     destination="elapsed"
+     permission="bungeni.tableddocument.Schedule"
+     action="bungeni.core.workflows.tableddocument.actions.elapse"
+     condition=""
+     />
+  
+  <transition
+     id="withdraw"
+     title="Withdraw"
+     trigger="manual"
+     source="submitted
+             received
+             complete
+             admissible
+             clarify_mp
+             scheduled
+             deferred
+             postponed
+             withdrawn"
+     destination="withdrawn"
+     permission="bungeni.tableddocument.Withdraw"
+     action="bungeni.core.workflows.tableddocument.actions.withdraw"
+     condition=""
+     require_confirmation="true"
+     />
+  
+</workflow>

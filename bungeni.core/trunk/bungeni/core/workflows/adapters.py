@@ -10,6 +10,9 @@ import version
 import groupsitting
 import groups
 import address
+import tableddocument
+import agendaitem
+
 
 from bungeni.models import domain
 from bungeni.models.interfaces import IVersion
@@ -42,3 +45,12 @@ GroupWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groups, domain.Group))
 AdressWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(address, domain.UserAddress))   
+
+
+
+TabledDocumentWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(tableddocument, domain.TabledDocument))  
+    
+AgendaItemWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(agendaitem, domain.AgendaItem))          
+    

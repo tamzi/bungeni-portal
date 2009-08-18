@@ -473,7 +473,6 @@ class SubstitutionSource(SpecializedSource):
                     token = t,
                     title = tdict[t]
                     ))        
-        #import pdb; pdb.set_trace()                                        
         return vocabulary.SimpleVocabulary( terms )
 
 class QuerySource( object ):

@@ -126,10 +126,11 @@ class IResponse( IBungeniContent ):
 class IScheduledItemDiscussion(interface.Interface):
     pass
 
-class ITabledDocument( interface.Interface ):
+class ITabledDocument(IBungeniContent):
     """
     tabled document
     """
+    
 class IParliamentSession( interface.Interface ):
     pass
 

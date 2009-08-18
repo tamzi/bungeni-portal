@@ -333,7 +333,11 @@ mapper( domain.AgendaItem, schema.agenda_items,
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='agendaitem')
-
+        
+mapper( domain.TabledDocument, schema.tabled_documents,
+        inherits=domain.ParliamentaryItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='tableddocument' )
 
 mapper( domain.ResponseChange, schema.response_changes )
 mapper( domain.ResponseVersion, schema.response_versions,
@@ -383,7 +387,7 @@ mapper( domain.MotionAmendment, schema.motion_amendments)
 
 mapper( domain.BillType, schema.bill_types )        
 #mapper( domain.DocumentSource, schema.document_sources )
-#mapper( domain.TabledDocument, schema.tabled_documents )
+#
 
 
 mapper( domain.HoliDay, schema.holidays )

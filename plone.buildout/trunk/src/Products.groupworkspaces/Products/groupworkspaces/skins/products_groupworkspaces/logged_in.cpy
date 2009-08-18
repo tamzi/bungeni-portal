@@ -23,23 +23,26 @@ def createGroupArea(groupid, grouptitle, parentFolder):
     The groups are created from the bungeni application and
     not through the traditional Groups tab.
     """
+    
     if groupid not in context.groups.objectIds(): 
      
         group = context.portal_groups.getGroupById(groupid)
         members = [group.id for group in group.getGroupMembers()]
-       
-        parentFolder.invokeFactory('Folder', groupid, title=grouptitle)
-        obj = getattr(parentFolder, groupid, None)
-        obj.setTitle("%s workspace" %grouptitle)
-        obj.setDescription("Container for objects shared by this group")
-        obj.manage_setLocalRoles(groupid, ['Owner'])
-        obj.update
-        obj.reindexObject()
+        if groupid not in parentFolder.objectIds():
+            parentFolder.invokeFactory('Folder', groupid, title=grouptitle)
+            obj = getattr(parentFolder, groupid, None)
+            obj.setTitle("%s workspace" %grouptitle)
+            obj.setDescription("Container for objects shared by this group")
+            obj.manage_setLocalRoles(groupid, ['Owner'])
+            #obj._getWorkflowTool().doActionFor(obj, 'publish' '')
+            obj.update
+            obj.reindexObject()
 
         
 for group in grouplist:
     if group.has_key('plugin'):
         if group['groupid'].rsplit('.')[1] == 'parliament':
+            createGroupArea(group['groupid'], group['title'], parentGroup)
             parentFolder = getattr(parentGroup, group['groupid'])
 
 [createGroupArea(group['groupid'], group['title'], parentFolder ) for group in grouplist if group.has_key('plugin') and group['groupid'].rsplit('.')[1] != 'parliament']

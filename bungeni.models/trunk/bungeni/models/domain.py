@@ -205,6 +205,8 @@ class Parliament( Group ):
     motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")  
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")       
     offices = one2many("offices", "bungeni.models.domain.OfficeContainer", "parliament_id")   
+    agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
+    tableddocuments = one2many("tableddocuments", "bungeni.models.domain.TabledDocumentContainer", "parliament_id")
 
 class MemberOfParliament ( GroupMembership ):    
     """
@@ -258,6 +260,7 @@ class Committee( Group ):
     """        
     committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
     committeestaff = one2many("committeestaff", "bungeni.models.domain.CommitteeStaffContainer", "group_id")
+    agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
         
@@ -577,7 +580,7 @@ class ItemScheduleCategory(Entity):
 class ScheduledItemDiscussion(Entity):
     """A discussion on a scheduled item."""
 
-class TabledDocument( object):
+class TabledDocument(ParliamentaryItem):
     """
     Tabled documents:
     a tabled document captures metadata about the document (owner, date, title, description) 
@@ -596,8 +599,8 @@ class TabledDocument( object):
 
     It must be possible to schedule a tabled document for a sitting.
     """
-    #interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
-    #files = files.DirectoryDescriptor()     
+    interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
+    files = files.DirectoryDescriptor()     
     
 class DocumentSource( object ):
     """

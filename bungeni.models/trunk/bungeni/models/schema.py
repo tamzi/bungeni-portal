@@ -703,7 +703,7 @@ parliamentary_items = rdb.Table(
     )
 
 # Agenda Items:
-# generic items to be put on the agenda
+# generic items to be put on the agenda for a certain group
 # they can be scheduled for a sitting
 
 agenda_items = rdb.Table(
@@ -712,9 +712,10 @@ agenda_items = rdb.Table(
    rdb.Column( "agenda_item_id", rdb.Integer, 
                 rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
                 primary_key=True ),
+   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),                
    )
 
-agenda_item_changes = make_changes_table( agenda_items, metadata )
+#agenda_item_changes = make_changes_table( agenda_items, metadata )
 
 QuestionSequence = rdb.Sequence('question_number_sequence', metadata)
 # Approved questions are given a serial number enabling the clerks office
@@ -850,16 +851,15 @@ consignatories = rdb.Table(
 #    rdb.Column( "document_source", rdb.Unicode(256)),
 #    )
 
-#tabled_documents = rdb.Table(
-#    "tabled_documents",
-#    metadata,
-#    rdb.Column( "tabled_document_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
-#    rdb.Column( "title", rdb.Unicode(256), nullable = False ),
-#    rdb.Column( "summary", rdb.UnicodeText ),   
-#    rdb.Column( "link", rdb.String(256)),   
+tabled_documents = rdb.Table(
+    "tabled_documents",
+    metadata,
+    rdb.Column( "tabled_document_id", rdb.Integer, 
+        rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
+        primary_key=True ),   
+    rdb.Column( "link", rdb.String(256)),   
 #    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
-#    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = True ),    
-#   )
+   )
 
  
 #events with dates and possiblity to upload files.

@@ -211,7 +211,9 @@
   <adapter factory=".dc.ResponseDescriptiveProperties" />
   <adapter factory=".dc.ConstituencyDescriptiveProperties" />
   <adapter factory=".dc.ChangeDescriptiveProperties" />
-  <adapter factory=".dc.UserAddressDescriptiveProperties" />
+  <adapter factory=".dc.UserAddressDescriptiveProperties" />  
+  <adapter factory=".dc.AgendaItemDescriptiveProperties" />
+  <adapter factory=".dc.TabledDocumentDescriptiveProperties" />  
   <adapter
      name="dc"
      for="*"

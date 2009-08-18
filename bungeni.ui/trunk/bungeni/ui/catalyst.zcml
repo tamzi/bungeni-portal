@@ -227,13 +227,13 @@
      />
 
 
-  <!--db:catalyst
+  <db:catalyst
     class="bungeni.models.domain.TabledDocument"
     descriptor=".descriptor.TabledDocumentDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
     echo="False"   
-    /-->
+    />
     
   <!--db:catalyst
     class="bungeni.models.domain.DocumentSource"

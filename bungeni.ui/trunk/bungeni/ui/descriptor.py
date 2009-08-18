@@ -1220,6 +1220,7 @@ class AgendaItemDescriptor( ParliamentaryItemDescriptor):
     fields = deepcopy( ParliamentaryItemDescriptor.fields )    
     fields.extend([
         dict( name="agenda_item_id", omit=True ), 
+        dict( name="group_id", omit=True ),        
     ])
         
 class MotionDescriptor( ParliamentaryItemDescriptor ):
@@ -1398,7 +1399,14 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
     ])
 
 
-
+class TabledDocumentDescriptor(ParliamentaryItemDescriptor): 
+    display_name =_(u"Tabled document")
+    container_name =_(u"Tabled documents")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields.extend([    
+        dict( name="tabled_document_id", omit=True ), 
+        dict( name="group_id", omit=True ),         
+    ])
 
 class MotionAmendmentDescriptor( ModelDescriptor ):
     display_name = _(u"Motion amendment")
@@ -1803,34 +1811,7 @@ class DocumentSourceDescriptor( ModelDescriptor ):
         dict( name="document_source", label=_(u"Document Souce") ),
     ] 
     
-class TabledDocumentDescriptor( ModelDescriptor): 
-    display_name =_(u"Tabled document")
-    container_name =_(u"Tabled documents")
-    
-    fields = [
-        dict( name="tabled_document_id", omit=True ),
-        dict( name="title", label=_(u"Title"), listing=True ),
-        dict( name="summary",  label=_(u"Summary") ),
-        dict( name="owner_id", 
-            property = schema.Choice( 
-                title=_(u"Owner"), 
-                    source=DatabaseSource(
-                        domain.User, 
-                        title_field='fullname', 
-                        token_field='user_id', 
-                        value_field = 'user_id' )), 
-                listing_column=member_fk_column("owner_id", 
-                    _(u'Name')),              
-                listing = True 
-            ),        
-        dict( name="table_date", 
-            label=_(u"Date"), 
-            listing_column=day_column("table_date", 
-                _(u"Date")), 
-            listing=True, 
-            edit_widget=SelectDateWidget, 
-            add_widget=SelectDateWidget ),    
-    ]
+
 
 class ItemScheduleDescriptor(ModelDescriptor):
     display_name =_(u"Scheduling")

@@ -179,6 +179,8 @@ class VersionLogView(BaseForm):
     def _versions( self ):
         instance = removeSecurityProxy( self.context )
         versions = IVersioned( instance )
+        #versions._query.order_by(versions.domain_model.version_id.desc())
+        #import pdb; pdb.set_trace()
         return versions
         
     def __call__(self):

@@ -161,5 +161,19 @@
   <subscriber handler=".motion.SendNotificationToMemberUponSchedule" />    
   <subscriber handler=".motion.SendNotificationToMemberUponPostponed" />
   <subscriber handler=".motion.SendNotificationToMemberUponDebated" />                
+  
+  <!-- agenda item workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IAgendaItem"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
+  
+  <adapter
+     for="bungeni.models.interfaces.IAgendaItem"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.AgendaItemWorkflowAdapter" />
+     
+       
+  
 
 </configure>    

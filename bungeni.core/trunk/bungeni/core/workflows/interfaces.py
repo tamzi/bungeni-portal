@@ -75,5 +75,59 @@ class IMotionDebatedEvent(IWorkflowTransitionEvent):
 # Bills
 ######################
 
+###################
+# Tabled Documents
+###################
 
+class ITabledDocumentReceivedEvent(IWorkflowTransitionEvent):
+    """ TabledDocument recieved by clerks office"""
+
+class ITabledDocumentSubmittedEvent(IWorkflowTransitionEvent):
+    """ TabledDocument submitted to clerks office """
+    
+class ITabledDocumentRejectedEvent(IWorkflowTransitionEvent):
+    """Issued when a TabledDocument was rejected by the speakers office."""
+
+class ITabledDocumentClarifyEvent(IWorkflowTransitionEvent):
+    """Issued when a TabledDocument needs clarification by the MP"""
+
+class ITabledDocumentDeferredEvent(IWorkflowTransitionEvent):
+    """Issued when a TabledDocument was deferred by Clerk's office."""
+
+class ITabledDocumentScheduledEvent(IWorkflowTransitionEvent):
+    """Issued when a TabledDocument was scheduled by Speakers office."""
+
+class ITabledDocumentPostponedEvent(IWorkflowTransitionEvent):
+    """Issued when a TabledDocument was postponed by the speakers office."""
+
+class ITabledDocumentDebatedEvent(IWorkflowTransitionEvent):
+    """Issued when a TabledDocuments answer was debated"""
+    
+###################
+# Agenda Item
+###################
+
+class IAgendaItemReceivedEvent(IWorkflowTransitionEvent):
+    """ AgendaItem recieved by clerks office"""
+
+class IAgendaItemSubmittedEvent(IWorkflowTransitionEvent):
+    """ AgendaItem submitted to clerks office """
+    
+class IAgendaItemRejectedEvent(IWorkflowTransitionEvent):
+    """Issued when a AgendaItem was rejected by the speakers office."""
+
+class IAgendaItemClarifyEvent(IWorkflowTransitionEvent):
+    """Issued when a AgendaItem needs clarification by the MP"""
+
+class IAgendaItemDeferredEvent(IWorkflowTransitionEvent):
+    """Issued when a AgendaItem was deferred by Clerk's office."""
+
+class IAgendaItemScheduledEvent(IWorkflowTransitionEvent):
+    """Issued when a AgendaItem was scheduled by Speakers office."""
+
+class IAgendaItemPostponedEvent(IWorkflowTransitionEvent):
+    """Issued when a AgendaItem was postponed by the speakers office."""
+
+class IAgendaItemDebatedEvent(IWorkflowTransitionEvent):
+    """Issued when a AgendaItem answer was debated"""
     

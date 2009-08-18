@@ -5,10 +5,10 @@
    description="A bill"
    initial_state="">
 
-  <state id="draft" title="draft agenda_item">
-    <grant permission="bungeni.agenda_item.Edit" role="bungeni.Owner" />
+  <state id="draft" title="Draft agenda item">
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
-    <grant permission="bungeni.agenda_item.Delete" role="bungeni.Owner" />   
+    <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />   
     <deny permission="zope.View" role="bungeni.MP" />     
     <deny permission="zope.View" role="bungeni.Clerk" />       
     <deny permission="zope.View" role="bungeni.Speaker" />  
@@ -18,44 +18,44 @@
   </state>
 
   <state id="submitted" title="Agenda Item submitted">
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
-    <deny permission="bungeni.agenda_item.Delete" role="bungeni.Owner" />    
-    <!--grant permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" /-->
+    <deny permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />    
+    <!--grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" /-->
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
   <state id="received" title="Agenda Item received by clerks office">  
-    <grant permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
   <state id="complete" title="Agenda Item complete">  
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />         
   </state>
 
   <state id="admissible" title="Agenda Item admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
-    <grant permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />             
   </state>    
 
   <state id="inadmissible" title="Agenda Item inadmissible">     
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>
   
   <state id="clarify_clerk" title="Agenda Item needs clarification by Clerks Office">     
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />    
-    <grant permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />    
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
   </state>
 
   <state id="clarify_mp" title="Agenda Item needs clarification by MP">  
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />    
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Owner" />         
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />    
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />         
   </state>
 
 
@@ -64,8 +64,8 @@
 
   <!-- is scheduled for debate at a sitting -->
   <state id="scheduled" title="Agenda Item scheduled">  
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>    
   <!-- admissable agenda_item that cannot be debated -->
   <state id="deferred" title="Agenda Item deferred">  
@@ -77,20 +77,20 @@
   </state>    
   <!--defered or postponed agenda_item that were not debated -->
   <state id="elapsed" title="Agenda Item elapsed">  
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>    
   <!--a agenda_item was debated  -->
   <state id="debated" title="Agenda Item debated">  
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>
   
 
   <state id="withdrawn" title="Agenda Item withdrawn">  
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.agenda_item.Edit" role="bungeni.Owner" /> 
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" /> 
   </state>
 
 
@@ -110,7 +110,7 @@
       trigger="manual"
       source="draft_agenda_item"
       destination="private_agenda_item"
-      permission="bungeni.agenda_item.Submit"
+      permission="bungeni.agendaitem.Submit"
       action=""
       condition=""
       /-->
@@ -120,7 +120,7 @@
       trigger="manual"
       source="private_agenda_item"
       destination="draft_agenda_item"
-      permission="bungeni.agenda_item.Submit"
+      permission="bungeni.agendaitem.Submit"
       action=""
       condition=""
       /-->
@@ -131,7 +131,7 @@
      trigger="manual"
      source="draft"
      destination="submitted"
-     permission="bungeni.agenda_item.Submit"
+     permission="bungeni.agendaitem.Submit"
      action="bungeni.core.workflows.agendaitem.actions.submit"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemSubmittedEvent"
@@ -143,7 +143,7 @@
      trigger="manual"
      source="submitted"
      destination="received"
-     permission="bungeni.agenda_item.Recieve"
+     permission="bungeni.agendaitem.Recieve"
      action="bungeni.core.workflows.agendaitem.actions.received_by_clerk"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemReceivedEvent"
@@ -154,7 +154,7 @@
      trigger="manual"
      source="received"
      destination="clarify_mp"
-     permission="bungeni.agenda_item.clerk.Review"
+     permission="bungeni.agendaitem.clerk.Review"
      action="bungeni.core.workflows.agendaitem.actions.require_edit_by_mp"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemClarifyEvent"
@@ -165,7 +165,7 @@
      trigger="manual"
      source="received"
      destination="complete"
-     permission="bungeni.agenda_item.clerk.Review"
+     permission="bungeni.agendaitem.clerk.Review"
      action="bungeni.core.workflows.agendaitem.actions.complete"
      condition=""
      />
@@ -175,7 +175,7 @@
      trigger="manual"
      source="complete"
      destination="admissible"
-     permission="bungeni.agenda_item.speaker.Review"
+     permission="bungeni.agendaitem.speaker.Review"
      action="bungeni.core.workflows.agendaitem.actions.approve"
      condition=""
      />
@@ -185,7 +185,7 @@
      trigger="manual"
      source="complete"
      destination="inadmissible"
-     permission="bungeni.agenda_item.speaker.Review"
+     permission="bungeni.agendaitem.speaker.Review"
      action="bungeni.core.workflows.agendaitem.actions.reject"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemRejectedEvent"
@@ -197,7 +197,7 @@
      trigger="manual"
      source="inadmissible"
      destination="draft"
-     permission="bungeni.agenda_item.RevertTransitions"
+     permission="bungeni.agendaitem.RevertTransitions"
      action=""
      condition=""
      event=""
@@ -210,7 +210,7 @@
      trigger="manual"
      source="complete"
      destination="clarify_clerk"
-     permission="bungeni.agenda_item.speaker.Review"
+     permission="bungeni.agendaitem.speaker.Review"
      action="bungeni.core.workflows.agendaitem.actions.require_amendment"
      condition=""
      />
@@ -220,7 +220,7 @@
      trigger="manual"
      source="clarify_clerk"
      destination="complete"
-     permission="bungeni.agenda_item.clerk.Review"
+     permission="bungeni.agendaitem.clerk.Review"
      action=""
      condition=""
      />
@@ -230,7 +230,7 @@
      trigger="manual"
      source="clarify_clerk"
      destination="clarify_mp"
-     permission="bungeni.agenda_item.clerk.Review"
+     permission="bungeni.agendaitem.clerk.Review"
      action="bungeni.core.workflows.agendaitem.actions.mp_clarify"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemClarifyEvent"    
@@ -241,7 +241,7 @@
      trigger="manual"
      source="clarify_mp"
      destination="submitted"
-     permission="bungeni.agenda_item.Submit"
+     permission="bungeni.agendaitem.Submit"
      action="bungeni.core.workflows.agendaitem.actions.submit"
      condition=""
      />
@@ -251,7 +251,7 @@
      trigger="manual"
      source="admissible"
      destination="scheduled"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.schedule"
      condition="bungeni.core.workflows.agendaitem.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IAgendaItemScheduledEvent"
@@ -262,7 +262,7 @@
      trigger="manual"
      source="admissible"
      destination="deferred"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.defer"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemDeferredEvent"
@@ -273,7 +273,7 @@
      trigger="manual"
      source="deferred"
      destination="elapsed"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.elapse"
      condition=""
      />
@@ -284,7 +284,7 @@
      trigger="manual"
      source="elapsed"
      destination="admissible"
-     permission="bungeni.agenda_item.RevertTransitions"
+     permission="bungeni.agendaitem.RevertTransitions"
      action="bungeni.core.workflows.agendaitem.actions.approve"
      condition=""
      />  
@@ -295,7 +295,7 @@
      trigger="manual"
      source="deferred"
      destination="scheduled"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.schedule"
      condition="bungeni.core.workflows.agendaitem.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IAgendaItemScheduledEvent"    
@@ -306,7 +306,7 @@
      trigger="manual"
      source="scheduled"
      destination="postponed"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.postpone"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemPostponedEvent"
@@ -317,7 +317,7 @@
      trigger="manual"
      source="scheduled"
      destination="debated"
-     permission="bungeni.agenda_item.Debate"
+     permission="bungeni.agendaitem.Debate"
      action="bungeni.core.workflows.agendaitem.actions.debate"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemDebatedEvent"
@@ -328,7 +328,7 @@
      trigger="manual"
      source="postponed"
      destination="scheduled"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.schedule"
      condition="bungeni.core.workflows.agendaitem.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IAgendaItemScheduledEvent"    
@@ -339,7 +339,7 @@
      trigger="manual"
      source="postponed"
      destination="elapsed"
-     permission="bungeni.agenda_item.Schedule"
+     permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.elapse"
      condition=""
      />
@@ -358,7 +358,7 @@
              postponed
              withdrawn"
      destination="withdrawn"
-     permission="bungeni.agenda_item.Withdraw"
+     permission="bungeni.agendaitem.Withdraw"
      action="bungeni.core.workflows.agendaitem.actions.withdraw"
      condition=""
      require_confirmation="true"

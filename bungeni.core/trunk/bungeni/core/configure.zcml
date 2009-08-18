@@ -120,6 +120,17 @@
                             ore.xapian.interfaces.IIndexable
                             .interfaces.IAuditable" />
   </class>
+  <class class="bungeni.models.domain.AgendaItem">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
+  </class>                            
+  <class class="bungeni.models.domain.TabledDocument">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
+  </class>
+
          
   <!-- Workflow -->
   <include package=".workflows" />

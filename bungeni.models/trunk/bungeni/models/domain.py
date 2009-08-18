@@ -361,6 +361,14 @@ class AgendaItem( ParliamentaryItem ):
     """
     Generic Agenda Item that can be scheduled on a sitting
     """
+    #interface.implements( interfaces.IAgendaItem )
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.AgendaItemVersionContainer",
+        "content_id")    
+AgendaItemChange = ItemLog.makeLogFactory( "AgendaItemChange")
+AgendaItemVersion = ItemVersions.makeVersionFactory("AgendaItemVersion")
+
 
 class Question( ParliamentaryItem ):
     interface.implements( interfaces.IQuestion, interfaces.IHeadFileAttachments )
@@ -601,6 +609,15 @@ class TabledDocument(ParliamentaryItem):
     """
     interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()     
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.TabledDocumentVersionContainer",
+        "content_id")        
+    
+TabledDocumentChange = ItemLog.makeLogFactory( "TabledDocumentChange")
+TabledDocumentVersion = ItemVersions.makeVersionFactory("TabledDocumentVersion")
+    
+    
     
 class DocumentSource( object ):
     """

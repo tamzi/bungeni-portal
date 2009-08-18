@@ -715,7 +715,9 @@ agenda_items = rdb.Table(
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),                
    )
 
-#agenda_item_changes = make_changes_table( agenda_items, metadata )
+agenda_item_changes = make_changes_table( agenda_items, metadata )
+agenda_item_versions = make_versions_table( agenda_items, metadata, parliamentary_items )
+
 
 QuestionSequence = rdb.Sequence('question_number_sequence', metadata)
 # Approved questions are given a serial number enabling the clerks office
@@ -861,6 +863,8 @@ tabled_documents = rdb.Table(
 #    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
    )
 
+tabled_document_changes = make_changes_table( tabled_documents, metadata )
+tabled_document_versions = make_versions_table( tabled_documents, metadata, parliamentary_items )
  
 #events with dates and possiblity to upload files.
 

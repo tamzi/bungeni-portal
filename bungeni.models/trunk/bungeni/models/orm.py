@@ -332,12 +332,29 @@ mapper( domain.EventItem, schema.event_items,
 mapper( domain.AgendaItem, schema.agenda_items, 
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity='agendaitem')
-        
+        polymorphic_identity='agendaitem',
+        properties = {
+             'changes':relation( domain.AgendaItemChange, backref='agendaitem'),
+             })
+mapper( domain.AgendaItemChange, schema.agenda_item_changes )  
+mapper( domain.AgendaItemVersion, schema.agenda_item_versions,
+        properties= {'change':relation( domain.AgendaItemChange, uselist=False),
+                     'head': relation( domain.AgendaItem, uselist=False)}
+        )
+              
 mapper( domain.TabledDocument, schema.tabled_documents,
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity='tableddocument' )
+        polymorphic_identity='tableddocument',
+        properties = {
+             'changes':relation( domain.TabledDocumentChange, backref='tableddocument'),
+             } )
+mapper( domain.TabledDocumentChange, schema.tabled_document_changes )
+mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,
+        properties= {'change':relation( domain.TabledDocumentChange, uselist=False),
+                     'head': relation( domain.TabledDocument, uselist=False)}
+        )
+
 
 mapper( domain.ResponseChange, schema.response_changes )
 mapper( domain.ResponseVersion, schema.response_versions,

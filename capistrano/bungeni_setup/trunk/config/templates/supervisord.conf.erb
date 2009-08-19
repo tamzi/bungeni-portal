@@ -27,3 +27,17 @@ directory = <%=buildout_dir%>/bin
 priority = 10
 redirect_stderr = true
 
+[program:plone]
+command = <%=plone_buildout_dir%>/bin/paster serve <%=plone_buildout_dir%>/etc/deploy.ini --log-file=<%=plone_buildout_dir%>/plone.log --pid-file=<%=plone_buildout_dir%>/plone.pid
+process_name = plone
+directory = <%=plone_buildout_dir%>/bin
+priority = 10
+redirect_stderr = true
+
+[program:portal]
+command = <%=portal_buildout_dir%>/bin/paster serve <%=portal_buildout_dir%>/etc/deploy.ini --log-file=<%=portal_buildout_dir%>/plone.log --pid-file=<%=portal_buildout_dir%>/portal.pid
+process_name = portal
+directory = <%=portal_buildout_dir%>/bin
+priority = 10
+redirect_stderr = true
+

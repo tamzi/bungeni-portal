@@ -23,6 +23,7 @@ namespace :plone_tasks do
 	run "svn co #{plone_respository} #{plone_buildout_dir} --username=#{scm_username} --password=#{scm_password} --no-auth-cache"
     end 
 
+
     desc "bootstrap"
     task :bootstrap_bo, :roles=> :app do
       run  "cd #{plone_buildout_dir} && #{user24_python} ../bootstrap.py"
@@ -61,6 +62,17 @@ namespace :plone_tasks do
       run "cd #{plone_buildout_dir} && svn up"
       run "cd #{plone_buildout_dir}/src && svn up"
     end
+
+    desc "stop plone"
+    task :stop_plone, :roles=> :app do
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf stop plone"
+    end
+
+    desc "start plone"
+    task :start_plone, :roles=> :app do
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf start plone"
+    end
+
 
 
 end

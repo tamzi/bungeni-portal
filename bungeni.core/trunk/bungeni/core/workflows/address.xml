@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <workflow
-   id="address
-   -workflow"
+   id="address-workflow"
    title="Address Workflow"
    description="Workflow for user addresss"
    initial_state="">

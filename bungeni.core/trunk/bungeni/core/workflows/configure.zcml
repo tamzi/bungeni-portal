@@ -74,6 +74,19 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.GroupWorkflowAdapter" />   
 
+  <adapter
+     for="bungeni.models.interfaces.IParliament"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.ParliamentWorkflowAdapter" />   
+
+
+  <adapter
+     for="bungeni.models.interfaces.ICommittee"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.CommitteeWorkflowAdapter" />   
+
+
+
   <!-- group-sitting workflow -->
 
   <adapter

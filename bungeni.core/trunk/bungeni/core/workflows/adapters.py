@@ -12,6 +12,9 @@ import groups
 import address
 import tableddocument
 import agendaitem
+import committee
+import parliament
+
 
 
 from bungeni.models import domain
@@ -45,10 +48,14 @@ GroupWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groups, domain.Group))
 AdressWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(address, domain.UserAddress))   
-
 TabledDocumentWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(tableddocument, domain.TabledDocument))  
-    
+    load_workflow(tableddocument, domain.TabledDocument))      
 AgendaItemWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(agendaitem, domain.AgendaItem))          
+ParliamentWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(parliament, domain.Parliament)) 
+CommitteeWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(committee, domain.Committee))     
+
+
     

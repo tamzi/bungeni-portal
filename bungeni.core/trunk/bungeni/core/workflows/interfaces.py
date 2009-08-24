@@ -35,6 +35,10 @@ class IQuestionSentToMinistryEvent(IWorkflowTransitionEvent):
 
 class IQuestionAnsweredEvent(IWorkflowTransitionEvent):
     """Issued when a questions answer was reviewed by Clerk's office."""
+
+class IQuestionDebatedEvent(IWorkflowTransitionEvent):   
+    """ A question was debated in the plenary """ 
+    
 #######################
 # Resonses to questions
 #######################

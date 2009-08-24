@@ -104,26 +104,6 @@
      action="bungeni.core.workflows.agendaitem.actions.create"
      condition=""
      />
-  <!--transition
-      id="make-private"
-      title="Make private"
-      trigger="manual"
-      source="draft_agenda_item"
-      destination="private_agenda_item"
-      permission="bungeni.agendaitem.Submit"
-      action=""
-      condition=""
-      /-->
-  <!--transition
-      id="re-draft"
-      title="Re draft"
-      trigger="manual"
-      source="private_agenda_item"
-      destination="draft_agenda_item"
-      permission="bungeni.agendaitem.Submit"
-      action=""
-      condition=""
-      /-->
   
   <transition
      id="submit-to-clerk"

@@ -85,6 +85,11 @@
     <grant permission="bungeni.response.view" role="bungeni.Everybody" />            
   </state>
 
+  <state id="debated" title="Question debated">  
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
+  </state>
+
   <state id="withdrawn" title="Question withdrawn">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
@@ -484,6 +489,22 @@
      event=".interfaces.IQuestionAnsweredEvent"
      />
   
+  
+  <!--
+    question was debated in the plenary
+  -->
+  
+    <transition 
+     id="debate"
+     title="Debated"
+     trigger="manual"
+     source="scheduled"
+     destination="debated"
+     permission="bungeni.question.Schedule"
+     action="bungeni.core.workflows.question.actions.respondSitting"
+     event=".interfaces.IQuestionDebatedEvent"
+     />
+
   <!--
       the MP can withdraw his question at (almost) any stage
       i.e the stages where it can still be presented to the 

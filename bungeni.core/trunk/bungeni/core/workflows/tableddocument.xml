@@ -59,9 +59,6 @@
   </state>
 
 
-
-
-
   <!-- is scheduled for debate at a sitting -->
   <state id="scheduled" title="Tabeld document scheduled">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
@@ -104,26 +101,6 @@
      action="bungeni.core.workflows.tableddocument.actions.create"
      condition=""
      />
-  <!--transition
-      id="make-private"
-      title="Make private"
-      trigger="manual"
-      source="draft_tableddocument"
-      destination="private_tableddocument"
-      permission="bungeni.tableddocument.Submit"
-      action=""
-      condition=""
-      /-->
-  <!--transition
-      id="re-draft"
-      title="Re draft"
-      trigger="manual"
-      source="private_tableddocument"
-      destination="draft_tableddocument"
-      permission="bungeni.tableddocument.Submit"
-      action=""
-      condition=""
-      /-->
   
   <transition
      id="submit-to-clerk"

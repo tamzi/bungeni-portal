@@ -465,3 +465,29 @@ class SendNotificationToMemberUponAnswer(Notification):
     @property
     def from_address(self):
         return prefs.getClerksOfficeEmail()
+        
+        
+class SendNotificationToMemberUponDebate(Notification):
+    """Issued when a questions answer was reviewed by Clerk's office.
+    sends a notice that the question was either debated or recieved a
+    written answer by the ministry and that the answer is available
+    ..."""
+    
+    component.adapts(interfaces.IQuestionDebatedEvent)
+
+    body = _('notification_email_to_member_upon_debate_question',
+             default="Question debated.")
+    
+    @property
+    def subject(self):
+        return u"Question debated: %s" % self.context.short_name
+
+    @property
+    def condition(self):
+        return self.context.receive_notification
+    
+    @property
+    def from_address(self):
+        return prefs.getClerksOfficeEmail()
+        
+                

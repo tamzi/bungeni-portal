@@ -20,7 +20,7 @@ namespace :plone_tasks do
 
     task :plone_checkout, :roles => [:app] do
 	run "mkdir -p #{plone_buildout_dir}"
-	run "svn co #{plone_respository} #{plone_buildout_dir} --username=#{scm_username} --password=#{scm_password} --no-auth-cache"
+	run "svn co #{plone_respository} #{plone_buildout_dir} --username=#{scm_username} --password=#{scm_password} "
     end 
 
 
@@ -72,6 +72,13 @@ namespace :plone_tasks do
     task :create_fs_folder, :roles=> :app do
       run "cd #{plone_buildout_dir} && mkdir -p ./var/filestorage"
     end
+    
+    desc "import demo data "
+    task :import_demo_data, :roles=> :app do
+      run "cd #{plone_buildout_dir} && mkdir -p ./import"
+    end
+
+
 
     desc "stop plone"
     task :stop_plone, :roles=> :app do

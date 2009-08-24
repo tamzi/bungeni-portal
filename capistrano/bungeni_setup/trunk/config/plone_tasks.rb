@@ -53,7 +53,7 @@ namespace :plone_tasks do
 
     desc "add plone 0 user"
     task :add_admin_user, :roles=> :app do
-      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/addzope2user admin admin"
+      run "cd #{plone_buildout_dir} && ./bin/addzope2user admin #{plone_admin_password}"
     end
 	
 
@@ -61,6 +61,16 @@ namespace :plone_tasks do
     task :plone_upd, :roles=> :app do
       run "cd #{plone_buildout_dir} && svn up"
       run "cd #{plone_buildout_dir}/src && svn up"
+    end
+
+    desc "update zope conf" 
+    task :update_zopeconf, :roles=> :app do
+      run "cd #{plone_buildout_dir} && sed -i 's|INSTANCE \.|INSTANCE #{plone_buildout_dir}|g' ./etc/zope.conf"
+    end
+
+    desc "create filestorage folder" 
+    task :create_fs_folder, :roles=> :app do
+      run "cd #{plone_buildout_dir} && mkdir -p ./var/filestorage"
     end
 
     desc "stop plone"

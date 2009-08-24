@@ -52,5 +52,17 @@ namespace :portal_tasks do
       run "cd #{portal_buildout_dir}/src && svn up"
     end
 
+    desc "stop portal"
+    task :stop_portal, :roles=> :app do
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf stop portal"
+    end
+
+    desc "start portal"
+    task :start_portal, :roles=> :app do
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf start portal"
+    end
+
+
+
 
 end

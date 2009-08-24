@@ -30,7 +30,7 @@
              theme="children:dl.enableFormTabbing" />
     <replace content="children:#portal-column-content"
              theme="children:#fieldset-display-form-workspace > div" />
-    <pyquery pyref="bungeni.portal/static/themes/workspace:rules"
+    <pyquery pyref="bungeni.portal/static/themes/rules:workspace_add"
              pyarg-workspace_id="#workgroup-id"/>
    </rule>
 
@@ -42,7 +42,7 @@
              theme="children:dl.enableFormTabbing" />
     <replace content="children:#portal-column-content"
              theme="children:#fieldset-display-form-workspace > div" />
-    <pyquery pyref="bungeni.portal/static/themes/workspace:rules"
+    <pyquery pyref="bungeni.portal/static/themes/rules:workspace_add"
              pyarg-workspace_id="#user-workspace-id"/>
    </rule>
   
@@ -75,8 +75,6 @@
     <!-- left portlet -->
     <replace content="#portal-column-one"
             theme="#portal-column-one" />
-    <drop content=".contentActions"
-          if-content="#user-name"/>
     <!-- content -->
     <prepend content="children:#portal-column-content"
              theme="children:#portal-column-content" />    
@@ -90,15 +88,11 @@
             content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1" />    
     <drop content="#portal-globalnav"/>
-    <replace href="/bungeni/"
-             content=".contentActions"
-             theme="children:.main-content"/>
-    <pyquery pyref="bungeni.portal/static/themes/workspace:rules"
-             pyarg-workspace_id=".contentActions"/>    
     <replace content="#portal-column-one"
              theme="#portal-column-one"/>    
     <replace content="#portal-column-content"
-            theme="#portal-column-content" />  
+            theme="#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
    </rule>
   
   
@@ -174,8 +168,9 @@
     <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
     <!-- content -->
     <append content="children:#portal-column-content" theme="children:.main-content" />
-
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />
+    
    </rule>
 </ruleset>

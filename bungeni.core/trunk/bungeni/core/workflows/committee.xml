@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <workflow
-   id="group-workflow"
-   title="Group Workflow"
-   description="Workflow for parliamentary groups"
+   id="committee-workflow"
+   title="Committee Workflow"
+   description="Workflow for Committees"
    initial_state="">
 
-  <state id="draft" title="Draft - Group not yet active">
+  <state id="draft" title="Draft - Committee not yet active">
     <grant permission="bungeni.group.Delete" role="bungeni.Owner" />  
     <grant permission="zope.View" role="bungeni.Clerk" />       
     <grant permission="zope.View" role="bungeni.Speaker" />  
@@ -16,7 +16,7 @@
     <deny permission="bungeni.agendaitem.add" role="bungeni.MP" />             
   </state>
 
-  <state id="active" title="Active group">
+  <state id="active" title="Active committee">
     <deny permission="bungeni.group.Delete" role="bungeni.Owner" />  
     <grant permission="zope.View" role="bungeni.MP" />     
     <grant permission="zope.View" role="bungeni.Clerk" />       
@@ -28,7 +28,7 @@
     <deny permission="bungeni.agendaitem.add" role="bungeni.MP" />                     
   </state>
   
-  <state id="dissolved" title="Group is dissolved">
+  <state id="dissolved" title="Committee is dissolved">
     <deny permission="bungeni.agendaitem.add" role="bungeni.CommitteeMember" />                           
   </state>
 

@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <workflow
-   id="bill-workflow"
-   title="bill Workflow"
-   description="A bill"
+   id="agenda-item-workflow"
+   title="Agenda item Workflow"
+   description="Agenda Item"
    initial_state="">
 
   <state id="draft" title="Draft agenda item">

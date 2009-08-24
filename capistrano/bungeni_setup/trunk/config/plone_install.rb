@@ -28,7 +28,10 @@ namespace :plone_install do
 		"plone_install:setup_from_cache",
 		"plone_tasks:bootstrap_bo",
 		"plone_tasks:localbuildout_config",
-		"plone_tasks:buildout_full_local"
+		"plone_tasks:buildout_full_local",
+		"plone_tasks:create_fs_folder",
+	        "plone_tasks:update_zopeconf",
+		"plone_tasks:add_admin_user"
 		
 
 end

@@ -9,5 +9,5 @@ set :user24_python, "#{user24_python_home}/bin/python"
 set :plone_buildout_dir, "#{buildout_dir}/plone"
 set :plone_local_buildout_config_file , "buildout_plone_local.cfg"
 set :plone_respository,  "https://bungeni-portal.googlecode.com/svn/plone.buildout/trunk"
-
+set :plone_admin_password, "admin"
 

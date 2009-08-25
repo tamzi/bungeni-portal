@@ -628,6 +628,24 @@
      permission="bungeni.question.Add"
      />
 
+
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Agenda item"
+     action="/business/agendaitems/add"
+     permission="bungeni.agendaitem.Add"
+     />
+     
+  <browser:menuItem
+     menu="context_additems"
+     for="*"
+     title="Tabled document"
+     action="/business/tableddocuments/add"
+     permission="bungeni.tableddocument.Add"
+     />     
+
+
   <!--browser:menuItem
      for="ore.alchemist.interfaces.IAlchemistContainer"
      menu="context_actions"

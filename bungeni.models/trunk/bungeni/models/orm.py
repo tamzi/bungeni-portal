@@ -334,7 +334,12 @@ mapper( domain.AgendaItem, schema.agenda_items,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='agendaitem',
         properties = {
-             'changes':relation( domain.AgendaItemChange, backref='agendaitem'),
+             'changes' : relation( domain.AgendaItemChange, backref='agendaitem'),
+             'group' : relation(domain.Group, 
+                primaryjoin=(schema.agenda_items.c.group_id==schema.groups.c.group_id ),
+                backref = 'agenda_items',
+                lazy = False,
+                uselist=False,)
              })
 mapper( domain.AgendaItemChange, schema.agenda_item_changes )  
 mapper( domain.AgendaItemVersion, schema.agenda_item_versions,

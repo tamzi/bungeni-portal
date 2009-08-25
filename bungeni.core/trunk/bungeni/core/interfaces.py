@@ -48,6 +48,11 @@ class ICommitteeAddContext(IAddContext):
 class ISessionAddContext(IAddContext):
     """Add-context for sessions."""
 
+class ITabledDocumentAddContext(IAddContext):
+    """Add-context for tabled documents."""
+class IAgendaItemAddContext(IAddContext):
+    """Add-context for agenda items."""
+    
 ####################
 # Feature - Marker Interfaces 
 # 

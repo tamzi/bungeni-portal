@@ -92,11 +92,43 @@ def setup_adapters():
     zope.component.provideHandler(
         bungeni.core.workflows.events.workflowTransitionEventDispatcher)
 
-
     zope.component.provideAdapter(
         bungeni.core.version.ContextVersioned,
         (bungeni.core.interfaces.IVersionable,),
         bungeni.core.interfaces.IVersioned)
+
+    zope.component.provideAdapter(
+        bungeni.core.workflows.adapters.GroupSittingWorkflowAdapter,
+        (domain.GroupSitting,))
+
+    zope.component.provideAdapter(
+        ore.workflow.workflow.WorkflowInfo,
+        (domain.GroupSitting,))
+        
+    zope.component.provideAdapter(
+        bungeni.core.workflows.adapters.UserAddressWorkflowAdapter,
+        (domain.UserAddress,))
+
+    zope.component.provideAdapter(
+        ore.workflow.workflow.WorkflowInfo,
+        (domain.UserAddress,))
+        
+    zope.component.provideAdapter(
+        bungeni.core.workflows.adapters.TabledDocumentWorkflowAdapter,
+        (domain.TabledDocument,))
+
+    zope.component.provideAdapter(
+        ore.workflow.workflow.WorkflowInfo,
+        (domain.TabledDocument,))
+    
+    zope.component.provideAdapter(
+        bungeni.core.workflows.adapters.AgendaItemWorkflowAdapter,
+        (domain.AgendaItem,))
+
+    zope.component.provideAdapter(
+        ore.workflow.workflow.WorkflowInfo,
+        (domain.AgendaItem,))
+
 
 def setup_security_adapters():
     gsm = zope.component.getGlobalSiteManager()

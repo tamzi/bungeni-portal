@@ -131,5 +131,72 @@
      permission="bungeni.response.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
+
+<!-- tabled documents -->
+  <browser:page
+     name="view"
+     for="bungeni.models.interfaces.ITabledDocument"
+     class=".common.DisplayForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="add"
+     for="bungeni.models.interfaces.ITabledDocumentContainer"
+     class=".common.AddForm"
+     permission="bungeni.tableddocument.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.interfaces.ITabledDocument"
+     class=".common.EditForm"
+     permission="bungeni.tableddocument.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.interfaces.ITabledDocument"
+     class=".common.DeleteForm"
+     permission="bungeni.tableddocument.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+     
+<!-- agenda items -->
+  <browser:page
+     name="view"
+     for="bungeni.models.interfaces.IAgendaItem"
+     class=".common.DisplayForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="add"
+     for="bungeni.models.interfaces.IAgendaItemContainer"
+     class=".common.AddForm"
+     permission="bungeni.agendaitem.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.interfaces.IAgendaItem"
+     class=".common.EditForm"
+     permission="bungeni.agendaitem.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.interfaces.IAgendaItem"
+     class=".common.DeleteForm"
+     permission="bungeni.agendaitem.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
      
 </configure>     

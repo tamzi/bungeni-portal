@@ -1,3 +1,4 @@
+import zope.securitypolicy.interfaces
 from bungeni.core.workflows import utils
 from bungeni.core.workflows import dbutils
 
@@ -11,6 +12,15 @@ class actions:
     def create(info, context):
         utils.setBillSubmissionDate( info, context )
         utils.setParliamentId(info, context)
+        user_id = utils.getUserId()
+        if not user_id:
+            user_id ='-'
+        zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)   
+        utils.setParliamentId(info, context)
+        owner_id = utils.getOwnerId( context )
+        if owner_id and (owner_id != user_id):
+            zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
+                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)          
 
     @staticmethod
     def submit(info, context):

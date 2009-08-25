@@ -1,7 +1,7 @@
 from pyquery import PyQuery as pq
 from urlparse import urlsplit
 
-def workspace_add(content, theme, resource_fetcher, log, workspace_id):
+def add_workspace(content, theme, resource_fetcher, log, workspace_id):
     """Get the workspace content from plone using the hidden id from bungeni
     """
     workspace_item = theme('dl.workspace-tab dd#fieldset-display-form-workspace div.workspace-content')
@@ -30,17 +30,22 @@ def rewrite_links(content, theme, resource_fetcher, log):
             content_value = theme(content_item).html()
             if link_value + '/' + link_value +'/' in (str(content_value)):
                 new_content = content_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
-                #print new_content
-                print content_items[content_item]
                 content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
 
 
 def drop_contentActions(content, theme, resource_fetcher, log):
     """If the user is anonymous drop the 'contentActions' bar.
     """
-    content_item = pq(theme("#portal-column-content"))
-    print content_item
-    if not pq(theme("#portal-personaltools")).filter('#user-name'):
-        content_item.remove(".contentActions")
+    content_item = pq(theme('#portal-column-content'))
+    if not pq(theme('#portal-personaltools')).filter('#user-name'):
+        content_item.remove('.contentActions')
+
         
+def move_portlet(content, theme, resource_fetcher, log):
+    """Users with no workspace (admin) get their review portlet on the right column.
+    """
+    if not pq(theme('html').filter('body#bungeni-workspace')):
+        theme('#portal-column-two').append(theme('#review-portlet'))    
+
     
+

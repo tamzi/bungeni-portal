@@ -30,7 +30,7 @@
              theme="children:dl.enableFormTabbing" />
     <replace content="children:#portal-column-content"
              theme="children:#fieldset-display-form-workspace > div" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:workspace_add"
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#workgroup-id"/>
    </rule>
 
@@ -42,7 +42,7 @@
              theme="children:dl.enableFormTabbing" />
     <replace content="children:#portal-column-content"
              theme="children:#fieldset-display-form-workspace > div" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:workspace_add"
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#user-workspace-id"/>
    </rule>
   
@@ -140,7 +140,10 @@
             theme="attributes:dl.enableFormTabbing" />            
     <append href="/bungeni/"
             content="attributes:div#bungeni-workspace"
-            theme="attributes:body" />    
+            theme="attributes:body" />
+    
+    <pyquery pyref="bungeni.portal/static/themes/rules:move_portlet" />    
+
   </rule>  
 
   

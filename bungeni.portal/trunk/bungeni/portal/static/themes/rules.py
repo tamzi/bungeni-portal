@@ -33,3 +33,14 @@ def rewrite_links(content, theme, resource_fetcher, log):
                 #print new_content
                 print content_items[content_item]
                 content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
+
+
+def drop_contentActions(content, theme, resource_fetcher, log):
+    """If the user is anonymous drop the 'contentActions' bar.
+    """
+    content_item = pq(theme("#portal-column-content"))
+    print content_item
+    if not pq(theme("#portal-personaltools")).filter('#user-name'):
+        content_item.remove(".contentActions")
+        
+    

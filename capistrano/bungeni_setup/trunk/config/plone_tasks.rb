@@ -76,6 +76,8 @@ namespace :plone_tasks do
     desc "import demo data "
     task :import_demo_data, :roles=> :app do
       run "cd #{plone_buildout_dir} && mkdir -p ./import"
+      run "cd #{plone_buildout_dir}/import && rm -rf *.*"
+      run "cd #{plone_buildout_dir}/import && wget #{plone_demo_data}"
     end
 
 

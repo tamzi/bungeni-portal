@@ -10,4 +10,4 @@ set :plone_buildout_dir, "#{buildout_dir}/plone"
 set :plone_local_buildout_config_file , "buildout_plone_local.cfg"
 set :plone_respository,  "https://bungeni-portal.googlecode.com/svn/plone.buildout/trunk"
 set :plone_admin_password, "admin"
-
+set :plone_demo_data, "http://dist.bungeni.org/plone/import/import-0.1.tar.gz"

@@ -102,7 +102,7 @@ class IMotionVersion(IMotion):
 class IMotionVersionContainer(IVersionContainer):
     pass
     
-class ICommittee(interface.Interface):
+class ICommittee(IBungeniGroup):
     pass
 
 class IGroupSitting(interface.Interface):
@@ -265,19 +265,22 @@ class IChange(interface.Interface):
     """ Marker for Change (log table) """
         
         
-class IParliament(interface.Interface):
+class IParliament(IBungeniGroup):
     """ marker interface for group parliament """
 
-class IMinistry(interface.Interface):
+class IGovernment(IBungeniGroup):
+    """ marker interface for group Government """
+
+class IMinistry(IBungeniGroup):
     """ marker interface for group ministry """            
 
-class ICommittee(interface.Interface):
+class ICommittee(IBungeniGroup):
     """ marker interface for group ministry """ 
     
-class IPoliticalParty(interface.Interface):
+class IPoliticalParty(IBungeniGroup):
     """ marker interface for political party """   
 
-class IOffice(interface.Interface):
+class IOffice(IBungeniGroup):
     """ marker interface for a parliamentary office """           
     
 class IUserAddress(interface.Interface):

@@ -43,9 +43,7 @@ ResponseWorkflowAdapter = workflow.AdaptedWorkflow(
 VersionWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(version, IVersion))
 GroupSittingWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(groupsitting, IVersion))
-GroupWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(groups, domain.Group))
+    load_workflow(groupsitting, domain.GroupSitting))
 AdressWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(address, domain.UserAddress))   
 TabledDocumentWorkflowAdapter = workflow.AdaptedWorkflow(
@@ -56,6 +54,7 @@ ParliamentWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(parliament, domain.Parliament)) 
 CommitteeWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(committee, domain.Committee))     
-
+GroupWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(groups, domain.Group))
 
     

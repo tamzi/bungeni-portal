@@ -20,15 +20,7 @@ class actions:
         """
         remove all rights to change the question from all involved roles
         """
-    #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( tabled_document )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.edit', u'bungeni.Owner' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.edit', u'bungeni.Clerk' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.edit', u'bungeni.Speaker' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.edit', u'bungeni.MP' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.delete', u'bungeni.Owner' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.delete', u'bungeni.Clerk' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.delete', u'bungeni.Speaker' )
-    #    rpm.denyPermissionToRole( 'bungeni.tabled_document.delete', u'bungeni.MP' )    
+
 
     @staticmethod
     def postpone(info,context):

@@ -12,6 +12,8 @@ from ore.workflow import interfaces
 from bungeni.core.workflows.question import states as question_wf_state #[u"questionstates
 from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionstates
 from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
+from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
+from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
@@ -540,7 +542,7 @@ class ItemInStageViewlet( ViewletBase ):
             user_id = None     
         qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
                 domain.ParliamentaryItem.status.in_(self.states),
-                domain.ParliamentaryItem.type.in_(['motion','question'] ))        
+                domain.ParliamentaryItem.type.in_(['motion','question','agendaitem','tableddocument'] ))        
         self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
             domain.ParliamentaryItem.parliamentary_item_id.desc())  
 
@@ -551,6 +553,8 @@ class MPItemDraftViewlet( ItemInStageViewlet ):
     name = "Draft Items"
     states = [motion_wf_state[u"draft"].id,
         question_wf_state[u"draft"].id,
+        agendaitem_wf_state[u"draft"].id,
+        tableddocument_wf_state[u"draft"].id,
         ]
     list_id = "items-draft"    
 
@@ -563,6 +567,8 @@ class MPItemActionRequiredViewlet( ItemInStageViewlet ):
     name = "Action required"
     states = [motion_wf_state[u"clarify_mp"].id,
         question_wf_state[u"clarify_mp"].id,
+        agendaitem_wf_state[u"clarify_mp"].id,
+        tableddocument_wf_state[u"clarify_mp"].id,
         ]
     list_id = "items-action-required"     
 
@@ -592,7 +598,23 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         question_wf_state[u"responded"].id,
         motion_wf_state[u"deferred"].id,
         motion_wf_state[u"postponed"].id,
-        motion_wf_state[u"scheduled"].id        
+        motion_wf_state[u"scheduled"].id,
+        agendaitem_wf_state[u"submitted"].id,
+        agendaitem_wf_state[u"received"].id,
+        agendaitem_wf_state[u"complete"].id,
+        agendaitem_wf_state[u"clarify_clerk"].id,
+        agendaitem_wf_state[u"admissible"].id,
+        agendaitem_wf_state[u"deferred"].id,
+        agendaitem_wf_state[u"postponed"].id,
+        agendaitem_wf_state[u"scheduled"].id,    
+        tableddocument_wf_state[u"submitted"].id,
+        tableddocument_wf_state[u"received"].id,
+        tableddocument_wf_state[u"complete"].id,
+        tableddocument_wf_state[u"clarify_clerk"].id,
+        tableddocument_wf_state[u"admissible"].id,
+        tableddocument_wf_state[u"deferred"].id,
+        tableddocument_wf_state[u"postponed"].id,
+        tableddocument_wf_state[u"scheduled"].id                            
         ]
     list_id = "items-in-progress"     
 
@@ -601,8 +623,23 @@ class MPItemArchiveViewlet(ItemInStageViewlet):
     name = "Archived Items"
     states = [
         question_wf_state[u"answered"].id,
-        #question_wf_state[u"debated"].id,
+        question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
+        agendaitem_wf_state[u"debated"].id,
+        tableddocument_wf_state[u"debated"].id,  
+        question_wf_state[u"elapsed"].id,
+        question_wf_state[u"withdrawn"].id,
+        question_wf_state[u"inadmissible"].id, 
+        motion_wf_state[u"withdrawn"].id,
+        motion_wf_state[u"elapsed"].id,
+        motion_wf_state[u"inadmissible"].id,          
+        agendaitem_wf_state[u"withdrawn"].id,
+        agendaitem_wf_state[u"elapsed"].id,
+        agendaitem_wf_state[u"inadmissible"].id,  
+        tableddocument_wf_state[u"withdrawn"].id,
+        tableddocument_wf_state[u"elapsed"].id,
+        tableddocument_wf_state[u"inadmissible"].id          
+                      
         ]
     list_id = "items-archived"     
 
@@ -611,7 +648,7 @@ class MPItemSuccessEndViewlet(ItemInStageViewlet):
     name = "Items succesfully tabled"
     states = [
         question_wf_state[u"answered"].id,
-        #question_wf_state[u"debated"].id,
+        question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
         question_wf_state[u"elapsed"].id,
         question_wf_state[u"withdrawn"].id,

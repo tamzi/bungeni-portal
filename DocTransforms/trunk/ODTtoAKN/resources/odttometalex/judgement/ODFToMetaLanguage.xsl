@@ -87,17 +87,17 @@
                 <meta id="publication_{generate-id()}" name="publication" contentName="{//meta:user-defined[@meta:name='BungeniPublicationName']}" date="{//meta:user-defined[@meta:name='BungeniPublicationDate']}"/>
             </mcontainer>
             <mcontainer id="references_{generate-id()}" name="references" source="#bungeni">
-                <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" />
+                <!-- <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" /> -->
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniWorkAuthor']}" href="{//meta:user-defined[@meta:name='BungeniWorkAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniExpAuthor']}" href="{//meta:user-defined[@meta:name='BungeniExpAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniManAuthor']}" href="{//meta:user-defined[@meta:name='BungeniManAuthorURI']}" showAs="Author"/>
-                <xsl:for-each select="//*[@BungeniSectionType='Speech']">
+                <!--<xsl:for-each select="//*[@BungeniSectionType='Speech']">
                     <meta name="TLCPerson" id="{@BungeniPersonID}" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> 
                 </xsl:for-each> 
                 <xsl:for-each select="//*[@BungeniSectionType='ActionEvent']">
                     <meta name="TLCEvent" id="{@BungeniEventName}" href="{@BungeniOntology}" showAs="{@BungeniOntologyName}"/> 
                 </xsl:for-each> 
-                
+                -->
             </mcontainer>
         </mcontainer> 
     </xsl:template>

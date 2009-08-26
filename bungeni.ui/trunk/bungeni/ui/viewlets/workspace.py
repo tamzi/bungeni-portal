@@ -521,8 +521,12 @@ class ItemInStageViewlet( ViewletBase ):
         for result in results:            
             data ={}
             wf_state = self.get_wf_state(result)
-            data['qid']= ( 'i-' + str(result.parliamentary_item_id) )                         
-            data['subject'] = ( u'(' + wf_state +  
+            data['qid']= ( 'i-' + str(result.parliamentary_item_id) )
+            if type(result) == domain.AgendaItem:
+                g = u' ' + result.group.type + u' ' + result.group.short_name
+            else:
+                g = u''                                         
+            data['subject'] = ( u'(' + wf_state +  g +
                      u') ' + result.short_name)
             data['title'] = result.short_name      
             data['result_item_class'] = 'workflow-state-' + result.status       

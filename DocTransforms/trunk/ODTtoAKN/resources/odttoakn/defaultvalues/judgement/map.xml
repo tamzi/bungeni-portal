@@ -1,30 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map>
 	<elements>
-		<element id="1" bungeniSectionType="root" result="debateRecord" />
-		<element id="2" bungeniSectionType="body" result="debate"/>
-		<element id="3" bungeniSectionType="Preface" result="preface" />
-		<element id="4" bungeniSectionType="Observation" result="scene"/>
-		<element id="5" bungeniSectionType="PapersLaid" result="papers" mantain="id"/>
- 	    <element id="6" bungeniSectionType="PapersLaidList" result="other" mantain="id"/>
- 	    <element id="7" bungeniSectionType="GroupActivity" result="subdivision" mantain="id,name"/>
- 	    <element id="8" bungeniSectionType="Speech" result="speech" mantain="id"/>
- 		<element id="9" bungeniSectionType="QuestionsContainer" result="subdivision" mantain="id,name"/>
-		<element id="10" bungeniSectionType="QuestionAnswer" result="questions" mantain="id"/>
- 		<element id="11" bungeniSectionType="Question" result="question" mantain="id"/>
-		<element id="12" bungeniSectionType="PointOfOrder" result="pointOfOrder" mantain="id"/>
-		<element id="13" bungeniSectionType="PMotionsContainer" result="proceduralMotions" mantain="id"/>
-		<element id="14" bungeniSectionType="NMotionsContainer" result="noticesOfMotion" mantain="id"/>
-		<element id="15" bungeniSectionType="NoticeOfMotion" result="subdivision" mantain="id,name"/>
-		<!-- renamed to PMotionsContainer 
-		<element id="42" bungeniSectionType="ProceduralMotion" result="subdivision" mantain="id,name"/>
-		-->
-		<!--
-		<element id="15" bungeniSectionType="Motion" result="subdivision" mantain="id,name"/>
-		-->
-		<element id="16" bungeniSectionType="Person" result="from"/>
-		<element id="17" bungeniSectionType="ActionEvent" result="subdivision" mantain="id"/>
-		<element id="18" bungeniSectionType="Communication" result="communication" mantain="id"/>
+		<element id="1" bungeniSectionType="root" result="judgement" />
+		<element id="2" bungeniSectionType="body" result="judgementBody"/>
+		<element id="3" bungeniSectionType="Header" result="header" />
 		<element id="19" bungeniSectionType="Conclusion" result="conclusions" mantain="id"/>
 		<element id="20" bungeniSectionType="span" result="span" />
 		<element id="21" bungeniSectionType="p" result="p"/>
@@ -50,12 +29,5 @@
 		<element id="40" bungeniSectionType="TLCOrganization" result="TLCOrganization" mantain="id,href,showAs" />
 		<element id="41" bungeniSectionType="TLCPerson" result="TLCPerson" mantain="id,href,showAs" />
 		<element id="42" bungeniSectionType="TLCEvent" result="TLCEvent" mantain="id,href,showAs" />
-		
-		<!-- new elements AN 2009 release -->
-		<element id="43" bungeniSectionType="PersonalStatement" result="subdivision" mantain="id,name"/>
-		<element id="44" bungeniSectionType="MinisterialStatement" result="subdivision" mantain="id,name"/>
-	    <element id="45" bungeniSectionType="Petitions" result="petitions" mantain="id"/>
- 	    <element id="46" bungeniSectionType="PetitionsList" result="other" mantain="id"/>
-		
 	</elements> 
 </map>

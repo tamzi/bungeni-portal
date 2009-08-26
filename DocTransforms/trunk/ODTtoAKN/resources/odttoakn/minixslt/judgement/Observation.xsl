@@ -18,10 +18,15 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="*[@name='Header']">
-        <header>
- 			<xsl:apply-templates />
-        </header>
+    <xsl:template match="*[@name='Observation']">
+        <scene>
+            <xsl:for-each select="*:block">
+                <span>
+                    <xsl:apply-templates />
+                </span>
+            </xsl:for-each>
+            <xsl:apply-templates select="*[name(.) != 'block']" />
+        </scene>
     </xsl:template>
     
     <xsl:template match="text()">

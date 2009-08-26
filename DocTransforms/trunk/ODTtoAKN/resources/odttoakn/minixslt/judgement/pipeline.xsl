@@ -18,262 +18,157 @@
     </xsl:template> 
 
 	<xsl:template match="*[@name='root']">
-		<xslt step="0" name="root" href="odttoakn/minixslt/debaterecord/root.xsl" />
+		<xslt step="0" name="root" href="odttoakn/minixslt/judgement/root.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='body']">
-		<xslt step="1" name="body" href="odttoakn/minixslt/debaterecord/body.xsl" />
+		<xslt step="1" name="body" href="odttoakn/minixslt/judgement/body.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="*[@name='Preface']">
-		<xslt step="2" name="Preface" href="odttoakn/minixslt/debaterecord/MastHead.xsl" />
+	<xsl:template match="*[@name='Header']">
+		<xslt step="2" name="Header" href="odttoakn/minixslt/judgement/Header.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
+	
+	<!--
 
 	<xsl:template match="*[@name='Observation']">
-		<xslt step="3" name="Observation" href="odttoakn/minixslt/debaterecord/Observation.xsl" />
+		<xslt step="3" name="Observation" href="odttoakn/minixslt/judgement/Observation.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
-
-	<xsl:template match="*[@name='PapersLaid']">
-		<xslt step="4" name="PapersLaid" href="odttoakn/minixslt/debaterecord/TabledDocuments.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='PapersLaidList']">
-		<xslt step="5" name="PapersLaidList" href="odttoakn/minixslt/debaterecord/TabledDocumentsList.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='GroupActivity']">
-		<xslt step="6" name="GroupActivity" href="odttoakn/minixslt/debaterecord/GroupActivity.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='Speech']">
-		<xslt step="7" name="Speech" href="odttoakn/minixslt/debaterecord/Speech.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='QuestionsContainer']">
-		<xslt step="8" name="QuestionsContainer" href="odttoakn/minixslt/debaterecord/QuestionsContainer.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='QuestionAnswer']">
-		<xslt step="9" name="QuestionAnswer" href="odttoakn/minixslt/debaterecord/QuestionAnswer.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='Question']">
-		<xslt step="10" name="Question" href="odttoakn/minixslt/debaterecord/Question.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='PointOfOrder']">
-		<xslt step="11" name="PointOfOrder" href="odttoakn/minixslt/debaterecord/PointOfOrder.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
-	<xsl:template match="*[@name='PersonalStatement']">
-		<xslt step="12" name="PersonalStatement" href="odttoakn/minixslt/debaterecord/PersonalStatement.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
-	<xsl:template match="*[@name='MinisterialStatement']">
-		<xslt step="13" name="MinisterialStatement" href="odttoakn/minixslt/debaterecord/MinisterialStatement.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
-		<xsl:template match="*[@name='Petitions']">
-		<xslt step="14" name="Petitions" href="odttoakn/minixslt/debaterecord/Petitions.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
-	
-		<xsl:template match="*[@name='PetitionsList']">
-		<xslt step="15" name="PetitionsList" href="odttoakn/minixslt/debaterecord/PetitionsList.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
-
-<xsl:template match="*[@name='PMotionsContainer']">
-		<xslt step="16" name="PMotionsContainer" href="odttoakn/minixslt/debaterecord/PMotionsContainer.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='NMotionsContainer']">
-		<xslt step="17" name="NMotionsContainer" href="odttoakn/minixslt/debaterecord/NMotionsContainer.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
- <!--
-	<xsl:template match="*[@name='ProceduralMotion']">
-		<xslt step="12" name="ProceduralMotion" href="odttoakn/minixslt/debaterecord/ProceduralMotion.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='MotionsContainer']">
-		<xslt step="13" name="MotionsContainer" href="odttoakn/minixslt/debaterecord/MotionsContainer.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	-->
-
-     <!-- changed to NoticeOfMotion 20/July/2009 -->
-	<xsl:template match="*[@name='NoticeOfMotion']">
-		<xslt step="18" name="NoticeOfMotion" href="odttoakn/minixslt/debaterecord/NoticeOfMotion.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
-	<xsl:template match="*[@name='ProceduralMotion']">
-		<xslt step="19" name="ProceduralMotion" href="odttoakn/minixslt/debaterecord/ProceduralMotion.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-	
 
 	<xsl:template match="*[@name='Person']">
-		<xslt step="20" name="Person" href="odttoakn/minixslt/debaterecord/Person.xsl" />
+		<xslt step="20" name="Person" href="odttoakn/minixslt/judgement/Person.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
-	<xsl:template match="*[@name='ActionEvent']">
-		<xslt step="21" name="ActionEvent" href="odttoakn/minixslt/debaterecord/ActionEvent.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="*[@name='Communication']">
-		<xslt step="22" name="Communication" href="odttoakn/minixslt/debaterecord/Communication.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
 
 	<xsl:template match="*[@name='Conclusion']">
-		<xslt step="23" name="Conclusion" href="odttoakn/minixslt/debaterecord/Conclusion.xsl" />
+		<xslt step="23" name="Conclusion" href="odttoakn/minixslt/judgement/Conclusion.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='span']">
-		<xslt step="24" name="span" href="odttoakn/minixslt/debaterecord/span.xsl" />
+		<xslt step="24" name="span" href="odttoakn/minixslt/judgement/span.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='p']">
-		<xslt step="25" name="p" href="odttoakn/minixslt/debaterecord/p.xsl" />
+		<xslt step="25" name="p" href="odttoakn/minixslt/judgement/p.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='ref']">
-		<xslt step="26" name="ref" href="odttoakn/minixslt/debaterecord/ref.xsl" />
+		<xslt step="26" name="ref" href="odttoakn/minixslt/judgement/ref.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='heading']">
-		<xslt step="27" name="heading" href="odttoakn/minixslt/debaterecord/heading.xsl" />
+		<xslt step="27" name="heading" href="odttoakn/minixslt/judgement/heading.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='subheading']">
-		<xslt step="28" name="subheading" href="odttoakn/minixslt/debaterecord/subheading.xsl" />
+		<xslt step="28" name="subheading" href="odttoakn/minixslt/judgement/subheading.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='list']">
-		<xslt step="29" name="list" href="odttoakn/minixslt/debaterecord/list.xsl" />
+		<xslt step="29" name="list" href="odttoakn/minixslt/judgement/list.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='item']">
-		<xslt step="30" name="item" href="odttoakn/minixslt/debaterecord/item.xsl" />
+		<xslt step="30" name="item" href="odttoakn/minixslt/judgement/item.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='a']">
-		<xslt step="31" name="a" href="odttoakn/minixslt/debaterecord/a.xsl" />
+		<xslt step="31" name="a" href="odttoakn/minixslt/judgement/a.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
-
+ -->
 	<xsl:template match="*[@name='meta']">
-		<xslt step="32" name="meta" href="odttoakn/minixslt/debaterecord/meta.xsl" />
+		<xslt step="32" name="meta" href="odttoakn/minixslt/judgement/meta.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='identification']">
-		<xslt step="33" name="identification" href="odttoakn/minixslt/debaterecord/identification.xsl" />
+		<xslt step="33" name="identification" href="odttoakn/minixslt/judgement/identification.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='FRBRWork']">
-		<xslt step="34" name="FRBRWork" href="odttoakn/minixslt/debaterecord/FRBRWork.xsl" />
+		<xslt step="34" name="FRBRWork" href="odttoakn/minixslt/judgement/FRBRWork.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='FRBRExpression']">
-		<xslt step="35" name="FRBRExpression" href="odttoakn/minixslt/debaterecord/FRBRExpression.xsl" />
+		<xslt step="35" name="FRBRExpression" href="odttoakn/minixslt/judgement/FRBRExpression.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='FRBRManifestation']">
-		<xslt step="36" name="FRBRManifestation" href="odttoakn/minixslt/debaterecord/FRBRManifestation.xsl" />
+		<xslt step="36" name="FRBRManifestation" href="odttoakn/minixslt/judgement/FRBRManifestation.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='this']">
-		<xslt step="37" name="this" href="odttoakn/minixslt/debaterecord/this.xsl" />
+		<xslt step="37" name="this" href="odttoakn/minixslt/judgement/this.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='uri']">
-		<xslt step="38" name="uri" href="odttoakn/minixslt/debaterecord/uri.xsl" />
+		<xslt step="38" name="uri" href="odttoakn/minixslt/judgement/uri.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='date']">
-		<xslt step="39" name="date" href="odttoakn/minixslt/debaterecord/date.xsl" />
+		<xslt step="39" name="date" href="odttoakn/minixslt/judgement/date.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='author']">
-		<xslt step="40" name="author" href="odttoakn/minixslt/debaterecord/author.xsl" />
+		<xslt step="40" name="author" href="odttoakn/minixslt/judgement/author.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='publication_mcontainer']">
-		<xslt step="41" name="publication_mcontainer" href="odttoakn/minixslt/debaterecord/publication_mcontainer.xsl" />
+		<xslt step="41" name="publication_mcontainer" href="odttoakn/minixslt/judgement/publication_mcontainer.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='publication']">
-		<xslt step="42" name="publication" href="odttoakn/minixslt/debaterecord/publication.xsl" />
+		<xslt step="42" name="publication" href="odttoakn/minixslt/judgement/publication.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='references']">
-		<xslt step="43" name="references" href="odttoakn/minixslt/debaterecord/references.xsl" />
+		<xslt step="43" name="references" href="odttoakn/minixslt/judgement/references.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='TLCOrganization']">
-		<xslt step="44" name="TLCOrganization" href="odttoakn/minixslt/debaterecord/TLCOrganization.xsl" />
+		<xslt step="44" name="TLCOrganization" href="odttoakn/minixslt/judgement/TLCOrganization.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='TLCPerson']">
-		<xslt step="45" name="TLCPerson" href="odttoakn/minixslt/debaterecord/TLCPerson.xsl" />
+		<xslt step="45" name="TLCPerson" href="odttoakn/minixslt/judgement/TLCPerson.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 	
 	<xsl:template match="*[@name='TLCEvent']">
-		<xslt step="46" name="TLCEvent" href="odttoakn/minixslt/debaterecord/TLCEvent.xsl" />
+		<xslt step="46" name="TLCEvent" href="odttoakn/minixslt/judgement/TLCEvent.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 	
 	<xsl:template match="*[@name='TLCRole']">
-		<xslt step="47" name="TLCRole" href="odttoakn/minixslt/debaterecord/TLCRole.xsl" />
+		<xslt step="47" name="TLCRole" href="odttoakn/minixslt/judgement/TLCRole.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 	
 	
-	
-	
-
 </xsl:stylesheet>

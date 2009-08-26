@@ -20,12 +20,12 @@
 
     <xsl:template match="*[@name='root']">
         <akomaNtoso>
-            <debateRecord>
+            <judgement>
                 <xsl:apply-templates select="//*[@name='meta']"/>
-                <xsl:apply-templates select="//*[@name='Header']"/>
-                <xsl:apply-templates />
+                 <xsl:apply-templates select="//*[@name='Header']"/> 
+                <xsl:apply-templates /> 
                 <xsl:apply-templates select="//*[@name='Conclusion']"/>
-            </debateRecord>
+            </judgement>
         </akomaNtoso>    
     </xsl:template>
     

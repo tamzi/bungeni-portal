@@ -32,6 +32,31 @@
 		<xsl:apply-templates />
 	</xsl:template>
 	
+	<xsl:template match="*[@name='Introduction']">
+		<xslt step="3" name="Introduction" href="odttoakn/minixslt/judgement/introduction.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	<xsl:template match="*[@name='Background']">
+		<xslt step="4" name="Background" href="odttoakn/minixslt/judgement/background.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	<xsl:template match="*[@name='Motivation']">
+		<xslt step="5" name="Motivation" href="odttoakn/minixslt/judgement/motivation.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	<xsl:template match="*[@name='Decision']">
+		<xslt step="6" name="Decision" href="odttoakn/minixslt/judgement/decision.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	
+	<xsl:template match="*[@name='Conclusion']">
+		<xslt step="7" name="Conclusion" href="odttoakn/minixslt/judgement/Conclusion.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
 	<!--
 
 	<xsl:template match="*[@name='Observation']">

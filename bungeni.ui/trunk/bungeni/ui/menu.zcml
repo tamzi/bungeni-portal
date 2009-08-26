@@ -457,6 +457,15 @@
      permission="zope.View"
      />
 
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     title="Add agenda Item..."
+     action="../../agendaitems/add"
+     permission="bungeni.agendaitem.Add"
+     />
+
+
   <!-- group-sitting scheduling view reporting actions -->
   
   <browser:menuItem

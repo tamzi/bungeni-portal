@@ -33,4 +33,23 @@
      permission="zope.View"
      />    
 
+  <browser:viewlet
+     name="bungeni.scheduling.tableddocuments"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager=".interfaces.ISchedulingManager"
+     class=".schedule.SchedulableTabledDocumentsViewlet"
+     permission="zope.View"
+     />    
+     
+     
+  <browser:viewlet
+     name="bungeni.scheduling.agendaitems"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager=".interfaces.ISchedulingManager"
+     class=".schedule.SchedulableAgendaItemsViewlet"
+     permission="zope.View"
+     />         
+
+
+
 </configure>

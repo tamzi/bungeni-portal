@@ -120,7 +120,19 @@
 
   <!-- clerks workspace -->
 
+
+
   <browser:viewlet
+     name="bungeni.workspace.action-required.clerk"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ClerkItemActionRequiredViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="10"
+     />
+
+  <!--browser:viewlet
      name="bungeni.workspace.questions-submitted.clerk"
      for="*"
      manager=".interfaces.IWorkspaceManager"
@@ -209,15 +221,15 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="80"
-     />  
+     /-->  
 
   <!-- speakers workspace -->
 
   <browser:viewlet
-     name="bungeni.workspace.questions-complete"
+     name="bungeni.workspace.items-complete"
      for="*"
      manager=".interfaces.IWorkspaceManager"
-     class=".workspace.CompleteQuestionViewlet"
+     class=".workspace.ItemsCompleteViewlet"
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
      weight="10"

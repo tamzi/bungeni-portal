@@ -550,7 +550,20 @@ class ItemInStageViewlet( ViewletBase ):
         self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
             domain.ParliamentaryItem.parliamentary_item_id.desc())  
 
+class AllItemsInStageViewlet( ItemInStageViewlet ): 
 
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()    
+        qfilter = sql.and_(
+                domain.ParliamentaryItem.status.in_(self.states),
+                domain.ParliamentaryItem.type.in_(
+                    ['motion','question','agendaitem','tableddocument'] ))        
+        self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
+            domain.ParliamentaryItem.parliamentary_item_id.desc()) 
+            
 
 
 class MPItemDraftViewlet( ItemInStageViewlet ): 
@@ -675,4 +688,33 @@ class MPItemFailedEndViewlet(ItemInStageViewlet):
         motion_wf_state[u"inadmissible"].id
         ]
     list_id = "items-failed"     
+
+
+class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ): 
+    name = "action required"
+    states = [
+        question_wf_state[u"submitted"].id,
+        question_wf_state[u"received"].id,
+        question_wf_state[u"clarify_clerk"].id,  
+        motion_wf_state[u"submitted"].id,
+        motion_wf_state[u"received"].id,
+        motion_wf_state[u"clarify_clerk"].id,    
+        agendaitem_wf_state[u"submitted"].id,
+        agendaitem_wf_state[u"received"].id,
+        agendaitem_wf_state[u"clarify_clerk"].id,    
+        tableddocument_wf_state[u"submitted"].id,
+        tableddocument_wf_state[u"received"].id,
+        tableddocument_wf_state[u"clarify_clerk"].id,        
+    ]
+    list_id = "items-action-required"
     
+class ItemsCompleteViewlet( AllItemsInStageViewlet ): 
+    name = "action required"
+    states = [
+        question_wf_state[u"complete"].id,  
+        motion_wf_state[u"complete"].id,
+        agendaitem_wf_state[u"complete"].id,
+        tableddocument_wf_state[u"complete"].id,                              
+    ]
+    list_id = "items-action-required"
+        

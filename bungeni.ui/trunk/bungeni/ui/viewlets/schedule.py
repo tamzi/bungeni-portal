@@ -14,6 +14,8 @@ from zope.app.component.hooks import getSite
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
+from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
+from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
 from bungeni.models import domain
 from bungeni.models.interfaces import IBungeniApplication
 from bungeni.core.interfaces import ISchedulingContext
@@ -124,3 +126,21 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
         motion_wf_state[u"admissible"].id,
         motion_wf_state[u"postponed"].id,
         )
+        
+class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
+    model = domain.AgendaItem
+
+    states = (
+        agendaitem_wf_state[u"admissible"].id,
+        agendaitem_wf_state[u"postponed"].id,
+        )
+        
+class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
+    model = domain.TabledDocument
+
+    states = (
+        tableddocument_wf_state[u"admissible"].id,
+        tableddocument_wf_state[u"postponed"].id,
+        )
+                         
+        

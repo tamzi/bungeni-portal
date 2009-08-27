@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://www.akomantoso.org/1.0">
+   <judgement>
+      <meta>
+         <identification source="#bungeni">
+            <FRBRWork>
+               <this value="/ke/judgement/2009-8-25"/>
+               <uri value=""/>
+               <date date="2009-08-25" name="workDate"/>
+               <author href="#user.Ashok"/>
+            </FRBRWork>
+            <FRBRExpression>
+               <this value="/ke/judgement/2009-8-25/eng"/>
+               <uri value="/eng@"/>
+               <date date="2009-08-25" name="expDate"/>
+               <author href="#user.Ashok"/>
+            </FRBRExpression>
+            <FRBRManifestation>
+               <this value="/ke/judgement/2009-8-25/eng.xml"/>
+               <uri value="/eng@.akn"/>
+               <date date="2009-08-25" name="manDate"/>
+               <author href="#user.Ashok"/>
+            </FRBRManifestation>
+         </identification>
+         <publication date="2009-08-25" name="judgement" showAs=""/>
+         <references source="#bungeni">
+            <TLCPerson id="user.Ashok" href="user.Ashok" showAs="Author"/>
+         </references>
+      </meta>
+      <header>THE SUPREME COURT OF APPEAL REPUBLIC OF SOUTH AFRICACase number:653/07In the matter betweenFOURWAY HAULAGE SA (PTY) LTDAPPELLANTandSA NATIONAL ROADS AGENCY LTDRESPONDENTNeutral citation:Fourway Haulage v SA National Roads Agency (653/07)[2008] ZASCA 134(26 November 2008)CORAM:SCOTT,FARLAM,BRAND,LEWIS,JAFTAHEARD:5 November 2008DELIVERED:26 November 2008CORRECTED:SUMMARY:Delict–pure economic loss–meaning of–policy considerations relevant in determining wrongfulness–remoteness of damage–application of flexible testORDER: On appeal from: High Court, Pretoria (Rabie J sitting as court of first instance)The appeal is dismissed with costsJUDGMENT:BRAND(SCOTT,FARLAM,BRAND,LEWIS, JAFTA concurring)</header>
+      <judgementBody>
+         <header>THE SUPREME COURT OF APPEAL REPUBLIC OF SOUTH AFRICACase number:653/07In the matter betweenFOURWAY HAULAGE SA (PTY) LTDAPPELLANTandSA NATIONAL ROADS AGENCY LTDRESPONDENTNeutral citation:Fourway Haulage v SA National Roads Agency (653/07)[2008] ZASCA 134(26 November 2008)CORAM:SCOTT,FARLAM,BRAND,LEWIS,JAFTAHEARD:5 November 2008DELIVERED:26 November 2008CORRECTED:SUMMARY:Delict–pure economic loss–meaning of–policy considerations relevant in determining wrongfulness–remoteness of damage–application of flexible testORDER: On appeal from: High Court, Pretoria (Rabie J sitting as court of first instance)The appeal is dismissed with costsJUDGMENT:BRAND(SCOTT,FARLAM,BRAND,LEWIS, JAFTA concurring)</header>
+         <introduction/>
+         <background>
+            <span/>
+         </background>
+         <motivation/>
+         <decision/>
+      </judgementBody>
+      <conclusions id="concl1"/>
+   </judgement>
+</akomaNtoso>

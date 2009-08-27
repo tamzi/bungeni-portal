@@ -50,6 +50,7 @@ class ISessionAddContext(IAddContext):
 
 class ITabledDocumentAddContext(IAddContext):
     """Add-context for tabled documents."""
+    
 class IAgendaItemAddContext(IAddContext):
     """Add-context for agenda items."""
     

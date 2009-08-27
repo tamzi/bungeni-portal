@@ -164,6 +164,16 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(questions, documents[u"questions"]),
                        (implementedBy(domain.Question), ILocation))
 
+        documents[u"agendaitems"] = domain.AgendaItemContainer()
+        provideAdapter(location.ContainerLocation(agendaitems, documents[u"agendaitems"]),
+                       (implementedBy(domain.AgendaItem), ILocation))
+                       
+                       
+        documents[u"tableddocuments"] = domain.TabledDocumentContainer()
+        provideAdapter(location.ContainerLocation(tableddocuments, documents[u"tableddocuments"]),
+                       (implementedBy(domain.TabledDocument), ILocation))                       
+
+
         records[u"parliaments"] = domain.ParliamentContainer()
         provideAdapter(location.ContainerLocation(records[u"parliaments"]),
                        (implementedBy(domain.Parliament), ILocation))

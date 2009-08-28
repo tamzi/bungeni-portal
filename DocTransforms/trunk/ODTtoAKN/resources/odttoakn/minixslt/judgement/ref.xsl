@@ -21,12 +21,28 @@
 		<xsl:if test="@href">
 			<xsl:if test="@class">
 				<xsl:choose>
-					<!--check if speechBy attribute exists then generate a 'from' -->
-					<xsl:when test="@class='BungeniSpeechBy'">
-						<from>
+					<!--check if caseNumber attribute exists then generate a 'from' -->
+					<xsl:when test="@class='mBungeniCaseNo'">
+						<caseNumber>
 							<xsl:value-of select="."/>
-						</from>
+						</caseNumber>
 					</xsl:when>
+					<!-- the party element -->
+					<xsl:when test="@class='BungeniPartyName'">
+						<party>
+						<!-- we use the tokenize() function to extract the refersTo attrib 
+						from the reference href the id is a generated one -->
+						<xsl:variable name="strHref"><xsl:value-of select="@href" /></xsl:variable>
+						<xsl:variable name="tokenizedHref" select="tokenize($strHref,';')"/>
+						<xsl:attribute name="refersTo">
+						   <xsl:value-of select="$tokenizedHref[1]" />
+						</xsl:attribute>
+						<xsl:attribute name="id">
+						   <xsl:value-of select="generate-id()" />
+						</xsl:attribute>
+						 <xsl:value-of select="."/>
+						</party>
+					</xsl:when>						
 					<!-- otherwise generate normal reference -->
 					<xsl:otherwise>
 					     <ref>

@@ -11,6 +11,8 @@ from zope.viewlet import viewlet
 from zc.resourcelibrary import need
 from zope.app.component.hooks import getSite
 
+import sqlalchemy.sql.expression as sql
+
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
@@ -54,6 +56,7 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
     model = states = container = None
 
     render = ViewPageTemplateFile('templates/schedulable_items.pt')
+                              
 
     @property
     def app(self):
@@ -134,13 +137,60 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
         agendaitem_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"postponed"].id,
         )
+
+    def get_group_id(self):
+        parent=self.context
+        while parent is not None:
+            group_id = getattr(parent,'group_id',None)
+            if group_id:
+                return group_id
+            else:
+                parent = parent.__parent__
+        raise ValueError("Unable to determine group.")  
+                
+    def update(self):
+        need('yui-dragdrop')
+        need('yui-container')
+
+        session = Session()
+        group_id = self.get_group_id()
+        items = tuple(session.query(self.model).filter(
+            sql.and_(
+            self.model.status.in_(self.states),
+            self.model.group_id == group_id)
+            ))
+
+        # add location to items
+        gsm = component.getSiteManager()
+        adapter = gsm.adapters.lookup(
+            (interface.implementedBy(self.model),
+             interface.providedBy(self)), ILocation)
+
+        items = [adapter(item, None) for item in items]
+
+        # for each item, format dictionary for use in template
+        self.items = [{
+            'title': properties.title,
+            'name': item.__class__.__name__,
+            'description': properties.description,
+            'date': _(u"$F", mapping=
+                      datetimedict.fromdatetime(item.changes[-1].date)),
+            'state': IWorkflow(item).workflow.states[item.status].title,
+            'id': item.parliamentary_item_id,
+            'url': absoluteURL(item, self.request)} for item, properties in \
+            [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
+            IDCDescriptiveProperties(item))) for
+             item in items]]
+
         
 class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
     model = domain.TabledDocument
-
     states = (
         tableddocument_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"postponed"].id,
         )
-                         
-        
+                 
+
+             
+             
+                     

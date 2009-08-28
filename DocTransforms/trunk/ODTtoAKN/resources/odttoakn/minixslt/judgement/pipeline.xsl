@@ -68,13 +68,13 @@
 		<xslt step="20" name="Person" href="odttoakn/minixslt/judgement/Person.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
-
+   
 
 	<xsl:template match="*[@name='Conclusion']">
 		<xslt step="23" name="Conclusion" href="odttoakn/minixslt/judgement/Conclusion.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
-
+   -->
 	<xsl:template match="*[@name='span']">
 		<xslt step="24" name="span" href="odttoakn/minixslt/judgement/span.xsl" />
 		<xsl:apply-templates />
@@ -114,7 +114,7 @@
 		<xslt step="31" name="a" href="odttoakn/minixslt/judgement/a.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
- -->
+ 
 	<xsl:template match="*[@name='meta']">
 		<xslt step="32" name="meta" href="odttoakn/minixslt/judgement/meta.xsl" />
 		<xsl:apply-templates />

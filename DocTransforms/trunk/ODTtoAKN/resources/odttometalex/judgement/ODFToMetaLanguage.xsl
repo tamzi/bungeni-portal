@@ -91,9 +91,13 @@
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniWorkAuthor']}" href="{//meta:user-defined[@meta:name='BungeniWorkAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniExpAuthor']}" href="{//meta:user-defined[@meta:name='BungeniExpAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniManAuthor']}" href="{//meta:user-defined[@meta:name='BungeniManAuthorURI']}" showAs="Author"/>
-                <!--<xsl:for-each select="//*[@BungeniSectionType='Speech']">
-                    <meta name="TLCPerson" id="{@BungeniPersonID}" href="{@BungeniSpeechByURI}" showAs="{@BungeniSpeechBy}"/> 
+                
+                <xsl:for-each select="//meta:user-defined[starts-with(@meta:name, 'BungeniPartyName')]">
+                  	<xsl:variable name="strHref"><xsl:value-of select="." /></xsl:variable>
+				    <xsl:variable name="tokenizedHref" select="tokenize($strHref,'~')"/>
+					<meta name="TLCPerson"  id="{$tokenizedHref[1]}" href="{generate-id()}" showAs="{$tokenizedHref[2]}" /> 
                 </xsl:for-each> 
+                <!--
                 <xsl:for-each select="//*[@BungeniSectionType='ActionEvent']">
                     <meta name="TLCEvent" id="{@BungeniEventName}" href="{@BungeniOntology}" showAs="{@BungeniOntologyName}"/> 
                 </xsl:for-each> 

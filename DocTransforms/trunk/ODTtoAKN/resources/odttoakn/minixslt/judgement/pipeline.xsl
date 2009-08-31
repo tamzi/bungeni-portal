@@ -195,5 +195,9 @@
 		<xsl:apply-templates />
 	</xsl:template>
 	
+    <xsl:template match="*[@name='TLCConcept']">
+		<xslt step="48" name="TLCConcept" href="odttoakn/minixslt/judgement/TLCConcept.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
 	
 </xsl:stylesheet>

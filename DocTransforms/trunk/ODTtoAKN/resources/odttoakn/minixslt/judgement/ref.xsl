@@ -21,7 +21,7 @@
 		<xsl:if test="@href">
 			<xsl:if test="@class">
 				<xsl:choose>
-					<!--check if caseNumber attribute exists then generate a 'from' -->
+					<!--check if caseNumber attribute exists then generate a 'caseNumber' element -->
 					<xsl:when test="@class='mBungeniCaseNo'">
 						<caseNumber>
 							<xsl:value-of select="."/>
@@ -34,15 +34,50 @@
 						from the reference href the id is a generated one -->
 						<xsl:variable name="strHref"><xsl:value-of select="@href" /></xsl:variable>
 						<xsl:variable name="tokenizedHref" select="tokenize($strHref,';')"/>
-						<xsl:attribute name="refersTo">
-						   <xsl:value-of select="$tokenizedHref[1]" />
-						</xsl:attribute>
 						<xsl:attribute name="id">
 						   <xsl:value-of select="generate-id()" />
 						</xsl:attribute>
+						<xsl:attribute name="refersTo">
+						   <xsl:text>#</xsl:text><xsl:value-of select="$tokenizedHref[1]" />
+						</xsl:attribute>
 						 <xsl:value-of select="."/>
 						</party>
-					</xsl:when>						
+					</xsl:when>	
+					<!-- Add judge element translation -->
+					<xsl:when test="@class='BungeniJudgeName'">
+						<judge>
+						<!-- we use the tokenize() function to extract the refersTo attrib 
+						from the reference href the id is a generated one -->
+						<xsl:attribute name="id">
+						   <xsl:value-of select="generate-id()" />
+						</xsl:attribute>
+						<xsl:variable name="strHref"><xsl:value-of select="@href" /></xsl:variable>
+						<xsl:variable name="tokenizedHref" select="tokenize($strHref,';')"/>
+						<xsl:attribute name="refersTo">
+						   <xsl:text>#</xsl:text><xsl:value-of select="$tokenizedHref[1]" />
+						</xsl:attribute>
+						 <xsl:value-of select="."/>
+						</judge>
+					</xsl:when>	
+					<!-- the neutralCitation element -->
+					<xsl:when test="@class='mNeutralCitation'">
+						<neutralCitation>
+						 <xsl:value-of select="."/>
+						</neutralCitation>
+					</xsl:when>	
+										
+					<xsl:when test="@class='rJudgementNo'">
+						<docNumber>
+							<xsl:attribute name="id">
+								<xsl:text>judgement-no-</xsl:text><xsl:value-of select="generate-id()" />
+							</xsl:attribute>
+							<xsl:attribute name="refersTo">
+								<xsl:text>#judgementNo</xsl:text>
+							</xsl:attribute>
+						 <xsl:value-of select="."/>
+						</docNumber>
+					</xsl:when>	
+	
 					<!-- otherwise generate normal reference -->
 					<xsl:otherwise>
 					     <ref>

@@ -27,6 +27,7 @@ public class OATranslatorTestBase
     protected String m_configFilePath = "";
     protected String m_inputDocument = "";
     protected String m_outputDocument = "";
+    protected String m_outputMetalex = "";
     protected String m_comparisonDocument = "";
     protected String m_pipeline = "";
     
@@ -81,10 +82,13 @@ public class OATranslatorTestBase
 		
 		//input stream
 		FileInputStream fis  = new FileInputStream(translatedFiles.get("anxml"));
+		FileInputStream fisMlx = new FileInputStream(translatedFiles.get("metalex"));
 		//output stream 
 		File outFile = new File(this.m_outputDocument);
+		File outMlx = new File (this.m_outputMetalex);
 		//copy the file
 		FileUtility.getInstance().copyFile(fis, outFile);
+		FileUtility.getInstance().copyFile(fisMlx, outMlx);
 		//compare the generated output with the expected outut
 		String sOut = FileUtility.getInstance().FileToString(this.m_outputDocument).trim();
 		String sExp = FileUtility.getInstance().FileToString(this.m_comparisonDocument).trim();

@@ -88,6 +88,7 @@
             </mcontainer>
             <mcontainer id="references_{generate-id()}" name="references" source="#bungeni">
                 <!-- <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" /> -->
+                <meta name="TLCConcept" id="judgementNo" href="/ontology/concept/judgement/Judgement/{//meta:user-defined[@meta:name='BungeniJudgementNo']}" showAs="{//meta:user-defined[@meta:name='BungeniJudgementNo']}" />
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniWorkAuthor']}" href="{//meta:user-defined[@meta:name='BungeniWorkAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniExpAuthor']}" href="{//meta:user-defined[@meta:name='BungeniExpAuthorURI']}" showAs="Author"/>
                 <meta name="TLCPerson" id="{//meta:user-defined[@meta:name='BungeniManAuthor']}" href="{//meta:user-defined[@meta:name='BungeniManAuthorURI']}" showAs="Author"/>
@@ -95,7 +96,12 @@
                 <xsl:for-each select="//meta:user-defined[starts-with(@meta:name, 'BungeniPartyName')]">
                   	<xsl:variable name="strHref"><xsl:value-of select="." /></xsl:variable>
 				    <xsl:variable name="tokenizedHref" select="tokenize($strHref,'~')"/>
-					<meta name="TLCPerson"  id="{$tokenizedHref[1]}" href="{generate-id()}" showAs="{$tokenizedHref[2]}" /> 
+					<meta name="TLCPerson"  id="{$tokenizedHref[1]}" href="{$tokenizedHref[2]}" showAs="{$tokenizedHref[4]}" /> 
+                </xsl:for-each> 
+                <xsl:for-each select="//meta:user-defined[starts-with(@meta:name, 'BungeniJudgeName')]">
+                  	<xsl:variable name="strHref"><xsl:value-of select="." /></xsl:variable>
+				    <xsl:variable name="tokenizedHref" select="tokenize($strHref,'~')"/>
+					<meta name="TLCPerson"  id="{$tokenizedHref[1]}"   href="{$tokenizedHref[4]}" showAs="{$tokenizedHref[3]}" /> 
                 </xsl:for-each> 
                 <!--
                 <xsl:for-each select="//*[@BungeniSectionType='ActionEvent']">

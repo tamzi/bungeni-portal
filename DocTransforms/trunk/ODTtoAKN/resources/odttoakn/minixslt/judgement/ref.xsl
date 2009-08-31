@@ -66,7 +66,7 @@
 						</neutralCitation>
 					</xsl:when>	
 										
-					<xsl:when test="@class='rJudgementNo'">
+					<xsl:when test="@class='mBungeniJudgementNo'">
 						<docNumber>
 							<xsl:attribute name="id">
 								<xsl:text>judgement-no-</xsl:text><xsl:value-of select="generate-id()" />

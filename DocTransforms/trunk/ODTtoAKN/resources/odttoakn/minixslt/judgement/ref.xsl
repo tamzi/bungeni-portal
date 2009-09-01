@@ -34,11 +34,16 @@
 						from the reference href the id is a generated one -->
 						<xsl:variable name="strHref"><xsl:value-of select="@href" /></xsl:variable>
 						<xsl:variable name="tokenizedHref" select="tokenize($strHref,';')"/>
+						<xsl:variable name="metadataRefRole" select="//mcontainer/meta[@id='kepartyagency4way']/@href" />
+							
 						<xsl:attribute name="id">
 						   <xsl:value-of select="generate-id()" />
 						</xsl:attribute>
 						<xsl:attribute name="refersTo">
 						   <xsl:text>#</xsl:text><xsl:value-of select="$tokenizedHref[1]" />
+						</xsl:attribute>
+						<xsl:attribute name="as">
+						   <xsl:text>#</xsl:text><xsl:value-of select="$metadataRefRole" />
 						</xsl:attribute>
 						 <xsl:value-of select="."/>
 						</party>

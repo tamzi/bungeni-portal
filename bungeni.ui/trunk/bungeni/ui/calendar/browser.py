@@ -5,6 +5,9 @@ import datetime
 import tempfile
 timedelta = datetime.timedelta
 
+from sqlalchemy.orm import eagerload
+
+
 from zope import interface
 from zope import component
 from zope import schema
@@ -37,6 +40,7 @@ from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
 from bungeni.models import vocabulary
+from bungeni.models import domain
 from bungeni.models.interfaces import IGroupSitting
 from bungeni.server.interfaces import ISettings
 
@@ -575,3 +579,26 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
             str(time_span).lower(), date.year, date.month, date.day)
 
         return file
+        
+        
+class HTMLPreviewPage(ReportingView):
+    """ preview Agenda and votes and proceedings as simple HTML """
+    
+    def get_sittings_items(start, end):
+        """ return the sittings with scheduled items for 
+        the given daterange"""    
+        session = Session()
+        query = session.query(domain.GroupSitting).filter(
+            sql.and_(
+            domain.GroupSitting.start_date.between(start,end),
+            domain.GroupSitting.group_id == context.group_id)
+            ).order_by(domain.GroupSitting.start_date, 'planned_order'
+            ).options(
+                eagerload('item_schedule'), 
+                eagerload('item_schedule.item'),
+                eagerload('item_schedule.discussion'),
+                eagerload('item_schedule.category'))
+
+                            
+        
+        

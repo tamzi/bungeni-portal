@@ -247,7 +247,8 @@ mapper( domain.GroupSitting, schema.sittings,
                                uselist=False,
                                lazy=True ),  
             'start_date' :  column_property(schema.sittings.c.start_date.label('start_date')), 
-            'end_date' :  column_property(schema.sittings.c.end_date.label('end_date')),                                             
+            'end_date' :  column_property(schema.sittings.c.end_date.label('end_date')), 
+            'item_schedule' : relation(domain.ItemSchedule),                                            
             })
 
 mapper( domain.ResourceType, schema.resource_types )
@@ -385,6 +386,7 @@ mapper(domain.ItemSchedule, schema.items_schedule,
            'discussion': relation(
                domain.ScheduledItemDiscussion,
                uselist=False,
+               lazy=False,
                cascade='all, delete-orphan'),
            'category': relation( domain.ItemScheduleCategory, uselist=False),    
            'sitting' : relation( domain.GroupSitting, uselist=False),     

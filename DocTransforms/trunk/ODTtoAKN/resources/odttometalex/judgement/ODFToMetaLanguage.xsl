@@ -96,7 +96,8 @@
                 <xsl:for-each select="//meta:user-defined[starts-with(@meta:name, 'BungeniPartyName')]">
                   	<xsl:variable name="strHref"><xsl:value-of select="." /></xsl:variable>
 				    <xsl:variable name="tokenizedHref" select="tokenize($strHref,'~')"/>
-					<meta name="TLCPerson"  id="{$tokenizedHref[1]}" href="{$tokenizedHref[2]}" showAs="{$tokenizedHref[4]}" /> 
+					<meta name="TLCPerson"  id="{$tokenizedHref[1]}" href="{$tokenizedHref[2]}" showAs="{$tokenizedHref[3]}" inrole="{$tokenizedHref[4]}" /> 
+                	<meta name="TLCRole"  id="{$tokenizedHref[4]}" href="/ontology/judgement/role/{$tokenizedHref[4]}" showAs="{$tokenizedHref[4]}" /> 
                 </xsl:for-each> 
                 <xsl:for-each select="//meta:user-defined[starts-with(@meta:name, 'BungeniJudgeName')]">
                   	<xsl:variable name="strHref"><xsl:value-of select="." /></xsl:variable>

@@ -15,10 +15,7 @@
                       numbering  current/numbering;
                       subpages python:here.objectValues(['TabbedSubpages',]);">
     <br/>               
-    <div metal:use-macro="here/document_actions/macros/document_actions">
-      Document actions (print, sendto etc)
-    </div>
-   <br/>
+
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'top']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
 
@@ -129,7 +126,9 @@
       Get the byline - contains details about author and modification date.
     </div>
 
-  </div>
+    </div>
+  
+    <div tal:replace="structure provider:plone.belowcontentbody" />  
 </div>
 
 </body>

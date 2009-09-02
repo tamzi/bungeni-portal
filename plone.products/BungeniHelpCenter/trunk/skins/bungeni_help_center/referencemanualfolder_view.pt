@@ -10,9 +10,6 @@
          tal:define="audiences here/getItemsByAudiencesAndSections;
                      noAudiences python:len(audiences) == 1">
 
-    <div metal:use-macro="here/document_actions/macros/document_actions">
-      Document actions (print, sendto etc)
-    </div>
     
     <h1 tal:content="here/Title" class="documentFirstHeading">
       Folder Title
@@ -79,6 +76,8 @@
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
+    
+    <div tal:replace="structure provider:plone.belowcontentbody" />    
 
     </div>
   </body>

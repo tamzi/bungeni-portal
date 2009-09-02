@@ -620,6 +620,10 @@ class HTMLPreviewPage(ReportingView):
         end = self.get_end_date(date, time_span)
         self.sitting_items = self.get_sittings_items(date, end)
         self.display_minutes = (self.request.form['display_minutes'] == "True")
+        if self.display_minutes:
+            self.title = "Votes and Proceedings"
+        else:
+            self.title = "Agenda"            
  
     
 

@@ -90,17 +90,17 @@
   
   
     <browser:page
-     name="agenda.html"
+     name="preview.html"
      for="zope.location.interfaces.ILocation"
      permission="zope.View"
-     class=".calendar.browser.AgendaHtmlReportingView"
+     class=".calendar.browser.HTMLPreviewPage"
      />
 
   <!--browser:page
-     name="votes-and-proceedings.html"
+     name="preview.html"
      for="zope.location.interfaces.ILocation"
      permission="zope.View"
-     class=".calendar.browser.VotesAndProceedingsReportingView"
+     class=".calendar.browser.MinutesHtmlReportingView"
      /-->
   
   

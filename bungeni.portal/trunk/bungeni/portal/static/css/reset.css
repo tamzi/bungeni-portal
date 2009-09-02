@@ -20,16 +20,6 @@ h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
   text-decoration: underline;
 }
 
-/*hide the what's on view from the workspace*/
-#bungeni-workspace .documentContent {
-display:none;
-}
-
-
-#bungeni-workspace #portal-column-one {
-  display:none;
-}
-
 
 div#portal-globalnav {
   width:100%;
@@ -70,6 +60,26 @@ div#portal-globalnav ul.level0 li.selected a{
   border-bottom: 5px solid #FFE7B8;  
 }
 
+div#portal-globalnav ul.level0 li#portaltab- a {
+  background-color: #FAAD5F;
+  border-color: #FAAD5F #FAAD5F #FAAD5F;
+  font-weight: normal;
+  height: 1em;
+}
+
+/*on the homepage - display the first tab as selected*/
+.section-front-page div#portal-globalnav ul.level0 li#portaltab- a {
+  background-color: #FFE7B8;
+  border-top: 0.5px solid #FAAD5F;
+  border-left: 1px solid #FAAD5F;
+  border-right: 1px solid #FAAD5F;
+  border-bottom: 5px solid #FFE7B8;
+  font-weight:bold;
+  padding:0 10px;
+  height: 1.5em;
+}
+
+
 div#portal-globalnav ul.level0 a, div#portal-globalnav ul.level0 span, div#portal-globalnav ul.level0 a.current {
 padding:0 10px;
 
@@ -90,6 +100,9 @@ div#portal-globalnav ul.level0 li ul.level1 li.selected a{
   border: 0px;
 }
 
+#bungeni-workspace #portal-column-one {
+  display:none;
+}
 
 #portal-column-two .visualPadding {
   padding-top: 1em;
@@ -121,16 +134,6 @@ div#portal-globalnav-bottom {
   border: 1px solid #FFE7B8;
 }
 
-div#portal-globalnav ul.level0 li#portaltab- a {
-  background-color: #FAAD5F;
-  border-color: #FAAD5F #FAAD5F #FAAD5F;
-  font-weight: normal;
-  height: 1em;
-}
-
-.section-front-page div#portal-globalnav ul.level0 li#portaltab- .selected a{
-  background-color: #FFE7B8;
-}
 
 #portal-breadcrumbs {
   border-bottom:1px solid #FAAD5F;

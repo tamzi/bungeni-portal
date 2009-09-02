@@ -103,12 +103,13 @@
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
 
     <!-- menu -->
-    <prepend href="/bungeni"
+    <drop href="/plone"
+          content="#portal-globalnav > li:first-child"/>     
+    <append href="/bungeni"
              content="#portal-globalnav > li:first-child"
              theme="children:#portal-globalnav > ul" />
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
-    <drop content="#portal-globalnav > li:first-child"/>
     <prepend href="/bungeni"
              content=".contentActions"
              theme="children:.main-content"/>            

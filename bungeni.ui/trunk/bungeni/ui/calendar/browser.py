@@ -404,7 +404,8 @@ class ReportingView(form.PageForm):
     """
 
     date = None
-
+    display_minutes = None
+    
     def __init__(self, context, request):
         super(ReportingView, self).__init__(context, request)
         
@@ -487,7 +488,9 @@ class ReportingView(form.PageForm):
 
     @form.action(_(u"PreviewHTML"))
     def handle_preview(self, action, data):
-        next_url = 'agenda.html?date=' + data['date'].strftime('%Y-%m-%d') + '&time_span=' + data['time_span']
+        next_url = ('preview.html?date=' + data['date'].strftime('%Y-%m-%d') + 
+            '&time_span=' + data['time_span'] + '&display_minutes=' +
+            str(self.display_minutes))
         self.request.response.redirect(next_url)
     
     @form.action(_(u"Preview"))
@@ -588,7 +591,8 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
         
 class HTMLPreviewPage(ReportingView):
     """ preview Agenda and votes and proceedings as simple HTML """
-    
+    template = ViewPageTemplateFile('reports.pt')        
+        
     def get_sittings_items(self, start, end):
         """ return the sittings with scheduled items for 
         the given daterange"""    
@@ -605,10 +609,6 @@ class HTMLPreviewPage(ReportingView):
                 eagerload('item_schedule.discussion'),
                 eagerload('item_schedule.category'))
         return query.all()                
-
-class  AgendaHtmlReportingView(HTMLPreviewPage):
-    template = ViewPageTemplateFile('agenda.pt')        
-
     def update(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()
@@ -619,6 +619,8 @@ class  AgendaHtmlReportingView(HTMLPreviewPage):
             time_span = TIME_SPAN.weekly                
         end = self.get_end_date(date, time_span)
         self.sitting_items = self.get_sittings_items(date, end)
+        self.display_minutes = (self.request.form['display_minutes'] == "True")
+ 
     
 
 

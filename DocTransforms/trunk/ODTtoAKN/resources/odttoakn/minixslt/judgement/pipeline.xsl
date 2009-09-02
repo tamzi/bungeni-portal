@@ -57,6 +57,13 @@
 		<xslt step="7" name="Conclusion" href="odttoakn/minixslt/judgement/Conclusion.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
+	
+		
+	<xsl:template match="*[@name='Omissis']">
+		<xslt step="8" name="Omissis" href="odttoakn/minixslt/judgement/Omissis.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
 	<!--
 
 	<xsl:template match="*[@name='Observation']">

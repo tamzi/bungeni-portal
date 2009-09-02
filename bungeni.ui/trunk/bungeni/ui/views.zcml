@@ -88,6 +88,22 @@
      class=".calendar.browser.VotesAndProceedingsReportingView"
      />
   
+  
+    <browser:page
+     name="agenda.html"
+     for="zope.location.interfaces.ILocation"
+     permission="zope.View"
+     class=".calendar.browser.AgendaHtmlReportingView"
+     />
+
+  <!--browser:page
+     name="votes-and-proceedings.html"
+     for="zope.location.interfaces.ILocation"
+     permission="zope.View"
+     class=".calendar.browser.VotesAndProceedingsReportingView"
+     /-->
+  
+  
   <!-- Calendar -->
 
   <browser:page

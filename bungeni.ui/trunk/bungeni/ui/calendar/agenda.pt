@@ -1,0 +1,22 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@standard_macros/page">
+
+  <div metal:fill-slot="body" i18n:domain="bungeni">
+    
+    <h1> Agenda for: <span tal:replace="view/context/group/short_name"/> </h1>
+    <dl>
+      <tal:loop tal:repeat="item view/sitting_items">
+        <dt> <span tal:content="item/sitting_type/sitting_type" />: <span tal:content="item/start_date" /> - <span tal:content="item/end_date" /> </dt>
+        <tal:loop tal:repeat="scheduled item/item_schedule">
+          <dt tal:content="scheduled/category/short_name | nothing" tal:condition="scheduled/category" />
+          <dd >
+            <h2 tal:content="scheduled/item/short_name" />
+            <p tal:content="structure scheduled/item/body_text" />            
+          </dd>
+        </tal:loop>          
+      </tal:loop>
+    </dl>
+  </div>
+  
+</html>  

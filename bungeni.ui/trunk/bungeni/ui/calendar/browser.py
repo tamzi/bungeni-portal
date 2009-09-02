@@ -6,7 +6,7 @@ import tempfile
 timedelta = datetime.timedelta
 
 from sqlalchemy.orm import eagerload
-
+import sqlalchemy.sql.expression as sql
 
 from zope import interface
 from zope import component
@@ -478,12 +478,17 @@ class ReportingView(form.PageForm):
             errors.append(interface.Invalid(
                 _(u"A parliament must be active in the period."),
                 "date"))
-        elif session is None:
-            errors.append(interface.Invalid(
-                _(u"A session must be active in the period."),
-                "date"))
+        #elif session is None:
+        #    errors.append(interface.Invalid(
+        #        _(u"A session must be active in the period."),
+        #        "date"))
 
         return errors
+
+    @form.action(_(u"PreviewHTML"))
+    def handle_preview(self, action, data):
+        next_url = 'agenda.html?date=' + data['date'].strftime('%Y-%m-%d') + '&time_span=' + data['time_span']
+        self.request.response.redirect(next_url)
     
     @form.action(_(u"Preview"))
     def handle_preview(self, action, data):
@@ -584,21 +589,37 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
 class HTMLPreviewPage(ReportingView):
     """ preview Agenda and votes and proceedings as simple HTML """
     
-    def get_sittings_items(start, end):
+    def get_sittings_items(self, start, end):
         """ return the sittings with scheduled items for 
         the given daterange"""    
         session = Session()
         query = session.query(domain.GroupSitting).filter(
             sql.and_(
             domain.GroupSitting.start_date.between(start,end),
-            domain.GroupSitting.group_id == context.group_id)
+            domain.GroupSitting.group_id == self.context.group_id)
             ).order_by(domain.GroupSitting.start_date, 'planned_order'
             ).options(
+                eagerload('sitting_type'),
                 eagerload('item_schedule'), 
                 eagerload('item_schedule.item'),
                 eagerload('item_schedule.discussion'),
                 eagerload('item_schedule.category'))
+        return query.all()                
 
-                            
-        
+class  AgendaHtmlReportingView(HTMLPreviewPage):
+    template = ViewPageTemplateFile('agenda.pt')        
+
+    def update(self):
+        date = datetime.datetime.strptime(self.request.form['date'],
+                '%Y-%m-%d').date()
+        time_span = self.request.form['time_span']
+        if time_span == TIME_SPAN.daily:
+            time_span = TIME_SPAN.daily
+        elif time_span == TIME_SPAN.weekly:
+            time_span = TIME_SPAN.weekly                
+        end = self.get_end_date(date, time_span)
+        self.sitting_items = self.get_sittings_items(date, end)
+    
+
+
         

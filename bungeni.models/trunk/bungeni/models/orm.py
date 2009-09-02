@@ -386,7 +386,6 @@ mapper(domain.ItemSchedule, schema.items_schedule,
            'discussion': relation(
                domain.ScheduledItemDiscussion,
                uselist=False,
-               lazy=False,
                cascade='all, delete-orphan'),
            'category': relation( domain.ItemScheduleCategory, uselist=False),    
            'sitting' : relation( domain.GroupSitting, uselist=False),     

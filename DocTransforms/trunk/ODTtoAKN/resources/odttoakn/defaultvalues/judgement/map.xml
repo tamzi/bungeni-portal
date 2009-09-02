@@ -4,6 +4,7 @@
 		<element id="1" bungeniSectionType="root" result="judgement" />
 		<element id="2" bungeniSectionType="body" result="judgementBody"/>
 		<element id="3" bungeniSectionType="Header" result="header" />
+		<element id="18" bungeniSectionType="Omissis" result="omissis" mantain="id"/>
 		<element id="19" bungeniSectionType="Conclusion" result="conclusions" mantain="id"/>
 		<element id="20" bungeniSectionType="span" result="span" />
 		<element id="21" bungeniSectionType="p" result="p"/>

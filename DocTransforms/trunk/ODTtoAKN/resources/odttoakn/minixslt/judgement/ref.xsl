@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	<xsl:output indent="yes" method="xml" encoding="UTF-8"/>
 	
-	<xsl:template match="/">
+<xsl:template match="/">
 		<xsl:apply-templates/>
 	</xsl:template>
 	
@@ -16,7 +16,7 @@
 			<xsl:apply-templates/>
 		</xsl:element>
 	</xsl:template>
-	
+
 	<xsl:template match="*[@name='ref']">
 		<xsl:if test="@href">
 			<xsl:if test="@class">
@@ -34,7 +34,7 @@
 						from the reference href the id is a generated one -->
 						<xsl:variable name="strHref"><xsl:value-of select="@href" /></xsl:variable>
 						<xsl:variable name="tokenizedHref" select="tokenize($strHref,';')"/>
-						<xsl:variable name="metadataRefRole" select="//mcontainer/meta[@id='kepartyagency4way']/@href" />
+						<xsl:variable name="metadataRefRole" select="//meta[@id=$tokenizedHref[1]]/@showAs" />
 							
 						<xsl:attribute name="id">
 						   <xsl:value-of select="generate-id()" />

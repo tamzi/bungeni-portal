@@ -29,7 +29,7 @@
 			<xsl:if test="@showAs">
 				<xsl:attribute name="showAs"><xsl:value-of select="@showAs" /></xsl:attribute>
 			</xsl:if>
-
+			
             <xsl:apply-templates />
         </TLCPerson>
     </xsl:template>

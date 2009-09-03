@@ -193,18 +193,18 @@ class Parliament( Group ):
     """    
     sort_on = ['start_date']
     sessions = one2many("sessions", "bungeni.models.domain.ParliamentSessionContainer", "parliament_id")
-    committees = one2many("committees", "bungeni.models.domain.CommitteeContainer", "parliament_id")
-    governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parliament_id")
+    committees = one2many("committees", "bungeni.models.domain.CommitteeContainer", "parent_group_id")
+    governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parent_group_id")
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "group_id")
     #extensionmembers = one2many("extensionmembers", "bungeni.models.domain.ExtensionGroupContainer",
     #                             "parliament_id")
-    politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parliament_id")
+    politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parent_group_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "parliament_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")
     motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")  
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")       
-    offices = one2many("offices", "bungeni.models.domain.OfficeContainer", "parliament_id")   
+    offices = one2many("offices", "bungeni.models.domain.OfficeContainer", "parent_group_id")   
     agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     tableddocuments = one2many("tableddocuments", "bungeni.models.domain.TabledDocumentContainer", "parliament_id")
 
@@ -215,13 +215,16 @@ class MemberOfParliament ( GroupMembership ):
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name'], 'constituency_id':['name']}      
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
-    party = one2many( "party", "bungeni.models.domain.MemberOfPartyContainer", "membership_id" )
 
 
 class PoliticalParty( Group ):
     """ a political party
     """
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
+    
+    @property
+    def parliament_id(self):
+        return self.parent_group_id    
 
 class PartyMember( GroupMembership ):
     """ 
@@ -229,25 +232,36 @@ class PartyMember( GroupMembership ):
     """
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )   
     
-class MemberOfParty( GroupMembership ):
-    """
-    Membership of a user in a political party 
-    """         
+
 
 class Government( Group ):
     """ a government
     """
     sort_on = ['start_date']
-    ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "government_id")
+    ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "parent_group_id")
+    
+    @property
+    def parliament_id(self):
+        return self.parent_group_id
+
+    @property
+    def government_id(self):
+        return self.group_id        
 
 class Ministry( Group ):
     """ a government ministry
     """
-    #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     ministers = one2many("ministers","bungeni.models.domain.MinisterContainer", "group_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "ministry_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "ministry_id")    
-    
+
+    @property
+    def government_id(self):
+        return self.parent_group_id
+
+    @property
+    def ministry_id(self):
+        return self.group_id            
     
 class Minister( GroupMembership ):
     """ A Minister
@@ -264,6 +278,10 @@ class Committee( Group ):
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
         
+    @property
+    def parliament_id(self):
+        return self.parent_group_id
+                
 
 class CommitteeMember( GroupMembership ):
     """ A Member of a committee
@@ -279,17 +297,15 @@ class Office( Group ):
     """ parliamentary Office like speakers office,
     clerks office etc. internal only"""
     officemembers = one2many("officemembers", "bungeni.models.domain.OfficeMemberContainer", "group_id") 
+
+    @property
+    def parliament_id(self):
+        return self.parent_group_id
         
 class OfficeMember( GroupMembership ):
     """ clerks, .... """        
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
             
-class ExtensionGroup( Group ):
-    """ Extend selectable users for a group membership """
-    extmembers = one2many("extmembers", "bungeni.models.domain.ExtensionMemberContainer", "group_id") 
-    
-class ExtensionMember( GroupMembership ):
-    """ Users for Extension group """    
 
    
 class Debate( Entity ):

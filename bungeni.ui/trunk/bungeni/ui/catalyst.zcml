@@ -82,13 +82,7 @@
      ui_module="bungeni.ui.content"
      echo="False"
     />
-  <db:catalyst
-     class="bungeni.models.domain.ExtensionGroup"
-     descriptor=".descriptor.ExtensionGroupDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"
-     echo="False"
-    />
+ 
         
   <db:catalyst
      class="bungeni.models.domain.Minister"
@@ -97,14 +91,6 @@
      ui_module="bungeni.ui.content"
      echo="False"
     />
-    
-  <db:catalyst
-     class="bungeni.models.domain.ExtensionMember"
-     descriptor=".descriptor.ExtensionMemberDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"
-     echo="False"
-    />    
     
    
   <db:catalyst
@@ -327,13 +313,7 @@
      echo="False"
      />     
 
-  <db:catalyst
-     class="bungeni.models.domain.MemberOfParty"
-     descriptor=".descriptor.MemberOfPartyDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
-     echo="False"
-     />        
+
    
   <db:catalyst
      class="bungeni.models.domain.SittingType"

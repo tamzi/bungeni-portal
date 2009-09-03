@@ -59,7 +59,7 @@ mapper (domain.UserDelegation, schema.user_delegations,
                 }                      
         )
 # group subclasses
-mapper( domain.Government, schema.governments,
+mapper( domain.Government,
         inherits=domain.Group,                
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='government'
@@ -77,7 +77,7 @@ mapper( domain.PoliticalParty, schema.political_parties,
         polymorphic_identity='political-party'
         )
 
-mapper( domain.Ministry, schema.ministries,
+mapper( domain.Ministry,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='ministry'
@@ -95,12 +95,6 @@ mapper( domain.Committee, schema.committees,
         
         )    
         
-mapper( domain.ExtensionGroup, schema.extension_groups,
-        inherits=domain.Group,
-        polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='extension'
-        )                         
-
 
 mapper( domain.Office, schema.offices,
         inherits=domain.Group,
@@ -168,16 +162,9 @@ mapper( domain.Minister,
 mapper( domain.CommitteeMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='committeemember',
+        polymorphic_identity='committeemember',                
+        )  
                 
-                )  
-
-mapper( domain.ExtensionMember, 
-        inherits=domain.GroupMembership,
-        polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='extensionmember',        
-        )                                
-
 mapper( domain.PartyMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
@@ -189,42 +176,7 @@ mapper( domain.OfficeMember,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='officemember',        
         )  
-        
-#mapper( domain.MemberOfParty, 
-#        inherits=domain.GroupMembership,
-#        polymorphic_on=schema.user_group_memberships.c.membership_type,          
-#        polymorphic_identity='partymember',        
-#        )          
-
-_ugm_party = rdb.alias(schema.user_group_memberships)
-_ugm_parliament = rdb.alias(schema.user_group_memberships)
-
-_pmp = rdb.join(schema.political_parties, schema.groups,
-                schema.political_parties.c.party_id == schema.groups.c.group_id).join(
-                   _ugm_party,
-                  schema.groups.c.group_id == _ugm_party.c.group_id)
-                 
-_mpm = rdb.join(_ugm_parliament, _pmp,
-                rdb.and_(_ugm_parliament.c.user_id == _ugm_party.c.user_id,
-                     _ugm_parliament.c.group_id == schema.political_parties.c.parliament_id)
-                     )
-                     
-mapper( domain.MemberOfParty, _mpm,
-        primary_key=[schema.user_group_memberships.c.membership_id],
-        properties={
-           'membership_id' : column_property(_ugm_parliament.c.membership_id.label('membership_id')),
-           'party_membership_id' : column_property(_ugm_party.c.membership_id.label('party_membership_id')),           
-           'start_date' : column_property(_ugm_party.c.start_date.label('start_date')),
-           'end_date' : column_property(_ugm_party.c.end_date.label('end_date')),
-           'short_name' : column_property(schema.groups.c.short_name.label('short_name')),
-           'user_id' : column_property(_ugm_party.c.user_id.label('user_id')),
-           'user': relation( domain.User,
-                  primaryjoin=(_ugm_party.c.user_id==schema.users.c.user_id ),
-                  uselist=False, viewonly=True ),
-           },
-         include_properties=['membership_id', 'short_name', 'start_date', 'end_date', 'group_id'],                      
-       )                                       
- 
+                                         
  
                 
 # staff assigned to a group (committee, ...)
@@ -462,9 +414,9 @@ mapper( domain.UserAddress, schema.addresses)
 # Current Items
 
 # get the current gov and parliament for a ministry
-_ministry_gov_parliament = rdb.join ( schema.ministries, schema.governments,
-     schema.ministries.c.government_id == schema.governments.c.government_id)
-mapper(domain.MinistryInParliament, _ministry_gov_parliament)                                     
+#_ministry_gov_parliament = rdb.join ( schema.ministries, schema.governments,
+#     schema.ministries.c.government_id == schema.governments.c.government_id)
+#mapper(domain.MinistryInParliament, _ministry_gov_parliament)                                     
                                     
 
 

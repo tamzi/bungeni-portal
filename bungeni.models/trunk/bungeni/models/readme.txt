@@ -99,7 +99,7 @@ they work.
   >>> session.flush()
   
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.datetime.now())
-  >>> committee_a.parliament_id = parliament.parliament_id
+  >>> committee_a.parent_group_id = parliament.parliament_id
   >>> session.add(committee_a)
   >>> session.flush()
     
@@ -131,7 +131,7 @@ Check that we can access the membership through the containment object
 Government
 ----------
   >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.datetime.now())
-  >>> gov.parliament_id = parliament.parliament_id
+  >>> gov.parent_group_id = parliament.parliament_id
   >>> session.add(gov)
   >>> session.flush()  
 
@@ -139,7 +139,7 @@ Government
 Ministries
 -----------
   >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.datetime.now())
-  >>> ministry.government_id = gov.government_id
+  >>> ministry.parent_group_id = gov.government_id
   >>> session.add(ministry)
   >>> session.flush()
   

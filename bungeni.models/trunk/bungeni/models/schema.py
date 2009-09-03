@@ -160,15 +160,15 @@ parliament_memberships = rdb.Table(
 
 
 
-reporters = rdb.Table(
-   "reporters",
-   metadata,
-   rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id'), primary_key=True ),
-   rdb.Column( "initials", rdb.Unicode(4), nullable=False ),
-   rdb.Column( "experience", rdb.Unicode(1), default=u'N'),
-   rdb.Column( "typing_speed", rdb.Integer ),
-   rdb.Column( "status", rdb.Unicode(1), default=u'A' ),
-   )
+#reporters = rdb.Table(
+#   "reporters",
+#   metadata,
+#   rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id'), primary_key=True ),
+#   rdb.Column( "initials", rdb.Unicode(4), nullable=False ),
+#   rdb.Column( "experience", rdb.Unicode(1), default=u'N'),
+#   rdb.Column( "typing_speed", rdb.Integer ),
+#   rdb.Column( "status", rdb.Unicode(1), default=u'A' ),
+#   )
 
 
 #########################
@@ -184,8 +184,7 @@ constituencies = rdb.Table(
    rdb.Column( "start_date", rdb.Date, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),   
    )
-#constituency_changes = make_changes_table( constituencies, metadata )
-#constituency_version = make_versions_table( constituencies, metadata )
+
 
 provinces = rdb.Table(
     "provinces",
@@ -243,18 +242,12 @@ groups = rdb.Table(
    rdb.Column( "parent_group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),   
    )
 
-governments = rdb.Table(
-   "government",
-   metadata,
-   rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
-   )
+
    
 offices = rdb.Table(
    "offices",
    metadata,
    rdb.Column( "office_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
    #Speakers office or Clerks office, the members of members of
    #this group will get local roles in the parliament accordingly
    rdb.Column( "office_type", rdb.String(1),  
@@ -270,18 +263,10 @@ parliaments = rdb.Table(
    rdb.Column( "election_date", rdb.Date , nullable=False ),
    )
 
-ministries = rdb.Table(
-   "ministries",
-   metadata,
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('government.government_id'), nullable=False),
-   )
-
 committees = rdb.Table(
    "committees",
    metadata,
    rdb.Column( "committee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
    rdb.Column( "committee_type_id", rdb.Integer, rdb.ForeignKey( 'committee_types.committee_type_id')),
    rdb.Column( "no_members", rdb.Integer),
    rdb.Column( "min_no_members", rdb.Integer),
@@ -314,7 +299,6 @@ political_parties = rdb.Table(
    rdb.Column( "logo_data", rdb.Binary, ),
    rdb.Column( "logo_name", rdb.String(40)),
    rdb.Column( "logo_mimetype", rdb.String(40)),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),   
    )
 
 ###
@@ -332,25 +316,8 @@ user_role_types = rdb.Table(
     rdb.Column( "sort_order", rdb.Integer(2), nullable=False),
     )
 
-###
-#  group extensions define additional members which can be assigned to a group
-#  by user_group_memberships. allthough this is not limited by the implementation of 
-#  user_group_memberships the application has to restrict the group membership
-#  a) to avoid invalid input
-#  b) to limit the number of choices
-#  
 
-extension_groups = rdb.Table(
-    "extension_groups",
-    metadata,
-    rdb.Column( "extension_type_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-    rdb.Column( "group_type", rdb.String(30),  nullable=False  ),
-    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
-    )
-
-    
-    
-
+   
 
 #
 # group memberships encompasses any user participation in a group, including
@@ -740,7 +707,7 @@ questions = rdb.Table(
    # if this is a supplementary question, this is the original/previous question
    rdb.Column( "supplement_parent_id", rdb.Integer, rdb.ForeignKey('questions.question_id')  ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id')), 
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id')), 
    
    )
 
@@ -811,7 +778,7 @@ bills = rdb.Table(
    metadata,
    rdb.Column( "bill_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
    rdb.Column( "bill_type_id", rdb.Integer, rdb.ForeignKey('bill_types.bill_type_id'), nullable = False ),
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),    
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),    
    rdb.Column( "identifier",  rdb.Integer),
    rdb.Column( "summary", rdb.UnicodeText ),   
    rdb.Column( "publication_date", rdb.Date ),

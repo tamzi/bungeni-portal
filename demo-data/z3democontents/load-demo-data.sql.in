@@ -47,38 +47,14 @@ update public.users set titles = 'Mrs.' where gender = 'F';
 update public.users set titles = 'Mr.' where gender = 'M';
 update public.users set middle_name = '' where middle_name is null;
 
-copy public.groups ( group_id, short_name, full_name, start_date, end_date, type) 
-from '%(directory)s/data/demodata/parliament_group.csv' with delimiter ';' csv ;
+copy public.groups ( group_id, short_name, full_name, description, 
+    status, start_date, end_date, type, parent_group_id)
+from '%(directory)s/data/demodata/groups.csv'  
+csv;
 
 copy public.parliaments (parliament_id, election_date) from '%(directory)s/data/demodata/parliaments.csv'
 with delimiter ';' csv;
 
-copy public.groups ( group_id, short_name, full_name, start_date, end_date, type) 
-from '%(directory)s/data/demodata/government_group.csv'
-csv ;
-
-copy public.groups ( short_name,  start_date, end_date, type, group_id) 
-from '%(directory)s/data/demodata/extension_groups.csv'
-csv ;
-
-copy public.extension_groups( parliament_id, group_type, extension_type_id)
-from '%(directory)s/data/demodata/extensions.csv'
-csv ;
-
-
-
-
-copy public.government from  '%(directory)s/data/demodata/governments.csv'
-csv ;
-
-
-copy public.groups ( group_id, short_name, full_name, description, start_date, end_date, type) 
-from '%(directory)s/data/demodata/ministry_group.csv'
-csv ;
-
-copy public.ministries ( government_id, ministry_id ) 
-from '%(directory)s/data/demodata/ministries.csv'
-csv ; 
 
 /*copy public.parliament_membership_type
 from '%(directory)s/data/demodata/parliament_membership_type.csv' csv;
@@ -104,16 +80,6 @@ update public.sessions set full_name = short_name || ' ' || extract(year from st
 
 update public.sessions set short_name = full_name;
 
-/* political parties */
-
-copy public.groups(  short_name, start_date, type, end_date, group_id )
-from '%(directory)s/data/demodata/parties.csv'
-csv ;
-
-
-copy public.political_parties (party_id, parliament_id)
-from '%(directory)s/data/demodata/party_ids.csv'
-csv ;
 
 copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date)
 from '%(directory)s/data/demodata/partymembers.csv'
@@ -124,11 +90,7 @@ copy public.committee_types
 from '%(directory)s/data/demodata/committee_types.csv'
 csv;
 
-copy public.groups ( group_id, start_date, end_date, short_name, full_name, description, type)
-from '%(directory)s/data/demodata/committee_groups.csv'
-csv ;
-
-copy public.committees ( committee_id, parliament_id, committee_type_id, no_members, min_no_members,
+copy public.committees ( committee_id, committee_type_id, no_members, min_no_members,
 quorum, proportional_representation)
 from '%(directory)s/data/demodata/committees.csv'
 csv;
@@ -239,31 +201,6 @@ INSERT INTO addresses (role_title_id)
 SELECT role_title_id FROM role_titles;
 
 
-/* do away with the specialization for groups */
-
-UPDATE groups SET parent_group_id = 
-    (SELECT parliament_id FROM government 
-    WHERE government.government_id = groups.group_id)
-WHERE groups.parent_group_id IS NULL;
-
-UPDATE groups SET parent_group_id = 
-    (SELECT government_id FROM ministries 
-    WHERE ministries.ministry_id = groups.group_id)
-WHERE groups.parent_group_id IS NULL;
-
-UPDATE groups SET parent_group_id = 
-    (SELECT parliament_id FROM committees 
-    WHERE committees.committee_id = groups.group_id)
-WHERE groups.parent_group_id IS NULL;    
-
-
-UPDATE groups SET parent_group_id = 
-    (SELECT parliament_id FROM political_parties 
-    WHERE political_parties.party_id = groups.group_id)
-WHERE groups.parent_group_id IS NULL;    
-
-
-
 /*get all sequences */
 select  sequence_name from information_schema.sequences
 where sequence_schema='public';
@@ -343,17 +280,12 @@ WHERE user_id IN
 UPDATE user_group_memberships SET membership_type = 'minister'
 WHERE user_id IN    
     (SELECT "ugm"."user_id"
-    FROM "public"."user_group_memberships" as ugm, "public"."ministries" 
-    WHERE ( "ugm"."group_id" = "ministries"."ministry_id" ) 
+    FROM "public"."user_group_memberships" as ugm, "public"."groups" 
+    WHERE ( "ugm"."group_id" = "groups"."group_id" ) 
+    AND ("public"."groups"."type" = 'ministry')
     AND ("user_group_memberships"."group_id" = "ugm"."group_id"));   
     
-    
-UPDATE user_group_memberships SET membership_type = 'extensionmember'
-WHERE user_id IN      
-    (SELECT "ugm"."user_id" 
-    FROM "public"."extension_groups", "public"."user_group_memberships" as ugm
-    WHERE ( "extension_groups"."extension_type_id" = "ugm"."group_id" )    
-    AND ("user_group_memberships"."group_id" = "ugm"."group_id"));       
+      
 
     
 UPDATE user_group_memberships SET membership_type = 'partymember'
@@ -364,22 +296,6 @@ WHERE user_id IN
     AND ("user_group_memberships"."group_id" = "ugm"."group_id"));       
     
 
-UPDATE user_group_memberships SET membership_type = 'committeestaff'
-WHERE user_id IN      
-    (SELECT "ugm"."user_id" 
-    FROM "public"."extension_groups", "public"."user_group_memberships" as ugm
-    WHERE ( "extension_groups"."extension_type_id" = "ugm"."group_id" )    
-    AND ("user_group_memberships"."group_id" = "ugm"."group_id"))       
-AND user_id NOT IN
-    (SELECT "user_group_memberships"."user_id" 
-    FROM "public"."user_group_memberships", "public"."parliaments" 
-    WHERE ( "user_group_memberships"."group_id" = "parliaments"."parliament_id" ));
-    
-UPDATE user_group_memberships SET membership_type = 'committeestaff'
-WHERE user_id IN      
-    (SELECT "ugm"."user_id"     
-    FROM "public"."user_group_memberships" as ugm
-    WHERE ( "ugm"."membership_type" = 'committeestaff' ));
 
 update user_group_memberships set membership_type = 'committeestaff'
 where membership_type = 'committeemember'

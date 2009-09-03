@@ -28,7 +28,7 @@
 		<element id="38" bungeniSectionType="publication" result="publication" mantain="date"/>
 		<element id="39" bungeniSectionType="references" result="references" mantain="source"/>
 		<element id="40" bungeniSectionType="TLCOrganization" result="TLCOrganization" mantain="id,href,showAs" />
-		<element id="41" bungeniSectionType="TLCPerson" result="TLCPerson" mantain="id,href,showAs" />
+		<element id="41" bungeniSectionType="TLCPerson" result="TLCPerson" mantain="id,href,showAs,inrole" />
 		<element id="42" bungeniSectionType="TLCEvent" result="TLCEvent" mantain="id,href,showAs" />
 	</elements> 
 </map>

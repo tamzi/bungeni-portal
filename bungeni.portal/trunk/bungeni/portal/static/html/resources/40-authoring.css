@@ -336,7 +336,7 @@ dl.collapsedBlockCollapsible dt.collapsibleHeader {
     float: none;
     position: static;
     margin: 0;
-    padding: 0 0 0 22px;
+    padding: 0 0 0 0px;
     line-height: 1em;
     background: transparent url(treeCollapsed.gif) no-repeat 6px 50%;
     cursor: pointer;

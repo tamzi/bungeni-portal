@@ -222,6 +222,14 @@ dl.section-front-page {
 {
   background-color: #E3E3E3;
   border: 1px solid #FAAD5F;
+  line-height: 1.6em;
+  text-align: justify;
+}
+
+#whats-on-overview .portlet dt
+{
+  padding: 0 2px 5px 5px;
+  font-weight: normal;
 }
 
 
@@ -319,11 +327,15 @@ li.lastFormTab a {
   min-width: 16em;
 }
 
-input.searchButton {
-  margin-left: 5px;
+
+/*search form*/
+#portal-searchbox input.searchButton {
   height: 17px;
 }
 
+input.searchButton {
+  margin-left: 5px;
+}
 
 /*table listings*/
 table.listing, .stx table {

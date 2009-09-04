@@ -222,9 +222,6 @@ class PoliticalParty( Group ):
     """
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
     
-    @property
-    def parliament_id(self):
-        return self.parent_group_id    
 
 class PartyMember( GroupMembership ):
     """ 
@@ -240,13 +237,6 @@ class Government( Group ):
     sort_on = ['start_date']
     ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "parent_group_id")
     
-    @property
-    def parliament_id(self):
-        return self.parent_group_id
-
-    @property
-    def government_id(self):
-        return self.group_id        
 
 class Ministry( Group ):
     """ a government ministry
@@ -254,14 +244,7 @@ class Ministry( Group ):
     ministers = one2many("ministers","bungeni.models.domain.MinisterContainer", "group_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "ministry_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "ministry_id")    
-
-    @property
-    def government_id(self):
-        return self.parent_group_id
-
-    @property
-    def ministry_id(self):
-        return self.group_id            
+         
     
 class Minister( GroupMembership ):
     """ A Minister
@@ -277,11 +260,7 @@ class Committee( Group ):
     agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
-        
-    @property
-    def parliament_id(self):
-        return self.parent_group_id
-                
+
 
 class CommitteeMember( GroupMembership ):
     """ A Member of a committee
@@ -298,9 +277,7 @@ class Office( Group ):
     clerks office etc. internal only"""
     officemembers = one2many("officemembers", "bungeni.models.domain.OfficeMemberContainer", "group_id") 
 
-    @property
-    def parliament_id(self):
-        return self.parent_group_id
+
         
 class OfficeMember( GroupMembership ):
     """ clerks, .... """        

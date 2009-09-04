@@ -68,7 +68,9 @@ div#portal-globalnav ul.level0 li#portaltab- a {
 }
 
 /*on the homepage - display the first tab as selected*/
-.section-front-page div#portal-globalnav ul.level0 li#portaltab- a {
+.section-front-page div#portal-globalnav ul.level0 li#portaltab- a,
+.section-bungeni-calendar div#portal-globalnav ul.level0 li#portaltab- a
+{
   background-color: #FFE7B8;
   border-top: 0.5px solid #FAAD5F;
   border-left: 1px solid #FAAD5F;
@@ -76,7 +78,7 @@ div#portal-globalnav ul.level0 li#portaltab- a {
   border-bottom: 5px solid #FFE7B8;
   font-weight:bold;
   padding:0 10px;
-  height: 1.5em;
+  height: 1.1em;
 }
 
 

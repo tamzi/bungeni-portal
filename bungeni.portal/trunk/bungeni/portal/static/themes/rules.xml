@@ -3,6 +3,8 @@
   <theme href="/static/themes/layout.html" />
   <match path="exact:/"
          class="frontpage" />
+  <match path="exact:/front-page"
+         class="frontpage" />  
   <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])+(/)?(view)?$"
          class="workspace-committee" />
   <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"

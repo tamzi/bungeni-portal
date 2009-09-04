@@ -661,7 +661,6 @@ class CommitteeDescriptor( GroupDescriptor ):
                     title_field='committee_type', 
                     value_field='committee_type_id')
     fields.extend([
-        dict( name='parliament_id', omit=True ),
         dict( name='committee_id', omit=True ),
         dict( name = 'committee_type_id',
                 property=schema.Choice( title=_(u"Type of committee"), 
@@ -869,28 +868,12 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
                 listing=False,
                 view_widget=ImageDisplayWidget,
                 edit_widget = ImageInputWidget),
-        dict(name="parliament_id", omit=True),   
         dict(name="party_id", omit=True),                           
      ])
           
     schema_invariants = [EndAfterStart]
     
-class ExtensionGroupDescriptor( GroupDescriptor ):
-    display_name = _(u"Group extension")
-    container_name = _(u"Group extensions")
-    custom_validators = [validations.validate_date_range_within_parent,]
-    
-    fields = deepcopy( GroupDescriptor.fields )    
-    fields.extend([
-        dict(name="group_type", listing=True,
-            property = schema.Choice(
-                title=_(u"Extension for"), 
-                values=['ministry', 'committee',])
-            ),
-        dict(name="extension_type_id", omit=True),  
-        dict(name="parliament_id", omit=True),           
-    ])   
-     
+
 class OfficeDescriptor( GroupDescriptor ):
     display_name = _(u"Office")
     container_name = _(u"Offices")
@@ -933,11 +916,6 @@ class MinistryDescriptor( GroupDescriptor ):
     custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )       
-    fields.extend([
-        dict( name='ministry_id', omit=True ),
-        dict( name='government_id', omit=True ),
-                   
-    ])
     
     schema_invariants = [EndAfterStart]
     
@@ -1024,9 +1002,7 @@ class GovernmentDescriptor( ModelDescriptor ):
                 add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
             ),
-        dict( name="status", omit=True),
-        dict( name="government_id", omit=True), 
-        dict( name="parliament_id", omit=True),   
+        dict( name="status", omit=True), 
         dict( name="type", omit=True ),  
         ]
     
@@ -1353,8 +1329,8 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
                 listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
                 DatabaseSource(domain.Ministry,
                                 title_field='short_name', 
-                                token_field='ministry_id', 
-                                value_field = 'ministry_id' )),
+                                token_field='group_id', 
+                                value_field = 'group_id' )),
                 listing=True,                 
             ),
         dict( name="approval_date", 

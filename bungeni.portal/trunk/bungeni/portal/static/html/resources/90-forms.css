@@ -274,12 +274,12 @@ tr.selected {
 
 div.content-left-column{
 float: left;
-width : 50%;
+width : 30%;
 }
 
 div.content-right-column{
 float: right;
-width: 50%;
+width: 70%;
 }
 
 

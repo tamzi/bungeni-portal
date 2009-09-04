@@ -171,7 +171,7 @@ def endChildGroups(group):
     def _end_parliament_group(group_class, parent_id, end_date):
         groups = session.query(group_class).filter(
             rdb.and_(group_class.status == 'active',
-                group_class.parliament_id == parliament_id)).all()          
+                group_class.parent_group_id == parliament_id)).all()          
         for group in groups:
             if group.end_date == None:
                 group.end_date = end_date   
@@ -198,10 +198,10 @@ def endChildGroups(group):
         for political_group in political_groups:                          
             yield political_group                                    
     elif interfaces.IGovernment.providedBy(group):
-        government_id = group.government_id
+        government_id = group.group_id
         ministries = session.query(domain.Ministry).filter(
             rdb.and_(domain.Ministry.status == 'active',
-                domain.Ministry.government_id == government_id)
+                domain.Ministry.parent_group_id == government_id)
                 ).all()
         for ministry in ministries:
             if ministry.end_date == None:

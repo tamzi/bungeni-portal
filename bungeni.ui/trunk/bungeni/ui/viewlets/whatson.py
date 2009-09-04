@@ -12,10 +12,11 @@ from ploned.ui.interfaces import IViewView
 
 from bungeni.models import domain, schema
 from bungeni.core.globalsettings import getCurrentParliamentId
+from interfaces import IWhatsOnBrowserView
 
 class WhatsOnBrowserView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/whatson.pt")
-    interface.implements(IViewView)
+    interface.implements(IViewView, IWhatsOnBrowserView)
     start_date = datetime.date.today()
     end_date = datetime.date.today() + datetime.timedelta(10)
     

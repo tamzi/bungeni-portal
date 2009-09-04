@@ -107,7 +107,7 @@ users = rdb.Table(
                 default="A", #activ/inactiv/deceased
                 ), 
    # comment out for now - will be used for user preferences                
-   #rdb.Column( "recieve_notification", rdb.Boolean, nullable=False, default=True),                
+   rdb.Column( "recieve_notification", rdb.Boolean, default=True),                
    )
 
 # # not in use yet, but potentially for all 

@@ -246,7 +246,7 @@ class MinistrySource(SpecializedSource):
         if parliament_id:
             governments = session.query(domain.Government).filter(
                 sql.and_(
-                    domain.Government.parliament_id == parliament_id,
+                    domain.Government.parent_group_id == parliament_id,
                     sql.or_( 
                         sql.and_(
                             domain.Government.start_date <= today,
@@ -259,13 +259,13 @@ class MinistrySource(SpecializedSource):
                     ))  
             government = governments.all()
             if len(government) == 1:
-                gov_id = government[0].government_id
+                gov_id = government[0].group_id
                 if ministry_id:
                     query = session.query(domain.Ministry).filter(
                         sql.or_(
-                            domain.Ministry.ministry_id == ministry_id,
+                            domain.Ministry.group_id == ministry_id,
                             sql.and_(
-                                domain.Ministry.government_id == gov_id,
+                                domain.Ministry.parent_group_id == gov_id,
                                 sql.or_( 
                                     sql.and_(
                                         domain.Ministry.start_date <= today,
@@ -280,7 +280,7 @@ class MinistrySource(SpecializedSource):
                 else:
                     query = session.query(domain.Ministry).filter(
                             sql.and_(
-                                domain.Ministry.government_id == gov_id,
+                                domain.Ministry.parent_group_id== gov_id,
                                 sql.or_( 
                                     sql.and_(
                                         domain.Ministry.start_date <= today,
@@ -294,7 +294,7 @@ class MinistrySource(SpecializedSource):
             else:
                 if ministry_id:
                     query = session.query(domain.Ministry).filter(
-                            domain.Ministry.ministry_id == ministry_id)                          
+                            domain.Ministry.group_id == ministry_id)                          
                 else:                    
                     query = session.query(domain.Ministry)            
         else:
@@ -308,8 +308,8 @@ class MinistrySource(SpecializedSource):
         for ob in results:
             terms.append( 
                 vocabulary.SimpleTerm( 
-                    value = getattr( ob, 'ministry_id'), 
-                    token = getattr( ob, 'ministry_id'),
+                    value = getattr( ob, 'group_id'), 
+                    token = getattr( ob, 'group_id'),
                     title = "%s - %s" % (getattr( ob, 'short_name') ,
                             getattr( ob, 'full_name'))
                     ))

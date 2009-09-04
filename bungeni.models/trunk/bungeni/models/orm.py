@@ -14,15 +14,17 @@ mapper (domain.Keyword, schema.keywords)
 
 # Groups
 mapper( domain.Group, schema.groups,
+        primary_key=[schema.groups.c.group_id],
         properties={
             'members': relation( domain.GroupMembership ),
             'group_principal_id': column_property(
                 ("group." + schema.groups.c.type + "." + 
                 rdb.cast(schema.groups.c.group_id, rdb.String)
                 ).label('group_principal_id')),
-             'contained_groups' : relation( domain.Group, 
-                    backref =  
-                    backref('parent_group',  
+             'contained_groups' : relation( domain.Group,
+                    primaryjoin = (schema.groups.c.group_id == 
+                        schema.groups.c.parent_group_id),
+                    backref = backref('parent_group',  
                     remote_side=schema.groups.c.group_id)
                     ),                
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            

@@ -25,25 +25,24 @@
                  pos      python: [i for i in range(num_sibl)  if sibl[i].getId == here.getId()][0];">
 
   <div metal:define-macro="main">
- <div metal:use-macro="here/document_actions/macros/document_actions">
-            Document actions (print, sendto etc)
- </div>
 
-   <tal:define define="results python:here.alphabetise();
-                       parent_url python:here.navigationParent(here, template.getId())">
+   <tal:define define="results
+         python:here.alphabetise();">
    <ul id="nav">
      <span tal:omit-tag="" tal:repeat="item results">
       <li tal:condition="python:not item['items']"
       tal:content="item/letter" />
-      <li tal:condition="python:item['items']"><a href="#" tal:attributes="href python:parent_url + '#alpha' + item['letter']" tal:content="item/letter" />
+      <li tal:condition="python:item['items']"><a href="#" tal:attributes="href python:'#alpha' + item['letter']" tal:content="item/letter" />
       <ul>
           <li tal:repeat="definition python:item['items']"><div><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></div></li>
       </ul>
       </li>
       </span>
    </ul>
-   </tal:define>
-   <br/><br/>
+   <br/>
+   <br/>
+   
+   </tal:define>   
 
     <div class="listingBar" tal:condition="python: next or prev"
               tal:define="next python:pos &lt; num_sibl-1;
@@ -124,9 +123,6 @@
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
-    <div metal:use-macro="here/document_byline/macros/byline">
-      Get the byline - contains details about author and modification date.
-    </div>    
 
     <div class="listingBar" tal:condition="python: next or prev"
               tal:define="next python:pos &lt; num_sibl-1;
@@ -163,8 +159,7 @@
 <br/>
     </div>
 
-
-
+    <div tal:replace="structure provider:plone.belowcontentbody" />
 </div>
 
 </body>

@@ -37,8 +37,8 @@ checkSittingGroupInterval = """
                         
 checkGovernmentInterval = """
     SELECT "groups"."short_name" 
-    FROM "public"."government", "public"."groups" 
-    WHERE ( ( "government"."government_id" = "groups"."group_id" )
+    FROM  "public"."groups" 
+    WHERE ( (  "groups"."type" = 'government' )
         AND ( :date  
             BETWEEN "start_date" AND "end_date") )
                         """
@@ -198,10 +198,9 @@ checkMySittingGroupInterval = """
                         
 checkMyGovernmentInterval = """
     SELECT "groups"."short_name" 
-    FROM "public"."government", 
-        "public"."groups" 
-    WHERE ( ( "government"."government_id" = "groups"."group_id" )
-        AND ( "government"."government_id" !=  :parent_key  )
+    FROM  "public"."groups" 
+    WHERE ( ( "government"."group_id" = "groups"."group_id" )
+        AND ( "government"."group_id" !=  :parent_key  )
         AND ( :date  
             BETWEEN "start_date" 
             AND "end_date") )

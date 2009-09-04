@@ -1,0 +1,15 @@
+<dl id="portletArchiveDates" class="portlet inlinePortlet">
+  
+  <dt class="portletHeader">
+    <span class="portletTopLeft"></span>
+    <span class="tile">Filter by date</span>
+    <span class="portletTopRight"></span>
+  </dt>
+  
+  <dd class="portletItem lastItem">
+    <tal:form replace="structure view/form" />
+    <div class="visualClear"><!-- nothing here --></div>
+  </dd>
+
+</dl>
+

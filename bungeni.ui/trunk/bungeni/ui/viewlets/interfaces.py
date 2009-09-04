@@ -1,5 +1,6 @@
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
+from zope.publisher.interfaces.browser import IBrowserView     
 
 class IWorkspaceManager(IViewletManager):
     """Workspace viewlet manager."""
@@ -20,3 +21,5 @@ class ISchedulingViewlet(IViewlet):
 
     The ``title`` should be linked to the URL of the item.
     """
+class IWhatsOnBrowserView(IBrowserView):
+    """ Marker """

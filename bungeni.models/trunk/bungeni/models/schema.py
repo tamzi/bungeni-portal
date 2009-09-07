@@ -503,14 +503,14 @@ attendance_type = rdb.Table(
 
 # debates? is this replaced by item_discussions?
 
-debates = rdb.Table(
-    "debates",
-    metadata,
-    rdb.Column( "debate_id", rdb.Integer, primary_key=True ),
-    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
-    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
-    rdb.Column( "body_text", rdb.UnicodeText),
-    )
+#debates = rdb.Table(
+#    "debates",
+#    metadata,
+#    rdb.Column( "debate_id", rdb.Integer, primary_key=True ),
+#    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
+#    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
+#    rdb.Column( "body_text", rdb.UnicodeText),
+#    )
 
 
 # venues for sittings:

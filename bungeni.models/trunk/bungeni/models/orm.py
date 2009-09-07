@@ -23,10 +23,7 @@ mapper( domain.Group, schema.groups,
                 ).label('group_principal_id')),
              'contained_groups' : relation( domain.Group,
                     primaryjoin = (schema.groups.c.group_id == 
-                        schema.groups.c.parent_group_id),
-                    backref = backref('parent_group',  
-                    remote_side=schema.groups.c.group_id)
-                    ),                
+                        schema.groups.c.parent_group_id),)                           
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,
@@ -358,7 +355,7 @@ mapper( domain.ItemScheduleCategory , schema.item_schedule_category)
 mapper( domain.Consignatory, schema.consignatories,
         properties= {'item': relation(domain.ParliamentaryItem, uselist=False),
                       'user': relation(domain.User, uselist=False)})
-mapper( domain.Debate, schema.debates )
+#mapper( domain.Debate, schema.debates )
 
 mapper( domain.MotionAmendment, schema.motion_amendments)
 

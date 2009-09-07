@@ -285,10 +285,10 @@ class OfficeMember( GroupMembership ):
             
 
    
-class Debate( Entity ):
-    """
-    Debates
-    """   
+#class Debate( Entity ):
+#    """
+#    Debates
+#    """   
 
 class AddressType( object ):
     """

@@ -34,7 +34,7 @@ def get_all_group_ids_in_parliament(parliament_id):
     query = session.query(domain.Group).filter(
         domain.Group.parent_group_id == parliament_id).options(
             eagerload('contained_groups'))  
-    import pdb; pdb.set_trace()                                                  
+
     results = query.all()
     for result in results:
         group_ids.append(result.group_id)

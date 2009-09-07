@@ -139,10 +139,20 @@ Government
 Ministries
 -----------
   >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.datetime.now())
-  >>> ministry.parent_group_id = gov.government_id
+  >>> ministry.parent_group_id = gov.group_id
   >>> session.add(ministry)
   >>> session.flush()
   
+
+Groups in a parliament:
+-----------------------
+  >>> from bungeni.models.utils import get_all_group_ids_in_parliament
+  >>> pgroups = get_all_group_ids_in_parliament(parliament.parliament_id)
+  
+  >>> len(pgroups)
+  4
+
+
 
 
 
@@ -387,11 +397,7 @@ Rota Preparation
 Debates
 --------------
 
- >>> debate = model.Debate()
- >>> debate.short_name=u'Debate'
- >>> debate.sitting_id = ssit.sitting_id
- >>> session.add(debate)
- >>> session.flush()
+
 
 Clean up commit outstanding transactions
 -----------------------------------------

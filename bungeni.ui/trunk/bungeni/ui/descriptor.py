@@ -1515,26 +1515,26 @@ class SessionDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]
     custom_validators = [validations.validate_date_range_within_parent,]
                 
-class DebateDescriptor ( ModelDescriptor ):
-    display_name = _(u"Debate")
-    container_name = _(u"Debate")
+#class DebateDescriptor ( ModelDescriptor ):
+#    display_name = _(u"Debate")
+#    container_name = _(u"Debate")
     
-    fields = [
-        dict( name="sitting_id", omit=True ), 
-        dict( name="debate_id", omit=True ),                
-        dict( name="short_name", 
-                label=_(u"Short Name"), 
-                listing=True,
-                listing_column=name_column("short_name", 
-                    _(u'Name')) ), 
-        dict( name="body_text", label=_(u"Transcript"),
-              property = schema.Text( title=u"Transcript" ),
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor, 
-              add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,
-              ),   
-        ]             
+#    fields = [
+#        dict( name="sitting_id", omit=True ), 
+#        dict( name="debate_id", omit=True ),                
+#        dict( name="short_name", 
+#                label=_(u"Short Name"), 
+#                listing=True,
+#                listing_column=name_column("short_name", 
+#                    _(u'Name')) ), 
+#        dict( name="body_text", label=_(u"Transcript"),
+#              property = schema.Text( title=u"Transcript" ),
+#              view_widget=HTMLDisplay,
+#              edit_widget=RichTextEditor, 
+#              add_widget=RichTextEditor,
+#              differ=diff.HTMLDiff,
+#              ),   
+#        ]             
         
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting attendance")

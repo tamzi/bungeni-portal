@@ -12,7 +12,7 @@ from repoze.who.interfaces import IMetadataProvider
 from ore.alchemist import Session
 from sqlalchemy.exceptions import UnboundExecutionError
 import sqlalchemy as rdb
-from sqlalchemy.orm import eagerload
+from sqlalchemy.orm import eagerload, lazyload
 
 from bungeni.models import domain, delegation 
 
@@ -35,13 +35,10 @@ def _get_groups(user_id):
                         user_id,
                         domain.GroupMembership.active_p == 
                         True)).options(
-                    eagerload('group'))
-    #XXX workaround for a strange bug that makes this query
-    # fail the first time it is called but the 2nd call succeeds
-    try: 
-        return query.all()
-    except: 
-        return query.all()
+                    eagerload('group'), lazyload('user'))
+
+    return query.all()
+
 
 
 def getUserGroups(login_id, groups):

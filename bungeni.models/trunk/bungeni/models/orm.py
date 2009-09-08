@@ -21,9 +21,11 @@ mapper( domain.Group, schema.groups,
                 ("group." + schema.groups.c.type + "." + 
                 rdb.cast(schema.groups.c.group_id, rdb.String)
                 ).label('group_principal_id')),
-             'contained_groups' : relation( domain.Group,
-                    primaryjoin = (schema.groups.c.group_id == 
-                        schema.groups.c.parent_group_id),)                           
+             'contained_groups' : relation( domain.Group, 
+                    backref =  
+                    backref('parent_group',  
+                    remote_side=schema.groups.c.group_id)
+                    ),                            
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,
@@ -90,8 +92,7 @@ mapper( domain.Committee, schema.committees,
             'committee_type': relation( domain.CommitteeType,
                               uselist=False,
                               lazy=False ),
-            },                              
-        
+            },                                      
         )    
         
 
@@ -113,15 +114,21 @@ mapper( domain.Office, schema.offices,
 mapper( domain.GroupMembership, schema.user_group_memberships,
         properties={
             'user': relation( domain.User,
-                              primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==schema.users.c.user_id ),
+                              primaryjoin=rdb.and_(
+                              schema.user_group_memberships.c.user_id==
+                              schema.users.c.user_id ),
                               uselist=False,
                               lazy=False ),
             'group': relation( domain.Group,
-                               primaryjoin=schema.user_group_memberships.c.group_id==schema.groups.c.group_id,
+                               primaryjoin=
+                               schema.user_group_memberships.c.group_id==
+                               schema.groups.c.group_id,
                                uselist=False,
                                lazy=True ),                              
             'replaced': relation( domain.GroupMembership,
-                                  primaryjoin=schema.user_group_memberships.c.replaced_id==schema.user_group_memberships.c.membership_id,
+                                  primaryjoin=
+                                  schema.user_group_memberships.c.replaced_id==
+                                  schema.user_group_memberships.c.membership_id,
                                   uselist=False,
                                   lazy=True ),
             'member_titles': relation( domain.MemberRoleTitle ) 
@@ -138,8 +145,9 @@ mapper ( domain.MemberOfParliament ,
          primary_key=[schema.user_group_memberships.c.membership_id], 
           properties={
             'constituency': relation( domain.Constituency,
-                              primaryjoin=(schema.parliament_memberships.c.constituency_id==
-                                    schema.constituencies.c.constituency_id),
+                                primaryjoin=(
+                                schema.parliament_memberships.c.constituency_id==
+                                schema.constituencies.c.constituency_id),
                               uselist=False,
                               lazy=False ),
             'constituency_id':[schema.parliament_memberships.c.constituency_id], 
@@ -409,13 +417,7 @@ mapper( domain.MemberRoleTitle, schema.role_titles.join(schema.addresses),
 mapper( domain.AddressType, schema.address_types )
 mapper( domain.UserAddress, schema.addresses)
 
-###########################
-# Current Items
-
-# get the current gov and parliament for a ministry
-#_ministry_gov_parliament = rdb.join ( schema.ministries, schema.governments,
-#     schema.ministries.c.government_id == schema.governments.c.government_id)
-#mapper(domain.MinistryInParliament, _ministry_gov_parliament)                                     
+             
                                     
 
 

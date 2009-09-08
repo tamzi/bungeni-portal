@@ -88,9 +88,13 @@ political parties, etc. Let's create some groups in the system to examine how
 they work.
 
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.datetime.now(), election_date=datetime.datetime.now())
+  >>> session.add( parliament )  
+  >>> session.flush()
+  
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.datetime.now())
+  >>> political_party_a.parent_group_id = parliament.parliament_id
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.datetime.now())
-  >>> session.add( parliament )
+  >>> political_party_b.parent_group_id = parliament.parliament_id  
   >>> session.add(political_party_a)
   >>> session.add(political_party_b)
   >>> session.add( mp_1 )
@@ -134,6 +138,8 @@ Government
   >>> gov.parent_group_id = parliament.parliament_id
   >>> session.add(gov)
   >>> session.flush()  
+  >>> gov.parent_group
+  <bungeni.models.domain.Parliament object at ...>
 
 
 Ministries
@@ -141,8 +147,13 @@ Ministries
   >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.datetime.now())
   >>> ministry.parent_group_id = gov.group_id
   >>> session.add(ministry)
-  >>> session.flush()
+  >>> session.flush()  
+  >>> ministry.parent_group
+  <bungeni.models.domain.Government object at ...>
   
+  >>> gov.contained_groups
+  [<bungeni.models.domain.Ministry object at ...>]
+
 
 Groups in a parliament:
 -----------------------
@@ -150,7 +161,7 @@ Groups in a parliament:
   >>> pgroups = get_all_group_ids_in_parliament(parliament.parliament_id)
   
   >>> len(pgroups)
-  4
+  6
 
 
 

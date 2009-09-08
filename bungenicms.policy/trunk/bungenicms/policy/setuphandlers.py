@@ -6,37 +6,6 @@ from Products.PluggableAuthService.interfaces.plugins import *
 from bungeni.plonepas.install import install as install_plonepas
 from Products.CMFCore.utils import getToolByName
 
-def setup_group_workspaces(context):
-    """Turn on workspace creation.
-       Set Workspace container id to 'committees'
-       Set group workspaces container type to folder
-       Set group workspaces
-       Create the group folder
-       Turn off portal navigation for the groups folder.
-    """
-
-    portal = context.getSite()
-    if 'groups' not in portal.objectIds():
-        gtool = getToolByName(portal, 'portal_groups')
-        gtool.groupWorkspacesCreationFlag = 1
-        gtool.setGroupWorkspacesFolder('groups', 'Groups')
-        gtool.setGroupWorkspaceContainerType('Folder')
-        gtool.setGroupWorkspaceType('Folder')
-            
-        # create groups folder (Folder)
-
-        groups = portal[
-            portal.invokeFactory(
-                "Folder",
-                id="groups")]
-
-        # set default properties
-        groups.setTitle("Groups")
-        groups.setDescription("Group workspaces container.")
-        groups._getWorkflowTool().doActionFor(groups, 'publish' '')
-        groups.setExcludeFromNav(True)
-        groups.update()    
-
 
 def setup_members_folder(context):
     """Set up the membership folder at <root>/membership.
@@ -69,7 +38,7 @@ def setup_members_folder(context):
     8.  If you wish the new Membership folder can be excluded from
     navigation bar.
     """
-
+    
     if context.readDataFile('marker.txt') is None:
         return
 
@@ -91,7 +60,7 @@ def setup_members_folder(context):
     old_global_allow = pt['Large Plone Folder'].global_allow
     pt['Large Plone Folder'].global_allow = True
     members = portal[
-        portal.invokeFactory(
+        portal.invokeFactory(              
             "Large Plone Folder",
             id="membership")]
     pt['Large Plone Folder'].global_allow = old_global_allow
@@ -99,6 +68,8 @@ def setup_members_folder(context):
     # set default properties
     members.setTitle("Membership")
     members.setDescription("Membership")
+    members._getWorkflowTool().doActionFor(members, 'publish' '')
+    members.setExcludeFromNav(True)    
     members.reindexObject()    
 
     # set members folder
@@ -124,7 +95,7 @@ def setup_application_folders(context):
     Dspace         /archive/dspace
     ----------------------------------------------
     """
-    
+
     if context.readDataFile('marker.txt') is None:
         return
 
@@ -145,7 +116,7 @@ def setup_application_folders(context):
             if wftool.getInfoFor(obj, 'review_state') != 'published':
                 wftool.doActionFor(obj, 'publish')
 
-    
+
 def setup_who_authentication(context):
     if context.readDataFile('marker.txt') is None:
         return
@@ -183,6 +154,47 @@ def setup_z2_roles(context):
     portal.__ac_roles__ = tuple(roles)
 
 
+def update_authenticated_users_group(context):
+    if context.readDataFile('marker.txt') is None:
+        return
+    portal = context.getSite()
+    groups_tool = portal.portal_groups
+    group = groups_tool.getGroupById('AuthenticatedUsers')
+    if 'Member' and 'bungeni.Anybody' and 'bungeni.Everybody' not in group.getRoles():
+        roles = group.getRoles() + ['Member', 'bungeni.Anybody', 'bungeni.Everybody']
+        groups_tool.editGroup(group.id, roles=roles, groups=())
+        
     
+def setup_group_workspaces(context):
+    """Turn on workspace creation.
+       Set Workspace container id to 'committees'
+       Set group workspaces container type to folder
+       Set group workspaces
+       Create the group folder
+       Turn off portal navigation for the groups folder.
+    """
 
- 
+    if context.readDataFile('marker.txt') is None:
+        return
+
+    portal = context.getSite()
+    if 'groups' not in portal.objectIds():
+        gtool = getToolByName(portal, 'portal_groups')
+        gtool.groupWorkspacesCreationFlag = 1
+        gtool.setGroupWorkspacesFolder('groups', 'Groups')
+        gtool.setGroupWorkspaceContainerType('Folder')
+        gtool.setGroupWorkspaceType('Folder')
+            
+        # create groups folder (Folder)
+
+        groups = portal[
+            portal.invokeFactory(
+                "Folder",
+                id="groups")]
+
+        # set default properties
+        groups.setTitle("Groups")
+        groups.setDescription("Group workspaces container.")
+        groups._getWorkflowTool().doActionFor(groups, 'publish' '')
+        groups.setExcludeFromNav(True)
+        groups.update()    

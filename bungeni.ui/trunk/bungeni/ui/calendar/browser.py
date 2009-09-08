@@ -610,7 +610,8 @@ class HTMLPreviewPage(ReportingView):
                 eagerload('item_schedule.item'),
                 eagerload('item_schedule.discussion'),
                 eagerload('item_schedule.category'))
-        items = query.all()#.sort(key=operator.attrgetter('start_date'))
+        items = query.all()
+        #items.sort(key=operator.attrgetter('start_date'))
         for item in items:
             item.item_schedule.sort(key=operator.attrgetter('planned_order'))              
         return items

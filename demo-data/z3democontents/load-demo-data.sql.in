@@ -4,8 +4,6 @@
 
 
 copy public.countries from '%(directory)s/data/demodata/countries.csv' csv ;
-/* workaround for now because vocabulary source does not accept unicode */
-/* XXX */
 
 /*delete from countries where country_id not in ('AO', 'KE', 'UG', 'ZA');*/
 
@@ -89,6 +87,9 @@ csv;
 copy public.committee_types
 from '%(directory)s/data/demodata/committee_types.csv'
 csv;
+
+copy public.political_parties (party_id)
+from '%(directory)s/data/demodata/party_ids.csv' csv;
 
 copy public.committees ( committee_id, committee_type_id, no_members, min_no_members,
 quorum, proportional_representation)

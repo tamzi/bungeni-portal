@@ -369,9 +369,6 @@ class UserDelegationDescriptor( ModelDescriptor ):
 
        
         
-class HansardReporterDescriptor( UserDescriptor ):
-	
-    fields = deepcopy( UserDescriptor.fields )	        
 
 
 class GroupMembershipDescriptor( ModelDescriptor ):

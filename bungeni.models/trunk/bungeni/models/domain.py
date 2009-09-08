@@ -104,9 +104,9 @@ class UserDelegation(Entity):
     to another user """
     
   
-class HansardReporter( User ):
-    """ a reporter who reports on parliamentary procedings
-    """
+#class HansardReporter( User ):
+#    """ a reporter who reports on parliamentary procedings
+#    """
  
     # rotas
 
@@ -121,6 +121,7 @@ class Group( Entity ):
 
     users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
+    
     
 class GroupMembership( Entity ):
     """ a user's membership in a group- abstract

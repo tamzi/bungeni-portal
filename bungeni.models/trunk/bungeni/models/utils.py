@@ -5,7 +5,7 @@ from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 from ore.alchemist import Session
 import sqlalchemy as rdb
-from sqlalchemy.orm import eagerload
+from sqlalchemy.orm import eagerload, lazyload
 import domain, schema
 
 def getUserId( ):
@@ -33,7 +33,8 @@ def get_all_group_ids_in_parliament(parliament_id):
     group_ids = [parliament_id,]
     query = session.query(domain.Group).filter(
         domain.Group.parent_group_id == parliament_id).options(
-            eagerload('contained_groups'))  
+            eagerload('contained_groups'), 
+            ) 
     results = query.all()
     for result in results:
         group_ids.append(result.group_id)

@@ -29,8 +29,7 @@ mapper( domain.Group, schema.groups,
 #            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='group'
-        
+        polymorphic_identity='group'        
         )
 
 # Keywords for groups

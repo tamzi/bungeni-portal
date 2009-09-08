@@ -546,8 +546,14 @@ class ItemInStageViewlet( ViewletBase ):
             user_id = None     
         qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
                 domain.ParliamentaryItem.status.in_(self.states),
-                domain.ParliamentaryItem.type.in_(['motion','question','agendaitem','tableddocument'] ))        
-        self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
+                domain.ParliamentaryItem.type.in_(['motion',
+                            'question',
+                            'agendaitem',
+                            'tableddocument',
+                            'bill'] )
+                            )        
+        self.query = session.query(domain.ParliamentaryItem).filter(
+                qfilter).order_by(
             domain.ParliamentaryItem.parliamentary_item_id.desc())  
 
 class AllItemsInStageViewlet( ItemInStageViewlet ): 
@@ -560,7 +566,8 @@ class AllItemsInStageViewlet( ItemInStageViewlet ):
         qfilter = sql.and_(
                 domain.ParliamentaryItem.status.in_(self.states),
                 domain.ParliamentaryItem.type.in_(
-                    ['motion','question','agendaitem','tableddocument'] ))        
+                    ['motion','question','agendaitem','tableddocument','bill'] )
+                    )        
         self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
             domain.ParliamentaryItem.parliamentary_item_id.desc()) 
             
@@ -572,6 +579,7 @@ class MPItemDraftViewlet( ItemInStageViewlet ):
         question_wf_state[u"draft"].id,
         agendaitem_wf_state[u"draft"].id,
         tableddocument_wf_state[u"draft"].id,
+        bill_wf_state[u"draft"].id,
         ]
     list_id = "items-draft"    
 
@@ -631,7 +639,17 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         tableddocument_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"deferred"].id,
         tableddocument_wf_state[u"postponed"].id,
-        tableddocument_wf_state[u"scheduled"].id                            
+        tableddocument_wf_state[u"scheduled"].id,    
+        bill_wf_state[u"submitted"].id , 
+        bill_wf_state[u"first_reading_postponed"].id ,
+        bill_wf_state[u"second_reading"].id , 
+        bill_wf_state[u"second_reading_postponed"].id , 
+        bill_wf_state[u"whole_house_postponed"].id ,
+        bill_wf_state[u"whole_house"].id ,
+        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+        bill_wf_state[u"report_reading"].id , 
+        bill_wf_state[u"third_reading"].id,
+        bill_wf_state[u"third_reading_postponed"].id                                
         ]
     list_id = "items-in-progress"     
 
@@ -655,8 +673,9 @@ class MPItemArchiveViewlet(ItemInStageViewlet):
         agendaitem_wf_state[u"inadmissible"].id,  
         tableddocument_wf_state[u"withdrawn"].id,
         tableddocument_wf_state[u"elapsed"].id,
-        tableddocument_wf_state[u"inadmissible"].id          
-                      
+        tableddocument_wf_state[u"inadmissible"].id,          
+        bill_wf_state[u"approved"].id , 
+        bill_wf_state[u"rejected"].id ,          
         ]
     list_id = "items-archived"     
 

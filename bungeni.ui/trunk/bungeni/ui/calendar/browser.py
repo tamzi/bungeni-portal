@@ -5,6 +5,8 @@ import datetime
 import tempfile
 timedelta = datetime.timedelta
 
+import operator
+
 from sqlalchemy.orm import eagerload
 import sqlalchemy.sql.expression as sql
 
@@ -486,19 +488,19 @@ class ReportingView(form.PageForm):
 
         return errors
 
-    @form.action(_(u"PreviewHTML"))
+    @form.action(_(u"Preview"))
     def handle_preview(self, action, data):
         next_url = ('preview.html?date=' + data['date'].strftime('%Y-%m-%d') + 
             '&time_span=' + data['time_span'] + '&display_minutes=' +
             str(self.display_minutes))
         self.request.response.redirect(next_url)
     
-    @form.action(_(u"Preview"))
+    #@form.action(_(u"Preview"))
     def handle_preview(self, action, data):
         return self.download_preview(
             data['date'], data['time_span'], 'inline')
 
-    @form.action(_(u"Download"))
+    #@form.action(_(u"Download"))
     def handle_download(self, action, data):
         return self.download_preview(
             data['date'], data['time_span'], 'attachment')
@@ -601,14 +603,18 @@ class HTMLPreviewPage(ReportingView):
             sql.and_(
             domain.GroupSitting.start_date.between(start,end),
             domain.GroupSitting.group_id == self.context.group_id)
-            ).order_by(domain.GroupSitting.start_date, 'planned_order'
+            ).order_by(domain.GroupSitting.start_date
             ).options(
                 eagerload('sitting_type'),
                 eagerload('item_schedule'), 
                 eagerload('item_schedule.item'),
                 eagerload('item_schedule.discussion'),
                 eagerload('item_schedule.category'))
-        return query.all()                
+        items = query.all()#.sort(key=operator.attrgetter('start_date'))
+        for item in items:
+            item.item_schedule.sort(key=operator.attrgetter('planned_order'))              
+        return items
+                          
     def update(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()

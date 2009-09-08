@@ -284,8 +284,8 @@ class ParliamentIndexer( ContentIndexer ):
     domain_model = domain.Parliament
 
 
-class HansardReporterIndexer( UserIndexer ):
-    domain_model = domain.HansardReporter
+#class HansardReporterIndexer( UserIndexer ):
+#    domain_model = domain.HansardReporter
 
 
     
@@ -337,7 +337,7 @@ def setupFieldDefinitions(indexer):
     CommitteeIndexer.defineIndexes( indexer )
     #ParliamentMemberIndexer.defineIndexes( indexer )
     ParliamentIndexer.defineIndexes( indexer )
-    HansardReporterIndexer.defineIndexes( indexer )
+    #HansardReporterIndexer.defineIndexes( indexer )
 
     if interfaces.ENABLE_LOGGING:
         log.debug("Indexer Fields Defined")
@@ -410,7 +410,7 @@ def main( ):
         CommitteeIndexer,
         ParliamentMemberIndexer,
         ParliamentIndexer,
-        HansardReporterIndexer,
+        #HansardReporterIndexer,
         ]:
         content_indexer.reindexAll( indexer )
         

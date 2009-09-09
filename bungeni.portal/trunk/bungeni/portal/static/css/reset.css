@@ -337,6 +337,10 @@ input.searchButton {
   margin-left: 5px;
 }
 
+input.inputLabelActive {
+  color: transparent;
+}
+
 /*table listings*/
 table.listing, .stx table {
   border-bottom:1px solid #FAAD5F;
@@ -365,3 +369,7 @@ table.listing td, .stx table td {
   margin: auto;
 }
 
+/*documentActions*/
+.documentActions {
+  clear:both;
+}

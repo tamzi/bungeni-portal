@@ -19,7 +19,7 @@ class WhatsOnBrowserView(BrowserView):
     interface.implements(IViewView, IWhatsOnBrowserView)
     start_date = datetime.date.today()
     end_date = datetime.date.today() + datetime.timedelta(10)
-    
+        
     def __init__(self, context, request):
         super(WhatsOnBrowserView, self).__init__(context, request)
         parliament_id = getCurrentParliamentId()
@@ -29,7 +29,7 @@ class WhatsOnBrowserView(BrowserView):
             self.context = parliament
             self.context.__parent__ = context
             self.context.__name__ = ""    
-    
+        
     def get_end_date(self):
         self.get_items()                   
         end = self.request.form.get( 'end', None)
@@ -148,7 +148,6 @@ class WhatsOnBrowserView(BrowserView):
                 
 class WhatsOnPortletBrowserView (WhatsOnBrowserView):       
     max_items = 5
-    
     def get_sittings(self):
         return super(WhatsOnPortletBrowserView,
                 self).get_sittings()[:self.max_items]

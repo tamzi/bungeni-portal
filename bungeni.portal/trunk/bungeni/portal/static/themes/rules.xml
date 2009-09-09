@@ -51,24 +51,41 @@
   <rule class="load-business-navigation">
     <append href="/plone/business"
             content="#portal-globalnav > li:not(:first-child)"
-            theme="children:#portal-globalnav > ul" />    
+            theme="children:#portal-globalnav > ul" />
+    <append href="/plone/business"
+            content=".documentActions"
+            theme="children:#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
+
   </rule>
     
   <rule class="load-member-navigation">
     <append href="/plone/members"
             content="#portal-globalnav > li:not(:first-child)"
-            theme="children:#portal-globalnav > ul" />    
+            theme="children:#portal-globalnav > ul" />
+    <append href="/plone/members"
+            content=".documentActions"
+            theme="children:#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
   </rule>
   
   <rule class="load-archive-navigation">
-    <append href="/plone/archive"
+    <append href="/plone"
             content="#portal-globalnav > li:not(:first-child)"
-            theme="children:#portal-globalnav > ul" />    
+            theme="children:#portal-globalnav > ul" />
+    <append href="/plone/archive"
+            content=".documentActions"
+            theme="children:#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
   </rule>   
 
   <rule class="bungeni">
+    
+    <!-- searchbox -->
+    <replace href="/plone/"
+             content="#portal-searchbox"
+             theme="#portal-searchbox" />    
     <!-- menu -->
-
     <append content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1"
             if-content=".navigation" />    
@@ -79,10 +96,15 @@
             theme="#portal-column-one" />
     <!-- content -->
     <prepend content="children:#portal-column-content"
-             theme="children:#portal-column-content" />    
+             theme="children:#portal-column-content" />
    </rule>
 
   <rule class="load-calendar-navigation">
+    <!-- searchbox -->
+    <replace href="/plone/"
+             content="#portal-searchbox"
+             theme="#portal-searchbox" />
+    
     <append href="/plone/"
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
@@ -95,6 +117,7 @@
     <replace content="#portal-column-content"
             theme="#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
    </rule>
   
   
@@ -128,6 +151,8 @@
             content="elements:#bungeni-workspace" theme="children:#bungeni-workspace"/>
     <append content=".portletWorkflowReview"
             theme="children:#review-portlet" />
+    <append content=".documentActions"
+            theme="children:#bungeni-workspace" />                        
 
 
     <!-- right portlet -->
@@ -143,8 +168,7 @@
             theme="attributes:dl.enableFormTabbing" />            
     <append href="/bungeni/"
             content="attributes:div#bungeni-workspace"
-            theme="attributes:body" />
-    
+            theme="attributes:body" />    
     <pyquery pyref="bungeni.portal/static/themes/rules:move_portlet" />    
 
   </rule>  

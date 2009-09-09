@@ -14,10 +14,10 @@
     <span class="spacer"> &nbsp; &nbsp; </span>
     to: <span tal:replace="view/get_end_date" />
     </p>
-    <dl class="portlet">
+    <dl class="portlet" tal:define="days view/get_sittings" tal:condition="days" >
         <dt i18n:translate=""> Upcoming sittings </dt>
         <dd>
-            <ul tal:define="days view/get_sittings">
+            <ul>
               <li tal:repeat="day days">
                 <li>
                   <span tal:content="day/day" />
@@ -37,10 +37,10 @@
             </ul>
         </dd>
     </dl>
-    <dl class="portlet">
+    <dl class="portlet" tal:define="days view/get_bills" tal:condition="days" >
         <dt i18n:translate=""> Bills </dt>
         <dd>
-            <ul tal:define="days view/get_bills">
+            <ul >
               <li tal:repeat="day days">
                 <li>                  
                   <span tal:content="day/day" />
@@ -60,10 +60,10 @@
             </ul>
         </dd>
     </dl>
-    <dl class="portlet">
+    <dl class="portlet" tal:define="days view/get_motions" tal:condition="days" >
         <dt i18n:translate=""> Motions </dt>
         <dd>
-            <ul tal:define="days view/get_motions">
+            <ul >
               <li tal:repeat="day days">
                 <li>
                   <span tal:content="day/day" />
@@ -83,10 +83,10 @@
             </ul>
         </dd>
     </dl>
-    <dl class="portlet">
+    <dl class="portlet" tal:define="days view/get_questions" tal:condition="days" >
         <dt i18n:translate=""> Questions </dt>
         <dd>
-            <ul tal:define="days view/get_questions">
+            <ul >
               <li tal:repeat="day days">
                 <li>
                   <span tal:content="day/day" />

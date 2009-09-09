@@ -14,6 +14,7 @@ from bungeni.ui.cookies import set_date_range
 from bungeni.ui.cookies import unset_date_range
 from bungeni.ui.widgets import SelectDateWidget
 
+
 class WhatsOnDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
         range_start_date = schema.Date(
@@ -112,7 +113,7 @@ class WhatsOnDatesViewlet(object):
     In effect, parameters ``start_date`` and ``end_date`` will be
     set as a cookie.
     """
-    
+
     render = ViewPageTemplateFile("templates/whatson-dates.pt")
 
     def update(self):

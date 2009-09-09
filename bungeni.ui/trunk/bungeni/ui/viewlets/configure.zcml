@@ -60,7 +60,7 @@
    <browser:viewlet
      name="bungeni.whatson.dates"
      for="bungeni.ui.viewlets.interfaces.IWhatsOnBrowserView"
-     class=".whatson-dates.WhatsOnDatesViewlet"
+     class=".wodates.WhatsOnDatesViewlet"
      manager="ploned.ui.interfaces.IAboveContentManager"
      permission="zope.Public"
      weight="0"

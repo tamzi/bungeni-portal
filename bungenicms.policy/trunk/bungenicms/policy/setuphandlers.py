@@ -86,6 +86,7 @@ def setup_application_folders(context):
     business       /business
     members        /members
     archive        /archive
+    calendar       /calandar
     ----------------------------------------------
 
     Thereafter we create second-level folders for any applications that will be accessed at this level:
@@ -104,17 +105,21 @@ def setup_application_folders(context):
     items = (
         ('business', u'Business', u'Business'),
         ('members', u'Members', u'Members of Parliament'),
-        ('archive', u'Archive', u'Archive'))
+        ('archive', u'Archive', u'Archive'),
+        ('calendar', u'Calendar', u'Calendar'))    
 
     for name, title, description in items:
         if name not in portal.objectIds():
             obj = portal[portal.invokeFactory("Folder", id=name)]
             obj.setTitle(title)
             obj.setDescription(description)
+            if name == 'calendar':
+                obj.setExcludeFromNav(True)
             obj.reindexObject()
             wftool = getToolByName(portal, 'portal_workflow')
             if wftool.getInfoFor(obj, 'review_state') != 'published':
                 wftool.doActionFor(obj, 'publish')
+            
 
 
 def setup_who_authentication(context):
@@ -197,4 +202,4 @@ def setup_group_workspaces(context):
         groups.setDescription("Group workspaces container.")
         groups._getWorkflowTool().doActionFor(groups, 'publish' '')
         groups.setExcludeFromNav(True)
-        groups.update()    
+        groups.update()

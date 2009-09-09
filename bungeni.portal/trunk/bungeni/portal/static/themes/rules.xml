@@ -114,9 +114,12 @@
     <drop content="#portal-globalnav"/>
     <replace content="#portal-column-one"
              theme="#portal-column-one"/>    
-    <replace content="#portal-column-content"
-            theme="#portal-column-content" />
+    <append content="children:#portal-column-content"
+            theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
+    <append href="/plone/calendar"
+            content=".documentActions"
+            theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
    </rule>
   
@@ -152,7 +155,7 @@
     <append content=".portletWorkflowReview"
             theme="children:#review-portlet" />
     <append content=".documentActions"
-            theme="children:#bungeni-workspace" />                        
+            theme="children:#portal-column-content" />                        
 
 
     <!-- right portlet -->
@@ -195,7 +198,15 @@
             theme="children:#portal-personaltools" />            
 
     <!-- breadcrumbs -->
-    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
+    <drop content="#breadcrumbs-you-are-here"/>    
+    <drop content="#portal-breadcrumbs > a"/>
+    <append content="children:#portal-breadcrumbs" theme="children:#portal-breadcrumbs" />
+    <prepend href="/plone"
+             content="#portal-breadcrumbs > a"
+             theme="children:#portal-breadcrumbs" />
+    <prepend href="/plone"
+             content="#breadcrumbs-you-are-here"
+             theme="children:#portal-breadcrumbs" />    
     <!-- content -->
     <append content="children:#portal-column-content" theme="children:.main-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />

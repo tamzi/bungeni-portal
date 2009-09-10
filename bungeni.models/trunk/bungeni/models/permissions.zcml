@@ -23,6 +23,7 @@
               title="Add item scheduling category" />
   <permission id="bungeni.itemschedulediscussion.Edit"
               title="Edit item scheduling discussion" />
+     
   
   <permission id="bungeni.committee.Add" title="Add committee" />
   <permission id="bungeni.committee.Edit" title="Edit committee" />

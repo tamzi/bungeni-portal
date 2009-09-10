@@ -32,7 +32,7 @@ def rewrite_links(content, theme, resource_fetcher, log):
         for content_item in content_items:
             content_node = theme(content_item)
             content_value = theme(content_item).html()
-            if link_value + '/' + link_value +'/' in (str(content_value)):
+            if link_value + '/' + link_value +'/' in (unicode(content_value)):
                 new_content = content_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
                 content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
 
@@ -60,6 +60,6 @@ def documentActions_links(content, theme, resource_fetcher, log):
     for link_value in link_values:
         content_value = theme('.documentActions').html()
         content_node = theme('.documentActions')
-        if link_value in (str(content_value)):
+        if link_value in (unicode(content_value)):
             new_content = content_value.replace('/'+link_value, '/plone/'+link_value)
             content_node.replaceWith('<div class="documentActions">' + new_content + '</div>')

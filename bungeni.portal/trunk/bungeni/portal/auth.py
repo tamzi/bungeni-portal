@@ -35,7 +35,8 @@ def _get_groups(user_id):
                         user_id,
                         domain.GroupMembership.active_p == 
                         True)).options(
-                    eagerload('group'), lazyload('user'))
+                    eagerload('group'), lazyload('user')
+                    ).with_polymorphic('*')
 
     return query.all()
 

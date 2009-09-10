@@ -109,6 +109,10 @@
   <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
 
+  <grant permission="bungeni.office.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.office.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.office.Delete" role="bungeni.Clerk" />  
+
   <grant permission="bungeni.bill.Add" role="bungeni.MP" />
   <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.bill.Delete" role="bungeni.Owner" />

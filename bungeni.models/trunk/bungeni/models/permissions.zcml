@@ -12,6 +12,8 @@
   <permission id="bungeni.TranslateContent" title="Translate content" />
 
   <permission id="bungeni.session.Add" title="Add session" />
+  <permission id="bungeni.session.Edit" title="Edit session" />
+  <permission id="bungeni.session.Delete" title="Delete session" />    
   <permission id="bungeni.sitting.Add" title="Add sitting" />
   <permission id="bungeni.sitting.Edit" title="Edit sitting" />
   <permission id="bungeni.sitting.Delete" title="Delete sitting" />
@@ -23,7 +25,7 @@
               title="Add item scheduling category" />
   <permission id="bungeni.itemschedulediscussion.Edit"
               title="Edit item scheduling discussion" />
-     
+
   
   <permission id="bungeni.committee.Add" title="Add committee" />
   <permission id="bungeni.committee.Edit" title="Edit committee" />

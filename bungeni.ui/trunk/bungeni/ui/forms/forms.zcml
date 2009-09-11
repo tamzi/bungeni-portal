@@ -392,7 +392,37 @@
      permission="bungeni.party.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
+<!-- Session -->
+  <browser:page
+     name="view"
+     for="bungeni.models.interfaces.IParliamentSession"
+     class=".common.DisplayForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
 
+  <browser:page
+     name="add"
+     for="bungeni.models.interfaces.IParliamentSessionContainer"
+     class=".common.AddForm"
+     permission="bungeni.session.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
 
+  <browser:page
+     name="edit"
+     for="bungeni.models.interfaces.IParliamentSession"
+     class=".common.EditForm"
+     permission="bungeni.session.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.interfaces.IParliamentSession"
+     class=".common.DeleteForm"
+     permission="bungeni.session.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
      
 </configure>     

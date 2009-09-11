@@ -72,8 +72,6 @@
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Speaker" />
 
-
-  <grant permission="bungeni.committee.Add" role="bungeni.Clerk" />
   
   <!-- parliamentary items permissions:
        note that the workflow sets these permissions 
@@ -109,9 +107,25 @@
   <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
 
+  <grant permission="bungeni.committee.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.committee.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.committee.Delete" role="bungeni.Clerk" />  
+  
   <grant permission="bungeni.office.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.office.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.office.Delete" role="bungeni.Clerk" />  
+
+  <grant permission="bungeni.party.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.party.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.party.Delete" role="bungeni.Clerk" />  
+  
+  <grant permission="bungeni.government.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.government.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.government.Delete" role="bungeni.Clerk" />  
+
+  <grant permission="bungeni.ministry.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.ministry.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.ministry.Delete" role="bungeni.Clerk" />  
 
   <grant permission="bungeni.bill.Add" role="bungeni.MP" />
   <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />

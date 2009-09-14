@@ -185,6 +185,78 @@
              set_attributes=" item_id
                         body_text sitting_time" />
   </class>      
+  
+  <class class=".domain.AgendaItem">
+    <require permission="zope.View"
+             attributes="parliamentary_item_id
+                        owner_id
+                        language
+                        short_name
+                        full_name
+                        body_text
+                        status                        
+                        receive_notification
+                        group_id
+                        approval_date
+                        " />
+    <require permission="bungeni.agendaitem.Edit"       
+            attributes="note" />                 
+    <require permission="bungeni.agendaitem.Edit"
+             set_attributes="parliamentary_item_id 
+                            owner_id
+                            language
+                            short_name
+                            full_name
+                            body_text                            
+                            note
+                            receive_notification
+                            group_id
+                            " />             
+    <require permission="bungeni.edit.historical"
+            attributes="parliament_id
+                        submission_date" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parliament_id
+                            submission_date
+                            approval_date
+                            status" />               
+             
+  </class> 
+
+  <class class=".domain.TabledDocument">
+    <require permission="zope.View"
+             attributes="parliamentary_item_id
+                        owner_id
+                        language
+                        short_name
+                        full_name
+                        body_text
+                        status                        
+                        receive_notification
+                        approval_date
+                        " />
+    <require permission="bungeni.tableddocument.Edit"       
+            attributes="note" />                 
+    <require permission="bungeni.tableddocument.Edit"
+             set_attributes="parliamentary_item_id 
+                            owner_id
+                            language
+                            short_name
+                            full_name
+                            body_text                            
+                            note
+                            receive_notification
+                            " />             
+    <require permission="bungeni.edit.historical"
+            attributes="parliament_id
+                        submission_date" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parliament_id
+                            submission_date
+                            approval_date
+                            status" />               
+             
+  </class>     
 
 </configure>
 

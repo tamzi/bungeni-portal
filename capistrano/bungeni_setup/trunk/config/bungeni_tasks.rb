@@ -64,7 +64,7 @@ namespace :bungeni_tasks do
 
     desc "start postgres"
     task :postgres_start, :roles=> :app do
-      run "cd #{buildout_dir} && ./bin/pg_ctl start"
+      run "cd #{buildout_dir} && ./bin/pg_ctl start & "
     end
 
     desc "stop postgres"

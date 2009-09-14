@@ -18,6 +18,7 @@ load 'config/plone_update'
 load 'config/portalconfigvars'
 load 'config/portal_tasks'
 load 'config/portal_install'
+load 'config/portal_update'
 ### now run deploy.rb
 load 'config/deploy'
 

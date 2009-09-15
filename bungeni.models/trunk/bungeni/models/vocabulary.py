@@ -219,7 +219,7 @@ class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
     himself if he is a member of parliament or those 
     Persons who gave him rights to act on his behalf"""
     def constructQuery(self, context):
-        query = super(MemberOfParliamentDelegationSource, 
+        mp_query = super(MemberOfParliamentDelegationSource, 
                 self).constructQuery(context)
         #XXX clerks cannot yet choose MPs freely                
         user_id = utils.get_db_user_id()
@@ -227,9 +227,13 @@ class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
             user_ids=[user_id,]
             for result in delegation.get_user_delegations(user_id):
                 user_ids.append(result.user_id)
-            query = query.filter(
+            query = mp_query.filter(
                 domain.MemberOfParliament.user_id.in_(user_ids))                        
-        return query
+        if len(query.all()) > 0:                
+            return query
+        else:
+            return mp_query
+                       
 
 class MinistrySource(SpecializedSource):
     """ Ministries in the current parliament """

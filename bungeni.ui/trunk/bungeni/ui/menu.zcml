@@ -761,6 +761,76 @@
      permission="bungeni.response.Edit"           
      />
 
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.ITabledDocument"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.tableddocument.Edit"           
+     />
+     
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IAgendaItem"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.agendaitem.Edit"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IParliament"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.parliament.Edit"           
+     />
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IOffice"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.office.Edit"           
+     />
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.ICommittee"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.committee.Edit"           
+     />     
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IPoliticalParty"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.party.Edit"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IGovernment"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.government.Edit"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IMinistry"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.ministry.Edit"           
+     />                    
+     
 
   <browser:menuItem
      menu="context_actions"

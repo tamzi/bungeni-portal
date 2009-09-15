@@ -317,8 +317,9 @@ class CalendarMenu(BrowserMenu):
 
         # add activate committee
         for committee in committees:
-            if (committee.end_date is None or committee.end_date >= today) and \
-               (committee.start_date is None or committee.start_date <= today):
+            if ((committee.end_date is None or committee.end_date >= today) and 
+               (committee.start_date is None or committee.start_date <= today) and
+               (committee.status == "active")):
                 contexts.append(schedule.CommitteeSchedulingContext(committee))
 
         contexts.append(schedule.PlenarySchedulingContext(app))

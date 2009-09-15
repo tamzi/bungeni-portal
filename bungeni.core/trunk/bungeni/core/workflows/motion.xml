@@ -54,8 +54,7 @@
 
   <state id="clarify_mp" title="Motion needs clarification by MP">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
-    <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />         
+    <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />    
   </state>
 
 

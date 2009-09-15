@@ -54,8 +54,7 @@
 
   <state id="clarify_mp" title="Agenda Item needs clarification by MP">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />    
-    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />         
+    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />    
   </state>
 
 

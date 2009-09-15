@@ -258,5 +258,132 @@
              
   </class>     
 
+  <class class=".domain.Office">
+    <require permission="zope.View"
+             attributes="group_id
+                       office_id
+                       short_name
+                       full_name
+                       description
+                       status
+                       start_date
+                       end_date
+                       type 
+                       office_type                      
+                       " />              
+    <require permission="bungeni.office.Edit"
+             set_attributes="short_name
+                       full_name
+                       description                       
+                       start_date
+                       end_date
+                       office_type" />             
+    <require permission="bungeni.edit.historical"
+            attributes="parent_group_id" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parent_group_id
+                            status" />                            
+  </class>    
+  
+  <class class=".domain.Parliament">
+    <require permission="zope.View"
+             attributes="group_id
+                       parliament_id
+                       short_name
+                       full_name
+                       description
+                       status
+                       start_date
+                       end_date
+                       type      
+                       election_date                 
+                       " />              
+    <require permission="bungeni.parliament.Edit"
+             set_attributes="short_name
+                       full_name
+                       description                       
+                       start_date
+                       end_date
+                       election_date" />             
+    <require permission="bungeni.edit.historical"
+            attributes="parent_group_id" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parent_group_id
+                            status" />                            
+  </class>    
+  
+  <class class=".domain.Committee">
+    <require permission="zope.View"
+             attributes="group_id
+                       short_name
+                       full_name
+                       description
+                       status
+                       start_date
+                       end_date
+                       type
+                       committee_type_id 
+                       no_members
+                       min_no_members
+                       quorum   
+                       no_clerks
+                       no_researchers 
+                       proportional_representation 
+                       default_chairperson 
+                       reinstatement_date                
+                       " />              
+    <require permission="bungeni.committee.Edit"
+             set_attributes="short_name
+                       full_name
+                       description                       
+                       start_date
+                       end_date
+                       committee_type_id
+                       no_members
+                       min_no_members
+                       quorum
+                       no_clerks
+                       no_researchers
+                       proportional_representation
+                       default_chairperson
+                       reinstatement_date
+                       " />             
+    <require permission="bungeni.edit.historical"
+            attributes="parent_group_id" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parent_group_id
+                            status" />                            
+  </class>  
+
+  <class class=".domain.PoliticalParty">
+    <require permission="zope.View"
+             attributes="group_id
+                       short_name
+                       full_name
+                       description
+                       status
+                       start_date
+                       end_date
+                       type  
+                       logo_data                     
+                       " />              
+    <require permission="bungeni.party.Edit"
+             set_attributes="short_name
+                       full_name
+                       description                       
+                       start_date
+                       end_date
+                       logo_data" />             
+    <require permission="bungeni.edit.historical"
+            attributes="parent_group_id" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parent_group_id
+                            status" />                            
+  </class>    
+  
+      
+  
+
+
 </configure>
 

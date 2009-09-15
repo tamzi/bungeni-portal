@@ -54,8 +54,7 @@
 
   <state id="clarify_mp" title="Tabeld document needs clarification by MP">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />    
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />         
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />    
   </state>
 
 

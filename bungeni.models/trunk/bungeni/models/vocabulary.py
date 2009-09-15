@@ -229,10 +229,9 @@ class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
                 user_ids.append(result.user_id)
             query = mp_query.filter(
                 domain.MemberOfParliament.user_id.in_(user_ids))                        
-        if len(query.all()) > 0:                
-            return query
-        else:
-            return mp_query
+            if len(query.all()) > 0:                
+                return query
+        return mp_query
                        
 
 class MinistrySource(SpecializedSource):

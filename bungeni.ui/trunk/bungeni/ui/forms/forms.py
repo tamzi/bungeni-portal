@@ -166,7 +166,7 @@ class ItemScheduleReorderForm(PageForm):
                 swap_category_with = prev
 
         if mode == 'down':
-            if index < len(ordering) + 1:
+            if index < len(ordering) - 1:
                 next = container[ordering[index+1]]
 
                 # if next item has a category, swap, reset and skip

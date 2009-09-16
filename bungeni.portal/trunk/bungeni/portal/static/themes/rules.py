@@ -18,22 +18,35 @@ def add_workspace(content, theme, resource_fetcher, log, workspace_id):
         workspace_item.append(workspace_content)
     except:
         pass
-
+   
 
 def rewrite_links(content, theme, resource_fetcher, log):
     """Fix links in folders that have been set up to act as root nodes.
     Relative links can end up with the root folder entry repeated twice.
-    Remove one entry if necessary.    
+    In additions some links are not children of the current root node i.e.
+    they may belong to another root node but accesible from here.
+    Remove the first root folder entry if necessary.
     """
-    link_values = ['business', 'calendar']
-    content_items = {'#portal-breadcrumbs':'id', '.contentActions':'class'}
+    repeating_link_values = ['business', 'calendar']
+    strip_link_values = {'/calendar/business': '/calendar'}
+    content_items = {'#portal-breadcrumbs':'id', '.contentActions':'class', '#calendar-table':'id'}
 
-    for link_value in link_values:
+    for link_value in repeating_link_values:
         for content_item in content_items:
             content_node = theme(content_item)
             content_value = theme(content_item).html()
+            
             if link_value + '/' + link_value +'/' in (unicode(content_value)):
                 new_content = content_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
+                content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
+
+    for link_value in strip_link_values:
+        for content_item in content_items:
+            content_node = theme(content_item)
+            content_value = theme(content_item).html()
+            
+            if link_value in (unicode(content_value)):
+                new_content = content_value.replace(link_value, strip_link_values[link_value])
                 content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
 
 

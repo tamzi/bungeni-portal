@@ -5,11 +5,8 @@
          class="frontpage" />
   <match path="exact:/front-page"
          class="frontpage" />  
-  <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])+(/)?(view)?$"
+  <match path="regex:^/(business/committees|archive/browse/committees|archive/browse/parliaments)"
          class="workspace-committee" />
-  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
-         class="workspace-committee" />
-  
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />
@@ -144,7 +141,7 @@
     <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <append href="/bungeni"
             content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />    
+            theme="children:#portal-globalnav ul.level1" />
 
     <!-- breadcrumbs -->
     <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />

@@ -43,7 +43,11 @@
 							<xsl:variable name="BillUri" select="$tokenizedBillSectionMeta[2]" /> 
 							<xsl:variable name="BillOntology" select="$tokenizedBillSectionMeta[3]" /> 
 							<xsl:attribute name="id">
-								<xsl:value-of select="generate-id($BillSectionMeta)" />
+								<xsl:value-of select="generate-id(node())" />
+							</xsl:attribute>
+							<xsl:attribute name="refersTo">
+								 <xsl:text>#</xsl:text>
+								 <xsl:value-of select="translate($BillUri, '/', '')" />
 							</xsl:attribute>
 							<ref>
 							  	<xsl:attribute name="href">
@@ -62,7 +66,7 @@
 				</xsl:choose>
 			</xsl:if>
 		</xsl:if>
-		<xsl:apply-templates/>
+		<!-- <xsl:apply-templates/> -->
 	</xsl:template>
 	<xsl:template match="text()">
 		<xsl:value-of select="normalize-space(.)"/>

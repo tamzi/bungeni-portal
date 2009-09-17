@@ -272,6 +272,13 @@
 		<xsl:apply-templates />
 	</xsl:template>
 	
+	<xsl:template match="*[@name='TLCReference']">
+		<xslt step="48" name="TLCReference" href="odttoakn/minixslt/debaterecord/TLCReference.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+	
+	
+	
 	
 	
 	

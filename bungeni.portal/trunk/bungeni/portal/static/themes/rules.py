@@ -7,18 +7,24 @@ from pprint import pprint
 
 def add_workspace(content, theme, resource_fetcher, log, workspace_id):
     """Get the workspace content from plone using the hidden id from bungeni
+       or drop the tabs.
     """
     workspace_item = theme('dl.workspace-tab dd#fieldset-display-form-workspace div.workspace-content')
     
     workspace_content_id = theme(workspace_id).val()
-    try:
-        host_url = urlsplit(log.theme_url)
-        workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ "/" + workspace_content_id)
-        workspace_content = workspace_url('#portal-column-content').html()
-        workspace_item.append(workspace_content)
-    except:
-        pass
-   
+    if workspace_content_id is not None:
+        try:
+            host_url = urlsplit(log.theme_url)
+            workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ "/" + workspace_content_id)
+            workspace_content = workspace_url('#portal-column-content').html()
+            workspace_item.append(workspace_content)
+        except:
+            pass
+    else:
+        content_item = theme('.maincontent')
+        print content_item
+        content_item.remove('.workspace-tab')
+
 
 def rewrite_links(content, theme, resource_fetcher, log):
     """Fix links in folders that have been set up to act as root nodes.

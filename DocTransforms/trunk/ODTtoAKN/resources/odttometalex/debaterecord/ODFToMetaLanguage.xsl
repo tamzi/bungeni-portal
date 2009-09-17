@@ -100,6 +100,23 @@
                 <xsl:for-each select="//*[@BungeniSectionType='Speech']">
                     <meta name="TLCRole" id="{@BungeniSpeechAs}" href="{@BungeniSpeechAsURI}" showAs="{@BungeniSpeechAsDesc}"/> 
                 </xsl:for-each> 
+                <!-- adding support for bill references -->
+                <!-- first we filter the nodes for the ones that have the attribute starting with bungeni bill 
+                    then we filter the attribute nodes for the ones starting with bungeni bill -->
+                <xsl:for-each select="//*[attribute::node()[starts-with(name() ,'BungeniBill')]]/attribute::node()[starts-with(name(), 'BungeniBill')]" > 
+                    <xsl:variable name="BillSectionMeta"><xsl:value-of select="." /></xsl:variable>
+                    <xsl:variable name="tokenizedBillSectionMeta" select="tokenize($BillSectionMeta,';')" />
+                    <xsl:variable name="BillShowAs" select="$tokenizedBillSectionMeta[1]" />
+                    <xsl:variable name="BillUri" select="$tokenizedBillSectionMeta[2]" /> 
+                    <xsl:variable name="BillOntology" select="$tokenizedBillSectionMeta[3]" /> 
+                    <xsl:element name="meta">
+                        <xsl:attribute name="name">TLCReference</xsl:attribute>
+                        <xsl:attribute name="href"><xsl:value-of select="$BillOntology" /> </xsl:attribute>
+                        <xsl:attribute name="showAs"><xsl:value-of select="$BillShowAs" /> </xsl:attribute>
+                        <xsl:attribute name="id"><xsl:value-of select="translate($BillUri, '/', '')" /> </xsl:attribute>
+                     </xsl:element>
+                </xsl:for-each> 
+                
                 
             </mcontainer>
         </mcontainer> 

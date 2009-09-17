@@ -27,8 +27,10 @@
          <mcontainer id="references_d3e151" name="references" source="#bungeni">         
             <meta name="TLCConcept" id="judgementNo" href="/ontology/concept/judgement/Judgement/653/07" showAs="653/07"/>         
             <meta name="TLCPerson" id="user.Ashok" href="user.Ashok" showAs="Author"/>                           
-            <meta name="TLCPerson" id="kepartyagency4way" href="ke.party.agency.4way" showAs="appelant"/>         
-            <meta name="TLCPerson" id="kepartyagencysaroads" href="ke.party.agency.saroads" showAs="respondent"/>         
+            <meta name="TLCPerson" id="kepartyagency4way" href="ke.party.agency.4way" showAs="FOURWAY HAULAGE SA (PTY) LTD" inrole="appelant"/>         
+            <meta name="TLCRole" id="appelant" href="/ontology/judgement/role/appelant" showAs="appelant"/>         
+            <meta name="TLCPerson" id="kepartyagencysaroads" href="ke.party.agency.saroads" showAs="SA NATIONAL ROADS AGENCY LTD" inrole="respondent"/>         
+            <meta name="TLCRole" id="respondent" href="/ontology/judgement/role/respondent" showAs="respondent"/>         
             <meta name="TLCPerson" id="kenpersonBasiyaKhalwale19800412" href="ken.person.Basiya.Khalwale.1980-04-12" showAs="Khalwale"/>         
             <meta name="TLCPerson" id="kenpersonJosaphKhamisi19800414" href="ken.person.Josaph.Khamisi.1980-04-14" showAs="Khamisi"/>         
             <meta name="TLCPerson" id="kenpersonLyolaKhamasi19800413" href="ken.person.Lyola.Khamasi.1980-04-13" showAs="Khamasi"/>         

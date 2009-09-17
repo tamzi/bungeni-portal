@@ -1,24 +1,19 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xml:lang="en"
-      lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="plone">
+      i18n:domain="plonehelpcenter">
 
 <metal:main fill-slot="main">
-    <metal:main-macro define-macro="main">
+    <tal:main-macro metal:define-macro="main">
 
     <div id="tabber-block">
 
         <h1 class="documentFirstHeading" tal:content="here/Title">Title</h1>
 
-        <p class="documentDescription"
-           tal:define="desc here/Description|nothing"
-           tal:condition="desc"
-           tal:content="desc">Description</p>
-           
+
         <div class="stx"
              tal:define="text python: here.CookedBody(stx_level=2)"
              tal:condition="text"
@@ -30,15 +25,13 @@
             body text
         </div>
     </div>
+
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
+    
 
-    <div metal:use-macro="here/viewThreadsAtBottom/macros/discussionView"></div>
-
-    </metal:main-macro>
-  </metal:main>
-<metal:main fill-slot="sub">
+    </tal:main-macro>
 </metal:main>
 
 </html>

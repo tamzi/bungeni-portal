@@ -1,9 +1,5 @@
-from webob import Request, Response
 from pyquery import PyQuery as pq
-from pyquery.ajax import PyQuery as apq
 from urlparse import urlsplit
-from pprint import pprint
-
 
 def add_workspace(content, theme, resource_fetcher, log, workspace_id):
     """Get the workspace content from plone using the hidden id from bungeni
@@ -21,9 +17,8 @@ def add_workspace(content, theme, resource_fetcher, log, workspace_id):
         except:
             pass
     else:
-        content_item = theme('.maincontent')
-        print content_item
-        content_item.remove('.workspace-tab')
+        content_item = theme('.workspace-tab')
+        content_item .removeClass('enableFormTabbing')
 
 
 def rewrite_links(content, theme, resource_fetcher, log):

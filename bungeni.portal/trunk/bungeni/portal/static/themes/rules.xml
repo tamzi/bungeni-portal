@@ -4,9 +4,11 @@
   <match path="exact:/"
          class="frontpage" />
   <match path="exact:/front-page"
-         class="frontpage" />  
-  <match path="regex:^/(business/committees|archive/browse/committees|archive/browse/parliaments)"
+         class="frontpage" />
+  <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])"
          class="workspace-committee" />
+  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])"
+        class="workspace-committee" />  
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />

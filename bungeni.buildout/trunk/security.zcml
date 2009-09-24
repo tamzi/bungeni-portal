@@ -78,16 +78,19 @@
        on a workflow state change -->  
   
   <grant permission="bungeni.question.Add" role="bungeni.MP" />    
+  <grant permission="bungeni.question.Add" role="bungeni.Clerk" />      
   <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.question.View" role="bungeni.Owner" />
 
   <grant permission="bungeni.motion.Add" role="bungeni.MP" />
+  <grant permission="bungeni.motion.Add" role="bungeni.Clerk" />  
   <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.motion.View" role="bungeni.Owner" />
 
   <grant permission="bungeni.tableddocument.Add" role="bungeni.MP" />
+  <grant permission="bungeni.tableddocument.Add" role="bungeni.Clerk" />  
   <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.tableddocument.View" role="bungeni.Owner" />
@@ -103,6 +106,7 @@
   <grant permission="bungeni.response.Add" role="bungeni.Clerk" />    
   <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
   
+     
   <grant permission="bungeni.parliament.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />

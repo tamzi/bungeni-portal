@@ -68,15 +68,13 @@ csv ;
 
 update public.parliament_memberships set elected_nominated ='N' where constituency_id = 0; 
 
-copy public.sessions (session_id, parliament_id, short_name, start_date, end_date, notes)
+copy public.sessions (session_id, parliament_id, short_name, full_name, start_date, end_date, notes)
 from '%(directory)s/data/demodata/sessions.csv'
 csv ;
 
 
-update public.sessions set full_name = short_name || ' ' || extract(year from start_date) 
-;
-
-update public.sessions set short_name = full_name;
+/*update public.sessions set full_name = short_name || ' ' || extract(year from start_date) 
+update public.sessions set short_name = full_name;*/
 
 
 copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date)

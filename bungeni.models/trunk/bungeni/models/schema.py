@@ -449,8 +449,8 @@ parliament_sessions = rdb.Table(
    metadata,
    rdb.Column( "session_id", rdb.Integer,   primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
-   rdb.Column( "short_name", rdb.Unicode(32) ),
-   rdb.Column( "full_name", rdb.Unicode(32) ),      
+   rdb.Column( "short_name", rdb.Unicode(32), nullable=False ),
+   rdb.Column( "full_name", rdb.Unicode(32), nullable=False ),      
    rdb.Column( "start_date", rdb.Date, nullable=False),
    rdb.Column( "end_date", rdb.Date),
    rdb.Column( "notes", rdb.UnicodeText )   

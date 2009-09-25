@@ -225,6 +225,7 @@
   <adapter factory=".dc.UserAddressDescriptiveProperties" />  
   <adapter factory=".dc.AgendaItemDescriptiveProperties" />
   <adapter factory=".dc.TabledDocumentDescriptiveProperties" />  
+  <adapter factory=".dc.ConstituencyDetailsDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

@@ -309,7 +309,7 @@ class UserAddressDescriptiveProperties(DescriptiveProperties):
 #        return u"Marginalia"   
         
 class AgendaItemDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.ITabledDocument)
+    component.adapts(interfaces.IAgendaItem)
 
     @property
     def title(self):
@@ -317,12 +317,21 @@ class AgendaItemDescriptiveProperties(DescriptiveProperties):
 
             
 class TabledDocumentDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IAgendaItem)
-
+    component.adapts(interfaces.ITabledDocument)
+    
     @property
     def title(self):    
         return self.context.short_name
 
+
+class ConstituencyDetailsDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IConstituencyDetail)
+    
+    @property
+    def title(self):  
+        return '%s - %i' % (self.context.constituency.name,
+            self.context.date.year)
+
             
-                                        
+                                    
 

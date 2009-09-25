@@ -385,15 +385,18 @@ mapper( domain.Constituency, schema.constituencies,
         'region': relation( domain.Region,
                               uselist=False,
                               lazy=False ),                              
-        'details': relation( domain.ConstituencyDetail,
-                              uselist=False,
-                              lazy=True ),
         }
     )    
 mapper( domain.Province, schema.provinces )    
 mapper( domain.Region, schema.regions )
 mapper( domain.Country, schema.countries )
-mapper( domain.ConstituencyDetail, schema.constituency_details )
+mapper( domain.ConstituencyDetail, schema.constituency_details,
+    properties={
+    'constituency': relation( domain.Constituency,
+                              uselist=False,
+                              lazy=True,
+                              backref = 'details' ),
+    } )
 mapper( domain.CommitteeType, schema.committee_type )   
 mapper( domain.SittingType, schema.sitting_type )     
 mapper( domain.GroupSittingAttendance, schema.sitting_attendance,

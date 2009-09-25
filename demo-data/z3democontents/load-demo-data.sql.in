@@ -117,6 +117,9 @@ copy public.group_sittings (sitting_id, group_id,  sitting_type_id, start_date, 
 from '%(directory)s/data/demodata/sittings.csv'
 csv;
 
+
+UPDATE public.group_sittings SET status = 'draft';
+
 copy public.attendance_type( attendance_id, attendance_type)
 from '%(directory)s/data/demodata/attendance_type.csv'
 csv;

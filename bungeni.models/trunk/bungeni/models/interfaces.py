@@ -234,6 +234,9 @@ class IConsignatory( interface.Interface ):
 class IConstituency( interface.Interface ):
     """ Constituencies """
 
+class IConstituencyDetail( interface.Interface ):
+    pass
+
     
 class IDirectoryLocation( interface.Interface ):
 

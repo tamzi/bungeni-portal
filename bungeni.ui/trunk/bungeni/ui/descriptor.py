@@ -1743,6 +1743,8 @@ class CountryDescriptor( ModelDescriptor ):
         ]        
 		
 class ConstituencyDetailDescriptor( ModelDescriptor ):
+    display_name = _(u"Constituency details")
+    container_name = _(u"Details")
     fields = [
         dict( name="constituency_detail_id", omit=True ),
         dict( name="constituency_id", 

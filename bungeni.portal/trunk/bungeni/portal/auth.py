@@ -38,7 +38,7 @@ def _get_groups(user_id):
                     eagerload('group'), lazyload('user')
                     )
 
-    return query.all()
+    return query
 
 
 
@@ -56,7 +56,7 @@ def getUserGroups(login_id, groups):
     if len(db_user) == 1:
         user_id = db_user[0].user_id
         results = _get_groups(user_id)
-        for result in results:
+        for result in results.all():
             if (result.group.group_principal_id not in groups):
                 groups.append(result.group.group_principal_id)
         results = delegation.get_user_delegations(user_id)                   

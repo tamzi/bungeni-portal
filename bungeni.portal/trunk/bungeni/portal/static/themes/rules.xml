@@ -17,7 +17,8 @@
   <match path="regex:^/(business|members|archive)/?"
          class="bungeni" />
                                                                    
-  <match path="/calendar/"  class="load-calendar-navigation" />  
+  <match path="/calendar/"  class="load-calendar-navigation" />
+  <match path="/dspace/"  class="load-dspace-navigation" />
   <match path="/"
          class="primary" />
   
@@ -175,11 +176,20 @@
 
   </rule>  
 
-  
+  <rule class="load-dspace-navigation">
+    <replace content=".navigationBar"
+             theme="#portal-column-one" />
+    <replace content="children:.pageContents"
+             theme="children:#portal-column-content" />            
+  </rule>
+
   <rule class="primary">
     <drop theme=".workspace-tab"
           if-content="not:a[href*='committees/obj-'], a[href*='members/current/obj-']"/>
     
+    <prepend href="/bungeni"
+            theme="//head"
+            content="//head" />     
     <append theme="//head" content="//head/meta" nocontent="ignore" />     
     <!-- header -->
     <replace content="#portal-logo" theme="#portal-logo" />
@@ -192,6 +202,9 @@
     <drop content="#portal-globalnav > li:first-child"/>
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
+    <append content="ul#portal-personaltools li.navigation"
+            theme="children:#portal-globalnav ul.level1"
+            if-content=".navigation" />    
     <append href="/plone"
             content="children:#portal-personaltools :not(.navigation)"
             theme="children:#portal-personaltools" />            

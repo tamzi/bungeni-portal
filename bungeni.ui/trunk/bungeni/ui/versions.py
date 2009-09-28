@@ -150,9 +150,13 @@ class VersionLogView(BaseForm):
                 
         try:
             target = self._versions.get( selected[1] )
+            if source.version_id > target.version_id:
+                t = source
+                source = target
+                target = t            
         except:
             target = context
-            
+                                      
         view = z3c.schemadiff.browser.DiffView(source, target, self.request)
 
         self.extra = view(

@@ -4,7 +4,7 @@
 
   <div metal:fill-slot="body" i18n:domain="bungeni">
     
-    <h1>  <span tal:replace="view/title" /> for: <span tal:replace="view/context/group/short_name"/> </h1>
+    <h1>  <span tal:replace="view/title" /> for: <span tal:replace="view/group/short_name"/> </h1>
     <dl>
       <tal:loop tal:repeat="item view/sitting_items">
         <dt> <h2><span tal:content="item/sitting_type/sitting_type" />: 

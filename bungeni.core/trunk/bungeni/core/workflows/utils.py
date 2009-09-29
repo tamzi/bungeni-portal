@@ -10,9 +10,10 @@ from ore.workflow.interfaces import IWorkflowInfo, InvalidTransitionError
 import ore.workflow.workflow
 from ore.alchemist import Session
 
-import bungeni.core.interfaces
 import bungeni.models.interfaces as interfaces
 import bungeni.models.domain as domain
+from bungeni.core.app import BungeniApp
+import bungeni.core.interfaces
 import bungeni.core.globalsettings as prefs
 
 import dbutils
@@ -58,7 +59,7 @@ def _get_group_local_role(group):
         
 def _get_group_context(context):
     if interfaces.IOffice.providedBy(context):
-        return get_parliament(context)
+        return BungeniApp() #get_parliament(context)
     else:
         return removeSecurityProxy(context)
 

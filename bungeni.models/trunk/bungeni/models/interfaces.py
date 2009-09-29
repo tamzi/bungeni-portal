@@ -237,6 +237,9 @@ class IConstituency( interface.Interface ):
 class IConstituencyDetail( interface.Interface ):
     pass
 
+class IItemScheduleCategory( interface.Interface ):
+    pass
+
     
 class IDirectoryLocation( interface.Interface ):
 

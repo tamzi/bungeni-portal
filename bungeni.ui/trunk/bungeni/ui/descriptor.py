@@ -696,7 +696,7 @@ class CommitteeDescriptor( GroupDescriptor ):
     
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Member")
-    container_name = _(u"Members")
+    container_name = _(u"Membership")
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 

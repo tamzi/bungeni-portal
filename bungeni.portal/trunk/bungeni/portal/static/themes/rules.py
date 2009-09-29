@@ -15,11 +15,14 @@ def add_workspace(content, theme, resource_fetcher, log, workspace_id):
             workspace_content = workspace_url('#portal-column-content').html()
             workspace_item.append(workspace_content)
         except:
-            pass
-    else:
-        content_item = theme('.workspace-tab')
-        content_item .removeClass('enableFormTabbing')
+            pass        
 
+def drop_workspace(content, theme, resource_fetcher, log):
+    member_workspace_content_id = theme('#user-workspace-id').val()
+    group_workspace_content_id = theme('#workgroup-id').val()
+    if member_workspace_content_id is None  and group_workspace_content_id is None:
+        theme('.workspace-tab').remove()
+   
 
 def rewrite_links(content, theme, resource_fetcher, log):
     """Fix links in folders that have been set up to act as root nodes.

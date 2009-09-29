@@ -424,5 +424,17 @@
      permission="bungeni.session.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
+
+<!-- sitting catergories (same permissions as sitting-->
+
+  <browser:page
+     name="add"
+     for=" bungeni.models.domain.ItemScheduleCategoryContainer"
+     class=".common.AddForm"
+     permission="bungeni.sitting.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />  
+
+
      
 </configure>     

@@ -631,7 +631,7 @@ class HTMLPreviewPage(ReportingView):
             self.title = "Votes and Proceedings"
         else:
             self.title = "Agenda"            
- 
+        self.group = self.context.get_group()
     
 
 

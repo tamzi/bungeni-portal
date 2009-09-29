@@ -5,10 +5,10 @@
          class="frontpage" />
   <match path="exact:/front-page"
          class="frontpage" />
-  <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])"
-         class="workspace-committee" />
-  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])"
-        class="workspace-committee" />  
+  <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])+(/)?(view)?$"
+ 	 class="workspace-committee" />  
+  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
+ 	 class="workspace-committee" />    
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />
@@ -30,7 +30,7 @@
              theme="children:dl.enableFormTabbing" />
     <prepend content="dl.enableFormTabbing > dd"
              theme="children:dl.enableFormTabbing" />
-    <replace content="children:#portal-column-content"
+    <replace content="children:.documentContent"
              theme="children:#fieldset-display-form-workspace > div" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#workgroup-id"/>
@@ -42,7 +42,7 @@
              theme="children:dl.enableFormTabbing" />
     <prepend content="dl.enableFormTabbing > dd"
              theme="children:dl.enableFormTabbing" />
-    <replace content="children:#portal-column-content"
+    <replace content="children:.documentContent"
              theme="children:#fieldset-display-form-workspace > div" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#user-workspace-id"/>
@@ -94,6 +94,7 @@
     <!-- left portlet -->
     <replace content="#portal-column-one"
             theme="#portal-column-one" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:drop_workspace" />
     <!-- content -->
     <prepend content="children:#portal-column-content"
              theme="children:#portal-column-content" />

@@ -630,8 +630,13 @@ class HTMLPreviewPage(ReportingView):
         if self.display_minutes:
             self.title = "Votes and Proceedings"
         else:
-            self.title = "Agenda"            
-        self.group = self.context.get_group()
+            self.title = "Agenda"  
+        try:              
+            self.group = self.context.get_group()
+        except:
+            session = Session()
+            self.group = session.query(domain.Group).get(self.context.group_id)
+                        
     
 
 

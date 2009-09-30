@@ -72,7 +72,7 @@
      name="bungeni.content.scheduling"
      for="bungeni.models.interfaces.IGroupSitting"
      manager="ploned.ui.interfaces.IBelowContentManager"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      view="bungeni.ui.calendar.browser.GroupSittingScheduleView"
      class=".schedule.SchedulablesViewlet"
      />  

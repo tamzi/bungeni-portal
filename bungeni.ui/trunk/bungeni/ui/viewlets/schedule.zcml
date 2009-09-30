@@ -6,7 +6,7 @@
   <browser:viewletManager
      name="bungeni.scheduling"
      provides=".interfaces.ISchedulingManager"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      />
 
   <browser:viewlet
@@ -14,7 +14,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      manager=".interfaces.ISchedulingManager"
      class=".schedule.SchedulableBillsViewlet"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      />    
 
   <browser:viewlet
@@ -22,7 +22,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      manager=".interfaces.ISchedulingManager"
      class=".schedule.SchedulableQuestionsViewlet"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      />    
 
   <browser:viewlet
@@ -30,7 +30,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      manager=".interfaces.ISchedulingManager"
      class=".schedule.SchedulableMotionsViewlet"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      />    
 
   <browser:viewlet
@@ -38,7 +38,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      manager=".interfaces.ISchedulingManager"
      class=".schedule.SchedulableTabledDocumentsViewlet"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      />    
      
      
@@ -47,7 +47,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      manager=".interfaces.ISchedulingManager"
      class=".schedule.SchedulableAgendaItemsViewlet"
-     permission="zope.View"
+     permission="bungeni.itemschedule.Edit"
      />         
 
 

@@ -16,12 +16,15 @@
   <match path="/archive/"  class="load-archive-navigation" />
   <match path="regex:^/(business|members|archive)/?"
          class="bungeni" />
-                                                                   
-  <match path="/calendar/"  class="load-calendar-navigation" />
-  <match path="/dspace/"  class="load-dspace-navigation" />
+  <match path="/calendar/"  class="load-calendar-navigation" />    
+  <match path="regex:^/(business/questions)/obj-([0-9])+(/audit-log)$"
+ 	 class="bungeni-header" />
+  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/questions/obj-([0-9])+(/audit-log)$"
+ 	 class="bungeni-header" /> 
   <match path="/"
          class="primary" />
-  
+
+
   <rule class="workspace-committee">
     <!-- content -->
     <prepend content="#portletArchiveDates"
@@ -70,7 +73,7 @@
   </rule>
   
   <rule class="load-archive-navigation">
-    <append href="/plone"
+    <append href="/plone/archive"
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
     <append href="/plone/archive"
@@ -105,23 +108,23 @@
     <replace href="/plone/"
              content="#portal-searchbox"
              theme="#portal-searchbox" />
-    
+    <drop content="#portal-personaltools"/>    
     <append href="/plone/"
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
     <replace href="/bungeni/calendar"
             content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />    
+            theme="children:#portal-globalnav ul.level1" />
     <drop content="#portal-globalnav"/>
     <replace content="#portal-column-one"
              theme="#portal-column-one"/>    
     <append content="children:#portal-column-content"
             theme="children:#portal-column-content" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
     <append href="/plone/calendar"
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
    </rule>
   
   
@@ -177,20 +180,16 @@
 
   </rule>  
 
-  <rule class="load-dspace-navigation">
-    <replace content=".navigationBar"
-             theme="#portal-column-one" />
-    <replace content="children:.pageContents"
-             theme="children:#portal-column-content" />            
-  </rule>
+  <rule class="bungeni-header">
+    <!--header-->
+    <prepend href="/bungeni"
+            theme="//head"
+            content="//head" />    
+   </rule>  
 
   <rule class="primary">
     <drop theme=".workspace-tab"
-          if-content="not:a[href*='committees/obj-'], a[href*='members/current/obj-']"/>
-    
-    <prepend href="/bungeni"
-            theme="//head"
-            content="//head" />     
+          if-content="not:a[href*='committees/obj-'], a[href*='members/current/obj-']"/>     
     <append theme="//head" content="//head/meta" nocontent="ignore" />     
     <!-- header -->
     <replace content="#portal-logo" theme="#portal-logo" />
@@ -222,7 +221,6 @@
              theme="children:#portal-breadcrumbs" />    
     <!-- content -->
     <append content="children:#portal-column-content" theme="children:.main-content" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
     <pyquery pyref="bungeni.portal/static/themes/rules:drop_contentActions" />
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />

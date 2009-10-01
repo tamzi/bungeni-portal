@@ -33,25 +33,25 @@ def rewrite_links(content, theme, resource_fetcher, log):
     """
     repeating_link_values = ['business', 'calendar']
     strip_link_values = {'/calendar/business': '/business'}
-    content_items = {'#portal-breadcrumbs':'id', '.contentActions':'class', '#calendar-table':'id'}
+    content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
         for content_item in content_items:
-            content_node = theme(content_item)
-            content_value = theme(content_item).html()
+            content_node = theme(content_item[0])
+            content_value = theme(content_item[0]).html()
             
             if link_value + '/' + link_value +'/' in (unicode(content_value)):
                 new_content = content_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
-                content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
+                content_node.replaceWith('<' + content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_content + '</' + content_item[2] + '>')
 
     for link_value in strip_link_values:
         for content_item in content_items:
-            content_node = theme(content_item)
-            content_value = theme(content_item).html()
+            content_node = theme(content_item[0])
+            content_value = theme(content_item[0]).html()
             
             if link_value in (unicode(content_value)):
                 new_content = content_value.replace(link_value, strip_link_values[link_value])
-                content_node.replaceWith('<div ' + content_items[content_item] +'="' + content_item[1:] +'">' + new_content + '</div>')
+                content_node.replaceWith('<'+content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_content + '</' + content_item[2] + '>')
 
 
 def drop_contentActions(content, theme, resource_fetcher, log):

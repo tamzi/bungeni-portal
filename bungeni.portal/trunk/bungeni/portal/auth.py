@@ -26,20 +26,6 @@ ch.setLevel(logging.DEBUG)
 log.addHandler(ch)
 
 
-def _get_groups(user_id):
-    session = Session()
-    query = session.query( domain.GroupMembership 
-                ).filter( 
-                    rdb.and_(
-                        domain.GroupMembership.user_id ==
-                        user_id,
-                        domain.GroupMembership.active_p == 
-                        True)).options(
-                    eagerload('group'), lazyload('user')
-                    )
-
-    return query
-
 
 
 def getUserGroups(login_id, groups):
@@ -55,8 +41,17 @@ def getUserGroups(login_id, groups):
                 domain.User.login==login_id).all()
     if len(db_user) == 1:
         user_id = db_user[0].user_id
-        results = _get_groups(user_id)
-        for result in results.all():
+        query = session.query( domain.GroupMembership 
+                ).filter( 
+                    rdb.and_(
+                        domain.GroupMembership.user_id ==
+                        user_id,
+                        domain.GroupMembership.active_p == 
+                        True)).options(
+                    eagerload('group'), lazyload('user')
+                    )        
+        results = query.all()
+        for result in results:
             if (result.group.group_principal_id not in groups):
                 groups.append(result.group.group_principal_id)
         results = delegation.get_user_delegations(user_id)                   

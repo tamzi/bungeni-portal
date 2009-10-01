@@ -67,11 +67,7 @@ def get_query(context, request):
     model = unproxied.domain_model
     session = Session()
     query = unproxied._query
-    if IBusinessSectionLayer.providedBy(request):
-        start_date = datetime.date.today()
-        end_date=None        
-    else:
-        start_date, end_date = get_date_range(request)                
+    start_date, end_date = get_date_range(request)                
     if start_date or end_date:
         date_range_filter = component.getSiteManager().adapters.lookup(
             (interface.implementedBy(model),), IDateRangeFilter)

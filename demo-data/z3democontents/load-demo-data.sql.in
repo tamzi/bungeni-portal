@@ -68,7 +68,7 @@ csv ;
 
 update public.parliament_memberships set elected_nominated ='N' where constituency_id = 0; 
 
-copy public.sessions (session_id, parliament_id, short_name, full_name, start_date, end_date, notes)
+copy public.sessions (session_id, parliament_id, short_name, full_name, start_date, end_date)
 from '%(directory)s/data/demodata/sessions.csv'
 csv ;
 

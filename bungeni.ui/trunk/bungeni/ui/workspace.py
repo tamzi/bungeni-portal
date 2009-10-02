@@ -2,6 +2,7 @@ from zope import interface
 from zope import component
 from zope.publisher.browser import BrowserView
 from zope.securitypolicy.interfaces import IRole, IPrincipalRoleMap
+from zope.securitypolicy.settings import Allow, Deny
 from zope.security.proxy import ProxyFactory
 from ploned.ui.interfaces import IViewView
 
@@ -15,18 +16,35 @@ from bungeni.core.globalsettings import getCurrentParliamentId
 import interfaces
 
 
+def add_roles(principal, prms, roles):
+    for prm in prms:
+        l_roles = prm.getRolesForPrincipal(principal)
+        for role in l_roles:
+            if role[1] == Allow:
+                if not(role[0] in roles):
+                    roles.append(role[0])
+            elif role[1] == Deny:
+                if role[0] in roles:
+                    roles.remove(role[0])
+    return roles                
+
 
 def getRoles(context, request):
     #return [role_id for role_id, role in \
     #        component.getUtilitiesFor(IRole, context)]
     # eeks we have to loop through all groups of the
-    # principal to get all roles
-    prm =  IPrincipalRoleMap( context )
-    pn = request.principal.id
-    roles = list(prm.getRolesForPrincipal(pn))
+    # principal and al PrincipalRoleMaps to get all roles 
+    ctx = context
+    prms = []
+    while ctx:    
+        prms.append(IPrincipalRoleMap(ctx))
+        ctx = getattr(ctx,'__parent__', None)                                
     pg = request.principal.groups.keys()
+    roles = []
     for pn in pg:
-        roles = roles + list(prm.getRolesForPrincipal(pn))
+        roles = add_roles(pn,prms,roles)         
+    pn = request.principal.id
+    roles = add_roles(pn,prms,roles)  
     return roles
 
 role_interface_mapping = {
@@ -66,7 +84,7 @@ class WorkspaceView(BrowserView):
         roles = getRoles(self.context, self.request)
 
         for role_id in roles:
-            iface = role_interface_mapping.get(role_id[0])
+            iface = role_interface_mapping.get(role_id)
             if iface is not None:
                 interface.alsoProvides(self, iface)
 

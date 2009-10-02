@@ -41,6 +41,7 @@ def getRoles(context, request):
         ctx = getattr(ctx,'__parent__', None)                                
     pg = request.principal.groups.keys()
     roles = []
+    prms.reverse()
     for pn in pg:
         roles = add_roles(pn,prms,roles)         
     pn = request.principal.id

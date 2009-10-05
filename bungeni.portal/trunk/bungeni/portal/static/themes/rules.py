@@ -31,14 +31,15 @@ def rewrite_links(content, theme, resource_fetcher, log):
     they may belong to another root node but accesible from here.
     Remove the first root folder entry if necessary.
     """
+
     repeating_link_values = ['business', 'calendar']
     strip_link_values = {'/calendar/business': '/business'}
     content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
         for content_item in content_items:
-            content_node = theme(content_item[0])
-            content_value = theme(content_item[0]).html()
+            content_node = content(content_item[0])
+            content_value = content(content_item[0]).html()
             
             if link_value + '/' + link_value +'/' in (unicode(content_value)):
                 new_content = content_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
@@ -46,8 +47,8 @@ def rewrite_links(content, theme, resource_fetcher, log):
 
     for link_value in strip_link_values:
         for content_item in content_items:
-            content_node = theme(content_item[0])
-            content_value = theme(content_item[0]).html()
+            content_node = content(content_item[0])
+            content_value = content(content_item[0]).html()
             
             if link_value in (unicode(content_value)):
                 new_content = content_value.replace(link_value, strip_link_values[link_value])

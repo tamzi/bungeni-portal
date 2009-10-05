@@ -58,7 +58,8 @@
     <append href="/plone/business"
             content=".documentActions"
             theme="children:#portal-column-content" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
 
   </rule>
     
@@ -79,7 +80,8 @@
     <append href="/plone/archive"
             content=".documentActions"
             theme="children:#portal-column-content" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
+        <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
   </rule>   
 
   <rule class="bungeni">

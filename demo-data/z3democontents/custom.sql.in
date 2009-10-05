@@ -1,0 +1,123 @@
+/** question data **/
+
+copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
+       full_name, body_text, submission_date, status, note, receive_notification, 
+       "type")
+from '%(directory)s/data/demodata/custom/question_parliamentary_items.csv' csv;
+
+
+copy public.questions ( question_id,  question_number, approval_date, ministry_submit_date, 
+     question_type, response_type, supplement_parent_id, sitting_time, ministry_id ) 
+from '%(directory)s/data/demodata/custom/questions.csv'
+csv ; 
+
+copy  public.question_changes (change_id, content_id, action, date, description, notes, 
+user_id) FROM '%(directory)s/data/demodata/custom/question_changes.csv' csv;
+
+copy public.question_versions(version_id, content_id, change_id, manual, question_number, approval_date, 
+       ministry_submit_date, question_type, response_type, supplement_parent_id, 
+       sitting_time, ministry_id, parliament_id, owner_id, "language", 
+       short_name, full_name, body_text, submission_date, status, note, 
+       receive_notification, "type")
+from '%(directory)s/data/demodata/custom/question_versions.csv' csv;
+
+
+copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
+from '%(directory)s/data/demodata/custom/question_role_permission_map.csv' csv;
+
+/** tabled documents data **/
+copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
+       full_name, body_text, submission_date, status, note, receive_notification, 
+       "type")
+from '%(directory)s/data/demodata/custom/tabled_document_parliamentary_items.csv' csv;
+
+
+copy public.tabled_documents ( tabled_document_id, link, approval_date) 
+from '%(directory)s/data/demodata/custom/tabled_documents.csv'
+csv ; 
+
+copy  public.tabled_document_changes (change_id, content_id, "action", date, description, notes, user_id) 
+FROM '%(directory)s/data/demodata/custom/tabled_document_changes.csv' csv;
+
+copy public.tabled_document_versions(version_id, content_id, change_id, manual, link, approval_date, 
+       parliament_id, owner_id, "language", short_name, full_name, body_text, 
+       submission_date, status, note, receive_notification, "type")
+from '%(directory)s/data/demodata/custom/tabled_document_versions.csv' csv;
+
+
+copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
+from '%(directory)s/data/demodata/custom/tabled_document_role_permission_map.csv' csv;
+
+/** agenda items data **/
+
+copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
+       full_name, body_text, submission_date, status, note, receive_notification, 
+       "type")
+from '%(directory)s/data/demodata/custom/agenda_item_parliamentary_items.csv' csv;
+
+copy public.agenda_items ( agenda_item_id, group_id, approval_date) 
+from '%(directory)s/data/demodata/custom/agenda_items.csv'
+csv ; 
+
+copy  public.agenda_item_changes (change_id, content_id, "action", date, description, notes, user_id) 
+FROM '%(directory)s/data/demodata/custom/agenda_item_changes.csv' csv;
+
+/*
+copy public.agenda_item_versions( version_id, content_id, change_id, manual, group_id, approval_date, 
+       parliament_id, owner_id, "language", short_name, full_name, body_text, 
+       submission_date, status, note, receive_notification, "type")
+from '%(directory)s/data/demodata/custom/agenda_item_versions.csv' csv;
+*/
+
+
+copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
+from '%(directory)s/data/demodata/custom/agenda_item_role_permission_map.csv' csv;
+
+
+
+/** bill data ***/
+copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
+       full_name, body_text, submission_date, status, note, receive_notification, 
+       "type")
+from '%(directory)s/data/demodata/custom/bill_parliamentary_items.csv' csv;
+
+
+copy public.bills ( bill_id, bill_type_id, ministry_id, identifier, summary, publication_date ) 
+from '%(directory)s/data/demodata/custom/bills.csv'
+csv ; 
+
+copy  public.bill_changes (change_id, content_id, "action", date, description, notes, user_id) 
+FROM '%(directory)s/data/demodata/custom/bill_changes.csv' csv;
+
+copy public.bill_versions(version_id, content_id, change_id, manual, bill_type_id, ministry_id, 
+       identifier, summary, publication_date, parliament_id, owner_id, 
+       "language", short_name, full_name, body_text, submission_date, 
+       status, note, receive_notification, "type")
+from '%(directory)s/data/demodata/custom/bill_versions.csv' csv;
+
+copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
+from '%(directory)s/data/demodata/custom/bill_role_permission_map.csv' csv;
+
+SELECT setval('motion_changes_change_id_seq', 4000);
+
+SELECT setval('bill_changes_change_id_seq', 4000);
+
+SELECT setval('question_changes_change_id_seq', 4000);
+
+SELECT setval('tabled_document_changes_change_id_seq', 4000);
+
+SELECT setval('agenda_item_changes_change_id_seq', 4000);
+
+SELECT setval('item_sequence', 4000);
+
+SELECT setval('bill_versions_version_id_seq', 2000);
+SELECT setval('question_versions_version_id_seq', 2000);
+SELECT setval('motion_versions_version_id_seq', 2000);
+ 
+
+insert into zope_principal_role_map
+select users.login, 'bungeni.Owner' as role_id, true as setting, parliamentary_items.type, parliamentary_items.parliamentary_item_id 
+from users inner join parliamentary_items on users.user_id = parliamentary_items.owner_id;
+
+
+

@@ -21,6 +21,7 @@
         </tal:loop>          
       </tal:loop>
     </dl>
+    <a tal:attributes="href view/back_link"> back to calendar </a>
   </div>
   
 </html>  

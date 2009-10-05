@@ -636,6 +636,14 @@ class HTMLPreviewPage(ReportingView):
         except:
             session = Session()
             self.group = session.query(domain.Group).get(self.context.group_id)
+        if IGroupSitting.providedBy(self.context):        
+            self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            self.back_link = absoluteURL(self.context, self.request)  
+        else:   
+            raise NotImplementedError
+                                               
+                    
                         
     
 

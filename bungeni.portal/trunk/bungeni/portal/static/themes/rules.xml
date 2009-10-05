@@ -103,6 +103,8 @@
     <!-- content -->
     <prepend content="children:#portal-column-content"
              theme="children:#portal-column-content" />
+    <append content="#kss-spinner"
+            theme="#portal-columns" />
    </rule>
 
   <rule class="load-calendar-navigation">
@@ -126,7 +128,9 @@
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
+    <append content="#kss-spinner"
+            theme="#portal-columns" />    
    </rule>
   
   

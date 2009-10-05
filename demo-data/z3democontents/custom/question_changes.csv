@@ -1,0 +1,127 @@
+4001,2013,new-version,2009-09-28 12:36:55.163444,New version created upon submission to clerks office,,j.burua
+4002,2013,workflow,2009-09-28 12:36:55.402108,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,j.burua
+4003,2013,modified,2009-09-28 12:36:55.404027,"",,j.burua
+4004,2013,new-version,2009-09-28 12:43:48.898749,New version created upon workflow transition.,,m.charitym
+4005,2013,workflow,2009-09-28 12:43:48.963825,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,m.charitym
+4006,2013,modified,2009-09-28 12:43:48.965448,"",,m.charitym
+4007,2013,modified,2009-09-28 12:44:31.607207,"Receive notification, Text",,m.charitym
+4008,2013,new-version,2009-09-28 12:44:56.076951,New version created upon workflow transition.,,m.charitym
+4009,2013,workflow,2009-09-28 12:44:56.151445,Complete :  [ transition from Question received by clerk to Question complete ],,m.charitym
+4010,2013,modified,2009-09-28 12:44:56.15309,"",,m.charitym
+4011,2013,modified,2009-09-28 12:49:45.58203,Text,,n.winfrad
+4012,2013,new-version,2009-09-28 12:50:00.30052,New Version created upon approval by speakers office,,n.winfrad
+4013,2013,workflow,2009-09-28 12:50:00.386358,Approve :  [ transition from Question complete to admissible Question ],,n.winfrad
+4014,2013,modified,2009-09-28 12:50:00.388087,"",,n.winfrad
+4015,4011,added,2009-09-28 14:38:21.399249,"",,d.gemom
+4016,4011,workflow,2009-09-28 14:38:21.436281,Create :  [ transition from new to draft question ],,d.gemom
+4017,4011,modified,2009-09-28 14:38:21.437974,"",,d.gemom
+4018,4012,added,2009-09-28 14:40:59.974345,"",,d.gemom
+4019,4012,workflow,2009-09-28 14:41:00.010404,Create :  [ transition from new to draft question ],,d.gemom
+4020,4012,modified,2009-09-28 14:41:00.011978,"",,d.gemom
+4021,4013,added,2009-09-28 14:42:20.773861,"",,d.gemom
+4022,4013,workflow,2009-09-28 14:42:20.811398,Create :  [ transition from new to draft question ],,d.gemom
+4023,4013,modified,2009-09-28 14:42:20.813159,"",,d.gemom
+4024,4014,added,2009-09-28 14:43:48.66898,"",,d.gemom
+4025,4014,workflow,2009-09-28 14:43:48.701972,Create :  [ transition from new to draft question ],,d.gemom
+4026,4014,modified,2009-09-28 14:43:48.703494,"",,d.gemom
+4027,4015,added,2009-09-28 14:44:44.2622,"",,d.gemom
+4028,4015,workflow,2009-09-28 14:44:44.295338,Create :  [ transition from new to draft question ],,d.gemom
+4029,4015,modified,2009-09-28 14:44:44.296897,"",,d.gemom
+4030,4016,added,2009-09-28 14:45:39.366336,"",,d.gemom
+4031,4016,workflow,2009-09-28 14:45:39.402808,Create :  [ transition from new to draft question ],,d.gemom
+4032,4016,modified,2009-09-28 14:45:39.404464,"",,d.gemom
+4033,4017,added,2009-09-28 14:46:46.162325,"",,d.gemom
+4034,4017,workflow,2009-09-28 14:46:46.195041,Create :  [ transition from new to draft question ],,d.gemom
+4035,4017,modified,2009-09-28 14:46:46.19658,"",,d.gemom
+4036,4018,added,2009-09-28 14:47:58.967682,"",,d.gemom
+4037,4018,workflow,2009-09-28 14:47:59.00311,Create :  [ transition from new to draft question ],,d.gemom
+4038,4018,modified,2009-09-28 14:47:59.004721,"",,d.gemom
+4039,4019,added,2009-09-28 14:51:22.884206,"",,d.gemom
+4040,4019,workflow,2009-09-28 14:51:22.917938,Create :  [ transition from new to draft question ],,d.gemom
+4041,4019,modified,2009-09-28 14:51:22.919456,"",,d.gemom
+4042,4020,added,2009-09-28 14:53:47.19129,"",,d.gemom
+4043,4020,workflow,2009-09-28 14:53:47.227774,Create :  [ transition from new to draft question ],,d.gemom
+4044,4020,modified,2009-09-28 14:53:47.229337,"",,d.gemom
+4045,4021,added,2009-09-28 14:54:46.527538,"",,d.gemom
+4046,4021,workflow,2009-09-28 14:54:46.56302,Create :  [ transition from new to draft question ],,d.gemom
+4047,4021,modified,2009-09-28 14:54:46.564629,"",,d.gemom
+4048,4022,added,2009-09-28 15:02:12.606177,"",,d.gemom
+4049,4022,workflow,2009-09-28 15:02:12.639187,Create :  [ transition from new to draft question ],,d.gemom
+4050,4022,modified,2009-09-28 15:02:12.640905,"",,d.gemom
+4051,4023,added,2009-09-28 15:03:32.542321,"",,d.gemom
+4052,4023,workflow,2009-09-28 15:03:32.574749,Create :  [ transition from new to draft question ],,d.gemom
+4053,4023,modified,2009-09-28 15:03:32.576265,"",,d.gemom
+4054,4024,added,2009-09-28 15:05:52.40249,"",,d.gemom
+4055,4024,workflow,2009-09-28 15:05:52.435257,Create :  [ transition from new to draft question ],,d.gemom
+4056,4024,modified,2009-09-28 15:05:52.436805,"",,d.gemom
+4057,4025,added,2009-09-28 15:07:57.844802,"",,d.gemom
+4058,4025,workflow,2009-09-28 15:07:57.878377,Create :  [ transition from new to draft question ],,d.gemom
+4059,4025,modified,2009-09-28 15:07:57.8799,"",,d.gemom
+4060,4026,added,2009-09-28 15:27:57.096366,"",,d.gemom
+4061,4026,workflow,2009-09-28 15:27:57.131027,Create :  [ transition from new to draft question ],,d.gemom
+4062,4026,modified,2009-09-28 15:27:57.132557,"",,d.gemom
+4063,4027,added,2009-09-28 15:31:25.281668,"",,d.gemom
+4064,4027,workflow,2009-09-28 15:31:25.314371,Create :  [ transition from new to draft question ],,d.gemom
+4065,4027,modified,2009-09-28 15:31:25.315894,"",,d.gemom
+4066,4028,added,2009-09-28 15:32:23.475764,"",,d.gemom
+4067,4028,workflow,2009-09-28 15:32:23.510802,Create :  [ transition from new to draft question ],,d.gemom
+4068,4028,modified,2009-09-28 15:32:23.512317,"",,d.gemom
+4069,4029,added,2009-09-28 15:58:22.97799,"",,d.gemom
+4070,4029,workflow,2009-09-28 15:58:23.01835,Create :  [ transition from new to draft question ],,d.gemom
+4071,4029,modified,2009-09-28 15:58:23.020079,"",,d.gemom
+4072,4030,added,2009-09-28 16:07:21.496932,"",,d.gemom
+4073,4030,workflow,2009-09-28 16:07:21.53138,Create :  [ transition from new to draft question ],,d.gemom
+4074,4030,modified,2009-09-28 16:07:21.532929,"",,d.gemom
+4075,4031,added,2009-09-28 16:08:13.443226,"",,d.gemom
+4076,4031,workflow,2009-09-28 16:08:13.483123,Create :  [ transition from new to draft question ],,d.gemom
+4077,4031,modified,2009-09-28 16:08:13.484732,"",,d.gemom
+4078,4032,added,2009-09-28 16:20:49.079825,"",,j.burua
+4079,4032,workflow,2009-09-28 16:20:49.117359,Create :  [ transition from new to draft question ],,j.burua
+4080,4032,modified,2009-09-28 16:20:49.118878,"",,j.burua
+4081,4038,added,2009-09-28 16:28:21.886794,"",,m.charitym
+4082,4038,workflow,2009-09-28 16:28:21.924977,Create :  [ transition from new to draft question ],,m.charitym
+4083,4038,modified,2009-09-28 16:28:21.926477,"",,m.charitym
+4084,4039,added,2009-09-28 16:29:28.905958,"",,j.burua
+4085,4039,workflow,2009-09-28 16:29:28.941778,Create :  [ transition from new to draft question ],,j.burua
+4086,4039,modified,2009-09-28 16:29:28.943277,"",,j.burua
+4087,4039,new-version,2009-09-28 16:29:50.03884,New version created upon submission to clerks office,,j.burua
+4088,4039,workflow,2009-09-28 16:29:50.197065,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,j.burua
+4089,4039,modified,2009-09-28 16:29:50.199071,"",,j.burua
+4090,4039,new-version,2009-09-28 16:30:11.535355,New version created upon workflow transition.,,m.charitym
+4091,4039,workflow,2009-09-28 16:30:11.590816,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,m.charitym
+4092,4039,modified,2009-09-28 16:30:11.592422,"",,m.charitym
+4093,4039,new-version,2009-09-28 16:30:21.578304,New version created upon workflow transition.,,m.charitym
+4094,4039,workflow,2009-09-28 16:30:21.642134,Complete :  [ transition from Question received by clerk to Question complete ],,m.charitym
+4095,4039,modified,2009-09-28 16:30:21.643781,"",,m.charitym
+4096,4039,new-version,2009-09-28 16:30:49.811299,New Version created upon approval by speakers office,,n.winfrad
+4097,4039,workflow,2009-09-28 16:30:49.872333,Approve :  [ transition from Question complete to admissible Question ],,n.winfrad
+4098,4039,modified,2009-09-28 16:30:49.873985,"",,n.winfrad
+4099,4107,added,2009-10-01 09:52:22.510239,"",,j.burua
+4100,4107,workflow,2009-10-01 09:52:22.668279,Create :  [ transition from new to draft question ],,j.burua
+4101,4107,modified,2009-10-01 09:52:22.669776,"",,j.burua
+4102,4108,added,2009-10-01 09:55:32.801627,"",,j.burua
+4103,4108,workflow,2009-10-01 09:55:34.953139,Create :  [ transition from new to draft question ],,j.burua
+4104,4108,modified,2009-10-01 09:55:34.954794,"",,j.burua
+4105,4108,new-version,2009-10-01 09:59:34.798074,New version created upon submission to clerks office,,j.burua
+4106,4108,workflow,2009-10-01 09:59:35.420307,Submit to Clerk :  [ transition from draft question to Question submitted to clerk ],,j.burua
+4107,4108,modified,2009-10-01 09:59:35.422051,"",,j.burua
+4108,4107,modified,2009-10-01 10:00:29.472295,Text,,j.burua
+4109,4108,new-version,2009-10-01 10:14:40.066635,New version created upon workflow transition.,,m.charitym
+4110,4108,workflow,2009-10-01 10:14:40.241374,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,m.charitym
+4111,4108,modified,2009-10-01 10:14:40.243154,"",,m.charitym
+4112,4108,modified,2009-10-01 10:26:22.035089,Text,,m.charitym
+4113,4108,new-version,2009-10-01 10:28:50.335156,New version created upon workflow transition.,,m.charitym
+4114,4108,workflow,2009-10-01 10:28:50.401036,Needs Clarification by MP :  [ transition from Question received by clerk to Question needs MP clarification ],,m.charitym
+4115,4108,modified,2009-10-01 10:28:50.402675,"",,m.charitym
+4116,4108,new-version,2009-10-01 10:57:35.614337,New version created upon submission to clerks office,,j.burua
+4117,4108,workflow,2009-10-01 10:57:38.73604,Resubmit to clerk :  [ transition from Question needs MP clarification to Question submitted to clerk ],,j.burua
+4118,4108,modified,2009-10-01 10:57:38.738002,"",,j.burua
+4119,4108,new-version,2009-10-01 11:09:18.977802,New version created upon workflow transition.,,m.charitym
+4120,4108,workflow,2009-10-01 11:09:19.039415,Receive :  [ transition from Question submitted to clerk to Question received by clerk ],,m.charitym
+4121,4108,modified,2009-10-01 11:09:19.041041,"",,m.charitym
+4122,4108,new-version,2009-10-01 11:11:17.598774,New version created upon workflow transition.,,m.charitym
+4123,4108,workflow,2009-10-01 11:11:17.685742,Complete :  [ transition from Question received by clerk to Question complete ],,m.charitym
+4124,4108,modified,2009-10-01 11:11:17.691348,"",,m.charitym
+4125,4108,new-version,2009-10-01 11:24:58.161172,New Version created upon approval by speakers office,,n.winfrad
+4126,4108,workflow,2009-10-01 11:24:58.237728,Approve :  [ transition from Question complete to admissible Question ],,n.winfrad
+4127,4108,modified,2009-10-01 11:24:58.243109,"",,n.winfrad

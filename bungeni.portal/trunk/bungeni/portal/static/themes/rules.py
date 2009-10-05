@@ -53,8 +53,15 @@ def rewrite_links(content, theme, resource_fetcher, log):
 
     for link_value in strip_link_values:
         for content_item in content_items:
+            theme_node = theme(content_item[0])
+            theme_value = theme(content_item[0]).html()            
             content_node = content(content_item[0])
             content_value = content(content_item[0]).html()
+
+            if link_value in (unicode(theme_value)):
+                new_theme = theme_value.replace(link_value, strip_link_values[link_value])
+                theme_node.replaceWith('<'+content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_theme + '</' + content_item[2] + '>')
+
             
             if link_value in (unicode(content_value)):
                 new_content = content_value.replace(link_value, strip_link_values[link_value])

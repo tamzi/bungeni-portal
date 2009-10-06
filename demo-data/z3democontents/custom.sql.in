@@ -98,6 +98,36 @@ from '%(directory)s/data/demodata/custom/bill_versions.csv' csv;
 copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
 from '%(directory)s/data/demodata/custom/bill_role_permission_map.csv' csv;
 
+
+/** motion data ***/
+copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
+       full_name, body_text, submission_date, status, note, receive_notification, 
+       "type")
+from '%(directory)s/data/demodata/custom/motion_parliamentary_items.csv' csv;
+
+
+copy public.motions ( motion_id, motion_number, approval_date, public, seconder_id, 
+       entered_by_id, party_id, notice_date, receive_notification) 
+from '%(directory)s/data/demodata/custom/motions.csv'
+csv ; 
+
+copy  public.motion_changes (change_id, content_id, "action", date, description, notes, user_id) 
+FROM '%(directory)s/data/demodata/custom/motion_changes.csv' csv;
+
+copy public.motion_versions(version_id, content_id, change_id, manual, motion_number, approval_date, 
+       public, seconder_id, entered_by_id, party_id, notice_date, receive_notification, 
+       parliament_id, owner_id, "language", short_name, full_name, body_text, 
+       submission_date, status, note, "type")
+from '%(directory)s/data/demodata/custom/motion_versions.csv' csv;
+
+copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
+from '%(directory)s/data/demodata/custom/motion_role_permission_map.csv' csv;
+
+
+
+
+
+
 SELECT setval('motion_changes_change_id_seq', 4000);
 
 SELECT setval('bill_changes_change_id_seq', 4000);

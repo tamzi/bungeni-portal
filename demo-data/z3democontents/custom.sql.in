@@ -151,7 +151,7 @@ SELECT setval('motion_versions_version_id_seq', 2000);
 
 SELECT setval('tabled_document_versions_version_id_seq', 2000);
 
-SELECT setval('agenda_item_versions_version_seq', 2000);
+SELECT setval('agenda_item_versions_version_id_seq', 2000);
  
 
 insert into zope_principal_role_map

@@ -234,5 +234,19 @@
      permission="zope.View"
      weight="10"
      />    
+     
+  <!-- Ministers workspace -->
+
+  <browser:viewlet
+     name="bungeni.minister-workspace.items-action"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.MinistryItemsViewlet"
+     view="bungeni.ui.interfaces.IMinisterWorkspace"
+     permission="zope.View"
+     weight="10"
+     />    
+     
+          
   
 </configure>

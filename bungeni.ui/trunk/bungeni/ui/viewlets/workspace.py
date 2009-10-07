@@ -733,7 +733,80 @@ class ItemsCompleteViewlet( AllItemsInStageViewlet ):
         question_wf_state[u"complete"].id,  
         motion_wf_state[u"complete"].id,
         agendaitem_wf_state[u"complete"].id,
-        tableddocument_wf_state[u"complete"].id,                              
+        tableddocument_wf_state[u"complete"].id,    
+        question_wf_state[u"admissible"].id,  
+        motion_wf_state[u"admissible"].id,
+        agendaitem_wf_state[u"admissible"].id,
+        tableddocument_wf_state[u"admissible"].id,                                   
     ]
     list_id = "items-action-required"
+
+
+class MinistryItemsViewlet(viewlet.ViewletBase):
+    render = ViewPageTemplateFile ('templates/ministry_ws_viewlet.pt')
+
+    states = [
+        question_wf_state[u"admissible"].id,  
+        question_wf_state[u"scheduled"].id,                                          
+        question_wf_state[u"response_pending"].id,          
+    ]
+
+    def _getItems(self, ministry):
+        data_list = []   
+        session = Session()
+        query = session.query(domain.Question).filter(
+            sql.and_(
+                domain.Question.ministry_id == ministry.group_id,
+                domain.Question.status.in_(self.states)))                    
+        results = query.all()
+        
+        for result in results:            
+            data ={}
+            data['qid']= ( 'q_' + str(result.question_id) )  
+            if result.question_number:                       
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name + ' (' + result.status + ')'
+            else:
+                data['subject'] = result.short_name + ' (' + result.status + ')'
+            data['title'] = result.short_name + ' (' + result.status + ')'
+            data['result_item_class'] = 'workflow-state-' + result.status 
+            #http://localhost:8081/archive/browse/parliaments/obj-9/governments/obj-4/ministries/obj-121/questions/obj-4004            
+            data['url'] = '/archive/browse/parliaments/obj-%i/governments/obj-%i/ministries/obj-%i/questions/obj-%i' %(
+                self._parent.context.parliament_id, self._parent.government_id, 
+                ministry.group_id, result.question_id)                
+            
+            data_list.append(data)            
+        return data_list        
+    
+    def getData(self):
+        """
+        return the data of the query
+        """    
+        data_list = []       
+        results = self.query.all()
+        
+        for result in results:            
+            data ={}
+            data['subject'] = result.short_name + ' (' + result.status + ')'
+            data['url'] = '/archive/browse/parliaments/obj-%i/governments/obj-%i/ministries/obj-%i/' %(
+                self._parent.context.parliament_id, self._parent.government_id, result.group_id)
+            data['items'] = self._getItems(result)                
+            data_list.append(data)            
+        return data_list
+    
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()   
+        try:
+            ministry_ids = self._parent.ministry_ids
+        except:
+            ministry_ids = []                        
+        qfilter = domain.Ministry.group_id.in_(ministry_ids)        
+        ministries = session.query(domain.Ministry).filter(qfilter).order_by(
+            domain.Ministry.start_date.desc())            
+        self.query = ministries    
+        
+        
         

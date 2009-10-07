@@ -56,16 +56,16 @@
 
   <state id="scheduled" title="Question scheduled">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <grant permission="bungeni.response.add" role="bungeni.Clerk" />
-    <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
-    <grant permission="bungeni.response.view" role="bungeni.Clerk" />         
+    <grant permission="bungeni.response.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
+    <grant permission="bungeni.response.View" role="bungeni.Clerk" />         
   </state>
 
   <state id="response_pending" title="Question pending response">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <grant permission="bungeni.response.add" role="bungeni.Minister" />
-    <grant permission="bungeni.response.edit" role="bungeni.Minister" />   
-    <grant permission="bungeni.response.view" role="bungeni.Minister" />        
+    <grant permission="bungeni.response.Add" role="bungeni.Minister" />
+    <grant permission="bungeni.response.Edit" role="bungeni.Minister" />   
+    <grant permission="bungeni.response.View" role="bungeni.Minister" />        
   </state>
 
   <state id="deferred" title="Question deferred">
@@ -78,13 +78,15 @@
   </state>
 
   <state id="responded" title="Question responded">
-    <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
-    <grant permission="bungeni.response.view" role="bungeni.Clerk" />   
+    <deny permission="bungeni.response.Add" role="bungeni.Minister" />
+    <deny permission="bungeni.response.Edit" role="bungeni.Minister" />    
+    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
+    <grant permission="bungeni.response.View" role="bungeni.Clerk" />   
   </state>
 
   <state id="answered" title="Question answered">
     <grant permission="bungeni.question.Add" role="bungeni.MP" />    
-    <grant permission="bungeni.response.view" role="bungeni.Everybody" />            
+    <grant permission="bungeni.response.View" role="bungeni.Everybody" />            
   </state>
 
   <state id="debated" title="Question debated">  

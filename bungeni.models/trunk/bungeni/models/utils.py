@@ -57,9 +57,11 @@ def get_ministry_ids_for_user_in_government(user_id, government_id):
             schema.user_group_memberships.c.user_id == user_id,
             schema.groups.c.parent_group_id == government_id,
             schema.groups.c.status == 'active',
-            schema.user_group_memberships.c.active_p == True))                
-    return connection.execute(ministries)                     
-    
+            schema.user_group_memberships.c.active_p == True))                                    
+    ministry_ids = []
+    for group_id in connection.execute(ministries):
+        ministry_ids.append(group_id[0])
+    return ministry_ids    
 
 def get_offices_held_for_user_in_parliament(user_id, parliament_id):
     """ get the Offices (functions/titles) held by a user in a parliament """

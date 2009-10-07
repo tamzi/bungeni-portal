@@ -70,7 +70,7 @@
   <permission id="bungeni.response.Delete" title="Delete Response" />
   <permission id="bungeni.response.View" title="View Response" />
   <meta:redefinePermission from="bungeni.response.View" to="zope.View" />    
-  
+ 
   <permission id="bungeni.parliament.Add" title="Add Parliament" />
   <permission id="bungeni.parliament.Edit" title="Edit Parliament" />
   <permission id="bungeni.parliament.Delete" title="Delete Parliament" />

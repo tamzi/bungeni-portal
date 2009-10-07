@@ -357,7 +357,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.Question"
      title="Add response..."
-     action="./respone/add"
+     action="./responses/add"
      permission="bungeni.response.Add"
      order="100"
      />   

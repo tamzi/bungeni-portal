@@ -10,7 +10,9 @@ from ore.alchemist import Session
 import sqlalchemy.sql.expression as sql
 
 from bungeni.models import domain
-from bungeni.models.utils import get_db_user_id, get_group_ids_for_user_in_parliament
+from bungeni.models.utils import get_db_user_id
+from bungeni.models.utils import get_group_ids_for_user_in_parliament 
+from bungeni.models.utils import get_ministry_ids_for_user_in_government
 from bungeni.core.globalsettings import getCurrentParliamentId
 
 import interfaces
@@ -58,6 +60,7 @@ role_interface_mapping = {
 
 class WorkspaceView(BrowserView):
     interface.implements(IViewView)
+    ministry_ids = []
     
     def __init__(self, context, request):
         super(WorkspaceView, self).__init__(context, request)
@@ -66,6 +69,7 @@ class WorkspaceView(BrowserView):
             session = Session()
             parliament = session.query(domain.Parliament).get(parliament_id)
             self.context = parliament
+            self.ministry_ids = []
             self.context.__parent__ = context
             self.context.__name__ = ""
             self.request = request
@@ -79,6 +83,10 @@ class WorkspaceView(BrowserView):
                     ).all()
             if len(governments) == 1:
                 self.government_id =  governments[0].group_id
+                self.ministry_ids = get_ministry_ids_for_user_in_government(
+                    self.user_id, self.government_id)
+                if self.ministry_ids:
+                    interface.alsoProvides(self, interfaces.IMinisterWorkspace)                                        
             else:
                 self.government_id = None
                                                

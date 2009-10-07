@@ -1,5 +1,6 @@
 /** question data **/
 
+
 copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
        full_name, body_text, submission_date, status, note, receive_notification, 
        "type")
@@ -24,6 +25,8 @@ from '%(directory)s/data/demodata/custom/question_versions.csv' csv;
 
 copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
 from '%(directory)s/data/demodata/custom/question_role_permission_map.csv' csv;
+
+
 
 /** tabled documents data **/
 copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
@@ -100,6 +103,7 @@ from '%(directory)s/data/demodata/custom/bill_role_permission_map.csv' csv;
 
 
 /** motion data ***/
+
 copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id, "language", short_name, 
        full_name, body_text, submission_date, status, note, receive_notification, 
        "type")
@@ -126,8 +130,6 @@ from '%(directory)s/data/demodata/custom/motion_role_permission_map.csv' csv;
 
 
 
-
-
 SELECT setval('motion_changes_change_id_seq', 4000);
 
 SELECT setval('bill_changes_change_id_seq', 4000);
@@ -138,11 +140,17 @@ SELECT setval('tabled_document_changes_change_id_seq', 4000);
 
 SELECT setval('agenda_item_changes_change_id_seq', 4000);
 
-SELECT setval('item_sequence', 4000);
+SELECT setval('item_sequence', 4600);
 
 SELECT setval('bill_versions_version_id_seq', 2000);
+
 SELECT setval('question_versions_version_id_seq', 2000);
+
 SELECT setval('motion_versions_version_id_seq', 2000);
+
+SELECT setval('tabled_document_versions_version_id_seq', 4000);
+
+SELECT setval('agenda_item_versions_version_seq', 4000);
  
 
 insert into zope_principal_role_map

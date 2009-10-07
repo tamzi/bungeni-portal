@@ -411,7 +411,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                 ), 
         dict( name="group_id", omit=True),
         dict( name="membership_id", label=_(u"Roles/Titles"),
-            add=False, edit=False, listing=True,
+            add=False, edit=False, view=False, listing=True,
             listing_column=current_titles_in_group_column("membership_id", 
                 _(u"Roles/Titles"))),
         dict( name="status", omit=True ),

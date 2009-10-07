@@ -1,0 +1,64 @@
+1001,4513,added,2009-10-07 12:48:05.502059,"",,a.billow
+1002,4513,workflow,2009-10-07 12:48:05.540704,Create :  [ transition from new to draft motion ],,a.billow
+1003,4513,modified,2009-10-07 12:48:05.542513,"",,a.billow
+1004,4514,added,2009-10-07 12:49:02.688382,"",,a.billow
+1005,4514,workflow,2009-10-07 12:49:02.720065,Create :  [ transition from new to draft motion ],,a.billow
+1006,4514,modified,2009-10-07 12:49:02.721544,"",,a.billow
+1007,4515,added,2009-10-07 12:50:29.528105,"",,a.billow
+1008,4515,workflow,2009-10-07 12:50:29.558983,Create :  [ transition from new to draft motion ],,a.billow
+1009,4515,modified,2009-10-07 12:50:29.560474,"",,a.billow
+1010,4516,added,2009-10-07 12:51:13.909553,"",,a.billow
+1011,4516,workflow,2009-10-07 12:51:13.93916,Create :  [ transition from new to draft motion ],,a.billow
+1012,4516,modified,2009-10-07 12:51:13.940644,"",,a.billow
+1013,4517,added,2009-10-07 12:55:44.778135,"",,j.burua
+1014,4517,workflow,2009-10-07 12:55:44.80759,Create :  [ transition from new to draft motion ],,j.burua
+1015,4517,modified,2009-10-07 12:55:44.809083,"",,j.burua
+1016,4518,added,2009-10-07 12:56:32.133109,"",,j.burua
+1017,4518,workflow,2009-10-07 12:56:32.164286,Create :  [ transition from new to draft motion ],,j.burua
+1018,4518,modified,2009-10-07 12:56:32.165788,"",,j.burua
+1019,4519,added,2009-10-07 12:57:13.744382,"",,j.burua
+1020,4519,workflow,2009-10-07 12:57:13.772936,Create :  [ transition from new to draft motion ],,j.burua
+1021,4519,modified,2009-10-07 12:57:13.774393,"",,j.burua
+1022,4520,added,2009-10-07 12:58:38.294675,"",,j.burua
+1023,4520,workflow,2009-10-07 12:58:38.327107,Create :  [ transition from new to draft motion ],,j.burua
+1024,4520,modified,2009-10-07 12:58:38.32863,"",,j.burua
+1025,4521,added,2009-10-07 13:03:07.522134,"",,d.gemom
+1026,4521,workflow,2009-10-07 13:03:07.557264,Create :  [ transition from new to draft motion ],,d.gemom
+1027,4521,modified,2009-10-07 13:03:07.558746,"",,d.gemom
+1028,4522,added,2009-10-07 13:03:36.107092,"",,d.gemom
+1029,4522,workflow,2009-10-07 13:03:36.141105,Create :  [ transition from new to draft motion ],,d.gemom
+1030,4522,modified,2009-10-07 13:03:36.142606,"",,d.gemom
+1031,4523,added,2009-10-07 13:04:00.310609,"",,d.gemom
+1032,4523,workflow,2009-10-07 13:04:00.356075,Create :  [ transition from new to draft motion ],,d.gemom
+1033,4523,modified,2009-10-07 13:04:00.357643,"",,d.gemom
+1034,4524,added,2009-10-07 13:04:43.424184,"",,d.gemom
+1035,4524,workflow,2009-10-07 13:04:43.471915,Create :  [ transition from new to draft motion ],,d.gemom
+1036,4524,modified,2009-10-07 13:04:43.473434,"",,d.gemom
+4001,4520,new-version,2009-10-07 13:54:45.093928,New version created upon submission to clerks office,,j.burua
+4002,4520,workflow,2009-10-07 13:54:45.372865,Submit to Clerk :  [ transition from draft motion to Motion submitted ],,j.burua
+4003,4520,modified,2009-10-07 13:54:45.374774,"",,j.burua
+4004,4515,modified,2009-10-07 14:17:02.11412,Text,,a.billow
+4005,4515,new-version,2009-10-07 14:17:14.102396,New version created upon submission to clerks office,,a.billow
+4006,4515,workflow,2009-10-07 14:17:14.176743,Submit to Clerk :  [ transition from draft motion to Motion submitted ],,a.billow
+4007,4515,modified,2009-10-07 14:17:14.178397,"",,a.billow
+4008,4514,new-version,2009-10-07 14:17:52.625984,New version created upon submission to clerks office,,a.billow
+4009,4514,workflow,2009-10-07 14:17:52.697502,Submit to Clerk :  [ transition from draft motion to Motion submitted ],,a.billow
+4010,4514,modified,2009-10-07 14:17:52.69912,"",,a.billow
+4011,4523,new-version,2009-10-07 14:19:54.674607,New version created upon submission to clerks office,,d.gemom
+4012,4523,workflow,2009-10-07 14:19:54.750518,Submit to Clerk :  [ transition from draft motion to Motion submitted ],,d.gemom
+4013,4523,modified,2009-10-07 14:19:54.752287,"",,d.gemom
+4014,4521,new-version,2009-10-07 14:20:15.443679,New version created upon submission to clerks office,,d.gemom
+4015,4521,workflow,2009-10-07 14:20:15.515522,Submit to Clerk :  [ transition from draft motion to Motion submitted ],,d.gemom
+4016,4521,modified,2009-10-07 14:20:15.517355,"",,d.gemom
+4017,4520,new-version,2009-10-07 14:22:49.987574,New version created upon workflow transition.,,m.charitym
+4018,4520,workflow,2009-10-07 14:22:50.049175,Receive :  [ transition from Motion submitted to Motion received by clerks office ],,m.charitym
+4019,4520,modified,2009-10-07 14:22:50.050865,"",,m.charitym
+4020,4514,new-version,2009-10-07 14:23:13.604022,New version created upon workflow transition.,,m.charitym
+4021,4514,workflow,2009-10-07 14:23:13.65819,Receive :  [ transition from Motion submitted to Motion received by clerks office ],,m.charitym
+4022,4514,modified,2009-10-07 14:23:13.665149,"",,m.charitym
+4023,4523,new-version,2009-10-07 14:24:57.940249,New version created upon workflow transition.,,m.charitym
+4024,4523,workflow,2009-10-07 14:24:57.997784,Receive :  [ transition from Motion submitted to Motion received by clerks office ],,m.charitym
+4025,4523,modified,2009-10-07 14:24:57.999419,"",,m.charitym
+4026,4523,new-version,2009-10-07 14:25:07.131607,New version created upon workflow transition.,,m.charitym
+4027,4523,workflow,2009-10-07 14:25:07.198869,Complete :  [ transition from Motion received by clerks office to Motion complete ],,m.charitym
+4028,4523,modified,2009-10-07 14:25:07.20053,"",,m.charitym

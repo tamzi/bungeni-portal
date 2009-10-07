@@ -63,9 +63,9 @@
 
   <state id="response_pending" title="Question pending response">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <grant permission="bungeni.response.add" role="bungeni.Clerk" />
-    <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
-    <grant permission="bungeni.response.view" role="bungeni.Clerk" />        
+    <grant permission="bungeni.response.add" role="bungeni.Minister" />
+    <grant permission="bungeni.response.edit" role="bungeni.Minister" />   
+    <grant permission="bungeni.response.view" role="bungeni.Minister" />        
   </state>
 
   <state id="deferred" title="Question deferred">
@@ -78,6 +78,8 @@
   </state>
 
   <state id="responded" title="Question responded">
+    <grant permission="bungeni.response.edit" role="bungeni.Clerk" />   
+    <grant permission="bungeni.response.view" role="bungeni.Clerk" />   
   </state>
 
   <state id="answered" title="Question answered">

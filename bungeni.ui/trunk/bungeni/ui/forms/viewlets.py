@@ -441,7 +441,6 @@ class OfficesHeldViewlet( viewlet.ViewletBase ):
                 parliament_id = parliament.parliament_id
         self.offices_held = get_offices_held_for_user_in_parliament(
                 user_id, parliament_id)
-                        
          
     
     

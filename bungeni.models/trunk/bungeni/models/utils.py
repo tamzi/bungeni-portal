@@ -43,6 +43,23 @@ def get_all_group_ids_in_parliament(parliament_id):
     return group_ids
     
     
+def get_ministry_ids_for_user_in_government(user_id, government_id):
+    """ get the ministries where user_id is a active member """
+    session = Session()
+    connection = session.connection(domain.Group)
+    ministries = rdb.select([schema.groups.c.group_id],
+        from_obj=[
+        rdb.join(schema.groups, schema.user_group_memberships,
+        schema.groups.c.group_id == schema.user_group_memberships.c.group_id),
+        ],
+        whereclause =
+            rdb.and_(
+            schema.user_group_memberships.c.user_id == user_id,
+            schema.groups.c.parent_group_id == government_id,
+            schema.groups.c.status == 'active',
+            schema.user_group_memberships.c.active_p == True))                
+    return connection.execute(ministries)                     
+    
 
 def get_offices_held_for_user_in_parliament(user_id, parliament_id):
     """ get the Offices (functions/titles) held by a user in a parliament """

@@ -715,6 +715,7 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
         question_wf_state[u"clarify_clerk"].id,  
+        question_wf_state[u"responded"].id,        
         motion_wf_state[u"submitted"].id,
         motion_wf_state[u"received"].id,
         motion_wf_state[u"clarify_clerk"].id,    

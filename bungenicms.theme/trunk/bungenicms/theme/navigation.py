@@ -29,7 +29,8 @@ class PersonalBarViewlet(common.PersonalBarViewlet):
             if IFolderish.providedBy(subcontext):
                 self.subcontext = [{
                     'url': item.absolute_url(),
-                    'title': item.title_or_id()} \
+                    'title': item.title_or_id(),
+                    'selected':self.context.absolute_url()} \
                     for item in subcontext.objectValues()]
         except IndexError:
             pass

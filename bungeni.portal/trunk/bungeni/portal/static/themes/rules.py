@@ -25,12 +25,22 @@ def drop_workspace(content, theme, resource_fetcher, log):
    
 
 def rewrite_links(content, theme, resource_fetcher, log):
-    """Fix links in folders that have been set up to act as root nodes.
+    """
+    Modify calendar 'nex't and 'previous' links so that the page refreshes.
+    Fix links in folders that have been set up to act as root nodes.
     Relative links can end up with the root folder entry repeated twice.
-    In additions some links are not children of the current root node i.e.
+    In addition some links are not children of the current root node i.e.
     they may belong to another root node but accesible from here.
     Remove the first root folder entry if necessary.
     """
+    calendar_next_link_node = theme('.next-link')
+    calendar_previous_link_node = theme('.previous-link') \
+                               
+    if calendar_next_link_node:
+        calendar_next_link_node.replaceWith('<a class="navigation next-link" onClick="document.location=&#39;' + str(theme('.next-link').attr('href'))  + '&#39;">&#8594;</a>')
+        
+    if calendar_previous_link_node:
+        calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(theme('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')    
 
     repeating_link_values = ['business', 'calendar']
     strip_link_values = {'/calendar/business': '/business'}

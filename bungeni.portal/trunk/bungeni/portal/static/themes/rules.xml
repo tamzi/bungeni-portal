@@ -128,7 +128,7 @@
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    
     <append content="#kss-spinner"
             theme="#portal-columns" />    
    </rule>
@@ -228,6 +228,7 @@
     <!-- content -->
     <append content="children:#portal-column-content" theme="children:.main-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:drop_contentActions" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />
     

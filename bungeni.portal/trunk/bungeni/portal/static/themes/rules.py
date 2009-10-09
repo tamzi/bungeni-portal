@@ -22,16 +22,11 @@ def drop_workspace(content, theme, resource_fetcher, log):
     group_workspace_content_id = theme('#workgroup-id').val()
     if member_workspace_content_id is None  and group_workspace_content_id is None:
         theme('.workspace-tab').remove()
-   
 
-def rewrite_links(content, theme, resource_fetcher, log):
+
+def nextprev_links(content, theme, resource_fetcher, log):
     """
-    Modify calendar 'nex't and 'previous' links so that the page refreshes.
-    Fix links in folders that have been set up to act as root nodes.
-    Relative links can end up with the root folder entry repeated twice.
-    In addition some links are not children of the current root node i.e.
-    they may belong to another root node but accesible from here.
-    Remove the first root folder entry if necessary.
+    Modify calendar 'next and 'previous' links so that the page refreshes.
     """
     calendar_next_link_node = theme('.next-link')
     calendar_previous_link_node = theme('.previous-link') \
@@ -42,9 +37,20 @@ def rewrite_links(content, theme, resource_fetcher, log):
     if calendar_previous_link_node:
         calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(theme('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')    
 
-    repeating_link_values = ['business', 'calendar']
+   
+
+def rewrite_links(content, theme, resource_fetcher, log):
+    """
+    Fix links in folders that have been set up to act as root nodes.
+    Relative links can end up with the root folder entry repeated twice.
+    In addition some links are not children of the current root node i.e.
+    they may belong to another root node but accesible from here.
+    Remove the first root folder entry if necessary.
+    """
+
+    repeating_link_values = ['calendar']
     strip_link_values = {'/calendar/business': '/business'}
-    content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
+    content_items = [['#portal-breadcrumbs','id', 'div']]
 
     for link_value in repeating_link_values:
         for content_item in content_items:
@@ -52,12 +58,12 @@ def rewrite_links(content, theme, resource_fetcher, log):
             theme_value = theme(content_item[0]).html()
             content_node = content(content_item[0])
             content_value = content(content_item[0]).html()
-            
-            if link_value + '/' + link_value +'/' in (unicode(content_value)):
+
+            if '/' + link_value + '/' + link_value in (unicode(content_value)):
                 new_content = content_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
                 content_node.replaceWith('<' + content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_content + '</' + content_item[2] + '>')
 
-            if link_value + '/' + link_value +'/' in (unicode(theme_value)):
+            if '/' + link_value + '/' + link_value in (unicode(theme_value)):
                 new_theme = theme_value.replace('/'+link_value+'/'+link_value, '/'+link_value)
                 theme_node.replaceWith('<' + content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_theme + '</' + content_item[2] + '>')
 

@@ -381,3 +381,8 @@ table.listing td, .stx table td {
 .documentActions {
   clear:both;
 }
+
+/*hide presentatiton mode link*/
+#link-presentation {
+  display: none;
+}

@@ -48,9 +48,9 @@ def rewrite_links(content, theme, resource_fetcher, log):
     Remove the first root folder entry if necessary.
     """
 
-    repeating_link_values = ['calendar']
+    repeating_link_values = ['business', 'calendar']
     strip_link_values = {'/calendar/business': '/business'}
-    content_items = [['#portal-breadcrumbs','id', 'div']]
+    content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
         for content_item in content_items:

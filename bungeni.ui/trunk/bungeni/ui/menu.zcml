@@ -473,9 +473,11 @@
      menu="plone_contentmenu"
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add agenda Item..."
-     action="../../agendaitems/add"
+     action="./group/agendaitems/add"
      permission="bungeni.agendaitem.Add"
      />
+
+
 
 
   <!-- group-sitting scheduling view reporting actions -->

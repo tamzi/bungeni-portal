@@ -1,12 +1,11 @@
-<html xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      metal:use-macro="context/@@standard_macros/page"
+<metal:block define-macro="body">
+
+<!--html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="marginalia">
-  
-  <metal:block fill-slot="header">
-<head metal:define-macro="header">
- 
+<head-->
+  <!--title tal:content="context/title/title">recipe name goes here</title--> 
   <!-- 3rd Party -->
 <script type="text/javascript" src="3rd-party.js"        
      tal:attributes="src context/++resource++jsmarginalia/3rd-party.js"></script>
@@ -141,11 +140,9 @@ function bungeniClickCreateAnnotation( event, id ) {
 <link rel="stylesheet" type="text/css" media="all" href="marginalia.css"
       tal:attributes="href context/++resource++marginaliaadmin.css" />
 </tal:cond>
-</head>
-</metal:block>
+<!--/head>
+<body-->
 
-<body metal:define-macro="body">
-<div metal:fill-slot="body">
 <metal:main tal:define="annotatedUrl string:${context/@@absolute_url};
                         text python:view.getBodyText();
                         authenticateduser python:view.getAuthenticatedUser();
@@ -246,8 +243,9 @@ bar and select the amendment option you wish to use.</div>
 </div>
 
 </metal:main>
-</div>
-</body>
 
-</html>
+<!--/body>
+</html-->
+
+</metal:block>
 

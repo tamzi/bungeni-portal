@@ -386,3 +386,24 @@ table.listing td, .stx table td {
 #link-presentation {
   display: none;
 }
+
+/*tabs*/
+h4.tabberHeading {
+  display: none;
+}
+
+#tabber-block .documentFirstHeading{
+  margin-top: 2em;
+}
+
+.section-reference-material #portal-column-two{
+  display: none;
+}
+
+.section-how-we-work #portal-column-two{
+  display: none;
+}
+
+.section-have-your-say #portal-column-two{
+  display: none;
+}

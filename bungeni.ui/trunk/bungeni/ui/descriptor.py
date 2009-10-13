@@ -1087,7 +1087,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               edit_widget=OneTimeEditWidget, ),    
         dict( name="receive_notification", 
               label=_(u"Receive notification"), 
-              description=_(u"Select this option to receive notifications for this motion."), 
+              description=_(u"Select this option to receive notifications for this item."), 
               listing=False, 
               omit=False ),  
         dict( name="type", 

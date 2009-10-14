@@ -206,7 +206,7 @@ mapper( domain.GroupSitting, schema.sittings,
                                lazy=True ),  
             'start_date' :  column_property(schema.sittings.c.start_date.label('start_date')), 
             'end_date' :  column_property(schema.sittings.c.end_date.label('end_date')), 
-            'item_schedule' : relation(domain.ItemSchedule,order_by=schema.items_schedule.c.planned_order ),                                            
+            'item_schedule' : relation(domain.ItemSchedule, order_by=schema.items_schedule.c.planned_order),                                            
             })
 
 mapper( domain.ResourceType, schema.resource_types )

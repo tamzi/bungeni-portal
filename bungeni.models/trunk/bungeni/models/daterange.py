@@ -11,24 +11,28 @@ def between(column):
             sql.bindparam("end_date") == None),
         )
 
-bill_filter = sql.or_(
+def bill_filter(): 
+    return sql.or_(
     between(domain.Bill.submission_date),
     between(domain.Bill.publication_date)
     )
 
-motion_filter = sql.or_(
+def motion_filter():
+    return sql.or_(
     between(domain.Motion.submission_date),
     between(domain.Motion.notice_date),
     between(domain.Motion.approval_date),
     )
 
-question_filter = sql.or_(
+def question_filter():
+    return sql.or_(
     between(domain.Question.submission_date),
     between(domain.Question.ministry_submit_date),
     between(domain.Question.approval_date),
     )
 
-group_filter = sql.or_(
+def group_filter():
+    return sql.or_(
     domain.Group.start_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
     domain.Group.end_date.between(
@@ -43,7 +47,8 @@ group_filter = sql.or_(
     )    
             
     
-group_membership_filter  =  sql.or_(
+def group_membership_filter():
+    return sql.or_(
     domain.GroupMembership.start_date.between(
             sql.bindparam("start_date"), sql.bindparam("end_date")),
     domain.GroupMembership.end_date.between(
@@ -60,7 +65,8 @@ group_membership_filter  =  sql.or_(
     )     
     
     
-session_filter = sql.or_(
+def session_filter():
+    return sql.or_(
     domain.ParliamentSession.start_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
     domain.ParliamentSession.end_date.between(
@@ -75,7 +81,8 @@ session_filter = sql.or_(
     )       
     
     
-sitting_filter = sql.or_(
+def sitting_filter():
+    return sql.or_(
     domain.GroupSitting.start_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
     domain.GroupSitting.end_date.between(

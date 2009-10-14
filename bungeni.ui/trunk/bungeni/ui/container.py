@@ -76,7 +76,7 @@ def get_query(context, request):
         if end_date is None:
             end_date = datetime.date(2100,1,1)  
         if date_range_filter is not None:
-            query = query.filter(date_range_filter).params(
+            query = query.filter(date_range_filter()).params(
                 start_date=start_date, end_date=end_date)
 
     return query

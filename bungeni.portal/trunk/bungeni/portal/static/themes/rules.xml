@@ -6,9 +6,11 @@
   <match path="exact:/front-page"
          class="frontpage" />
   <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])+(/)?(view)?$"
- 	 class="workspace-committee" />  
+ 	 class="workspace-committee" />
   <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
- 	 class="workspace-committee" />    
+ 	 class="workspace-committee" />
+   <match path="regex:.*/calendar$"
+ 	 class="calendar-links" />
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />
@@ -128,9 +130,12 @@
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    
     <append content="#kss-spinner"
             theme="#portal-columns" />    
+   </rule>
+
+  <rule class="calendar-links">
+    <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    
    </rule>
   
   

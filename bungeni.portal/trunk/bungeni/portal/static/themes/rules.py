@@ -28,14 +28,14 @@ def nextprev_links(content, theme, resource_fetcher, log):
     """
     Modify calendar 'next and 'previous' links so that the page refreshes.
     """
-    calendar_next_link_node = theme('.next-link')
-    calendar_previous_link_node = theme('.previous-link') \
+    calendar_next_link_node = content('.next-link')
+    calendar_previous_link_node = content('.previous-link') \
                                
     if calendar_next_link_node:
-        calendar_next_link_node.replaceWith('<a class="navigation next-link" onClick="document.location=&#39;' + str(theme('.next-link').attr('href'))  + '&#39;">&#8594;</a>')
+        calendar_next_link_node.replaceWith('<a class="navigation next-link" onClick="document.location=&#39;' + str(content('.next-link').attr('href'))  + '&#39;">&#8594;</a>')
         
     if calendar_previous_link_node:
-        calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(theme('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')    
+        calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(content('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')    
 
    
 

@@ -128,11 +128,8 @@ class SittingDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        session = Session()
-        group = session.query(domain.Group).selectone_by(
-            group_id=self.context.group_id)
         return _(u"Sitting scheduled for '$group' ($start to $end).",
-                 mapping={'group': group.short_name,
+                 mapping={'group': self.context.group.short_name,
                           'start': self.context.start_date,
                           'end': self.context.end_date})
 

@@ -12,9 +12,10 @@ from zope import lifecycleevent
 
 from ore.workflow.interfaces import IWorkflowInfo
 from ore.alchemist.interfaces import IRelationChange
+from ore.alchemist import Session
 from sqlalchemy import orm
 
-from bungeni.models import schema
+from bungeni.models import schema, domain
 from bungeni.core import interfaces, dc
 
 from i18n import _ 
@@ -77,8 +78,9 @@ def objectContained( ob, event):
     
 class AuditorFactory( object ):
 
-    def __init__( self, change_table ):
+    def __init__( self, change_table, change_object ):
         self.change_table = change_table
+        self.change_object = change_object
 
     def objectContained( self, object, event):
         self._objectChanged(event.cls, object, event.description )
@@ -140,17 +142,28 @@ class AuditorFactory( object ):
     def _objectChanged( self, change_kind, object, description=u'' ):
         oid, otype = self._getKey( object )
         user_id = self._getCurrentUserId()
-
-        statement = self.change_table.insert(
-            values = dict( action = change_kind,
-                           date = datetime.now(),
-                           user_id = user_id,
-                           description = description,
-                           content_type = otype,
-                           content_id = oid )
-            )
-        value = statement.execute()
-        return value.last_inserted_ids()[0]
+        #statement = self.change_table.insert(
+        #    values = dict( action = change_kind,
+        #                   date = datetime.now(),
+        #                   user_id = user_id,
+        #                   description = description,
+        #                   content_type = otype,
+        #                   content_id = oid )
+        #    )
+        #value = statement.execute()
+        #return value.last_inserted_ids()[0]
+        session = Session()
+        change = self.change_object()
+        change.action = change_kind
+        change.date = datetime.now()
+        change.user_id = user_id
+        change.description = description
+        change.content_type = otype
+        change.origin = object
+        session.add(change)
+        session.flush()
+        return content.change_id
+        
         
     def _getKey( self, ob ):
         mapper = orm.object_mapper( ob )
@@ -164,12 +177,12 @@ class AuditorFactory( object ):
                 return participation.principal.id
         raise RuntimeError(_("No IRequest in interaction"))    
 
-BillAuditor = AuditorFactory( schema.bill_changes )
-MotionAuditor = AuditorFactory( schema.motion_changes )
-QuestionAuditor = AuditorFactory( schema.question_changes )
-ResponseAuditor =  AuditorFactory( schema.response_changes )
+BillAuditor = AuditorFactory( schema.bill_changes, domain.BillChange )
+MotionAuditor = AuditorFactory( schema.motion_changes, domain.MotionChange )
+QuestionAuditor = AuditorFactory( schema.question_changes, domain.QuestionChange )
+ResponseAuditor =  AuditorFactory( schema.response_changes, domain.ResponseChange )
 
-AgendaItemAuditor =  AuditorFactory( schema.agenda_item_changes )
-TabledDocumentAuditor =  AuditorFactory( schema.tabled_document_changes )
+AgendaItemAuditor =  AuditorFactory( schema.agenda_item_changes, domain.AgendaItemChange )
+TabledDocumentAuditor =  AuditorFactory( schema.tabled_document_changes, domain.TabledDocumentChange )
 
 

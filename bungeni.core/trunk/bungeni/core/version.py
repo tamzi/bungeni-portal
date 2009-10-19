@@ -134,7 +134,7 @@ class ContentVersionsFactory( object ):
         mapper = orm.object_mapper( trusted_ctx )
         pk_value = mapper.primary_key_from_instance( trusted_ctx )[0]
         versions.setQueryModifier(
-            content_version_class.c[ "content_id" ] == pk_value)
+            getattr(content_version_class, "content_id") == pk_value)
         versions.__parent__ = context
         versions.__name__ = 'versions'
         return versions

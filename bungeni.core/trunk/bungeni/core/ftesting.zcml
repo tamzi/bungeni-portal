@@ -40,8 +40,8 @@
   
   <!-- App configuration -->
   
-  <include package="bungeni.core" file="roles.zcml" />  
-  <include package="bungeni.core" file="permissions.zcml" />  
+  <include package="bungeni.models" file="roles.zcml" />  
+  <include package="bungeni.models" file="permissions.zcml" />  
   <include package="bungeni.core.workflows" file="grants.zcml" />  
   <include package="bungeni.core.workflows" file="permissions.zcml" />
 

@@ -75,7 +75,7 @@ def get_sitting_items(sitting, request, include_actions=False):
 
     schedulings = map(
         removeSecurityProxy,
-        sitting.items.batch(order_by=("planned_order",), limit=None))
+        sitting.items.batch(order_by="planned_order", limit=None))
 
     for scheduling in schedulings:
         item = ProxyFactory(location_wrapped(scheduling.item, sitting))

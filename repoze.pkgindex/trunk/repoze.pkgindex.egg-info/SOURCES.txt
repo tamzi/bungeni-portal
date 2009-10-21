@@ -1,0 +1,16 @@
+README.txt
+setup.cfg
+setup.py
+repoze/__init__.py
+repoze.pkgindex.egg-info/PKG-INFO
+repoze.pkgindex.egg-info/SOURCES.txt
+repoze.pkgindex.egg-info/dependency_links.txt
+repoze.pkgindex.egg-info/entry_points.txt
+repoze.pkgindex.egg-info/namespace_packages.txt
+repoze.pkgindex.egg-info/not-zip-safe
+repoze.pkgindex.egg-info/requires.txt
+repoze.pkgindex.egg-info/top_level.txt
+repoze/pkgindex/__init__.py
+repoze/pkgindex/models.py
+repoze/pkgindex/run.py
+repoze/pkgindex/views.py

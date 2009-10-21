@@ -1,0 +1,15 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+     xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+</head>
+
+<body>
+  <h1>Index</h1>
+  <ul>
+    
+    <li tal:repeat="(name, url) items">
+      <a href="${url}">${name}</a>
+    </li>
+  </ul>
+</body>
+</html>

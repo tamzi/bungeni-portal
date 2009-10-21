@@ -1,0 +1,23 @@
+<configure 
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:bfg="http://namespaces.repoze.org/bfg"
+	           i18n_domain="repoze.bfg">
+
+  <include package="zope.component" file="meta.zcml" />
+  <include package="repoze.bfg.includes" />
+
+  <!-- default views: publisher will call these -->
+  
+  <bfg:view
+     for=".models.Package"
+     view=".views.static_view"
+     permission="repoze.view"
+     />
+  
+  <bfg:view
+     for=".models.IDirectory"
+     view=".views.directory_view"
+     permission="repoze.view"
+     />
+
+</configure>

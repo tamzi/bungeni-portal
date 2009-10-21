@@ -162,7 +162,7 @@ class AuditorFactory( object ):
         change.origin = object
         session.add(change)
         session.flush()
-        return content.change_id
+        return change.change_id
         
         
     def _getKey( self, ob ):

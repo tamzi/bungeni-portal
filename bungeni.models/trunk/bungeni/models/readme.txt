@@ -278,6 +278,7 @@ A parliamentary Session
  >>> sess = model.ParliamentSession()
  >>> sess.parliament_id = parliament.parliament_id
  >>> sess.short_name = u"First Session"
+ >>> sess.full_name = u"First Session XXXX"
  >>> sess.start_date = datetime.datetime.now()
  >>> sess.end_date = datetime.datetime.now()
  >>> session.add(sess)

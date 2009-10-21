@@ -1,3 +1,0 @@
-setuptools
-repoze.bfg
-zope.security

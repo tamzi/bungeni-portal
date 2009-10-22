@@ -793,8 +793,12 @@ committee_reports = ()
 consignatories = rdb.Table(
    "consignatories",
    metadata,
-   rdb.Column( "item_id", rdb.Integer,rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), nullable = False, primary_key=True ),
-   rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False, primary_key=True ),
+   rdb.Column( "item_id", rdb.Integer,
+        rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
+        nullable = False, primary_key=True ),
+   rdb.Column( "user_id", rdb.Integer, 
+        rdb.ForeignKey('users.user_id'), 
+        nullable = False, primary_key=True ),
     )
 
 

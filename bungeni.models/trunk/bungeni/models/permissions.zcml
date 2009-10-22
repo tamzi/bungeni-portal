@@ -180,4 +180,8 @@
   <permission id="bungeni.comment.Edit" title="Add and edit comments" />
   <permission id="bungeni.comment.View" title="View comments" />  
 
+  <permission id="bungeni.agenda.View" title="View Agenda" />
+  <permission id="bungeni.minutes.View" title="View 'Votes and Proceedings'" />
+
+
 </configure>

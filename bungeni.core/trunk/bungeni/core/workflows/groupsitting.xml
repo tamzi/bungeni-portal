@@ -8,14 +8,34 @@
   <state id="draft" title="Draft">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.sitting.Delete" role="bungeni.Owner" />
+    <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
+    <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />  
+    
+    <deny permission="bungeni.minutes.View" role="bungeni.Clerk" />
+    <deny permission="bungeni.minutes.View" role="bungeni.Speaker" />         
   </state>
   
   <state id="scheduled" title="Scheduled">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.agenda.View" role="bungeni.MP" />    
+    <grant permission="bungeni.agenda.View" role="bungeni.Everybody" />    
+    <grant permission="bungeni.agenda.View" role="bungeni.Anybody" />   
+    
+    <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
+    <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />      
   </state>
 
   <state id="published" title="Published">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.agenda.View" role="bungeni.Clerk" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.Speaker" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.MP" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.Everybody" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.Anybody" />      
+    
+    <grant permission="bungeni.minutes.View" role="bungeni.MP" />    
+    <grant permission="bungeni.minutes.View" role="bungeni.Everybody" />    
+    <grant permission="bungeni.minutes.View" role="bungeni.Anybody" />                   
   </state>
 
   <transition

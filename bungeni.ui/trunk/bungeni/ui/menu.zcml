@@ -458,7 +458,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Agenda..."
      action="agenda"
-     permission="zope.View"
+     permission="bungeni.agenda.View"
      />
 
   <browser:menuItem
@@ -466,7 +466,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Votes and proceedings..."
      action="votes-and-proceedings"
-     permission="zope.View"
+     permission="bungeni.minutes.View"
      />
 
   <browser:menuItem
@@ -487,7 +487,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Agenda..."
      action="agenda"
-     permission="zope.View"
+     permission="bungeni.agenda.View"
      />
 
   <browser:menuItem
@@ -495,7 +495,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Votes and proceedings..."
      action="votes-and-proceedings"
-     permission="zope.View"
+     permission="bungeni.minutes.View"
      />
 
   <!-- submenu adapters -->

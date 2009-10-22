@@ -9,8 +9,10 @@
  	 class="workspace-committee" />
   <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
  	 class="workspace-committee" />
-   <match path="regex:.*/calendar$"
+  <match path="regex:.*/calendar$"
  	 class="calendar-links" />
+  <match path="regex:.*/presentation_view$"
+ 	 class="presentation-view" />   
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
   <match path="/business/"  class="load-business-navigation" />
@@ -137,10 +139,14 @@
   <rule class="calendar-links">
     <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    
    </rule>
-  
-  
 
-  <rule class="frontpage">
+  <rule class="presentation-view">
+    <!--body-->
+    <replace content="body"
+             theme="body" />    
+   </rule>    
+  
+   <rule class="frontpage">
     <!-- header-->
     <replace content="#portal-logo" theme="#portal-logo" />
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
@@ -196,7 +202,8 @@
     <prepend href="/bungeni"
             theme="//head"
             content="//head" />    
-   </rule>  
+   </rule>
+
 
   <rule class="primary">
     <drop theme=".workspace-tab"

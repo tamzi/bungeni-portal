@@ -37,8 +37,6 @@
                             receive_notification
                             owner_id
                             note" />    
-    <!--require permission="bungeni.edit.historical"
-            attributes="" /-->
     <require permission="bungeni.edit.historical"
             set_attributes="parliament_id
                             status

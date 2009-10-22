@@ -120,7 +120,7 @@ class Group( Entity ):
     interface.implements( interfaces.IBungeniGroup )
 
     users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
-    sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
+    #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     
     
 class GroupMembership( Entity ):

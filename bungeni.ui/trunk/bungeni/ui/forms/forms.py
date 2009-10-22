@@ -140,8 +140,11 @@ class ItemScheduleReorderForm(PageForm):
         mode = data['mode']
         container = self.context.__parent__
         name = self.context.__name__
-        schedulings = container.batch(order_by=("planned_order",), limit=None)
+        schedulings = container.batch(order_by="planned_order", limit=None)
         ordering = [scheduling.__name__ for scheduling in schedulings]
+        for i in range(1,len(ordering)):
+            container[ordering[i-1]].planned_order = i
+            
         index = ordering.index(name)
         category = self.context.category
 
@@ -150,35 +153,32 @@ class ItemScheduleReorderForm(PageForm):
         if mode == 'up' and index > 0:
             # if this item has a category assigned, and there's an
             # item after it, swap categories with it
-            if category and index < len(ordering) - 1:
+            if category and index < len(ordering)-1:
                 next = container[ordering[index+1]]
                 next.category_id = self.context.category_id
                 self.context.category_id = None
             # else we exchange planned order with the item immediately
             # before us;
             elif category:
-                self.context.category_id = None
+                self.context.category_id = None                
+            prev = container[ordering[index-1]]
+            planned_order = self.context.planned_order
+            self.context.planned_order = prev.planned_order
+            prev.planned_order = planned_order
+            swap_category_with = prev
+
+        if mode == 'down' and index < len(ordering) - 1:            
+            next = container[ordering[index+1]]
+            # if next item has a category, swap, reset and skip
+            # reordering
+            if next.category_id is not None:
+                self.context.category_id = next.category_id
+                next.category_id = None
             else:
-                prev = container[ordering[index-1]]
                 planned_order = self.context.planned_order
-                self.context.planned_order = prev.planned_order
-                prev.planned_order = planned_order
-                swap_category_with = prev
-
-        if mode == 'down':
-            if index < len(ordering) - 1:
-                next = container[ordering[index+1]]
-
-                # if next item has a category, swap, reset and skip
-                # reordering
-                if next.category_id is not None:
-                    self.context.category_id = next.category_id
-                    next.category_id = None
-                else:
-                    planned_order = self.context.planned_order
-                    self.context.planned_order = next.planned_order
-                    next.planned_order = planned_order
-                    swap_category_with = next
+                self.context.planned_order = next.planned_order
+                next.planned_order = planned_order
+                swap_category_with = next
 
         if swap_category_with is not None:
             category_id = self.context.category_id

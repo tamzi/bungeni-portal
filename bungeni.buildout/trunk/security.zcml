@@ -101,12 +101,7 @@
   <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.agendaitem.View" role="bungeni.Owner" />    
-  
-  <grant permission="bungeni.response.Add" role="bungeni.Minister" />
-  <grant permission="bungeni.response.Add" role="bungeni.Clerk" />    
-  <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
-  
-     
+      
   <grant permission="bungeni.parliament.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
@@ -156,5 +151,9 @@ should be defined by workflow not static here ! -->
   <grant permission="bungeni.comment.Edit" role="bungeni.Everybody" />
   <grant permission="bungeni.comment.View" role="bungeni.Everybody" />  
 
+  <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
+  <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />   
+  <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
+  <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />   
   
 </configure>

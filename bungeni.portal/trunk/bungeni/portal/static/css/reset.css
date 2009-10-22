@@ -383,9 +383,6 @@ table.listing td, .stx table td {
 }
 
 /*hide presentatiton mode link*/
-#link-presentation {
-  display: none;
-}
 
 /*tabs*/
 h4.tabberHeading {
@@ -406,4 +403,8 @@ h4.tabberHeading {
 
 .section-have-your-say #portal-column-two{
   display: none;
+}
+
+div#footer {
+  background: none;
 }

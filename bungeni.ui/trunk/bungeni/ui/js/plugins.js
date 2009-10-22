@@ -224,32 +224,17 @@
         
         var mode = null;
         var row = link.parents("tr").eq(0);
-        
-        // manipulate dom to move row up or down
-        switch ($(this).attr("rel")) {
-        case "move-scheduling-up":
-          var next = row.next();
-          if (row.prev().is('.category') && (next.is('.category') || next.length == 0))
-            row.prev().remove();
-          
-          var element = row.prev('not:(.category)');
-          if (!element) return false;
-          element.insertAfter(row);
-          mode = 'up';
-          break;
-        case "move-scheduling-down":
-          if (row.next().is('.category') && row.prev().is('.category'))
-            row.prev('.category').remove();
-          var element = row.next('not:(.category)');
-          if (!element) return false;
-          element.insertBefore(row);
-          mode = 'down';
-          break
-        default:
-            return true;
-        }
-
+        var direction = link.attr("rel");
         var url = link.attr('href');
+        switch (direction) {
+            case "move-scheduling-up":
+                mode = 'up';
+                break;
+            case "move-scheduling-down":
+                mode = 'down';
+                break            
+            };
+            
         var data = {
           "headless": 'true',
           "mode": mode,
@@ -259,7 +244,30 @@
         $.post(url, data, function(data, status) {
             $("#kss-spinner").hide();
             if (status == 'success') {
-              // throw away result
+              // manipulate dom to move row up or down
+                switch (direction) {
+                case "move-scheduling-up":
+                  var next = row.next();
+                  if (row.prev().is('.category') && (next.is('.category') || next.length == 0))
+                    row.prev().remove();
+                  
+                  var element = row.prev('not:(.category)');
+                  if (!element) return false;
+                  element.insertAfter(row);
+                  break;
+                case "move-scheduling-down":
+                  if (row.next().is('.category') && row.prev().is('.category'))
+                    row.prev('.category').remove();
+                  var element = row.next('not:(.category)');
+                  if (!element) return false;
+                  element.insertBefore(row);
+                  break
+                default:
+                    return true;
+                }                            
+            } 
+            else {
+                alert(status);
             }
           });
 

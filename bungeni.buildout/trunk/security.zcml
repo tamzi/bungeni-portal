@@ -145,11 +145,11 @@
 <!-- XXX the permissions to add/edit/view amendments and annotatios 
 should be defined by workflow not static here ! -->  
   
-  <grant permission="bungeni.amendment.Edit" role="bungeni.Everybody" />
+  <!--grant permission="bungeni.amendment.Edit" role="bungeni.Everybody" />
   <grant permission="bungeni.amendment.View" role="bungeni.Everybody" />
   
   <grant permission="bungeni.comment.Edit" role="bungeni.Everybody" />
-  <grant permission="bungeni.comment.View" role="bungeni.Everybody" />  
+  <grant permission="bungeni.comment.View" role="bungeni.Everybody" /-->  
 
   <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
   <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />   

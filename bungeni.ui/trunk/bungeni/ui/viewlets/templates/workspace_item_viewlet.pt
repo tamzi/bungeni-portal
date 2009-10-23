@@ -4,8 +4,7 @@
 
   <dl class="portlet workspace-viewlet listing"
       tal:define="results view/getData"
-      tal:attributes="id string:workspace-viewlet-${view/list_id}"
-      tal:condition="results">
+      tal:attributes="id string:workspace-viewlet-${view/list_id}">
 
     <dt class="portletHeader">
       <span i18n:translate="" tal:content="view/name" />

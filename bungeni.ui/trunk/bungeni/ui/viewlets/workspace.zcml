@@ -132,6 +132,20 @@
      weight="10"
      />
 
+  <browser:viewlet
+     name="bungeni.workspace.draft-bill.clerk"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.DraftBillViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="20"
+     />
+
+
+
+
+
   <!--browser:viewlet
      name="bungeni.workspace.questions-submitted.clerk"
      for="*"

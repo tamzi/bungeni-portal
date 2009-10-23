@@ -51,7 +51,7 @@
      class=".workspace.MPItemArchiveViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="40"
+     weight="50"
      />       
   
    <!--browser:viewlet
@@ -112,7 +112,7 @@
      class=".workspace.MyGroupsViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="80"
+     weight="40"
      />   
 
 

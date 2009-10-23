@@ -182,7 +182,8 @@ class MyGroupsViewlet( ViewletBase ):
         user_id = self._parent.user_id    
         parliament_id = self._parent.context.parliament_id
         group_ids = self._parent.user_group_ids
-        gfilter = domain.Group.group_id.in_(group_ids)
+        gfilter = sql.and_(domain.Group.group_id.in_(group_ids),
+                            domain.Group.status == 'active')
         groups = session.query(domain.Group).filter(gfilter)
         self.query = groups            
 
@@ -464,12 +465,12 @@ class BillItemsViewlet( ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'b_' + str(result.bill_id) )                         
-            data['subject'] = u'B ' + result.short_name
+            data['subject'] = result.short_name
             data['title'] = result.short_name
             data['result_item_class'] = ('workflow-state-' + 
-                result.status  + 
-                'sc-after-' + 
-                datetime.date.strftime(result.publication_date, '%Y-%m-%d'))
+                result.status )
+            data['url'] = '/business/%ss/obj-%i' %(result.type, 
+                            result.parliamentary_item_id)                
             data_list.append(data)            
         return data_list
     
@@ -491,6 +492,20 @@ class BillItemsViewlet( ViewletBase ):
                                                                                 bill_wf_state[u"third_reading_postponed"].id ]
                                                                                 ))
         self.query = bills            
+
+class DraftBillViewlet(BillItemsViewlet):
+    name  = u"Bills"
+    list_id = "draft_bills"
+
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"draft"].id]
+                                                                                ))
+        self.query = bills            
+
 
 
 class ItemInStageViewlet( ViewletBase ):

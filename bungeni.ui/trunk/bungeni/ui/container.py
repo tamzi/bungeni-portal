@@ -166,12 +166,6 @@ class ContainerJSONListing( BrowserView ):
     paging, batching, sorting, json contents of a container
     """
     
-    
-    def appendSort( self, sort_key, columns):
-        domain_model = proxy.removeSecurityProxy(self.context.domain_model)
-        if sort_key and ( sort_key in columns ):
-            column = domain_model.c[sort_key]
-            return column
             
     def _get_field_filters_and_operator(self, field_filter):
         field_filters = field_filter.strip().split(' ')
@@ -284,6 +278,10 @@ class ContainerJSONListing( BrowserView ):
         default_sort = None
         sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
         domain_model = proxy.removeSecurityProxy( self.context.domain_model )
+        table = orm.class_mapper(domain_model).mapped_table
+        utk = {}
+        for k in table.columns.keys():
+            utk[table.columns[k].key] = k        
         # in the domain model you may replace the sort with another column
         if sort_key:
             sort_key = sort_key[5:]
@@ -291,11 +289,11 @@ class ContainerJSONListing( BrowserView ):
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():
                 sort_keys = domain_model.sort_replace[sort_key] 
-            elif sort_key and ( sort_key in domain_model.c ):
-                sort_keys = [sort_key, ]   
+            elif sort_key and ( sort_key in utk.keys() ):
+                sort_keys = [str(table.columns[utk[sort_key]]), ]   
         else:
-            if sort_key and ( sort_key in domain_model.c ):
-                sort_keys = [sort_key, ]        
+            if sort_key and ( sort_key in utk.keys() ):
+                sort_keys = [str(table.columns[utk[sort_key]]), ]       
         for sort_key in sort_keys:                    
             if sort_dir == 'desc':
                 columns.append( sql.desc(sort_key) )

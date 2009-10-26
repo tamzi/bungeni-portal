@@ -37,7 +37,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
     data_view ="/@@jsonlisting"
     prefix = "listing"
     
-    def getFields( self ):
+    def getFields( self ):        
         return container.getFields( self.context )
 
     def getFieldColumns( self ):

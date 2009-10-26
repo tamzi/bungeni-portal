@@ -253,23 +253,21 @@ class AddForm(BaseForm, ui.AddForm):
             adapts : ob
             }
 
-    @form.action(_(u"Save"), condition=form.haveInputWidgets)
+    @form.action(_(u"Save and view"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data):
-        """After succesful content creation, redirect to the content listing."""
-
-        self.createAndAdd(data)
+        ob = self.createAndAdd(data)
         name = self.context.domain_model.__name__
 
         if not self._next_url:
             self._next_url = absoluteURL(
-                self.context, self.request) + \
+                ob, self.request) + \
                 '?portal_status_message=%s added' % name
         
     @form.action(_(u"Cancel"), validator=null_validator )
     def handle_cancel( self, action, data ):
         """Cancelling redirects to the listing."""
 
-    @form.action(_(u"Save and continue editing"),
+    @form.action(_(u"Save"),
                  condition=form.haveInputWidgets, validator='validateAdd')
     def handle_add_edit( self, action, data ):
         ob = self.createAndAdd( data )

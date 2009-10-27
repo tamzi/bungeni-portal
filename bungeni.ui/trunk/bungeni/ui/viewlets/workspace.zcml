@@ -249,6 +249,18 @@
      weight="10"
      />    
      
+  <browser:viewlet
+     name="bungeni.workspace.items-approved"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ItemsApprovedViewlet"
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"
+     permission="zope.View"
+     weight="20"
+     />  
+     
+     
+     
   <!-- Ministers workspace -->
 
   <browser:viewlet

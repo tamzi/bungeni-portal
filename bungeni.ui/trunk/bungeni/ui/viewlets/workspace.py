@@ -749,14 +749,20 @@ class ItemsCompleteViewlet( AllItemsInStageViewlet ):
         question_wf_state[u"complete"].id,  
         motion_wf_state[u"complete"].id,
         agendaitem_wf_state[u"complete"].id,
-        tableddocument_wf_state[u"complete"].id,    
+        tableddocument_wf_state[u"complete"].id,                                     
+    ]
+    list_id = "items-action-required"
+
+class ItemsApprovedViewlet( AllItemsInStageViewlet ): 
+    name = "approved items"
+    states = [   
         question_wf_state[u"admissible"].id,  
         motion_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"admissible"].id,                                   
+        
     ]
-    list_id = "items-action-required"
-
+    list_id = "items-approved"
 
 class MinistryItemsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/ministry_ws_viewlet.pt')

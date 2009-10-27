@@ -10,7 +10,8 @@
     <grant permission="bungeni.sitting.Delete" role="bungeni.Owner" />
     <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
     <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />  
-    
+    <grant permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
+    <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />    
     <deny permission="bungeni.minutes.View" role="bungeni.Clerk" />
     <deny permission="bungeni.minutes.View" role="bungeni.Speaker" />         
   </state>
@@ -21,7 +22,9 @@
     <grant permission="bungeni.agenda.View" role="bungeni.Everybody" />    
     <grant permission="bungeni.agenda.View" role="bungeni.Anybody" />   
     <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
-    <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />               
+    <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />     
+    <deny permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
+    <deny permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />                  
   </state>
 
   <state id="draft-minutes" title="Draft Minutes">
@@ -36,10 +39,14 @@
     
     <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
     <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />     
+    <grant permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Speaker" />      
     
     <deny permission="bungeni.minutes.View" role="bungeni.MP" />    
     <deny permission="bungeni.minutes.View" role="bungeni.Everybody" />    
-    <deny permission="bungeni.minutes.View" role="bungeni.Anybody" />                   
+    <deny permission="bungeni.minutes.View" role="bungeni.Anybody" />   
+    <grant permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
+    <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />                        
   </state>
   
 
@@ -52,10 +59,15 @@
     <deny permission="bungeni.agenda.View" role="bungeni.MP" />    
     <deny permission="bungeni.agenda.View" role="bungeni.Everybody" />    
     <deny permission="bungeni.agenda.View" role="bungeni.Anybody" />      
+
+    <deny permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Speaker" />   
     
     <grant permission="bungeni.minutes.View" role="bungeni.MP" />    
     <grant permission="bungeni.minutes.View" role="bungeni.Everybody" />    
-    <grant permission="bungeni.minutes.View" role="bungeni.Anybody" />                   
+    <grant permission="bungeni.minutes.View" role="bungeni.Anybody" />     
+    <deny permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
+    <deny permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />                      
   </state>
 
   <transition
@@ -66,7 +78,6 @@
      destination="draft-agenda"
      action=""
      condition=""
-     permission="bungeni.sitting.ChangeStatus"     
      />
   
   <transition

@@ -5,7 +5,7 @@
    description="Workflow for a group-sitting."
    initial_state="">
 
-  <state id="draft" title="Draft">
+  <state id="draft-agenda" title="Draft Agenda">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.sitting.Delete" role="bungeni.Owner" />
     <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
@@ -15,18 +15,38 @@
     <deny permission="bungeni.minutes.View" role="bungeni.Speaker" />         
   </state>
   
-  <state id="scheduled" title="Scheduled">
+  <state id="published-agenda" title="Published Agenda">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.agenda.View" role="bungeni.MP" />    
     <grant permission="bungeni.agenda.View" role="bungeni.Everybody" />    
     <grant permission="bungeni.agenda.View" role="bungeni.Anybody" />   
-    
-    <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
-    <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />      
+    <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
+    <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />               
   </state>
 
-  <state id="published" title="Published">
+  <state id="draft-minutes" title="Draft Minutes">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.sitting.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.sitting.Edit" role="bungeni.Speaker" />        
+    <deny permission="bungeni.agenda.View" role="bungeni.Clerk" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.Speaker" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.MP" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.Everybody" />    
+    <deny permission="bungeni.agenda.View" role="bungeni.Anybody" />      
+    
+    <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
+    <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />     
+    
+    <deny permission="bungeni.minutes.View" role="bungeni.MP" />    
+    <deny permission="bungeni.minutes.View" role="bungeni.Everybody" />    
+    <deny permission="bungeni.minutes.View" role="bungeni.Anybody" />                   
+  </state>
+  
+
+  <state id="published-minutes" title="Published Minutes">
+    <deny permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.sitting.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.sitting.Edit" role="bungeni.speaker" />    
     <deny permission="bungeni.agenda.View" role="bungeni.Clerk" />    
     <deny permission="bungeni.agenda.View" role="bungeni.Speaker" />    
     <deny permission="bungeni.agenda.View" role="bungeni.MP" />    
@@ -43,32 +63,74 @@
      title="Create"
      trigger="automatic"
      source=""
-     destination="draft"
+     destination="draft-agenda"
      action=""
      condition=""
+     permission="bungeni.sitting.ChangeStatus"     
      />
   
   <transition
-     id="schedule"
-     title="Schedule"
+     id="publish-agenda"
+     title="Publish Agenda"
      trigger="manual"
-     source="draft"
-     destination="scheduled"
+     source="draft-agenda"
+     destination="published-agenda"
      action=""
      condition=""
-     require_confirmation="true"
+     require_confirmation="false"
+     permission="bungeni.sitting.ChangeStatus"     
      />
   
   <transition
-     id="publish"
-     title="Publish"
+     id="redraft-agenda"
+     title="Redraft Agenda"
      trigger="manual"
-     source="scheduled"
-     destination="published"
+     source="published-agenda"
+     destination="draft-agenda"
      action=""
      condition=""
+     permission="bungeni.sitting.ChangeStatus"          
      require_confirmation="true"
      />
+
+  <transition
+     id="draft-minutes"
+     title="Draft Minutes"
+     trigger="manual"
+     source="published-agenda"
+     destination="draft-minutes"
+     action=""
+     condition=""
+     permission="bungeni.sitting.ChangeStatus"          
+     require_confirmation="false"
+     />
+
+  <transition
+     id="publish-minutes"
+     title="Publish Minutes"
+     trigger="manual"
+     source="draft-minutes"
+     destination="published-minutes"
+     action=""
+     condition=""
+     permission="bungeni.sitting.ChangeStatus"          
+     require_confirmation="false"
+     />         
+
+  <transition
+     id="redraft-minutes"
+     title="Redraft Minutes"
+     trigger="manual"
+     source="published-minutes"
+     destination="draft-minutes"
+     action=""
+     condition=""
+     permission="bungeni.sitting.ChangeStatus"          
+     require_confirmation="true"
+     />
+                 
+  
+  
 
 </workflow>
 

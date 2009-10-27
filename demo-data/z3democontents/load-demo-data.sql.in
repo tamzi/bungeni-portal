@@ -118,7 +118,7 @@ from '%(directory)s/data/demodata/sittings.csv'
 csv;
 
 
-UPDATE public.group_sittings SET status = 'draft';
+UPDATE public.group_sittings SET status = 'draft-agenda';
 
 copy public.attendance_type( attendance_id, attendance_type)
 from '%(directory)s/data/demodata/attendance_type.csv'

@@ -29,6 +29,7 @@
   <permission id="bungeni.bill.SelectCommittee" title="Assign a bill to a committee" />
   <permission id="bungeni.bill.ChangeStatus" title="Reject/Approve a bill" />
   <permission id="bungeni.bill.Withdraw" title="Withdraw a bill" />
+  <permission id="bungeni.bill.RevertTransitions" title="Revert a transition back to an earlier stage" />  
   <!-- Group Workflow Permissions -->
   <permission id="bungeni.group.Manage" title="Manage Bungeni groups" />
   <!-- Address Workflow Permissions -->
@@ -49,5 +50,7 @@
   <permission id="bungeni.tableddocument.Schedule" title="Schedule a tableddocument" />
   <permission id="bungeni.tableddocument.Debate" title="Mark a tableddocument as debated" />
   <permission id="bungeni.tableddocument.Withdraw" title="Withdraw a tableddocument" />    
+  
+  <permission id="bungeni.sitting.ChangeStatus" title="Change Sitting Status" />       
   
 </configure>

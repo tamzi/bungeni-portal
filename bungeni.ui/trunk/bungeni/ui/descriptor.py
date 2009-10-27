@@ -1276,7 +1276,7 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
              listing = False,),
 
         dict( name="summary", 
-                label=_(u"Summary"), 
+                label=_(u"Statements of Purpose"), 
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 
                 add_widget=RichTextEditor,

@@ -224,7 +224,9 @@
         
         var mode = null;
         var row = link.parents("tr").eq(0);
-        var direction = link.attr("rel");
+        var rel = link.attr("rel");
+        var direction = rel.split('/')[0];
+        var field =  rel.split('/')[1];
         var url = link.attr('href');
         switch (direction) {
             case "move-scheduling-up":
@@ -238,6 +240,7 @@
         var data = {
           "headless": 'true',
           "mode": mode,
+          "field": field,
         };
 
         $("#kss-spinner").show();

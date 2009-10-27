@@ -133,8 +133,9 @@
                      tal:attributes="name item/category_id"
                      tal:content="item/category/short_name" />
                 </td>
-                <td>
+                <td tal:define="discussion_action item/discussion_action;">
                   <form method="POST"
+                        tal:condition="discussion_action"
                         tal:attributes="action string:${item/url}/change_workflow_state">
                     <input type="hidden" name="headless:boolean" value="True" />
                     <select name="transition" class="workflow-status"
@@ -150,11 +151,15 @@
                           tal:content="item/state_title"
                           i18n:translate="" />
                   </form>
+                  <span class="state-title"
+                        tal:condition="not:discussion_action"
+                          tal:content="item/state_title"
+                          i18n:translate="" />
                 </td>
                 <td class="actions">
                   <ul class="actions">
                     <li tal:repeat="action item/actions">
-                      <a tal:attributes="rel action/id;
+                      <a tal:attributes="rel string:${action/id}/${view/reorder_field};
                                          href action/url">
                         <span tal:condition="not: action/icon"
                               tal:replace="action/title" />

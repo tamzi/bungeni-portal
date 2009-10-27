@@ -72,7 +72,8 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        text = "Submitted by %s" % self.context.full_name
+        text = "Submitted by %s" % self.context.owner.first_name + ' ' + \
+               self.context.owner.last_name
 
         if self.context.approval_date:
             text += ' (approved on %s)' % self.context.approval_date

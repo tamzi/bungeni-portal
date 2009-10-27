@@ -115,7 +115,11 @@ class ItemScheduleReorderForm(PageForm):
             ('up', 'down'),
             title=_(u"Direction"),
             required=True)
-
+        field = schema.Choice(
+            ('plannned_order', 'real_order'),
+            title=_(u"AM"),
+            required=True)
+            
     form_fields = form.Fields(IReorderForm)
 
     @form.action(_(u"Move"))
@@ -137,13 +141,14 @@ class ItemScheduleReorderForm(PageForm):
 
         """
 
+        field = data['field']
         mode = data['mode']
         container = self.context.__parent__
         name = self.context.__name__
-        schedulings = container.batch(order_by="planned_order", limit=None)
+        schedulings = container.batch(order_by=field, limit=None)
         ordering = [scheduling.__name__ for scheduling in schedulings]
-        for i in range(1,len(ordering)):
-            container[ordering[i-1]].planned_order = i
+        for i in range(0,len(ordering)):
+            setattr(container[ordering[i]], field, i+1)
             
         index = ordering.index(name)
         category = self.context.category
@@ -162,9 +167,9 @@ class ItemScheduleReorderForm(PageForm):
             elif category:
                 self.context.category_id = None                
             prev = container[ordering[index-1]]
-            planned_order = self.context.planned_order
-            self.context.planned_order = prev.planned_order
-            prev.planned_order = planned_order
+            order = getattr(self.context, field)
+            setattr(self.context, field, getattr(prev, field))
+            setattr(prev, field, order)
             swap_category_with = prev
 
         if mode == 'down' and index < len(ordering) - 1:            
@@ -175,9 +180,9 @@ class ItemScheduleReorderForm(PageForm):
                 self.context.category_id = next.category_id
                 next.category_id = None
             else:
-                planned_order = self.context.planned_order
-                self.context.planned_order = next.planned_order
-                next.planned_order = planned_order
+                order = getattr(self.context, field)
+                setattr(self.context, field, getattr(next, field))
+                setattr(next, field, order)
                 swap_category_with = next
 
         if swap_category_with is not None:

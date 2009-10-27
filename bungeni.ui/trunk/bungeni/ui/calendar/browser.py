@@ -73,9 +73,14 @@ def get_workflow_actions(context, request):
 def get_sitting_items(sitting, request, include_actions=False):
     items = []
 
+    if sitting.status.in_('draft-agenda', 'published-agenda'):
+        order = "planned_order"
+    else:
+        order = "real_order"        
+
     schedulings = map(
         removeSecurityProxy,
-        sitting.items.batch(order_by="planned_order", limit=None))
+        sitting.items.batch(order_by=order, limit=None))
 
     for scheduling in schedulings:
         item = ProxyFactory(location_wrapped(scheduling.item, sitting))
@@ -220,7 +225,15 @@ class CalendarView(BrowserView):
                 gtype = group.type.capitalize()
                                 
             return gtype + ': ' + group.short_name + ' - ' + group.full_name            
-
+    
+    def reorder_field(self):
+        if self.context.status == "draft-agenda":
+            return 'planned_order'
+        elif self.context.status == "draft-minutes": 
+            return 'real_order'            
+        else:
+            return None
+            
     def render(self, date, template=None):
         if template is None:
             template = self.template

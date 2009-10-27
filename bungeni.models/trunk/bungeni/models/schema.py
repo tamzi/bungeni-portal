@@ -679,7 +679,7 @@ agenda_items = rdb.Table(
    rdb.Column( "agenda_item_id", rdb.Integer, 
                 rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
                 primary_key=True ),
-   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),  
+   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), nullable=False),  
    rdb.Column( "approval_date", rdb.Date,),                 
    )
 

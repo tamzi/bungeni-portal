@@ -21,10 +21,8 @@
   <match path="regex:^/(business|members|archive)/?"
          class="bungeni" />
   <match path="/calendar/"  class="load-calendar-navigation" />    
-  <match path="regex:^/(business/questions)/obj-([0-9])+(/audit-log)$"
+  <match path="regex:.*/audit-log$"
  	 class="bungeni-header" />
-  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/questions/obj-([0-9])+(/audit-log)$"
- 	 class="bungeni-header" /> 
   <match path="/"
          class="primary" />
 

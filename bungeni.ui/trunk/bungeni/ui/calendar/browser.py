@@ -626,7 +626,10 @@ class HTMLPreviewPage(ReportingView):
         items = query.all()
         #items.sort(key=operator.attrgetter('start_date'))
         for item in items:
-            item.item_schedule.sort(key=operator.attrgetter('planned_order'))              
+            if self.display_minutes:
+                item.item_schedule.sort(key=operator.attrgetter('real_order'))                              
+            else:
+                item.item_schedule.sort(key=operator.attrgetter('planned_order'))              
         return items
                           
     def update(self):

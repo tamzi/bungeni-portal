@@ -3,8 +3,8 @@
     i18n:translate="" tal:content="view/name">
 </dt>
 
-<dd id="fieldset-..." tal:attributes="id string:fieldset-${view/name}-for-scheduling" >
-    <table class="listing grid" id="items-for-scheduling" tal:condition="view/items"
+<dd id="fieldset-..." tal:attributes="id string:fieldset-${view/name}-for-scheduling" class="items-for-scheduling">
+    <table class="listing grid items-for-scheduling" id="items-for-scheduling" tal:condition="view/items"
         tal:attributes="id string:items-for-scheduling-${view/name}">
           <thead>
             <tr>

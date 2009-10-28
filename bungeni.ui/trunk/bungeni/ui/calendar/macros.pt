@@ -81,7 +81,7 @@
                 <td class="item"
                     tal:define="discussion_action item/discussion_action;
                                 body_text item/discussion/body_text">
-                  <select class="select-heading">
+                  <select class="select-heading" tal:condition="item/actions">
                     <option style="display: none" value="">Select heading...</option>
                     <option tal:repeat="category options/categories"
                             tal:content="category/title"

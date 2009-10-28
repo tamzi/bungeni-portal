@@ -16,8 +16,12 @@
       $("#calendar-table").bungeniSafeResize();
 
       // set up calendar item scheduling (drag and drop)
-      $("#items-for-scheduling tbody tr").bungeniDragAndDropScheduling();
-      
+      $("#items-for-scheduling-bill tbody tr").bungeniDragAndDropScheduling();
+      $("#items-for-scheduling-motion tbody tr").bungeniDragAndDropScheduling();
+      $("#items-for-scheduling-question tbody tr").bungeniDragAndDropScheduling();
+      $("#items-for-scheduling-agendaitem tbody tr").bungeniDragAndDropScheduling();
+      $("#items-for-scheduling-tableddocument tbody tr").bungeniDragAndDropScheduling();
+                              
       // set up calendar ajax
       $('#weekly-calendar').bungeniCalendarInteractivity(true);
       $('#daily-calendar').bungeniCalendarInteractivity(false);

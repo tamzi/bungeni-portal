@@ -5,22 +5,10 @@
     <span class="tile">Scheduling</span>
     <span class="portletTopRight"></span>
   </dt>
-  
+ 
   <dd class="portletItem lastItem">
-    <p>Add items by dragging to schedule.</p>
-
-    <table class="listing grid" id="items-for-scheduling">
-      <thead>
-        <tr>
-          <th>Type name</th>
-          <th>Title</th>
-          <th>Last modified</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr tal:replace="structure provider:bungeni.scheduling" />
-      </tbody>
-    </table>
+    <p>Add items by dragging to schedule.</p>    
+    <div tal:replace="structure provider:bungeni.scheduling" />
   </dd>
-
+  
 </dl>

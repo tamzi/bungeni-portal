@@ -5,10 +5,10 @@
     <span class="tile">Scheduling</span>
     <span class="portletTopRight"></span>
   </dt>
- 
-  <dd class="portletItem lastItem">
-    <p>Add items by dragging to schedule.</p>    
-    <div tal:replace="structure provider:bungeni.scheduling" />
+  <dd> 
+    <p>Add items by dragging to schedule.</p>      
+   <dl class="enableFormTabbing">
+        <dd tal:replace="structure provider:bungeni.scheduling" />
+   </dl>
   </dd>
-  
 </dl>

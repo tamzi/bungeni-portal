@@ -54,23 +54,21 @@
   <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />  
   <grant permission="bungeni.sitting.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.sitting.Delete" role="bungeni.Clerk" />
-  <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedule.Delete" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Clerk" />
-  <grant permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Clerk" />
+
 
   <grant permission="bungeni.session.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.sitting.Add" role="bungeni.Speaker" />  
   <grant permission="bungeni.sitting.Edit" role="bungeni.Speaker" />
   <grant permission="bungeni.sitting.Delete" role="bungeni.Speaker" />
-  <grant permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
   <grant permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.itemschedule.Edit" role="bungeni.Speaker" />
   <grant permission="bungeni.itemschedule.Delete" role="bungeni.Speaker" />
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Speaker" />
-  <grant permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Speaker" />
+
 
   
   <!-- parliamentary items permissions:
@@ -97,7 +95,7 @@
   
   <grant permission="bungeni.agendaitem.Add" role="bungeni.Clerk" />  
   <grant permission="bungeni.agendaitem.Add" role="bungeni.Speaker" />  
-  <grant permission="bungeni.agendaitem.Add" role="bungeni.MP" />
+  <!--grant permission="bungeni.agendaitem.Add" role="bungeni.MP" /-->
   <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.agendaitem.View" role="bungeni.Owner" />    

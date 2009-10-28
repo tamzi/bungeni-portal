@@ -159,7 +159,8 @@
                 <td class="actions">
                   <ul class="actions">
                     <li tal:repeat="action item/actions">
-                      <a tal:attributes="rel string:${action/id}/${view/reorder_field};
+                      <a tal:attributes="rel action/id;
+                                         rev view/reorder_field;
                                          href action/url">
                         <span tal:condition="not: action/icon"
                               tal:replace="action/title" />

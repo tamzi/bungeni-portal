@@ -224,9 +224,8 @@
         
         var mode = null;
         var row = link.parents("tr").eq(0);
-        var rel = link.attr("rel");
-        var direction = rel.split('/')[0];
-        var field =  rel.split('/')[1];
+        var direction = link.attr("rel");
+        var field = link.attr("rev");
         var url = link.attr('href');
         switch (direction) {
             case "move-scheduling-up":

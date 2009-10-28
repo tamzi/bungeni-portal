@@ -8,10 +8,11 @@
   <state id="draft" title="draft bill">
     <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" /> 
-    <grant permission="zope.View" role="bungeni.Clerk" />              
+    <grant permission="zope.View" role="bungeni.Clerk" />            
+    <grant permission="bungeni.bill.Edit" role="bungeni.Clerk" />          
     <grant permission="bungeni.bill.Delete" role="bungeni.Owner" />  
     <deny permission="zope.View" role="bungeni.MP" />     
-    <deny permission="zope.View" role="bungeni.Speaker" />  
+    <!--deny permission="zope.View" role="bungeni.Speaker" /-->  
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
     <deny permission="zope.View" role="bungeni.Anybody" />      
@@ -22,6 +23,9 @@
     <deny permission="bungeni.bill.Delete" role="bungeni.Owner" />        
     <grant permission="zope.View" role="bungeni.Clerk" />   
     <grant permission="bungeni.bill.Edit" role="bungeni.Clerk" />    
+    <grant permission="zope.View" role="bungeni.MP" />     
+    <grant permission="zope.View" role="bungeni.Speaker" />  
+    <grant permission="zope.View" role="bungeni.Minister" />      
     <grant permission="zope.View" role="bungeni.Everybody" /> 
     <grant permission="zope.View" role="bungeni.Anybody" />    
   </state>

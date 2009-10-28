@@ -5,7 +5,7 @@
    description="A bill"
    initial_state="">
 
-  <state id="draft" title="draft bill">
+  <state id="draft" title="Draft Bill">
     <grant permission="bungeni.bill.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" /> 
     <grant permission="zope.View" role="bungeni.Clerk" />            
@@ -18,7 +18,7 @@
     <deny permission="zope.View" role="bungeni.Anybody" />      
   </state>
   
-  <state id="submitted" title="bill published in gazette">
+  <state id="submitted" title="Bill Published in Gazette">
     <deny permission="bungeni.bill.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.bill.Delete" role="bungeni.Owner" />        
     <grant permission="zope.View" role="bungeni.Clerk" />   
@@ -30,17 +30,17 @@
     <grant permission="zope.View" role="bungeni.Anybody" />    
   </state>
 
-  <state id="first_reading" title="first reading">
+  <state id="first_reading" title="First Reading">
 
   </state>
   
 
-  <state id="first_reading_postponed" title="first reading postponed">
+  <state id="first_reading_postponed" title="First Reading Postponed">
     
   </state>
   
 
-  <state id="first_committee" title="First committee">
+  <state id="first_committee" title="First Committee">
     
   </state>
 
@@ -49,12 +49,12 @@
       </state-->
   
 
-  <state id="second_reading" title="second reading">
+  <state id="second_reading" title="Second Reading">
     
   </state>
   
 
-  <state id="second_reading_postponed" title="second reading postponed">
+  <state id="second_reading_postponed" title="Second Reading Postponed">
     
   </state>
   
@@ -64,17 +64,17 @@
       </state-->
   
 
-  <state id="whole_house" title="whole house">
+  <state id="whole_house" title="Whole House">
 
   </state>
   
 
-  <state id="whole_house_postponed" title="whole house postponed">
+  <state id="whole_house_postponed" title="Whole House Postponed">
 
   </state>
   
 
-  <state id="second_committee" title="second committee">
+  <state id="second_committee" title="Second Committee">
     
   </state>
   
@@ -84,42 +84,42 @@
       </state-->
   
 
-  <state id="report_reading" title="report reading">
+  <state id="report_reading" title="Report Reading">
     
   </state>
   
 
-  <state id="report_reading_postponed" title="report reading postponed">
+  <state id="report_reading_postponed" title="Report Reading Postponed">
     
   </state>
   
 
-  <!--state id="third_reading_pending" title="third reading pending">
+  <!--state id="third_reading_pending" title="Third Reading Pending">
       
       </state-->
   
 
-  <state id="third_reading" title="third reading">
+  <state id="third_reading" title="Third Reading">
     
   </state>
   
 
-  <state id="third_reading_postponed" title="third reading postponed">
+  <state id="third_reading_postponed" title="Third Reading Postponed">
 
   </state>
   
 
-  <state id="withdrawn" title="bill withdrawn">
+  <state id="withdrawn" title="Bill Withdrawn">
     <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
   
 
-  <state id="approved" title="approved bill">
+  <state id="approved" title="Approved Bill">
     <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
   
 
-  <state id="rejected" title="rejected bill">
+  <state id="rejected" title="Rejected Bill">
     <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
   </state>
   
@@ -195,7 +195,7 @@
 
   <transition
      id="resend-first-reading-from-committee"
-     title="Back to first reading"
+     title="Back to First Reading"
      trigger="manual"
      source="first_committee"
      destination="first_reading"
@@ -206,7 +206,7 @@
 
   <transition
      id="schedule-second-from-first-committee"
-     title="Second Reading schedule"
+     title="Second Reading Schedule"
      trigger="manual"
      source="first_committee"
      destination="second_reading"
@@ -342,7 +342,7 @@
 
   <transition
      id="resend-whole-house-from-second-committee"
-     title="Resend to whole house"
+     title="Resend to Whole House"
      trigger="manual"
      source="second_committee"
      destination="whole_house"
@@ -434,7 +434,7 @@
 
   <transition
      id="resend-whole-house-from-third-reading"
-     title="Resend to whole house"
+     title="Resend to Whole House"
      trigger="manual"
      source="third_reading"
      destination="whole_house"

@@ -5,7 +5,7 @@
    description="Workflow for Committees"
    initial_state="">
 
-  <state id="draft" title="Draft - Committee not yet active">
+  <state id="draft" title="Draft - Committee not yet Active">
     <grant permission="bungeni.group.Delete" role="bungeni.Owner" />  
     <grant permission="zope.View" role="bungeni.Clerk" />       
     <grant permission="zope.View" role="bungeni.Speaker" />  
@@ -16,7 +16,7 @@
     <deny permission="bungeni.agendaitem.Add" role="bungeni.MP" />             
   </state>
 
-  <state id="active" title="Active committee">
+  <state id="active" title="Active Committee">
     <deny permission="bungeni.group.Delete" role="bungeni.Owner" />  
     <grant permission="zope.View" role="bungeni.MP" />     
     <grant permission="zope.View" role="bungeni.Clerk" />       
@@ -28,7 +28,7 @@
     <deny permission="bungeni.agendaitem.Add" role="bungeni.MP" />                     
   </state>
   
-  <state id="dissolved" title="Committee is dissolved">
+  <state id="dissolved" title="Committee is Dissolved">
     <deny permission="bungeni.agendaitem.Add" role="bungeni.CommitteeMember" />                           
   </state>
 

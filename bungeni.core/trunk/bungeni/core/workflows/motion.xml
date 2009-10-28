@@ -5,7 +5,7 @@
    description="A bill"
    initial_state="">
 
-  <state id="draft" title="draft motion">
+  <state id="draft" title="Draft Motion">
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
     <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />   
@@ -17,7 +17,7 @@
     <deny permission="zope.View" role="bungeni.Anybody" />          
   </state>
 
-  <state id="submitted" title="Motion submitted">
+  <state id="submitted" title="Motion Submitted">
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />    
@@ -25,34 +25,34 @@
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
-  <state id="received" title="Motion received by clerks office">  
+  <state id="received" title="Motion Received by Clerks Office">  
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
-  <state id="complete" title="Motion complete">  
+  <state id="complete" title="Motion Complete">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />         
   </state>
 
-  <state id="admissible" title="Motion admissible">  
+  <state id="admissible" title="Motion Admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />             
   </state>    
 
-  <state id="inadmissible" title="Motion inadmissible">     
+  <state id="inadmissible" title="Motion Inadmissible">     
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>
   
-  <state id="clarify_clerk" title="Motion needs clarification by Clerks Office">     
+  <state id="clarify_clerk" title="Motion Needs Clarification by Clerks Office">     
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="clarify_mp" title="Motion needs clarification by MP">  
+  <state id="clarify_mp" title="Motion Needs Clarification by MP">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />    
   </state>
@@ -62,31 +62,31 @@
 
 
   <!-- is scheduled for debate at a sitting -->
-  <state id="scheduled" title="Motion scheduled">  
+  <state id="scheduled" title="Motion Scheduled">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>    
   <!-- admissable motion that cannot be debated -->
-  <state id="deferred" title="Motion deferred">  
+  <state id="deferred" title="Motion Deferred">  
 
   </state>    
   <!--motion was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="Motion postponed">  
+  <state id="postponed" title="Motion Postponed">  
 
   </state>    
   <!--defered or postponed motion that were not debated -->
-  <state id="elapsed" title="Motion elapsed">  
+  <state id="elapsed" title="Motion Elapsed">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>    
   <!--a motion was debated  -->
-  <state id="debated" title="Motion debated">  
+  <state id="debated" title="Motion Debated">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>
   
 
-  <state id="withdrawn" title="Motion withdrawn">  
+  <state id="withdrawn" title="Motion Withdrawn">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
@@ -192,7 +192,7 @@
   
   <transition
      id="redraft-inadmissible"
-     title="Redraft rejected"
+     title="Redraft Rejected"
      trigger="manual"
      source="inadmissible"
      destination="draft"

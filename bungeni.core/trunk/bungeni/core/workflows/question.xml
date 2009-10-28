@@ -5,7 +5,7 @@
    description="A question"
    initial_state="">
 
-  <state id="draft" title="draft question">
+  <state id="draft" title="Draft Question">
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
     <grant permission="bungeni.question.Delete" role="bungeni.Owner" />    
@@ -18,83 +18,83 @@
     <deny permission="zope.View" role="bungeni.Anybody" />                
   </state>
 
-  <state id="submitted" title="Question submitted to clerk">
+  <state id="submitted" title="Question Submitted to Clerk">
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Clerk" />    
     <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
   </state>
 
-  <state id="received" title="Question received by clerk">
+  <state id="received" title="Question Received by Clerk">
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="complete" title="Question complete">
+  <state id="complete" title="Question Complete">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />    
   </state>
 
-  <state id="admissible" title="admissible Question">
+  <state id="admissible" title="Admissible Question">
     <grant permission="zope.View" role="bungeni.Everybody" />    
     <grant permission="zope.View" role="bungeni.Anybody" />          
     <!-- TODO permissions for the ministry the question is directed to, maybe to be set in the action? -->    
   </state>
 
-  <state id="inadmissible" title="inadmissible Question">
+  <state id="inadmissible" title="Inadmissible Question">
     <grant permission="zope.View" role="bungeni.Everybody" />      
   </state>
 
-  <state id="clarify_mp" title="Question needs MP clarification">
+  <state id="clarify_mp" title="Question Needs MP Clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />  
   </state>
 
-  <state id="clarify_clerk" title="Question needs Clerks clarification">
+  <state id="clarify_clerk" title="Question Needs Clerks Clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
   </state>
 
-  <state id="scheduled" title="Question scheduled">
+  <state id="scheduled" title="Question Scheduled">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.Add" role="bungeni.Clerk" />
     <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
     <grant permission="bungeni.response.View" role="bungeni.Clerk" />         
   </state>
 
-  <state id="response_pending" title="Question pending response">
+  <state id="response_pending" title="Question Pending Response">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.Add" role="bungeni.Minister" />
     <grant permission="bungeni.response.Edit" role="bungeni.Minister" />   
     <grant permission="bungeni.response.View" role="bungeni.Minister" />        
   </state>
 
-  <state id="deferred" title="Question deferred">
+  <state id="deferred" title="Question Deferred">
   </state>
 
-  <state id="postponed" title="Question postponed">
+  <state id="postponed" title="Question Postponed">
   </state>
 
-  <state id="elapsed" title="Question elapsed">
+  <state id="elapsed" title="Question Elapsed">
   </state>
 
-  <state id="responded" title="Question responded">
+  <state id="responded" title="Question Responded">
     <deny permission="bungeni.response.Add" role="bungeni.Minister" />
     <deny permission="bungeni.response.Edit" role="bungeni.Minister" />    
     <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
     <grant permission="bungeni.response.View" role="bungeni.Clerk" />   
   </state>
 
-  <state id="answered" title="Question answered">
+  <state id="answered" title="Question Answered">
     <grant permission="bungeni.question.Add" role="bungeni.MP" />    
     <grant permission="bungeni.response.View" role="bungeni.Everybody" />            
   </state>
 
-  <state id="debated" title="Question debated">  
+  <state id="debated" title="Question Debated">  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
   </state>
 
-  <state id="withdrawn" title="Question withdrawn">
+  <state id="withdrawn" title="Question Withdrawn">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />            
@@ -252,7 +252,7 @@
   
   <transition 
      id="resubmit-clerk"
-     title="Resubmit to clerk"
+     title="Resubmit to Clerk"
      trigger="manual"
      source="clarify_mp"
      destination="submitted"
@@ -288,7 +288,7 @@
   
   <transition 
      id="send-ministry"
-     title="Send to ministry"
+     title="Send to Ministry"
      trigger="manual"
      source="admissible"
      destination="response_pending"
@@ -304,7 +304,7 @@
   
   <transition 
      id="forward-ministry"
-     title="Forward to another ministry"
+     title="Forward to another Ministry"
      trigger="manual"
      source="response_pending"
      destination="response_pending"
@@ -375,7 +375,7 @@
   
   <transition 
      id="defer-ministry"
-     title="Send to ministry"
+     title="Send to Ministry"
      trigger="manual"
      source="deferred"
      destination="response_pending"

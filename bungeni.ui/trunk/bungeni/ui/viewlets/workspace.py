@@ -604,7 +604,7 @@ class MPItemActionRequiredViewlet( ItemInStageViewlet ):
     Display all questions and motions that require action
     (e.g. draft, clarification required)
     """  
-    name = "Action required"
+    name = "Action Required"
     states = [motion_wf_state[u"clarify_mp"].id,
         question_wf_state[u"clarify_mp"].id,
         agendaitem_wf_state[u"clarify_mp"].id,
@@ -619,7 +619,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
     """
     going through the workflow in clerks/speakers office
     """
-    name = "Items in progress"
+    name = "Items in Progress"
     states = [
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
@@ -696,7 +696,7 @@ class MPItemArchiveViewlet(ItemInStageViewlet):
 
 class MPItemSuccessEndViewlet(ItemInStageViewlet):
     """ items in end status that were discussed/answered ..."""
-    name = "Items succesfully tabled"
+    name = "Items succesfully Tabled"
     states = [
         question_wf_state[u"answered"].id,
         question_wf_state[u"debated"].id,
@@ -725,7 +725,7 @@ class MPItemFailedEndViewlet(ItemInStageViewlet):
 
 
 class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ): 
-    name = "action required"
+    name = "Action Required"
     states = [
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
@@ -744,7 +744,7 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
     list_id = "items-action-required"
     
 class ItemsCompleteViewlet( AllItemsInStageViewlet ): 
-    name = "action required"
+    name = "Action Required"
     states = [
         question_wf_state[u"complete"].id,  
         motion_wf_state[u"complete"].id,
@@ -754,7 +754,7 @@ class ItemsCompleteViewlet( AllItemsInStageViewlet ):
     list_id = "items-action-required"
 
 class ItemsApprovedViewlet( AllItemsInStageViewlet ): 
-    name = "approved items"
+    name = "Approved Items"
     states = [   
         question_wf_state[u"admissible"].id,  
         motion_wf_state[u"admissible"].id,

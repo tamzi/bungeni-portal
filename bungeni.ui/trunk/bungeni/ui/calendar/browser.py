@@ -73,7 +73,7 @@ def get_workflow_actions(context, request):
 def get_sitting_items(sitting, request, include_actions=False):
     items = []
 
-    if sitting.status.in_('draft-agenda', 'published-agenda'):
+    if sitting.status in ['draft-agenda', 'published-agenda']:
         order = "planned_order"
     else:
         order = "real_order"        

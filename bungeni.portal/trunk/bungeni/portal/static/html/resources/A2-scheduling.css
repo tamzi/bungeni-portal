@@ -1,27 +1,32 @@
-table#items-for-scheduling {
+table.items-for-scheduling {
   width: 100%;
 }
 
-table#items-for-scheduling .helper {
+dd.items-for-scheduling {
+  height: 10em;
+  overflow: auto;
+  }
+
+table.items-for-scheduling .helper {
   display: block;
   padding: 10px;
   background: white;
   border: 1px solid #8cacbb;
 }
   
-table#items-for-scheduling tbody {
+table.items-for-scheduling tbody {
   cursor: move;
 }
 
-table#items-for-scheduling tbody tr:hover {
+table.items-for-scheduling tbody tr:hover {
   background-color: #dee7ec;
 }
   
-ul#items-for-scheduling li {
+ul.items-for-scheduling li {
 
 }
 
-ul#items-for-scheduling ul li a {
+ul.items-for-scheduling ul li a {
   display: block;
   background-color: #dee7ec;
   color: #436976;
@@ -30,10 +35,16 @@ ul#items-for-scheduling ul li a {
 }
 
 
-ul#items-for-scheduling ul li { 
+ul.items-for-scheduling ul li { 
   position:relative;
   border:4px solid #666;
   text-align:center;
   color:#fff;
   cursor:move;
 }
+
+div#scheduling-calendar {
+ height: 20em;
+ overflow: auto;
+}
+

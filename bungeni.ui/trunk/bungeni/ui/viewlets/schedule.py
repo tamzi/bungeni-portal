@@ -53,7 +53,7 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
     Must subclass.
     """
 
-    model = states = container = None
+    model = states = container = name = None
 
     render = ViewPageTemplateFile('templates/schedulable_items.pt')
                               
@@ -99,7 +99,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
 
 class SchedulableBillsViewlet(SchedulableItemsViewlet):
     model = domain.Bill
-
+    name = 'bill'
+    
     states = (
         bill_wf_state[u"submitted"].id,
         bill_wf_state[u"first_reading"].id,        
@@ -116,6 +117,7 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
 
 class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     model = domain.Question
+    name = 'question'
 
     states = (
         question_wf_state[u"admissible"].id,
@@ -124,6 +126,7 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
 
 class SchedulableMotionsViewlet(SchedulableItemsViewlet):
     model = domain.Motion
+    name = 'motion'
 
     states = (
         motion_wf_state[u"admissible"].id,
@@ -132,6 +135,7 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
         
 class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
     model = domain.AgendaItem
+    name = 'agendaitem'
 
     states = (
         agendaitem_wf_state[u"admissible"].id,
@@ -185,6 +189,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
         
 class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
     model = domain.TabledDocument
+    name = 'tableddocument'
     states = (
         tableddocument_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"postponed"].id,

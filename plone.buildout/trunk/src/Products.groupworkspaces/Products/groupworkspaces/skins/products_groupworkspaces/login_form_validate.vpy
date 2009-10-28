@@ -13,6 +13,7 @@ from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 
 group_tool = getToolByName(context, 'portal_groups')
+wftool = getToolByName(context, 'portal_workflow')
 parentGroup = group_tool.getGroupWorkspacesFolder()
 grouplist = group_tool.searchGroups()
 
@@ -34,7 +35,7 @@ def createGroupArea(groupid, grouptitle, parentFolder):
             obj.setTitle("%s workspace" %grouptitle)
             obj.setDescription("Container for objects shared by this group")
             obj.manage_setLocalRoles(groupid, ['Owner'])
-            #obj._getWorkflowTool().doActionFor(obj, 'publish' '')
+            wftool.doActionFor(obj, 'publish')
             obj.update
             obj.reindexObject()
 

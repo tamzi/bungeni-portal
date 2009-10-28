@@ -5,6 +5,7 @@
   <div metal:fill-slot="body" i18n:domain="bungeni">
     
     <h1>  <span tal:replace="view/title" /> for: <span tal:replace="view/group/short_name"/> </h1>
+    <a tal:attributes="href view/back_link"> back to calendar </a>
     <dl>
       <tal:loop tal:repeat="item view/sitting_items">
         <dt> <h2><span tal:content="item/sitting_type/sitting_type" />: 

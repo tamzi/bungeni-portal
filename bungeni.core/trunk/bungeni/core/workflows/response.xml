@@ -5,7 +5,7 @@
    description="Response to a question"
    initial_state="">
 
-  <state id="draft" title="a draft response">
+  <state id="draft" title="A Draft Response">
     <grant permission="bungeni.response.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
     <grant permission="bungeni.response.Delete" role="bungeni.Owner" />  
@@ -17,14 +17,14 @@
     <deny permission="zope.View" role="bungeni.Anybody" />          
   </state>
 
-  <state id="submitted" title="response submitted">
+  <state id="submitted" title="Response Submitted">
     <grant permission="bungeni.response.Edit" role="bungeni.Clerk"/>
     <grant permission="zope.View" role="bungeni.Clerk"/>    
     <deny permission="bungeni.response.Edit" role="bungeni.Owner"/>
     <deny permission="bungeni.response.Delete" role="bungeni.Owner" />
   </state>
 
-  <state id="complete" title="response completed">
+  <state id="complete" title="Response Completed">
     <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Everybody" />
     <grant permission="zope.View" role="bungeni.Anybody" />    
@@ -53,7 +53,7 @@
 
   <transition
      id="re-draft"
-     title="Re draft response"
+     title="Redraft Response"
      trigger="manual"
      source="submitted"     
      destination="draft"

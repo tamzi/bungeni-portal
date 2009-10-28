@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <workflow
    id="bill-workflow"
-   title="bill Workflow"
+   title="Bill Workflow"
    description="A bill"
    initial_state="">
 
-  <state id="draft" title="draft tableddocument">
+  <state id="draft" title="Draft Tabled document">
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
     <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />   
@@ -17,7 +17,7 @@
     <deny permission="zope.View" role="bungeni.Anybody" />          
   </state>
 
-  <state id="submitted" title="Tabled document submitted">
+  <state id="submitted" title="Tabled document Submitted">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />    
@@ -25,65 +25,65 @@
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
-  <state id="received" title="Tabled document received by clerks office">  
+  <state id="received" title="Tabled document Received by Clerks Office">  
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
 
-  <state id="complete" title="Tabled document complete">  
+  <state id="complete" title="Tabled document Complete">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />         
   </state>
 
-  <state id="admissible" title="Tabled document admissible">  
+  <state id="admissible" title="Tabled document Admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />             
   </state>    
 
-  <state id="inadmissible" title="Tabled document inadmissible">     
+  <state id="inadmissible" title="Tabled document Inadmissible">     
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
   </state>
   
-  <state id="clarify_clerk" title="Tabled document needs clarification by Clerks Office">     
+  <state id="clarify_clerk" title="Tabled document Needs Clarification by Clerks Office">     
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="clarify_mp" title="Tabled document needs clarification by MP">  
+  <state id="clarify_mp" title="Tabled document Needs Clarification by MP">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />    
   </state>
 
 
   <!-- is scheduled for debate at a sitting -->
-  <state id="scheduled" title="Tabled document scheduled">  
+  <state id="scheduled" title="Tabled document Scheduled">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
   </state>    
   <!-- admissable tableddocument that cannot be debated -->
-  <state id="deferred" title="Tabled document deferred">  
+  <state id="deferred" title="Tabled document Deferred">  
 
   </state>    
   <!--tableddocument was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="Tabled document postponed">  
+  <state id="postponed" title="Tabled document Postponed">  
 
   </state>    
   <!--defered or postponed tableddocument that were not debated -->
-  <state id="elapsed" title="Tabled document elapsed">  
+  <state id="elapsed" title="Tabled document Elapsed">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
   </state>    
   <!--a tableddocument was debated  -->
-  <state id="debated" title="Tabled document debated">  
+  <state id="debated" title="Tabled document Debated">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
   </state>
   
 
-  <state id="withdrawn" title="Tabled document withdrawn">  
+  <state id="withdrawn" title="Tabled document Withdrawn">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" /> 
@@ -169,7 +169,7 @@
   
   <transition
      id="redraft-inadmissible"
-     title="Redraft rejected"
+     title="Redraft Rejected"
      trigger="manual"
      source="inadmissible"
      destination="draft"
@@ -213,7 +213,7 @@
      />
   <transition
      id="resubmit-clerk"
-     title="Resubmit to clerk"
+     title="Resubmit to Clerk"
      trigger="manual"
      source="clarify_mp"
      destination="submitted"
@@ -256,7 +256,7 @@
 
   <transition
      id="re-admit-elapsed"
-     title="Readmit elpapsed"
+     title="Readmit Elapsed"
      trigger="manual"
      source="elapsed"
      destination="admissible"

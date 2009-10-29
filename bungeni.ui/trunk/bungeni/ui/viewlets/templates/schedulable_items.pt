@@ -15,7 +15,7 @@
           </thead>
           <tbody>      
             <tal:items repeat="item view/items">
-              <tr tal:attributes="id string:row-${item/id}">
+              <tr tal:attributes="id string:row-${item/id}; class item/class;">
                 <td tal:content="item/name" />
                 <td>
                   <a rel="id"

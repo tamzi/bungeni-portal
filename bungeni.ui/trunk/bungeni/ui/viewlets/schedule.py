@@ -70,11 +70,13 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
     def update(self):
         need('yui-dragdrop')
         need('yui-container')
-
         session = Session()
         items = tuple(session.query(self.model).filter(
             self.model.status.in_(self.states)))
 
+        sitting = self._parent._parent.context
+        scheduled_item_ids = [item.item_id for item in sitting.item_schedule]
+        
         # add location to items
         gsm = component.getSiteManager()
         adapter = gsm.adapters.lookup(
@@ -92,10 +94,11 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
                       datetimedict.fromdatetime(item.changes[-1].date)),
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,
+            'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",
             'url': absoluteURL(item, self.request)} for item, properties in \
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
             IDCDescriptiveProperties(item))) for
-             item in items]]
+             item in items]]        
 
 class SchedulableBillsViewlet(SchedulableItemsViewlet):
     model = domain.Bill

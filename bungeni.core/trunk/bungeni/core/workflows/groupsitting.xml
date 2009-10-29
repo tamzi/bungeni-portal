@@ -110,7 +110,7 @@
      trigger="manual"
      source="published-agenda"
      destination="draft-minutes"
-     action=""
+     action="bungeni.core.workflows.groupsitting.actions.draftminutes"
      condition=""
      permission="bungeni.sitting.ChangeStatus"          
      require_confirmation="false"

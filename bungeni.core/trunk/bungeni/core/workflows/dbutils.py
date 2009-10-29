@@ -208,6 +208,10 @@ def endChildGroups(group):
                 ministry.end_date = end_date
             yield ministry
             
-         
+def set_real_order(sitting):
+    """ set planned order = real order """
+    for item in sitting.item_schedule:
+            item.real_order = item.planned_order
+                             
 
     

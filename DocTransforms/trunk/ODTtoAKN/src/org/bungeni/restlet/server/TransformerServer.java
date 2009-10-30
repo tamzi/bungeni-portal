@@ -158,6 +158,7 @@ public static TransformerServer startServer(String workingDir) {
      public static void main(String[] args) {
     	 String workDir = args[0];
     	 TransformerServer.startServer(workDir);
+
      }
 
      /**

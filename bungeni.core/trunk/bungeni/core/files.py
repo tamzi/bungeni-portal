@@ -21,7 +21,10 @@ from bungeni.core import audit
 def fileClassifierSubscriber( ob, event ):
     ob = removeSecurityProxy( ob )
     classifier = IMimeClassifier( ob )
-    ob.mime_type = str( classifier.queryMimeType() )
+    try:
+        ob.mime_type = str( classifier.queryMimeType() )
+    except AttributeError:        
+        pass
     
               
                 

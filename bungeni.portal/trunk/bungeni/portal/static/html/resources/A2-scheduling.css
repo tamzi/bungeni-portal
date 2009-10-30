@@ -23,7 +23,7 @@ table.items-for-scheduling tbody tr:hover {
 }
   
 tr.dd-disable {
-  background-color: grey;
+  background-color: lightgrey;
 }  
   
 ul.items-for-scheduling li {

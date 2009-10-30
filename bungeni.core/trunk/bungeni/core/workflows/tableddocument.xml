@@ -14,7 +14,8 @@
     <deny permission="zope.View" role="bungeni.Speaker" />  
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />          
+    <deny permission="zope.View" role="bungeni.Anybody" />  
+    <grant permission="zope.ManageContent" role="bungeni.Owner" />            
   </state>
 
   <state id="submitted" title="Tabled document Submitted">
@@ -22,39 +23,48 @@
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />    
     <!--grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" /-->
-    <grant permission="zope.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Clerk" />   
+    <deny permission="zope.ManageContent" role="bungeni.Owner" />                   
   </state>
 
   <state id="received" title="Tabled document Received by Clerks Office">  
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
-    <grant permission="zope.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Clerk" /> 
+    <grant permission="zope.ManageContent" role="bungeni.Clerk" />                     
   </state>
 
   <state id="complete" title="Tabled document Complete">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />         
+    <grant permission="zope.View" role="bungeni.Speaker" />      
+    <grant permission="zope.ManageContent" role="bungeni.Speaker" />       
+    <deny permission="zope.ManageContent" role="bungeni.Clerk" />                                   
   </state>
 
   <state id="admissible" title="Tabled document Admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />             
+    <grant permission="zope.View" role="bungeni.Speaker" />   
+    <deny permission="zope.ManageContent" role="bungeni.Clerk" />                                 
   </state>    
 
   <state id="inadmissible" title="Tabled document Inadmissible">     
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                       
   </state>
   
   <state id="clarify_clerk" title="Tabled document Needs Clarification by Clerks Office">     
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
+    <grant permission="zope.ManageContent" role="bungeni.Clerk" />                   
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                       
   </state>
 
   <state id="clarify_mp" title="Tabled document Needs Clarification by MP">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />    
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />   
+    <grant permission="zope.ManageContent" role="bungeni.Owner" />                        
   </state>
 
 
@@ -86,7 +96,10 @@
   <state id="withdrawn" title="Tabled document Withdrawn">  
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" /> 
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                   
+    <deny permission="zope.ManageContent" role="bungeni.Owner" />                   
+    <deny permission="zope.ManageContent" role="bungeni.Clerk" />                                
   </state>
 
 

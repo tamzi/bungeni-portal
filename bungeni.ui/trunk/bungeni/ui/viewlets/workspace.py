@@ -742,6 +742,45 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
         tableddocument_wf_state[u"clarify_clerk"].id,        
     ]
     list_id = "items-action-required"
+
+class ClerkReviewedItemViewlet( AllItemsInStageViewlet ): 
+    name = "Reviewed Items"
+    states = [
+        question_wf_state[u"complete"].id,  
+        motion_wf_state[u"complete"].id,
+        agendaitem_wf_state[u"complete"].id,
+        tableddocument_wf_state[u"complete"].id, 
+        question_wf_state[u"admissible"].id,  
+        motion_wf_state[u"admissible"].id,
+        agendaitem_wf_state[u"admissible"].id,
+        tableddocument_wf_state[u"admissible"].id,  
+        
+        question_wf_state[u"scheduled"].id,
+        question_wf_state[u"postponed"].id,
+        question_wf_state[u"response_pending"].id,        
+        question_wf_state[u"deferred"].id,
+        question_wf_state[u"responded"].id,
+        motion_wf_state[u"deferred"].id,
+        motion_wf_state[u"postponed"].id,
+        motion_wf_state[u"scheduled"].id,
+        agendaitem_wf_state[u"deferred"].id,
+        agendaitem_wf_state[u"postponed"].id,
+        agendaitem_wf_state[u"scheduled"].id,    
+        tableddocument_wf_state[u"deferred"].id,
+        tableddocument_wf_state[u"postponed"].id,
+        tableddocument_wf_state[u"scheduled"].id,
+            
+        bill_wf_state[u"submitted"].id , 
+        bill_wf_state[u"first_reading_postponed"].id ,
+        bill_wf_state[u"second_reading"].id , 
+        bill_wf_state[u"second_reading_postponed"].id , 
+        bill_wf_state[u"whole_house_postponed"].id ,
+        bill_wf_state[u"whole_house"].id ,
+        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+        bill_wf_state[u"report_reading"].id , 
+        bill_wf_state[u"third_reading"].id,
+        bill_wf_state[u"third_reading_postponed"].id                            
+    ]
     
 class ItemsCompleteViewlet( AllItemsInStageViewlet ): 
     name = "Action Required"

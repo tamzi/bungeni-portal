@@ -142,8 +142,15 @@
      weight="20"
      />
 
-
-
+  <browser:viewlet
+     name="bungeni.workspace.reviewed.clerk"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ClerkReviewedItemViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="30"
+     />
 
 
   <!--browser:viewlet

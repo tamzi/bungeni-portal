@@ -372,6 +372,33 @@ class EditForm(BaseForm, ui.EditForm):
                 # attach widget as ``render_original``
                 widget.render_original = display_widget
 
+
+    @form.action(_(u"Save"),
+                 condition=form.haveInputWidgets)
+    def handle_edit_save( self, action, data ):
+        """Saves the document and goes back to edit page"""
+	form.applyChanges(self.context, self.form_fields, data)
+
+    @form.action(_(u"Save and view"), condition=form.haveInputWidgets)
+    def handle_edit_save_and_view(self, action, data):
+        """Saves the  document and redirects to its view page"""
+    	form.applyChanges(self.context, self.form_fields, data)
+        if not self._next_url:
+            self._next_url = absoluteURL(
+                self.context, self.request) + \
+                '?portal_status_message= Saved'   
+        self.request.response.redirect(self._next_url)
+ 
+    @form.action(_(u"Cancel"), validator=null_validator )
+    def handle_edit_cancel( self, action, data ):
+        """Cancelling redirects to the listing."""
+	if not self._next_url:
+            self._next_url = absoluteURL(
+                self.context, self.request) + \
+                '?portal_status_message= Saved'   
+        self.request.response.redirect(self._next_url)
+    
+
 class TranslateForm(AddForm):
     """Custom translate-form for Bungeni content.
 

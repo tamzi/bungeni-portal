@@ -21,6 +21,15 @@ import bungeni.core.globalsettings as prefs
 
 #from bungeni.ui.i18n import MessageFactory as _
 
+def get_wf_state(item):
+    # return human readable workflow title
+    wf = interfaces.IWorkflow(item) 
+    wf_state = interfaces.IWorkflowState(
+        item).getState()
+    return wf.workflow.states[wf_state].title    
+
+
+
 class ViewletBase(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')
     
@@ -46,6 +55,9 @@ class QuestionInStateViewlet( ViewletBase ):
             data['title'] = result.short_name
             data['result_item_class'] = 'workflow-state-' + result.status
             data['url'] = '/business/questions/obj-' + str(result.question_id)
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()
             data_list.append(data)            
         return data_list
     
@@ -75,12 +87,15 @@ class MyQuestionsViewlet( ViewletBase ):
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )  
             if result.question_number:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name + ' (' + result.status + ')'
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name 
             else:
-                data['subject'] = result.short_name + ' (' + result.status + ')'
+                data['subject'] = result.short_name 
             data['title'] = result.short_name + ' (' + result.status + ')'
             data['result_item_class'] = 'workflow-state-' + result.status 
             data['url'] = '/business/questions/obj-' + str(result.question_id)
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()            
             data_list.append(data)            
         return data_list
     
@@ -113,12 +128,15 @@ class MyMotionsViewlet( ViewletBase ):
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )  
             if result.motion_number:                       
-                data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name  + ' (' + result.status + ')'
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name 
             else:
-                data['subject'] =  result.short_name  + ' (' + result.status + ')'
+                data['subject'] =  result.short_name 
             data['title'] = result.short_name  + ' (' + result.status + ')'
             data['result_item_class'] = 'workflow-state-' + result.status             
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()            
             data_list.append(data)            
         return data_list
     
@@ -150,8 +168,7 @@ class MyGroupsViewlet( ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'g_' + str(result.group_id) )              
-            data['subject'] = (result.short_name  + u' (' + 
-                result.status + u' ' + result.type.capitalize() + u')')
+            data['subject'] = result.short_name
             data['title'] = result.short_name  + ' (' + result.type + ')'
             data['result_item_class'] = 'workflow-state-' + result.status   
             url = "/archive/browse/parliaments/obj-" + str(parliament_id) 
@@ -169,7 +186,9 @@ class MyGroupsViewlet( ViewletBase ):
                         str(government_id), str(result.group_id) ))                                      
             else:               
                 data['url'] = '#' 
-            
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()            
             data_list.append(data)            
         return data_list
     
@@ -366,6 +385,9 @@ class MotionInStateViewlet( ViewletBase ):
             else:         
                 data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()            
             data_list.append(data)            
         return data_list
     
@@ -470,7 +492,10 @@ class BillItemsViewlet( ViewletBase ):
             data['result_item_class'] = ('workflow-state-' + 
                 result.status )
             data['url'] = '/business/%ss/obj-%i' %(result.type, 
-                            result.parliamentary_item_id)                
+                            result.parliamentary_item_id)   
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()                                         
             data_list.append(data)            
         return data_list
     
@@ -518,13 +543,13 @@ class ItemInStageViewlet( ViewletBase ):
     name = "Items in Stage"
     states = []
     list_id = "items-in-stage"    
+    types = ['motion',
+            'question',
+            'agendaitem',
+            'tableddocument',
+            'bill']
 
-    def get_wf_state(self, item):
-        # return human readable workflow title
-        wf = interfaces.IWorkflow(item) 
-        wf_state = interfaces.IWorkflowState(
-            item).getState()
-        return wf.workflow.states[wf_state].title    
+
 
     def getData(self):
         """
@@ -535,18 +560,19 @@ class ItemInStageViewlet( ViewletBase ):
        
         for result in results:            
             data ={}
-            wf_state = self.get_wf_state(result)
             data['qid']= ( 'i-' + str(result.parliamentary_item_id) )
             if type(result) == domain.AgendaItem:
                 g = u' ' + result.group.type + u' ' + result.group.short_name
             else:
                 g = u''                                         
-            data['subject'] = ( u'(' + wf_state +  g +
-                     u') ' + result.short_name)
+            data['subject'] = result.short_name
             data['title'] = result.short_name      
             data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = '/business/%ss/obj-%i' %(result.type, 
                             result.parliamentary_item_id)
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()
             data_list.append(data)            
         return data_list
 
@@ -561,11 +587,7 @@ class ItemInStageViewlet( ViewletBase ):
             user_id = None     
         qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
                 domain.ParliamentaryItem.status.in_(self.states),
-                domain.ParliamentaryItem.type.in_(['motion',
-                            'question',
-                            'agendaitem',
-                            'tableddocument',
-                            'bill'] )
+                domain.ParliamentaryItem.type.in_(self.types )
                             )        
         self.query = session.query(domain.ParliamentaryItem).filter(
                 qfilter).order_by(
@@ -580,8 +602,7 @@ class AllItemsInStageViewlet( ItemInStageViewlet ):
         session = Session()    
         qfilter = sql.and_(
                 domain.ParliamentaryItem.status.in_(self.states),
-                domain.ParliamentaryItem.type.in_(
-                    ['motion','question','agendaitem','tableddocument','bill'] )
+                domain.ParliamentaryItem.type.in_(self.types )
                     )        
         self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
             domain.ParliamentaryItem.parliamentary_item_id.desc()) 
@@ -725,6 +746,11 @@ class MPItemFailedEndViewlet(ItemInStageViewlet):
 
 
 class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ): 
+    types = ['motion',
+            'question',
+            'agendaitem',
+            'tableddocument']
+
     name = "Action Required"
     states = [
         question_wf_state[u"submitted"].id,
@@ -847,11 +873,15 @@ class MinistryItemsViewlet(viewlet.ViewletBase):
         
         for result in results:            
             data ={}
-            data['subject'] = result.short_name + ' (' + result.status + ')'
+            data['subject'] = result.short_name 
             data['url'] = '/archive/browse/parliaments/obj-%i/governments/obj-%i/ministries/obj-%i/' %(
                 self._parent.context.parliament_id, self._parent.government_id, result.group_id)
             data['items'] = self._getItems(result)                
-            data_list.append(data)            
+            data_list.append(data)         
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()
+            data_list.append(data)                 
         return data_list
     
     

@@ -11,11 +11,31 @@
     </dt>
 
     <dd class="portletItem">
-      <ul tal:attributes="id view/list_id; class string:draglist">
+      <!--ul tal:attributes="id view/list_id; class string:draglist">
         <li tal:repeat="result results" tal:attributes="id result/qid; class result/result_item_class; title result/title">
           <a tal:content="result/subject" tal:attributes="href result/url" />       
         </li>
-      </ul>
+      </ul-->
+      <table tal:attributes="id string:workspace-table-${view/list_id}" class="listing grid">
+        <thead>
+          <tr>
+            <th>Subject</th>
+            <th>Type</th>
+            <th>Status</th>
+            <th>Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="result results">
+            <td>  <a tal:content="result/subject" tal:attributes="href result/url" />  </td>
+            <td tal:content="result/type" />
+            <td tal:content="result/status" />
+            <td tal:content="result/owner" />
+          </tr>
+        </tbody>           
+      </table>
+      
+      
     </dd>
   </dl>
   

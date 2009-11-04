@@ -43,14 +43,14 @@ background-image:none !important;
 }
 
 
-.workspace-viewlet  th.headerSortUp  {
-    background:url(sort_up.gif) no-repeat right !important; /* sorted header gradient */
+.workspace-viewlet  th.header.headerSortUp  {
+    background:url(sort_up.gif) no-repeat right; 
 }
-.workspace-viewlet th.headerSortDown  {
-    background:url(sort_down.gif) no-repeat right !important; /* sorted header gradient */
+.workspace-viewlet th.header.headerSortDown  {
+    background:url(sort_down.gif) no-repeat right; 
 }
-.workspace-viewlet th {
-    background:url(sort_none.gif) no-repeat right !important; /* sorted header gradient */
+.workspace-viewlet th.header {
+    background:url(sort_none.gif) no-repeat right; 
 }
 
 

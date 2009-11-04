@@ -296,7 +296,7 @@
               
               // ask for a redirect to the current (updated) calendar
               var next_url = $("a[rel=calendar]").attr('href');
-              
+                            
               $("#kss-spinner").show();
               $.post(url, {
                 headless: 'true',
@@ -306,6 +306,7 @@
                   if (status == 'success') {
                     _update_tables(selector, data);
                     calendar.bungeniInteractiveSchedule();
+                    element.addClass("dd-disable");
                   }
                 });
             });

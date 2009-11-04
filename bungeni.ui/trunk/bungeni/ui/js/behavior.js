@@ -27,5 +27,11 @@
       $('#daily-calendar').bungeniCalendarInteractivity(false);
       $('#scheduling-calendar').bungeniSchedulingCalendar();
       $('#scheduling-calendar').bungeniInteractiveSchedule();
+      
+      // set up table filters 
+      $('#workspace-table-items-action-required').columnFilters();
+      $('#workspace-table-draft_bills').columnFilters();
+      $('#workspace-table-items-in-stage').columnFilters();
+      
     });
  })(jQuery);

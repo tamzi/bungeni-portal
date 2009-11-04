@@ -11,7 +11,7 @@ Droppable = JSViewlet('bungeni-js/jquery/ui.droppable.js')
 Draggable = JSViewlet('bungeni-js/jquery/ui.draggable.js')
 Sortable = JSViewlet('bungeni-js/jquery/ui.sortable.js')
 Datepicker = JSViewlet('bungeni-js/jquery/ui.datepicker.js')
-
+QueryColumnFilters = JSViewlet('bungeni-js/jquery/jquery.columnfilters.js')
 
 ClockPick = JSViewlet('bungeni-js/jquery/jquery.clockpick.1.2.5.js')
 

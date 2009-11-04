@@ -28,6 +28,8 @@
       $('#scheduling-calendar').bungeniSchedulingCalendar();
       $('#scheduling-calendar').bungeniInteractiveSchedule();
       
+      $("#workspace-table-items-draft").tablesorter();
+      
       // set up table filters 
       $('#workspace-table-items-action-required').columnFilters({alternateRowClassNames:['odd','even']});
       $('#workspace-table-draft_bills').columnFilters({alternateRowClassNames:['odd','even']});

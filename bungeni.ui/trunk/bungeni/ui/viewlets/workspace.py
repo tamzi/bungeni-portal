@@ -187,7 +187,7 @@ class MyGroupsViewlet( ViewletBase ):
             else:               
                 data['url'] = '#' 
             data['status'] = get_wf_state(result)
-            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['owner'] = ""
             data['type'] =  result.type.capitalize()            
             data_list.append(data)            
         return data_list

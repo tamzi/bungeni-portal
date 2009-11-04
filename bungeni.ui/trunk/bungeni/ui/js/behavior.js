@@ -28,7 +28,16 @@
       $('#scheduling-calendar').bungeniSchedulingCalendar();
       $('#scheduling-calendar').bungeniInteractiveSchedule();
       
-      $("#workspace-table-items-draft").tablesorter();
+      // sort workspace tables
+      $('#workspace-table-items-action-required').tablesorter();
+      $('#workspace-table-draft_bills').tablesorter();
+      $('#workspace-table-items-in-stage').tablesorter();
+      
+      $('#workspace-table-items-draft').tablesorter();
+      $('#workspace-table-items-in-progress').tablesorter();
+      $('#workspace-table-my_groups').tablesorter();
+      $('#workspace-table-items-archived').tablesorter();
+      $('#workspace-table-items-approved').tablesorter();
       
       // set up table filters 
       $('#workspace-table-items-action-required').columnFilters({alternateRowClassNames:['odd','even']});

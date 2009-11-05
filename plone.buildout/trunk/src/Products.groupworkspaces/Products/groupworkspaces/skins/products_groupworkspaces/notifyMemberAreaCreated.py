@@ -8,10 +8,13 @@
 ##title=Modify new member area
 ##
 
-# script to automatically create a private and a public folder in member's user area
+# script to publish the member area and create private/public spaces.
 
 from Products.CMFCore.utils import getToolByName
 wftool = getToolByName(context, 'portal_workflow')
+
+wftool.doActionFor(context, 'publish')
+
 
 folders = [["private_folder", "Private Folder", 'private'], ["web_pages", "WebPages", 'public']]
 for folder in folders:

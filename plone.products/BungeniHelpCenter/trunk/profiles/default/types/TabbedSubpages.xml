@@ -2,7 +2,7 @@
 <object name="TabbedSubpages" 
    meta_type="Factory-based Type Information with dynamic views"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title">Tabbed Page</property>
+ <property name="title">Tabbed Sub Page</property>
  <property
     name="description">A tabbed page.</property>
  <property name="content_icon">tutorial_icon.gif</property>
@@ -10,7 +10,7 @@
  <property name="product">BungeniHelpCenter</property>
  <property name="factory">addTabbedSubpages</property>
  <property name="immediate_view">base_edit</property>
- <property name="global_allow">False</property>
+ <property name="global_allow">True</property>
  <property name="default_view">tabbed_subpages_view</property>
  <property name="view_methods">
   <element value="tabbed_subpages_view"/>

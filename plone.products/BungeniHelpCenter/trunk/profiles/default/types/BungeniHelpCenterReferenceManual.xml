@@ -2,7 +2,7 @@
 <object name="BungeniHelpCenterReferenceManual"
    meta_type="Factory-based Type Information with dynamic views"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title">Reference Manual</property>
+ <property name="title">Hierarchical Document</property>
  <property
     name="description">A reference manual containing ReferenceManualPages,
       ReferenceManualSections, Files and Images.
@@ -12,7 +12,7 @@
  <property name="product">BungeniHelpCenter</property>
  <property name="factory">addBungeniHelpCenterReferenceManual</property>
  <property name="immediate_view">base_edit</property>
- <property name="global_allow">False</property>
+ <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
   <element value="BungeniHelpCenterReferenceManualPage"/>

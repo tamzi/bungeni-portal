@@ -634,7 +634,7 @@ class BungeniHelpCenterReferenceManualPage(BrowserDefaultMixin, OrderedBaseFolde
     meta_type='BungeniHelpCenterReferenceManualPage'
     content_icon = 'document_icon.gif'
     schema = BungeniHelpCenterReferenceManualPageSchema
-    global_allow = 0
+    global_allow = 1
     filter_content_types = 1
     allowed_content_types = ('TabbedSubpages',)
     # allow_discussion = IS_DISCUSSABLE

@@ -52,7 +52,7 @@ class TabbedSubpages(ATDocument):
     """
     
     security = ClassSecurityInfo()
-    global_allow = 0    
+    global_allow = 1
     portal_type = meta_type = TYPE_PARAMS['TabbedSubpages']['portal_type']
     archetype_name = TYPE_PARAMS['TabbedSubpages']['archetype_name']
     immediate_view = default_view = TYPE_PARAMS['TabbedSubpages']['default_view']

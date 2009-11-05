@@ -9,6 +9,8 @@
 ##title=Validate login
 ##
 
+# create group workspaces in the context of a parent (parliament).
+
 from Products.CMFPlone import PloneMessageFactory as _
 from Products.CMFCore.utils import getToolByName
 
@@ -38,6 +40,16 @@ def createGroupArea(groupid, grouptitle, parentFolder):
             wftool.doActionFor(obj, 'publish')
             obj.update
             obj.reindexObject()
+
+            #create space for annotatable/amendable documents.
+            folder_id = "documents_for_comment"
+            folder_title = "Documents for comment"
+            obj.invokeFactory('Folder', id=folder_id)
+            newfolder = getattr(obj, folder_id, None)
+            newfolder.setTitle(folder_title)
+            wftool.doActionFor(newfolder, 'publish')
+            newfolder.update
+            newfolder.reindexObject()
 
         
 for group in grouplist:

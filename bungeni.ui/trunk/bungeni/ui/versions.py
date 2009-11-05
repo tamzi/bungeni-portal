@@ -1,3 +1,5 @@
+import operator
+
 from zope import interface
 from zope import component
 from zope import schema
@@ -85,9 +87,12 @@ class VersionLogView(BaseForm):
         
     def listing(self):
         # set up table
+        values = list(self._versions.values())
+        values.sort(key=operator.attrgetter('version_id'))
+        values.reverse()
         formatter = self.formatter_factory(
             self.context, self.request,
-            self._versions.values(),
+            values,
             prefix="results",
             visible_column_names = [c.name for c in self.columns],
             columns = self.columns)
@@ -183,8 +188,6 @@ class VersionLogView(BaseForm):
     def _versions( self ):
         instance = removeSecurityProxy( self.context )
         versions = IVersioned( instance )
-        #versions._query.order_by(versions.domain_model.version_id.desc())
-        #import pdb; pdb.set_trace()
         return versions
         
     def __call__(self):

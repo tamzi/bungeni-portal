@@ -183,5 +183,10 @@
   <permission id="bungeni.agenda.View" title="View Agenda" />
   <permission id="bungeni.minutes.View" title="View 'Votes and Proceedings'" />
 
+  <permission id="bungeni.consignatory.Add" title="Add Consignatory" />
+  <permission id="bungeni.consignatory.Delete" title="Delete Consignatory" />   
+  <permission id="bungeni.consignatory.Edit" title="Edit Consignatory" />
+
+        
 
 </configure>

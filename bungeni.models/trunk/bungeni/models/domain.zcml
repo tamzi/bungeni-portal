@@ -426,6 +426,15 @@
             set_attributes="parent_group_id
                             status" />                            
   </class>    
+  
+  <class class=".domain.Consignatory">
+    <require permission="zope.View"
+             attributes="user_id
+                       item_id" />              
+    <require permission="bungeni.consignatory.Edit"
+             set_attributes="user_id
+                       item_id" />                                    
+  </class>      
           
 </configure>
 

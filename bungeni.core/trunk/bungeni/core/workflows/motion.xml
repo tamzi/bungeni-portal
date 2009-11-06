@@ -14,10 +14,14 @@
     <deny permission="zope.View" role="bungeni.Speaker" />  
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />          
+    <deny permission="zope.View" role="bungeni.Anybody" />    
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />          
   </state>
 
-  <state id="submitted" title="Motion Submitted">
+  <state id="submitted" title="Motion Submitted">  
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />     
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />    
@@ -26,6 +30,8 @@
   </state>
 
   <state id="received" title="Motion Received by Clerks Office">  
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />     
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" />      
   </state>
@@ -34,27 +40,43 @@
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />         
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
   </state>
 
   <state id="admissible" title="Motion Admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />             
+    <grant permission="zope.View" role="bungeni.Speaker" />      
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <dent permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />               
   </state>    
 
   <state id="inadmissible" title="Motion Inadmissible">     
-    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" /> 
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />  
   </state>
   
   <state id="clarify_clerk" title="Motion Needs Clarification by Clerks Office">     
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
-    <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /> 
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
   </state>
 
   <state id="clarify_mp" title="Motion Needs Clarification by MP">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />    
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />     
   </state>
 
 
@@ -90,6 +112,12 @@
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
   </state>
 
 

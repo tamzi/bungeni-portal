@@ -66,12 +66,13 @@ class SpecializedSource( object ):
         self.title_field = title_field
 
     def _get_parliament_id(self, context):
-        parliament_id = getattr(context, 'parliament_id', None)
+        trusted = removeSecurityProxy(context)
+        parliament_id = getattr(trusted, 'parliament_id', None)
         if parliament_id is None:
-            if context.__parent__ is None:
+            if trusted.__parent__ is None:
                 return None
             else:    
-                parliament_id = self._get_parliament_id(context.__parent__)            
+                parliament_id = self._get_parliament_id(trusted.__parent__)            
         return parliament_id  
             
     def constructQuery( self, context ):
@@ -478,6 +479,44 @@ class SubstitutionSource(SpecializedSource):
                     ))        
         return vocabulary.SimpleVocabulary( terms )
 
+class PartyMembership(object):
+    pass
+
+
+
+
+party_membership = sql.join(schema.political_parties, schema.groups,
+                schema.political_parties.c.party_id == schema.groups.c.group_id).join(
+                   schema.user_group_memberships,
+                  schema.groups.c.group_id == schema.user_group_memberships.c.group_id)
+
+mapper(PartyMembership,party_membership)
+
+
+
+class MotionPartySource(SpecializedSource):    
+
+    def constructQuery( self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        user_id = getattr(trusted, 'owner_id', None)
+        if user_id is None:
+            user_id = utils.get_db_user_id()
+        parliament_id = self._get_parliament_id(context)
+        
+        if user_id: 
+            query = session.query(PartyMembership
+                ).filter(
+                    sql.and_(PartyMembership.active_p ==True,
+                        PartyMembership.user_id == user_id,
+                        PartyMembership.parent_group_id == parliament_id)
+                        )
+        else:
+            query = session.query(PartyMembership).filter(                    
+                        PartyMembership.parent_group_id == parliament_id)
+        return query                        
+        
+
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering
     note that the domain_model *must* not have a where and order_by clause 
@@ -552,7 +591,7 @@ class QuerySource( object ):
         return vocabulary.SimpleVocabulary( terms )
 
 
-    
+
     
 
 

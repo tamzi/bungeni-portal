@@ -367,6 +367,10 @@ table.listing td, .stx table td {
   padding:0.25em 0.5em;
 }
 
+img.sortdirection {
+  display:none;
+}
+
 #content a[href^="http:"], #content a.link-external {
   background:transparent;
   padding:1px 0 1px 16px;

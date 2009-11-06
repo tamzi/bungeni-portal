@@ -18,7 +18,13 @@
     <deny permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="zope.ManageContent" role="bungeni.Owner" />            
     <grant permission="zope.ManageContent" role="bungeni.Clerk" />            
-    <grant permission="zope.ManageContent" role="bungeni.Speaker" />                          
+    <grant permission="zope.ManageContent" role="bungeni.Speaker" />              
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <grant permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />                            
   </state>
   
   <state id="submitted" title="Bill Published in Gazette">
@@ -45,6 +51,13 @@
   
 
   <state id="first_committee" title="First Committee">
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />  
+    
     
   </state>
 
@@ -54,7 +67,12 @@
   
 
   <state id="second_reading" title="Second Reading">
-    
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />  
   </state>
   
 

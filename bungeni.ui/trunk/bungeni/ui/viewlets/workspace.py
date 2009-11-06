@@ -15,6 +15,7 @@ from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
 from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
 from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 
+from bungeni.models import utils
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
@@ -32,6 +33,23 @@ def get_wf_state(item):
 
 class ViewletBase(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')
+
+class UserIdViewlet(viewlet.ViewletBase):
+    """ display the users
+    principal id """
+    principal_id = None
+    
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        
+    def update(self):
+        self.principal_id = utils.getUserId()
+        
+    render = ViewPageTemplateFile ('../forms/templates/user_id.pt')        
     
 class QuestionInStateViewlet( ViewletBase ):
     name = state = None

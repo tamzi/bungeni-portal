@@ -24,8 +24,15 @@
      weight="1"
      /-->  
      
-
-
+  <browser:viewlet
+     name="bungeni.viewlet.group_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".workspace.UserIdViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"     
+     for="*"
+     permission="zope.View"
+     weight="10"
+     />   
   
    <browser:viewlet
      name="bungeni.workspace.mp-draft"
@@ -134,6 +141,16 @@
 
   <!-- clerks workspace -->
 
+
+  <browser:viewlet
+     name="bungeni.viewlet.group_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".workspace.UserIdViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"     
+     for="*"
+     permission="zope.View"
+     weight="10"
+     />        
 
 
   <browser:viewlet
@@ -260,6 +277,16 @@
 
   <!-- speakers workspace -->
 
+  <browser:viewlet
+     name="bungeni.viewlet.group_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".workspace.UserIdViewlet"
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"     
+     for="*"
+     permission="zope.View"
+     weight="10"
+     />
+  
   <browser:viewlet
      name="bungeni.workspace.items-complete"
      for="*"

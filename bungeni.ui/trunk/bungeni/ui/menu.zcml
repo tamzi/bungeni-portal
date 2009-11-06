@@ -304,6 +304,17 @@
      />
 
 
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.ConsignatoryContainer"
+     title="Add Consignatory..."
+     action="./add"
+     permission="bungeni.consignatory.Add"
+     order="100"
+     />
+
+
+
   <!--browser:menuItem
      menu="context_additems"
      for="bungeni.models.domain.Parliament"

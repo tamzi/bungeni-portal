@@ -16,7 +16,8 @@
           <a tal:content="result/subject" tal:attributes="href result/url" />       
         </li>
       </ul-->
-      <table tal:attributes="id string:workspace-table-${view/list_id}" class="listing grid">
+      <table tal:attributes="id string:workspace-table-${view/list_id}" 
+            class="listing grid" tal:condition="results">
         <thead>
           <tr>
             <th>Subject</th>

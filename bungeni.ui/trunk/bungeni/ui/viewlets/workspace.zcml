@@ -13,6 +13,20 @@
 
   <!-- MPs Workspace -->
   
+  
+   <!--browser:viewlet
+     name="bungeni.viewlet.ws-user_id"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class="bungeni.ui.forms.viewlets.UserIdViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="1"
+     /-->  
+     
+
+
+  
    <browser:viewlet
      name="bungeni.workspace.mp-draft"
      for="*"

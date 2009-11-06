@@ -429,12 +429,20 @@
 
   <browser:page
      name="add"
-     for=" bungeni.models.domain.ItemScheduleCategoryContainer"
+     for="bungeni.models.domain.ItemScheduleCategoryContainer"
      class=".common.AddForm"
      permission="bungeni.sitting.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />  
 
-
+<!-- consignatories for bills and motions-->
+  <browser:page
+     name="add"
+     for="bungeni.models.domain.ConsignatoryContainer"
+     class=".common.AddForm"
+     permission="bungeni.consignatory.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />  
+     
      
 </configure>     

@@ -19,7 +19,7 @@ from bungeni.core.workflows.bill import states as bill_wf_state
 from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
 from bungeni.models import domain
-from bungeni.models.interfaces import IBungeniApplication
+from bungeni.models.interfaces import IBungeniApplication, IBungeniGroup, ICommittee
 from bungeni.core.interfaces import ISchedulingContext
 
 from ore.alchemist import Session
@@ -66,6 +66,18 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
                 return parent
             parent = parent.__parent__
         raise ValueError("Unable to locate application.")
+
+    def group(self):
+        parent = self.context.__parent__
+        while parent is not None:
+            if IBungeniGroup.providedBy(parent):
+                return parent
+            parent = parent.__parent__
+        return None            
+        raise ValueError("Unable to locate application.")        
+
+    def visible(self):
+        return not(ICommittee.providedBy(self.group()))
 
     def update(self):
         need('yui-dragdrop')
@@ -139,7 +151,7 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
 class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
     model = domain.AgendaItem
     name = 'agendaitem'
-
+    visible = True
     states = (
         agendaitem_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"postponed"].id,
@@ -166,7 +178,8 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
             self.model.status.in_(self.states),
             self.model.group_id == group_id)
             ))
-
+        sitting = self._parent._parent.context            
+        scheduled_item_ids = [item.item_id for item in sitting.item_schedule]
         # add location to items
         gsm = component.getSiteManager()
         adapter = gsm.adapters.lookup(
@@ -184,6 +197,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
                       datetimedict.fromdatetime(item.changes[-1].date)),
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,
+            'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",            
             'url': absoluteURL(item, self.request)} for item, properties in \
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
             IDCDescriptiveProperties(item))) for

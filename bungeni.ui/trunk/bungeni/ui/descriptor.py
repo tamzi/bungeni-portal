@@ -1238,7 +1238,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
         dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
         dict( name="party_id",
             property = schema.Choice( title=_(u"Political Party"), 
-              source=DatabaseSource(domain.PoliticalParty, 
+              source=vocabulary.MotionPartySource( 
                 title_field='short_name', 
                 token_field='party_id', 
                 value_field = 'party_id' ), 

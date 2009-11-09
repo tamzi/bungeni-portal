@@ -11,7 +11,7 @@ mapping = (
     #Matches "business/" or "business"    
     (re.compile(r'^business(/)?$'), interfaces.IBusinessWhatsOnSectionLayer),
     #Matches "business/" followed by anything but whats-on
-    (re.compile(r'^business/(?!whats-on)(/.*)+$'), interfaces.IBusinessSectionLayer),
+    (re.compile(r'^business(?!/whats-on)(/.*)+$'), interfaces.IBusinessSectionLayer),
     #Matches "business/whats-on"    
     (re.compile(r'^business/whats-on(/.*)?$'), interfaces.IBusinessWhatsOnSectionLayer),
     (re.compile(r'^members(/.*)?$'), interfaces.IMembersSectionLayer), 
@@ -29,7 +29,6 @@ def apply_request_layers_by_url(event):
 
     request = event.request
     path = "/".join(reversed(request.getTraversalStack()))
-
     for condition, layer in mapping:
         if condition.match(path) is not None:
             interface.alsoProvides(request, layer)

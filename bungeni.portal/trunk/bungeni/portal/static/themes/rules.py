@@ -17,8 +17,8 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
         if member_workspace_content_id is not None:
             link_val = str(member_workspace_content_id).split('"')[1]
     if link_val is not None:
-        private_link_content = "<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private Folders</a></li>"
-        public_link_content = "<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web Pages</a></li>"
+        private_link_content = "<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folders</a></li>"
+        public_link_content = "<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web pages</a></li>"
         workspace_links_content.append(private_link_content)
         workspace_links_content.append(public_link_content)    
 

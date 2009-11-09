@@ -110,19 +110,7 @@ users = rdb.Table(
    rdb.Column( "recieve_notification", rdb.Boolean, default=True),                
    )
 
-# # not in use yet, but potentially for all 
-# # ownership, sponsorship, etc of bills/motions/questions
-# user_item_associations = rdb.Table(
-#    "user_associations",
-#    metadata,
-#    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
-#    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
-#    rdb.Column( "title", rdb.Unicode(16)), # title of user's assignment role
-#    rdb.Column( "start_date", rdb.DateTime, default=rdb.PassiveDefault('now') ),
-#    rdb.Column( "end_date", rdb.DateTime ),
-#    rdb.Column( "notes", rdb.Unicode ),
-#    rdb.Column( "type", rdb.Unicode(16) ),   
-#    )
+
 
 
 # delegate rights to act on behalf of a user to another user
@@ -348,8 +336,8 @@ group_item_assignments = rdb.Table(
    "group_assignments",
    metadata,
    rdb.Column( "assignment_id", rdb.Integer,  primary_key=True ),
-   rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
-   rdb.Column( "object_type", rdb.String(128), nullable=False ),
+   rdb.Column( "object_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id') ), 
+#   rdb.Column( "object_type", rdb.String(128), nullable=False ),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False),
    rdb.Column( "end_date", rdb.Date ),   
@@ -357,6 +345,22 @@ group_item_assignments = rdb.Table(
    rdb.Column( "status", rdb.String(16) ),    
    rdb.Column( "notes", rdb.UnicodeText ),
    )
+
+
+# # not in use yet, but potentially for all 
+# # ownership, sponsorship, etc of bills/motions/questions
+# user_item_associations = rdb.Table(
+#    "user_associations",
+#    metadata,
+#    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
+#    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
+#    rdb.Column( "title", rdb.Unicode(16)), # title of user's assignment role
+#    rdb.Column( "start_date", rdb.DateTime, default=rdb.PassiveDefault('now') ),
+#    rdb.Column( "end_date", rdb.DateTime ),
+#    rdb.Column( "notes", rdb.Unicode ),
+#    rdb.Column( "type", rdb.Unicode(16) ),   
+#    )
+
 
 
 ##############

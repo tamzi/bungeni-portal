@@ -13,7 +13,7 @@ from datetime import datetime
 
 import interfaces
 
-from bungeni.models import schema
+from bungeni.models import schema, domain
 from bungeni.models.interfaces import IAssignment
     
 class GroupContextAssignments( object ):
@@ -40,8 +40,8 @@ class ContentAssignments( object ):
         primary_key = mapper.primary_key_from_instance( unwrapped )[0]
 
         assignments =  Session().query( GroupAssignment ).filter_by(
-            object_id = primary_key,
-            object_type = unwrapped.__class__.__name__ )
+            object_id = primary_key)
+#            object_type = unwrapped.__class__.__name__ )
             
         for i in assignments:
             yield i
@@ -63,7 +63,7 @@ class GroupAssignmentFactory( object ):
         primary_key = mapper.primary_key_from_instance( unwrapped )[0]
         
         assignment.object_id = primary_key
-        assignment.object_type = unwrapped.__class__.__name__
+#        assignment.object_type = unwrapped.__class__.__name__
         assignment.start_date = datetime.now()
         Session().add( assignment )
         return assignment
@@ -78,8 +78,8 @@ class GroupAssignment( object ):
 
     @property
     def content( self ):
-        content_class = resolve( self.object_type )
-        content = Session().query( content_class ).get( self.object_id )
+#        content_class = resolve( self.object_type )
+        content = Session().query( domain.ParliamentaryItem ).get( self.object_id )
         self.content = content
         return content
 

@@ -5,9 +5,15 @@ from zope.app.publication.interfaces import IBeforeTraverseEvent
 import re
 import interfaces
 
+
 mapping = (
     (re.compile(r'^archive(/.*)?$'), interfaces.IArchiveSectionLayer),
-    (re.compile(r'^business(/.*)?$'), interfaces.IBusinessSectionLayer),
+    #Matches "business/" or "business"    
+    (re.compile(r'^business(/)?$'), interfaces.IBusinessWhatsOnSectionLayer),
+    #Matches "business/" followed by anything but whats-on
+    (re.compile(r'^business/(?!whats-on)(/.*)+$'), interfaces.IBusinessSectionLayer),
+    #Matches "business/whats-on"    
+    (re.compile(r'^business/whats-on(/.*)?$'), interfaces.IBusinessWhatsOnSectionLayer),
     (re.compile(r'^members(/.*)?$'), interfaces.IMembersSectionLayer), 
     (re.compile(r'^admin(/.*)?$'), interfaces.IAdminSectionLayer),        
     )

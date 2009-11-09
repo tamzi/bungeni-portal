@@ -21,5 +21,3 @@ class ISchedulingViewlet(IViewlet):
 
     The ``title`` should be linked to the URL of the item.
     """
-class IWhatsOnBrowserView(IBrowserView):
-    """ Marker """

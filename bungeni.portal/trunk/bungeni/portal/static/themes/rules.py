@@ -1,6 +1,28 @@
 from pyquery import PyQuery as pq
 from urlparse import urlsplit
 
+def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
+    """
+    Add the private and public folders from the meber workspace.
+    """
+    link_val= None
+    workspace_links_content = theme('.level1')
+    if link_id == "#user-workspace-id":
+        member_workspace_content_id = theme('#user-workspace-id').val()
+        if member_workspace_content_id is not None:
+            host_url = urlsplit(log.theme_url)
+            link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
+    else:
+        member_workspace_content_id= content('#portal-breadcrumbs span:nth-child(7) a')
+        if member_workspace_content_id is not None:
+            link_val = str(member_workspace_content_id).split('"')[1]
+    if link_val is not None:
+        private_link_content = "<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private Folders</a></li>"
+        public_link_content = "<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web Pages</a></li>"
+        workspace_links_content.append(private_link_content)
+        workspace_links_content.append(public_link_content)    
+
+
 def add_workspace(content, theme, resource_fetcher, log, workspace_id):
     """Get the workspace content from plone using the hidden id from bungeni
        or drop the tabs.

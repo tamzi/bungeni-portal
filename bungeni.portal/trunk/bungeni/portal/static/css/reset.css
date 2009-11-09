@@ -412,3 +412,34 @@ h4.tabberHeading {
 div#footer {
   background: none;
 }
+
+.template-private_folder div#portal-globalnav ul.level0 li#portaltab-members a, 
+.template-web_pages div#portal-globalnav ul.level0 li#portaltab-members a {
+    background-color:#FAAD5F;
+    border:0px;
+    color:#000000;
+    font-weight:normal;
+}
+
+.template-private_folder div#portal-globalnav ul.level0 li#portaltab- a,
+.template-web_pages div#portal-globalnav ul.level0 li#portaltab- a{
+  background-color:#FFE7B8;
+  border-color:#FAAD5F #FAAD5F #FFE7B8;
+  border-style:solid;
+  border-width:0.5px 1px 5px;
+  font-weight:bold;
+  height: 1.1em;
+  padding: 0 10px;
+}
+
+.template-private_folder div#portal-globalnav ul.level1 li.selected a,
+.template-web_pages div#portal-globalnav ul.level1 li.selected a{
+  font-weight:normal;
+}  
+
+
+.template-private_folder div#portal-globalnav ul.level1 li:nth-child(3),
+.template-web_pages div#portal-globalnav ul.level1 li:nth-child(4) {
+    font-weight:bold;
+}
+

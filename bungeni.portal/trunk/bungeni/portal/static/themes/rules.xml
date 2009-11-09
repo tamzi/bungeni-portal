@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
   <theme href="/static/themes/layout.html" />
+  <match path="regex:.*/(private_folder|web_pages)$"
+ 	 class="menu-items" />    
   <match path="exact:/"
          class="frontpage" />
   <match path="exact:/front-page"
@@ -142,7 +144,23 @@
     <!--body-->
     <replace content="body"
              theme="body" />    
-   </rule>    
+   </rule>
+
+  
+  <rule class="menu-items">
+    <drop content="#portal-globalnav > li:first-child"/>             
+    <append content="#portal-globalnav > li"
+             theme="children:#portal-globalnav > ul" />
+    <drop content="ul#portal-personaltools" />    
+    <replace href="/bungeni"
+            content="ul#portal-personaltools li.navigation"
+            theme="children:#portal-globalnav ul.level1" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
+             pyarg-link_id="#portal-breadcrumbs"/>
+    <append content="#viewlet-above-content"
+             theme="children:.main-content"/>     
+  </rule>
+  
   
    <rule class="frontpage">
     <!-- header-->
@@ -154,7 +172,7 @@
 
     <!-- menu -->
     <drop href="/plone"
-          content="#portal-globalnav > li:first-child"/>     
+          content="#portal-globalnav > li:first-child"/>         
     <append href="/bungeni"
              content="#portal-globalnav > li:first-child"
              theme="children:#portal-globalnav > ul" />
@@ -162,12 +180,16 @@
              theme="children:#portal-globalnav > ul" />
     <prepend href="/bungeni"
              content=".contentActions"
-             theme="children:.main-content"/>            
+             theme="children:.main-content"/>
+    <append href="/bungeni"
+             content="#viewlet-above-content"
+             theme="children:.main-content"/>    
     <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <append href="/bungeni"
             content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1" />
-
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
+             pyarg-link_id="#user-workspace-id"/>    
     <!-- breadcrumbs -->
     <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
 
@@ -205,7 +227,7 @@
             content="//head" />    
    </rule>
 
-
+ 
   <rule class="primary">
     <drop theme=".workspace-tab"
           if-content="not:a[href*='committees/obj-'], a[href*='members/current/obj-']"/>     

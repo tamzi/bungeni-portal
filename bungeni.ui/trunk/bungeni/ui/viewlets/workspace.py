@@ -537,7 +537,7 @@ class BillItemsViewlet( ViewletBase ):
         self.query = bills            
 
 class DraftBillViewlet(BillItemsViewlet):
-    name  = u"Bills"
+    name  = u"Draft Bills"
     list_id = "draft_bills"
 
     def update(self):

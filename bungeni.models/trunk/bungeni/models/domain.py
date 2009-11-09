@@ -138,7 +138,9 @@ class GroupMembership( Entity ):
 class OfficesHeld( Entity ):
     """ Offices held by this group member """
     
-
+class GroupAssignment(Entity):
+    """ assigning a parliamentary item to a group
+    """
 
 class StaffGroupMembership( GroupMembership ):
     """ 

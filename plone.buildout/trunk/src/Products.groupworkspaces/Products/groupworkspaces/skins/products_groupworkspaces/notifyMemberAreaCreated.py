@@ -16,7 +16,7 @@ wftool = getToolByName(context, 'portal_workflow')
 wftool.doActionFor(context, 'publish')
 
 
-folders = [["private_folder", "Private Folder", 'private'], ["web_pages", "WebPages", 'public']]
+folders = [["private_folder", "Private folders", 'private'], ["web_pages", "Web pages", 'public']]
 for folder in folders:
     context.invokeFactory('Folder', id=folder[0])
     newfolder = getattr(context, folder[0])

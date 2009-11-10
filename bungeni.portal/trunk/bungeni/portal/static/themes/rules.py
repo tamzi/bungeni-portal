@@ -33,7 +33,11 @@ def add_workspace(content, theme, resource_fetcher, log, workspace_id):
     if workspace_content_id is not None:
         try:
             host_url = urlsplit(log.theme_url)
-            workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ "/" + workspace_content_id)
+            if workspace_id == "#user-workspace-id":
+                workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ "/" + workspace_content_id + "web_pages")
+            else:
+                 workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ "/" + workspace_content_id)
+                
             workspace_content = workspace_url('#portal-column-content').html()
             workspace_item.append(workspace_content)
         except:

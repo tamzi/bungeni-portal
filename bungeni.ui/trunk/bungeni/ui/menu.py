@@ -22,9 +22,8 @@ from bungeni.models import queries
 from bungeni.ui.i18n import  _
 from bungeni.ui.utils import urljoin
 #Following added inorder to fix issue 319. needs review
-from ore.alchemist import Session
 from bungeni.core.globalsettings import getCurrentParliamentId
-from bungeni.models import domain
+
 def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
     items = menu.getMenuItems(context, request)
@@ -246,9 +245,6 @@ class WorkflowMenu(BrowserMenu):
         
 
         parliament_id = getCurrentParliamentId()
-        if parliament_id:
-            session = Session()
-            parliament = session.query(domain.Parliament).get(parliament_id)
         
         url = absoluteURL(context, request)
         site_url2 = absoluteURL(getSite(), request)

@@ -64,17 +64,6 @@
      weight="30"
      />    
 
-
-   <browser:viewlet
-     name="bungeni.workspace.mp-item-archive"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.MPItemArchiveViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="50"
-     />       
-  
    <!--browser:viewlet
      name="bungeni.workspace.mp-item-failed"
      for="*"

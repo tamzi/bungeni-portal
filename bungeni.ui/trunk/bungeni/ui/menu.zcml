@@ -106,7 +106,7 @@
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
-     title="My Workspace"
+     title="Parliamentary items"
      action=""
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
@@ -115,7 +115,7 @@
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
-     title="Calendar"
+     title="Scheduling"
      action="/calendar"
      permission="zope.View"
      />

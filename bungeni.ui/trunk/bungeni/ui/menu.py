@@ -21,7 +21,10 @@ from bungeni.core import schedule
 from bungeni.models import queries
 from bungeni.ui.i18n import  _
 from bungeni.ui.utils import urljoin
-
+#Following added inorder to fix issue 319. needs review
+from ore.alchemist import Session
+from bungeni.core.globalsettings import getCurrentParliamentId
+from bungeni.models import domain
 def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
     items = menu.getMenuItems(context, request)
@@ -240,21 +243,35 @@ class WorkflowMenu(BrowserMenu):
         state = IWorkflowInfo(context).state().getState()
         wf_info = IWorkflowInfo( context )
         transitions = wf_info.getManualTransitionIds()
+        
 
+        parliament_id = getCurrentParliamentId()
+        if parliament_id:
+            session = Session()
+            parliament = session.query(domain.Parliament).get(parliament_id)
+        
         url = absoluteURL(context, request)
-
+        site_url2 = absoluteURL(getSite(), request)
         results = []
         for transition in transitions:
             tid = transition
             state_transition = wf.getTransitionById(transition)
-            transition_url = url + \
+            #Compares the current url to homepage to determine whether we are on workspace or not.
+            #Fix for bug 319
+            #Someone should probably review this.
+            if url == site_url2:
+                transition_url = site_url2 + \
+                             '/archive/browse/parliaments/obj-' + str(parliament_id) + \
+                             '/@@change_workflow_state?' + \
+                             'transition=%s&next_url=...' % tid
+            else:
+                transition_url = url + \
                              '/@@change_workflow_state?'\
                              'transition=%s&next_url=...' % tid
-
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,
                      'class': ''}
-            
+            import pdb; pdb.set_trace()
             results.append(
                 dict(title=state_transition.title,
                      description="",

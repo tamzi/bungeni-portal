@@ -514,9 +514,9 @@
   <adapter
      for="* *"
      name="plone.contentmenu.workflow"
-     factory=".menu.WorkflowSubMenuItem"
+     factory=".menu.WorkflowSubMenuItem"    
      provides="ploned.ui.interfaces.IContentMenuItem" />
-
+ 
   <adapter
      for="bungeni.core.interfaces.ISchedulingContext *"
      name="plone.contentmenu.calendar"

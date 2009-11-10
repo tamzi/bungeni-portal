@@ -227,7 +227,7 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
 
     @property
     def action(self):
-        return self.url + '/workflow'
+        return self.url
     
     def selected(self):
         return False
@@ -271,7 +271,7 @@ class WorkflowMenu(BrowserMenu):
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,
                      'class': ''}
-            import pdb; pdb.set_trace()
+            
             results.append(
                 dict(title=state_transition.title,
                      description="",

@@ -443,6 +443,23 @@
      permission="bungeni.consignatory.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />  
+
+
+<!-- group item assignments-->
+  <browser:page
+     name="add"
+     for="bungeni.models.domain.GroupGroupItemAssignmentContainer"
+     class=".common.AddForm"
+     permission="bungeni.groupitemassignment.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />       
+  <browser:page
+     name="add"
+     for="bungeni.models.domain.ItemGroupItemAssignmentContainer"
+     class=".common.AddForm"
+     permission="bungeni.groupitemassignment.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />       
      
      
 </configure>     

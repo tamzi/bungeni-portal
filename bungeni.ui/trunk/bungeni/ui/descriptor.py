@@ -1005,6 +1005,54 @@ class GovernmentDescriptor( ModelDescriptor ):
     
     schema_invariants = [EndAfterStart]    
     custom_validators = [validations.validate_government_dates,]
+
+class GroupItemAssignmentDescriptor( ModelDescriptor ):
+    fields= [
+        dict(name="assignment_id", omit=True),
+#        dict(name="object_id",),
+#        dict(name="group_id",),
+        dict( name="start_date", label=_(u"Start Date"), 
+            listing_column=day_column("start_date", 
+                _(u'Start Date') ), 
+                listing=True,
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict(name="end_date",  label=_(u"End Date"), 
+            listing_column=day_column("end_date", 
+                _(u'End Date') ), 
+                listing=True,
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict(name="due_date", label=_(u"Due Date"), 
+            listing_column=day_column("due_date", 
+                _(u'Due Date') ), 
+                listing=True,
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict(name="status", omit=True),
+        dict(name="notes",
+            property=schema.Text(title=_(u"Notes") , required=False),
+                view_widget=HTMLDisplay,
+                edit_widget=RichTextEditor,
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),
+    ]
+
+
+class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
+    display_name =_(u"Assigned item")
+    container_name =_(u"Assigned items")
+    fields= [
+        dict(name="object_id",),
+        dict(name="group_id", omit=True),
+    ]
+    fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields )) 
+    
+class GroupGroupItemAssignmentDescriptor( ModelDescriptor ):
+    display_name =_(u"Assigned group")
+    container_name =_(u"Assigned groups")
+    fields= [
+        dict(name="object_id",omit=True),
+        dict(name="group_id",), 
+    ]
+    fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields ))      
     
 class ParliamentaryItemDescriptor( ModelDescriptor ):
     fields= [

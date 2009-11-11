@@ -55,7 +55,31 @@
      ui_module="bungeni.ui.content"     
      echo="False"
      />          
-          
+
+  <!--db:catalyst
+     class="bungeni.models.domain.GroupItemAssignment"
+     descriptor=".descriptor.GroupItemAssignmentDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="False"
+     /-->             
+
+  <db:catalyst
+     class="bungeni.models.domain.GroupGroupItemAssignment"
+     descriptor=".descriptor.GroupGroupItemAssignmentDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="False"
+     />  
+  <db:catalyst
+     class="bungeni.models.domain.ItemGroupItemAssignment"
+     descriptor=".descriptor.ItemGroupItemAssignmentDescriptor"
+     interface_module="bungeni.models.interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="False"
+     />       
+
+
      
    <db:catalyst
      class="bungeni.models.domain.PoliticalParty"

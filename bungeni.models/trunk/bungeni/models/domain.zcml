@@ -435,6 +435,28 @@
              set_attributes="user_id
                        item_id" />                                    
   </class>      
+
+  <class class=".domain.GroupItemAssignment" >
+    <require permission="zope.View"
+             attributes="assignment_id
+                        object_id
+                        group_id
+                        start_date
+                        end_date
+                        due_date
+                        status
+                        notes" />    
+                                  
+    <require permission="bungeni.groupitemassignment.Edit"
+             set_attributes="ssignment_id
+                        object_id
+                        group_id
+                        start_date
+                        end_date
+                        due_date
+                        status
+                        notes" />                                    
+  </class>      
           
 </configure>
 

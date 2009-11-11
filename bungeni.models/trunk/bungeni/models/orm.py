@@ -419,7 +419,7 @@ mapper( domain.MemberRoleTitle, schema.role_titles.join(schema.addresses),
 mapper( domain.AddressType, schema.address_types )
 mapper( domain.UserAddress, schema.addresses)
 
-mapper(domain.GroupAssignment, schema.group_item_assignments,
+mapper(domain.GroupItemAssignment, schema.group_item_assignments,
         properties={             
             'group': relation(domain.Group, 
                 primaryjoin=(schema.group_item_assignments.c.group_id==schema.groups.c.group_id ),

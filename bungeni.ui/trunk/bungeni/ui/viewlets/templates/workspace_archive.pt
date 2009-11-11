@@ -1,0 +1,12 @@
+<div id="workspace-archive">
+  <tal:viewlet repeat="viewlet view/viewlets">
+    <div tal:define="odd repeat/viewlet/odd"
+         tal:attributes="class python: 'item %s' % (odd and 'odd' or 'even')">
+      <tal:render replace="structure viewlet/render" />
+    </div>
+  </tal:viewlet>
+  <div class="visualClear"><!-- nothing here --></div>
+
+</div>
+
+

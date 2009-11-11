@@ -5,6 +5,9 @@ from zope.publisher.interfaces.browser import IBrowserView
 class IWorkspaceManager(IViewletManager):
     """Workspace viewlet manager."""
 
+class IWorkspaceArchiveManager(IViewletManager):
+    """Workspace-archive viewlet manager."""
+
 class ISchedulingManager(IViewletManager):
     """Scheduling viewlet manager."""
 

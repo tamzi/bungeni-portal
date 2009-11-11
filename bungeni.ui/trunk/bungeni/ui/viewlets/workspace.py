@@ -708,7 +708,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
     list_id = "items-in-progress"     
 
 
-class MPItemArchiveViewlet(ItemInStageViewlet):
+class ItemArchiveViewlet(ItemInStageViewlet):
     name = "Archived Items"
     states = [
         question_wf_state[u"answered"].id,

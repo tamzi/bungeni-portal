@@ -13,7 +13,8 @@
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
     <deny permission="zope.View" role="bungeni.Anybody" /> 
-    <deny permission="bungeni.agendaitem.Add" role="bungeni.MP" />             
+    <deny permission="bungeni.agendaitem.Add" role="bungeni.MP" />   
+    <deny permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />                 
   </state>
 
   <state id="active" title="Active Committee">
@@ -24,12 +25,14 @@
     <grant permission="zope.View" role="bungeni.Minister" />  
     <grant permission="zope.View" role="bungeni.Everybody" /> 
     <grant permission="zope.View" role="bungeni.Anybody" />   
+    <grant permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />   
     <grant permission="bungeni.agendaitem.Add" role="bungeni.CommitteeMember" />                         
     <deny permission="bungeni.agendaitem.Add" role="bungeni.MP" />                     
   </state>
   
   <state id="dissolved" title="Committee is Dissolved">
-    <deny permission="bungeni.agendaitem.Add" role="bungeni.CommitteeMember" />                           
+    <deny permission="bungeni.agendaitem.Add" role="bungeni.CommitteeMember" />    
+    <denty permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />                              
   </state>
 
   <transition 

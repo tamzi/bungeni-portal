@@ -24,7 +24,7 @@
     <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
     <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
     <grant permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />                            
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />                                
   </state>
   
   <state id="submitted" title="Bill Published in Gazette">
@@ -38,6 +38,7 @@
     <grant permission="zope.View" role="bungeni.Minister" />      
     <grant permission="zope.View" role="bungeni.Everybody" /> 
     <grant permission="zope.View" role="bungeni.Anybody" />    
+    <grant permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />       
   </state>
 
   <state id="first_reading" title="First Reading">
@@ -61,9 +62,7 @@
     
   </state>
 
-  <!--state id="second_reading_pending" title="second reading pending">
 
-      </state-->
   
 
   <state id="second_reading" title="Second Reading">
@@ -79,12 +78,7 @@
   <state id="second_reading_postponed" title="Second Reading Postponed">
     
   </state>
-  
 
-  <!--state id="house_pending" title="house pending">
-      
-      </state-->
-  
 
   <state id="whole_house" title="Whole House">
 
@@ -101,9 +95,6 @@
   </state>
   
 
-  <!--state id="report_reading_pending" title="report reading pending">
-      
-      </state-->
   
 
   <state id="report_reading" title="Report Reading">
@@ -116,10 +107,6 @@
   </state>
   
 
-  <!--state id="third_reading_pending" title="Third Reading Pending">
-      
-      </state-->
-  
 
   <state id="third_reading" title="Third Reading">
     
@@ -136,6 +123,7 @@
     <deny permission="zope.ManageContent" role="bungeni.Owner" />            
     <deny permission="zope.ManageContent" role="bungeni.Clerk" />            
     <deny permission="zope.ManageContent" role="bungeni.Speaker" />     
+    <deny permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />       
   </state>
   
 
@@ -144,6 +132,7 @@
     <deny permission="zope.ManageContent" role="bungeni.Owner" />            
     <deny permission="zope.ManageContent" role="bungeni.Clerk" />            
     <deny permission="zope.ManageContent" role="bungeni.Speaker" />       
+    <deny permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />       
   </state>
   
 
@@ -152,6 +141,7 @@
     <deny permission="zope.ManageContent" role="bungeni.Owner" />            
     <deny permission="zope.ManageContent" role="bungeni.Clerk" />            
     <deny permission="zope.ManageContent" role="bungeni.Speaker" />       
+    <deny permission="bungeni.groupitemassignment.Add" role="bungeni.Clerk" />       
   </state>
   
   <transition
@@ -245,16 +235,7 @@
      action=""
      condition=""
      />
-  <!--transition
-      id="schedule-second"
-      title="Schedule Second Reading"
-      trigger="manual"
-      source="second_reading_pending"
-      destination="second_reading"
-      permission="bungeni.bill.Schedule"
-      action=""
-      condition=""
-      /-->
+
   <transition
      id="schedule-second"
      title="Schedule Second Reading"
@@ -320,16 +301,7 @@
      condition=""
      />
 
-  <!--transition
-      id="schedule-whole-house"
-      title="Do Schedule Whole House Committee"
-      trigger="manual"
-      source="house_pending"
-      destination="whole_house"
-      permission="bungeni.bill.Schedule"
-      action=""
-      condition=""
-      /-->
+
   <transition
      id="postpone-whole-house"
      title="Postpone Whole House Committee"
@@ -392,16 +364,7 @@
      action=""
      condition=""
      />
-  <!--transition
-      id="schedule-second-report-reading"
-      title="Schedule Report Reading"
-      trigger="manual"
-      source="report_reading_pending"
-      destination="report_reading"
-      permission="bungeni.bill.SelectCommittee"
-      action=""
-      condition=""
-      /-->
+
   <transition
      id="postpone-second-report-reading"
      title="Postpone Report Reading"
@@ -432,16 +395,7 @@
      action=""
      condition=""
      />
-  <!--transition
-      id="second-committee-schedule-third-reading"
-      title="Schedule Third Reading"
-      trigger="manual"
-      source="third_reading_pending"
-      destination="third_reading"
-      permission="bungeni.bill.Schedule"
-      action=""
-      condition=""
-      /-->
+
   <transition
      id="recommit-second-committee"
      title="Recommit to 2nd Committee"

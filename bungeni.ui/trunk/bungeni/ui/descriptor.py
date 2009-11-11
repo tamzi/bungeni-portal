@@ -135,6 +135,18 @@ def inActiveDead_Column( name, title, default):
         'D': _(u"deceased")}    
     renderer = lambda x: aid[x]
     return _column( name, title, renderer, default)  
+  
+def item_name_column(name, title, default=u""):
+    def getter( item, formatter ):        
+        session = Session()
+        return u"%s %s"%(item.item.type, item.item.short_name)    
+    return column.GetterColumn( title, getter )
+def group_name_column(name, title, default=u""):
+    def getter( item, formatter ):        
+        session = Session()
+        return u"%s %s"%(item.group.type, item.group.short_name)    
+    return column.GetterColumn( title, getter )
+    
      
 ####
 #  Constraints / Invariants
@@ -1040,7 +1052,19 @@ class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
     display_name =_(u"Assigned item")
     container_name =_(u"Assigned items")
     fields= [
-        dict(name="object_id",),
+        dict(name="object_id",
+            property = schema.Choice(
+                title=_(u"Bill"),    
+                source=vocabulary.BillSource( 
+                    title_field='short_name', 
+                    token_field='parliamentary_item_id', 
+                    value_field = 'parliamentary_item_id' ),  
+                ),            
+              listing_column = item_name_column( 
+                        "object_id", 
+                        _(u'Bill')),            
+            listing=True,
+        ),
         dict(name="group_id", omit=True),
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields )) 
@@ -1050,7 +1074,19 @@ class GroupGroupItemAssignmentDescriptor( ModelDescriptor ):
     container_name =_(u"Assigned groups")
     fields= [
         dict(name="object_id",omit=True),
-        dict(name="group_id",), 
+        dict(name="group_id",
+         property = schema.Choice(
+                title=_(u"Committee"),    
+                source=vocabulary.CommitteeSource( 
+                    title_field='short_name', 
+                    token_field='group_id', 
+                    value_field = 'group_id' ),  
+                ),               
+              listing_column = group_name_column( 
+                        "group_id", 
+                        _(u'Group')),            
+            listing=True,                
+        ), 
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields ))      
     

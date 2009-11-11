@@ -291,4 +291,12 @@ class IOffice(IBungeniGroup):
     
 class IUserAddress(interface.Interface):
     """ marker interface addresses of a user """
-        
+
+class IGroupItemAssignment(interface.Interface):
+    pass
+
+class IGroupGroupItemAssignment(IGroupItemAssignment):
+    pass
+
+class IItemGroupItemAssignment(IGroupItemAssignment):
+    pass            

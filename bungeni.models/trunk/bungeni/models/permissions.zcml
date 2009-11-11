@@ -187,6 +187,10 @@
   <permission id="bungeni.consignatory.Delete" title="Delete Consignatory" />   
   <permission id="bungeni.consignatory.Edit" title="Edit Consignatory" />
 
-        
-
+  <permission id="bungeni.groupitemassignment.View" title="Add Group Item Assignment" />
+  <permission id="bungeni.groupitemassignment.Add" title="Add Group Item Assignment" />
+  <permission id="bungeni.groupitemassignment.Delete" title="Delete Group Item Assignment" />
+  <permission id="bungeni.groupitemassignment.Edit" title="Edit Group Item Assignment" />          
+  <meta:redefinePermission from="bungeni.groupitemassignment.View" to="zope.View" />
+  
 </configure>

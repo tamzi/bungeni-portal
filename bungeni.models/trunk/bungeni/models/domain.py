@@ -138,9 +138,6 @@ class GroupMembership( Entity ):
 class OfficesHeld( Entity ):
     """ Offices held by this group member """
     
-class GroupAssignment(Entity):
-    """ assigning a parliamentary item to a group
-    """
 
 class StaffGroupMembership( GroupMembership ):
     """ 
@@ -263,6 +260,8 @@ class Committee( Group ):
     agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
+    assigneditems = one2many("assigneditems", "bungeni.models.domain.GroupItemAssignmentContainer", "group_id")               
+    
 
 
 class CommitteeMember( GroupMembership ):

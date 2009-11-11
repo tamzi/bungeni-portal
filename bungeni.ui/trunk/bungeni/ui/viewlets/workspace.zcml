@@ -9,8 +9,17 @@
      permission="zope.View"
      class="zope.viewlet.manager.WeightOrderedViewletManager"
      template="templates/workspace.pt"
-     />    
+     />
+  
+  <browser:viewletManager
+     name="bungeni.workspace-archive"
+     provides=".interfaces.IWorkspaceArchiveManager"
+     permission="zope.View"
+     class="zope.viewlet.manager.WeightOrderedViewletManager"
+     template="templates/workspace_archive.pt"
+     />      
 
+  
   <!-- MPs Workspace -->
   
   
@@ -52,8 +61,8 @@
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="20"
-     />  
- 
+     />
+
    <browser:viewlet
      name="bungeni.workspace.mp-in-progress"
      for="*"
@@ -309,7 +318,48 @@
      permission="zope.View"
      weight="10"
      />    
-     
-          
+
+  
+  <!-- Workspace Archive -->
+
+   <browser:viewlet
+     name="bungeni.workspace.mp-item-archive"
+     for="*"
+     manager=".interfaces.IWorkspaceArchiveManager"
+     class=".workspace.ItemArchiveViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"
+     permission="zope.View"
+     weight="50"
+     />
+
+   <browser:viewlet
+     name="bungeni.workspace.clerk-item-archive"
+     for="*"
+     manager=".interfaces.IWorkspaceArchiveManager"
+     class=".workspace.ItemArchiveViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="50"
+     />
+
+   <browser:viewlet
+     name="bungeni.workspace.speaker-item-archive"
+     for="*"
+     manager=".interfaces.IWorkspaceArchiveManager"
+     class=".workspace.ItemArchiveViewlet"
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"
+     permission="zope.View"
+     weight="50"
+     />
+
+   <browser:viewlet
+     name="bungeni.workspace.minister-item-archive"
+     for="*"
+     manager=".interfaces.IWorkspaceArchiveManager"
+     class=".workspace.ItemArchiveViewlet"
+     view="bungeni.ui.interfaces.IMinisterWorkspace"
+     permission="zope.View"
+     weight="50"
+     />       
   
 </configure>

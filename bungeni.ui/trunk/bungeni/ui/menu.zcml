@@ -115,6 +115,15 @@
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
+     title="Archive"
+     action="/workspace_archive"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     permission="zope.View"
+     />
+  
+  <browser:menuItem
+     menu="workspace_navigation"
+     for="bungeni.models.interfaces.IBungeniApplication"
      title="Scheduling"
      action="/calendar"
      permission="zope.View"

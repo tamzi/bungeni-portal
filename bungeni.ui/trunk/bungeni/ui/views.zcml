@@ -21,6 +21,17 @@
      template="templates/app-workspace.pt"
      />
 
+  <!-- Workspace -->
+
+  <browser:page
+     name="workspace_archive"     
+     for="bungeni.models.interfaces.IBungeniApplication"
+     layer=".interfaces.IBungeniAuthenticatedSkin"     
+     class=".workspace_archive.WorkspaceArchiveView"     
+     permission="zope.View"
+     template="templates/app-workspace-archive.pt"     
+     />
+
   <!-- Setup Access to Browser Resources on the Application -->
   
   <browser:page
@@ -72,6 +83,7 @@
     class=".search.Search"
     />
 
+  
   <!-- Reporting -->
 
   <browser:page

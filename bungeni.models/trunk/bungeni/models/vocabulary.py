@@ -492,6 +492,26 @@ party_membership = sql.join(schema.political_parties, schema.groups,
 
 mapper(PartyMembership,party_membership)
 
+class BillSource(SpecializedSource):  
+    
+    def constructQuery( self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        parliament_id = self._get_parliament_id(context)
+        query = session.query(domain.Bill).filter(
+            domain.Bill.parliament_id == parliament_id)
+        return query                
+                
+class CommitteeSource(SpecializedSource):  
+
+    def constructQuery( self, context):
+        session= Session()
+        trusted=removeSecurityProxy(context)
+        parliament_id = self._get_parliament_id(context)
+        query = session.query(domain.Committee).filter(
+            domain.Committee.parent_group_id == parliament_id)
+        return query                
+
 
 
 class MotionPartySource(SpecializedSource):    

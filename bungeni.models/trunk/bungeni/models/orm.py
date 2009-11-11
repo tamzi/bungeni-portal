@@ -432,5 +432,9 @@ mapper(domain.GroupItemAssignment, schema.group_item_assignments,
                uselist=False),                            
         }
         )             
-
-
+mapper(domain.ItemGroupItemAssignment, schema.group_item_assignments,
+        inherits=domain.GroupItemAssignment,)
+        
+mapper(domain.GroupGroupItemAssignment, schema.group_item_assignments,
+        inherits=domain.GroupItemAssignment)        
+        

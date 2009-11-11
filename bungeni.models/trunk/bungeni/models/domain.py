@@ -185,6 +185,13 @@ class GroupItemAssignment( object ):
     """ the assignment of a parliamentary content object to a group
     """
 
+class GroupGroupItemAssignment( GroupItemAssignment):
+    """ assign a group to an item """
+
+class ItemGroupItemAssignment( GroupItemAssignment ):
+    """ assign an item to a group """
+
+
 #############
 
     
@@ -260,7 +267,7 @@ class Committee( Group ):
     agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
-    assigneditems = one2many("assigneditems", "bungeni.models.domain.GroupItemAssignmentContainer", "group_id")               
+    assigneditems = one2many("assigneditems", "bungeni.models.domain.ItemGroupItemAssignmentContainer", "group_id")               
     
 
 
@@ -441,6 +448,7 @@ class Bill( ParliamentaryItem ):
     
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
     event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
+    assigneditems = one2many("assigneditems", "bungeni.models.domain.GroupGroupItemAssignmentContainer", "object_id")               
 
     versions = one2many(
         "versions",

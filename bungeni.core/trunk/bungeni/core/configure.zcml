@@ -226,6 +226,7 @@
   <adapter factory=".dc.AgendaItemDescriptiveProperties" />
   <adapter factory=".dc.TabledDocumentDescriptiveProperties" />  
   <adapter factory=".dc.ConstituencyDetailsDescriptiveProperties" />
+  <adapter factory=".dc.GroupItemAssignmentDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

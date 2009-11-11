@@ -330,6 +330,13 @@ class ConstituencyDetailsDescriptiveProperties(DescriptiveProperties):
         return '%s - %i' % (self.context.constituency.name,
             self.context.date.year)
 
-            
+class GroupItemAssignmentDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IGroupItemAssignment)
+    
+    @property
+    def title(self):  
+        return '%s - %s ' % (self.context.item.short_name, self.context.group.short_name)
+
+                        
                                     
 

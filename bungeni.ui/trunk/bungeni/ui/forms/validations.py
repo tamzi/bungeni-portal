@@ -46,7 +46,22 @@ def validate_start_date_within_parent( parent, data ):
                 errors.append( interface.Invalid( 
                 _(u"Start date must be prior to (%s)") % pend, 
                 "start_date" ))     
-    return errors               
+    return errors
+
+def validate_start_date_equals_end_date(action, data, context, container):
+    """ Check that the start date is inside the restrictictions.
+    It must not start before the contextParents start date or end
+    after the contextsParents end date"""
+    errors =[]   
+    if data['start_date'] and  data['end_date']is not None:
+        start = get_date(data['end_date']) 
+        end = get_date(data['start_date'])   
+        if start != end:
+            errors.append( interface.Invalid( 
+                _(u"End date must be equal to start date.") , 
+                "end_date" ))             
+    return errors
+
     
 def validate_end_date_within_parent( parent, data ):
     """

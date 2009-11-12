@@ -180,8 +180,6 @@ class AuditorFactory( object ):
 BillAuditor = AuditorFactory( schema.bill_changes, domain.BillChange )
 MotionAuditor = AuditorFactory( schema.motion_changes, domain.MotionChange )
 QuestionAuditor = AuditorFactory( schema.question_changes, domain.QuestionChange )
-ResponseAuditor =  AuditorFactory( schema.response_changes, domain.ResponseChange )
-
 AgendaItemAuditor =  AuditorFactory( schema.agenda_item_changes, domain.AgendaItemChange )
 TabledDocumentAuditor =  AuditorFactory( schema.tabled_document_changes, domain.TabledDocumentChange )
 

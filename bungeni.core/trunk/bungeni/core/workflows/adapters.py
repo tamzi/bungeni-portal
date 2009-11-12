@@ -5,7 +5,6 @@ import xmlimport
 import bill
 import question
 import motion
-import response
 import version
 import groupsitting
 import groups
@@ -38,8 +37,6 @@ MotionWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(motion, domain.Motion))
 BillWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(bill, domain.Bill))
-ResponseWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(response, domain.Response))
 VersionWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(version, IVersion))
 GroupSittingWorkflowAdapter = workflow.AdaptedWorkflow(

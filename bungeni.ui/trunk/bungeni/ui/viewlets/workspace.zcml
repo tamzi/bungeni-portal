@@ -50,7 +50,7 @@
      class=".workspace.MPItemDraftViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="10"
+     weight="30"
      />  
   
    <browser:viewlet
@@ -60,7 +60,7 @@
      class=".workspace.MPItemActionRequiredViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="20"
+     weight="10"
      />
 
    <browser:viewlet
@@ -70,7 +70,7 @@
      class=".workspace.MPItemInProgressViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
-     weight="30"
+     weight="20"
      />    
 
    <!--browser:viewlet
@@ -127,7 +127,7 @@
   <browser:viewlet
      name="bungeni.workspace.my-groups"
      for="*"
-     manager=".interfaces.IWorkspaceManager"
+     manager="ploned.ui.interfaces.IRightColumnManager"
      class=".workspace.MyGroupsViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"

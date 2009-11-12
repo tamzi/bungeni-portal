@@ -175,6 +175,8 @@ class MyMotionsViewlet( ViewletBase ):
 class MyGroupsViewlet( ViewletBase ):
     name = "My Groups"
     list_id = "my_groups"    
+    render = ViewPageTemplateFile ('templates/workspace_item_portlet.pt')
+        
     def getData(self):
         """
         return the data of the query

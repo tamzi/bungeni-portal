@@ -337,7 +337,7 @@ group_item_assignments = rdb.Table(
    metadata,
    rdb.Column( "assignment_id", rdb.Integer,  
         primary_key=True, nullable=False ),
-   rdb.Column( "object_id", rdb.Integer, 
+   rdb.Column( "item_id", rdb.Integer, 
         rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
         nullable=False  ), 
 #   rdb.Column( "object_type", rdb.String(128), nullable=False ),

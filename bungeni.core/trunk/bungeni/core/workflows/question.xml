@@ -63,10 +63,24 @@
 
   <state id="response_pending" title="Question Pending Response">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <grant permission="bungeni.response.Add" role="bungeni.Minister" />
     <grant permission="bungeni.response.Edit" role="bungeni.Minister" />   
     <grant permission="bungeni.response.View" role="bungeni.Minister" />        
   </state>
+
+  <state id="response_submitted" title="Response Submitted">
+    <grant permission="bungeni.response.Edit" role="bungeni.Clerk"/>
+    <grant permission="zope.View" role="bungeni.Clerk"/>    
+    <deny permission="bungeni.response.Edit" role="bungeni.Owner"/>
+    <deny permission="bungeni.response.Edit" role="bungeni.Minister"/>
+  </state>
+
+  <state id="response_complete" title="Response Completed">
+    <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Everybody" />
+    <grant permission="zope.View" role="bungeni.Anybody" />    
+  </state>
+
+
 
   <state id="deferred" title="Question Deferred">
   </state>
@@ -77,17 +91,6 @@
   <state id="elapsed" title="Question Elapsed">
   </state>
 
-  <state id="responded" title="Question Responded">
-    <deny permission="bungeni.response.Add" role="bungeni.Minister" />
-    <deny permission="bungeni.response.Edit" role="bungeni.Minister" />    
-    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
-    <grant permission="bungeni.response.View" role="bungeni.Clerk" />   
-  </state>
-
-  <state id="answered" title="Question Answered">
-    <grant permission="bungeni.question.Add" role="bungeni.MP" />    
-    <grant permission="bungeni.response.View" role="bungeni.Everybody" />            
-  </state>
 
   <state id="debated" title="Question Debated">  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />      
@@ -314,20 +317,43 @@
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
 
-  <!-- Submission of an response triggers this -->     
-  
-  <transition 
-     id="respond-writing"
-     title="Respond"
-     trigger="system"
+    <transition 
+     id="submit-response"
+     title="Submit Response"
+     trigger="manual"
      source="response_pending"
-     destination="responded"
-     permission="bungeni.question.Write_answer"
-     action="bungeni.core.workflows.question.actions.respondWriting"
-     condition=""
-     event=""
+     destination="response_submitted"
+     permission="bungeni.response.Submit" 
+     condition="bungeni.core.workflows.utils.resonse_allow_submit"
+     action="bungeni.core.workflows.response.actions.submit"
+     event="bungeni.core.workflows.interfaces.IResponseSubmittedEvent"
      />
-  
+
+  <transition
+     id="re-draft-response"
+     title="Redraft Response"
+     trigger="manual"
+     source="response_submitted"     
+     destination="response_pending"
+     permission="bungeni.response.RevertTransitions" 
+     condition=""
+     action=""
+     event=""
+     />    
+
+
+  <transition 
+     id="complete-response"
+     title="Complete Response"
+     trigger="manual"
+     source="response_submitted"
+     destination="response_complete"
+     permission="bungeni.response.Complete" 
+     condition="bungeni.core.workflows.utils.response_allow_complete"
+     action="bungeni.core.workflows.response.actions.complete"
+     event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"     
+     />
+
   
   <transition 
      id="elapse-pending"
@@ -476,22 +502,7 @@
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
   
-  <!--
-      The response is sent to the Clerk's office, before being sent to the MP.
-      XXX come up with something better than answered  
-    -->     
-  
-  <transition 
-     id="answer"
-     title="Answer"
-     trigger="system"
-     source="responded"
-     destination="answered"
-     permission="bungeni.question.Answer"
-     action="bungeni.core.workflows.question.actions.answer"
-     condition=""
-     event=".interfaces.IQuestionAnsweredEvent"
-     />
+
   
   
   <!--

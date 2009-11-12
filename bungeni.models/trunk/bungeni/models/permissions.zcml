@@ -64,10 +64,7 @@
   <permission id="bungeni.tableddocument.View" title="View tableddocument" />
   <meta:redefinePermission from="bungeni.tableddocument.View" to="zope.View" />      
 
-  
-  <permission id="bungeni.response.Add" title="Add Response" />
   <permission id="bungeni.response.Edit" title="Edit Response" />
-  <permission id="bungeni.response.Delete" title="Delete Response" />
   <permission id="bungeni.response.View" title="View Response" />
   <meta:redefinePermission from="bungeni.response.View" to="zope.View" />    
  

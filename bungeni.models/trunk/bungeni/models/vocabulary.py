@@ -509,7 +509,9 @@ class CommitteeSource(SpecializedSource):
         trusted=removeSecurityProxy(context)
         parliament_id = self._get_parliament_id(context)
         query = session.query(domain.Committee).filter(
-            domain.Committee.parent_group_id == parliament_id)
+            sql.and_(
+            domain.Committee.status == 'active',
+            domain.Committee.parent_group_id == parliament_id))
         return query                
 
 

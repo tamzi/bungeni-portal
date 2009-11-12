@@ -379,29 +379,6 @@
      echo="False"
     />   
 
- <db:catalyst
-     class="bungeni.models.domain.Response"
-     descriptor=".descriptor.ResponseDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"
-     echo="False"
-    />
-    
-  <db:catalyst
-     class="bungeni.models.domain.ResponseChange"
-     descriptor=".descriptor.ResponseChangeDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content" 
-     echo="False"
-     />    
-    
-   <db:catalyst
-     class="bungeni.models.domain.ResponseVersion"
-     descriptor=".descriptor.ResponseVersionDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content" 
-     echo="False"
-     />    
     
  <db:catalyst
      class="bungeni.models.domain.MotionAmendment"

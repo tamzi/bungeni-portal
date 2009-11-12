@@ -326,14 +326,7 @@
      weight="20"
      />
   
-  <browser:viewlet
-     name="bungeni.viewlet.responses"
-     manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.ResponseViewlet"
-     for="bungeni.models.interfaces.IQuestion"
-     permission="bungeni.response.View"
-     weight="10"
-     />      
+
 
   <browser:viewlet
      name="bungeni.viewlet.supplementaryquestions"
@@ -354,24 +347,6 @@
      />      
 
 
-  <!-- Response Add Form -->        
-  <browser:view
-     name="add"
-     for="bungeni.models.interfaces.IResponseContainer"
-     class=".forms.ResponseAddForm"              
-     permission="bungeni.response.Add"
-     />      
-  
-  <!-- Response Edit Form -->  
-  <browser:viewlet
-     name="alchemist.attributes.edit"
-     manager="alchemist.ui.interfaces.IContentEditManager"
-     class=".forms.ResponseEditForm"
-     for="bungeni.models.interfaces.IResponse"
-     permission="bungeni.response.Edit"
-     allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-     />        
-  
   
   <browser:viewlet
      name="bungeni.viewlet.committees"

@@ -1437,6 +1437,13 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
                       vocabulary=vocabulary.ResponseType),
 
              ),
+        dict( name="response_text", 
+                label=_(u"Response"), 
+                description=_(u"Response to the Question"),
+                view_widget=HTMLDisplay,
+                edit_widget=RichTextEditor, 
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,),             
         dict( name="sitting_time", 
             label=_(u"Sitting Time"), 
             listing=False ),         
@@ -1683,68 +1690,7 @@ class ConsignatoryDescriptor( ModelDescriptor ):
     ]
 
 
-        
-class ResponseDescriptor( ModelDescriptor ):
-    display_name = _(u"Response")
-    container_name = _(u"Responses")
-    
-    fields = [
-        dict( name="response_id", omit=True ),
-        dict( name="response_text", 
-                label=_(u"Response"), 
-                description=_(u"Response to the Question"),
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,),
-        dict( name="sitting_time", 
-                label=_(u"Sitting Time"), 
-                description=_(u"Time of the Sitting"), 
-                listing=True ),
-        dict(name="language", 
-             label=_(u"Language"), 
-             listing=False, 
-             add=True, 
-             edit=False, 
-             omit=False,
-             required=True,
-             property=schema.Choice(
-                 title=u"Language",
-                 default=get_default_language(),
-                 vocabulary="language_vocabulary",
-                 ),
-             ),               
-        dict( name="status", 
-            label=_(u"Status"), 
-             property=schema.Choice(
-                 title=u"Status",
-                 vocabulary="bungeni.vocabulary.workflow",
-                 ),
-            add=False,
-            listing=True, 
-            omit=False ),               
-        ]        
-
-class ResponseVersionDescriptor( ModelDescriptor ):
-    display_name = _(u"Response version")
-    container_name = _(u"Versions")
-    fields = [
-        dict( name="response_id", omit=True ),
-        dict( name="response_text", 
-                label=_(u"Response"), 
-                description=_(u"Response to the Question"),
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,),
-        dict( name="sitting_time", 
-              omit = True ),
-        ]     
-           
-class ResponseChangeDescriptor( ChangeDescriptor ):
-    display_name = _(u"Response change")
-    container_name = _(u"Changes")
-    fields = deepcopy(ChangeDescriptor.fields)
+       
 
 class ConstituencyDescriptor( ModelDescriptor ):
     display_name = _(u"Constituency")

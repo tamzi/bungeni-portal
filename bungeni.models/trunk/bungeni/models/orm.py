@@ -236,7 +236,6 @@ mapper( domain.Question, schema.questions,
         polymorphic_identity='question',
         properties = {
              'changes':relation( domain.QuestionChange, backref='origin'),  
-             'response' : relation( domain.Response, backref='question' ),                                 
              }
         )
         
@@ -319,18 +318,6 @@ mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,
                      'head': relation( domain.TabledDocument, uselist=False)}
         )
 
-
-mapper( domain.ResponseChange, schema.response_changes )
-mapper( domain.ResponseVersion, schema.response_versions,
-        properties= {'change':relation( domain.ResponseChange, uselist=False),
-                     'head': relation( domain.Response, uselist=False)}
-        )
-
-mapper( domain.Response, schema.responses,
-        properties = {
-             'changes':relation( domain.ResponseChange, backref='question')
-             }
-        )
 
 
 #Items scheduled for a sitting expressed as a relation

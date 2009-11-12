@@ -374,7 +374,6 @@ AgendaItemVersion = ItemVersions.makeVersionFactory("AgendaItemVersion")
 
 class Question( ParliamentaryItem ):
     interface.implements( interfaces.IQuestion, interfaces.IHeadFileAttachments )
-    responses = one2many("responses", "bungeni.models.domain.ResponseContainer", "response_id")
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
     files = files.DirectoryDescriptor()
     versions = one2many(
@@ -398,19 +397,7 @@ QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 
 
-class Response( ParliamentaryItem ):
-    """
-    Response to a Question
-    """
-    interface.implements( interfaces.IResponse, interfaces.IHeadFileAttachments )
-    files = files.DirectoryDescriptor()
-    versions = one2many(
-        "versions",
-        "bungeni.models.domain.ResponseVersionContainer",
-        "content_id")
-    
-ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
-ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")   
+
 
 class Motion( ParliamentaryItem ):
     interface.implements( interfaces.IMotion, interfaces.IHeadFileAttachments )  

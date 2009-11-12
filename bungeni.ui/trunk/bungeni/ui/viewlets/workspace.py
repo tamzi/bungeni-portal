@@ -2,6 +2,7 @@
 import datetime
 
 import sqlalchemy.sql.expression as sql
+from sqlalchemy.orm import eagerload
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.viewlet import viewlet
@@ -14,10 +15,12 @@ from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionst
 from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
 from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
 from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
+from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.models import utils
 import bungeni.models.schema as schema
 import bungeni.models.domain as domain
+from bungeni.models.interfaces import ICommittee
 import bungeni.core.globalsettings as prefs
 
 #from bungeni.ui.i18n import MessageFactory as _
@@ -919,5 +922,56 @@ class MinistryItemsViewlet(viewlet.ViewletBase):
             domain.Ministry.start_date.desc())            
         self.query = ministries    
         
+class DraftSittingsViewlet(viewlet.ViewletBase):
+    render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')
+    
+    name = "Draft Minutes/Agenda"
+    states = [   
+        sitting_wf_state[u"draft-agenda"].id,  
+        sitting_wf_state[u"draft-minutes"].id,
+    ]
+    list_id = "sitting-draft"
+
+    def getData(self):
+        """
+        return the data of the query
+        """    
+        data_list = []       
+        results = self.query.all()
         
+        for result in results:            
+            data ={}
+            data['subject'] = result.short_name
+            if ICommittee.providedBy(result.group):
+                #http://localhost:8081/business/committees/obj-194/calendar/group/sittings/obj-5012/schedule
+                data['url'] = "/business/committees/obj-%i/calendar/group/sittings/obj-%i/schedule" % (
+                    result.group.group_id, result.sitting_id)
+            else:
+                #http://localhost:8081/calendar/group/sittings/obj-5011/schedule            
+                data['url'] = "/calendar/group/sittings/obj-%i/schedule" % result.sitting_id
+            data['items'] = ''                
+            data['status'] = get_wf_state(result)
+            data['owner'] = ""
+            data['type'] =  result.group.type
+            data['group'] = u"%s %s" %(result.group.type.capitalize(), 
+                result.group.short_name)
+            data['date'] = u"%s %s" % (
+                result.start_date.strftime('%Y-%m-%d %H:%M'), 
+                result.sitting_type.sitting_type)
+            data_list.append(data)                 
+        return data_list
+
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()                        
+        qfilter = domain.GroupSitting.status.in_(self.states)        
+        sittings = session.query(domain.GroupSitting).filter(
+                qfilter).order_by(domain.GroupSitting.start_date
+                    ).options(
+                eagerload('group'),
+                eagerload('sitting_type')
+                )
+        self.query = sittings             
         

@@ -358,21 +358,6 @@ class ElapsedQuestionViewlet( QuestionInStateViewlet ):
     list_id = "elapsed_questions" 
 
 
-class RespondedQuestionViewlet( QuestionInStateViewlet ):
-    """
-    display the admissible questions
-    """    
-    name = question_wf_state[u"responded"].title
-    state = question_wf_state[u"responded"].id
-    list_id = "responded_questions" 
-
-class AnsweredQuestionViewlet( QuestionInStateViewlet ):
-    """
-    display the admissible questions
-    """    
-    name = question_wf_state[u"answered"].title
-    state = question_wf_state[u"answered"].id
-    list_id = "answered_questions" 
 
 class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
     """
@@ -679,7 +664,8 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         question_wf_state[u"postponed"].id,
         question_wf_state[u"response_pending"].id,        
         question_wf_state[u"deferred"].id,
-        question_wf_state[u"responded"].id,
+        question_wf_state[u"response_submitted"].id,
+        question_wf_state[u"response_complete"].id,        
         motion_wf_state[u"deferred"].id,
         motion_wf_state[u"postponed"].id,
         motion_wf_state[u"scheduled"].id,
@@ -716,7 +702,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
 class ItemArchiveViewlet(ItemInStageViewlet):
     name = "Archived Items"
     states = [
-        question_wf_state[u"answered"].id,
+        question_wf_state[u"response_complete"].id,                
         question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
         agendaitem_wf_state[u"debated"].id,
@@ -742,7 +728,7 @@ class MPItemSuccessEndViewlet(ItemInStageViewlet):
     """ items in end status that were discussed/answered ..."""
     name = "Items succesfully Tabled"
     states = [
-        question_wf_state[u"answered"].id,
+        question_wf_state[u"response_complete"].id,
         question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
         question_wf_state[u"elapsed"].id,
@@ -779,7 +765,8 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
         question_wf_state[u"clarify_clerk"].id,  
-        question_wf_state[u"responded"].id,        
+        question_wf_state[u"response_complete"].id,       
+        question_wf_state[u"response_submitted"].id,                 
         motion_wf_state[u"submitted"].id,
         motion_wf_state[u"received"].id,
         motion_wf_state[u"clarify_clerk"].id,    
@@ -808,7 +795,8 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         question_wf_state[u"postponed"].id,
         question_wf_state[u"response_pending"].id,        
         question_wf_state[u"deferred"].id,
-        question_wf_state[u"responded"].id,
+        question_wf_state[u"response_submitted"].id,
+        question_wf_state[u"response_complete"].id,                
         motion_wf_state[u"deferred"].id,
         motion_wf_state[u"postponed"].id,
         motion_wf_state[u"scheduled"].id,

@@ -69,6 +69,7 @@ div#portal-globalnav ul.level0 li#portaltab- a {
 
 /*on the homepage - display the first tab as selected*/
 .section-front-page div#portal-globalnav ul.level0 li#portaltab- a,
+.section-bungeni-workspace_archive div#portal-globalnav ul.level0 li#portaltab- a,
 .section-bungeni-calendar div#portal-globalnav ul.level0 li#portaltab- a
 {
   background-color: #FFE7B8;

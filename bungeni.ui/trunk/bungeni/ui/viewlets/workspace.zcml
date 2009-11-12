@@ -181,6 +181,19 @@
      weight="30"
      />
 
+  <browser:viewlet
+     name="bungeni.workspace.sittings.clerk"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.DraftSittingsViewlet"
+     view="bungeni.ui.interfaces.IClerkWorkspace"
+     permission="zope.View"
+     weight="40"
+     />
+
+
+
+
 
   <!--browser:viewlet
      name="bungeni.workspace.questions-submitted.clerk"

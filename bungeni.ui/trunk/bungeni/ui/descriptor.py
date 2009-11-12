@@ -141,6 +141,7 @@ def item_name_column(name, title, default=u""):
         session = Session()
         return u"%s %s"%(item.item.type, item.item.short_name)    
     return column.GetterColumn( title, getter )
+    
 def group_name_column(name, title, default=u""):
     def getter( item, formatter ):        
         session = Session()

@@ -2,15 +2,15 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       tal:omit-tag="">
 
-  <dl class="portlet workspace-viewlet listing"
+  <tal:dl class="portlet workspace-viewlet listing"
       tal:define="results view/getData"
-      tal:attributes="id string:workspace-viewlet-${view/list_id}">
+      >
 
-    <dt class="portletHeader">
+    <dt class="portletHeader" tal:attributes="id string:fieldsetlegend-${view/list_id}">
       <span i18n:translate="" tal:content="view/name" />
     </dt>
 
-    <dd class="portletItem">
+    <dd class="portletItem" tal:attributes="id string:fieldset-${view/list_id}">
       <!--ul tal:attributes="id view/list_id; class string:draglist">
         <li tal:repeat="result results" tal:attributes="id result/qid; class result/result_item_class; title result/title">
           <a tal:content="result/subject" tal:attributes="href result/url" />       
@@ -38,6 +38,6 @@
       
       
     </dd>
-  </dl>
+  </tal:dl>
   
 </html>

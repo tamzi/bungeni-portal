@@ -1053,17 +1053,17 @@ class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
     display_name =_(u"Assigned item")
     container_name =_(u"Assigned items")
     fields= [
-        dict(name="object_id",
+        dict(name="item_id",
             property = schema.Choice(
                 title=_(u"Bill"),    
                 source=vocabulary.BillSource( 
                     title_field='short_name', 
                     token_field='parliamentary_item_id', 
-                    value_field = 'parliamentary_item_id' ),  
+                    value_field ='parliamentary_item_id' ),  
                 ),            
               listing_column = item_name_column( 
                         "object_id", 
-                        _(u'Bill')),            
+                        _(u'Item')),            
             listing=True,
         ),
         dict(name="group_id", omit=True),
@@ -1074,7 +1074,7 @@ class GroupGroupItemAssignmentDescriptor( ModelDescriptor ):
     display_name =_(u"Assigned group")
     container_name =_(u"Assigned groups")
     fields= [
-        dict(name="object_id",omit=True),
+        dict(name="item_id",omit=True),
         dict(name="group_id",
          property = schema.Choice(
                 title=_(u"Committee"),    

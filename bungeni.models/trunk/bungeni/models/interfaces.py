@@ -126,9 +126,20 @@ class ITabledDocument(IBungeniContent):
     """
     tabled document
     """
-class IAgendaItem(IBungeniContent):
+class ITabledDocumentVersion(ITabledDocument):
     pass
 
+class ITabledDocumentVersionContainer(IVersionContainer):
+    pass
+    
+class IAgendaItem(IBungeniContent):
+    pass
+    
+class IAgendaItemVersion(IAgendaItem):
+    pass
+
+class IAgendaItemVersionContainer(IVersionContainer):
+    pass
     
 class IParliamentSession( interface.Interface ):
     pass

@@ -118,10 +118,6 @@ class IItemSchedule(interface.Interface):
 class ISittingType(interface.Interface):
     pass
 
-class IResponse( IBungeniContent ):
-    """
-    response to a question
-    """
 
 class IScheduledItemDiscussion(interface.Interface):
     pass

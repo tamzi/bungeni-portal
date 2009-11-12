@@ -717,26 +717,13 @@ questions = rdb.Table(
    rdb.Column( "supplement_parent_id", rdb.Integer, rdb.ForeignKey('questions.question_id')  ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id')), 
-   
+   rdb.Column( "response_text", rdb.UnicodeText ),   
    )
 
 
 question_changes = make_changes_table( questions, metadata )
 question_versions = make_versions_table( questions, metadata, parliamentary_items )
 
-
-responses = rdb.Table(
-   "responses",
-   metadata,
-   rdb.Column( "response_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), primary_key=True ),
-   rdb.Column( "response_text", rdb.UnicodeText ),
-   rdb.Column( "language", rdb.String(2), nullable=False),   
-   rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
-   rdb.Column( "status",  rdb.Unicode(32) ),
-   )
-
-response_changes = make_changes_table( responses, metadata )
-response_versions = make_versions_table( responses, metadata )
 
 MotionSequence = rdb.Sequence('motion_number_sequence', metadata)
 # Number that indicate the order in which motions have been approved 

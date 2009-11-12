@@ -46,23 +46,6 @@
              
   </class>
 
-
-  <class class=".domain.Response">
-    <require permission="zope.Public" attributes="files"/>
-    <require permission="zope.View"
-             attributes="response_text
-                        sitting_time
-                        language
-                        status" />
-    <require permission="bungeni.response.Edit"
-             set_attributes="response_text
-                            sitting_time
-                            language" />   
-    <require permission="bungeni.edit.historical"
-            set_attributes="status" />                                       
-  </class>    
-
-
   <class class=".domain.Question">
     <require permission="zope.Public" attributes="files"/>  
     <require permission="zope.View"
@@ -76,6 +59,7 @@
                         ministry_submit_date
                         ministry_id
                         response_type
+                        response_text
                         full_name
                         question_type
                         question_number
@@ -97,8 +81,9 @@
                             receive_notification
                             owner_id
                             note" />
-    <!--require permission="bungeni.edit.historical"
-            attributes="" /-->
+    <require permission="bungeni.response.Edit"
+             set_attributes="response_text" />     
+                                       
     <require permission="bungeni.edit.historical"
             set_attributes="parliament_id
                             submission_date

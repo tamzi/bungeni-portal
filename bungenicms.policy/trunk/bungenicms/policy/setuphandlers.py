@@ -83,10 +83,11 @@ def setup_application_folders(context):
 
     application    mount-point
     ----------------------------------------------
-    business       /business
-    members        /members
-    archive        /archive
-    calendar       /calandar
+    business           /business
+    members            /members
+    archive            /archive
+    calendar           /calendar
+    workspace archive  /workspace-archive    
     ----------------------------------------------
 
     Thereafter we create second-level folders for any applications that will be accessed at this level:
@@ -106,14 +107,15 @@ def setup_application_folders(context):
         ('business', u'Business', u'Business'),
         ('members', u'Members', u'Members of Parliament'),
         ('archive', u'Archive', u'Archive'),
-        ('calendar', u'Calendar', u'Calendar'))    
+        ('calendar', u'Calendar', u'Calendar'),
+        ('workspace_archive', u'Archive', u'Archive'))        
 
     for name, title, description in items:
         if name not in portal.objectIds():
             obj = portal[portal.invokeFactory("Folder", id=name)]
             obj.setTitle(title)
             obj.setDescription(description)
-            if name == 'calendar':
+            if name == 'calendar' or name =='workspace_archive':
                 obj.setExcludeFromNav(True)
             obj.reindexObject()
             wftool = getToolByName(portal, 'portal_workflow')

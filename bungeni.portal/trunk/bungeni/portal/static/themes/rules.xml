@@ -151,7 +151,7 @@
     <append href="/plone/"
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
-    <replace href="/bungeni/workspace-archive"
+    <replace href="/bungeni/workspace_archive"
             content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1" />
     <drop content="#portal-globalnav"/>

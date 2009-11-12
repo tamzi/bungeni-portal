@@ -17,12 +17,14 @@
  	 class="presentation-view" />   
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="workspace-member" />
+  <match path="/business/whats-on"  class="load-whatson-navigation" />  
   <match path="/business/"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
   <match path="/archive/"  class="load-archive-navigation" />
   <match path="regex:^/(business|members|archive)/?"
          class="bungeni" />
-  <match path="/calendar/"  class="load-calendar-navigation" />    
+  <match path="/calendar/"  class="load-calendar-navigation" />
+  <match path="/workspace_archive/"  class="load-workspace_archive-navigation" />      
   <match path="regex:.*/audit-log$"
  	 class="bungeni-header" />
   <match path="/"
@@ -54,6 +56,11 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#user-workspace-id"/>
    </rule>
+
+  <rule class="load-whatson-navigation">
+    <prepend content="#viewlet-above-content"
+             theme=".main-content" />    
+  </rule>  
   
   <rule class="load-business-navigation">
     <append href="/plone/business"
@@ -63,8 +70,7 @@
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
-
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
   </rule>
     
   <rule class="load-member-navigation">
@@ -135,6 +141,31 @@
     <append content="#kss-spinner"
             theme="#portal-columns" />    
    </rule>
+
+  <rule class="load-workspace_archive-navigation">
+    <!-- searchbox -->
+    <replace href="/plone/"
+             content="#portal-searchbox"
+             theme="#portal-searchbox" />
+    <drop content="#portal-personaltools"/>    
+    <append href="/plone/"
+            content="#portal-globalnav > li:not(:first-child)"
+            theme="children:#portal-globalnav > ul" />
+    <replace href="/bungeni/workspace-archive"
+            content="ul#portal-personaltools li.navigation"
+            theme="children:#portal-globalnav ul.level1" />
+    <drop content="#portal-globalnav"/>
+    <replace content="#portal-column-one"
+             theme="#portal-column-one"/>    
+    <append content="children:#portal-column-content"
+            theme="children:#portal-column-content" />
+    <append href="/plone/workspace-archive"
+            content=".documentActions"
+            theme="children:#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
+    <append content="#kss-spinner"
+            theme="#portal-columns" />    
+   </rule>  
 
   <rule class="calendar-links">
     <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    

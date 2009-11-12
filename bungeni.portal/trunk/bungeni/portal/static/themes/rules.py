@@ -74,7 +74,7 @@ def rewrite_links(content, theme, resource_fetcher, log):
     Remove the first root folder entry if necessary.
     """
 
-    repeating_link_values = ['business', 'calendar']
+    repeating_link_values = ['business', 'calendar', 'workspace_archive']
     strip_link_values = {'/calendar/business': '/business'}
     content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
@@ -128,7 +128,7 @@ def documentActions_links(content, theme, resource_fetcher, log):
     """Fix the 'documentActions' for the business, members, archive and
     calendar folders.
     """
-    link_values = ['business', 'calendar', 'members', 'archive']
+    link_values = ['business', 'calendar', 'members', 'archive', 'workspace_acrhiv']
 
     for link_value in link_values:
         content_value = theme('.documentActions').html()

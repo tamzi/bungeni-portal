@@ -160,18 +160,6 @@
   <subscriber handler=".question.SendNotificationToMinistryUponComplete" />
   <subscriber handler=".question.SendNotificationToMemberUponComplete" /> 
 
-  <!-- responses workflow -->
-  <adapter
-     for="bungeni.models.interfaces.IResponse"
-     provides="ore.workflow.interfaces.IWorkflowState"
-     factory=".states.WorkflowState" />
-  
-  <adapter
-     for="bungeni.models.interfaces.IResponse"
-     provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.ResponseWorkflowAdapter" />
-     
-  
 
   <!-- motion workflow -->
   <adapter

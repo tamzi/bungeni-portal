@@ -235,18 +235,6 @@ class ConsignatoryDescriptiveProperties(DescriptiveProperties):
         else:
             return u"New User"
 
-
-class ResponseDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IResponse)
-
-    @property
-    def title(self):
-        context = removeSecurityProxy(self.context)
-        if context.question:
-            return "Response to: %s" % (context.question.short_name)
-        else:
-            return u""
-
             
 class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IParliamentSession)  

@@ -115,11 +115,7 @@
                             ore.xapian.interfaces.IIndexable
                             .interfaces.IAuditable" />
   </class>
-  <class class="bungeni.models.domain.Response">
-    <implements interface=".interfaces.IVersionable
-                            ore.xapian.interfaces.IIndexable
-                            .interfaces.IAuditable" />
-  </class>
+
   <class class="bungeni.models.domain.AgendaItem">
     <implements interface=".interfaces.IVersionable
                             ore.xapian.interfaces.IIndexable
@@ -219,7 +215,6 @@
   <adapter factory=".dc.ScheduledItemDiscussionDescriptiveProperties" />
   <adapter factory=".dc.ConsignatoryDescriptiveProperties" />
   <adapter factory=".dc.SittingTypeDescriptiveProperties" />
-  <adapter factory=".dc.ResponseDescriptiveProperties" />
   <adapter factory=".dc.ConstituencyDescriptiveProperties" />
   <adapter factory=".dc.ChangeDescriptiveProperties" />
   <adapter factory=".dc.UserAddressDescriptiveProperties" />  

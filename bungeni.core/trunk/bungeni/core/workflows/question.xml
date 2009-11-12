@@ -324,8 +324,7 @@
      source="response_pending"
      destination="response_submitted"
      permission="bungeni.response.Submit" 
-     condition="bungeni.core.workflows.utils.resonse_allow_submit"
-     action="bungeni.core.workflows.response.actions.submit"
+     condition="bungeni.core.workflows.utils.response_allow_submit"
      event="bungeni.core.workflows.interfaces.IResponseSubmittedEvent"
      />
 
@@ -349,8 +348,6 @@
      source="response_submitted"
      destination="response_complete"
      permission="bungeni.response.Complete" 
-     condition="bungeni.core.workflows.utils.response_allow_complete"
-     action="bungeni.core.workflows.response.actions.complete"
      event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"     
      />
 

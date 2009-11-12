@@ -156,24 +156,7 @@ def setBillPublicationDate( info, context ):
     if instance.publication_date == None:
         instance.publication_date = datetime.date.today()
 
-def submitResponse( info, context ):
-    """A Response to a question is submitted to the clerks office,
-    the questions status is set to responded
-    """
 
-    instance = removeSecurityProxy(context)
-    question = dbutils.getQuestion(instance.response_id)
-    if (question.status != u"responded"):
-        IWorkflowInfo(question).fireTransitionToward(u"responded")
-     
-
-def publishResponse( info, context ):
-    """The Response was reviewed by the clerks office, the questions
-    status is set to answered
-    """
-    instance = removeSecurityProxy(context)
-    question = dbutils.getQuestion(instance.response_id)
-    IWorkflowInfo(question).fireTransition('answer')
     
 def setMotionHistory( info, context ):
     motion_id = context.motion_id
@@ -192,23 +175,14 @@ def setParliamentId( info, context):
         parliamentId = prefs.getCurrentParliamentId()
         instance.parliament_id = parliamentId
     
-def resonse_allow_submit(info, context):
+def response_allow_submit(info, context):
     instance = removeSecurityProxy(context)
-    question = dbutils.getQuestion(instance.response_id)
-    if ((question.status == u"response_pending")
-        or (question.status ==  u"scheduled")
-        or (question.status == u"responded")):
-        return True
+    if instance.response_text is None:
+        return False
     else:
-        return False        
+        return True                  
 
-def response_allow_complete(info, context):
-    instance = removeSecurityProxy(context)
-    question = dbutils.getQuestion(instance.response_id)
-    if (question.status == u"responded"):
-        return True
-    else:
-        return False        
+  
             
 def dissolveChildGroups(groups, context):
     for group in groups:

@@ -92,6 +92,9 @@ div#portal-globalnav ul.level0 li.plain a{
   padding-top:0px;
 }
 
+div#portal-globalnav ul.level1{
+  width:70em;
+}
 
 div#portal-globalnav ul.level1 li.selected a{
   background-color: #FFE7B8;
@@ -112,7 +115,9 @@ div#portal-globalnav ul.level0 li ul.level1 li.selected a{
   margin-bottom: 2em;
   background-color: #FFE7B8;
   border-top: 1px solid #FFE7B8;
-  border-bottom: 1px solid #FFE7B8;  
+  border-bottom: 1px solid #FFE7B8;
+  float:right;
+  padding:0 1em;
 }
 
 div#portal-globalnav ul.level0 li#portaltab-index_html {

@@ -1050,8 +1050,8 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
 
 
 class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
-    display_name =_(u"Assigned item")
-    container_name =_(u"Assigned items")
+    display_name =_(u"Assigned bill")
+    container_name =_(u"Assigned bills")
     fields= [
         dict(name="item_id",
             property = schema.Choice(

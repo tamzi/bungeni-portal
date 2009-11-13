@@ -8,4 +8,17 @@
      factory="alchemist.security.auth.AuthenticatedPrincipalFactory"
      />
 
+  <!-- comments can only be added when editing or adding a file so their
+  permissions should suffice. declaring set permissions other than zope 
+  public causes authentication errors - maybe something to do with the 
+  location? -->
+  
+  <class class="ore.library.node.RevisionCommentAdapter">
+    <require permission="zope.Public"
+	     set_schema="ore.library.interfaces.IRevisionComment" />
+    <require permission="zope.Public"
+	     interface="ore.library.interfaces.IRevisionComment" />
+  </class>
+
+
 </configure>

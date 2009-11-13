@@ -75,7 +75,7 @@ def rewrite_links(content, theme, resource_fetcher, log):
     """
 
     repeating_link_values = ['business', 'calendar', 'workspace_archive']
-    strip_link_values = {'/calendar/business': '/business'}
+    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar' }
     content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:

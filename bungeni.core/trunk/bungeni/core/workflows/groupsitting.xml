@@ -82,7 +82,7 @@
   
   <transition
      id="publish-agenda"
-     title="Publish Agenda"
+     title="Finalize Agenda"
      trigger="manual"
      source="draft-agenda"
      destination="published-agenda"
@@ -106,7 +106,7 @@
 
   <transition
      id="draft-minutes"
-     title="Draft Minutes"
+     title="Finalize Minutes"
      trigger="manual"
      source="published-agenda"
      destination="draft-minutes"

@@ -197,6 +197,7 @@ class MyGroupsViewlet( ViewletBase ):
             url = "/archive/browse/parliaments/obj-" + str(parliament_id) 
             if type(result) == domain.Parliament:
                 data['url'] = url
+                continue
             elif type(result) == domain.Committee:   
                 #data['url'] = url + '/committees/obj-' + str(result.group_id) 
                 data['url'] = ('/groups/' + 

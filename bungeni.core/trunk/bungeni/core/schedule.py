@@ -13,6 +13,7 @@ from zope.app.publication.traversers import SimpleComponentTraverser
 
 from bungeni.models.interfaces import IBungeniApplication
 from bungeni.models.interfaces import ICommittee
+from bungeni.models.interfaces import IGroupSittingContainer
 from bungeni.models.domain import Group
 from bungeni.models.domain import GroupSitting
 from bungeni.models import domain
@@ -136,6 +137,20 @@ class CommitteeSchedulingContext(PrincipalGroupSchedulingContext):
     def get_group(self, name=None):
         assert name is None
         return self.__parent__
+
+class SittingContainerSchedulingContext(PrincipalGroupSchedulingContext):
+    component.adapts(IGroupSittingContainer)
+
+    @property
+    def group_id(self):
+        """Return committee's group id."""
+
+        return self.__parent__.__parent__.group_id
+
+    def get_group(self, name=None):
+        assert name is None
+        return self.__parent__.__parent__
+
 
 class DailySchedulingContext(object):
     interface.implements(IDailySchedulingContext, IDCDescriptiveProperties)

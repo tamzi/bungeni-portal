@@ -175,7 +175,8 @@
   <adapter factory=".schedule.PlenarySchedulingContext" />
   <adapter factory=".schedule.CommitteeSchedulingContext" />
   <adapter factory=".schedule.SchedulingContextTraverser" />
-
+  <adapter factory=".schedule.SittingContainerSchedulingContext" />
+  
   <!-- principal roles -->
   
   <subscriber

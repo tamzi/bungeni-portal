@@ -18,7 +18,8 @@ class WhatsOnBrowserView(BrowserView):
     interface.implements(IViewView)
     start_date = datetime.date.today()
     end_date = datetime.date.today() + datetime.timedelta(10)
-        
+    end_date = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59)
+            
     def __init__(self, context, request):
         super(WhatsOnBrowserView, self).__init__(context, request)
         parliament_id = getCurrentParliamentId()
@@ -35,7 +36,8 @@ class WhatsOnBrowserView(BrowserView):
         if end:
             try:
                 end_date  = datetime.datetime.strptime(end,"%Y-%m-%d")
-                self.end_date = end_date.date()
+                end_date = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59)
+                self.end_date = end_date
             except:
                 pass
         return self.end_date.strftime("%A %d %B %Y")
@@ -52,7 +54,7 @@ class WhatsOnBrowserView(BrowserView):
         return self.start_date.strftime("%A %d %B %Y")                                
         
     def get_sittings(self):
-        session = Session()        
+        session = Session()   
         query = session.query(domain.GroupSitting).filter(
             sql.and_( schema.sittings.c.status != 'draft',
             sql.between(
@@ -98,7 +100,7 @@ class WhatsOnBrowserView(BrowserView):
     def get_items(self):
         session = Session()
         start = self.start_date.strftime("%Y-%m-%d")
-        end = self.end_date.strftime("%Y-%m-%d")
+        end = self.end_date.strftime("%Y-%m-%d 23:59")
         where_clause = "start_date BETWEEN '%s' AND '%s' AND group_sittings_1.status <> 'draft' " % (start, end)
         query = session.query(domain.ItemSchedule).filter( 
             where_clause).order_by('start_date').options(

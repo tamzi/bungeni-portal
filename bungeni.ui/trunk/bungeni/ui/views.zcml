@@ -140,6 +140,14 @@
     />
 
   <browser:page
+     for="bungeni.models.interfaces.IGroupSittingContainer"
+     permission="zope.View"
+     name="index"
+     class=".calendar.browser.CalendarView"
+    />
+
+
+  <browser:page
      for="bungeni.models.interfaces.IGroupSitting"
      permission="zope.View"
      name="schedule"

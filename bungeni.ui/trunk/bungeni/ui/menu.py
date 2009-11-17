@@ -10,6 +10,7 @@ from zope.app.publisher.browser.menu import BrowserMenuItem
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.traversing.browser import absoluteURL
+from zope.security import checkPermission
 from z3c.menu.ready2go import item
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
@@ -333,7 +334,7 @@ class CalendarMenu(BrowserMenu):
             if user_id:
                 if ((committee.end_date is None or committee.end_date >= today) and 
                    (committee.start_date is None or committee.start_date <= today) and
-                   committee.active_membership(user_id) and
+                   checkPermission("bungeni.agendaitem.Add", committee) and
                    (committee.status == "active")):
                     contexts.append(schedule.CommitteeSchedulingContext(committee))
             else:

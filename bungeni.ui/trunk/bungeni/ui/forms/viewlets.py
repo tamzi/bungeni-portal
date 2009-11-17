@@ -3,7 +3,8 @@
 from dateutil import relativedelta
 import datetime, calendar
 
-from zope.viewlet import viewlet
+from zope import interface
+from zope.viewlet import viewlet, manager
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.traversing.browser import absoluteURL 
@@ -27,6 +28,7 @@ from bungeni.ui.queries import statements, utils
 from bungeni.ui.utils import getDisplayDate
 
 from fields import BungeniAttributeDisplay
+from interfaces import ISubFormViewletManager
 
 class GroupIdViewlet(viewlet.ViewletBase):
     """ display the group and parent group
@@ -106,6 +108,18 @@ class AttributesEditViewlet(ui.core.DynamicFields, ui.viewlet.EditFormViewlet):
     mode = "edit"
     template = NamedTemplate('alchemist.subform')
     form_name = _(u"General")
+
+class SubFormViewletManager( manager.WeightOrderedViewletManager ):
+    """
+    display subforms
+    """
+    interface.implements(ISubFormViewletManager)   
+      
+    def filter(self, viewlets):
+         viewlets = super(SubFormViewletManager, self).filter(viewlets)
+         return [(name, viewlet)
+                 for name, viewlet in viewlets
+                 if viewlet.for_display == True]        
 
 class SubformViewlet ( AjaxContainerListing ):
     """
@@ -328,7 +342,7 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
     
     @property
     def for_display(self):
-        return self.context.__parent__.status == qw_state[u"answered"].id   
+        return self.context.__parent__.status == qw_state[u"response_submitted"].id   
     
     def __init__( self,  context, request, view, manager ):        
 
@@ -337,7 +351,7 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
-        #self.form_name = (u"Supplementary Questions")    
+        #elf.form_name = (u"Supplementary Questions")    
 
 
 class InitialQuestionsViewlet( BungeniAttributeDisplay ):

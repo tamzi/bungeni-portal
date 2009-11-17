@@ -21,6 +21,7 @@ from bungeni.core import schedule
 from bungeni.models import queries
 from bungeni.ui.i18n import  _
 from bungeni.ui.utils import urljoin
+from bungeni.models.utils import get_db_user_id
 #Following added inorder to fix issue 319. needs review
 from bungeni.core.globalsettings import getCurrentParliamentId
 
@@ -327,13 +328,19 @@ class CalendarMenu(BrowserMenu):
         app = getSite()
         today = datetime.date.today()
         committees = app[u"business"]["committees"].values()
-
-        # add activate committee
+        user_id = get_db_user_id()
         for committee in committees:
-            if ((committee.end_date is None or committee.end_date >= today) and 
-               (committee.start_date is None or committee.start_date <= today) and
-               (committee.status == "active")):
-                contexts.append(schedule.CommitteeSchedulingContext(committee))
+            if user_id:
+                if ((committee.end_date is None or committee.end_date >= today) and 
+                   (committee.start_date is None or committee.start_date <= today) and
+                   committee.active_membership(user_id) and
+                   (committee.status == "active")):
+                    contexts.append(schedule.CommitteeSchedulingContext(committee))
+            else:
+                if ((committee.end_date is None or committee.end_date >= today) and 
+                   (committee.start_date is None or committee.start_date <= today) and
+                   (committee.status == "active")):
+                    contexts.append(schedule.CommitteeSchedulingContext(committee))                                
 
         contexts.append(schedule.PlenarySchedulingContext(app))
 

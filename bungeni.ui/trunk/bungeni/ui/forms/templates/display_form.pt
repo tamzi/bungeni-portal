@@ -1,5 +1,6 @@
 <metal:block metal:define-macro="form"
              i18n:domain="alchemist">
+  
 
   <dt id="fieldsetlegend-display-form"
       tal:attributes="id string:${default}-${python: id(view)}"
@@ -102,6 +103,13 @@
         </fieldset>
       </metal:block>
 
+      <!-- some viewlets are only displayed if they have content -->       
+      <div tal:replace="structure provider:bungeni.subform.manager"> 
+        <div class="listing">
+        <em>Subform Title</em>
+         subform contents
+        </div>
+      </div>      
 
       <div id="actionsView">
         <span class="actionButtons"

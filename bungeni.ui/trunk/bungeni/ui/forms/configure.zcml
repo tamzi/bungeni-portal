@@ -120,6 +120,15 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
+ <!-- Viewlet manager for subforms -->
+  
+  <browser:viewletManager
+     name="bungeni.subform.manager"
+     provides=".interfaces.ISubFormViewletManager"
+     class=".viewlets.SubFormViewletManager"
+     permission="zope.View"
+     />    
+
 
   <browser:viewlet
      name="bungeni.viewlet.member-addresses"
@@ -201,7 +210,7 @@
 
   <browser:viewlet
      name="bungeni.viewlet.mp-personal-info"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"      
      class=".viewlets.PersonInfo"
      for="bungeni.models.interfaces.IMemberOfParliament"
      permission="zope.View"
@@ -210,7 +219,7 @@
 
   <browser:viewlet
      name="bungeni.viewlet.offices-held"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"     
      class=".viewlets.OfficesHeldViewlet"
      for="bungeni.models.interfaces.IMemberOfParliament"
      permission="zope.View"
@@ -229,7 +238,7 @@
   
   <browser:viewlet
      name="bungeni.viewlet.committee-members"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"     
      class=".viewlets.CommitteeMemberViewlet"
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
@@ -238,7 +247,7 @@
   
   <browser:viewlet
      name="bungeni.viewlet.committee-staff"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"          
      class=".viewlets.CommitteeStaffViewlet"
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
@@ -249,7 +258,7 @@
 
   <browser:viewlet
      name="bungeni.viewlet.committee-member-titles"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"               
      class=".viewlets.OfficesHeldViewlet"
      for="bungeni.models.interfaces.ICommitteeMember"
      permission="zope.View"
@@ -258,7 +267,7 @@
 
   <browser:viewlet
      name="bungeni.viewlet.comittee-member-personal-info"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"                    
      class=".viewlets.PersonInfo"
      for="bungeni.models.interfaces.ICommitteeMember"
      permission="zope.View"
@@ -267,7 +276,7 @@
 
   <browser:viewlet
      name="bungeni.viewlet.committe-staff-titles"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"                         
      class=".viewlets.OfficesHeldViewlet"
      for="bungeni.models.interfaces.ICommitteeStaff"
      permission="zope.View"
@@ -276,7 +285,7 @@
 
   <browser:viewlet
      name="bungeni.viewlet.office-member-titles"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"                              
      class=".viewlets.OfficesHeldViewlet"
      for="bungeni.models.interfaces.IOfficeMember"
      permission="zope.View"
@@ -431,7 +440,7 @@
   
   <browser:viewlet
      name="bungeni.viewlet.bill-consignatory"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"     
      class=".viewlets.ConsignatoryViewlet"
      for="bungeni.models.interfaces.IBill"
      permission="zope.View"
@@ -451,7 +460,7 @@
   
     <browser:viewlet
      name="bungeni.viewlet.motion-consignatory"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"            
      class=".viewlets.ConsignatoryViewlet"
      for="bungeni.models.interfaces.IMotion"
      permission="zope.View"

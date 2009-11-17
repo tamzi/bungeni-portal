@@ -58,6 +58,7 @@ class IBungeniGroupMembership( interface.Interface ):
     group membership in bungeni
     """
 
+
 class IBungeniContent( interface.Interface ):
     """
     parliamentary content
@@ -67,6 +68,10 @@ class IBungeniContainer(IAlchemistContainer):
     """
     parliamentary container
     """
+
+class IGroupSittingContainer( IBungeniContainer ):
+    pass
+
 
 class IVersionContainer(IBungeniContainer):
     pass

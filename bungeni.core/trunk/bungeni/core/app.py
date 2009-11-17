@@ -107,11 +107,6 @@ class AppSetup(object):
             marker=interfaces.IMotionAddContext,
             description=_(u"View motions issued by the current parliament."))
 
-        sessions = business[u"sessions"] = QueryContent(
-            container_getter(get_current_parliament, 'sessions'),
-            title=_(u"Sessions"),
-            marker=interfaces.ISessionAddContext,
-            description=_(u"View the sessions of the current parliament."))
 
         tableddocuments = business[u"tableddocuments"] = QueryContent(
             container_getter(get_current_parliament, 'tableddocuments'),
@@ -121,9 +116,21 @@ class AppSetup(object):
 
         agendaitems = business[u"agendaitems"] = QueryContent(
             container_getter(get_current_parliament, 'agendaitems'),
-            title=_(u"Agenda items"),
+            title=_(u""),
             marker=interfaces.IAgendaItemAddContext,
             description=_(u"View the agenda items of the current parliament."))                       
+
+
+       # sessions = business[u"sessions"] = QueryContent(
+       #     container_getter(get_current_parliament, 'sessions'),
+       #     title=_(u"Sessions"),
+       #     marker=interfaces.ISessionAddContext,
+       #     description=_(u"View the sessions of the current parliament."))
+
+        sittings = business[u"sittings"] = QueryContent(
+            container_getter(get_current_parliament, 'sittings'),
+            title=_(u"Sittings"),
+            description=_(u"View the sittings of the current parliament."))
 
         # members section
         current = members[u"current"] = QueryContent(

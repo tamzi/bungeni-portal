@@ -13,6 +13,7 @@ from zope import interface, location, component
 from ore.alchemist import model, Session
 from alchemist.traversal.managed import one2many
 from zope.location.interfaces import ILocation
+import sqlalchemy.sql.expression as sql
 
 import files
 import logging
@@ -122,6 +123,20 @@ class Group( Entity ):
     users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
     
+    def active_membership(self, user_id):
+        session = Session()
+        query = session.query(GroupMembership).filter(
+            sql.and_(GroupMembership.group_id == self.group_id,
+                    GroupMembership.user_id == user_id,
+                    GroupMembership.active_p == True
+                )
+            )
+        if query.count() == 0:
+            return False
+        else:
+            return True            
+
+                    
     
 class GroupMembership( Entity ):
     """ a user's membership in a group- abstract

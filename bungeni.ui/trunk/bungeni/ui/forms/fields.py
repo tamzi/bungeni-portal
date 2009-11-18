@@ -17,18 +17,15 @@ from bungeni.core.i18n import _
 def filterFields(context, form_fields):
     omit_names = []
     if IAlchemistContent.providedBy(context):
-        md = queryModelDescriptor(context.__class__)        
-        ctx = context
+        md = queryModelDescriptor(context.__class__)
         for field in form_fields:
             try:
-                can_write = security.canWrite( ctx, field.__name__)
-                can_read = security.canAccess( ctx, field.__name__)
+                can_write = security.canWrite( context, field.__name__)
+                can_read = security.canAccess( context, field.__name__)
             except AttributeError:
                 can_write = can_read = False
-
             if can_write:
                 continue
-            
             if can_read:
                 field.for_display = True
                 field.custom_widget = md.get(field.__name__).view_widget
@@ -40,7 +37,6 @@ def filterFields(context, form_fields):
             filterFields(ctx, form_fields)
         else:            
             raise NotImplementedError   
- 
     return form_fields.omit(*omit_names)   
 
 class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):

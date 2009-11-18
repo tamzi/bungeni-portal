@@ -16,8 +16,8 @@ from bungeni.core.i18n import _
 
 def filterFields(context, form_fields):
     omit_names = []
-    
     if IAlchemistContent.providedBy(context):
+        md = queryModelDescriptor(context.__class__)        
         ctx = context
         for field in form_fields:
             try:
@@ -31,6 +31,7 @@ def filterFields(context, form_fields):
             
             if can_read:
                 field.for_display = True
+                field.custom_widget = md.get(field.__name__).view_widget
             else:
                 omit_names.append(field.__name__)
     elif not IAlchemistContainer.providedBy(context):
@@ -65,7 +66,7 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
         self.form_fields = filterFields(self.context, self.form_fields)
         super(BungeniAttributeDisplay, 
                 self).setUpWidgets(ignore_request=ignore_request)
-            
+
     def update( self ):
         self.setupActions()
         super(BungeniAttributeDisplay, self).update() 

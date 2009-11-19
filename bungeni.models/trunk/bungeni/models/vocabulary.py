@@ -537,8 +537,8 @@ class MotionPartySource(SpecializedSource):
                         PartyMembership.parent_group_id == parliament_id)
                         )
         else:
-            query = session.query(PartyMembership).filter(                    
-                        PartyMembership.parent_group_id == parliament_id)
+            query = session.query(domain.PoliticalParty).filter(                    
+                        domain.PoliticalParty.parent_group_id == parliament_id)
         return query                        
         
 

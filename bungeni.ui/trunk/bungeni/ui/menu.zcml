@@ -103,6 +103,281 @@
      order="20"
      />
 
+<!-- add menus for content -->
+
+  <browser:menu
+     id="party_additems"
+     title="The 'Add..' menu - for political parties"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IPoliticalParty"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="party_additems"
+     />
+     
+  <browser:menuItem
+     menu="party_additems"
+     for="bungeni.models.interfaces.IPoliticalParty"
+     title="Add Party Member..."
+     action="./partymembers/add"
+     permission="bungeni.politicalgroupmember.Add"
+     />
+
+  <browser:menu
+     id="committee_additems"
+     title="The 'Add..' menu - for committees"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.ICommittee"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="committee_additems"
+     />
+
+     
+  <browser:menuItem
+     menu="committee_additems"
+     for="bungeni.models.interfaces.ICommittee"
+     title="Add Member..."
+     action="./committeemembers/add"
+     permission="bungeni.committeemember.Add"
+     order="10"     
+     />     
+
+  <browser:menuItem
+     menu="committee_additems"
+     for="bungeni.models.interfaces.ICommittee"
+     title="Add Staff..."
+     action="./committeestaff/add"
+     permission="bungeni.committeestaff.Add"
+     order="20"     
+     />          
+     
+  <browser:menuItem
+     menu="committee_additems"
+     for="bungeni.models.interfaces.ICommittee"
+     title="Add Agenda item..."
+     action="./agendaitems/add"
+     permission="bungeni.agendaitem.Add"
+     order="30"
+     />
+
+
+ <browser:menuItem
+     menu="committee_additems"
+     for="bungeni.models.interfaces.ICommittee"
+     title="Assign a bill..."
+     action="./assigneditems/add"
+     permission="bungeni.groupitemassignment.Add"
+     order="50"
+     />
+
+
+  <browser:menuItem
+     menu="committee_additems"
+     for="bungeni.models.interfaces.ICommittee"
+     title="Add Sitting..."
+     action="./sittings/add"
+     permission="bungeni.sitting.Add"     
+     order="40"
+     />     
+
+  <browser:menu
+     id="government_additems"
+     title="The 'Add..' menu - for government"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IGovernment"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="government_additems"
+     />
+
+  <browser:menuItem
+     menu="government_additems"
+     for="bungeni.models.interfaces.IGovernment"
+     title="Add Ministry..."
+     action="./ministries/add"
+     permission="bungeni.ministry.Add"     
+     order="10"
+     />  
+
+  <browser:menu
+     id="ministry_additems"
+     title="The 'Add..' menu - for ministry"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IMinistry"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="ministry_additems"
+     />
+
+  <browser:menuItem
+     menu="ministry_additems"
+     for="bungeni.models.interfaces.IMinistry"
+     title="Add Minister..."
+     action="./ministers/add"
+     permission="bungeni.minister.Add"     
+     order="10"
+     />
+
+  <browser:menu
+     id="mp_additems"
+     title="The 'Add..' menu - for MemberOfParliament"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="mp_additems"
+     />
+
+  <browser:menuItem
+     menu="mp_additems"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     title="Add title ..."
+     action="./titles/add"
+     permission="bungeni.function.Add"     
+     order="10"
+     />  
+
+  <browser:menu
+     id="motion_additems"
+     title="The 'Add..' menu - for motion"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IMotion"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="motion_additems"
+     />
+
+  <browser:menuItem
+     menu="motion_additems"
+     for="bungeni.models.interfaces.IMotion"
+     title="Add consignatory..."
+     action="./consignatory/add"
+     permission="bungeni.consignatory.Add"     
+     order="10"
+     />       
+
+  <browser:menu
+     id="bill_additems"
+     title="The 'Add..' menu - for bill"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IBill"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="bill_additems"
+     />
+
+  <browser:menuItem
+     menu="bill_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Add consignatory..."
+     action="./consignatory/add"
+     permission="bungeni.consignatory.Add"     
+     order="10"
+     />  
+
+  <browser:menuItem
+     menu="bill_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Add event..."
+     action="./event/add"
+     permission="bungeni.event.Add"     
+     order="10"
+     />       
+     
+ <browser:menuItem
+     menu="bill_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Assign bill to a group..."
+     action="./assigneditems/add"
+     permission="bungeni.groupitemassignment.Add"
+     order="50"
+     />
+
+  <browser:menu
+     id="office_additems"
+     title="The 'Add..' menu - for offices"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IOffice"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="office_additems"
+     />
+     
+  <browser:menuItem
+     menu="office_additems"
+     for="bungeni.models.interfaces.IOffice"
+     title="Add Member..."
+     action="./officemembers/add"
+     permission="bungeni.officemember.Add"
+     />
+
+  <browser:menu
+     id="question_additems"
+     title="The 'Add..' menu - for question"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IQuestion"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="question_additems"
+     />
+
+  <browser:menuItem
+     menu="question_additems"
+     for="bungeni.models.interfaces.IQuestion"
+     title="Add supplementary question ..."
+     action="./supplementaryquestions/add"
+     permission="bungeni.question.Add"     
+     order="10"
+     />       
+
+  <!-- Navigation -->
+
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
@@ -434,6 +709,17 @@
      order="100"
      />
 
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MotionContainer"
+     title="Add Motion..."
+     action="./add"
+     permission="bungeni.motion.Add"
+     layer=".interfaces.IArchiveSectionLayer"
+     order="100"
+     />
+
+
     <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.core.interfaces.ICommitteeAddContext"
@@ -479,7 +765,6 @@
      action="./group/agendaitems/add"
      permission="bungeni.agendaitem.Add"
      />
-
 
 
 

@@ -69,7 +69,7 @@ class ImageInputWidget(FileWidget):
         
     @property    
     def imageURL(self):
-        return '@@file-image/%s' % self.context.__name__            
+        return './@@file-image/%s' % self.context.__name__            
         
     def empty_field(self):
         return self._data is None

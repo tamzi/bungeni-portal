@@ -7,11 +7,22 @@
 		var onButtonClick = function () {			
 			// Create a Calendar instance and render it into the body 
 			// element of the Overlay.
+			  var navConfig = {
+                    strings : {
+                        month: "Choose Month",
+                        year: "Enter Year",
+                        submit: "OK",
+                        cancel: "Cancel",
+                        invalidYear: "Please enter a valid year"
+                    },
+                    monthFormat: YAHOO.widget.Calendar.SHORT,
+                    initialFocus: "year"
+              };			
 			var oCalendar = new YAHOO.widget.Calendar("%(name)s-buttoncalendar", oCalendarMenu.body.id,
                     {mindate:"%(mindate)s",
                     maxdate:"%(maxdate)s",
                     pagedate: "%(pagedate)s",
-                    navigator:true} );
+                    navigator: navConfig} );
 			oCalendar.render();
 			// Subscribe to the Calendar instance's "select" event to 
 			// update the month, day, year form fields when the user

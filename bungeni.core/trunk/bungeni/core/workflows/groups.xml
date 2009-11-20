@@ -13,6 +13,9 @@
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
     <deny permission="zope.View" role="bungeni.Anybody" /> 
+    <deny permission="bungeni.groupmember.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />    
   </state>
 
   <state id="active" title="Active Group">
@@ -23,9 +26,15 @@
     <grant permission="zope.View" role="bungeni.Minister" />  
     <grant permission="zope.View" role="bungeni.Everybody" /> 
     <grant permission="zope.View" role="bungeni.Anybody" />   
+    <grant permission="bungeni.groupmember.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />     
   </state>
   
   <state id="dissolved" title="Group is Dissolved">
+    <deny permission="bungeni.groupmember.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />   
   </state>
 
   <transition 

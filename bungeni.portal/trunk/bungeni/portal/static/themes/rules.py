@@ -63,7 +63,18 @@ def nextprev_links(content, theme, resource_fetcher, log):
     if calendar_previous_link_node:
         calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(content('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')    
 
-   
+def image_links(content, theme, resource_fetcher, log):
+    """
+    Use absolute links to the members profile image.
+    """
+    link_value  = str(content('#region-content').html())
+    if '@@file-image/image' in link_value:    
+        link_id= content('#portal-breadcrumbs a:last-child')
+        link_id = str(link_id).split('href="')
+        link_id = str(link_id[1]).split('">')[0]
+        link_node = content('#region-content')
+        new_value = link_value.replace('@@file-image/image', str(link_id) +'/@@file-image/image')
+        link_node.replaceWith(new_value)
 
 def rewrite_links(content, theme, resource_fetcher, log):
     """

@@ -197,6 +197,50 @@ class MinistersViewlet( SubformViewlet ):
         self.query = None
 
 
+class BillsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.bills                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+class QuestionsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.questions                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+class AgendaItemsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.agendaitems                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+class AssignedItemsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.assigneditems                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+class SittingsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.sittings                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
 
 
 class MinistriesViewlet( SubformViewlet ):
@@ -305,6 +349,16 @@ class PartyMembershipViewlet( SubformViewlet ):
 #        self.__parent__= context
 #        self.manager = manager
 #        self.query = None
+
+   
+class OfficeMembersViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.officemembers
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None   
 
     
 class PersonInfo( BungeniAttributeDisplay ):

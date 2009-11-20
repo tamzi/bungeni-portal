@@ -264,6 +264,30 @@
      />  
 
 
+  <browser:menu
+     id="sitting_additems"
+     title="The 'Add..' menu - for Group Sittings"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IGroupSitting"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="sitting_additems"
+     />
+
+  <browser:menuItem
+     menu="sitting_additems"
+     for="bungeni.models.interfaces.IGroupSitting"
+     title="Add Attendance ..."
+     action="./attendance/add"
+     permission="bungeni.sitting.Add"     
+     order="10"
+     />  
+
                
   <browser:menu
      id="motion_additems"

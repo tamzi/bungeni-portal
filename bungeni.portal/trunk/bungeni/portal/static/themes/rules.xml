@@ -29,6 +29,8 @@
   <match path="/workspace_archive/"  class="load-workspace_archive-navigation" />      
   <match path="regex:.*/audit-log$"
  	 class="bungeni-header" />
+  <match path="regex:.*/(emptypage)$"
+ 	 abort="1" />    
   <match path="/"
          class="primary" />
 

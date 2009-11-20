@@ -95,8 +95,9 @@
 	                        tal:content="structure error" 
 	                        tal:attributes="class python:'errormessage' + (changed and ' changed' or '')">               
                         The Error
-                      </div>                    
-	               </div>	      
+                      </div>
+	               </div>
+                    
                 </div>
               </tal:block>
           </metal:block>
@@ -110,7 +111,7 @@
          subform contents
         </div>
       </div>      
-
+      <div class="rowspacer"></div>
       <div id="actionsView">
         <span class="actionButtons"
               tal:condition="view/availableActions">

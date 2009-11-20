@@ -151,7 +151,7 @@
     border-spacing: 0;
 }
 .actionMenu.deactivated .actionMenuContent {
-    display: none !important;
+    /*display: none !important;*/
 }
 .actionMenu .actionMenuContent ul {
     display: block;
@@ -287,6 +287,9 @@ ul.configletDetails li.configletDescription {
 }
 .spacer {
     margin: 1em;
+}
+.rowspacer {
+    clear: both;
 }
 
 /* Collapsible elements */

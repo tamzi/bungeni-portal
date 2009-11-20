@@ -223,6 +223,7 @@
   <adapter factory=".dc.TabledDocumentDescriptiveProperties" />  
   <adapter factory=".dc.ConstituencyDetailsDescriptiveProperties" />
   <adapter factory=".dc.GroupItemAssignmentDescriptiveProperties" />
+  <adapter factory=".dc.MemberRoleTitleDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

@@ -436,7 +436,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
     custom_validators = [validations.validate_date_range_within_parent,]                                                       
 
 class MpDescriptor ( ModelDescriptor ):
-    display_name = _(u"Name")
+    display_name = _(u"Member of parliament")
     container_name = _(u"Members of parliament")
     
     fields = [dict( name="user_id",

@@ -545,9 +545,8 @@ class Keyword( object ):
 class MemberRoleTitle( Entity ):
     """
     The role title a member has in a specific context
-    and official addresses for a official role
+    and one official addresse for a official role
     """    
-    addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "role_title_id" )    
     
 
 

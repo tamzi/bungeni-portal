@@ -379,9 +379,9 @@
   
 
 
-  <!--browser:viewlet
+  <browser:viewlet
      name="bungeni.viewlet.supplementaryquestions"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"                              
      class=".viewlets.SupplementaryQuestionsViewlet"
      for="bungeni.models.interfaces.IQuestion"
      permission="bungeni.question.View"
@@ -390,12 +390,12 @@
 
   <browser:viewlet
      name="bungeni.viewlet.initialquestion"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"                              
      class=".viewlets.InitialQuestionsViewlet"
      for="bungeni.models.interfaces.IQuestion"
      permission="bungeni.question.View"
      weight="5"
-     /-->      
+     />      
 
 
   
@@ -497,6 +497,16 @@
      permission="zope.View"
      weight="20"
      />  
+  
+  <browser:viewlet
+     name="bungeni.viewlet.bill-assignements"
+     manager=".interfaces.ISubFormViewletManager"
+     class=".viewlets.AssignedGroupsViewlet"
+     for="bungeni.models.interfaces.IBill"
+     permission="zope.View"
+     weight="30"
+     />    
+  
   
   <!-- Motion -->
   

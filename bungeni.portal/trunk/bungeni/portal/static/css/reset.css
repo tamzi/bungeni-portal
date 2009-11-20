@@ -9,7 +9,6 @@ a {cursor: pointer; }
 /*:focus {                                      outline: 0; }*/
 
 q:before, q:after {content: ""; }
-ol, ul {list-style-type: none; }
 table {border-collapse: collapse; border-spacing: 0; }
 caption, th, td {text-align: left; font-weight: normal; }
 
@@ -182,9 +181,12 @@ dl.section-front-page {
   margin: 103px 0 1em;
 }
 
-.section-bungeni-business #portal-column-one .portlet { 
-  margin: 45px 0 1em;
+.section-bungeni-business #portal-column-one .portlet,
+.section-bungeni-members  #portal-column-one .portlet{ 
+  margin: 55px 0 1em;
 }
+
+
 
 #portal-column-one .portletNavigationTree {
   margin: 40px 0 1em;

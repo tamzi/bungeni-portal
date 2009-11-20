@@ -325,6 +325,11 @@ class GroupItemAssignmentDescriptiveProperties(DescriptiveProperties):
     def title(self):  
         return '%s - %s ' % (self.context.item.short_name, self.context.group.short_name)
 
-                        
-                                    
+class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IMemberRoleTitle)
+    
+    @property
+    def title(self): 
+        context = removeSecurityProxy(self.context)
+        return context.title_name.user_role_name                                   
 

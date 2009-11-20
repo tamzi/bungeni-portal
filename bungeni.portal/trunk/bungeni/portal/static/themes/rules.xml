@@ -2,7 +2,9 @@
 <ruleset>
   <theme href="/static/themes/layout.html" />
   <match path="regex:.*/(private_folder|web_pages)$"
- 	 class="menu-items" />    
+ 	 class="menu-items" />
+  <match path="regex:.*/(private_folder|web_pages)/.+$"
+ 	 class="menu-items" />      
   <match path="exact:/"
          class="frontpage" />
   <match path="exact:/front-page"
@@ -16,7 +18,7 @@
   <match path="regex:.*/presentation_view$"
  	 class="presentation-view" />   
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
-         class="workspace-member" />
+         class="member-links" />
   <match path="/business/whats-on"  class="load-whatson-navigation" />  
   <match path="/business/"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
@@ -43,18 +45,6 @@
              theme="children:#fieldset-display-form-workspace > div" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#workgroup-id"/>
-   </rule>
-
-  <rule class="workspace-member">
-    <!-- content -->
-    <prepend content="dl.enableFormTabbing > dt"
-             theme="children:dl.enableFormTabbing" />
-    <prepend content="dl.enableFormTabbing > dd"
-             theme="children:dl.enableFormTabbing" />
-    <replace content="children:.documentContent"
-             theme="children:#fieldset-display-form-workspace > div" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
-             pyarg-workspace_id="#user-workspace-id"/>
    </rule>
 
   <rule class="load-whatson-navigation">
@@ -172,6 +162,10 @@
   <rule class="calendar-links">
     <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    
    </rule>
+
+  <rule class="member-links">
+    <pyquery pyref="bungeni.portal/static/themes/rules:image_links" />    
+   </rule>  
 
   <rule class="presentation-view">
     <!--body-->
@@ -301,4 +295,5 @@
     <append content="attributes:body" theme="attributes:body" />
     
    </rule>
+
 </ruleset>

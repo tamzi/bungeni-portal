@@ -319,7 +319,8 @@ class IDateRangeFilter(interface.Interface):
 class IChange(interface.Interface):
     """ Marker for Change (log table) """
         
-        
+class IMemberRoleTitle(interface.Interface):
+    pass        
         
     
 class IUserAddress(interface.Interface):

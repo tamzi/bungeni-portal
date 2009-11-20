@@ -252,8 +252,26 @@
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
      weight="20"
-     />      
-  
+     />   
+        
+   <browser:viewlet
+     name="bungeni.viewlet.assigned-items"
+     manager=".interfaces.ISubFormViewletManager"          
+     class=".viewlets.AssignedItemsViewlet"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     weight="30"
+     />  
+
+        
+   <browser:viewlet
+     name="bungeni.viewlet.committee-sittings"
+     manager=".interfaces.ISubFormViewletManager"          
+     class=".viewlets.SittingsViewlet"
+     for="bungeni.models.interfaces.ICommittee"
+     permission="zope.View"
+     weight="40"
+     />  
 
 
   <browser:viewlet
@@ -292,7 +310,14 @@
      weight="10"
      />
              
-
+  <browser:viewlet
+     name="bungeni.viewlet.office-members"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".viewlets.OfficeMembersViewlet"
+     for="bungeni.models.interfaces.IOffice"
+     permission="zope.View"
+     weight="10"
+     />
 
 
   <browser:viewlet
@@ -308,13 +333,30 @@
   
   <browser:viewlet
      name="bungeni.viewlet.minsters"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"                              
      class=".viewlets.MinistersViewlet"
      for="bungeni.models.interfaces.IMinistry"
      permission="zope.View"
-     weight="10"
+     weight="20"
      />   
   
+  <browser:viewlet
+     name="bungeni.viewlet.minstery-bills"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".viewlets.BillsViewlet"
+     for="bungeni.models.interfaces.IMinistry"
+     permission="zope.View"
+     weight="30"
+     />   
+
+  <browser:viewlet
+     name="bungeni.viewlet.minstry-questions"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".viewlets.QuestionsViewlet"
+     for="bungeni.models.interfaces.IMinistry"
+     permission="zope.View"
+     weight="40"
+     />   
 
   
   <browser:viewlet

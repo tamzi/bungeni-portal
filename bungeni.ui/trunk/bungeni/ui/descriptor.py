@@ -901,7 +901,7 @@ class OfficeDescriptor( GroupDescriptor ):
     
 class OfficeMemberDescriptor( ModelDescriptor ):    
     display_name = _(u"Office Member")
-    container_name = _(u"Office Member")
+    container_name = _(u"Office Members")
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 

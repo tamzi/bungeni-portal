@@ -15,16 +15,22 @@ from z3c.menu.ready2go import item
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
+from bungeni.models import queries
+from bungeni.models.utils import get_db_user_id
+from bungeni.models.interfaces import IBungeniApplication
+
 from bungeni.core.translation import get_language
 from bungeni.core.translation import get_all_languages
 from bungeni.core.translation import get_available_translations
 from bungeni.core import schedule
-from bungeni.models import queries
+from bungeni.core.globalsettings import getCurrentParliamentId
+
 from bungeni.ui.i18n import  _
 from bungeni.ui.utils import urljoin
-from bungeni.models.utils import get_db_user_id
+from bungeni.ui import interfaces
+
 #Following added inorder to fix issue 319. needs review
-from bungeni.core.globalsettings import getCurrentParliamentId
+
 
 def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
@@ -236,11 +242,14 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
 class WorkflowMenu(BrowserMenu):
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
-
+        if interfaces.IBusinessWhatsOnSectionLayer.providedBy(request):
+            return ()
+        else:
+            if IBungeniApplication.providedBy(context.__parent__):
+                return ()
         wf = IWorkflow(context, None)
         if wf is None:
-            return ()
-        
+            return ()        
         state = IWorkflowInfo(context).state().getState()
         wf_info = IWorkflowInfo( context )
         transitions = wf_info.getManualTransitionIds()

@@ -350,7 +350,7 @@
      menu="bill_additems"
      for="bungeni.models.interfaces.IBill"
      title="Assign bill to a group..."
-     action="./assigneditems/add"
+     action="./assignedgroups/add"
      permission="bungeni.groupitemassignment.Add"
      order="50"
      />

@@ -233,6 +233,16 @@ class AssignedItemsViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
 
+class AssignedGroupsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.assignedgroups                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+
 class SittingsViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
 

@@ -240,29 +240,31 @@
      />
 
   <browser:menu
-     id="mp_additems"
-     title="The 'Add..' menu - for MemberOfParliament"
+     id="member_additems"
+     title="The 'Add..' menu - for Group Memberships"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
-     for="bungeni.models.interfaces.IMemberOfParliament"
+     for="bungeni.models.interfaces.IBungeniGroupMembership"
      title="Add ..."
      action="add_content"
      permission="zope.View"
-     submenu="mp_additems"
+     submenu="member_additems"
      />
 
   <browser:menuItem
-     menu="mp_additems"
-     for="bungeni.models.interfaces.IMemberOfParliament"
+     menu="member_additems"
+     for="bungeni.models.interfaces.IBungeniGroupMembership"
      title="Add title ..."
      action="./titles/add"
      permission="bungeni.function.Add"     
      order="10"
      />  
 
+
+               
   <browser:menu
      id="motion_additems"
      title="The 'Add..' menu - for motion"

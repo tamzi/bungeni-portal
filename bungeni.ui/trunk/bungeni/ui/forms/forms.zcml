@@ -360,6 +360,56 @@
      permission="bungeni.party.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
+     
+<!-- Group Memberships -->     
+  <browser:page
+     name="add"
+     for="bungeni.models.interfaces.IBungeniGroupMembershipContainer"
+     class=".common.AddForm"
+     permission="bungeni.groupmember.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.interfaces.IBungeniGroupMembership"
+     class=".common.EditForm"
+     permission="bungeni.groupmember.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.interfaces.IBungeniGroupMembership"
+     class=".common.DeleteForm"
+     permission="bungeni.groupmember.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="add"
+     for="bungeni.models.interfaces.IMemberOfParliamentContainer"
+     class=".common.AddForm"
+     permission="bungeni.groupmember.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     class=".common.EditForm"
+     permission="bungeni.groupmember.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     class=".common.DeleteForm"
+     permission="bungeni.groupmember.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />     
+     
 <!-- Session -->
   <browser:page
      name="view"

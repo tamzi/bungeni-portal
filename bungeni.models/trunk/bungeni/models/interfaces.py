@@ -52,11 +52,49 @@ class IBungeniGroup( interface.Interface ):
     """
     a group in bungeni
     """
+class IParliament(IBungeniGroup):
+    """ marker interface for group parliament """
+
+class IGovernment(IBungeniGroup):
+    """ marker interface for group Government """
+
+class IMinistry(IBungeniGroup):
+    """ marker interface for group ministry """            
+
+class ICommittee(IBungeniGroup):
+    """ marker interface for group ministry """ 
+    
+class IPoliticalParty(IBungeniGroup):
+    """ marker interface for political party """   
+
+class IOffice(IBungeniGroup):
+    """ marker interface for a parliamentary office """   
+    
+class ICommittee(IBungeniGroup):
+    pass
 
 class IBungeniGroupMembership( interface.Interface ):
     """
     group membership in bungeni
     """
+
+class IMemberOfParliament( IBungeniGroupMembership ):
+    pass
+    
+class IPartyMember( IBungeniGroupMembership ):
+    pass
+    
+class IMinister( IBungeniGroupMembership ):
+    pass
+    
+class ICommitteeMember( IBungeniGroupMembership ):
+    pass
+
+class ICommitteeStaff( IBungeniGroupMembership ):
+    pass
+    
+class IOfficeMember( IBungeniGroupMembership ):
+    pass
 
 
 class IBungeniContent( interface.Interface ):
@@ -107,8 +145,7 @@ class IMotionVersion(IMotion):
 class IMotionVersionContainer(IVersionContainer):
     pass
     
-class ICommittee(IBungeniGroup):
-    pass
+
 
 class IGroupSitting(interface.Interface):
     pass
@@ -283,23 +320,7 @@ class IChange(interface.Interface):
     """ Marker for Change (log table) """
         
         
-class IParliament(IBungeniGroup):
-    """ marker interface for group parliament """
-
-class IGovernment(IBungeniGroup):
-    """ marker interface for group Government """
-
-class IMinistry(IBungeniGroup):
-    """ marker interface for group ministry """            
-
-class ICommittee(IBungeniGroup):
-    """ marker interface for group ministry """ 
-    
-class IPoliticalParty(IBungeniGroup):
-    """ marker interface for political party """   
-
-class IOffice(IBungeniGroup):
-    """ marker interface for a parliamentary office """           
+        
     
 class IUserAddress(interface.Interface):
     """ marker interface addresses of a user """

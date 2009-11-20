@@ -154,12 +154,8 @@ class OfficesHeld( Entity ):
     """ Offices held by this group member """
     
 
-class StaffGroupMembership( GroupMembership ):
-    """ 
-    staff assigned to groups (committees, ministries,...)
-    """    
             
-class CommitteeStaff( StaffGroupMembership ):
+class CommitteeStaff( GroupMembership ):
     """
     Comittee Staff
     """

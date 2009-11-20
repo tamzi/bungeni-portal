@@ -449,7 +449,7 @@
   
   <browser:viewlet
      name="bungeni.viewlet.bill-timeline"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"
      class=".viewlets.BillTimeLineViewlet"
      for="bungeni.models.interfaces.IBill"
      permission="zope.View"

@@ -823,7 +823,7 @@
      menu="context_actions"
      for="bungeni.core.interfaces.IDailySchedulingContext"
      action="view"
-     title="View"
+     title="Info"
      order="0"
      permission="zope.View"
      />
@@ -1012,7 +1012,7 @@
      menu="context_actions"
      for="ore.alchemist.interfaces.IAlchemistContent"
      action="view"
-     title="View"
+     title="Info"
      order="0"
      />
   
@@ -1184,7 +1184,7 @@
      menu="context_actions"
      for="ore.library.interfaces.ILibraryContainer"
      action="../../view"
-     title="View"
+     title="Info"
      order="0"
      />
      

@@ -399,7 +399,7 @@ class Question( ParliamentaryItem ):
         if self.supplement_parent_id:
             session = Session()
             parent = session.query(Question).get(self.supplement_parent_id)   
-            return parent.subject
+            return parent.short_name
 
             
  

@@ -97,6 +97,8 @@ class IOfficeMember( IBungeniGroupMembership ):
     pass
 
 
+
+
 class IBungeniContent( interface.Interface ):
     """
     parliamentary content
@@ -108,6 +110,9 @@ class IBungeniContainer(IAlchemistContainer):
     """
 
 class IGroupSittingContainer( IBungeniContainer ):
+    pass
+
+class IBungeniGroupMembershipContainer( IBungeniContainer ):
     pass
 
 

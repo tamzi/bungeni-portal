@@ -432,7 +432,7 @@
                         notes" />    
                                   
     <require permission="bungeni.groupitemassignment.Edit"
-             set_attributes="ssignment_id
+             set_attributes="assignment_id
                         item_id
                         group_id
                         start_date
@@ -441,6 +441,66 @@
                         status
                         notes" />                                    
   </class>      
+          
+  <class class=".domain.GroupMembership" >
+    <require permission="zope.View"
+             attributes="membership_id
+                        user_id
+                        group_id
+                        start_date
+                        end_date
+                        notes
+                        active_p
+                        replaced_id
+                        substitution_type
+                        membership_type" />    
+                                  
+    <require permission="bungeni.groupmember.Edit"
+             set_attributes="membership_id
+                        user_id
+                        group_id
+                        start_date
+                        end_date
+                        notes
+                        active_p
+                        replaced_id
+                        substitution_type
+                        membership_type" />                                    
+  </class>              
+  <class class=".domain.MemberOfParliament" >
+    <require permission="zope.View"
+             attributes="membership_id
+                        user_id
+                        group_id
+                        start_date
+                        end_date
+                        notes
+                        active_p
+                        replaced_id
+                        substitution_type
+                        membership_type
+                        constituency_id
+                        elected_nominated
+                        election_nomination_date
+                        leave_reason" />    
+                                  
+    <require permission="bungeni.groupmember.Edit"
+             set_attributes="membership_id
+                        user_id
+                        group_id
+                        start_date
+                        end_date
+                        notes
+                        active_p
+                        replaced_id
+                        substitution_type
+                        membership_type
+                        constituency_id
+                        elected_nominated
+                        election_nomination_date
+                        leave_reason" />                                    
+  </class>           
+            
           
 </configure>
 

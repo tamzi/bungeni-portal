@@ -31,10 +31,9 @@ div#portal-globalnav ul.level0 {
   list-style-image: none;
   list-style-position: outside;
   list-style-type: none;
-  padding: 0 0 0 2em;
+  padding: 0 0 0 0em;
   margin-left: 0em;
   white-space: nowrap;
-  min-width:110em;
   width: 100%;
   height:1.7em;
 }
@@ -135,6 +134,7 @@ div#portal-globalnav-bottom {
   padding-top:1.8em;
   background-color: #FFE7B8;  
   border: 1px solid #FFE7B8;
+  background:#FFE7B8 none repeat scroll 0 0;
 }
 
 

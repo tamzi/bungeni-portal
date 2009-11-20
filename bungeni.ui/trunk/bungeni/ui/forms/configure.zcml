@@ -418,14 +418,14 @@
   
 
 
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.viewlet.title-addresses"
      manager="alchemist.ui.interfaces.IContentViewManager"
      class=".viewlets.AddressesViewlet"
      for="bungeni.models.interfaces.IMemberRoleTitle"
      permission="zope.View"
      weight="10"
-     />
+     /-->
   
   <browser:viewlet
      name="bungeni.viewlet.party-members"

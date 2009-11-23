@@ -629,7 +629,10 @@ class HTMLPreviewPage(ReportingView):
             if self.display_minutes:
                 item.item_schedule.sort(key=operator.attrgetter('real_order'))                              
             else:
-                item.item_schedule.sort(key=operator.attrgetter('planned_order'))              
+                item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
+            item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
+            item.item_session = get_session_by_date_range(self, item.start_date, item.end_date)  
+            #import pdb; pdb.set_trace()        
         return items
                           
     def update(self):

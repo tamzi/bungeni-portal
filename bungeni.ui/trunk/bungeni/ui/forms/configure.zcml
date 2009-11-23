@@ -251,7 +251,7 @@
      class=".viewlets.CommitteeStaffViewlet"
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
-     weight="20"
+     weight="60"
      />   
         
    <browser:viewlet
@@ -270,7 +270,7 @@
      class=".viewlets.SittingsViewlet"
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
-     weight="40"
+     weight="50"
      />  
 
 

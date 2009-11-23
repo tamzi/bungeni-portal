@@ -308,7 +308,7 @@ sql_bill_timeline = """
         AND "bill_versions"."manual" = True           
         AND "bill_changes"."content_id" = :item_id  
     UNION        
-        SELECT 'assigned to' AS "atype", 
+        SELECT 'assignment start' AS "atype", 
             "group_assignments"."item_id" AS "item_id", 
             "groups"."short_name" || ' - ' || "groups"."full_name",
             "group_assignments"."start_date" AS "adate"
@@ -316,5 +316,15 @@ sql_bill_timeline = """
             "public"."groups" AS "groups" 
         WHERE "group_assignments"."group_id" = "groups"."group_id"        
         AND "group_assignments"."item_id" = :item_id  
+    UNION        
+        SELECT 'assignment end' AS "atype", 
+            "group_assignments"."item_id" AS "item_id", 
+            "groups"."short_name" || ' - ' || "groups"."full_name",
+            "group_assignments"."end_date" AS "adate"
+        FROM "public"."group_assignments" AS "group_assignments", 
+            "public"."groups" AS "groups" 
+        WHERE "group_assignments"."group_id" = "groups"."group_id"        
+        AND "group_assignments"."item_id" = :item_id     
+        AND "group_assignments"."end_date" IS NOT NULL     
      ORDER BY adate DESC
      """

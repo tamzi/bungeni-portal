@@ -82,6 +82,8 @@ class User( Entity ):
         
     def setPassword( self, password ):
         self.password = self.encode( password )
+    def getPassword( self ):  
+        return None
         
     def encode( self, password ):
         return md5.md5( password + self.salt ).hexdigest()
@@ -89,6 +91,13 @@ class User( Entity ):
     def checkPassword( self, password_attempt ):
         attempt = self.encode( password_attempt )
         return attempt == self.password
+
+    _password = property(getPassword, setPassword)                
+
+
+
+
+
 
     @property
     def fullname(self):

@@ -173,7 +173,11 @@ class GroupDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):
-        return self.context.short_name
+        return "%s: %s - %s" %(
+            self.context.type.capitalize(),
+            self.context.short_name,
+            self.context.full_name)
+            
 
 class ContainerDescriptiveProperties(DescriptiveProperties):
     component.adapts(IAlchemistContainer)

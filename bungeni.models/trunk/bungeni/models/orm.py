@@ -236,6 +236,7 @@ mapper( domain.Question, schema.questions,
         polymorphic_identity='question',
         properties = {
              'changes':relation( domain.QuestionChange, backref='origin'),  
+             'ministry': relation( domain.Ministry),
              }
         )
         

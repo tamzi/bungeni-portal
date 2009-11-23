@@ -41,8 +41,18 @@ def add_workspace(content, theme, resource_fetcher, log, workspace_id):
             workspace_content = workspace_url('#portal-column-content').html()
             workspace_item.append(workspace_content)
         except:
-            pass        
+            pass
 
+def add_workspace_link(content, theme, resource_fetcher, log, workspace_id):
+    """
+    Add a link to the members workspace.
+    """
+    if content('#user-workspace-id').val is not None:
+        host_url = urlsplit(log.theme_url)
+        new_value = "<h2>" + content('h2').html() + "</h2> For the personal web page click <a href ='" + host_url[0] + '://' + host_url[1] + "/" + content('#user-workspace-id').val() + "/web_pages'>here.</a>"
+        content('h2').replaceWith(new_value)
+    
+    
 def drop_workspace(content, theme, resource_fetcher, log):
     member_workspace_content_id = theme('#user-workspace-id').val()
     group_workspace_content_id = theme('#workgroup-id').val()

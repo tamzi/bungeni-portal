@@ -32,6 +32,7 @@ from bungeni.ui.constraints import check_email
 from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
 from bungeni.ui import diff
+from bungeni.ui.viewlets.workspace import get_wf_state
 
 
 ###
@@ -44,6 +45,7 @@ def _column( name, title, renderer, default="" ):
             return renderer( value )
         return default
     return column.GetterColumn( title, getter )
+
     
 def day_column( name, title, default="" ):
     renderer = lambda x: x.strftime('%Y-%m-%d')
@@ -147,8 +149,13 @@ def group_name_column(name, title, default=u""):
         session = Session()
         return u"%s %s"%(item.group.type, item.group.short_name)    
     return column.GetterColumn( title, getter )
-    
-     
+
+
+def workflow_column(name, title, default=u""):
+    def getter( item, formatter ):
+        return get_wf_state(item)    
+    return column.GetterColumn( title, getter ) 
+        
 ####
 #  Constraints / Invariants
 #  
@@ -661,7 +668,7 @@ parliamentSource = DatabaseSource(domain.Parliament,
                     value_field='parliament_id')
             
 class CommitteeDescriptor( GroupDescriptor ):
-    display_name = _(u"Committee")
+    display_name = _(u"Profile")
     container_name = _(u"Committees")
     custom_validators = [validations.validate_date_range_within_parent,]
     
@@ -1158,6 +1165,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                  title=u"Status",
                  vocabulary="bungeni.vocabulary.workflow",
                  ),
+            listing_column=workflow_column("status","Workflow status"),
             add=False,
             listing=True, 
             omit=False ),           
@@ -1404,7 +1412,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
         dict( name="supplement_parent_id",
             label=_(u"Initial/supplementary question"), 
             view_widget=SupplementaryQuestionDisplay,
-            add=False, edit=False),
+            add=False, edit=False, view=False),
         dict( name="ministry_id", 
                 property = schema.Choice(title=_(u"Ministry"), 
                  source=vocabulary.MinistrySource("ministry_id"),

@@ -294,6 +294,13 @@ class UserDescriptor( ModelDescriptor ):
              ),                                                                                
         dict( name="login", label=_(u"Login Name"), 
             add=True, edit=False, view=True, required=True),
+        dict( name="password", omit = True),
+        dict( name="_password",
+                property = schema.TextLine(     
+                    title=_(u"Initial password"),
+                    required=True),
+            add=True, view=False, edit=False,
+            required=True ),                        
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", 
               property = schema.Choice( 
@@ -336,7 +343,6 @@ class UserDescriptor( ModelDescriptor ):
               edit_permission="bungeni.user.AdminRecord",
               edit_widget=SelectDateWidget, 
               add_widget=SelectDateWidget),
-        dict( name="password", omit=True ),
         dict( name="active_p", label=_(u"Status"), 
               property = schema.Choice( 
                 title=_(u"Status"), 

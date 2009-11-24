@@ -514,7 +514,7 @@ class BillItemsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"submitted"].id , 
+        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"gazetted"].id , 
                                                                                 bill_wf_state[u"first_reading_postponed"].id ,
                                                                                 bill_wf_state[u"second_reading_pending"].id , 
                                                                                 bill_wf_state[u"second_reading_postponed"].id , 
@@ -686,7 +686,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         tableddocument_wf_state[u"deferred"].id,
         tableddocument_wf_state[u"postponed"].id,
         tableddocument_wf_state[u"scheduled"].id,    
-        bill_wf_state[u"submitted"].id , 
+        bill_wf_state[u"gazetted"].id , 
         bill_wf_state[u"first_reading_postponed"].id ,
         bill_wf_state[u"second_reading"].id , 
         bill_wf_state[u"second_reading_postponed"].id , 
@@ -808,7 +808,7 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         tableddocument_wf_state[u"postponed"].id,
         tableddocument_wf_state[u"scheduled"].id,
             
-        bill_wf_state[u"submitted"].id , 
+        bill_wf_state[u"gazetted"].id , 
         bill_wf_state[u"first_reading_postponed"].id ,
         bill_wf_state[u"second_reading"].id , 
         bill_wf_state[u"second_reading_postponed"].id , 
@@ -957,7 +957,7 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
         session = Session()                        
         qfilter = domain.GroupSitting.status.in_(self.states)        
         sittings = session.query(domain.GroupSitting).filter(
-                qfilter).order_by(domain.GroupSitting.start_date
+                qfilter).order_by(domain.GroupSitting.start_date.desc()
                     ).options(
                 eagerload('group'),
                 eagerload('sitting_type')

@@ -141,6 +141,7 @@
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
     <append content="#kss-spinner"
             theme="#portal-columns" />    
    </rule>
@@ -239,7 +240,10 @@
     <!-- right portlet -->
     <prepend href="/business/"
              content="children:#region-content"
-             theme="children:#portal-column-two"/>
+             theme="children:#portal-column-two"/>    
+    <prepend href="/bungeni/"
+             content="#workspace-viewlet-my_groups"
+             theme="children:#portal-column-two" />    
     <append content="children:#portal-column-two" theme="children:#portal-column-two" />
     
     <!-- body attributes -->

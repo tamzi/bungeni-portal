@@ -263,7 +263,10 @@
                   var element = row.next('not:(.category)');
                   if (!element) return false;
                   element.insertBefore(row);
-                  break
+                  break;
+                case "delete-scheduling":
+                    row.remove();
+                    break;                  
                 default:
                     return true;
                 }                            

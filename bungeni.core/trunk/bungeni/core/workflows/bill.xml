@@ -27,7 +27,7 @@
     <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />                                
   </state>
   
-  <state id="submitted" title="Bill Published in Gazette">
+  <state id="gazetted" title="Bill Published in Gazette">
     <deny permission="bungeni.bill.Edit" role="bungeni.Owner" />
     <deny permission="zope.ManageContent" role="bungeni.Owner" />                
     <deny permission="bungeni.bill.Delete" role="bungeni.Owner" />        
@@ -168,7 +168,7 @@
      title="Publish in Gazette"
      trigger="manual"
      source="draft"
-     destination="submitted"
+     destination="gazetted"
      permission="bungeni.bill.Submit"
      action="bungeni.core.workflows.bill.actions.submit"
      condition=""
@@ -177,7 +177,7 @@
      id="schedule-first"
      title="Schedule First Reading"
      trigger="manual"
-     source="submitted"
+     source="gazetted"
      destination="first_reading"
      permission="bungeni.bill.Schedule"
      action="bungeni.core.workflows.bill.actions.schedule_first"
@@ -474,7 +474,7 @@
      id="withdraw"
      title="Withdraw"
      trigger="manual"
-     source="submitted
+     source="gazetted
              first_reading
              first_committee
              second_reading

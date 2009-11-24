@@ -159,7 +159,6 @@ div#portal-globalnav-bottom {
   border-color: transparent;
 }
 
-
 dl.section-front-page {
   display: none;
 }
@@ -193,14 +192,20 @@ dl.section-front-page {
   width: 
 }
 
+#portal-column-two {
+  padding-top: 3em;
+}  
+
+
 #portal-column-two .visualPadding {
-  padding-top: 1em;
+  padding: 0em 2em 1em 0;
 }
 
 #portal-column-two .portletNews
 #portal-column-two #review-portlet
 {
-  margin:15px -1em 1em 1em;  
+  width: 20em;
+  margin:1px -1em 1em 1em;  
 }
 
 #portal-column-one .portletHeader,
@@ -231,6 +236,7 @@ dl.section-front-page {
 #portal-column-two .portletHeader,
 #portal-column-two .portlet dt,
 #whats-on-overview .portlet dt
+#whats-on-overview .portlet dt
 {
   background-color: #E3E3E3;
   border: 1px solid #FAAD5F;
@@ -240,7 +246,7 @@ dl.section-front-page {
 
 #whats-on-overview .portlet dt
 {
-  padding: 0 2px 5px 5px;
+  padding: 0 2px 0px 5px;
   font-weight: normal;
 }
 
@@ -258,11 +264,20 @@ dl.section-front-page {
   padding:4px 0 1em 2em;
 }
 
-.section-front-page #whats-on-overview .portlet {
-  margin-left: 1em;
+.section-front-page #workspace-viewlet-my_groups,
+.section-front-page #whats-on-overview .portlet,
+.section-front-page #whats-on-overview,
+.section-front-page .portletNews {
+  margin-left: 0em;
   margin-bottom: 2em;
-  width: 14em;
+  width: 20em;
+  margin-top: 15px;
 }
+
+.section-front-page #whats-on-overview .portlet dd ul{
+  list-style-type: none;
+}
+
 
 #whats-on-overview .portlet dd {
   border-left: 1px solid #FAAD5F;

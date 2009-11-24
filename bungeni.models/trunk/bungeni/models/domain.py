@@ -82,6 +82,7 @@ class User( Entity ):
         
     def setPassword( self, password ):
         self.password = self.encode( password )
+        
     def getPassword( self ):  
         return None
         
@@ -92,13 +93,6 @@ class User( Entity ):
         attempt = self.encode( password_attempt )
         return attempt == self.password
 
-    _password = property(getPassword, setPassword)                
-
-
-
-
-
-
     @property
     def fullname(self):
         return "%s %s" % (self.first_name, self.last_name)
@@ -107,7 +101,7 @@ class User( Entity ):
     sort_replace = {'user_id': ['last_name', 'first_name']}    
     addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
     delegations = one2many( "delegations", "bungeni.models.domain.UserDelegationContainer", "user_id" )   
-
+    _password = property(getPassword, setPassword)                
 
 class UserDelegation(Entity):
     """ Delgate rights to act on behalf of a user 

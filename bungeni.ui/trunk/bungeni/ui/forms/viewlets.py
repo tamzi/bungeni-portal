@@ -547,6 +547,18 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
     def handle_event_add_action( self, action, data ):
         self.request.response.redirect(self.addurl)    
     
+    def get_results(self):
+        results = []
+        data = {}
+        for result in self.results:
+            data['atype'] = str(result['atype'])
+            data['item_id'] = str(result['item_id'])  
+            data['title'] = str(result['title'])
+            data['adate'] = str(result['adate'].strftime("%Y-%m-%d %H:%M"))
+            results.append(data)
+            import pdb; pdb.set_trace()
+        return results
+                    
     def update(self):
         """
         refresh the query
@@ -555,7 +567,6 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         self.results = utils.execute_sql(statements.sql_bill_timeline, item_id=bill_id)
         path = absoluteURL( self.context, self.request ) 
         self.addurl = '%s/event/add' %( path )
-         
     
     
     render = ViewPageTemplateFile ('templates/bill_timeline_viewlet.pt')    

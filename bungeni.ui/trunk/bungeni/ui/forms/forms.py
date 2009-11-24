@@ -207,7 +207,10 @@ class ItemScheduleDeleteForm(DeleteForm):
         2) Delete any discussion items that have been associated to
         this scheduling.
         """
-        
+        try:
+            field = self.request.form['field']
+        except:
+            import pdb; pdb.set_trace()
         reorder_form = ItemScheduleReorderForm(self.context, self.request)
         container = copy.copy(removeSecurityProxy(self.context.__parent__))
         subset_query = container.subset_query
@@ -215,7 +218,7 @@ class ItemScheduleDeleteForm(DeleteForm):
             subset_query,
             container.domain_model.planned_order > self.context.planned_order)
         for i in range(len(container) * 2):
-            reorder_form.handle_move.success({'mode': 'down'})
+            reorder_form.handle_move.success({'mode': 'down', 'field': field})
         container.subset_query = subset_query
         if self.context.category:
             results = container._query.filter(

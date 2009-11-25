@@ -3,7 +3,7 @@ from urlparse import urlsplit
 
 def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
     """
-    Add the private and public folders from the meber workspace.
+    Add the private and public folders from the member workspace.
     """
     link_val= None
     workspace_links_content = theme('.level1')
@@ -20,8 +20,15 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
         private_link_content = "<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folders</a></li>"
         public_link_content = "<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web pages</a></li>"
         workspace_links_content.append(private_link_content)
-        workspace_links_content.append(public_link_content)    
+        workspace_links_content.append(public_link_content)
 
+def add_member_workspace_styles(content, theme, resource_fetcher, log):
+    """
+    Add the necessary styles to any sub-pages of the members private and public folders.    """
+    if "web_pages" in content('#portal-breadcrumbs').html() and not content('.template-web_pages'):
+        content('body').addClass('template-web_pages')
+    elif "private_folder" in content('#portal-breadcrumbs').html() and not content('.template-private_folder') is None:
+        content('body').addClass('template-private_folder')
 
 def add_workspace(content, theme, resource_fetcher, log, workspace_id):
     """Get the workspace content from plone using the hidden id from bungeni

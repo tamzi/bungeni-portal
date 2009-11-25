@@ -116,7 +116,7 @@ class ItemScheduleReorderForm(PageForm):
             title=_(u"Direction"),
             required=True)
         field = schema.Choice(
-            ('plannned_order', 'real_order'),
+            ('planned_order', 'real_order'),
             title=_(u"AM"),
             required=True)
             
@@ -140,7 +140,6 @@ class ItemScheduleReorderForm(PageForm):
         - Next item gets its category cleared 
 
         """
-
         field = data['field']
         mode = data['mode']
         container = self.context.__parent__

@@ -181,7 +181,7 @@
   
   <browser:viewlet
      name="bungeni.viewlet.sittingattendance"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"          
      class=".viewlets.SittingAttendanceViewlet"
      for="bungeni.models.interfaces.IGroupSitting"
      permission="zope.View"
@@ -499,7 +499,7 @@
      />  
   
   <browser:viewlet
-     name="bungeni.viewlet.bill-assignements"
+     name="bungeni.viewlet.bill-assignments"
      manager=".interfaces.ISubFormViewletManager"
      class=".viewlets.AssignedGroupsViewlet"
      for="bungeni.models.interfaces.IBill"

@@ -186,6 +186,7 @@ class SittingAttendanceViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
+        self.for_display = len(self.context) > 0                
 
 class MinistersViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
@@ -232,6 +233,7 @@ class AssignedItemsViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
+        self.for_display = len(self.context) > 0                
 
 class AssignedGroupsViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
@@ -241,6 +243,7 @@ class AssignedGroupsViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
+        self.for_display = len(self.context) > 0        
 
 
 class SittingsViewlet( SubformViewlet ):
@@ -251,6 +254,7 @@ class SittingsViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
+        self.for_display = len(self.context) > 0                
 
 
 class MinistriesViewlet( SubformViewlet ):

@@ -3,7 +3,7 @@
   <theme href="/static/themes/layout.html" />
   <match path="regex:.*/(private_folder|web_pages)$"
  	 class="menu-items" />
-  <match path="regex:.*/(private_folder|web_pages)/.+$"
+  <match path="regex:.*/(private_folder|web_pages/).+$"
  	 class="menu-items" />      
   <match path="exact:/"
          class="frontpage" />
@@ -196,6 +196,7 @@
             theme="children:#portal-globalnav ul.level1" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
              pyarg-link_id="#portal-breadcrumbs"/>
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_styles" />
     <append content="#viewlet-above-content"
              theme="children:.main-content"/>     
   </rule>

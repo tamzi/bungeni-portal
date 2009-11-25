@@ -18,7 +18,7 @@ class ChangeBaseView( BrowserView ):
     
     columns = [
         column.GetterColumn( title=_(u"action"), getter=lambda i,f:i['action'] ),    
-        column.GetterColumn( title=_(u"date"), getter=lambda i,f: i['date'] ),
+        column.GetterColumn( title=_(u"date"), getter=lambda i,f: i['date'].strftime('%Y-%m-%d %H:%M') ),
         column.GetterColumn( title=_(u"user"), getter=lambda i,f:i['user_id'] ),
         column.GetterColumn( title=_(u"description"), getter=lambda i,f:i['description'] ),
         ]    

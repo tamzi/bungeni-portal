@@ -101,7 +101,7 @@ class WhatsOnBrowserView(BrowserView):
         session = Session()
         start = self.start_date.strftime("%Y-%m-%d")
         end = self.end_date.strftime("%Y-%m-%d 23:59")
-        where_clause = "start_date BETWEEN '%s' AND '%s' AND group_sittings_1.status <> 'draft' " % (start, end)
+        where_clause = "start_date BETWEEN '%s' AND '%s' AND group_sittings_1.status <> 'draft-agenda' " % (start, end)
         query = session.query(domain.ItemSchedule).filter( 
             where_clause).order_by('start_date').options(
                     eagerload('sitting'), eagerload('item'),

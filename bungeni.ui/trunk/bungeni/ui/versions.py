@@ -75,7 +75,7 @@ class VersionLogView(BaseForm):
             getter=lambda i,f: '<a href="%s">%d</a>' % (
                 "%s/versions/obj-%d" % (f.url, i.version_id), i.version_id)),
         column.GetterColumn(title=_(u"manual"), getter=lambda i,f:i.manual),
-        column.GetterColumn(title=_(u"modified"), getter=lambda i,f: i.change.date),
+        column.GetterColumn(title=_(u"modified"), getter=lambda i,f: i.change.date.strftime('%Y-%m-%d %H:%M')),
         column.GetterColumn(title=_(u"by"), getter=lambda i,f:i.change.user_id),
         column.GetterColumn(title=_(u"message"), getter=lambda i,f:i.change.description ),
         ]

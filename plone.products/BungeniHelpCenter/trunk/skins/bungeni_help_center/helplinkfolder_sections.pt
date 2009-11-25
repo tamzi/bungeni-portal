@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <div metal:fill-slot="main">
+    <div metal:fill-slot="main" class="links">
     <div metal:define-macro="main"
          tal:define="sections here/getItemsBySections;
                      noSections python:len(sections) == 1">

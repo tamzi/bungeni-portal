@@ -22,7 +22,8 @@
      tal:define="chapters python:here.aq_parent.getFolderContents(contentFilter = {'portal_type' : ['HelpCenterLink'], 'sort_on':'sortable_title'});
                  sibl     python:[p for p in chapters];
                  num_sibl python:len(sibl);
-                 pos      python: [i for i in range(num_sibl)  if sibl[i].getId == here.getId()][0];">
+                 pos      python: [i for i in range(num_sibl)  if sibl[i].getId == here.getId()][0];"
+     class="links">
 
   <div metal:define-macro="main">
 

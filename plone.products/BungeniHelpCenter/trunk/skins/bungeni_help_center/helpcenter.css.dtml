@@ -170,11 +170,21 @@ dl.topicList dd {
 }
 
 .referenceManualCollation h1 {
-    font-size: &dtml-fontBaseSize;;
+    font-size: 120%;
 }
 
 .referenceManualCollation .blockmargin h1 {
     font-size: &dtml-fontSmallSize;;
+}
+
+.referenceManualCollation blockquote,
+.referenceManual blockquote {
+  border: 0px;
+  color: #000000;
+}
+
+h1.documentFirstHeading img {
+  display: none;
 }
 
 h2.section-subheading {
@@ -237,9 +247,9 @@ h2.section-subheading {
 
 .stoc {
   float: right;
-  width:250px;
+  width:300px;
   border:1px solid #74AE0B;
-  margin: 0px 0px 2px 9px;
+  margin: 0px -4px 2px 9px;
 }
 
 .portlet-toc-item a{

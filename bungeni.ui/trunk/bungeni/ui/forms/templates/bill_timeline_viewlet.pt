@@ -15,7 +15,7 @@
       <tr tal:repeat="data view/results"> 
         <td><span tal:content="data/atype"> Type </span></td>
         <td><span tal:content="data/title"> description / Title </span></td>
-        <td><span tal:content="data/adate">  1/1/2000 </span></td>           
+        <td><span tal:content="python: data['adate'].strftime('%Y-%m-%d %H:%M')">  1/1/2000 </span></td>           
       </tr>
     </tbody>  
   </table>

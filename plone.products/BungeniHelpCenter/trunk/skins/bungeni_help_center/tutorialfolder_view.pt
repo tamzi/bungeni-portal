@@ -5,7 +5,7 @@
   i18n:domain="plonehelpcenter">
 
   <body>
-    <div metal:fill-slot="main">
+    <div metal:fill-slot="main" class="tutorial">
     <div metal:define-macro="main"
          tal:define="audiences here/getItemsByAudiencesAndSections;
                      noAudiences python:len(audiences) == 1">

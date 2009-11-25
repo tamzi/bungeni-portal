@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<div metal:fill-slot="main">
+<div metal:fill-slot="main" class="referencemanual">
     <div metal:define-macro="main"
           tal:define="fullToc    python:here.getTOC(current = here);
                       tocInfo    python:here.getTOCInfo(fullToc);

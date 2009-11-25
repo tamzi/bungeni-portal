@@ -5,7 +5,7 @@
 
 <body>
 
-<div metal:fill-slot="main">
+<div metal:fill-slot="main" class="tutorial">
 
     <div metal:define-macro="main"
          tal:define="len_text python:len(here.getBody());

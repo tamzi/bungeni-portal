@@ -6,7 +6,7 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plonehelpcenter">
 
-<metal:main fill-slot="main">
+<metal:main fill-slot="main" class="tabs">
     <tal:main-macro metal:define-macro="main">
 
     <div id="tabber-block">

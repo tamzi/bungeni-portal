@@ -24,10 +24,15 @@
                 <td valign="top">                   
                 <span tal:content="python:tocElement['numbering'][:-1]" tal:condition="python:here.getNavType() == 'yes'"></span>
                 </td>
-                <td valign="top"> 
+                <td valign="top" class="portlet-toc-item"> 
                 <div>                 
-                <b><a href="" tal:attributes="href item/getURL" class="sectionurl" >
-                <span tal:content="python:here.trunc(item.Title)"/><span tal:content="item/Title" class="hovertooltip" tal:condition="python:len(item.Title) > len(here.trunc(item.Title,0,50))"/></a></b></div>
+                <a href="" tal:attributes="href item/getURL" class="sectionurl" >
+                <span tal:content="python:here.trunc(item.Title)"/>
+                <span tal:content="item/Title"
+                      class="hovertooltip"
+                      tal:condition="python:len(item.Title) > len(here.trunc(item.Title))"/>
+                </a>
+                </div>                
                 
                  <p class="pmargin"><span tal:replace="item/Description">Description</span></p>
                                

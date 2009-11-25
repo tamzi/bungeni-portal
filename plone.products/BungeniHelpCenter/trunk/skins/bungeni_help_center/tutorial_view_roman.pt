@@ -5,7 +5,7 @@
 
 <body>
 
-  <div metal:fill-slot="main">
+  <div metal:fill-slot="main" class="tutorial">
     <div metal:use-macro="here/tutorial_view/macros/main">
 	<div metal:fill-slot="sectiontoc">
 	  <ol style="list-style-type: lower-roman;" tal:condition="here/getPages">

@@ -5,7 +5,7 @@
 
 <body>
 
-<div metal:fill-slot="main">
+<div metal:fill-slot="main" class="referencemanual">
 
     <div metal:define-macro="main"
          tal:define="toc python:here.getTOC(root = here);">
@@ -16,7 +16,7 @@
 
         <p class="discreet visualNoPrint"
            i18n:translate="view_paginated_reference_manual">
-	  Note: Return to <a href="" tal:attributes="href here/absolute_url">reference manual view</a>.
+	  Note: Return to <a href="" tal:attributes="href here/absolute_url">hierarchical view</a>.
         </p>
 
         <div class="documentDescription" 

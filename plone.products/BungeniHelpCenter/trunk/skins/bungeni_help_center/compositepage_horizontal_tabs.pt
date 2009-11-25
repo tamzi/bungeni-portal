@@ -16,7 +16,7 @@
 </head>
 <body>
 
-<div metal:fill-slot="main">
+<div metal:fill-slot="main" class="tabs">
     <div metal:define-macro="main"
           tal:define="subpages python:here.objectValues(['TabbedSubpages',]);">                    
     

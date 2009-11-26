@@ -647,9 +647,9 @@ class HTMLPreviewPage(ReportingView):
         self.sitting_items = self.get_sittings_items(date, end)
         self.display_minutes = (self.request.form['display_minutes'] == "True")
         if self.display_minutes:
-            self.title = "Votes and Proceedings"
+            self.title = _(u"Votes and Proceedings")
         else:
-            self.title = "Agenda"  
+            self.title = _(u"Agenda")
         try:              
             self.group = self.context.get_group()
         except:

@@ -232,7 +232,7 @@
      source="first_committee"
      destination="second_reading"
      permission="bungeni.bill.Schedule"
-     action=""
+     action="bungeni.core.workflows.bill.actions.schedule_second"
      condition=""
      />
 
@@ -243,7 +243,7 @@
      source="first_reading"
      destination="second_reading"
      permission="bungeni.bill.Schedule"
-     action=""
+     action="bungeni.core.workflows.bill.actions.schedule_second"
      condition=""
      />
 

@@ -40,3 +40,10 @@ class actions:
     def postpone_first(info, context):
         pass
 
+
+    @staticmethod
+    def schedule_second(info, context):
+        utils.createVersion(info, context)           
+
+
+

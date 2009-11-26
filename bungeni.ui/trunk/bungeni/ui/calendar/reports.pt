@@ -23,7 +23,7 @@
                     <span tal:condition="python:scheduled.item.type == 'question'">
                         <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
                         <span tal:replace="scheduled/item/owner/last_name" /> to 
-                        <span tal:replace="scheduled/item/ministry/full_name" /></h3>
+                        <span tal:condition="scheduled/item/ministry | nothing" tal:replace="scheduled/item/ministry/full_name" /></h3>
                     </span>
                     
                     <span tal:condition="python:scheduled.item.type != 'bill'">

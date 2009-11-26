@@ -6,21 +6,28 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
     Add the private and public folders from the member workspace.
     """
     link_val= None
+    host_url = urlsplit(log.theme_url)
     workspace_links_content = theme('.level1')
     if link_id == "#user-workspace-id":
+        #we are on the frontpage
         member_workspace_content_id = theme('#user-workspace-id').val()
         if member_workspace_content_id is not None:
-            host_url = urlsplit(log.theme_url)
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
     else:
-        member_workspace_content_id= content('#portal-breadcrumbs span:nth-child(7) a')
-        if member_workspace_content_id is not None:
-            link_val = str(member_workspace_content_id).split('"')[1]
-    if link_val is not None:
-        private_link_content = "<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folders</a></li>"
-        public_link_content = "<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web pages</a></li>"
-        workspace_links_content.append(private_link_content)
-        workspace_links_content.append(public_link_content)
+        #we are on the membership page and there are 2 sets of users
+        #anonymous
+        if not content('#portal-personaltools li a#user-name span'):
+            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-open.png')
+            content('.level1').remove()
+            theme('.level1').remove()
+        elif content('#portal-personaltools li a#user-name span').html() in content('#portal-breadcrumbs').html():
+            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')            
+        else:
+            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-open.png')
+            content('.level1').remove()
+            theme('.level1').remove()            
+
+
 
 def add_member_workspace_styles(content, theme, resource_fetcher, log):
     """

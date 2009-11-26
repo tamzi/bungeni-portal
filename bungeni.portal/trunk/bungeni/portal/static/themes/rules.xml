@@ -190,13 +190,14 @@
     <drop content="#portal-globalnav > li:first-child"/>             
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
-    <drop content="ul#portal-personaltools" />    
+
     <replace href="/bungeni"
             content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
              pyarg-link_id="#portal-breadcrumbs"/>
     <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_styles" />
+    <drop content="ul#portal-personaltools" />    
     <append content="#viewlet-above-content"
              theme="children:.main-content"/>     
   </rule>

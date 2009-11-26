@@ -129,6 +129,7 @@ class SittingDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
+        session = Session()
         return _(u"Sitting scheduled for '$group' ($start to $end).",
                  mapping={'group': self.context.group.short_name,
                           'start': self.context.start_date,
@@ -143,9 +144,10 @@ class ItemScheduleDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        session = Session()
-        sitting = session.query(domain.GroupSitting).selectone_by(
-            sitting_id=self.context.sitting_id)
+        session = Session() 
+        trusted = removeSecurityProxy(self.context)
+        session.add(trusted)
+        sitting = self.context.sitting                             
         return _(u"Scheduled for sitting ($start to $end).",
                  mapping={'start': sitting.start_date,
                           'end': sitting.end_date})
@@ -173,11 +175,13 @@ class GroupDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):
+        session = Session()
+        trusted = removeSecurityProxy(self.context)
+        session.add(trusted)
         return "%s: %s - %s" %(
             self.context.type.capitalize(),
             self.context.short_name,
-            self.context.full_name)
-            
+            self.context.full_name)           
 
 class ContainerDescriptiveProperties(DescriptiveProperties):
     component.adapts(IAlchemistContainer)
@@ -212,6 +216,11 @@ class GroupMembershipDescriptiveProperties(DescriptiveProperties):
                 context.user.last_name)
         else:
             return u"New User"
+
+    @property
+    def description(self):            
+        return self.context.notes
+
             
 class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IGroupSittingAttendance)
@@ -225,6 +234,14 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
                 context.user.last_name)
         else:
             return u"New User"
+    @property
+    def description(self):            
+        session = Session()
+        trusted = removeSecurityProxy(self.context)
+        session.add(trusted)
+        return self.context.attendance_type.attendance_type
+
+
 
 class ConsignatoryDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IConsignatory)
@@ -238,6 +255,9 @@ class ConsignatoryDescriptiveProperties(DescriptiveProperties):
                 context.user.last_name)
         else:
             return u"New User"
+    @property
+    def description(self):            
+       return u""
 
             
 class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
@@ -246,13 +266,27 @@ class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         return self.context.short_name   
-        
+
+    @property
+    def description(self):            
+        return self.context.full_name   
+                
 class ConstituencyDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IConstituency)  
     
     @property
     def title(self):
         return self.context.name         
+        
+    @property
+    def description(self):            
+        session = Session()
+        trusted = removeSecurityProxy(self.context)
+        session.add(trusted)
+        return u"%s - %s -%s" %( self.context.name,
+            self.context.province.province,
+            self.context.region.region)
+                                
 
 class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IScheduledItemDiscussion)
@@ -265,6 +299,10 @@ class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
                      mapping={'time': self.context.sitting_time})
         return _(u"Discussion")
 
+    @property
+    def description(self):            
+        return u""
+
 class SittingTypeDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.ISittingType)
 
@@ -274,15 +312,19 @@ class SittingTypeDescriptiveProperties(DescriptiveProperties):
             self.context.sitting_type)
 
         return _(term.title.split('(')[0].strip())
-
-
+    @property
+    def description(self):            
+        return u""
+        
 class ChangeDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IChange)  
     
     @property
     def title(self):
         return self.context.action   
-        
+    @property
+    def description(self):            
+        return u""  
 
 class UserAddressDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IUserAddress)  
@@ -291,6 +333,10 @@ class UserAddressDescriptiveProperties(DescriptiveProperties):
     def title(self):
         return u"Address"   
 
+    @property
+    def description(self):            
+        return u""
+        
 #class MarginaliaDescriptiveProperties(DescriptiveProperties):
 #    component.adapts(IMarginaliaAnnotation)  
 #    
@@ -312,7 +358,9 @@ class TabledDocumentDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):    
         return self.context.short_name
-
+    @property
+    def description(self):            
+        return u""
 
 class ConstituencyDetailsDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IConstituencyDetail)
@@ -322,12 +370,20 @@ class ConstituencyDetailsDescriptiveProperties(DescriptiveProperties):
         return '%s - %i' % (self.context.constituency.name,
             self.context.date.year)
 
+    @property
+    def description(self):            
+        return u""
+
 class GroupItemAssignmentDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IGroupItemAssignment)
     
     @property
     def title(self):  
         return '%s - %s ' % (self.context.item.short_name, self.context.group.short_name)
+
+    @property
+    def description(self):            
+        return u""
 
 class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):                        
     component.adapts(interfaces.IMemberRoleTitle)
@@ -337,3 +393,7 @@ class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):
         context = removeSecurityProxy(self.context)
         return context.title_name.user_role_name                                   
 
+    @property
+    def description(self):            
+        return u""
+        

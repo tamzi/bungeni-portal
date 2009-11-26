@@ -181,6 +181,11 @@ class AppSetup(object):
                        (implementedBy(domain.TabledDocument), ILocation))                       
 
 
+        documents[u"reports"] = domain.ReportContainer()
+        provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
+                       (implementedBy(domain.Report), ILocation)) 
+
+
         records[u"parliaments"] = domain.ParliamentContainer()
         provideAdapter(location.ContainerLocation(records[u"parliaments"]),
                        (implementedBy(domain.Parliament), ILocation))

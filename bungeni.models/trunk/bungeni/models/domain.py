@@ -671,5 +671,6 @@ class ResourceType(object):
 class Venue( object ):
     """ A venue for a sitting """
             
-           
+class Report( object ):
+    """ agendas and minutes """            
     

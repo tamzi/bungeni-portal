@@ -1926,7 +1926,48 @@ class ScheduledItemCategoryDescriptor(ModelDescriptor):
         ]
 
 
+class ReportDescriptor(ModelDescriptor):
+    display_name = _(u"Report")
+    container_name = _(u"Reports")
 
+    fields = [
+        dict( name="report_id", omit=True ),
+        dict( name="start_date", 
+            label=_(u"Start Date"), 
+            listing_column=day_column("start_date", 
+                _(u"Start Date") ), 
+            listing=True , 
+            edit_widget=SelectDateWidget, 
+            add_widget=SelectDateWidget),
+        dict( name="end_date", 
+            label=_(u"End Date"), 
+            listing_column=day_column("end_date", 
+                _(u"End Date")), 
+                listing=True, 
+                edit_widget=SelectDateWidget, 
+                add_widget=SelectDateWidget ),                        
+        dict( name="created_date", 
+            label=_(u"Date created"), 
+            listing_column=day_column("start_date", 
+                _(u"Start Date") ), 
+            listing=True , 
+            edit_widget=SelectDateWidget, 
+            add_widget=SelectDateWidget),
+        dict( name="report_type", 
+                label=_(u"Report type"), 
+                listing=True,),
+        dict( name="user_id", 
+                label=_(u"Created by"), 
+                listing=True,),                                                        
+        dict( name="body_text", 
+                label=_(u"Motion Amendment Text"),
+                property = schema.Text( title=u"Motion Amendment" ),
+                view_widget=HTMLDisplay,
+                edit_widget=RichTextEditor, 
+                add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+              ),
 
- 
-            
+             
+    ]
+

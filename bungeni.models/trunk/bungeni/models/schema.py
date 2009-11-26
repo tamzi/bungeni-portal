@@ -636,7 +636,20 @@ item_discussion = rdb.Table(
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "sitting_time", rdb.Time( timezone=False ) ),
     )
-
+    
+reports = rdb.Table(
+    "reports",
+    metadata,
+    rdb.Column( "report_id", rdb.Integer, primary_key = True ),
+    rdb.Column( "start_date", rdb.Date, nullable=False ),
+    rdb.Column( "end_date", rdb.Date ), 
+    rdb.Column( "created_date", rdb.Date, nullable=False ), 
+    rdb.Column( "report_type", rdb.String(32), nullable=False ),
+    rdb.Column( "body_text", rdb.UnicodeText),
+    rdb.Column( "user_id", rdb.Unicode(32) ),
+    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),     
+    )
+    
 # generic subscriptions, to any type
 subscriptions = rdb.Table(
    "object_subscriptions",

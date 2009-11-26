@@ -392,6 +392,9 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
             'user': relation( domain.User,
                               uselist=False,
                               lazy=False ),
+            'attendance_type': relation( domain.AttendanceType,
+                                uselist = False,
+                                lazy = False ),                              
                   }
          )
 mapper( domain.AttendanceType, schema.attendance_type )
@@ -426,3 +429,4 @@ mapper(domain.ItemGroupItemAssignment, schema.group_item_assignments,
 mapper(domain.GroupGroupItemAssignment, schema.group_item_assignments,
         inherits=domain.GroupItemAssignment)        
         
+mapper(domain.Report, schema.reports)        

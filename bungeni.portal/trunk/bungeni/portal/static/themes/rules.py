@@ -14,20 +14,36 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
         if member_workspace_content_id is not None:
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
     else:
-        #we are on the membership page and there are 2 sets of users
-        #anonymous
+        #we are on the membership page and there are 3 sets of users
+        #anonymous, logged-in, owner
         if not content('#portal-personaltools li a#user-name span'):
-            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-open.png')
+            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
+            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="http://192.168.0.14:8084/">Member Profile</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="http://192.168.0.14:8084/">Portal</a></li></ul>')
         elif content('#portal-personaltools li a#user-name span').html() in content('#portal-breadcrumbs').html():
-            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')            
+            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
+            content('#portal-logo img').attr('width', '803px')
+            content('#portal-logo img').attr('height', '60px')             
         else:
-            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-open.png')
+            content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
-            theme('.level1').remove()            
+            theme('.level1').remove()
 
-
+def add_section_links(content, theme, resource_fetcher, log):
+    """
+    Add top level class links abd logos for the different sections (workspace and portal).
+    """
+    link_val= None
+    host_url = urlsplit(log.theme_url)
+    link_items = str(theme("ul.level0 li.selected")).split("</li>")
+    if "Workspace" not in link_items[0] and "Workspace" not in link_items[1] and not content('.section-membership'):
+        theme('body').addClass('template-portal')        
+    elif ("Workspace" in link_items[0] or  "Workspace" in link_items[1]) and not content('.section-membership'):
+        theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
+        theme('#portal-logo img').attr('width', '803px')
+        theme('#portal-logo img').attr('height', '60px')
+        theme('body').addClass('template-workspace')
 
 def add_member_workspace_styles(content, theme, resource_fetcher, log):
     """

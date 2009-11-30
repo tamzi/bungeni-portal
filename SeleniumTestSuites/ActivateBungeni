@@ -341,19 +341,7 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=MRPWH</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
 <!-- custom offices start here -->
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=MF</td>
@@ -385,18 +373,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=MF</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
-<tr>
 	<td>waitForElementPresent</td>
 	<td>link=MH</td>
 	<td></td>
@@ -426,18 +402,6 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=MH</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=MIC</td>
@@ -469,18 +433,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=MIC</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
-<tr>
 	<td>waitForElementPresent</td>
 	<td>link=MLG</td>
 	<td></td>
@@ -510,18 +462,6 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=MLG</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=MSPS</td>
@@ -553,18 +493,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=MSPS</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
-<tr>
 	<td>waitForElementPresent</td>
 	<td>link=MND</td>
 	<td></td>
@@ -594,18 +522,6 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=MND</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=MTI</td>
@@ -637,18 +553,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=MTI</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
-<tr>
 	<td>waitForElementPresent</td>
 	<td>link=MSNE</td>
 	<td></td>
@@ -678,18 +582,6 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=MSNE</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=MP</td>
@@ -721,18 +613,6 @@
 	<td></td>
 </tr>
 <tr>
-	<td>clickAndWait</td>
-	<td>link=MP</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
-<tr>
 	<td>waitForElementPresent</td>
 	<td>link=MST</td>
 	<td></td>
@@ -762,18 +642,6 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>link=MST</td>
-	<td></td>
-</tr>
-<tr>
-	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[10]/ul/li/ul/li/div/a/span</td>
-	<td></td>
-</tr>
-
-
 <!-- custom offices ends here -->
 <tr>
 	<td>clickAndWait</td>
@@ -807,7 +675,6 @@
 	<td></td>
 </tr>
 <!-- End (Added this here since the save behaviour has changed - save does not close the form anymore) -->
-
 <tr>
 	<td>clickAndWait</td>
 	<td>//ul[@id='contentActionMenus']/li[1]/a/span</td>
@@ -833,7 +700,6 @@
 	<td>form.actions.save</td>
 	<td></td>
 </tr>
-
 <!-- Added this here since the save behaviour has changed - save does not close the form anymore -->
 <tr>
 	<td>clickAndWait</td>
@@ -841,8 +707,6 @@
 	<td></td>
 </tr>
 <!-- End (Added this here since the save behaviour has changed - save does not close the form anymore) -->
-
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=ClerkOffice</td>
@@ -894,8 +758,6 @@
 	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[12]/ul/li/ul/li/div/a/span</td>
 	<td></td>
 </tr>
-
-
 <!-- end click the listing again -->
 <tr>
 	<td>clickAndWait</td>
@@ -972,20 +834,18 @@
 <tr>
 	<td>select</td>
 	<td>form.user_id</td>
-	<td>label=Ngile William</td>
+	<td>label=Nderite Winfrad</td>
 </tr>
 <tr>
 	<td>clickAndWait</td>
 	<td>form.actions.save</td>
 	<td></td>
 </tr>
-
 <tr>
-	<td>click</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[11]/div/a/span</td>
+	<td>clickAndWait</td>
+	<td>//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[5]/div/a/span</td>
 	<td></td>
 </tr>
-
 <tr>
 	<td>waitForElementPresent</td>
 	<td>link=HB</td>
@@ -1013,7 +873,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[11]/div/a/span</td>
+	<td>//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[5]/div/a/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -1043,7 +903,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[11]/div/a/span</td>
+	<td>//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[5]/div/a/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -1073,7 +933,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[11]/div/a/span</td>
+	<td>//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[5]/div/a/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -1098,7 +958,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[11]/div/a/span</td>
+	<td>//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[5]/div/a/span</td>
 	<td></td>
 </tr>
 <tr>
@@ -1123,7 +983,7 @@
 </tr>
 <tr>
 	<td>clickAndWait</td>
-	<td>//td[@id='portal-column-one']/div/dl[2]/dd/ul/li/ul/li[1]/ul/li/ul/li[11]/div/a/span</td>
+	<td>//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[5]/div/a/span</td>
 	<td></td>
 </tr>
 <tr>

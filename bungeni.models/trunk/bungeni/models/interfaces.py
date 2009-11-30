@@ -339,3 +339,7 @@ class IGroupGroupItemAssignment(IGroupItemAssignment):
 
 class IItemGroupItemAssignment(IGroupItemAssignment):
     pass            
+    
+class IReport(interface.Interface):
+    pass        
+            

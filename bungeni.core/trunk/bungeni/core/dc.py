@@ -396,4 +396,17 @@ class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):            
         return u""
+
+
+class ReportDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IReport)
+    
+    @property
+    def title(self): 
+        context = removeSecurityProxy(self.context)
+        return u''                                  
+
+    @property
+    def description(self):            
+        return u""
         

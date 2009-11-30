@@ -224,6 +224,7 @@
   <adapter factory=".dc.ConstituencyDetailsDescriptiveProperties" />
   <adapter factory=".dc.GroupItemAssignmentDescriptiveProperties" />
   <adapter factory=".dc.MemberRoleTitleDescriptiveProperties" />
+  <adapter factory=".dc.ReportDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

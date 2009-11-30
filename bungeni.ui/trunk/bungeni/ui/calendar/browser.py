@@ -508,6 +508,13 @@ class ReportingView(form.PageForm):
             str(self.display_minutes))
         self.request.response.redirect(next_url)
     
+    @form.action(_(u"Create and Store"))
+    def handle_create_and_store(self, action, data):
+        next_url = ('save-report?date=' + data['date'].strftime('%Y-%m-%d') + 
+            '&time_span=' + data['time_span'] + '&display_minutes=' +
+            str(self.display_minutes))
+        self.request.response.redirect(next_url)    
+    
     #@form.action(_(u"Preview"))
     def handle_preview(self, action, data):
         return self.download_preview(
@@ -632,7 +639,6 @@ class HTMLPreviewPage(ReportingView):
                 item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
             item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
             #s = get_session_by_date_range(self, item.start_date, item.end_date)  
-            #import pdb; pdb.set_trace()        
         return items
                           
     def update(self):
@@ -663,8 +669,37 @@ class HTMLPreviewPage(ReportingView):
             raise NotImplementedError
                                                
                     
-                        
-    
-
-
+class StoreReportView(HTMLPreviewPage):
+    template = ViewPageTemplateFile('save-reports.pt')  
+          
+    def __call__(self):
+        date = datetime.datetime.strptime(self.request.form['date'],
+                '%Y-%m-%d').date()
+        time_span = self.request.form['time_span']
+        if time_span == TIME_SPAN.daily:
+            time_span = TIME_SPAN.daily
+        elif time_span == TIME_SPAN.weekly:
+            time_span = TIME_SPAN.weekly            
+        end = self.get_end_date(date, time_span)            
+        session = Session()
+        report = domain.Report()
+        report.start_date = date                      
+        report.end_date = end                        
+        report.created_date = datetime.datetime.now()   
+        if self.display_minutes:                                 
+            report.report_type = 'minutes'
+        else:
+            report.report_type = 'agenda'                    
+        report.body_text = super(StoreReportView, self).__call__()
+        report.user_id = "hello"
+        report.group_id = self.group.group_id
+        session.add(report)
+        session.flush()
+        if IGroupSitting.providedBy(self.context):        
+            back_link = absoluteURL(self.context, self.request)  + '/schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            back_link = absoluteURL(self.context, self.request)  
+        else:   
+            raise NotImplementedError        
+        self.request.response.redirect(back_link)
         

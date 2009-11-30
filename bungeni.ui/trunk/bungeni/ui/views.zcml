@@ -108,6 +108,15 @@
      class=".calendar.browser.HTMLPreviewPage"
      />
 
+    <browser:page
+     name="save-report"
+     for="zope.location.interfaces.ILocation"
+     permission="zope.View"
+     class=".calendar.browser.StoreReportView"
+     />
+
+
+
   <!--browser:page
      name="preview.html"
      for="zope.location.interfaces.ILocation"

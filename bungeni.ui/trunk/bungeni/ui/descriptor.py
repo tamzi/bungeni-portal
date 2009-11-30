@@ -1960,7 +1960,7 @@ class ReportDescriptor(ModelDescriptor):
                 label=_(u"Created by"), 
                 listing=True,),                                                        
         dict( name="body_text", 
-                label=_(u"Motion Amendment Text"),
+                label=_(u"Text"),
                 property = schema.Text( title=u"Motion Amendment" ),
                 view_widget=HTMLDisplay,
                 edit_widget=RichTextEditor, 

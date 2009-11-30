@@ -43,6 +43,7 @@ from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
 from bungeni.models import vocabulary
 from bungeni.models import domain
+from bungeni.models.utils import getUserId
 from bungeni.models.interfaces import IGroupSitting
 from bungeni.server.interfaces import ISettings
 
@@ -691,7 +692,7 @@ class StoreReportView(HTMLPreviewPage):
         else:
             report.report_type = 'agenda'                    
         report.body_text = super(StoreReportView, self).__call__()
-        report.user_id = "hello"
+        report.user_id = getUserId()
         report.group_id = self.group.group_id
         session.add(report)
         session.flush()

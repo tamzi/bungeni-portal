@@ -643,7 +643,7 @@ reports = rdb.Table(
     rdb.Column( "report_id", rdb.Integer, primary_key = True ),
     rdb.Column( "start_date", rdb.Date, nullable=False ),
     rdb.Column( "end_date", rdb.Date ), 
-    rdb.Column( "created_date", rdb.Date, nullable=False ), 
+    rdb.Column( "created_date", rdb.DateTime, nullable=False ), 
     rdb.Column( "report_type", rdb.String(32), nullable=False ),
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "user_id", rdb.Unicode(32) ),

@@ -410,6 +410,10 @@ class ReportDescriptiveProperties(DescriptiveProperties):
             context.start_date, context.end_date)                                  
 
     @property
-    def description(self):            
-        return u""
+    def description(self):        
+        context = removeSecurityProxy(self.context)
+        session = Session()
+        session.add(context)           
+        return u"Created on %s by %s" %( context.created_date,
+            context.user_id)
         

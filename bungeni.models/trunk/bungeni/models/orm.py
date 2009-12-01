@@ -429,4 +429,12 @@ mapper(domain.ItemGroupItemAssignment, schema.group_item_assignments,
 mapper(domain.GroupGroupItemAssignment, schema.group_item_assignments,
         inherits=domain.GroupItemAssignment)        
         
-mapper(domain.Report, schema.reports)        
+mapper(domain.Report, schema.reports,
+        properties={             
+            'group': relation(domain.Group, 
+                primaryjoin=(schema.reports.c.group_id == schema.groups.c.group_id ),
+                backref = 'reports',
+                lazy = True,
+                uselist=False,),}
+
+)        

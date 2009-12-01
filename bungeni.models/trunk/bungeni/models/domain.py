@@ -673,4 +673,7 @@ class Venue( object ):
             
 class Report( object ):
     """ agendas and minutes """            
-    
+
+class SittingReport(Report):
+    """ which reports are created for this sitting"""
+        

@@ -421,7 +421,7 @@ mapper(domain.GroupItemAssignment, schema.group_item_assignments,
                domain.ParliamentaryItem,
                 backref = 'item_assignments',               
                uselist=False),                            
-        }
+            }
         )             
 mapper(domain.ItemGroupItemAssignment, schema.group_item_assignments,
         inherits=domain.GroupItemAssignment,)
@@ -437,4 +437,19 @@ mapper(domain.Report, schema.reports,
                 lazy = True,
                 uselist=False,),}
 
-)        
+    )        
+
+mapper( domain.SittingReport, schema.sitting_reports,
+    properties={             
+        'sitting': relation(domain.GroupSitting, 
+            backref = 'reports',
+            lazy = True,
+            uselist=False,),
+        'report': relation(domain.Report, 
+            backref = 'sittings',
+            lazy = True,
+            uselist=False,),                        
+            }                
+    )
+
+

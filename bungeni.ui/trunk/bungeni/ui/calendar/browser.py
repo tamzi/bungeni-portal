@@ -656,7 +656,7 @@ class HTMLPreviewPage(ReportingView):
         if self.display_minutes:
             self.title = _(u"Votes and Proceedings")
         else:
-            self.title = _(u"Agenda")
+            self.title = _(u"Order of the day")
         try:              
             self.group = self.context.get_group()
         except:

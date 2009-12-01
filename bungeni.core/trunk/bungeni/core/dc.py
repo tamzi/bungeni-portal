@@ -404,7 +404,10 @@ class ReportDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self): 
         context = removeSecurityProxy(self.context)
-        return u''                                  
+        session = Session()
+        session.add(context)        
+        return u'%s: %s - %s' %(context.group.short_name, 
+            context.start_date, context.end_date)                                  
 
     @property
     def description(self):            

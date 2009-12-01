@@ -676,12 +676,27 @@ class StoreReportView(HTMLPreviewPage):
     def __call__(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()
+        self.display_minutes = (self.request.form['display_minutes'] == "True")                
         time_span = self.request.form['time_span']
         if time_span == TIME_SPAN.daily:
             time_span = TIME_SPAN.daily
         elif time_span == TIME_SPAN.weekly:
             time_span = TIME_SPAN.weekly            
         end = self.get_end_date(date, time_span)            
+        body_text = super(StoreReportView, self).__call__()
+        sitting_items = []            
+        for sitting in self.sitting_items:
+            if self.display_minutes:
+                if sitting.status in ["published-minutes"]:
+                    sitting_items.append(sitting)
+            else:                
+                if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes"]:
+                    sitting_items.append(sitting)
+        if len(sitting_items) == 0:
+            referer = self.request.getHeader('HTTP_REFERER')
+            self.request.response.redirect(referer + "?portal_status_message=No data found")
+            return                     
+        self.sitting_items = sitting_items                   
         session = Session()
         report = domain.Report()
         report.start_date = date                      
@@ -691,7 +706,7 @@ class StoreReportView(HTMLPreviewPage):
             report.report_type = 'minutes'
         else:
             report.report_type = 'agenda'                    
-        report.body_text = super(StoreReportView, self).__call__()
+        report.body_text = body_text
         report.user_id = getUserId()
         report.group_id = self.group.group_id
         session.add(report)
@@ -701,6 +716,6 @@ class StoreReportView(HTMLPreviewPage):
         elif ISchedulingContext.providedBy(self.context):
             back_link = absoluteURL(self.context, self.request)  
         else:   
-            raise NotImplementedError        
+            raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)
         

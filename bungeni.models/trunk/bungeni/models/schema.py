@@ -650,6 +650,14 @@ reports = rdb.Table(
     rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),     
     )
     
+sitting_reports = rdb.Table(
+    "sitting_reports",
+    metadata,
+    rdb.Column( "sitting_report_id", rdb.Integer, primary_key = True ),
+    rdb.Column( "report_id", rdb.Integer, rdb.ForeignKey('reports.report_id') ),
+    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'),)
+    )    
+    
 # generic subscriptions, to any type
 subscriptions = rdb.Table(
    "object_subscriptions",

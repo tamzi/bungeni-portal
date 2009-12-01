@@ -710,6 +710,11 @@ class StoreReportView(HTMLPreviewPage):
         report.user_id = getUserId()
         report.group_id = self.group.group_id
         session.add(report)
+        for sitting in self.sitting_items:
+            sr = domain.SittingReport()
+            sr.report = report
+            sr.sitting = sitting
+            session.add(sr)
         session.flush()
         if IGroupSitting.providedBy(self.context):        
             back_link = absoluteURL(self.context, self.request)  + '/schedule'

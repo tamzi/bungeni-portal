@@ -188,6 +188,16 @@ class SittingAttendanceViewlet( SubformViewlet ):
         self.query = None
         self.for_display = len(self.context) > 0                
 
+class SittingReportsViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):                
+        self.context = context.sreports
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None   
+        self.for_display = len(self.context) > 0 
+
+
 class MinistersViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
 
@@ -373,6 +383,7 @@ class OfficeMembersViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None   
+
 
     
 class PersonInfo( BungeniAttributeDisplay ):

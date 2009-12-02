@@ -694,6 +694,10 @@ class StoreReportView(HTMLPreviewPage):
                     sitting_items.append(sitting)
         if len(sitting_items) == 0:
             referer = self.request.getHeader('HTTP_REFERER')
+            if referer:
+                referer=referer.split('?')[0]
+            else:
+                referer = ""                
             self.request.response.redirect(referer + "?portal_status_message=No data found")
             return                     
         self.sitting_items = sitting_items                   

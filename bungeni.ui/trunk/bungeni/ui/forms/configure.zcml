@@ -169,7 +169,7 @@
      />        
   
   
-  <!-- GroupSittingAttendance -->
+  <!-- GroupSitting -->
   
   <browser:page
      name="add"
@@ -185,8 +185,19 @@
      class=".viewlets.SittingAttendanceViewlet"
      for="bungeni.models.interfaces.IGroupSitting"
      permission="zope.View"
-     weight="10"
+     weight="20"
      />          
+
+  <browser:viewlet
+     name="bungeni.viewlet.sittingreports"
+     manager=".interfaces.ISubFormViewletManager"          
+     class=".viewlets.SittingReportsViewlet"
+     for="bungeni.models.interfaces.IGroupSitting"
+     permission="zope.View"
+     weight="10"
+     />     
+
+
 
   <browser:viewlet
      name="bungeni.viewlet.minutes"

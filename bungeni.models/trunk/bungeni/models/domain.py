@@ -173,6 +173,9 @@ class GroupSitting( Entity ):
     items = one2many(
         "items", "bungeni.models.domain.ItemScheduleContainer", "sitting_id")
 
+    sreports = one2many(
+        "sreports", "bungeni.models.domain.Report4SittingContainer", "sitting_id")
+
     @property
     def short_name( self ):
         return ( self.start_date ).strftime('%d %b %y %H:%M')
@@ -676,4 +679,7 @@ class Report( object ):
 
 class SittingReport(Report):
     """ which reports are created for this sitting"""
+
+class Report4Sitting(Report):
+    """ display reports for s sitting"""
         

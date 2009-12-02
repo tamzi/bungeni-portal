@@ -1976,3 +1976,12 @@ class ReportDescriptor(ModelDescriptor):
              
     ]
 
+class Report4SittingDescriptor(ReportDescriptor):
+    fields = deepcopy( ReportDescriptor.fields )    
+    fields.extend([    
+        dict( name="sitting_report_id", omit=True ), 
+        dict( name="report_id", omit=True ),     
+        dict( name="sitting_id", omit=True ),                     
+    ])
+
+

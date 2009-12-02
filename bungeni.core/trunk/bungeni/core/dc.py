@@ -414,6 +414,6 @@ class ReportDescriptiveProperties(DescriptiveProperties):
         context = removeSecurityProxy(self.context)
         session = Session()
         session.add(context)           
-        return u"Created on %s by %s" %( context.created_date,
+        return u"Created on %s by %s" %( context.created_date.strftime('%Y-%m-%d'),
             context.user_id)
         

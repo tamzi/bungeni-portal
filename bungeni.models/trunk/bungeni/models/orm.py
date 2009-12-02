@@ -451,5 +451,8 @@ mapper( domain.SittingReport, schema.sitting_reports,
             uselist=False,),                        
             }                
     )
-
+    
+mapper( domain.Report4Sitting, schema.sitting_reports,
+    inherits=domain.Report)
+    
 

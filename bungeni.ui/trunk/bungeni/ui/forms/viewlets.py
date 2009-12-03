@@ -22,10 +22,20 @@ from bungeni.models.utils import get_offices_held_for_user_in_parliament
 from bungeni.models.utils import get_parliament_for_group_id
 from bungeni.ui.i18n import _
 import bungeni.core.globalsettings as prefs
-from bungeni.core.workflows.question import states as qw_state
+from bungeni.core.workflows.question import states as question_wf_state 
+from bungeni.core.workflows.motion import states as motion_wf_state 
+from bungeni.core.workflows.bill import states as bill_wf_state 
+from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
+from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
+from bungeni.core.workflows.groupsitting import states as sitting_wf_state
+
+
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
 from bungeni.ui.utils import getDisplayDate
+
+
+
 
 from fields import BungeniAttributeDisplay
 from interfaces import ISubFormViewletManager
@@ -421,7 +431,7 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
     
     @property
     def for_display(self):
-        return self.context.__parent__.status == qw_state[u"response_submitted"].id   
+        return self.context.__parent__.status == question_wf_state[u"response_submitted"].id   
     
     def __init__( self,  context, request, view, manager ):        
 
@@ -575,6 +585,82 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile ('templates/bill_timeline_viewlet.pt')    
 
+class MemberItemsViewlet( viewlet.ViewletBase ):
+    """ A tab with bills, motions etc for an MP
+    """
+    for_display = True    
+    states = [
+        question_wf_state[u"admissible"].id,  
+        motion_wf_state[u"admissible"].id,
+        agendaitem_wf_state[u"admissible"].id,
+        tableddocument_wf_state[u"admissible"].id,  
+        
+        question_wf_state[u"scheduled"].id,
+        question_wf_state[u"postponed"].id,
+        question_wf_state[u"response_pending"].id,        
+        question_wf_state[u"deferred"].id,
+        question_wf_state[u"response_submitted"].id,
+        question_wf_state[u"response_complete"].id,                
+        motion_wf_state[u"deferred"].id,
+        motion_wf_state[u"postponed"].id,
+        motion_wf_state[u"scheduled"].id,
+        agendaitem_wf_state[u"deferred"].id,
+        agendaitem_wf_state[u"postponed"].id,
+        agendaitem_wf_state[u"scheduled"].id,    
+        tableddocument_wf_state[u"deferred"].id,
+        tableddocument_wf_state[u"postponed"].id,
+        tableddocument_wf_state[u"scheduled"].id,
+            
+        bill_wf_state[u"gazetted"].id , 
+        bill_wf_state[u"first_reading"].id ,        
+        bill_wf_state[u"first_reading_postponed"].id ,
+        bill_wf_state[u"second_reading"].id , 
+        bill_wf_state[u"second_reading_postponed"].id , 
+        bill_wf_state[u"whole_house_postponed"].id ,
+        bill_wf_state[u"whole_house"].id ,
+        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+        bill_wf_state[u"report_reading"].id , 
+        bill_wf_state[u"third_reading"].id,
+        bill_wf_state[u"third_reading_postponed"].id,
+        
+        question_wf_state[u"debated"].id,
+        motion_wf_state[u"debated"].id,
+        agendaitem_wf_state[u"debated"].id,
+        tableddocument_wf_state[u"debated"].id,  
+        question_wf_state[u"elapsed"].id,
+        motion_wf_state[u"elapsed"].id,
+        agendaitem_wf_state[u"elapsed"].id,
+        tableddocument_wf_state[u"elapsed"].id,
+        bill_wf_state[u"approved"].id , 
+        bill_wf_state[u"rejected"].id ,                                             
+    ]        
+        
+        
+        
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.query = None  
+
+    def update(self):
+        """
+        refresh the query
+        """       
+        user_id = self.context.user_id
+        parliament_id = self.context.group_id
+        session = Session()
+        query = session.query(domain.ParliamentaryItem).filter(
+            sql.and_(
+                domain.ParliamentaryItem.owner_id == user_id,
+                domain.ParliamentaryItem.parliament_id == parliament_id,
+                domain.ParliamentaryItem.status.in_(self.states),
+            )).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc())
+        self.results = query.all()
+        self.for_display = (query.count() > 0)
+        
+    render = ViewPageTemplateFile ('templates/mp_item_viewlet.pt')    
 
 class DisplayViewlet(BungeniAttributeDisplay):
     """Display a target object; if the object is `None`, the user is

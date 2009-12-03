@@ -32,8 +32,7 @@ from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
-from bungeni.ui.utils import getDisplayDate
-
+from bungeni.ui.utils import getDisplayDate, get_wf_state
 
 
 
@@ -638,27 +637,28 @@ class MemberItemsViewlet( viewlet.ViewletBase ):
         
         
     def __init__( self,  context, request, view, manager ):        
+        session = Session()
         self.context = context
+        user_id = self.context.user_id
+        parliament_id = self.context.group_id        
         self.request = request
         self.__parent__= view
         self.manager = manager
-        self.query = None  
-
-    def update(self):
-        """
-        refresh the query
-        """       
-        user_id = self.context.user_id
-        parliament_id = self.context.group_id
-        session = Session()
-        query = session.query(domain.ParliamentaryItem).filter(
+        self.query = session.query(domain.ParliamentaryItem).filter(
             sql.and_(
                 domain.ParliamentaryItem.owner_id == user_id,
                 domain.ParliamentaryItem.parliament_id == parliament_id,
                 domain.ParliamentaryItem.status.in_(self.states),
             )).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc())
-        self.results = query.all()
-        self.for_display = (query.count() > 0)
+        self.for_display = (self.query.count() > 0)
+        
+        
+    def results(self):
+        for result in self.query.all():
+            yield {'type': result.type, 
+                'short_name': result.short_name,
+                'status': get_wf_state(result) }
+
         
     render = ViewPageTemplateFile ('templates/mp_item_viewlet.pt')    
 

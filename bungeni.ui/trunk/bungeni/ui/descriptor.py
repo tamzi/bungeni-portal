@@ -32,7 +32,7 @@ from bungeni.ui.constraints import check_email
 from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
 from bungeni.ui import diff
-from bungeni.ui.viewlets.workspace import get_wf_state
+from bungeni.ui.utils import get_wf_state
 
 
 ###

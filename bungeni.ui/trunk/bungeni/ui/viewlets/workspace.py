@@ -8,7 +8,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.viewlet import viewlet
 
 from ore.alchemist import Session
-from ore.workflow import interfaces
+
 
 from bungeni.core.workflows.question import states as question_wf_state #[u"questionstates
 from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionstates
@@ -23,14 +23,11 @@ import bungeni.models.domain as domain
 from bungeni.models.interfaces import ICommittee
 import bungeni.core.globalsettings as prefs
 
+from bungeni.ui.utils import get_wf_state
+
 #from bungeni.ui.i18n import MessageFactory as _
 
-def get_wf_state(item):
-    # return human readable workflow title
-    wf = interfaces.IWorkflow(item) 
-    wf_state = interfaces.IWorkflowState(
-        item).getState()
-    return wf.workflow.states[wf_state].title    
+
 
 
 
@@ -515,14 +512,15 @@ class BillItemsViewlet( ViewletBase ):
         """
         session = Session()
         bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"gazetted"].id , 
+                                                                                bill_wf_state[u"first_reading"].id ,        
                                                                                 bill_wf_state[u"first_reading_postponed"].id ,
-                                                                                bill_wf_state[u"second_reading_pending"].id , 
+                                                                                bill_wf_state[u"second_reading"].id , 
                                                                                 bill_wf_state[u"second_reading_postponed"].id , 
                                                                                 bill_wf_state[u"whole_house_postponed"].id ,
                                                                                 bill_wf_state[u"house_pending"].id ,
                                                                                 bill_wf_state[u"report_reading_postponed"].id ,                                                                                
-                                                                                bill_wf_state[u"report_reading_pending"].id , 
-                                                                                bill_wf_state[u"third_reading_pending"].id,
+                                                                                bill_wf_state[u"report_reading"].id , 
+                                                                                bill_wf_state[u"third_reading"].id,
                                                                                 bill_wf_state[u"third_reading_postponed"].id ]
                                                                                 ))
         self.query = bills            
@@ -687,6 +685,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         tableddocument_wf_state[u"postponed"].id,
         tableddocument_wf_state[u"scheduled"].id,    
         bill_wf_state[u"gazetted"].id , 
+        bill_wf_state[u"first_reading"].id ,        
         bill_wf_state[u"first_reading_postponed"].id ,
         bill_wf_state[u"second_reading"].id , 
         bill_wf_state[u"second_reading_postponed"].id , 
@@ -809,6 +808,7 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         tableddocument_wf_state[u"scheduled"].id,
             
         bill_wf_state[u"gazetted"].id , 
+        bill_wf_state[u"first_reading"].id ,                
         bill_wf_state[u"first_reading_postponed"].id ,
         bill_wf_state[u"second_reading"].id , 
         bill_wf_state[u"second_reading_postponed"].id , 

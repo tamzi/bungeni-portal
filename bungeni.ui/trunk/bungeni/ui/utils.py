@@ -4,6 +4,17 @@ import datetime
 from bungeni.ui.i18n import _
 from types import StringTypes, ListType
 
+from ore.workflow import interfaces
+
+def get_wf_state(item):
+    # return human readable workflow title
+    wf = interfaces.IWorkflow(item) 
+    wf_state = interfaces.IWorkflowState(
+        item).getState()
+    return wf.workflow.states[wf_state].title    
+    
+
+
 def is_ajax_request(request):
     return request.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 

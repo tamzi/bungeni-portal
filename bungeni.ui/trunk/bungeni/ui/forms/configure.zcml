@@ -237,6 +237,15 @@
      weight="30"
      />
 
+  <browser:viewlet
+     name="bungeni.viewlet.mp-items"
+     manager=".interfaces.ISubFormViewletManager"     
+     class=".viewlets.MemberItemsViewlet"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     permission="zope.View"
+     weight="40"
+     />
+
   <!--browser:viewlet
       name="bungeni.viewlet.mp-partymembership"
       manager="alchemist.ui.interfaces.IContentViewManager"

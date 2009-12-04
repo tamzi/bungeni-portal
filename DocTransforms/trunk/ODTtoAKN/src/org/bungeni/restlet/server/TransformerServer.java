@@ -156,7 +156,7 @@ public static TransformerServer startServer(String workingDir) {
       }
 
      public static void main(String[] args) {
-    	 String workDir = args[0];
+    	 String workDir = args[0];  //"/Users/ashok/Projects/ODTTranslator/translator/ODTtoAKN/bin/";
     	 TransformerServer.startServer(workDir);
 
      }

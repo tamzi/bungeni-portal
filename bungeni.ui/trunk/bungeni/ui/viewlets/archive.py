@@ -12,7 +12,7 @@ from bungeni.ui.i18n import _
 from bungeni.ui.cookies import get_date_range
 from bungeni.ui.cookies import set_date_range
 from bungeni.ui.cookies import unset_date_range
-from bungeni.ui.widgets import SelectDateWidget
+from bungeni.ui.widgets import TextDateWidget as DateWidget
 
 class ArchiveDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
@@ -34,8 +34,8 @@ class ArchiveDatesForm(form.PageForm):
 
     template = NamedTemplate('alchemist.subform')
     form_fields = form.Fields(IDateRangeSchema, render_context=True)
-    form_fields['range_start_date'].custom_widget = SelectDateWidget
-    form_fields['range_end_date'].custom_widget = SelectDateWidget
+    form_fields['range_start_date'].custom_widget = DateWidget
+    form_fields['range_end_date'].custom_widget = DateWidget
     form_description = _(u"Filter the archive by date range.")
 
     def is_in_parliament(self, context):

@@ -34,7 +34,7 @@ from bungeni.ui.forms.common import PageForm
 from bungeni.ui.forms.common import AddForm
 from bungeni.ui.forms.common import EditForm
 from bungeni.ui.forms.common import DeleteForm
-from bungeni.ui.widgets import SelectDateWidget
+from bungeni.ui.widgets import TextDateWidget as DateWidget
 from bungeni.ui.widgets import MultiDateTextAreaWidget
 
 
@@ -407,7 +407,7 @@ class GroupSittingAddForm(AddForm):
             return MultiCheckBoxWidget(
                 field, field.value_type.vocabulary, request)
         fields['weekdays'].custom_widget = MultiCheckBoxWidgetFactory
-        fields['repeat_until'].custom_widget = SelectDateWidget
+        fields['repeat_until'].custom_widget = DateWidget
         fields['exceptions'].custom_widget = MultiDateTextAreaWidget
         return fields
 

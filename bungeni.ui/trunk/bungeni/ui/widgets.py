@@ -558,7 +558,7 @@ class TextDateTimeWidget(TextDateWidget):
                 else:
                     return self.context.missing_value              
         else:
-            try:                    
+            try:     
                 d = datetime.datetime.strptime(date,"%Y-%m-%d")       
                 t = datetime.datetime.strptime(time,"%H:%M") 
                 return datetime.datetime(year=d.year, month=d.month, 

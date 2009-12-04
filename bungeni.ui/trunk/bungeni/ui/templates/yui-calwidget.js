@@ -35,27 +35,30 @@
                     var selMonth = document.getElementById("%(sel_month)s");
                     var selDay = document.getElementById("%(sel_day)s");
                     var selYear = document.getElementById("%(sel_year)s"); 
-                    for (var y=0;y<selMonth.options.length;y++) {
-                        if (selMonth.options[y].value == month) {
-                            selMonth.selectedIndex = y;
-                            break;
+                    var txtDate = document.getElementById("%(txt_date)s");                     
+                    if (selYear){ 
+                        for (var y=0;y<selMonth.options.length;y++) {
+                            if (selMonth.options[y].value == month) {
+                                selMonth.selectedIndex = y;
+                                break;
+                                }
+                            }                   
+                        for (var y=0;y<selDay.options.length;y++) {
+                            if (selDay.options[y].value == day) {
+                                selDay.selectedIndex = y;
+                                break;
+                                }
                             }
-                        }                   
-                    //selMonth.selectedIndex = month;
-                    //selDay.selectedIndex = day;
-                    for (var y=0;y<selDay.options.length;y++) {
-                        if (selDay.options[y].value == day) {
-                            selDay.selectedIndex = y;
-                            break;
+                        for (var y=0;y<selYear.options.length;y++) {
+                            if (selYear.options[y].value == year) {
+                                selYear.selectedIndex = y;
+                                break;
+                                }
                             }
-                        }
-                    for (var y=0;y<selYear.options.length;y++) {
-                        if (selYear.options[y].value == year) {
-                            selYear.selectedIndex = y;
-                            break;
-                            }
-                        }
-									
+					} 
+					else if (txtDate){
+					    txtDate.value = year + '-' + month + '-' + day
+					}				
 				}				
 				oCalendarMenu.hide();		
 			});

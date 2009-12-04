@@ -60,7 +60,7 @@
 	
 		
 	<xsl:template match="*[@name='Omissis']">
-		<xslt step="8" name="Omissis" href="odttoakn/minixslt/judgement/Omissis.xsl" />
+		<xslt step="8" name="Omissis" href="odttoakn/minixslt/judgement/omissis.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 	

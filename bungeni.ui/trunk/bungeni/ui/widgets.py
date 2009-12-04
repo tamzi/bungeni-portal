@@ -236,7 +236,7 @@ class SupplementaryQuestionDisplay(DisplayWidget):
 class SelectDateWidget( SimpleInputWidget):
     """ A more user freindly date input """
     
-    __call__ = ViewPageTemplateFile('templates/datewidget.pt')
+    __call__ = ViewPageTemplateFile('templates/selectdatewidget.pt')
         
     _missing = u''
     minYear = None
@@ -442,10 +442,78 @@ class SelectDateWidget( SimpleInputWidget):
         else:
             value = self._data
         return self._toFormValue(value)
+
+class TextDateWidget(SelectDateWidget):
+    """ simple date widget input in a text field """
+    __call__ = ViewPageTemplateFile('templates/textdatewidget.pt')
+    
+    def hasInput(self):
+        """Widgets need to determine whether the request contains an input
+        value for them """
+        return (self.field_name in self.request.form)
+        
+    def _getFormInput(self):
+        """extract the input value from the submitted form """
+        return (self._getFieldInput(self.field_name))                
+        
+    def _getFieldInput(self, name):
+        return self.request.form.get(name, self._missing)                
+    
+    def _toFieldValue(self, date):
+        """convert the input value to an value suitable for the field."""
+        try:
+            return  datetime.datetime.strptime(date,"%Y-%m-%d").date()
+        except ValueError, e:
+            if date=="":
+                return
+            raise ConversionError(_(u"Incorrect string data for date"), e)                
+            
+    
+    def _toFormValue(self, value):
+        """convert a field value to a string that can be inserted into the form"""    
+        if (value == self.context.missing_value) and self.required:
+            d = datetime.date.today()
+            return  datetime.datetime.strftime(d,"%Y-%m-%d")
+        else:
+            try:
+                return datetime.datetime.strftime(value,"%Y-%m-%d")
+            except:
+                return( '')
+            
+             
+    def _getFormValue(self):
+        """
+        Returns a field value to a string that can be inserted into the form. 
+        The difference to _toFormValue is that it takes into account when a form
+        has already been submitted but needs to be re-rendered (input error)  
+        """
+        if not self._renderedValueSet():
+            if self.hasInput():
+                error = self._error
+                try:
+                    try:
+                        value = self.getInputValue()
+                    except InputErrors:
+                        return self._getFormInput()
+                finally:
+                    self._error = error
+            else:
+                if self.required:
+                    value = self._getDefault()
+                else:
+                    value = None    
+        else:
+            value = self._data
+        return self._toFormValue(value)
+
+        
+class TextDateTimeWidget(TextDateWidget): 
+
+    __call__ = ViewPageTemplateFile('templates/textdatetimewidget.pt')
       
 class SelectDateTimeWidget(SelectDateWidget):        
 
-    __call__ = ViewPageTemplateFile('templates/datetimewidget.pt')
+    __call__ = ViewPageTemplateFile('templates/selectdatetimewidget.pt')
     
     @property
     def _hour_name(self):
@@ -510,4 +578,4 @@ class SelectDateTimeWidget(SelectDateWidget):
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date and time"), e)
                             
-                            
+                           

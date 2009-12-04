@@ -249,6 +249,7 @@ class SelectDateWidget( SimpleInputWidget):
     js_template = js_file.read()
     js_file.close()
     
+    
     def __init__(self, *args):
         super(SelectDateWidget, self).__init__(*args)
         need('yui-core')
@@ -308,6 +309,7 @@ class SelectDateWidget( SimpleInputWidget):
                     'sel_day': self._day_name,
                     'sel_month' : self._month_name,
                     'sel_year' : self._year_name,
+                    'txt_date' : self.date_name,
                     'mindate' : self.minDate.strftime("%m/%d/%Y"),
                     'maxdate' : self.maxDate.strftime("%m/%d/%Y"), 
                     'pagedate' : pagedate.strftime('%m/%Y') }
@@ -363,6 +365,9 @@ class SelectDateWidget( SimpleInputWidget):
     def _year_name(self):
         return self.name.replace(".","__") + '__year'
         
+    @property
+    def date_name(self):
+        return self.name.replace(".","__") + '__date'    
  
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
@@ -446,7 +451,7 @@ class SelectDateWidget( SimpleInputWidget):
 class TextDateWidget(SelectDateWidget):
     """ simple date widget input in a text field """
     __call__ = ViewPageTemplateFile('templates/textdatewidget.pt')
-    
+        
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
         value for them """
@@ -511,9 +516,6 @@ class TextDateTimeWidget(TextDateWidget):
 
     __call__ = ViewPageTemplateFile('templates/textdatetimewidget.pt')
     
-    @property
-    def date_name(self):
-        return self.name.replace(".","__") + '__date'
 
     @property
     def time_name(self):

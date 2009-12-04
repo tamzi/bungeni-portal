@@ -122,13 +122,20 @@ public class OdtResource  extends org.restlet.resource.Resource  {
 		File file = new File(folderPath + File.separator + fileName);
          try {
              //overwrite the existing file
-        	 odtFile = new FileOutputStream(file, false);
+        	odtFile = new FileOutputStream(file, false);
+        	System.out.println("File size = " + entity.getSize());
+        	
 			entity.write(odtFile);
+			odtFile.close();
 		} catch (FileNotFoundException e) {
 			log.error("recieveOdtFile:" , e);
 		} catch (IOException e) {
 			log.error("recieveOdtFile:" , e);
-		} 
+		} catch (Exception e) {
+			log.error("(Exception) recieveOdtFile:" , e);
+		}
+		String fullPath = file.getAbsolutePath();
+		System.out.println("Full path = " + fullPath);
 		return file.getPath();
  	}
 

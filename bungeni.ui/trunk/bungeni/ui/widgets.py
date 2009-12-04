@@ -510,7 +510,60 @@ class TextDateWidget(SelectDateWidget):
 class TextDateTimeWidget(TextDateWidget): 
 
     __call__ = ViewPageTemplateFile('templates/textdatetimewidget.pt')
-      
+    
+    @property
+    def date_name(self):
+        return self.name.replace(".","__") + '__date'
+
+    @property
+    def time_name(self):
+        return self.name.replace(".","__") + '__time'    
+        
+    def hasInput(self):
+        return (self.date_name in self.request.form and 
+                self.time_name in self.request.form)
+                    
+    def _hasPartialInput(self):
+        return (self.date_name in self.request.form or 
+                self.time_name in self.request.form)
+
+    def _getFormInput(self):
+        """extract the input value from the submitted form """
+        return (self._getFieldInput(self.date_name),
+                self._getFieldInput(self.time_name))
+
+
+    def _toFormValue(self, value):
+        """convert a field value to a string that can be inserted into the form"""  
+        if (value == self.context.missing_value) and self.required:
+            d = datetime.datetime.now()
+            return  (datetime.datetime.strftime(d,"%Y-%m-%d"),
+                datetime.datetime.strftime(d,"%H:%M"))
+        else:
+            try:
+                return (datetime.datetime.strftime(value,"%Y-%m-%d"),
+                    datetime.datetime.strftime(value,"%H:%M"))
+            except:
+                return('', '')
+                        
+    def _toFieldValue(self, (date, time)):  
+        if (date == self._missing or time == self._missing):
+            if self.required:
+                return self.context.missing_value
+            else:
+                if date + time == self._missing:
+                    return None
+                else:
+                    return self.context.missing_value              
+        else:
+            try:                    
+                d = datetime.datetime.strptime(date,"%Y-%m-%d")       
+                t = datetime.datetime.strptime(time,"%H:%M") 
+                return datetime.datetime(year=d.year, month=d.month, 
+                    day=d.day, hour=t.hour, minute=t.minute,) 
+            except ValueError, e:
+                raise ConversionError(_(u"Incorrect string data for date and time"), e)
+             
 class SelectDateTimeWidget(SelectDateWidget):        
 
     __call__ = ViewPageTemplateFile('templates/selectdatetimewidget.pt')

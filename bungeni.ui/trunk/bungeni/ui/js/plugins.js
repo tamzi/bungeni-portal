@@ -525,7 +525,7 @@
       // setup event handlers
       if (handle_time) {
         $(o).change(handle_time_change);
-        if (set_default) handle_time_change();
+        //if (set_default) handle_time_change();
       }
 
       if (handle_date) {

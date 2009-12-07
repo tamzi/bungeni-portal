@@ -501,10 +501,12 @@
         convert_matches(matches);
 
         // for each dropdown, change selection
-        start_hour.selectedIndex = matches[2];
-        start_minute.selectedIndex = matches[3];
-        end_hour.selectedIndex = matches[4];
-        end_minute.selectedIndex = matches[5];
+        if (start_hour) {start_hour.selectedIndex = matches[2];};
+        if (start_minute) {start_minute.selectedIndex = matches[3];};
+        if (start_time) {start_time.value = matches[2] + ':' + matches[3];};
+        if (end_hour) {end_hour.selectedIndex = matches[4];};
+        if (end_minute) {end_minute.selectedIndex = matches[5];};
+        if (end_time) {end_time.value = matches[4] + ':' + matches[5];};        
       };
 
       function handle_date_change() {

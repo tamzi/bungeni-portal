@@ -30,3 +30,19 @@
     font-size:28px;
     white-space:nowrap;
 }
+
+.verticalMultiCheckBoxWidget br
+{
+    clear:both;
+    display:block; !important;
+}
+
+.verticalMultiCheckBoxWidget span
+{
+    padding:0 0 0 0;
+}
+.verticalMultiCheckBoxWidget
+{
+    display:inline;
+    float:left;
+}

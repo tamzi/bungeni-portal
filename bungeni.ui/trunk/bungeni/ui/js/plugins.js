@@ -407,22 +407,29 @@
       var start_day = form.find("select[name$=start_date__day]").get(0);
       var start_hour = form.find("select[name$=start_date__hour]").get(0);
       var start_minute = form.find("select[name$=start_date__minute]").get(0);
+      var start_date = form.find("input[name$=start_date__date]").get(0);
+      var start_time = form.find("input[name$=start_date__time]").get(0);      
       var end_year = form.find("select[name$=end_date__year]").get(0);
       var end_month = form.find("select[name$=end_date__month]").get(0);
       var end_day = form.find("select[name$=end_date__day]").get(0);
       var end_hour = form.find("select[name$=end_date__hour]").get(0);
       var end_minute = form.find("select[name$=end_date__minute]").get(0);
+      var end_date = form.find("input[name$=end_date__date]").get(0);
+      var end_time = form.find("input[name$=end_date__time]").get(0); 
+
 
       var handle_date = false;
       var handle_time = false;
 
-      if (start_year && start_month && start_day &&
-          end_year && end_month && end_day) {
+      if ((start_year && start_month && start_day &&
+          end_year && end_month && end_day) ||(
+          start_date && end_date)) {
         handle_date = true;
       }
 
-      if (start_hour && start_minute &&
-          end_hour && end_minute) {
+      if ((start_hour && start_minute &&
+          end_hour && end_minute) ||
+          (start_time && end_time)) {
         handle_time = true;
       }
 
@@ -431,7 +438,7 @@
       if (handle_date && same_day) {
         // the year, month and date of the end-time should follow the
         // start-time
-        $([end_year, end_month, end_day]).
+        $([end_year, end_month, end_day, end_date]).
           attr('disabled', 'disabled');
         $(start_year).change(function() {
             end_year.selectedIndex = start_year.selectedIndex });
@@ -439,8 +446,10 @@
             end_month.selectedIndex = start_month.selectedIndex });
         $(start_day).change(function() {
             end_day.selectedIndex = start_day.selectedIndex });
+        $(start_date).change(function() {
+            end_date.value = start_date.value});            
         form.submit(function() {
-            $([end_year, end_month, end_day]).
+            $([end_year, end_month, end_day, end_date]).
               attr('disabled', '');
           });
       }

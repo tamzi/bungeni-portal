@@ -651,13 +651,16 @@ class MemberItemsViewlet( viewlet.ViewletBase ):
                 domain.ParliamentaryItem.status.in_(self.states),
             )).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc())
         self.for_display = (self.query.count() > 0)
-        
+            
         
     def results(self):
         for result in self.query.all():
+            url = '/business/%ss/obj-%i' % (result.type,
+                result.parliamentary_item_id)
             yield {'type': result.type, 
                 'short_name': result.short_name,
-                'status': get_wf_state(result) }
+                'status': get_wf_state(result),
+                'url': url }
 
         
     render = ViewPageTemplateFile ('templates/mp_item_viewlet.pt')    

@@ -13,6 +13,8 @@ from ploned.ui.interfaces import IViewView
 from bungeni.models import domain, schema
 from bungeni.core.globalsettings import getCurrentParliamentId
 
+from bungeni.ui.utils import get_wf_state
+
 class WhatsOnBrowserView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/whatson.pt")
     interface.implements(IViewView)
@@ -124,7 +126,7 @@ class WhatsOnBrowserView(BrowserView):
                     s_dict = {}                    
                 s_list.append({
                     'name': schedule.item.short_name,
-                    'status' : schedule.item.status,
+                    'status' : get_wf_state(schedule.item),
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
                         str(schedule.item.parliamentary_item_id)),  
                     'group_type': schedule.sitting.group.type,

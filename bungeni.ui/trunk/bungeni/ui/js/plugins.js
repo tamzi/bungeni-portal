@@ -521,7 +521,14 @@
         if (end_year) {select_item(end_year, matches[5]);}
         if (end_month) {select_item(end_month, matches[6]);};
         if (end_day) {select_item(end_day, matches[7]);};
-        if (end_date) {end_date.value=matches[5] + '-' + matches[6] + '-' + matches[7];};        
+        if (end_date) {
+            if (matches[5] && matches[6] && matches[7]){ 
+                    end_date.value=matches[5] + '-' + matches[6] + '-' + matches[7];
+                }
+                else {
+                    end_date.value=''
+                    };
+            };        
       };
 
       // setup event handlers

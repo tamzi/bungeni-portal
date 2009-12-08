@@ -514,12 +514,14 @@
         if (!matches) return;
         
         // for each dropdown, change selection
-        select_item(start_year, matches[2]);
-        select_item(start_month, matches[3]);
-        select_item(start_day, matches[4]);
-        select_item(end_year, matches[5]);
-        select_item(end_month, matches[6]);
-        select_item(end_day, matches[7]);
+        if (start_year) {select_item(start_year, matches[2]);};
+        if (start_month) {select_item(start_month, matches[3]);};
+        if (start_day) {select_item(start_day, matches[4]);}
+        if (start_date) {start_date.value=matches[2] + '-' + matches[3] + '-' + matches[4];};
+        if (end_year) {select_item(end_year, matches[5]);}
+        if (end_month) {select_item(end_month, matches[6]);};
+        if (end_day) {select_item(end_day, matches[7]);};
+        if (end_date) {end_date.value=matches[5] + '-' + matches[6] + '-' + matches[7];};        
       };
 
       // setup event handlers

@@ -6,7 +6,7 @@
           tal:attributes="id string:${view/field_name}-datefields"
           class="calendarpicker"> 
         <input type="text" 
-            tal:attributes="name view/field_name; id view/date_name;
+            tal:attributes="name view/date_name; id view/date_name;
                             value form_value" 
             size="10" maxlength="10"/>      
     </span>

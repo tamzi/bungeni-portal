@@ -41,3 +41,18 @@ directory = <%=portal_buildout_dir%>/bin
 priority = 10
 redirect_stderr = true
 
+[program:postgres]
+command = <%=buildout_dir%>/parts/postgresql/bin/postmaster -D <%=buildout_dir%>/parts/db
+stdout_logfile = <%=buildout_dir%>/log/postgres.log
+redirect_stderr = true
+stopsignal = INT
+
+
+command = <%=buildout_dir%>/bin/pg_ctl start
+process_name = portal
+directory = <%=portal_buildout_dir%>/bin
+priority = 10
+redirect_stderr = true
+
+
+

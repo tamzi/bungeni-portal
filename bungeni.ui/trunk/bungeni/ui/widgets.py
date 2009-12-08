@@ -455,11 +455,11 @@ class TextDateWidget(SelectDateWidget):
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
         value for them """
-        return (self.field_name in self.request.form)
+        return (self.date_name in self.request.form)
         
     def _getFormInput(self):
         """extract the input value from the submitted form """
-        return (self._getFieldInput(self.field_name))                
+        return (self._getFieldInput(self.date_name))                
         
     def _getFieldInput(self, name):
         return self.request.form.get(name, self._missing)                

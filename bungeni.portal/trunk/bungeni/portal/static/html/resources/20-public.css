@@ -679,6 +679,7 @@ table.listing,
     border-bottom: 1px solid #8cacbb;
     font-size: 90%;
     margin: 1em 0em 1em 0em;
+    width: 95%
 }
 table.listing th,
 .stx table th {

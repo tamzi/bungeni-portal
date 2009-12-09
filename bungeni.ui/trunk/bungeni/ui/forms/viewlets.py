@@ -660,6 +660,7 @@ class MemberItemsViewlet( viewlet.ViewletBase ):
             yield {'type': result.type, 
                 'short_name': result.short_name,
                 'status': get_wf_state(result),
+                'submission_date' : result.submission_date.strftime('%Y-%m-%d'), 
                 'url': url }
 
         

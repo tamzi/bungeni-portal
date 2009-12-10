@@ -23,9 +23,7 @@
           </div>
         </div>
       </form>
-      <div class="visualClear"><!-- --></div>
-    </dd>
-    
+    <div class="visualClear"><!-- --></div>
     <div id="portal-advanced-search"
          class="hiddenStructure">
         <a href="#"
@@ -34,5 +32,5 @@
          i18n:translate="label_advanced_search">
         Advanced Search&hellip;
         </a>
-</div>
+    </div>
 </div>

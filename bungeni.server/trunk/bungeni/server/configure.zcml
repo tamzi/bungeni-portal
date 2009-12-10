@@ -1,6 +1,9 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:meta="http://namespaces.zope.org/meta"
            i18n_domain="bungeni">
 
+  <!-- Turn on the devmode -->
+  <meta:provides feature="devmode" />
 
   <!-- Exclude Unused Configuration, makes startup faster (0.5s atm) -->
   <exclude package="zope.dublincore"/>

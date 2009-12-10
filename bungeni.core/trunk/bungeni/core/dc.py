@@ -93,7 +93,8 @@ class BillDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        text = "Submitted by %s" % self.context.full_name
+        text = "Submitted by %s" % self.context.owner.first_name + ' ' + \
+               self.context.owner.last_name
 
         if self.context.publication_date:
             text += ' (published on %s)' % self.context.publication_date
@@ -113,7 +114,8 @@ class MotionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        text = "Submitted by %s" % self.context.full_name
+        text = "Submitted by %s" %  self.context.owner.first_name + ' ' + \
+               self.context.owner.last_name
 
         if self.context.notice_date:
             text += ' (notice given on %s)' % self.context.notice_date

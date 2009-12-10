@@ -2,7 +2,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       tal:omit-tag="">
 
-  <tal:dl class="portlet workspace-viewlet listing"
+  <tal:dl 
       tal:define="results view/getData"
       >
 

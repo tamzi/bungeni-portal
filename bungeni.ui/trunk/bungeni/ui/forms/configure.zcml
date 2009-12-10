@@ -159,15 +159,23 @@
      /--> 
      
      
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.viewlet.user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".viewlets.GroupIdViewlet"
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"
      weight="10"
-     />        
-  
+     /-->        
+
+  <browser:viewlet
+     name="bungeni.viewlet.group_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".viewlets.GroupIdViewlet"
+     for="bungeni.models.interfaces.IGroup"
+     permission="zope.View"
+     weight="10"
+     />     
   
   <!-- GroupSitting -->
   

@@ -28,7 +28,7 @@
 			// update the month, day, year form fields when the user
 			// selects a date.
 			oCalendar.selectEvent.subscribe(function (p_sType, p_aArgs) {
-				var aDate;
+				var aDate; 
 				if (p_aArgs) {						
 					aDate = p_aArgs[0][0];					
                     var year = aDate[0], month = aDate[1], day = aDate[2];
@@ -36,7 +36,7 @@
                     var selDay = document.getElementById("%(sel_day)s");
                     var selYear = document.getElementById("%(sel_year)s"); 
                     var txtDate = document.getElementById("%(txt_date)s");                     
-                    if (selYear){ 
+                    if (selYear && selMonth && selDay){ 
                         for (var y=0;y<selMonth.options.length;y++) {
                             if (selMonth.options[y].value == month) {
                                 selMonth.selectedIndex = y;
@@ -57,7 +57,7 @@
                             }
 					} 
 					else if (txtDate){
-					    txtDate.value = year + '-' + month + '-' + day
+					    txtDate.value = year + '-' + month + '-' + day;
 					}				
 				}				
 				oCalendarMenu.hide();		

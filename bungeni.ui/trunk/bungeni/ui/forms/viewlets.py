@@ -54,9 +54,11 @@ class GroupIdViewlet(viewlet.ViewletBase):
         
     def update(self):
         session = Session()
-        trusted = removeSecurityProxy(self.context)    
-        self.parent_group_principal_id = ("group.parliament.%i" %              
-                trusted.parent_group_id)
+        trusted = removeSecurityProxy(self.context)  
+        if interfaces.IParliament.providedBy(trusted):
+            self.parent_group_principal_id = trusted.group_principal_id           
+        else:
+            self.parent_group_principal_id = trusted.parent_group.group_principal_id
         self.my_group_principal_id = trusted.group_principal_id        
         
     render = ViewPageTemplateFile ('templates/group_id.pt')  

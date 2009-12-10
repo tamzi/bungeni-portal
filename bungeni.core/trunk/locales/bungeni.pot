@@ -1,0 +1,1192 @@
+##############################################################################
+#
+# Copyright (c) 2003-2004 Zope Corporation and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+msgid ""
+msgstr ""
+"Project-Id-Version: Development/Unknown\n"
+"POT-Creation-Date: Thu Dec 10 14:23:13 2009\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: zope/app/locales/extract.py\n"
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
+msgid "Metadata"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
+msgid "History"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
+msgid "Add, Remove, Delete actions for a Container"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:129
+msgid "Add Directory"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:169
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:177
+msgid "Add File"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:17
+msgid "Alternative Views of the Object (RSS, ICAL, etc)"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
+msgid "Edit"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
+msgid "Download"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
+msgid "Contents"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
+msgid "Settings"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
+msgid "Contextual Action Views of the Object"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
+msgid "RSS"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
+msgid "ICal"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:100
+msgid "Questions"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:102
+msgid "View questions issued by the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:106
+msgid "Motions"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:108
+msgid "View motions issued by the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:113
+msgid "Tabled documents"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:115
+msgid "View the tabled documents of the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:121
+msgid "View the agenda items of the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:132
+msgid "Sittings"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:133
+msgid "View the sittings of the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:138
+msgid "Current"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:139
+msgid "View current parliament members (MPs)."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:143
+msgid "Political groups"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:144
+msgid "View current political groups."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:148
+msgid "Browse"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:149
+msgid "Current and historical records."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:153
+msgid "Documents"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:154
+msgid "Visit the digital document repository."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:59
+msgid "Business"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:60
+msgid "Daily operations of the parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:64
+msgid "Members"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:65
+msgid "Records on members of parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:69
+msgid "Archive"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:70
+msgid "Parliament records and documents."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:74
+msgid "Administration"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:75
+msgid "Administer bungeni settings."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:82
+msgid "What's on"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:83
+msgid "Current parliamentary activity."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:88
+msgid "Committees"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:90
+msgid "View committees created by the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:94
+msgid "Bills"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:96
+msgid "View bills issued by the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/audit.py:128
+msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/audit.py:178
+msgid "No IRequest in interaction"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:128
+msgid "Sitting"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:133
+#. Default: ""
+msgid "Sitting scheduled for '$group' ($start to $end)."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:143
+msgid "Item scheduling"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:151
+#. Default: ""
+msgid "Scheduled for sitting ($start to $end)."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:162
+#. Default: ""
+msgid "$language translation"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:165
+#. Default: ""
+msgid "Version $version"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:170
+#. Default: ""
+msgid "Last modified $date."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:298
+#. Default: ""
+msgid "Discussion ($time)"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:300
+msgid "Discussion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/dc.py:314
+msgid "("
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/schedule.py:121
+msgid "Plenary"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/schedule.py:166
+#. Default: ""
+msgid "$x"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/schedule.py:78
+msgid "Unknown principal group"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/transformation.py:189
+#. Default: "HTML fragment to OpenDocument format"
+msgid "title_html_fragment_odf_transform"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/version.py:117
+#. Default: ""
+msgid "Reverted to previous version $version."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:118
+#. Default: "Agenda Item received."
+msgid "notification_email_to_member_upon_receipt_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:142
+#. Default: "Agenda Item submitted."
+msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:163
+#. Default: "Agenda Item rejected."
+msgid "notification_email_to_member_upon_rejection_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:184
+#. Default: "Your agenda_item needs to be clarified."
+msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:204
+#. Default: "Agenda Item deferred."
+msgid "notification_email_to_member_upon_defer_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:225
+#. Default: "Agenda Item scheduled."
+msgid "notification_email_to_member_upon_schedule_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:246
+#. Default: "Agenda Item postponed."
+msgid "notification_email_to_member_upon_postpone_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:266
+#. Default: "Agenda Item was debated."
+msgid "notification_email_to_member_upon_debate_of_agenda_item"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:118
+#. Default: "Motion received."
+msgid "notification_email_to_member_upon_receipt_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:142
+#. Default: "Motion submitted."
+msgid "notification_email_to_clerk_upon_submit_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:163
+#. Default: "Motion rejected."
+msgid "notification_email_to_member_upon_rejection_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:184
+#. Default: "Your motion needs to be clarified."
+msgid "notification_email_to_member_upon_need_clarification_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:204
+#. Default: "Motion deferred."
+msgid "notification_email_to_member_upon_defer_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:225
+#. Default: "Motion scheduled."
+msgid "notification_email_to_member_upon_schedule_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:246
+#. Default: "Motion postponed."
+msgid "notification_email_to_member_upon_postpone_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/motion.py:266
+#. Default: "Motion was debated."
+msgid "notification_email_to_member_upon_debate_of_motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
+msgid "Schedule a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
+msgid "Respond to a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
+msgid "Answer a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
+msgid "Withdraw a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
+msgid "Answer a question in writing"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
+msgid "Submit a Response"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:17
+msgid "Complete a Response"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
+msgid "Submit a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
+msgid "Recieve a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
+msgid "Review a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
+msgid "Speaker review a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
+msgid "Schedule a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
+msgid "Mark a motion as debated"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
+msgid "Withdraw a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
+msgid "Submit a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
+msgid "Schedule a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
+msgid "Assign a bill to a committee"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
+msgid "Reject/Approve a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
+msgid "Withdraw a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
+msgid "Revert a transition back to an earlier stage"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
+msgid "Manage Bungeni groups"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
+msgid "Manage User Adresses"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:38
+msgid "Submit a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:39
+msgid "Recieve a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:40
+msgid "Review a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
+msgid "Speaker review a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
+msgid "Schedule a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
+msgid "Mark a agendaitem as debated"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
+msgid "Withdraw a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
+msgid "Submit a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:47
+msgid "Recieve a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:48
+msgid "Review a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
+msgid "Speaker review a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
+msgid "Schedule a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
+msgid "Mark a tableddocument as debated"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
+msgid "Withdraw a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
+msgid "Change Sitting Status"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
+msgid "Submit a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
+msgid "Recieve a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
+msgid "Review a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
+msgid "Speaker review a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:231
+#. Default: "Question received."
+msgid "notification_email_to_member_upon_receipt_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:255
+#. Default: "Question submitted."
+msgid "notification_email_to_clerk_upon_submit_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:276
+#. Default: "Question rejected."
+msgid "notification_email_to_member_upon_rejection_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:297
+#. Default: "Your question needs to be clarified."
+msgid "notification_email_to_member_upon_need_clarification_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:317
+#. Default: "Question deferred."
+msgid "notification_email_to_member_upon_defer_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:338
+#. Default: "Question scheduled."
+msgid "notification_email_to_member_upon_schedule_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:359
+#. Default: "Question postponed."
+msgid "notification_email_to_member_upon_postpone_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:381
+#. Default: "Question completed for review at the speakers office."
+msgid "notification_email_to_member_upon_complete_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:402
+#. Default: "Question assigned to ministry."
+msgid "notification_email_to_ministry_upon_complete_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:431
+#. Default: "Question sent to ministry for a written answer."
+msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:454
+#. Default: "Question answered."
+msgid "notification_email_to_member_upon_answer_of_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/question.py:478
+#. Default: "Question debated."
+msgid "notification_email_to_member_upon_debate_question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:12
+msgid "visible"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:13
+msgid "pending"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:14
+msgid "scheduled"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:30
+msgid "Submit to Clerk"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:37
+msgid "Schedule"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:110
+#. Default: "TabledDocument received."
+msgid "notification_email_to_member_upon_receipt_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:134
+#. Default: "TabledDocument submitted."
+msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:155
+#. Default: "TabledDocument rejected."
+msgid "notification_email_to_member_upon_rejection_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:176
+#. Default: "Your tabled_document needs to be clarified."
+msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:196
+#. Default: "TabledDocument deferred."
+msgid "notification_email_to_member_upon_defer_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:217
+#. Default: "TabledDocument scheduled."
+msgid "notification_email_to_member_upon_schedule_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:238
+#. Default: "TabledDocument postponed."
+msgid "notification_email_to_member_upon_postpone_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:258
+#. Default: "TabledDocument was debated."
+msgid "notification_email_to_member_upon_debate_of_tabled_document"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:100
+msgid "Edit group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:101
+msgid "Delete group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:102
+msgid "View group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:105
+msgid "Add office"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:106
+msgid "Edit office"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:107
+msgid "Delete office"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:108
+msgid "View office"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:11
+msgid "Edit historical content"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:111
+msgid "Add office member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:112
+msgid "Edit office member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:113
+msgid "Delete office member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:114
+msgid "View office member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:12
+msgid "Translate content"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:120
+msgid "Add ministry"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:121
+msgid "Edit ministry"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:122
+msgid "Delete ministry"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:123
+msgid "View ministry"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:126
+msgid "Add mp"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:127
+msgid "Edit mp"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:128
+msgid "Delete mp"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:129
+msgid "View mp"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:135
+msgid "Add user"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:136
+msgid "Edit user"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:137
+msgid "Delete user"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:138
+msgid "View user"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:14
+msgid "Add session"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:141
+msgid "Add constituency"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:142
+msgid "Edit constituency"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:143
+msgid "Delete constituency"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:144
+msgid "View constituency"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:147
+msgid "Add minister"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:148
+msgid "Edit minister"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:149
+msgid "Delete minister"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:15
+msgid "Edit session"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:150
+msgid "View minister"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:156
+msgid "Add committee member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:157
+msgid "Edit committee member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:158
+msgid "Delete committee member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:159
+msgid "View committee member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:16
+msgid "Delete session"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:165
+msgid "Add committee staff"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:166
+msgid "Edit committee staff"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:167
+msgid "Delete committee staff"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:168
+msgid "View committee staff"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:17
+msgid "Add sitting"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:174
+msgid "Add political group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:175
+msgid "Edit political group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:176
+msgid "Delete political group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:177
+msgid "View political group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:18
+msgid "Edit sitting"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:183
+msgid "Add address"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:184
+msgid "Edit address"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:185
+msgid "Delete address"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:186
+msgid "View address"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:189
+msgid "Add delegation"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:19
+msgid "Delete sitting"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:190
+msgid "Edit delegation"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:191
+msgid "Delete delegation"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:192
+msgid "View delegation"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:195
+msgid "Add tile/function"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:196
+msgid "Edit tile/function"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:197
+msgid "Delete tile/function"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:198
+msgid "View tile/function"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:20
+msgid "Reorder schedulings"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:201
+msgid "Add tile/event"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:202
+msgid "Edit tile/event"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:203
+msgid "Delete tile/event"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:204
+msgid "View tile/event"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:208
+msgid "View audit log"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:21
+msgid "Add item scheduling"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:217
+msgid "Add and edit amendments"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:218
+msgid "View amendments"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:22
+msgid "Edit item scheduling"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:220
+msgid "Add and edit comments"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:221
+msgid "View comments"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:223
+msgid "View Agenda"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:224
+msgid "View 'Votes and Proceedings'"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:226
+msgid "Add Consignatory"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:227
+msgid "Delete Consignatory"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:228
+msgid "Edit Consignatory"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:23
+msgid "Delete item scheduling"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:230
+#: src/bungeni.models/bungeni/models/permissions.zcml:231
+msgid "Add Group Item Assignment"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:232
+msgid "Delete Group Item Assignment"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:233
+msgid "Edit Group Item Assignment"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:24
+msgid "Add item scheduling category"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:26
+msgid "Edit item scheduling discussion"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:30
+msgid "Add committee"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:31
+msgid "Edit committee"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:32
+msgid "Delete committee"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:33
+msgid "View committee"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:37
+msgid "Add Question"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:38
+msgid "Edit Question"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:39
+msgid "Delete Question"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:40
+msgid "View Question"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:49
+msgid "Add Motion"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:50
+msgid "Edit Motion"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:51
+msgid "Delete Motion"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:52
+msgid "View Motion"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:55
+msgid "Add agendaitem"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:56
+msgid "Edit agendaitem"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:57
+msgid "Delete agendaitem"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:58
+msgid "View agendaitem"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:61
+msgid "Add tableddocument"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:62
+msgid "Edit tableddocument"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:63
+msgid "Delete tableddocument"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:64
+msgid "View tableddocument"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:67
+msgid "Edit Response"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:68
+msgid "View Response"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:71
+msgid "Add Parliament"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:72
+msgid "Edit Parliament"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:73
+msgid "Delete Parliament"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:74
+msgid "View Parliament"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:77
+msgid "Add Bill"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:78
+msgid "Edit Bill"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:79
+msgid "Delete Bill"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:80
+msgid "View Bill"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:83
+msgid "Admin User Record"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:84
+msgid "Edit historical data"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:87
+msgid "Add party"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:88
+msgid "Edit party"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:89
+msgid "Delete party"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:90
+msgid "View party"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:93
+msgid "Add government"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:94
+msgid "Edit government"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:95
+msgid "Delete government"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:96
+msgid "View government"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:99
+msgid "Add group member"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:10
+msgid "Owner"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:11
+msgid "Minister"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:12
+msgid "Clerks Office"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:13
+msgid "Speaker Office"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:14
+msgid "All authenticated users"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:15
+msgid "Bungeni Visitor"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:7
+msgid "Site Manager"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:8
+msgid "Bungeni Admin"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/roles.zcml:9
+msgid "Member of parliament"
+msgstr ""
+

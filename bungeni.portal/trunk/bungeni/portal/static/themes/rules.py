@@ -8,11 +8,14 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
     link_val= None
     host_url = urlsplit(log.theme_url)
     workspace_links_content = theme('.level1')
+    #print log.base_url()
     if link_id == "#user-workspace-id":
         #we are on the frontpage
         member_workspace_content_id = theme('#user-workspace-id').val()
         if member_workspace_content_id is not None:
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
+            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folders</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/web_pages?ct=ws" + "'>Web pages</a></li>")
     else:
         #we are on the membership page and there are 3 sets of users
         #anonymous, logged-in, owner
@@ -20,7 +23,8 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
-            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="http://192.168.0.14:8084/">Member Profile</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="http://192.168.0.14:8084/">Portal</a></li></ul>')
+            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1] +'/">Member Profile</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
+            theme('body').addClass('template-member-space')                    
         elif content('#portal-personaltools li a#user-name span').html() in content('#portal-breadcrumbs').html():
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
             content('#portal-logo img').attr('width', '803px')
@@ -29,7 +33,6 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
-
 def add_section_links(content, theme, resource_fetcher, log):
     """
     Add top level class links abd logos for the different sections (workspace and portal).
@@ -79,8 +82,11 @@ def add_workspace_link(content, theme, resource_fetcher, log, workspace_id):
     """
     if content('#user-workspace-id').val is not None:
         host_url = urlsplit(log.theme_url)
-        new_value = "<h2>" + content('h2').html() + "</h2> For the personal web page click <a href ='" + host_url[0] + '://' + host_url[1] + "/" + content('#user-workspace-id').val() + "/web_pages'>here.</a>"
-        content('h2').replaceWith(new_value)
+        #check if the personal web page exists
+        workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ '/' +  content('#user-workspace-id').val()  + '/web_pages')
+        if workspace_url('#portal-column-content').html() is not None:
+            new_value = "<h2>" + content('h2').html() + "</h2> For the personal web page click <a href ='" + host_url[0] + '://' + host_url[1] + "/" + content('#user-workspace-id').val() + "/web_pages'>here.</a>"
+            content('h2').replaceWith(new_value)
     
     
 def drop_workspace(content, theme, resource_fetcher, log):

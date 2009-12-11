@@ -8,7 +8,6 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
     link_val= None
     host_url = urlsplit(log.theme_url)
     workspace_links_content = theme('.level1')
-    #print log.base_url()
     if link_id == "#user-workspace-id":
         #we are on the frontpage
         member_workspace_content_id = theme('#user-workspace-id').val()
@@ -83,10 +82,13 @@ def add_workspace_link(content, theme, resource_fetcher, log, workspace_id):
     if content('#user-workspace-id').val is not None:
         host_url = urlsplit(log.theme_url)
         #check if the personal web page exists
-        workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ '/' +  content('#user-workspace-id').val()  + '/web_pages')
-        if workspace_url('#portal-column-content').html() is not None:
-            new_value = "<h2>" + content('h2').html() + "</h2> For the personal web page click <a href ='" + host_url[0] + '://' + host_url[1] + "/" + content('#user-workspace-id').val() + "/web_pages'>here.</a>"
-            content('h2').replaceWith(new_value)
+        try:
+            workspace_url = pq(url=host_url[0] + '://' +  host_url[1]+ '/' +  content('#user-workspace-id').val()  + '/web_pages')
+            if workspace_url('#portal-column-content').html() is not None:
+                new_value = "<h2>" + content('h2').html() + "</h2> For the personal web page click <a href ='" + host_url[0] + '://' + host_url[1] + "/" + content('#user-workspace-id').val() + "/web_pages'>here.</a>"
+                content('h2').replaceWith(new_value)
+        except:
+            pass
     
     
 def drop_workspace(content, theme, resource_fetcher, log):

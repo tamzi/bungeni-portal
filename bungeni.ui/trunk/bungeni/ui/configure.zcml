@@ -101,5 +101,15 @@
    <utility
       component=".workflow.workflow_vocabulary_factory"
       name="bungeni.vocabulary.workflow" />
-           
+   
+   <utility
+            component=".calendar.browser.availableItems"
+            name="Available Items"
+            provides="zope.schema.interfaces.IVocabularyFactory"
+            />
+   <utility
+            component=".calendar.browser.availableOptions"
+            name="Available Options"
+            provides="zope.schema.interfaces.IVocabularyFactory"
+            />     
 </configure>

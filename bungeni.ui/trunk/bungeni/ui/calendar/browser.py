@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+
 import time
 import datetime
 import tempfile
@@ -29,7 +30,11 @@ from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
 from zope.app.file.file import File
 from zope.datetime import rfc1123_date
+from zope.app.form.browser import MultiCheckBoxWidget as _MultiCheckBoxWidget
+from zope.publisher.interfaces.http import IResult, IHTTPRequest
+from zope.publisher.http import DirectResult
 
+from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import is_ajax_request
@@ -392,6 +397,42 @@ class SittingCalendarView(CalendarView):
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
 
+
+
+def verticalMultiCheckBoxWidget(field, request):
+    vocabulary = field.value_type.vocabulary
+    widget = _MultiCheckBoxWidget(field, vocabulary, request)
+    widget.cssClass = _(u"verticalMultiCheckBoxWidget")
+    widget.orientation='vertical'
+    return widget 
+
+def horizontalMultiCheckBoxWidget(field, request):
+    vocabulary = field.value_type.vocabulary
+    widget = _MultiCheckBoxWidget(field, vocabulary, request)
+    widget.cssClass = _(u"horizontalMultiCheckBoxWidget")
+    widget.orientation='horizontal'
+    return widget 
+    
+#def MultiCheckBoxWidgetFactory(field, request):
+#            return _MultiCheckBoxWidget(
+#                field, field.vocabulary, request)
+                
+def availableItems(context):
+    items = ('Bills',
+                'AgendaItems',
+                'Motions',
+                'Questions',
+                )
+    return SimpleVocabulary.fromValues(items)    
+           
+def availableOptions(context):
+    items = ('Title',  
+             'Summary', 
+             'Text', 
+             'Owner',
+            )
+    return SimpleVocabulary.fromValues(items)
+
 class ReportingView(form.PageForm):
     """Reporting view base class.
 
@@ -440,23 +481,60 @@ class ReportingView(form.PageForm):
         self.scheduling_context = context
 
     class IReportingForm(interface.Interface):
+        doc_type = schema.Choice(
+                    title = _(u"Document Type"),
+                    description = _(u"Type of document to be produced"),
+                    values= ['Order of the day',
+                             'Weekly Business',
+                             'Questions of the week'],
+                    required=True
+                    )
         date = schema.Date(
             title=_(u"Date"),
             description=_(u"Choose a starting date for this report."),
             required=True)
         
-        time_span = schema.Choice(
-            title=_(u"Time span"),
-            description=_("The time span is used to define the reporting interval "
-                          "and will provide a name for the report."),
-            vocabulary=SimpleVocabulary((
-                SimpleTerm(TIME_SPAN.daily, "daily", TIME_SPAN.daily),
-                SimpleTerm(TIME_SPAN.weekly, "weekly", TIME_SPAN.weekly),)),
-            required=True)
-
+        #time_span = schema.Choice(
+        #    title=_(u"Time span"),
+        #    description=_("The time span is used to define the reporting interval "
+        #                  "and will provide a name for the report."),
+        #    vocabulary=SimpleVocabulary((
+        #        SimpleTerm(TIME_SPAN.daily, "daily", TIME_SPAN.daily),
+        #        SimpleTerm(TIME_SPAN.weekly, "weekly", TIME_SPAN.weekly),)),
+        #    required=True)
+        
+        item_types = schema.List(title=u'Items to include',
+                   required=False,
+                   value_type=schema.Choice(
+                    vocabulary="Available Items"),
+                   )
+        bill_options = schema.List( title=u'Bill options',
+                       required=False,
+                       value_type=schema.Choice(
+                       vocabulary='Available Options'),
+                         )
+        agenda_options = schema.List( title=u'Agenda options',
+                                        required=False,
+                                        value_type=schema.Choice(
+                                        vocabulary='Available Options'),)
+        motion_options = schema.List( title=u'Motion options',
+                                        required=False,
+                                        value_type=schema.Choice(
+                                        vocabulary='Available Options'),)  
+        question_options = schema.List( title=u'Question options',
+                                          required=False,
+                                          value_type=schema.Choice(
+                                          vocabulary='Available Options'),)
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields = form.Fields(IReportingForm)
+    form_fields['item_types'].custom_widget = horizontalMultiCheckBoxWidget
+    form_fields['date'].custom_widget = SelectDateWidget
+    form_fields['bill_options'].custom_widget = verticalMultiCheckBoxWidget
+    form_fields['agenda_options'].custom_widget = verticalMultiCheckBoxWidget
+    form_fields['motion_options'].custom_widget = verticalMultiCheckBoxWidget
+    form_fields['question_options'].custom_widget = verticalMultiCheckBoxWidget
     odf_filename = None
+        
 
     def get_odf_document(self):
         assert self.odf_filename is not None
@@ -467,8 +545,13 @@ class ReportingView(form.PageForm):
     def setUpWidgets(self, ignore_request=False):
         class context:
             date = self.date or datetime.date.today()
-            time_span = TIME_SPAN.daily
-
+            #time_span = TIME_SPAN.daily
+            doc_type = 'Order of the day'
+            item_types = 'Bills'
+            bill_options = 'Title'
+            agenda_options = 'Title'
+            question_options = 'Title'
+            motion_options = 'Title'
         self.adapters = {
             self.IReportingForm: context
             }
@@ -484,9 +567,15 @@ class ReportingView(form.PageForm):
 
     def validate(self, action, data):    
         errors = super(ReportingView, self).validate(action, data)
-
+        if data['doc_type'] == "Order of the day":
+            time_span = TIME_SPAN.daily
+        elif data['doc_type'] == "Weekly Business":
+            time_span = TIME_SPAN.weekly      
+        elif data['doc_type'] == "Questions of the week":
+            time_span = TIME_SPAN.weekly          
+        
         start_date = data['date']
-        end_date = self.get_end_date(start_date, data['time_span'])
+        end_date = self.get_end_date(start_date, time_span)
 
         parliament = get_parliament_by_date_range(self, start_date, end_date)
         session = get_session_by_date_range(self, start_date, end_date)
@@ -501,31 +590,80 @@ class ReportingView(form.PageForm):
         #        "date"))
 
         return errors
-
-    @form.action(_(u"Preview"))
-    def handle_preview(self, action, data):
-        next_url = ('preview.html?date=' + data['date'].strftime('%Y-%m-%d') + 
-            '&time_span=' + data['time_span'] + '&display_minutes=' +
-            str(self.display_minutes))
-        self.request.response.redirect(next_url)
-    
-    @form.action(_(u"Create and Store"))
+        
+    @form.action(_(u"Preview"))  
+    def handle_preview(self, action, data):                
+        date =data['date']
+        self.doc_type = data['doc_type']
+        if self.doc_type == "Order of the day":
+            time_span = TIME_SPAN.daily
+        elif self.doc_type == "Weekly Business":
+            time_span = TIME_SPAN.weekly      
+        elif self.doc_type == "Questions of the week":
+            time_span = TIME_SPAN.weekly                      
+        end = self.get_end_date(date, time_span)
+        self.sitting_items = self.get_sittings_items(date, end)
+        self.item_types = data['item_types']
+        self.bill = False
+        self.motion = False
+        self.agenda = False
+        self.question = False
+        for type in self.item_types:
+            if type == 'Bills':
+                self.bill = True
+            elif type == 'Motions':
+                self.motion = True
+            elif type == 'AgendaItems':
+                self.agenda = True
+            elif type == 'Questions':
+                self.question = True    
+        self.bill_options = data['bill_options']
+        self.agenda_options = data['agenda_options']
+        self.motion_options = data['motion_options']
+        self.question_options = data['question_options']
+        '''for item in self.sitting_items:
+            if item.item_schedule.item.type in item_types:
+                opt = item.type + '_option'
+                for option in data[opt]:
+                    item.options[option] = True
+            else:
+                self.sitting_items.remove(item) '''
+        try:              
+            self.group = self.context.get_group()
+        except:
+            session = Session()
+            self.group = session.query(domain.Group).get(self.context.group_id)
+        if IGroupSitting.providedBy(self.context):        
+            self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            self.back_link = absoluteURL(self.context, self.request)  
+        return self.result_template()
+                     
+    #@form.action(_(u"Create and Store"))
     def handle_create_and_store(self, action, data):
         next_url = ('save-report?date=' + data['date'].strftime('%Y-%m-%d') + 
             '&time_span=' + data['time_span'] + '&display_minutes=' +
             str(self.display_minutes))
         self.request.response.redirect(next_url)    
-    
-    #@form.action(_(u"Preview"))
-    def handle_preview(self, action, data):
-        return self.download_preview(
-            data['date'], data['time_span'], 'inline')
 
     #@form.action(_(u"Download"))
     def handle_download(self, action, data):
         return self.download_preview(
-            data['date'], data['time_span'], 'attachment')
-
+            data['date'], TIME_SPAN.daily, 'attachment')
+            
+    def html_preview(self, data):
+        file = self.generate(data)
+        self.request.response.setHeader('Content-Type', file.contentType)
+        self.request.response.setHeader('Content-Length', file.getSize())
+        self.request.response.setHeader(
+            'Content-Disposition', '%s; filename="%s"' % (
+                disposition, file.filename))
+        self.request.response.setHeader('Last-Modified', rfc1123_date(time.time()))
+        self.request.response.setHeader(
+            'Cache-Control', 'no-cache, must-revalidate');
+        self.request.response.setHeader('Pragma', 'no-cache')
+        return file.data
+        
     def download_preview(self, date, time_span, disposition):
         file = self.generate(date, time_span)
         self.request.response.setHeader('Content-Type', file.contentType)
@@ -561,10 +699,10 @@ class AgendaReportingView(ReportingView):
     
     form_name = _(u"Agenda")
     report_name = _(u"ORDER OF THE DAY")
-    form_description = _(u"This form generates the “order of the day” report.")
+    form_description = _(u"This form generates the agenda report.")
     odf_filename = "agenda.odt"
     display_minutes = False
-    
+    result_template = ViewPageTemplateFile('reports.pt')
     def get_archive(self, date, time_span):
         end_date = self.get_end_date(date, time_span)
         
@@ -597,21 +735,104 @@ class AgendaReportingView(ReportingView):
         
         return file
     
-class VotesAndProceedingsReportingView(AgendaReportingView):
-    form_name = _(u"Votes and proceedings")
-    form_description = _(u"This form generates the “votes and proceedings” report.")
-    report_name = _(u"VOTES AND PROCEEDINGS")
-    display_minutes = True
-    
-    def generate(self, date, time_span):
-        archive = self.get_archive(date, time_span)
-        file = File(archive, "application/vnd.oasis.opendocument.text")
-        file.filename = "votes-and-proceedings-%s-%s-%s-%s.odt" % (
-            str(time_span).lower(), date.year, date.month, date.day)
+    def get_sittings_items(self, start, end):
+            """ return the sittings with scheduled items for 
+                the given daterange"""    
+            session = Session()
+            query = session.query(domain.GroupSitting).filter(
+                sql.and_(
+                    domain.GroupSitting.start_date.between(start,end),
+                    domain.GroupSitting.group_id == self.context.group_id)
+                    ).order_by(domain.GroupSitting.start_date
+                    ).options(
+                        eagerload('sitting_type'),
+                        eagerload('item_schedule'), 
+                        eagerload('item_schedule.item'),
+                        eagerload('item_schedule.discussion'),
+                        eagerload('item_schedule.category'))
+            items = query.all()
+        #items.sort(key=operator.attrgetter('start_date'))
+            for item in items:
+                if self.display_minutes:
+                    item.item_schedule.sort(key=operator.attrgetter('real_order'))                              
+                else:
+                    item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
+                    item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
+                    #s = get_session_by_date_range(self, item.start_date, item.end_date)  
+                
+            return items
 
-        return file
+class htmlAgendaReportingView(ReportingView):
+    """ preview Agenda and votes and proceedings as simple HTML """
+    #interface.implements(IViewView)      
+    
+    def __call__():        
+        return self.render() 
+        #return (u'<html>\n<head>\n<title>raw</title>\n</head>\n<body>\nThis is a test\n</body>\n</html>')
+    def __init__(self, context, request):
+        BrowserView.__init__(self, context, request)
         
+    template = ViewPageTemplateFile('reports.pt')             
+    
+    def get_sittings_items(self, start, end):
+        """ return the sittings with scheduled items for 
+        the given daterange"""    
+        session = Session()
+        query = session.query(domain.GroupSitting).filter(
+            sql.and_(
+            domain.GroupSitting.start_date.between(start,end),
+            domain.GroupSitting.group_id == self.context.group_id)
+            ).order_by(domain.GroupSitting.start_date
+            ).options(
+                eagerload('sitting_type'),
+                eagerload('item_schedule'), 
+                eagerload('item_schedule.item'),
+                eagerload('item_schedule.discussion'),
+                eagerload('item_schedule.category'))
+        items = query.all()
+        #items.sort(key=operator.attrgetter('start_date'))
+        for item in items:
+            if self.display_minutes:
+                item.item_schedule.sort(key=operator.attrgetter('real_order'))                              
+            else:
+                item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
+            item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
+            #s = get_session_by_date_range(self, item.start_date, item.end_date)  
+        return items
+                          
+    def render(self):
+        #date = datetime.datetime.strptime(data['date'],
+        #        '%Y-%m-%d').date()
         
+        date = self.request.form['date']
+        self.doc_type = self.request.form['doc_type']
+        #items = self.request.form['items']
+        if self.doc_type == "Order of the day":
+            time_span = TIME_SPAN.daily
+        elif self.doc_type == "Weekly Business":
+            time_span = TIME_SPAN.weekly      
+        elif self.doc_type == "Questions of the week":
+            time_span = TIME_SPAN.weekly          
+        end = self.get_end_date(date, time_span)
+        self.sitting_items = self.get_sittings_items(date, end)
+        ''' self.display_minutes = (data['display_minutes'] == "True")
+        if self.display_minutes:
+            self.title = _(u"Votes and Proceedings")
+        else:
+            self.title = _(u"Order of the day")
+        try:              
+            self.group = self.context.get_group()
+        except:
+            session = Session()
+            self.group = session.query(domain.Group).get(self.context.group_id) '''
+       
+        if IGroupSitting.providedBy(self.context):        
+            self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            self.back_link = absoluteURL(self.context, self.request)  
+        else:   
+            raise NotImplementedError
+            
 class HTMLPreviewPage(ReportingView):
     """ preview Agenda and votes and proceedings as simple HTML """
     template = ViewPageTemplateFile('reports.pt')        
@@ -667,8 +888,7 @@ class HTMLPreviewPage(ReportingView):
         elif ISchedulingContext.providedBy(self.context):
             self.back_link = absoluteURL(self.context, self.request)  
         else:   
-            raise NotImplementedError
-                                               
+            raise NotImplementedError                                               
                     
 class StoreReportView(HTMLPreviewPage):
     template = ViewPageTemplateFile('save-reports.pt')  
@@ -727,4 +947,3 @@ class StoreReportView(HTMLPreviewPage):
         else:   
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)
-        

@@ -10,45 +10,83 @@
             <div class="report_title">      
                   <span tal:replace="view/group/short_name"/> Parliament : <span tal:content="item/sitting_type/sitting_type"/> Sitting
             </div> 
-            <div class="report_date">Date : <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />
-            </div>   
+            <div class="report_date">Date : <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" /></div>   
             <tal:loop tal:repeat="scheduled item/item_schedule">
                 <div class="report_items">
                         <span tal:condition="python:scheduled.item.type == 'motion'" >
                             <span tal:condition="view/motion">
-                            <h2><span tal:replace="python:scheduled.item.type.capitalize()" /> : <span tal:replace="scheduled/item/short_name" /></h2>
-                             </span>
-                             <span tal:condition="scheduled/item/owner/first_name | nothing">
-                                <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
-                                <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" /> </h3>
-                             </span>
-                        <p tal:content="structure scheduled/item/body_text" tal:condition="view/motion_text" />
-                    </span>
-                    <span tal:condition="python:scheduled.item.type == 'bill'">
-                        <span tal:condition="view/bill">
-                            <h2> <span tal:replace="python:scheduled.item.type.capitalize()" /> : <span tal:replace="scheduled/item/short_name"/></h2>  <span tal:condition="scheduled/item/owner/first_name | nothing">
-                                <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
-                                <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" /> </h3>
-                             </span>
-                            <p tal:content="structure scheduled/item/body_text" tal:condition="view/bill_text"/>
+                                <h2><span tal:replace="python:scheduled.item.type.capitalize()" />
+                                    <span tal:condition="view/motion_number">
+                                        : <span tal:replace="scheduled/item/motion_number" />
+                                    </span>
+                                    <span tal:condition="view/motion_title">
+                                        - <span tal:replace="scheduled/item/short_name" />
+                                    </span>
+                                </h2>
+                                <span tal:condition="view/motion_owner">
+                                    <h3><span tal:condition="scheduled/item/owner/first_name | nothing">Moved by 
+                                            <span tal:replace="scheduled/item/owner/first_name" /> 
+                                            <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" />
+                                         </span>
+                                         <!-- <span tal:condition="view/motion_seconded">
+                                            <span> Seconded By
+                                                <span tal:replace="scheduled/item/owner/first_name" tal:condition="scheduled/item/owner/first_name | nothing"/> 
+                                                <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" />
+                                            </span> -->
+                                            
+                                       </h3>
+                                </span>
+                                <p tal:content="structure scheduled/item/body_text" tal:condition="view/motion_text" />
+                            </span>
                         </span>
-                    </span>
-                    <span tal:condition="python:scheduled.item.type == 'question'" >
-                        <span tal:condition="view/question">
-                            <h2> <span tal:replace="python:scheduled.item.type.capitalize()" />:<span tal:replace="scheduled/item/short_name"/></h2>
-                            <span tal:condition="view/question_owner">
-                                
-                                <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
-                                <span tal:replace="scheduled/item/owner/last_name" />  
-                                <span tal:condition="scheduled/item/ministry | nothing"> to <span tal:replace="scheduled/item/ministry/full_name"/></span></h3>
-                             </span>
-                             <span tal:condition="view/question_summary">
-                                <h3>Summary</h3>
-                                <p tal:content="structure scheduled/item/body_text"/>
-                             </span>
-                             <span tal:condition="view/question_text">
-                                <p tal:content="structure scheduled/item/body_text" />
-                             </span>
+                        <span tal:condition="python:scheduled.item.type == 'bill'">
+                            <span tal:condition="view/bill">
+                                <h2> 
+                                    <span tal:replace="python:scheduled.item.type.capitalize()" /> : 
+                                    <span tal:replace="scheduled/item/short_name"/>
+                                </h2>
+                                <span tal:condition="scheduled/item/owner/first_name | nothing">
+                                        <h3> Tabled by 
+                                            <span tal:replace="scheduled/item/owner/first_name" /> 
+                                            <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" /> 
+                                        </h3>
+                                        <h3>
+                                        <span tal:condition="view/bill_cosignatories">
+                                                Cosignatories :
+                                                    <tal:loop tal:repeat="cosignatory scheduled/item/consignatories"> 
+                                                        <span tal:replace="cosignatory/first_name" tal:condition="cosignatory/first_name | nothing"/> 
+                                                        <span tal:replace="cosignatory/last_name" tal:condition="cosignatory/last_name | nothing" />, 
+                                                    </tal:loop>
+                                            </span>
+                                        </h3>
+                                </span>
+                                <p tal:content="structure scheduled/item/body_text" tal:condition="view/bill_text"/>
+                            </span>
+                        </span>
+                        <span tal:condition="python:scheduled.item.type == 'question'" >
+                            <span tal:condition="view/question">
+                                <h2>
+                                    <span tal:replace="python:scheduled.item.type.capitalize()" />
+                                    <span tal:condition="view/question_number">   
+                                         : <span tal:replace="scheduled/item/question_number"/>
+                                    </span>
+                                    <span tal:condition="view/question_title">   
+                                         - <span tal:replace="scheduled/item/short_name"/>
+                                    </span>
+                                </h2>
+                                <span tal:condition="view/question_owner">
+                                    <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
+                                        <span tal:replace="scheduled/item/owner/last_name" />  
+                                        <span tal:condition="scheduled/item/ministry | nothing"> to <span tal:replace="scheduled/item/ministry/full_name"/></span>
+                                    </h3>
+                                </span>
+                                <span tal:condition="view/question_text">
+                                    <p tal:content="structure scheduled/item/body_text" tal:condition="scheduled/item/body_text | nothing"/>
+                                </span>
+                                <span tal:condition="view/question_response">
+                                    <h4 tal:condition="scheduled/item/response_text | nothing">Response</h4>
+                                    <p tal:content="structure scheduled/item/response" tal:condition="scheduled/item/response_text | nothing"/>
+                                </span>
                         </span>
                     </span>
                     <span tal:condition="python:scheduled.item.type == 'agenda'">

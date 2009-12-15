@@ -405,7 +405,6 @@ class GroupSittingAddForm(AddForm):
         fields = form.Fields(self.IRecurringEvents) + fields
         
         def MultiCheckBoxWidgetFactory(field, request):
-            import pdb; pdb.set_trace()
             return MultiCheckBoxWidget(
                 field, field.value_type.vocabulary, request)
         fields['weekdays'].custom_widget = MultiCheckBoxWidgetFactory

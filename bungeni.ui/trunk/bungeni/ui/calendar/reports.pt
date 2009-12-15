@@ -120,6 +120,12 @@
                         <p tal:content="structure scheduled/item/body_text" tal:condition="view/agenda_text"/>   
                         </span>
                     </span>
+                    <span tal:condition="view/display_minutes">
+                        <span tal:condition="scheduled/discussion/body_text | nothing">
+                            <h3>Minutes</h3>
+                            <p tal:content="structure scheduled/discussion/body_text"/>
+                        </span>
+                    </span>
                 </div>
             </tal:loop>          
         </tal:loop>

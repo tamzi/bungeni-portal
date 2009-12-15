@@ -226,6 +226,8 @@ mapper( domain.ParliamentaryItem, schema.parliamentary_items,
                               primaryjoin=rdb.and_(schema.parliamentary_items.c.owner_id==schema.users.c.user_id ),
                               uselist=False,
                               lazy=False ),
+                    'consignatories': relation( domain.User,
+                              secondary=schema.consignatories,),                                                            
                 }
          )
 

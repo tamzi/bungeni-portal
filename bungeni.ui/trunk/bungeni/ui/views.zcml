@@ -93,12 +93,12 @@
      class=".calendar.browser.AgendaReportingView"
      />
 
-  <!-- <browser:page
+   <browser:page
      name="votes-and-proceedings"
      for="zope.location.interfaces.ILocation"
      permission="zope.View"
      class=".calendar.browser.VotesAndProceedingsReportingView"
-     /> -->
+     />
   
   
     <browser:page

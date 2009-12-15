@@ -813,7 +813,6 @@ class AgendaReportingView(ReportingView):
         document.save(archive.name)
 
         return archive
-    
     def generate(self, date, time_span):
         archive = self.get_archive(date, time_span)
         file = File(archive, "application/vnd.oasis.opendocument.text")
@@ -848,6 +847,20 @@ class AgendaReportingView(ReportingView):
                     #s = get_session_by_date_range(self, item.start_date, item.end_date)  
                 
             return items
+            
+class VotesAndProceedingsReportingView(AgendaReportingView):
+    form_name = _(u"Votes and proceedings")
+    form_description = _(u"This form generates the “votes and proceedings” report.")
+    report_name = _(u"VOTES AND PROCEEDINGS")
+    display_minutes = True
+    
+    def generate(self, date, time_span):
+        archive = self.get_archive(date, time_span)
+        file = File(archive, "application/vnd.oasis.opendocument.text")
+        file.filename = "votes-and-proceedings-%s-%s-%s-%s.odt" % (
+            str(time_span).lower(), date.year, date.month, date.day)
+
+        return file
 
 class htmlAgendaReportingView(ReportingView):
     """ preview Agenda and votes and proceedings as simple HTML """

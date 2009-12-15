@@ -427,6 +427,42 @@ class PersonInfo( BungeniAttributeDisplay ):
         self.context.__parent__= parent
         super( PersonInfo, self).update()
 
+class ParliamentMembershipInfo(BungeniAttributeDisplay):
+    """ for a given user get his last parliament 
+    membership"""
+    for_display = True    
+    mode = "view"
+    form_name = _(u"Parliament Membership")       
+
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= context.__parent__
+        self.manager = manager
+        self.query = None
+        md = queryModelDescriptor(domain.MemberOfParliament)          
+        self.form_fields=md.fields
+
+    def update(self):
+        """
+        refresh the query
+        """       
+        session = Session()
+        trusted = removeSecurityProxy(self.context)
+        user_id = self.context.user_id
+        parliament_id = trusted.group.parent_group_id
+        parent = self.context.__parent__
+        self.query = session.query(domain.MemberOfParliament).filter(
+            sql.and_(
+            domain.MemberOfParliament.user_id == user_id,
+            domain.MemberOfParliament.group_id == parliament_id)
+            ).order_by(
+            domain.MemberOfParliament.start_date.desc()) 
+        self.context = self.query.all()[0]
+        self.context.__parent__= parent
+        super( ParliamentMembershipInfo, self).update()        
+        
+
 class SupplementaryQuestionsViewlet( SubformViewlet ):
     form_name = (u"Supplementary Questions")    
     

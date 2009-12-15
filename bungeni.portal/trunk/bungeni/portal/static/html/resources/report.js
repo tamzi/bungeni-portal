@@ -18,8 +18,8 @@
         $("#form\\.motion_options\\.3").attr('checked', true);
         $("#form\\.question_options\\.0").attr('checked', true);
         $("#form\\.question_options\\.3").attr('checked', true);
-        $("input#form\\.items\\.0").change(function () {
-            if ($("#form\\.items\\.0").is(":checked"))
+        $("input#form\\.item_types\\.0").change(function () {
+            if ($("#form\\.item_types\\.0").is(":checked"))
             {
                 $("#form\\.bill_options\\.0").parents(".widget-multicheckboxwidget").show();
             }
@@ -28,8 +28,8 @@
                 $("#form\\.bill_options\\.0").parents(".widget-multicheckboxwidget").hide();
             }
         });
-        $("input#form\\.items\\.1").change(function () {
-            if ($("#form\\.items\\.1").is(":checked"))
+        $("input#form\\.item_types\\.1").change(function () {
+            if ($("#form\\.item_types\\.1").is(":checked"))
             {
                 $("#form\\.agenda_options\\.0").parents(".widget-multicheckboxwidget").show();
             }
@@ -38,8 +38,8 @@
                 $("#form\\.agenda_options\\.0").parents(".widget-multicheckboxwidget").hide();
             }
         });
-        $("input#form\\.items\\.2").change(function () {
-            if ($("#form\\.items\\.2").is(":checked"))
+        $("input#form\\.item_types\\.2").change(function () {
+            if ($("#form\\.item_types\\.2").is(":checked"))
             {
                 $("#form\\.motion_options\\.0").parents(".widget-multicheckboxwidget").show();
             }
@@ -48,8 +48,8 @@
                 $("#form\\.motion_options\\.0").parents(".widget-multicheckboxwidget").hide();
             }
         });
-        $("input#form\\.items\\.3").change(function () {
-            if ($("#form\\.items\\.3").is(":checked"))
+        $("input#form\\.item_types\\.3").change(function () {
+            if ($("#form\\.item_types\\.3").is(":checked"))
             {
                 $("#form\\.question_options\\.0").parents(".widget-multicheckboxwidget").show();
             }
@@ -63,29 +63,29 @@
             var choice = $("option:selected", this).val();
             if (choice == "Order of the day")
             {
-                $("#form\\.items\\.0").attr('checked', true);
-                $("#form\\.items\\.1").attr('checked', true);
-                $("#form\\.items\\.2").attr('checked', true);
-                $("#form\\.items\\.3").attr('checked', true);
+                $("#form\\.item_types\\.0").attr('checked', true);
+                $("#form\\.item_types\\.1").attr('checked', true);
+                $("#form\\.item_types\\.2").attr('checked', true);
+                $("#form\\.item_types\\.3").attr('checked', true);
             }
             else if (choice == "Weekly Business")
             {
-                $("#form\\.items\\.0").attr('checked', true);
-                $("#form\\.items\\.1").attr('checked', true);
-                $("#form\\.items\\.2").attr('checked', true);
-                $("#form\\.items\\.3").attr('checked', false);
+                $("#form\\.item_types\\.0").attr('checked', true);
+                $("#form\\.item_types\\.1").attr('checked', true);
+                $("#form\\.item_types\\.2").attr('checked', true);
+                $("#form\\.item_types\\.3").attr('checked', false);
             }
             else if (choice == "Questions of the week")
             {
-                $("#form\\.items\\.0").attr('checked', false);
-                $("#form\\.items\\.1").attr('checked', false);
-                $("#form\\.items\\.2").attr('checked', false);
-                $("#form\\.items\\.3").attr('checked', true);
+                $("#form\\.item_types\\.0").attr('checked', false);
+                $("#form\\.item_types\\.1").attr('checked', false);
+                $("#form\\.item_types\\.2").attr('checked', false);
+                $("#form\\.item_types\\.3").attr('checked', true);
             }
-            $("#form\\.items\\.0").trigger('change');
-            $("#form\\.items\\.1").trigger('change');
-            $("#form\\.items\\.2").trigger('change');
-            $("#form\\.items\\.3").trigger('change');
+            $("#form\\.item_types\\.0").trigger('change');
+            $("#form\\.item_types\\.1").trigger('change');
+            $("#form\\.item_types\\.2").trigger('change');
+            $("#form\\.item_types\\.3").trigger('change');
         }).change();
 
     });

@@ -608,19 +608,72 @@ class ReportingView(form.PageForm):
         self.motion = False
         self.agenda = False
         self.question = False
-        for type in self.item_types:
-            if type == 'Bills':
-                self.bill = True
-            elif type == 'Motions':
-                self.motion = True
-            elif type == 'AgendaItems':
-                self.agenda = True
-            elif type == 'Questions':
-                self.question = True    
         self.bill_options = data['bill_options']
         self.agenda_options = data['agenda_options']
         self.motion_options = data['motion_options']
         self.question_options = data['question_options']
+        self.bill_title = False
+        self.bill_summary = False
+        self.bill_text = False
+        self.bill_owner = False
+        self.motion_title = False
+        self.motion_summary = False
+        self.motion_text = False
+        self.motion_owner = False
+        self.agenda_title = False
+        self.agenda_summary = False
+        self.agenda_text = False
+        self.agenda_owner = False
+        self.question_title = False
+        self.question_summary = False
+        self.question_text = False
+        self.question_owner = False
+        for type in self.item_types:
+            if type == 'Bills':
+                for option in self.bill_options:
+                    if option == 'Title':
+                        self.bill_title = True
+                    elif option == 'Summary':
+                        self.bill_summary = True
+                    elif option == 'Text':
+                        self.bill_text = True
+                    elif option == 'Owner':
+                        self.bill_owner = True
+                self.bill = True
+            elif type == 'Motions':
+                for option in self.motion_options:
+                    if option == 'Title':
+                        self.motion_title = True
+                    elif option == 'Summary':
+                        self.motion_summary = True
+                    elif option == 'Text':
+                        self.motion_text = True
+                    elif option == 'Owner':
+                        self.motion_owner = True
+                self.motion = True
+            elif type == 'AgendaItems':
+                for option in self.agenda_options:
+                    if option == 'Title':
+                        self.agenda_title = True
+                    elif option == 'Summary':
+                        self.agenda_summary = True
+                    elif option == 'Text':
+                        self.agenda_text = True
+                    elif option == 'Owner':
+                        self.agenda_owner = True
+                self.agenda = True
+            elif type == 'Questions':
+                for option in self.question_options:
+                    if option == 'Title':
+                        self.question_title = True
+                    elif option == 'Summary':
+                        self.question_summary = True
+                    elif option == 'Text':
+                        self.question_text = True
+                    elif option == 'Owner':
+                        self.question_owner = True
+                self.question = True    
+        
         '''for item in self.sitting_items:
             if item.item_schedule.item.type in item_types:
                 opt = item.type + '_option'

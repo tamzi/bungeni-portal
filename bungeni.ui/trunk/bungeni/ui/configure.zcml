@@ -108,8 +108,23 @@
             provides="zope.schema.interfaces.IVocabularyFactory"
             />
    <utility
-            component=".calendar.browser.availableOptions"
-            name="Available Options"
+            component=".calendar.browser.billOptions"
+            name="Bill Options"
             provides="zope.schema.interfaces.IVocabularyFactory"
-            />     
+            />   
+   <utility
+            component=".calendar.browser.motionOptions"
+            name="Motion Options"
+            provides="zope.schema.interfaces.IVocabularyFactory"
+            />
+    <utility
+            component=".calendar.browser.agendaOptions"
+            name="Agenda Options"
+            provides="zope.schema.interfaces.IVocabularyFactory"
+            />
+    <utility
+            component=".calendar.browser.questionOptions"
+            name="Question Options"
+            provides="zope.schema.interfaces.IVocabularyFactory"
+            />  
 </configure>

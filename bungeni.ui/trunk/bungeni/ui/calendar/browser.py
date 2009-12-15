@@ -425,11 +425,37 @@ def availableItems(context):
                 )
     return SimpleVocabulary.fromValues(items)    
            
-def availableOptions(context):
+def billOptions(context):
     items = ('Title',  
              'Summary', 
              'Text', 
              'Owner',
+             'Cosignatories',
+            )
+    return SimpleVocabulary.fromValues(items)
+
+def agendaOptions(context):
+    items = ('Title',   
+             'Text', 
+             'Owner',
+            )
+    return SimpleVocabulary.fromValues(items)
+
+def motionOptions(context):
+    items = ('Title',  
+             'Number', 
+             'Text', 
+             'Owner',
+            )
+    return SimpleVocabulary.fromValues(items)
+
+def questionOptions(context):
+    items = ('Title',  
+             'Number', 
+             'Text', 
+             'Owner',
+             'Response',
+             'Type',
             )
     return SimpleVocabulary.fromValues(items)
 
@@ -511,20 +537,20 @@ class ReportingView(form.PageForm):
         bill_options = schema.List( title=u'Bill options',
                        required=False,
                        value_type=schema.Choice(
-                       vocabulary='Available Options'),
+                       vocabulary='Bill Options'),
                          )
         agenda_options = schema.List( title=u'Agenda options',
                                         required=False,
                                         value_type=schema.Choice(
-                                        vocabulary='Available Options'),)
+                                        vocabulary='Agenda Options'),)
         motion_options = schema.List( title=u'Motion options',
                                         required=False,
                                         value_type=schema.Choice(
-                                        vocabulary='Available Options'),)  
+                                        vocabulary='Motion Options'),)  
         question_options = schema.List( title=u'Question options',
                                           required=False,
                                           value_type=schema.Choice(
-                                          vocabulary='Available Options'),)
+                                          vocabulary='Question Options'),)
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields = form.Fields(IReportingForm)
     form_fields['item_types'].custom_widget = horizontalMultiCheckBoxWidget
@@ -612,24 +638,14 @@ class ReportingView(form.PageForm):
         self.agenda_options = data['agenda_options']
         self.motion_options = data['motion_options']
         self.question_options = data['question_options']
-        self.bill_title = False
-        self.bill_summary = False
-        self.bill_text = False
-        self.bill_owner = False
-        self.motion_title = False
-        self.motion_summary = False
-        self.motion_text = False
-        self.motion_owner = False
-        self.agenda_title = False
-        self.agenda_summary = False
-        self.agenda_text = False
-        self.agenda_owner = False
-        self.question_title = False
-        self.question_summary = False
-        self.question_text = False
-        self.question_owner = False
+    
         for type in self.item_types:
             if type == 'Bills':
+                self.bill_title = False
+                self.bill_summary = False
+                self.bill_text = False
+                self.bill_owner = False
+                self.bill_cosignatories = False
                 for option in self.bill_options:
                     if option == 'Title':
                         self.bill_title = True
@@ -639,39 +655,56 @@ class ReportingView(form.PageForm):
                         self.bill_text = True
                     elif option == 'Owner':
                         self.bill_owner = True
+                    elif option == 'Cosignatories':
+                        self.bill_cosignatories = True
                 self.bill = True
             elif type == 'Motions':
+                self.motion_title = False
+                self.motion_number = False
+                self.motion_text = False
+                self.motion_owner = False
                 for option in self.motion_options:
                     if option == 'Title':
                         self.motion_title = True
-                    elif option == 'Summary':
-                        self.motion_summary = True
+                    elif option == 'Number':
+                        self.motion_number = True
                     elif option == 'Text':
                         self.motion_text = True
                     elif option == 'Owner':
                         self.motion_owner = True
                 self.motion = True
             elif type == 'AgendaItems':
+                self.agenda_title = False
+                self.agenda_text = False
+                self.agenda_owner = False
                 for option in self.agenda_options:
                     if option == 'Title':
                         self.agenda_title = True
-                    elif option == 'Summary':
-                        self.agenda_summary = True
                     elif option == 'Text':
                         self.agenda_text = True
                     elif option == 'Owner':
                         self.agenda_owner = True
                 self.agenda = True
             elif type == 'Questions':
+                self.question_title = False
+                self.question_number = False
+                self.question_text = False
+                self.question_owner = False
+                self.question_response = False
+                self.question_type = False
                 for option in self.question_options:
                     if option == 'Title':
                         self.question_title = True
-                    elif option == 'Summary':
-                        self.question_summary = True
+                    elif option == 'Number':
+                        self.question_number = True
                     elif option == 'Text':
                         self.question_text = True
                     elif option == 'Owner':
                         self.question_owner = True
+                    elif option == 'Response':
+                        self.question_response = True
+                    elif option == 'Type':
+                        self.question_type = True
                 self.question = True    
         
         '''for item in self.sitting_items:
@@ -690,6 +723,7 @@ class ReportingView(form.PageForm):
             self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
             self.back_link = absoluteURL(self.context, self.request)  
+        #import pdb; pdb.set_trace()
         return self.result_template()
                      
     #@form.action(_(u"Create and Store"))

@@ -677,6 +677,7 @@
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
+        input.setAttribute('size', '10');        
         sButton.setAttribute('id', 'button-' + table_columns.keys[i].getId());
         sButton.setAttribute('type', 'button');
         sButton.setAttribute('class', 'searchButton');

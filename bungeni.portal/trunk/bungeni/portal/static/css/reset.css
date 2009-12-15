@@ -714,6 +714,10 @@ li.lastFormTab a {
   min-width: 1em;
 }
 
+tr.yui-dt-last th {
+white-space: normal;
+}
+
 
 /*search form*/
 #portal-searchbox input.searchButton {

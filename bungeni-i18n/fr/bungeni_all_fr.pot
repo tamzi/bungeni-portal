@@ -32,7 +32,7 @@ msgstr ""
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "fr - History"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"

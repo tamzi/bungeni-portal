@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-16 03:34-0500\n"
+"PO-Revision-Date: 2009-12-16 05:44-0500\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgstr "Calendrier"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
-msgstr "Poser une question"
+msgstr "Soumettre/annexer/Poser une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Respond to a question"
@@ -93,383 +93,383 @@ msgstr "Répondre à une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Answer a question"
-msgstr ""
+msgstr "Répondre à une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Withdraw a question"
-msgstr ""
+msgstr "Retirer une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question in writing"
-msgstr ""
+msgstr "Répondre à une question par écrit"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
 msgid "Submit a Response"
-msgstr "Submit a response"
+msgstr "Soumettre une réponse"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:17
 msgid "Complete a Response"
-msgstr "Complete a response"
+msgstr "Compléter une réponse"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a motion"
-msgstr ""
+msgstr "Soumettre une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Recieve a motion"
-msgstr ""
+msgstr "Recevoir une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
 msgid "Review a motion"
-msgstr ""
+msgstr "Revoir une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr ""
+msgstr "Revoir oralement une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
-msgstr ""
+msgstr "Soumettre/annexer/Poser/Donner une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Mark a motion as debated"
-msgstr ""
+msgstr "Marquer une proposition comme étant sous débat"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Withdraw a motion"
-msgstr ""
+msgstr "Retirer une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Submit a bill"
-msgstr ""
+msgstr "Soumettre un projet de loi"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Schedule a bill"
-msgstr ""
+msgstr "Planifier un projet de loi"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
 msgid "Assign a bill to a committee"
-msgstr ""
+msgstr "Assigner un projet de loi à un comité"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Reject/Approve a bill"
-msgstr "Reject/approve a bill"
+msgstr "Rejeter/Approuver un projet de loi"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Withdraw a bill"
-msgstr ""
+msgstr "Retirer un projet de loi"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Revert a transition back to an earlier stage"
-msgstr ""
+msgstr "Faire revenir une transitoin à un stade antérieur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Manage Bungeni groups"
-msgstr ""
+msgstr "Gérer les groupes de Bungeni"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
 msgid "Manage User Adresses"
-msgstr "Manage user adresses"
+msgstr "Gérer les adresses des utilisateurs"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:38
 msgid "Submit a agendaitem"
-msgstr "Submit an agenda item"
+msgstr "Soumettre un objet  à un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:39
 msgid "Recieve a agendaitem"
-msgstr "Recieve an agenda item"
+msgstr "Recevoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:40
 msgid "Review a agendaitem"
-msgstr "Review an agenda item"
+msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Speaker review an agenda item"
+msgstr "Revoir oralement un objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
-msgstr "Schedule an agenda item"
+msgstr "Planifier un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
 msgid "Mark a agendaitem as debated"
-msgstr "Mark a agenda item as debated"
+msgstr "Marquer l'objet  d'un agenda comme étant sous débat"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
 msgid "Withdraw a agendaitem"
-msgstr "Withdraw an agenda item"
+msgstr "Retirer un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
 msgid "Submit a tableddocument"
-msgstr "Submit a tabled document"
+msgstr "Soumettre un document sous tableau"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:47
 msgid "Recieve a tableddocument"
-msgstr "Recieve a tabled document"
+msgstr "Recevoir un document sous tableau"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:48
 msgid "Review a tableddocument"
-msgstr "Review a tabled document"
+msgstr "Revoir un document sous tableau"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Speaker review a tabled document"
+msgstr "Revoir oralement un document sous tableau"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
-msgstr "Schedule a tabled document"
+msgstr "Planifier un document sous tableau"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
 msgid "Mark a tableddocument as debated"
-msgstr "Mark a tabled document as debated"
+msgstr "Marquer un document sous tableau comme étant sous débat"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
 msgid "Withdraw a tableddocument"
-msgstr "Withdraw a tabled document"
+msgstr "Retirer un document sous tableau"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
 msgid "Change Sitting Status"
-msgstr "Change sitting status"
+msgstr "Modifier le statut de la séance"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
 msgid "Submit a question"
-msgstr ""
+msgstr "Soumettre une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
 msgid "Recieve a question"
-msgstr ""
+msgstr "Recevoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
-msgstr ""
+msgstr "Revoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr ""
+msgstr "Revoir oralement une question"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
-msgstr ""
+msgstr "Modifier le/les membre(s) d'un groupe"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:101
 msgid "Delete group member"
-msgstr ""
+msgstr "Supprimer le/les membre(s) d'un groupe"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:102
 msgid "View group member"
-msgstr ""
+msgstr "Voir le/les membre(s) d'un group"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Add office"
-msgstr ""
+msgstr "Ajouter un bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "Edit office"
-msgstr ""
+msgstr "Modifier un bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:107
 msgid "Delete office"
-msgstr ""
+msgstr "Supprimer un bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:108
 msgid "View office"
-msgstr ""
+msgstr "Voir un bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:11
 msgid "Edit historical content"
-msgstr ""
+msgstr "Modifier le contenu historique"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:111
 msgid "Add office member"
-msgstr ""
+msgstr "Ajouter un/une membre d'un bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:112
 msgid "Edit office member"
-msgstr ""
+msgstr "Modifier un/une membre d'un office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:113
 msgid "Delete office member"
-msgstr ""
+msgstr "Supprimer un/une membre d'un office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:114
 msgid "View office member"
-msgstr ""
+msgstr "Voir un/une membre d'un office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Traduire le contenu"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
-msgstr ""
+msgstr "Ajouter ministère"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:121
 msgid "Edit ministry"
-msgstr ""
+msgstr "Modifier ministère"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:122
 msgid "Delete ministry"
-msgstr ""
+msgstr "Supprimer ministère"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "View ministry"
-msgstr ""
+msgstr "Voir ministère"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:126
 msgid "Add mp"
-msgstr ""
+msgstr "Ajouter un/une membre du parlement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:127
 msgid "Edit mp"
-msgstr ""
+msgstr "Modifier un/une membre du parlement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:128
 msgid "Delete mp"
-msgstr ""
+msgstr "Supprimer/Effacer un/une membre du parlement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:129
 msgid "View mp"
-msgstr ""
+msgstr "Voir un/une membre du parlement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:135
 msgid "Add user"
-msgstr ""
+msgstr "Ajouter  un/une utilisateur/utilisatrice"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:136
 msgid "Edit user"
-msgstr ""
+msgstr "Modifier un/une utilisateur/utilisatrice"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Delete user"
-msgstr ""
+msgstr "Supprimer/Effacer un/une utilisateur/utilisatrice"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:138
 msgid "View user"
-msgstr ""
+msgstr "Voir un/une utilisateur/utilisatrice"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Ajouter une session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
-msgstr ""
+msgstr "Ajouter une circonscription"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:142
 msgid "Edit constituency"
-msgstr ""
+msgstr "Modifier une circonscription"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:143
 msgid "Delete constituency"
-msgstr ""
+msgstr "Supprimer une circonscription"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:144
 msgid "View constituency"
-msgstr ""
+msgstr "Voir une circonscription"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Ajouter un ministre"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
-msgstr ""
+msgstr "Modifier un ministre"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "Delete minister"
-msgstr ""
+msgstr "Supprimer un ministre"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Edit session"
-msgstr ""
+msgstr "Modifier une session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:150
 msgid "View minister"
-msgstr ""
+msgstr "Voir une ministre"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Ajouter un/une membre du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
-msgstr ""
+msgstr "Modifier un/une membre du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Delete committee member"
-msgstr ""
+msgstr "Supprimer/Effacer un/une membre du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:159
 msgid "View committee member"
-msgstr ""
+msgstr "Voir un/une membre du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:16
 msgid "Delete session"
-msgstr ""
+msgstr "Supprimer session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Ajouter le personnel du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
-msgstr ""
+msgstr "Modifier le personnel du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Delete committee staff"
-msgstr ""
+msgstr "Supprimer/Effacer le personnel du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:168
 msgid "View committee staff"
-msgstr ""
+msgstr "Voir le personnel du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:17
 msgid "Add sitting"
-msgstr ""
+msgstr "Ajouter scéance"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Ajouter un/une membre d'un groupe politique"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
-msgstr ""
+msgstr "Modifier un/une membre d'un groupe politique"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Delete political group member"
-msgstr ""
+msgstr "Supprimer/Effacer un/une membre d'un groupe politique"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "View political group member"
-msgstr ""
+msgstr "Voir un/une membre d'un groupe politique"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Edit sitting"
-msgstr ""
+msgstr "Modifier une scéance"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Ajouter une adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
-msgstr ""
+msgstr "Modifier une adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:185
 msgid "Delete address"
-msgstr "Delete address"
+msgstr "Supprimer une adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:186
 msgid "View address"
-msgstr ""
+msgstr "Voir une adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:189
 msgid "Add delegation"
-msgstr ""
+msgstr "Ajouter une délegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:19
 msgid "Delete sitting"
-msgstr ""
+msgstr "Supprimer/Effacer une scéance"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:190
 msgid "Edit delegation"

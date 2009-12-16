@@ -94,7 +94,7 @@
                      class="expandable" href="#">
                     <span><!-- nothing here --></span>
                   </a>
-
+                  <span tal:content="item/type" />:  
                   <a rel="item"
                      tal:attributes="name item/name;
                                      href item/url"

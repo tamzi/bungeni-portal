@@ -105,6 +105,7 @@ def get_sitting_items(sitting, request, include_actions=False):
             'description': props.description,
             'name': stringKey(scheduling),
             'status': item.status,
+            'type': item.type.capitalize,            
             'state_title': state_title,
             'category_id': scheduling.category_id,
             'category': scheduling.category,

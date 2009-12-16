@@ -219,6 +219,10 @@ class AppSetup(object):
         admin['users'] = domain.UserContainer()
         provideAdapter(location.ContainerLocation(admin[u"users"]),
                        (implementedBy(domain.User), ILocation))    
+
+        admin['categories'] = domain.ItemScheduleCategoryContainer()
+        provideAdapter(location.ContainerLocation(admin[u"categories"]),
+                       (implementedBy(domain.ItemScheduleCategory), ILocation))                           
                            
         #interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
         #admin['groups'] = domain.GroupContainer()

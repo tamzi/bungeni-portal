@@ -225,6 +225,7 @@
   <adapter factory=".dc.GroupItemAssignmentDescriptiveProperties" />
   <adapter factory=".dc.MemberRoleTitleDescriptiveProperties" />
   <adapter factory=".dc.ReportDescriptiveProperties" />
+  <adapter factory=".dc.ItemScheduleCategoryDescriptiveProperties" />  
   <adapter
      name="dc"
      for="*"

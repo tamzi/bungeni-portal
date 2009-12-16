@@ -16,67 +16,67 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-12 11:34+0300\n"
-"Last-Translator: Flavio\n"
+"PO-Revision-Date: 2009-12-16 03:05-0500\n"
+"Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
-"X-Generator: Lokalize 0.3\n"
+"X-Generator: Lokalize 1.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr "fr - History"
+msgstr "Histoire"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
-msgstr "Add, remove, delete actions for a container"
+msgstr "Actions Ajouter, enlever, supprimer pour un récipient"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:129
 msgid "Add Directory"
-msgstr "Add directory"
+msgstr "Ajouter un annuaire (directoire)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:169
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:177
 msgid "Add File"
-msgstr "Add file"
+msgstr "Ajouter un document"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:17
 msgid "Alternative Views of the Object (RSS, ICAL, etc)"
-msgstr "Alternative views of the object (RSS, ICAL, etc)"
+msgstr "Vues alternatives  des objets (RSS, ICAL, etc)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
 msgid "Download"
-msgstr ""
+msgstr "Téléchager"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
 msgid "Contents"
-msgstr ""
+msgstr "Contenu(e)s"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
 msgid "Settings"
-msgstr ""
+msgstr "Réglages"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
 msgid "Contextual Action Views of the Object"
-msgstr "Contextual action views of the object"
+msgstr "Action de vues contextuelles de l'objet"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
 msgid "RSS"
-msgstr ""
+msgstr "Syndications réellement simple"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155

@@ -258,8 +258,8 @@ class AddForm(BaseForm, ui.AddForm):
         ob = self.createAndAdd(data)
         name = self.context.domain_model.__name__
 
-        if not self._next_url:
-            self._next_url = absoluteURL(
+        #if not self._next_url:
+        self._next_url = absoluteURL(
                 ob, self.request) + \
                 '?portal_status_message=%s added' % name
         
@@ -282,9 +282,10 @@ class AddForm(BaseForm, ui.AddForm):
         self.createAndAdd( data )
         name = self.context.domain_model.__name__
 
-        if not self._next_url:
-            self._next_url = absoluteURL(self.context, self.request) + \
+        #if not self._next_url:
+        self._next_url = absoluteURL(self.context, self.request) + \
                              '/@@add?portal_status_message=%s Added' % name
+                              
 
 class EditForm(BaseForm, ui.EditForm):
     """Custom edit-form for Bungeni content."""

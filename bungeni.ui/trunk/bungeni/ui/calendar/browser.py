@@ -386,7 +386,7 @@ class GroupSittingScheduleView(CalendarView):
             items=get_sitting_items(
                 self.context, self.request, include_actions=True),
             categories=vocabulary.ItemScheduleCategories(self.context),
-            new_category_url="%s/calendar/categories/add?next_url=..." % site_url,
+            new_category_url="%s/admin/categories/add?next_url=..." % site_url,
             )
 
 class SittingCalendarView(CalendarView):

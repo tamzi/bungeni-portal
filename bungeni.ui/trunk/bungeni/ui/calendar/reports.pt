@@ -112,7 +112,7 @@
                     <span tal:condition="python:scheduled.item.type == 'agendaitem'">
                         <span tal:condition="view/agenda">
                             
-                        <h2> <span tal:replace="python:scheduled.item.type.capitalize()" /> : <span tal:replace="scheduled/item/short_name" /></h2>
+                        <h2> Agenda Item : <span tal:replace="scheduled/item/short_name" /></h2>
                         <span tal:condition="scheduled/item/owner/first_name | nothing">
                                 <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
                                 <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" /> </h3>
@@ -120,6 +120,29 @@
                         <p tal:content="structure scheduled/item/body_text" tal:condition="view/agenda_text"/>   
                         </span>
                     </span>
+                    
+                    <span tal:condition="python:scheduled.item.type == 'tableddocument'">
+                        <span tal:condition="view/tabled_document">
+                            
+                        <h2>
+                                    Tabled Document
+                                    <span tal:condition="view/tabled_document_number">   
+                                         : <span tal:replace="scheduled/item/tabled_document_number"/>
+                                    </span>
+                                    <span tal:condition="view/tabled_document_title">   
+                                         - <span tal:replace="scheduled/item/short_name"/>
+                                    </span>
+                        </h2>
+                        <span tal:condition="view/tabled_document_owner">
+                                    <h3> Tabled by <span tal:replace="scheduled/item/owner/first_name" /> 
+                                        <span tal:replace="scheduled/item/owner/last_name" />  
+                                    </h3>
+                        </span>
+                        <p tal:content="structure scheduled/item/body_text" tal:condition="view/tabled_document_text"/>   
+                        </span>
+                    </span>
+                    
+                    
                     <span tal:condition="view/display_minutes">
                         <span tal:condition="scheduled/discussion/body_text | nothing">
                             <h3>Minutes</h3>

@@ -419,9 +419,10 @@ def horizontalMultiCheckBoxWidget(field, request):
                 
 def availableItems(context):
     items = ('Bills',
-                'AgendaItems',
+                'Agenda Items',
                 'Motions',
                 'Questions',
+                'Tabled Documents',
                 )
     return SimpleVocabulary.fromValues(items)    
            
@@ -442,6 +443,14 @@ def agendaOptions(context):
     return SimpleVocabulary.fromValues(items)
 
 def motionOptions(context):
+    items = ('Title',  
+             'Number', 
+             'Text', 
+             'Owner',
+            )
+    return SimpleVocabulary.fromValues(items)
+
+def tabledDocumentOptions(context):
     items = ('Title',  
              'Number', 
              'Text', 
@@ -551,6 +560,10 @@ class ReportingView(form.PageForm):
                                           required=False,
                                           value_type=schema.Choice(
                                           vocabulary='Question Options'),)
+        tabled_document_options = schema.List( title=u'Tabled Document options',
+                                          required=False,
+                                          value_type=schema.Choice(
+                                          vocabulary='Tabled Document Options'),)
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields = form.Fields(IReportingForm)
     form_fields['item_types'].custom_widget = horizontalMultiCheckBoxWidget
@@ -559,6 +572,7 @@ class ReportingView(form.PageForm):
     form_fields['agenda_options'].custom_widget = verticalMultiCheckBoxWidget
     form_fields['motion_options'].custom_widget = verticalMultiCheckBoxWidget
     form_fields['question_options'].custom_widget = verticalMultiCheckBoxWidget
+    form_fields['tabled_document_options'].custom_widget = verticalMultiCheckBoxWidget
     odf_filename = None
         
 
@@ -578,6 +592,7 @@ class ReportingView(form.PageForm):
             agenda_options = 'Title'
             question_options = 'Title'
             motion_options = 'Title'
+            tabled_document_options = 'Title'
         self.adapters = {
             self.IReportingForm: context
             }
@@ -634,11 +649,12 @@ class ReportingView(form.PageForm):
         self.motion = False
         self.agenda = False
         self.question = False
+        self.tabled_document = False
         self.bill_options = data['bill_options']
         self.agenda_options = data['agenda_options']
         self.motion_options = data['motion_options']
         self.question_options = data['question_options']
-    
+        self.tabled_document_options = data['tabled_document_options']
         for type in self.item_types:
             if type == 'Bills':
                 self.bill_title = False
@@ -673,7 +689,7 @@ class ReportingView(form.PageForm):
                     elif option == 'Owner':
                         self.motion_owner = True
                 self.motion = True
-            elif type == 'AgendaItems':
+            elif type == 'Agenda Items':
                 self.agenda_title = False
                 self.agenda_text = False
                 self.agenda_owner = False
@@ -685,6 +701,21 @@ class ReportingView(form.PageForm):
                     elif option == 'Owner':
                         self.agenda_owner = True
                 self.agenda = True
+            elif type == 'Tabled Documents':
+                self.tabled_document_title = False
+                self.tabled_document_text = False
+                self.tabled_document_owner = False
+                self.tabled_document_number = False
+                for option in self.agenda_options:
+                    if option == 'Title':
+                        self.tabled_document_title = True
+                    elif option == 'Text':
+                        self.tabled_document_text = True
+                    elif option == 'Owner':
+                        self.tabled_document_owner = True
+                    elif option == 'Number':
+                        self.tabled_document_number = True
+                self.tabled_document = True
             elif type == 'Questions':
                 self.question_title = False
                 self.question_number = False

@@ -127,4 +127,10 @@
             name="Question Options"
             provides="zope.schema.interfaces.IVocabularyFactory"
             />  
+    <utility
+            component=".calendar.browser.tabledDocumentOptions"
+            name="Tabled Document Options"
+            provides="zope.schema.interfaces.IVocabularyFactory"
+            />  
+            
 </configure>

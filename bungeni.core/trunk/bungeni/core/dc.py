@@ -221,7 +221,7 @@ class GroupMembershipDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):            
-        return self.context.notes
+        return u""
 
             
 class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
@@ -418,4 +418,15 @@ class ReportDescriptiveProperties(DescriptiveProperties):
         session.add(context)           
         return u"Created on %s by %s" %( context.created_date.strftime('%Y-%m-%d'),
             context.user_id)
-        
+
+class ItemScheduleCategoryDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IItemScheduleCategory)         
+    
+    @property
+    def title(self):    
+        return self.context.short_name
+           
+    @property
+    def description(self):            
+        return u""
+    

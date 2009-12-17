@@ -755,7 +755,6 @@ class ReportingView(form.PageForm):
             self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
             self.back_link = absoluteURL(self.context, self.request)  
-        #import pdb; pdb.set_trace()
         return self.result_template()
                      
     #@form.action(_(u"Create and Store"))

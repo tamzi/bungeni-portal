@@ -609,7 +609,10 @@ class ReportingView(form.PageForm):
 
     def validate(self, action, data):    
         errors = super(ReportingView, self).validate(action, data)
+        time_span = TIME_SPAN.daily
         if data['doc_type'] == "Order of the day":
+            time_span = TIME_SPAN.daily
+        elif data['doc_type'] == "Proceedings of the day":
             time_span = TIME_SPAN.daily
         elif data['doc_type'] == "Weekly Business":
             time_span = TIME_SPAN.weekly      
@@ -636,13 +639,16 @@ class ReportingView(form.PageForm):
     @form.action(_(u"Preview"))  
     def handle_preview(self, action, data):                
         date =data['date']
+        time_span = TIME_SPAN.daily 
         self.doc_type = data['doc_type']
         if self.doc_type == "Order of the day":
             time_span = TIME_SPAN.daily
         elif self.doc_type == "Weekly Business":
             time_span = TIME_SPAN.weekly      
         elif self.doc_type == "Questions of the week":
-            time_span = TIME_SPAN.weekly                      
+            time_span = TIME_SPAN.weekly     
+        elif data['doc_type'] == "Proceedings of the day":
+            time_span = TIME_SPAN.daily                 
         end = self.get_end_date(date, time_span)
         self.sitting_items = self.get_sittings_items(date, end)
         self.item_types = data['item_types']

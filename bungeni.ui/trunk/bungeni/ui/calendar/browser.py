@@ -521,6 +521,7 @@ class ReportingView(form.PageForm):
                     title = _(u"Document Type"),
                     description = _(u"Type of document to be produced"),
                     values= ['Order of the day',
+                             'Proceedings of the day',
                              'Weekly Business',
                              'Questions of the week'],
                     required=True
@@ -597,7 +598,6 @@ class ReportingView(form.PageForm):
         self.adapters = {
             self.IReportingForm: context
             }
-        
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, self.context, self.request,
             adapters=self.adapters, ignore_request=ignore_request)
@@ -892,6 +892,7 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
             str(time_span).lower(), date.year, date.month, date.day)
 
         return file
+
 
 class htmlAgendaReportingView(ReportingView):
     """ preview Agenda and votes and proceedings as simple HTML """

@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-16 10:03-0500\n"
+"PO-Revision-Date: 2009-12-17 14:17-0500\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -125,7 +125,7 @@ msgstr "Revoir une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr "Revision d'une proposition par le Coordinateur"
+msgstr "Révision d'une proposition par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
@@ -185,7 +185,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -213,7 +213,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -245,7 +245,7 @@ msgstr "Revoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
@@ -1007,7 +1007,7 @@ msgstr "$language traduction"
 #: src/bungeni.core/bungeni/core/dc.py:165
 #. Default: ""
 msgid "Version $version"
-msgstr ""
+msgstr "Version $version"
 
 #: src/bungeni.core/bungeni/core/dc.py:170
 #. Default: ""
@@ -1025,7 +1025,7 @@ msgstr "Discussion"
 
 #: src/bungeni.core/bungeni/core/dc.py:314
 msgid "("
-msgstr ""
+msgstr "("
 
 #: src/bungeni.core/bungeni/core/schedule.py:121
 msgid "Plenary"
@@ -1034,7 +1034,7 @@ msgstr "Plénière/Absolu(e)"
 #: src/bungeni.core/bungeni/core/schedule.py:166
 #. Default: ""
 msgid "$x"
-msgstr ""
+msgstr "$x"
 
 #: src/bungeni.core/bungeni/core/schedule.py:78
 msgid "Unknown principal group"
@@ -1043,7 +1043,7 @@ msgstr "Groupe principal inconnu"
 #: src/bungeni.core/bungeni/core/transformation.py:189
 #. Default: "HTML fragment to OpenDocument format"
 msgid "title_html_fragment_odf_transform"
-msgstr ""
+msgstr "title_html_fragment_odf_transform"
 
 #: src/bungeni.core/bungeni/core/version.py:117
 #. Default: ""
@@ -1053,82 +1053,82 @@ msgstr "Faire revenir à une version antérieure %s."
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:118
 #. Default: "Agenda Item received."
 msgid "notification_email_to_member_upon_receipt_of_agenda_item"
-msgstr ""
+msgstr "Réception d'un objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:142
 #. Default: "Agenda Item submitted."
 msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
-msgstr "e-mail de notification au secrétaire à présenter de l'ordre du jour"
+msgstr "Soumission d'un objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:163
 #. Default: "Agenda Item rejected."
 msgid "notification_email_to_member_upon_rejection_of_agenda_item"
-msgstr ""
+msgstr "Rejet d'un objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:184
 #. Default: "Your agenda_item needs to be clarified."
 msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
-msgstr ""
+msgstr "Besoin d'une clarification sur l'objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:204
 #. Default: "Agenda Item deferred."
 msgid "notification_email_to_member_upon_defer_of_agenda_item"
-msgstr ""
+msgstr "Différation de l'objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:225
 #. Default: "Agenda Item scheduled."
 msgid "notification_email_to_member_upon_schedule_of_agenda_item"
-msgstr ""
+msgstr "Planification de l'objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:246
 #. Default: "Agenda Item postponed."
 msgid "notification_email_to_member_upon_postpone_of_agenda_item"
-msgstr ""
+msgstr "Report de l'objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:266
 #. Default: "Agenda Item was debated."
 msgid "notification_email_to_member_upon_debate_of_agenda_item"
-msgstr ""
+msgstr "Débat sur l'objet d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:118
 #. Default: "Motion received."
 msgid "notification_email_to_member_upon_receipt_of_motion"
-msgstr ""
+msgstr "Récéption d'une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:142
 #. Default: "Motion submitted."
 msgid "notification_email_to_clerk_upon_submit_of_motion"
-msgstr ""
+msgstr "Soumission d'une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:163
 #. Default: "Motion rejected."
 msgid "notification_email_to_member_upon_rejection_of_motion"
-msgstr ""
+msgstr "Rejet d'une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:184
 #. Default: "Your motion needs to be clarified."
 msgid "notification_email_to_member_upon_need_clarification_of_motion"
-msgstr ""
+msgstr "Besoin d'une clarification sur une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:204
 #. Default: "Motion deferred."
 msgid "notification_email_to_member_upon_defer_of_motion"
-msgstr ""
+msgstr "Différation d'une propostion"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:225
 #. Default: "Motion scheduled."
 msgid "notification_email_to_member_upon_schedule_of_motion"
-msgstr ""
+msgstr "Planification d'une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:246
 #. Default: "Motion postponed."
 msgid "notification_email_to_member_upon_postpone_of_motion"
-msgstr ""
+msgstr "Report d'une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:266
 #. Default: "Motion was debated."
 msgid "notification_email_to_member_upon_debate_of_motion"
-msgstr ""
+msgstr "Débat sur une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
@@ -1172,7 +1172,7 @@ msgstr "Revoir une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr "Revision d'une proposition par le Coordinateur"
+msgstr "Révision d'une proposition par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
@@ -1232,7 +1232,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -1260,7 +1260,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -1292,67 +1292,67 @@ msgstr "Revoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:231
 #. Default: "Question received."
 msgid "notification_email_to_member_upon_receipt_of_question"
-msgstr ""
+msgstr "Récéption d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:255
 #. Default: "Question submitted."
 msgid "notification_email_to_clerk_upon_submit_of_question"
-msgstr ""
+msgstr "Soumission d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:276
 #. Default: "Question rejected."
 msgid "notification_email_to_member_upon_rejection_of_question"
-msgstr ""
+msgstr "Rejet d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:297
 #. Default: "Your question needs to be clarified."
 msgid "notification_email_to_member_upon_need_clarification_of_question"
-msgstr ""
+msgstr "Clarification d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:317
 #. Default: "Question deferred."
 msgid "notification_email_to_member_upon_defer_of_question"
-msgstr ""
+msgstr "Différation d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:338
 #. Default: "Question scheduled."
 msgid "notification_email_to_member_upon_schedule_of_question"
-msgstr ""
+msgstr "Planification d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:359
 #. Default: "Question postponed."
 msgid "notification_email_to_member_upon_postpone_of_question"
-msgstr ""
+msgstr "Repot d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:381
 #. Default: "Question completed for review at the speakers office."
 msgid "notification_email_to_member_upon_complete_of_question"
-msgstr ""
+msgstr "complément d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:402
 #. Default: "Question assigned to ministry."
 msgid "notification_email_to_ministry_upon_complete_question"
-msgstr ""
+msgstr "Rapport d'une question complétée"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:431
 #. Default: "Question sent to ministry for a written answer."
 msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
-msgstr ""
+msgstr "Rapport d'une question envoyée au ministère"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:454
 #. Default: "Question answered."
 msgid "notification_email_to_member_upon_answer_of_question"
-msgstr ""
+msgstr "Réponse à la question"
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:478
 #. Default: "Question debated."
 msgid "notification_email_to_member_upon_debate_question"
-msgstr ""
+msgstr "Débat sur une question"
 
 #: src/bungeni.core/bungeni/core/workflows/simple.py:12
 msgid "visible"
@@ -1364,7 +1364,7 @@ msgstr "en Attente"
 
 #: src/bungeni.core/bungeni/core/workflows/simple.py:14
 msgid "scheduled"
-msgstr ""
+msgstr "Planifié(e)"
 
 #: src/bungeni.core/bungeni/core/workflows/simple.py:30
 msgid "Submit to Clerk"
@@ -1372,47 +1372,47 @@ msgstr "Soumettre au greffier"
 
 #: src/bungeni.core/bungeni/core/workflows/simple.py:37
 msgid "Schedule"
-msgstr ""
+msgstr "Planification"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:110
 #. Default: "TabledDocument received."
 msgid "notification_email_to_member_upon_receipt_of_tabled_document"
-msgstr ""
+msgstr "Réception d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:134
 #. Default: "TabledDocument submitted."
 msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
-msgstr ""
+msgstr "Soumission d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:155
 #. Default: "TabledDocument rejected."
 msgid "notification_email_to_member_upon_rejection_of_tabled_document"
-msgstr ""
+msgstr "Rejet d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:176
 #. Default: "Your tabled_document needs to be clarified."
 msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
-msgstr ""
+msgstr "Besoin d'une clarification sur un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:196
 #. Default: "TabledDocument deferred."
 msgid "notification_email_to_member_upon_defer_of_tabled_document"
-msgstr ""
+msgstr "Différation d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:217
 #. Default: "TabledDocument scheduled."
 msgid "notification_email_to_member_upon_schedule_of_tabled_document"
-msgstr ""
+msgstr "Planification d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:238
 #. Default: "TabledDocument postponed."
 msgid "notification_email_to_member_upon_postpone_of_tabled_document"
-msgstr ""
+msgstr "Report d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:258
 #. Default: "TabledDocument was debated."
 msgid "notification_email_to_member_upon_debate_of_tabled_document"
-msgstr ""
+msgstr "Débat sur un document déposé"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
@@ -1464,7 +1464,7 @@ msgstr "Voir un/une membre d'un office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Traduire contenu"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
@@ -1516,7 +1516,7 @@ msgstr "Voir un/une utilisateur/utilisatrice"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Ajouter une scéance"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
@@ -1536,7 +1536,7 @@ msgstr "Voir une circonscription"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Ajouter un ministre"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
@@ -1556,7 +1556,7 @@ msgstr "Voir une ministre"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Ajouter un/une membre du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
@@ -1576,7 +1576,7 @@ msgstr "Supprimer session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Ajouter le personnel du comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
@@ -1596,7 +1596,7 @@ msgstr "Ajouter une scéance"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Ajouter un/une membre d'un groupe politique"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
@@ -1616,7 +1616,7 @@ msgstr "Modifier une scéance"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Ajouter une adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
@@ -1652,7 +1652,7 @@ msgstr "Voir une délégation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Add tile/function"
-msgstr ""
+msgstr "Ajouter titre/fonction"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Edit tile/function"
@@ -1668,11 +1668,11 @@ msgstr "Voir titre/fonction"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Reorder schedulings"
-msgstr ""
+msgstr "Réorganiser les ordonnances/plans"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:201
 msgid "Add tile/event"
-msgstr ""
+msgstr "Ajouter un document"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:202
 msgid "Edit tile/event"
@@ -1692,7 +1692,7 @@ msgstr "Voir le journal d'audit"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Add item scheduling"
-msgstr ""
+msgstr "Ajouter ordonnance/plan"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:217
 msgid "Add and edit amendments"
@@ -1753,7 +1753,7 @@ msgstr "Modifier un devoir à l'objet d'un groupe"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Add item scheduling category"
-msgstr ""
+msgstr "Ajouter ordonnance/plan"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:26
 msgid "Edit item scheduling discussion"
@@ -1761,7 +1761,7 @@ msgstr "Modifier une discussion à ordonnance/plan"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add committee"
-msgstr ""
+msgstr "Ajouter un comité"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:31
 msgid "Edit committee"
@@ -1889,7 +1889,7 @@ msgstr "Modifier les données historiques"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add party"
-msgstr ""
+msgstr "Ajouter un parti"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:88
 msgid "Edit party"
@@ -1905,7 +1905,7 @@ msgstr "Voir un parti"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Add government"
-msgstr ""
+msgstr "Ajouter gouvernement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit government"
@@ -1921,15 +1921,15 @@ msgstr "Voir un gouvernement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:99
 msgid "Add group member"
-msgstr ""
+msgstr "Ajouter un/une membre d'un groupe"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:10
 msgid "Owner"
-msgstr ""
+msgstr "Propriétaire"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Ministre"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:12
 msgid "Clerks Office"
@@ -1941,7 +1941,7 @@ msgstr "Speaker office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
-msgstr ""
+msgstr "Tous les utilisateurs authentifiés"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
@@ -1957,7 +1957,7 @@ msgstr "Bungeni admin"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Membre du parlement"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
@@ -2119,7 +2119,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -2147,7 +2147,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -3733,7 +3733,7 @@ msgstr "If a person is inactive end date must be set"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:222
 msgid "A parliament member has to be elected/nominated before she/he can be sworn in"
-msgstr ""
+msgstr "Un membre du Parlement doit être élu(e) ou nommé(e) avant qu'il/elle puisse être assermenté(e)"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:232
 msgid "One cannot die before being born"
@@ -3961,11 +3961,11 @@ msgstr "Roles/titles"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:455
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Membre du parlement"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:456
 msgid "Members of parliament"
-msgstr ""
+msgstr "Membre du parlement"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:478
 #: src/bungeni.ui/bungeni/ui/descriptor.py:482
@@ -3987,19 +3987,19 @@ msgstr "Leave reason"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:504
 msgid "Party member"
-msgstr ""
+msgstr "Membre d'un parti"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:505
 msgid "Party members"
-msgstr ""
+msgstr "Membres d'un parti"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:527
 msgid "Party membership"
-msgstr ""
+msgstr "Appartenance  à un parti"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:528
 msgid "Party memberships"
-msgstr ""
+msgstr "Appartenances  à un parti"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:537
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1342
@@ -4008,11 +4008,11 @@ msgstr "Political party"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:574
 msgid "Additional member"
-msgstr ""
+msgstr "Membre supplémentaires d'un groupe"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:575
 msgid "Additional members"
-msgstr "Additional member"
+msgstr "Membre supplémentaires d'un groupe"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:592
 #: src/bungeni.ui/bungeni/ui/descriptor.py:595
@@ -4097,7 +4097,7 @@ msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:701
 msgid "Number of members"
-msgstr ""
+msgstr "Nombre de membres"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:704
 msgid "Minimum Number of Members"
@@ -4125,7 +4125,7 @@ msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:716
 msgid "Dissolution date"
-msgstr ""
+msgstr "Date de dissolution"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:720
 msgid "Reinstatement Date"
@@ -4133,15 +4133,15 @@ msgstr "Reinstatement date"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:727
 msgid "Member"
-msgstr ""
+msgstr "Membre"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:728
 msgid "Membership"
-msgstr ""
+msgstr "Appartenance"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:747
 msgid "Address type"
-msgstr ""
+msgstr "Type d'adresse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:748
 msgid "Address types"
@@ -4155,19 +4155,19 @@ msgstr "Address type"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:756
 #: src/bungeni.ui/bungeni/ui/descriptor.py:774
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:757
 msgid "Addresses"
-msgstr ""
+msgstr "Adresses"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:771
 msgid "P.O. Box"
-msgstr ""
+msgstr "Boîte postale"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:778
 msgid "City"
-msgstr ""
+msgstr "Ville"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:779
 msgid "Zip Code"
@@ -4176,7 +4176,7 @@ msgstr "Zip code"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:781
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1796
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:789
 msgid "Phone Number(s)"
@@ -4184,7 +4184,7 @@ msgstr "Phone number(s)"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:790
 msgid "Enter one phone number per line"
-msgstr ""
+msgstr "Entrer un numéro de téléphone par ligne"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:798
 msgid "Fax Number(s)"
@@ -4192,7 +4192,7 @@ msgstr "Fax number(s)"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:799
 msgid "Enter one fax number per line"
-msgstr ""
+msgstr "Entrer un numéro de fax par ligne"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:814
 msgid "Instant Messenger Id"
@@ -4200,7 +4200,7 @@ msgstr "Instant messenger ID"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:815
 msgid "ICQ, AOL IM, GoogleTalk..."
-msgstr ""
+msgstr "ICQ, AOL IM, GoogleTalk..."
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:823
 #: src/bungeni.ui/bungeni/ui/descriptor.py:831
@@ -4209,37 +4209,37 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1120
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1239
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:824
 #: src/bungeni.ui/bungeni/ui/forms/templates/mp_title_viewlet.pt:1
 msgid "Titles"
-msgstr ""
+msgstr "Titres"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:864
 #: src/bungeni.ui/bungeni/ui/descriptor.py:865
 msgid "Staff"
-msgstr ""
+msgstr "Employées/Équipe"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:883
 msgid "Political party"
-msgstr ""
+msgstr "Parti politique"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:884
 msgid "Political parties"
-msgstr ""
+msgstr "Parti politiques"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:890
 msgid "Logo"
-msgstr ""
+msgstr "Logo"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:904
 msgid "Office"
-msgstr ""
+msgstr "Bureau"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:905
 msgid "Offices"
-msgstr ""
+msgstr "Bureaux"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:912
 msgid "Type of Office"
@@ -4247,62 +4247,62 @@ msgstr "Type of office"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:919
 msgid "Office Member"
-msgstr "Office member"
+msgstr "Membre d'un office"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:920
 msgid "Office Members"
-msgstr "Office members"
+msgstr "Membres d'un office"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:940
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1375
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1426
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1429
 msgid "Ministry"
-msgstr ""
+msgstr "Ministère"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:941
 msgid "Ministries"
-msgstr ""
+msgstr "Ministères"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:949
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Ministre"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:950
 msgid "Ministers"
-msgstr ""
+msgstr "Ministres"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:969
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1605
 msgid "Parliamentary session"
-msgstr ""
+msgstr "Scéance parlementaire"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:970
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1606
 msgid "Parliamentary sessions"
-msgstr ""
+msgstr "Scéances parlementaires"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:237
 #. Default: "Add $name"
 msgid "add_item_legend"
-msgstr ""
+msgstr "add_item_legend"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:242
 #. Default: "Adding $name"
 msgid "add_item_title"
-msgstr ""
+msgstr "add_item_titre"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:256
 #: src/bungeni.ui/bungeni/ui/forms/common.py:382
 msgid "Save and view"
-msgstr ""
+msgstr "Sauvegarder et Voir"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:266
 #: src/bungeni.ui/bungeni/ui/forms/common.py:392
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:97
 msgid "Cancel"
-msgstr ""
+msgstr "Annuler"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:270
 #: src/bungeni.ui/bungeni/ui/forms/common.py:376
@@ -4310,11 +4310,11 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:88
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:126
 msgid "Save"
-msgstr ""
+msgstr "Sauvegarder"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:280
 msgid "Save and add another"
-msgstr ""
+msgstr "Sauvegarder et ajouter autre"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:310
 #. Default: "Editing $language translation of \"$title\""
@@ -4339,25 +4339,25 @@ msgstr "Modifier l'aide de la translation"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:416
 #. Default: "Add $language translation"
 msgid "translate_item_legend"
-msgstr ""
+msgstr "traduire la légende d'un élément"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:426
 #. Default: "The document \"$title\" has not yet been translated into $language. Use this form to add the translation."
 msgid "translate_item_help"
-msgstr ""
+msgstr "traduire l'aide d'un objet"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:436
 #. Default: "Adding $language translation"
 msgid "translate_item_title"
-msgstr ""
+msgstr "traduire le titre d'un objet"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:468
 msgid "Save translation"
-msgstr ""
+msgstr "Sauvegarder traduction"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:511
 msgid "Item reordering"
-msgstr ""
+msgstr "Réordonnance d'un objet"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:572
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:102
@@ -4371,7 +4371,7 @@ msgstr "Impossible de supprimer l'objet en raison d'une erreur d'intégrité bas
 #: src/bungeni.ui/bungeni/ui/forms/fields.py:45
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:121
 msgid "General"
-msgstr ""
+msgstr "Général(le)"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:116
 msgid "Direction"
@@ -4487,75 +4487,75 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:264
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:271
 msgid "The person is a member in (%s) at that date"
-msgstr ""
+msgstr "La personne est un membre en (% s) à cette date"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:163
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:216
 #: src/bungeni.ui/bungeni/ui/queries/utils.py:68
 msgid "The start date overlaps with (%s)"
-msgstr ""
+msgstr "La date de début s'imbrique avec (% s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:171
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:225
 #: src/bungeni.ui/bungeni/ui/queries/utils.py:72
 msgid "The end date overlaps with (%s)"
-msgstr ""
+msgstr "La date de  clôture s'imbrique avec (% s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:177
 msgid "The election date overlaps with (%s)"
-msgstr ""
+msgstr "La date d'éléction s'imbrique avec (%s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:187
 msgid "Another parliament is not yet dissolved (%s)"
-msgstr ""
+msgstr "Un autre parlement n'est pas encore dissous (%s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:202
 msgid "Start date cannot be after the parliaments dissolution (%s)"
-msgstr ""
+msgstr "Date de début ne peut pas être après la dissolution des parlements (% s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:207
 msgid "Start date must start after the swearing in of the parliament (%s)"
-msgstr ""
+msgstr "Date de début doit commencer après la prestation de serment du Parlement (% s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:233
 msgid "Another government is not yet dissolved (%s)"
-msgstr ""
+msgstr "Un autre gouvernement n'est pas encore dissous (%s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:349
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:354
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:368
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:373
 msgid "This persons allready has the title %s"
-msgstr ""
+msgstr "Cette personne a déjà le titre de % s"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:387
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:392
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:407
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:412
 msgid "A person with the title %s allready exists"
-msgstr ""
+msgstr "Une personne avec le titre de % s existe déjà"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:41
 msgid "Start date must be after (%s)"
-msgstr ""
+msgstr "La date de départ doit être postérieure (% s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:443
 #. Default: ""
 msgid "Venue \"$venue\" already booked in this time slot."
-msgstr ""
+msgstr "Lieu de la rencontre \"$venue\" déjà comptabilisé dans ce créneau horaire."
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:47
 msgid "Start date must be prior to (%s)"
-msgstr ""
+msgstr "Date de début doit être antérieure à (%s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:476
 msgid "If recurrence is limited by date, it must lie after the starting date."
-msgstr ""
+msgstr "Si une récurrence est limité par jour, elle doit se situer après la date de départ."
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:485
 #. Default: ""
 msgid "One or more events would be scheduled for $F, which is after the scheduling group's end date."
-msgstr ""
+msgstr "Un ou plusieurs événements seraient programmés pour $F, qui est après la date de fin de planification du groupe."
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:529
 #. Default: ""
@@ -4564,56 +4564,56 @@ msgstr "Un ou plusieurs événements seraient programmés pour $F, qui recoupe u
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:61
 msgid "End date must be equal to start date."
-msgstr ""
+msgstr "La date de fin doit être la même que la date de début."
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:79
 msgid "End date must be after (%s)"
-msgstr ""
+msgstr "La date de fin doit être postérieure à (% s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:85
 msgid "End date must be prior to (%s)"
-msgstr ""
+msgstr "Date de clôture doit être antérieure à (%s)"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:407
 msgid "Personal Info"
-msgstr ""
+msgstr "Information personelle"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:489
 msgid "Add response"
-msgstr ""
+msgstr "Ajouter réponse"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:561
 msgid "add event"
-msgstr ""
+msgstr "Ajouter un événement"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:684
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:696
 msgid "No item has been set."
-msgstr ""
+msgstr "Aucun objet n'a été fixé"
 
 #: src/bungeni.ui/bungeni/ui/login.py:14
 msgid "Username"
-msgstr ""
+msgstr "NOm de l'utilisateur/utilisatrice"
 
 #: src/bungeni.ui/bungeni/ui/login.py:15
 msgid "Password"
-msgstr ""
+msgstr "Mot de Passe"
 
 #: src/bungeni.ui/bungeni/ui/login.py:20
 #: src/bungeni.ui/bungeni/ui/login.py:22
 msgid "Login"
-msgstr ""
+msgstr "Se connecter"
 
 #: src/bungeni.ui/bungeni/ui/login.py:25
 msgid "Invalid account credentials"
-msgstr ""
+msgstr "Pouvoirs d'identification de compte non valide"
 
 #: src/bungeni.ui/bungeni/ui/login.py:29
 msgid "You are now logged in"
-msgstr ""
+msgstr "Vous êtes maintenant connecté"
 
 #: src/bungeni.ui/bungeni/ui/menu.py:126
 #. Default: "Language:"
@@ -4633,12 +4633,12 @@ msgstr "contexte du calendrier de l'étiquette"
 #: src/bungeni.ui/bungeni/ui/portlets/templates/parliament.pt:21
 #. Default: "Sessions"
 msgid "box_sessions"
-msgstr ""
+msgstr "box_sessions"
 
 #: src/bungeni.ui/bungeni/ui/portlets/templates/parliament.pt:25
 #. Default: "Members"
 msgid "box_members"
-msgstr ""
+msgstr "box_members"
 
 #: src/bungeni.ui/bungeni/ui/search.py:106
 #: src/bungeni.ui/bungeni/ui/templates/search.pt:7
@@ -4977,43 +4977,43 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/widgets.py:36
 #. Default: ""
 msgid "Invalid date: $value."
-msgstr ""
+msgstr "La date est invalide: $value"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:411
 #: src/bungeni.ui/bungeni/ui/widgets.py:474
 msgid "Incorrect string data for date"
-msgstr ""
+msgstr "Les données de chaîne incorrecte pour la date"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:567
 #: src/bungeni.ui/bungeni/ui/widgets.py:634
 msgid "Incorrect string data for date and time"
-msgstr ""
+msgstr "Les données de chaîne incorrectes pour la date et l'heure"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:94
 #: src/bungeni.ui/bungeni/ui/widgets.py:99
 msgid "Form upload is not a file object"
-msgstr ""
+msgstr " Le formulaire en cours de chargement n'est pas un objet de fichier"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:125
 msgid "Comment on workflow change"
-msgstr ""
+msgstr "Commentaires sur les changements du flux du travail"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:142
 #. Default: ""
 msgid "Confirmation required for workflow transition: '${title}'."
-msgstr ""
+msgstr "Confirmation requise pour la transition du : '${title}'."
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:50
 msgid "Workflow history"
-msgstr ""
+msgstr "Flux Histoirique du travail"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "Histoire"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -5166,7 +5166,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -5194,7 +5194,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -5226,7 +5226,7 @@ msgstr "Répondre à une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:202
 msgid "Speaker's Office Email"
@@ -5266,7 +5266,7 @@ msgstr "Days to defer question"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:222
 msgid "Time after which admissible questions are automatically deferred"
-msgstr ""
+msgstr "Délai après lequel les questions admissibles sont automatiquement reportées"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:224
 msgid "Days to Notify Ministry of Pending Response"
@@ -5280,7 +5280,7 @@ msgstr ""
 
 #: src/bungeni.models/bungeni/models/interfaces.py:229
 msgid "Days before question scheduled"
-msgstr ""
+msgstr "Jours avant que la question soit planifiée"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:230
 msgid "Days before bill scheduled"
@@ -5861,7 +5861,7 @@ msgstr "Administrateur de BUNGENI"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr "Nom de l'institution"
+msgstr "Membre du parlement"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:29
 msgid "Ordinary"
@@ -6087,7 +6087,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -6115,7 +6115,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -6147,7 +6147,7 @@ msgstr "Revoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
@@ -6692,7 +6692,7 @@ msgstr "Administrateur de BUNGENI"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr "Nom de l'institution"
+msgstr "Membre du parlement"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
@@ -6853,7 +6853,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -6881,7 +6881,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -6913,7 +6913,7 @@ msgstr "Répondre à une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
@@ -7458,7 +7458,7 @@ msgstr "Administrateur de BUNGENI"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr "Nom de l'institution"
+msgstr "Membre du parlement"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
@@ -7559,7 +7559,7 @@ msgstr "Revoir une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr "Revision d'une proposition par le Coordinateur"
+msgstr "Révision d'une proposition par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
@@ -7619,7 +7619,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -7647,7 +7647,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -7679,7 +7679,7 @@ msgstr "Revoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
@@ -8224,7 +8224,7 @@ msgstr "Administrateur de BUNGENI"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr "Nom de l'institution"
+msgstr "Membre du parlement"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
@@ -8325,7 +8325,7 @@ msgstr "Revoir une proposition"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr "Revision d'une proposition par le Coordinateur"
+msgstr "Révision d'une proposition par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
@@ -8385,7 +8385,7 @@ msgstr "Revoir un objet  d'un agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Speaker review a agendaitem"
-msgstr "Revision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Schedule a agendaitem"
@@ -8413,7 +8413,7 @@ msgstr "Revoir un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Speaker review a tableddocument"
-msgstr "Revision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
 msgid "Schedule a tableddocument"
@@ -8445,7 +8445,7 @@ msgstr "Revoir une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr "Revision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"

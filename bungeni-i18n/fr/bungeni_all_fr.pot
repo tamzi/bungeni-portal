@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-17 14:17-0500\n"
+"PO-Revision-Date: 2009-12-17 17:11-0500\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -1961,11 +1961,11 @@ msgstr "Membre du parlement"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "Histoire"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -2796,7 +2796,7 @@ msgstr "Create and store"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:562
 msgid "Agenda"
-msgstr ""
+msgstr "Agenda"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:563
 msgid "ORDER OF THE DAY"
@@ -3151,11 +3151,11 @@ msgstr ""
 #.  "    </div>\n"
 #.  "  </div>"
 msgid "bungeni"
-msgstr ""
+msgstr "BUNGENI"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:45
 msgid "Items scheduled for this meeting"
-msgstr ""
+msgstr "Points prévus pour cette réunion"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:6
 msgid "&larr;"
@@ -3163,11 +3163,11 @@ msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:61
 msgid "Refresh"
-msgstr ""
+msgstr "recharger"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:75
 msgid "State"
-msgstr ""
+msgstr "Etat"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:76
 msgid "Actions"
@@ -3175,7 +3175,7 @@ msgstr "Actions"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:89
 msgid "New..."
-msgstr ""
+msgstr "Nouveau"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1000
 msgid "Government"
@@ -3200,11 +3200,11 @@ msgstr "Date due"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1069
 msgid "Assigned bill"
-msgstr ""
+msgstr "le projet de loi attribué"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1070
 msgid "Assigned bills"
-msgstr ""
+msgstr "les projets de loi attribués"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1074
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1361
@@ -3219,11 +3219,11 @@ msgstr "objet"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1090
 msgid "Assigned group"
-msgstr ""
+msgstr "le groupe attribué "
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1091
 msgid "Assigned groups"
-msgstr ""
+msgstr "les groupes attribués"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1096
 msgid "Committee"
@@ -3245,7 +3245,7 @@ msgstr "Propriétaire"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1134
 msgid "Select the user who should own this document."
-msgstr ""
+msgstr "Sélectionnez l'utilisateur qui doit posséder ce document."
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1142
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1251
@@ -3337,7 +3337,7 @@ msgstr "Notice date"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1333
 msgid "Identifier"
-msgstr ""
+msgstr "Identifier"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1340
 msgid "Entered By"
@@ -3349,7 +3349,7 @@ msgstr "Version de la Proposition"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1356
 msgid "Motion change"
-msgstr ""
+msgstr "changer proposition"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1362
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:38
@@ -3362,7 +3362,7 @@ msgstr "Type de projet de loi"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:138
 msgid "active"
-msgstr ""
+msgstr "Actif/Active"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1382
 msgid "Statements of Purpose"
@@ -3370,7 +3370,7 @@ msgstr "Statements of purpose"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1387
 msgid "Identifer"
-msgstr ""
+msgstr "Identifier"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:139
 msgid "inactive"
@@ -3395,12 +3395,12 @@ msgstr "Changement d'un projet de loi"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1411
 msgid "Question"
-msgstr ""
+msgstr "Question"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1412
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:80
 msgid "Questions"
-msgstr ""
+msgstr "Questions"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1418
 msgid "Question Number"
@@ -3408,15 +3408,15 @@ msgstr "Question number"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1422
 msgid "Initial/supplementary question"
-msgstr ""
+msgstr "question initiale/complémentaire"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1437
 msgid "Date approved"
-msgstr ""
+msgstr "Date approuvé(e)"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1443
 msgid "Submitted to ministry"
-msgstr ""
+msgstr "soumis au ministère"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1450
 msgid "Question Type"
@@ -3437,7 +3437,7 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1462
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:486
 msgid "Response"
-msgstr ""
+msgstr "Réponse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1463
 msgid "Response to the Question"
@@ -3449,27 +3449,27 @@ msgstr "Durée de scéance"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1476
 msgid "Question version"
-msgstr ""
+msgstr "Version de la question"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1481
 msgid "Question change"
-msgstr ""
+msgstr "changement de la question"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1487
 msgid "Event"
-msgstr ""
+msgstr "Événement"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1488
 msgid "Events"
-msgstr ""
+msgstr "Événements"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1503
 msgid "Tabled document"
-msgstr ""
+msgstr "Document déposé"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1504
 msgid "Tabled documents"
-msgstr ""
+msgstr "documents déposés"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1512
 msgid "Tabled Document version"
@@ -3481,27 +3481,27 @@ msgstr "Tabled document change"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1523
 msgid "Motion amendment"
-msgstr ""
+msgstr "amendement de proposition"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1524
 msgid "Motion amendments"
-msgstr ""
+msgstr "amendement de propositions"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1531
 msgid "Subject"
-msgstr ""
+msgstr "Sujet"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1535
 msgid "Motion Amendment Text"
-msgstr "Motion amendment text"
+msgstr "textes d'amendement de proposition"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1547
 msgid "Vote Date"
-msgstr ""
+msgstr "Date voté(e)"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1550
 msgid "Accepted"
-msgstr ""
+msgstr "Accépter"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1554
 msgid "Sitting"
@@ -3518,23 +3518,23 @@ msgstr "type de scéances"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1572
 msgid "Start"
-msgstr ""
+msgstr "Début"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1577
 msgid "End"
-msgstr ""
+msgstr "fin"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1585
 msgid "Venue"
-msgstr ""
+msgstr "venue"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1602
 msgid "Types"
-msgstr ""
+msgstr "types"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1611
 msgid "Short Name"
-msgstr ""
+msgstr "surnom"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1654
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1686
@@ -3550,67 +3550,67 @@ msgstr "Présences/assistances de la scéance"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1676
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1681
 msgid "Attendance"
-msgstr ""
+msgstr "Présence"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1691
 msgid "Attendance type"
-msgstr ""
+msgstr "type de présence"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1697
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1704
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1710
 msgid "Consignatory"
-msgstr ""
+msgstr "cosignateur"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1698
 msgid "Consignatories"
-msgstr ""
+msgstr "cosignateurs"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:170
 msgid "A parliament has to be elected before it can be sworn in"
-msgstr ""
+msgstr "Un parlement doit être élu avant d'être assermenté"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1720
 msgid "Constituencies"
-msgstr ""
+msgstr "Circonscriptions"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1734
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1808
 msgid "Name of the constituency"
-msgstr ""
+msgstr "Nom de la circonscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1738
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1742
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1776
 msgid "Province"
-msgstr ""
+msgstr "Province"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1747
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1749
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1753
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1785
 msgid "Region"
-msgstr ""
+msgstr "Région"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1777
 msgid "Name of the Province"
-msgstr "Name of the province"
+msgstr "Nom de la province"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1786
 msgid "Name of the Region"
-msgstr "Name of the region"
+msgstr "Nom de la région"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:179
 msgid "End Date must be after Start Date"
-msgstr "End date must be after start date"
+msgstr "La date de fin"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1793
 msgid "Country Code"
-msgstr "Country code"
+msgstr "code du pays"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1794
 msgid "ISO Code of the  country"
-msgstr ""
+msgstr "ISO Code du pays"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1797
 msgid "Name of the Country"
@@ -3618,19 +3618,19 @@ msgstr "Name of the country"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1802
 msgid "Constituency details"
-msgstr ""
+msgstr "Détails de la Circonscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1803
 msgid "Details"
-msgstr ""
+msgstr "détails"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1813
 msgid "Date the data was submitted from the Constituency"
-msgstr "Date the data was submitted from the constituency"
+msgstr "Date à laquelle les données ont été présentées de la circonscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1819
 msgid "Population"
-msgstr ""
+msgstr "Population"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1820
 msgid "Total Number of People living in this Constituency"
@@ -3638,94 +3638,94 @@ msgstr "Total population of this Constituency"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1823
 msgid "Voters"
-msgstr ""
+msgstr "Voteurs"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1824
 msgid "Number of Voters registered in this Constituency"
-msgstr "Number of voters registered in this constituency"
+msgstr "Nombre d'électeurs inscrits dans cette circonscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1837
 msgid "Rota Identifier"
-msgstr ""
+msgstr "Rota Identificateur"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1859
 msgid "Document source"
-msgstr ""
+msgstr "Source du document"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1860
 msgid "Document sources"
-msgstr ""
+msgstr "Sources du document"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1864
 msgid "Document Souce"
-msgstr ""
+msgstr "Source du document"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1870
 #: src/bungeni.ui/bungeni/ui/viewlets/schedule.py:39
 msgid "Scheduling"
-msgstr ""
+msgstr "ordonnance/plan"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1871
 msgid "Schedulings"
-msgstr ""
+msgstr "ordonnances/plans"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:189
 msgid "A committee must be disolved before it can be reinstated"
-msgstr ""
+msgstr "Un comité doit être dissous avant de pouvoir être réintégré"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1891
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1919
 msgid "Category"
-msgstr ""
+msgstr "Catégorie"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1898
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:115
 msgid "Discussion"
-msgstr ""
+msgstr "Discussion"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1899
 msgid "Discussions"
-msgstr ""
+msgstr "Discussions"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1903
 msgid "Minutes"
-msgstr ""
+msgstr "Minutes "
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1920
 msgid "Categories"
-msgstr ""
+msgstr "Catégories"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1925
 msgid "Short name"
-msgstr ""
+msgstr "Surnom"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1933
 msgid "Report"
-msgstr ""
+msgstr "Rapport"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1934
 msgid "Reports"
-msgstr ""
+msgstr "Rapports"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1955
 msgid "Date created"
-msgstr ""
+msgstr "Date crée/créée"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1963
 msgid "Report type"
-msgstr ""
+msgstr "Type de rapport"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1967
 msgid "Created by"
-msgstr ""
+msgstr "Crée/créée par"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:197
 msgid "A person cannot be active and substituted at the same time"
-msgstr ""
+msgstr "Une personne ne peut être active et remplacée au même moment"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:205
 msgid "If a person is substituted End Date must be set"
-msgstr "If a person is substituted end date must be set"
+msgstr "Si une personne est remplacée, date de fin doit être spécifiée"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:214
 msgid "If a person is inactive End Date must be set"
@@ -3737,31 +3737,31 @@ msgstr "Un membre du Parlement doit être élu(e) ou nommé(e) avant qu'il/elle 
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:232
 msgid "One cannot die before being born"
-msgstr ""
+msgstr "Une personne ne peut mourir avant de naître"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:243
 #: src/bungeni.ui/bungeni/ui/descriptor.py:255
 msgid "If a user is deceased he must have the status 'D'"
-msgstr ""
+msgstr "Si une personne est décédée, elle doit avoir le status 'D\""
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:249
 msgid "A Date of Death must be given if a user is deceased"
-msgstr "A date of death must be given if a user is deceased"
+msgstr "Une date de la mort doit être donnée si un utilisateur est décédé"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:265
 msgid "You have to enter either a P.O. Box or a Street Address"
-msgstr "You have to enter either a P.O. Box or a street address"
+msgstr "Vous devez entrer soit une boîte postale ou une adresse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:274
 #: src/bungeni.ui/bungeni/ui/descriptor.py:388
 #: src/bungeni.ui/bungeni/ui/descriptor.py:394
 msgid "User"
-msgstr ""
+msgstr "Utilisateur/utilisatrice"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:275
 #: src/bungeni.ui/bungeni/ui/templates/admin-menu-viewlet.pt:11
 msgid "Users"
-msgstr ""
+msgstr "Utilisateurs/utilisatrices"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:280
 #: src/bungeni.ui/bungeni/ui/descriptor.py:460
@@ -3786,37 +3786,37 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1807
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1928
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:286
 msgid "Salutation"
-msgstr ""
+msgstr "Salutation"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:287
 msgid "e.g. Mr. Mrs, Prof. etc."
-msgstr ""
+msgstr "example: Mr. Mrs, Prof. etc."
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:288
 msgid "First Name"
-msgstr "First name"
+msgstr "Prénom"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:289
 msgid "Middle Name"
-msgstr "Middle name"
+msgstr "Deuxième Nom"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:290
 msgid "Last Name"
-msgstr "Last name"
+msgstr "Nom de famille"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:292
 #: src/bungeni.ui/bungeni/ui/descriptor.py:806
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:293
 #: src/bungeni.ui/bungeni/ui/descriptor.py:807
 msgid "Email address"
-msgstr ""
+msgstr "adresse email"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:298
 msgid "Login Name"
@@ -3824,7 +3824,7 @@ msgstr "Login name"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:303
 msgid "Initial password"
-msgstr ""
+msgstr "Mot de passe initial"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:307
 msgid "National Id"
@@ -3832,7 +3832,7 @@ msgstr "National ID"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:310
 msgid "Gender"
-msgstr ""
+msgstr "Genre"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:314
 msgid "Date of Birth"
@@ -3859,7 +3859,7 @@ msgstr "Date of death"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:353
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1172
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:359
 #: src/bungeni.ui/bungeni/ui/descriptor.py:425
@@ -3874,15 +3874,15 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1277
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1627
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:366
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:367
 msgid "Picture of the person"
-msgstr ""
+msgstr "Photo de la personne"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:380
 msgid "Delegate to user"
@@ -3914,7 +3914,7 @@ msgstr "Délégations"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1941
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1957
 msgid "Start Date"
-msgstr "Start date"
+msgstr "Date de début"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:417
 #: src/bungeni.ui/bungeni/ui/descriptor.py:420
@@ -3943,7 +3943,7 @@ msgstr "End date"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:423
 #: src/bungeni.ui/bungeni/ui/descriptor.py:554
 msgid "Active"
-msgstr ""
+msgstr "Actif/active"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:432
 msgid "Type of Substitution"
@@ -3951,12 +3951,12 @@ msgstr "Type of substitution"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:436
 msgid "Substituted by"
-msgstr ""
+msgstr "Remplacé(e) par"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:442
 #: src/bungeni.ui/bungeni/ui/descriptor.py:445
 msgid "Roles/Titles"
-msgstr "Roles/titles"
+msgstr "Rôles/titres"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:455
 #: src/bungeni.models/bungeni/models/roles.zcml:9
@@ -3971,11 +3971,11 @@ msgstr "Membre du parlement"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:482
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1719
 msgid "Constituency"
-msgstr ""
+msgstr "Circonscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:487
 msgid "elected/nominated"
-msgstr ""
+msgstr "élu(e) ou nominé(e)"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:492
 msgid "Election/Nomination Date"
@@ -3983,7 +3983,7 @@ msgstr "Election/nomination date"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:496
 msgid "Leave Reason"
-msgstr "Leave reason"
+msgstr "La raison l'abandon"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:504
 msgid "Party member"
@@ -4004,7 +4004,7 @@ msgstr "Appartenances  à un parti"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:537
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1342
 msgid "Political Party"
-msgstr "Political party"
+msgstr "Parti politique"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:574
 msgid "Additional member"
@@ -4018,82 +4018,82 @@ msgstr "Membre supplémentaires d'un groupe"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:595
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1612
 msgid "Full Name"
-msgstr "Full name"
+msgstr "Nom complet"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:597
 #: src/bungeni.ui/bungeni/ui/descriptor.py:641
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1216
 msgid "Description"
-msgstr ""
+msgstr "Déscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:624
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1115
 msgid "Parliament"
-msgstr ""
+msgstr "Parlements"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:625
 msgid "Parliaments"
-msgstr ""
+msgstr "Parlements"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:632
 msgid "Parliament Identifier"
-msgstr ""
+msgstr "Identificateur d'un Parlement"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:633
 msgid "Unique identifier of each Parliament (e.g. nth Parliament)"
-msgstr "Unique identifier of each parliament (e.g. nth parliament)"
+msgstr "Identificateur unique de chaque parlement (par exemple Parlement numéro: )"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:637
 msgid "Parliament name"
-msgstr ""
+msgstr "Nom d'un Parlement"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:648
 msgid "Election Date"
-msgstr "Election date"
+msgstr "La date d'éléction"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:649
 msgid "Date the of the election"
-msgstr ""
+msgstr "Date de l'éléction"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:654
 #: src/bungeni.ui/bungeni/ui/descriptor.py:656
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1012
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1015
 msgid "In power from"
-msgstr ""
+msgstr "Au pouvoir à partir de"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:655
 msgid "Date the of the swearing in"
-msgstr ""
+msgstr "Au pouvoir jusqu'à"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:662
 #: src/bungeni.ui/bungeni/ui/descriptor.py:664
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1019
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1021
 msgid "In power till"
-msgstr ""
+msgstr "Au pouvoir jusqu'à"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:663
 msgid "Date the of the dissolution"
-msgstr ""
+msgstr "Date de la dissolution"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:680
 msgid "Profile"
-msgstr ""
+msgstr "Profile"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:681
 msgid "Committees"
-msgstr ""
+msgstr "Comités"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:692
 msgid "Type of committee"
-msgstr ""
+msgstr "type de comité"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:695
 #: src/bungeni.ui/bungeni/ui/descriptor.py:911
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1601
 msgid "Type"
-msgstr ""
+msgstr "type"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:701
 msgid "Number of members"
@@ -4101,11 +4101,11 @@ msgstr "Nombre de membres"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:704
 msgid "Minimum Number of Members"
-msgstr "Minimum number of members"
+msgstr "Nombre minimal de membres"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:706
 msgid "Quorum"
-msgstr ""
+msgstr "Quorum"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:708
 msgid "Number of clerks"
@@ -4113,15 +4113,15 @@ msgstr "Nombre d'employés de bureau"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:710
 msgid "Number of researchers"
-msgstr ""
+msgstr "Nombre de chercheurs"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:712
 msgid "Proportional representation"
-msgstr ""
+msgstr "Représentation proportionnelle"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:714
 msgid "Default chairperson"
-msgstr ""
+msgstr "Président par défaut"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:716
 msgid "Dissolution date"
@@ -4129,7 +4129,7 @@ msgstr "Date de dissolution"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:720
 msgid "Reinstatement Date"
-msgstr "Reinstatement date"
+msgstr "Date de Rétablissement"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:727
 msgid "Member"
@@ -4145,12 +4145,12 @@ msgstr "Type d'adresse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:748
 msgid "Address types"
-msgstr "Address type"
+msgstr "type d'adresse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:752
 #: src/bungeni.ui/bungeni/ui/descriptor.py:765
 msgid "Address Type"
-msgstr "Address type"
+msgstr "Type d'adresse"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:756
 #: src/bungeni.ui/bungeni/ui/descriptor.py:774
@@ -4375,71 +4375,73 @@ msgstr "Général(le)"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:116
 msgid "Direction"
-msgstr ""
+msgstr "Direction"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:120
 msgid "AM"
-msgstr ""
+msgstr "Matin"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:125
 msgid "Move"
-msgstr ""
+msgstr "Déplacer"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:354
 msgid "Weekdays"
-msgstr ""
+msgstr "Jours de la semaine"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:355
 msgid "Select the days on which the event should occur."
-msgstr ""
+msgstr "Indiquez les jours où l'événement doit se produire."
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:362
 msgid "Monthly"
-msgstr ""
+msgstr "Mensuel(le)"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:363
 msgid "Select the mode of montly recurrence."
-msgstr ""
+msgstr "Sélectionnez le mode de récidive mensuel."
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:368
 msgid "Repeat"
-msgstr ""
+msgstr "Répéter"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:369
 msgid "Enter the number of times which the event should be repeated (as an integer)."
-msgstr ""
+msgstr "Entrez le nombre de fois où l'événement doit être répété (comme un entier fini)."
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:374
 msgid "Repeat until date"
-msgstr ""
+msgstr "Répéter jusqu'à"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:375
 msgid "Limit recurrence to the specified date."
-msgstr ""
+msgstr "Limiter la réapparition à la date spécifiée."
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:379
 msgid "Exceptions"
-msgstr ""
+msgstr "Excéptions"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:380
 msgid "Events will not be scheduled at dates appearing in this field. Separate with comma or newline. Format: YYYY/MM/DD."
 msgstr ""
+"Événements ne seront pas programmées à des dates qui apparaissent dans ce domaine. Séparée avec virgule ou saut de ligne. Format: "
+"AAAA / MM / DD."
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:392
 msgid "Must limit recurrence (by number or date)."
-msgstr ""
+msgstr "Doit limiter récidive (en nombre ou date)."
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:396
 msgid "Recurring events"
-msgstr ""
+msgstr "Evénements récurrents"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:92
 msgid "Attach a file"
-msgstr ""
+msgstr "Attacher un document"
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/bill_timeline_viewlet.pt:1
 msgid "Bill timeline"
-msgstr ""
+msgstr "Chronologie du projet de loi"
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/delete.pt:7
 msgid "Delete item confirmation"
@@ -4474,11 +4476,11 @@ msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/mp_item_viewlet.pt:1
 msgid "Parliamentary activities"
-msgstr ""
+msgstr "Activités parlementaires"
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/offices_held_viewlet.pt:1
 msgid "Offices held"
-msgstr ""
+msgstr "Postes occupés"
 
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:128
 #: src/bungeni.ui/bungeni/ui/forms/validations.py:137
@@ -4643,7 +4645,7 @@ msgstr "box_members"
 #: src/bungeni.ui/bungeni/ui/search.py:106
 #: src/bungeni.ui/bungeni/ui/templates/search.pt:7
 msgid "Search"
-msgstr ""
+msgstr "rechercher"
 
 #: src/bungeni.ui/bungeni/ui/search.py:113
 msgid "Invalid Query"
@@ -4651,44 +4653,44 @@ msgstr "Invalid query"
 
 #: src/bungeni.ui/bungeni/ui/search.py:55
 msgid "Query"
-msgstr ""
+msgstr "Requête"
 
 #: src/bungeni.ui/bungeni/ui/search.py:67
 msgid "rank"
-msgstr ""
+msgstr "rang"
 
 #: src/bungeni.ui/bungeni/ui/search.py:68
 msgid "type"
-msgstr ""
+msgstr "type"
 
 #: src/bungeni.ui/bungeni/ui/search.py:69
 msgid "title"
-msgstr ""
+msgstr "titre"
 
 #: src/bungeni.ui/bungeni/ui/search.py:70
 msgid "status"
-msgstr ""
+msgstr "statut"
 
 #: src/bungeni.ui/bungeni/ui/search.py:71
 msgid "weight"
-msgstr ""
+msgstr "poids"
 
 #: src/bungeni.ui/bungeni/ui/search.py:72
 msgid "percent"
-msgstr ""
+msgstr "pour cent"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:6
 msgid "Archive"
-msgstr ""
+msgstr "Archives"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:7
 msgid "Access to current and historical records."
-msgstr ""
+msgstr "Accès aux dossiers courants et historiques."
 
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:23
 #. Default: "Keep existing image"
 msgid "keep-image"
-msgstr "keep image"
+msgstr "Garder image"
 
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:32
 #. Default: "Delete current image"
@@ -4698,57 +4700,59 @@ msgstr "Supprimer image"
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:41
 #. Default: "Replace with new image:"
 msgid "replace-image"
-msgstr ""
+msgstr "remplacer image"
 
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:44
 #. Default: "Upload image"
 msgid "upload-image"
-msgstr ""
+msgstr "Charger image"
 
 #: src/bungeni.ui/bungeni/ui/templates/search.pt:19
 msgid "Results"
-msgstr ""
+msgstr "Résultats"
 
 #: src/bungeni.ui/bungeni/ui/templates/similar.pt:7
 msgid "Similar Content"
-msgstr "Similar content"
+msgstr "contenu similaire"
 
 #: src/bungeni.ui/bungeni/ui/templates/version.pt:13
 msgid "Select a version to compare to the current working copy, or make two selections to compare historic versions."
 msgstr ""
+"Sélectionnez une version à comparer avec la copie de travail en cours, ou faire deux sélections pour comparer les versions "
+"historiques."
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow.pt:11
 msgid "Current state: ${state}."
-msgstr ""
+msgstr "État actuel: ${state}"
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow.pt:19
 msgid "No history available for this item."
-msgstr ""
+msgstr "Aucune histoire disponible pour cet article."
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow.pt:7
 msgid "Workflow"
-msgstr ""
+msgstr "Flux de travail"
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow_ajax.pt:7
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:143
 msgid "Change state..."
-msgstr ""
+msgstr "Changer état..."
 
 #: src/bungeni.ui/bungeni/ui/utils.py:39
 msgid "Form values must be of type string or list"
-msgstr ""
+msgstr "Valeurs d'un formulaire doit être une chaîne ou une liste"
 
 #: src/bungeni.ui/bungeni/ui/utils.py:47
 msgid "date must be of type datetime or date"
-msgstr ""
+msgstr "date doit être du date temps ou date"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:125
 msgid "New Version"
-msgstr "New version"
+msgstr "Nouvelle version"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:128
 msgid "New Version Created"
-msgstr "New version created"
+msgstr "Nouvelle version créée"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:130
 msgid "Revert To"
@@ -4764,114 +4768,114 @@ msgstr "Faire revenir à une version antérieure %s"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:142
 msgid "Show Differences"
-msgstr "Show differences"
+msgstr "Voir differences"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:145
 msgid "Displaying differences."
-msgstr ""
+msgstr "Affichage des différences."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:150
 msgid "Select one or two items to show differences."
-msgstr ""
+msgstr "Sélectionnez un ou deux éléments pour montrer les différences."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:40
 msgid "View"
-msgstr ""
+msgstr "Voir"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:44
 #. Default: ""
 msgid "Currently displaying version ${version}."
-msgstr ""
+msgstr "Actuellement la version affichant ${version}."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:63
 msgid "Change Message"
-msgstr "Change message"
+msgstr "Changer message"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:74
 msgid "version"
-msgstr ""
+msgstr "version"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:77
 msgid "manual"
-msgstr ""
+msgstr "manuel(le)"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:78
 msgid "modified"
-msgstr ""
+msgstr "Modifé(e)"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:79
 msgid "by"
-msgstr ""
+msgstr "Par"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:80
 msgid "message"
-msgstr ""
+msgstr "Message"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:103
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:86
 msgid "Start date must be before %s"
-msgstr ""
+msgstr "Date de début doit être antérieure à %s"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:109
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:92
 msgid "End date must be after %s"
-msgstr ""
+msgstr "Date de clôture doit être postérieure à %s"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:117
 msgid "Date range set."
-msgstr "Date range set"
+msgstr "rangées de dates réglées"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:125
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:107
 msgid "Date range cleared."
-msgstr "Date range cleared"
+msgstr "rangées de dates effacées"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:20
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:21
 msgid "From"
-msgstr ""
+msgstr "De"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:21
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:22
 msgid "Leave blank or set lower limit."
-msgstr ""
+msgstr "Laissez en blanc ou un réglez limite inférieure."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:25
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:26
 msgid "To"
-msgstr ""
+msgstr "À"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:26
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:27
 msgid "Leave blank or set upper limit."
-msgstr ""
+msgstr "Laissez en blanc ou un régler limite supérieure."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:30
 msgid "Or"
-msgstr ""
+msgstr "Ou"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:31
 msgid "Set date range to that of a given particular parliament."
-msgstr ""
+msgstr "Fixer la rangée de date à celui d'un parlement particulier donné."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:39
 msgid "Filter the archive by date range."
-msgstr ""
+msgstr "Filtrer les archives par rangées de dates."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:78
 msgid "Select parliament..."
-msgstr ""
+msgstr "Séléctionner parlement"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:97
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:80
 msgid "Invalid Date Range"
-msgstr "Invalid date range"
+msgstr "rangée de dates invalides"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/schedule.py:105
 #: src/bungeni.ui/bungeni/ui/viewlets/schedule.py:196
 #. Default: ""
 msgid "$F"
-msgstr ""
+msgstr "$F"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:3
 #. Default: "You are here:"
@@ -4881,11 +4885,11 @@ msgstr "Vous êtes ici"
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:4
 #. Default: "Home"
 msgid "tabs_home"
-msgstr ""
+msgstr "tabs_Acceuil"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/questions.pt:20
 msgid "No items."
-msgstr ""
+msgstr "pas d'objet"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:17
 msgid "Upcoming sittings"
@@ -4893,15 +4897,15 @@ msgstr "Prochaines séances"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:7
 msgid "What's on"
-msgstr ""
+msgstr "Ce qui est sur"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:8
 msgid "An overview of the daily operations of the parliament."
-msgstr ""
+msgstr "Un aperçu des activités quotidiennes du parlement."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:35
 msgid "Filter by date range."
-msgstr ""
+msgstr "Filtrer par rangées de dates."
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:14
 #. Default: ""
@@ -4916,15 +4920,15 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:52
 #. Default: ""
 msgid "First $day of every month"
-msgstr ""
+msgstr "Premier $day de chaque mois"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:232
 msgid "Supplementary Question to: <br/> %s"
-msgstr "Supplementary question to: <br/> %s"
+msgstr "Questions supplémentaires à: <br/> %s"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:234
 msgid "Initial Question"
-msgstr "Initial question"
+msgstr "Question initialle"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:327
 msgid "Jan"
@@ -4932,7 +4936,7 @@ msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:328
 msgid "Feb"
-msgstr ""
+msgstr "Fev"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:329
 msgid "Mar"
@@ -4940,19 +4944,19 @@ msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:330
 msgid "Apr"
-msgstr ""
+msgstr "Avr"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:331
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:332
 msgid "Jun"
-msgstr ""
+msgstr "Juin"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:333
 msgid "Jul"
-msgstr ""
+msgstr "Juillet"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:334
 msgid "Aug"

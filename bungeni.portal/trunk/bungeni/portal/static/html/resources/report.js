@@ -22,6 +22,22 @@
         $("#form\\.question_options\\.3").attr('checked', true);
         $("#form\\.tabled_document_options\\.0").attr('checked', true);
         $("#form\\.tabled_document_options\\.3").attr('checked', true);
+        var pathname = window.location.pathname;
+        var path = new Array();
+        path = pathname.split("/");
+        var doc_type = path[path.length-1];
+        if (doc_type == "")
+        {
+            doc_type = path[path.length-2];
+        }
+        if (doc_type == 'agenda')
+        {
+            $("#form\\.doc_type option[value='Proceedings of the day']").remove();
+        }
+        else
+        {
+            $("#form\\.doc_type option[value='Order of the day']").remove();
+        }   
         $("input#form\\.item_types\\.0").change(function () {
             if ($("#form\\.item_types\\.0").is(":checked"))
             {

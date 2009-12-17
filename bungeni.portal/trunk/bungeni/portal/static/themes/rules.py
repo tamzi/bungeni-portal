@@ -9,8 +9,11 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
     host_url = urlsplit(log.theme_url)
     workspace_links_content = theme('.level1')
     if link_id == "#user-workspace-id":
-        #we are on the frontpage
-        member_workspace_content_id = theme('#user-workspace-id').val()
+        #we are in the workspace section
+        if theme('#user-workspace-id').val() is not None:
+            member_workspace_content_id = theme('#user-workspace-id').val()
+        else:
+            member_workspace_content_id = content('#user-workspace-id').val()
         if member_workspace_content_id is not None:
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
             workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folders</a></li>")
@@ -32,6 +35,7 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
+            
 def add_section_links(content, theme, resource_fetcher, log):
     """
     Add top level class links abd logos for the different sections (workspace and portal).

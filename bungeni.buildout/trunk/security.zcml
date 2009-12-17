@@ -54,9 +54,6 @@
   <grant permission="bungeni.sitting.Add" role="bungeni.Clerk" />  
   <grant permission="bungeni.sitting.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.sitting.Delete" role="bungeni.Clerk" />
-  <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />
-  <grant permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />
-  <grant permission="bungeni.itemschedule.Delete" role="bungeni.Clerk" />
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Clerk" />
 
 
@@ -64,9 +61,6 @@
   <grant permission="bungeni.sitting.Add" role="bungeni.Speaker" />  
   <grant permission="bungeni.sitting.Edit" role="bungeni.Speaker" />
   <grant permission="bungeni.sitting.Delete" role="bungeni.Speaker" />
-  <grant permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
-  <grant permission="bungeni.itemschedule.Edit" role="bungeni.Speaker" />
-  <grant permission="bungeni.itemschedule.Delete" role="bungeni.Speaker" />
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Speaker" />
 
 

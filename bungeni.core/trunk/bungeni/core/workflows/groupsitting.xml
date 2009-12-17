@@ -12,19 +12,39 @@
     <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />  
     <grant permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
     <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />    
+    <grant permission="bungeni.itemschedule.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.itemschedule.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />    
     <deny permission="bungeni.minutes.View" role="bungeni.Clerk" />
-    <deny permission="bungeni.minutes.View" role="bungeni.Speaker" />         
+    <deny permission="bungeni.minutes.View" role="bungeni.Speaker" />       
+    <grant permission="bungeni.itemschedule.Delete" role="bungeni.Owner" />
+    <grant permission="bungeni.itemschedule.Delete" role="bungeni.Speaker" />
+    <grant permission="bungeni.itemschedule.Delete" role="bungeni.Clerk" />     
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Owner" />
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />         
   </state>
   
   <state id="published-agenda" title="Published Agenda">
     <grant permission="bungeni.sitting.Edit" role="bungeni.Owner" />
+    
+    <deny permission="bungeni.sitting.Delete" role="bungeni.Owner" />    
     <grant permission="bungeni.agenda.View" role="bungeni.MP" />    
     <grant permission="bungeni.agenda.View" role="bungeni.Everybody" />    
     <grant permission="bungeni.agenda.View" role="bungeni.Anybody" />   
     <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
     <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />     
     <deny permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
-    <deny permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />                  
+    <deny permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />        
+    <deny permission="bungeni.itemschedule.Delete" role="bungeni.Owner" />
+    <deny permission="bungeni.itemschedule.Delete" role="bungeni.Speaker" />
+    <deny permission="bungeni.itemschedule.Delete" role="bungeni.Clerk" />        
+    <deny permission="bungeni.itemschedule.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.itemschedule.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />   
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />                
   </state>
 
   <state id="draft-minutes" title="Draft Minutes">
@@ -46,7 +66,15 @@
     <deny permission="bungeni.minutes.View" role="bungeni.Everybody" />    
     <deny permission="bungeni.minutes.View" role="bungeni.Anybody" />   
     <grant permission="bungeni.sitting.Reorder" role="bungeni.Speaker" />
-    <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />                        
+    <grant permission="bungeni.sitting.Reorder" role="bungeni.Clerk" />              
+
+    <grant permission="bungeni.itemschedule.Edit" role="bungeni.Owner" />
+    <grant permission="bungeni.itemschedule.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />
+      
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Owner" />
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />                  
   </state>
   
 
@@ -62,6 +90,15 @@
 
     <deny permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.itemschedulediscussion.Edit" role="bungeni.Speaker" />   
+    <deny permission="bungeni.itemschedulediscussion.Delete" role="bungeni.Clerk" />
+    <deny permission="bungeni.itemschedulediscussion.Delete" role="bungeni.Speaker" />   
+
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Clerk" /> 
+    <deny permission="bungeni.itemschedule.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.itemschedule.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />     
     
     <grant permission="bungeni.minutes.View" role="bungeni.MP" />    
     <grant permission="bungeni.minutes.View" role="bungeni.Everybody" />    
@@ -106,7 +143,7 @@
 
   <transition
      id="draft-minutes"
-     title="Finalize Minutes"
+     title="Draft Minutes"
      trigger="manual"
      source="published-agenda"
      destination="draft-minutes"
@@ -118,7 +155,7 @@
 
   <transition
      id="publish-minutes"
-     title="Publish Minutes"
+     title="Finalize Minutes"
      trigger="manual"
      source="draft-minutes"
      destination="published-minutes"

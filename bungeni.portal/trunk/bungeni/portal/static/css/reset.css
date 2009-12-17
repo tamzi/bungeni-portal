@@ -87,13 +87,13 @@ div#portal-globalnav {
 }
 /*layout -workspace*/
 .template-workspace td.left-column {
-  background:#FFF9EA url(http://demo.bungeni.org:8080/++resource++portal/left_margin_workspace.png) repeat-y scroll right center;
+  background:#FFF9EA url(/static/images/left_margin_workspace.png) repeat-y scroll right center;
   height:100%;
   width:21px !important;
 }
 
 .template-workspace td.right-column {
-  background:#FFF9EA url(http://demo.bungeni.org:8080/++resource++portal/right_margin_workspace.png) repeat-y scroll left center;
+  background:#FFF9EA url(/static/images/right_margin_workspace.png) repeat-y scroll left center;
   height:100%;
   width:10px !important;
 }
@@ -189,7 +189,7 @@ div#portal-globalnav {
 
 /*layout -portal*/
 .template-portal td.left-column {
-  background: url(http://demo.bungeni.org:8080/++resource++portal/shadow_left.gif) repeat-y scroll right center;
+  background: url(/static/images/shadow_left.gif) repeat-y scroll right center;
   height:100%;
   width:7px !important;
 }
@@ -199,7 +199,7 @@ div#portal-globalnav {
 }
 
 .template-portal td.right-column {
-  background: url(http://demo.bungeni.org:8080/++resource++portal/shadow_right.gif) repeat-y scroll left center;
+  background: url(/static/images/shadow_right.gif) repeat-y scroll left center;
   height:100%;
   width:7px !important;
 }
@@ -328,7 +328,7 @@ div#portal-globalnav {
 
 /*layout - member space*/
 .template-member-space td.left-column {
-  background: url(http://demo.bungeni.org:8080/++resource++portal/shadow_left.gif) repeat-y scroll right center;
+  background: url(/static/images/shadow_left.gif) repeat-y scroll right center;
   height:100%;
   width:7px !important;
 }
@@ -338,7 +338,7 @@ div#portal-globalnav {
 }
 
 .template-member-space td.right-column {
-  background: url(http://demo.bungeni.org:8080/++resource++portal/shadow_right.gif) repeat-y scroll left center;
+  background: url(/static/images/shadow_right.gif) repeat-y scroll left center;
   height:100%;
   width:7px !important;
 }

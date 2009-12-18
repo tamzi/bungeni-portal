@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-18 05:11-0500\n"
+"PO-Revision-Date: 2009-12-18 06:32-0500\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -4633,57 +4633,57 @@ msgstr "label calendar context"
 #: src/bungeni.ui/bungeni/ui/portlets/templates/parliament.pt:21
 #. Default: "Sessions"
 msgid "box_sessions"
-msgstr ""
+msgstr "box_sessions"
 
 #: src/bungeni.ui/bungeni/ui/portlets/templates/parliament.pt:25
 #. Default: "Members"
 msgid "box_members"
-msgstr ""
+msgstr "box_members"
 
 #: src/bungeni.ui/bungeni/ui/search.py:106
 #: src/bungeni.ui/bungeni/ui/templates/search.pt:7
 msgid "Search"
-msgstr ""
+msgstr "Search"
 
 #: src/bungeni.ui/bungeni/ui/search.py:113
 msgid "Invalid Query"
-msgstr "Invalid query"
+msgstr "Invalid Query"
 
 #: src/bungeni.ui/bungeni/ui/search.py:55
 msgid "Query"
-msgstr ""
+msgstr "Query"
 
 #: src/bungeni.ui/bungeni/ui/search.py:67
 msgid "rank"
-msgstr ""
+msgstr "rank"
 
 #: src/bungeni.ui/bungeni/ui/search.py:68
 msgid "type"
-msgstr ""
+msgstr "type"
 
 #: src/bungeni.ui/bungeni/ui/search.py:69
 msgid "title"
-msgstr ""
+msgstr "title"
 
 #: src/bungeni.ui/bungeni/ui/search.py:70
 msgid "status"
-msgstr ""
+msgstr "status"
 
 #: src/bungeni.ui/bungeni/ui/search.py:71
 msgid "weight"
-msgstr ""
+msgstr "weight"
 
 #: src/bungeni.ui/bungeni/ui/search.py:72
 msgid "percent"
-msgstr ""
+msgstr "percent"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:6
 msgid "Archive"
-msgstr ""
+msgstr "Archive"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:7
 msgid "Access to current and historical records."
-msgstr ""
+msgstr "Access to current and historical records."
 
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:23
 #. Default: "Keep existing image"
@@ -4693,21 +4693,21 @@ msgstr "keep image"
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:32
 #. Default: "Delete current image"
 msgid "delete-image"
-msgstr ""
+msgstr "delete-image"
 
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:41
 #. Default: "Replace with new image:"
 msgid "replace-image"
-msgstr ""
+msgstr "replace-image"
 
 #: src/bungeni.ui/bungeni/ui/templates/imagewidget.pt:44
 #. Default: "Upload image"
 msgid "upload-image"
-msgstr ""
+msgstr "upload-image"
 
 #: src/bungeni.ui/bungeni/ui/templates/search.pt:19
 msgid "Results"
-msgstr ""
+msgstr "Results"
 
 #: src/bungeni.ui/bungeni/ui/templates/similar.pt:7
 msgid "Similar Content"
@@ -4715,32 +4715,32 @@ msgstr "Similar content"
 
 #: src/bungeni.ui/bungeni/ui/templates/version.pt:13
 msgid "Select a version to compare to the current working copy, or make two selections to compare historic versions."
-msgstr ""
+msgstr "Select a version to compare to the current working copy, or make two selections to compare historic versions."
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow.pt:11
 msgid "Current state: ${state}."
-msgstr ""
+msgstr "Current state: ${state}."
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow.pt:19
 msgid "No history available for this item."
-msgstr ""
+msgstr "No history available for this item."
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow.pt:7
 msgid "Workflow"
-msgstr ""
+msgstr "Workflow"
 
 #: src/bungeni.ui/bungeni/ui/templates/workflow_ajax.pt:7
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:143
 msgid "Change state..."
-msgstr ""
+msgstr "Change state..."
 
 #: src/bungeni.ui/bungeni/ui/utils.py:39
 msgid "Form values must be of type string or list"
-msgstr ""
+msgstr "Form values must be of type string or list"
 
 #: src/bungeni.ui/bungeni/ui/utils.py:47
 msgid "date must be of type datetime or date"
-msgstr ""
+msgstr "date must be of type datetime or date"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:125
 msgid "New Version"
@@ -4756,7 +4756,7 @@ msgstr "Revert to"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:134
 msgid "Select one item to revert to."
-msgstr ""
+msgstr "Select one item to revert to."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:139
 msgid "Reverted to Previous Version %s"
@@ -4768,20 +4768,20 @@ msgstr "Show differences"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:145
 msgid "Displaying differences."
-msgstr ""
+msgstr "Displaying differences."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:150
 msgid "Select one or two items to show differences."
-msgstr ""
+msgstr "Select one or two items to show differences."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:40
 msgid "View"
-msgstr ""
+msgstr "View"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:44
 #. Default: ""
 msgid "Currently displaying version ${version}."
-msgstr ""
+msgstr "Currently displaying version ${version}."
 
 #: src/bungeni.ui/bungeni/ui/versions.py:63
 msgid "Change Message"
@@ -4789,33 +4789,33 @@ msgstr "Change message"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:74
 msgid "version"
-msgstr ""
+msgstr "version"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:77
 msgid "manual"
-msgstr ""
+msgstr "manual"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:78
 msgid "modified"
-msgstr ""
+msgstr "modified"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:79
 msgid "by"
-msgstr ""
+msgstr "by"
 
 #: src/bungeni.ui/bungeni/ui/versions.py:80
 msgid "message"
-msgstr ""
+msgstr "message"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:103
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:86
 msgid "Start date must be before %s"
-msgstr ""
+msgstr "Start date must be before %s"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:109
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:92
 msgid "End date must be after %s"
-msgstr ""
+msgstr "End date must be after %s"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:117
 msgid "Date range set."
@@ -4829,38 +4829,38 @@ msgstr "Date range cleared"
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:20
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:21
 msgid "From"
-msgstr ""
+msgstr "From"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:21
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:22
 msgid "Leave blank or set lower limit."
-msgstr ""
+msgstr "Leave blank or set lower limit."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:25
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:26
 msgid "To"
-msgstr ""
+msgstr "To"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:26
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:27
 msgid "Leave blank or set upper limit."
-msgstr ""
+msgstr "Leave blank or set upper limit."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:30
 msgid "Or"
-msgstr ""
+msgstr "Or"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:31
 msgid "Set date range to that of a given particular parliament."
-msgstr ""
+msgstr "Set date range to that of a given particular parliament."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:39
 msgid "Filter the archive by date range."
-msgstr ""
+msgstr "Filter the archive by date range."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:78
 msgid "Select parliament..."
-msgstr ""
+msgstr "Select parliament..."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:97
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:80
@@ -4871,7 +4871,7 @@ msgstr "Invalid date range"
 #: src/bungeni.ui/bungeni/ui/viewlets/schedule.py:196
 #. Default: ""
 msgid "$F"
-msgstr ""
+msgstr "$F"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:3
 #. Default: "You are here:"
@@ -4881,42 +4881,42 @@ msgstr "you are here"
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:4
 #. Default: "Home"
 msgid "tabs_home"
-msgstr ""
+msgstr "tabs_home"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/questions.pt:20
 msgid "No items."
-msgstr ""
+msgstr "No items."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:17
 msgid "Upcoming sittings"
-msgstr ""
+msgstr "Upcoming sittings"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:7
 msgid "What's on"
-msgstr ""
+msgstr "What's on"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:8
 msgid "An overview of the daily operations of the parliament."
-msgstr ""
+msgstr "An overview of the daily operations of the parliament."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/wodates.py:35
 msgid "Filter by date range."
-msgstr ""
+msgstr "Filter by date range."
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:14
 #. Default: ""
 msgid "day_%d"
-msgstr ""
+msgstr "day_%d"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:48
 #. Default: ""
 msgid "Day $number of every month"
-msgstr ""
+msgstr "Day $number of every month"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:52
 #. Default: ""
 msgid "First $day of every month"
-msgstr ""
+msgstr "First $day of every month"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:232
 msgid "Supplementary Question to: <br/> %s"
@@ -4928,92 +4928,92 @@ msgstr "Initial question"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:327
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:328
 msgid "Feb"
-msgstr ""
+msgstr "Feb"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:329
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:330
 msgid "Apr"
-msgstr ""
+msgstr "Apr"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:331
 msgid "May"
-msgstr ""
+msgstr "May"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:332
 msgid "Jun"
-msgstr ""
+msgstr "Jun"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:333
 msgid "Jul"
-msgstr ""
+msgstr "Jul"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:334
 msgid "Aug"
-msgstr ""
+msgstr "Aug"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:335
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:336
 msgid "Oct"
-msgstr ""
+msgstr "Oct"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:337
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:338
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:36
 #. Default: ""
 msgid "Invalid date: $value."
-msgstr ""
+msgstr "Invalid date: $value."
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:411
 #: src/bungeni.ui/bungeni/ui/widgets.py:474
 msgid "Incorrect string data for date"
-msgstr ""
+msgstr "Incorrect string data for date"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:567
 #: src/bungeni.ui/bungeni/ui/widgets.py:634
 msgid "Incorrect string data for date and time"
-msgstr ""
+msgstr "Incorrect string data for date and time"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:94
 #: src/bungeni.ui/bungeni/ui/widgets.py:99
 msgid "Form upload is not a file object"
-msgstr ""
+msgstr "Form upload is not a file object"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:125
 msgid "Comment on workflow change"
-msgstr ""
+msgstr "Comment on workflow change"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:142
 #. Default: ""
 msgid "Confirmation required for workflow transition: '${title}'."
-msgstr ""
+msgstr "Confirmation required for workflow transition: '${title}'."
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:50
 msgid "Workflow history"
-msgstr ""
+msgstr "Workflow history"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "History"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -5034,21 +5034,21 @@ msgstr "Alternative views of the object (RSS, ICAL, etc)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
 msgid "Contents"
-msgstr ""
+msgstr "Contents"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
 msgid "Contextual Action Views of the Object"
@@ -5057,32 +5057,32 @@ msgstr "Contextual action views of the object"
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
 msgid "ICal"
-msgstr ""
+msgstr "ICal"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
-msgstr ""
+msgstr "Schedule a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Respond to a question"
-msgstr ""
+msgstr "Respond to a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Answer a question"
-msgstr ""
+msgstr "Answer a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Withdraw a question"
-msgstr ""
+msgstr "Withdraw a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question in writing"
-msgstr ""
+msgstr "Answer a question in writing"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
 msgid "Submit a Response"
@@ -5094,59 +5094,59 @@ msgstr "Complete a response"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a motion"
-msgstr ""
+msgstr "Submit a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Recieve a motion"
-msgstr ""
+msgstr "Recieve a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
 msgid "Review a motion"
-msgstr ""
+msgstr "Review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr ""
+msgstr "Speaker review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
-msgstr ""
+msgstr "Schedule a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Mark a motion as debated"
-msgstr ""
+msgstr "Mark a motion as debated"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Withdraw a motion"
-msgstr ""
+msgstr "Withdraw a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Submit a bill"
-msgstr ""
+msgstr "Submit a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Schedule a bill"
-msgstr ""
+msgstr "Schedule a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
 msgid "Assign a bill to a committee"
-msgstr ""
+msgstr "Assign a bill to a committee"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Reject/Approve a bill"
-msgstr "Reject/approve a bill"
+msgstr "Reject/Approve a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Withdraw a bill"
-msgstr ""
+msgstr "Withdraw a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Revert a transition back to an earlier stage"
-msgstr ""
+msgstr "Revert a transition back to an earlier stage"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Manage Bungeni groups"
-msgstr ""
+msgstr "Manage Bungeni groups"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
 msgid "Manage User Adresses"
@@ -5214,19 +5214,19 @@ msgstr "Change Sitting Status"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
 msgid "Submit a question"
-msgstr ""
+msgstr "Submit a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
 msgid "Recieve a question"
-msgstr ""
+msgstr "Recieve a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
-msgstr ""
+msgstr "Review a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr ""
+msgstr "Speaker review a question"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:202
 msgid "Speaker's Office Email"
@@ -5238,7 +5238,7 @@ msgstr "Speaker's office notification"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:205
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgstr ""
+msgstr "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:210
 msgid "Clerk's Office Notification"
@@ -5246,7 +5246,7 @@ msgstr "Clerk's office notification"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:211
 msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgstr ""
+msgstr "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:216
 msgid "Clerks's Office Email"
@@ -5266,7 +5266,7 @@ msgstr "Days to defer question"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:222
 msgid "Time after which admissible questions are automatically deferred"
-msgstr ""
+msgstr "Time after which admissible questions are automatically deferred"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:224
 msgid "Days to Notify Ministry of Pending Response"
@@ -5275,14 +5275,15 @@ msgstr "Days to notify ministry of pending response"
 #: src/bungeni.models/bungeni/models/interfaces.py:225
 msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
 msgstr ""
+"Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:229
 msgid "Days before question scheduled"
-msgstr ""
+msgstr "Days before question scheduled"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:230
 msgid "Days before bill scheduled"
-msgstr ""
+msgstr "Days before bill scheduled"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:231
 msgid "Max Questions Per Sitting"
@@ -5314,219 +5315,219 @@ msgstr "Assignment type"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:247
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:248
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
-msgstr ""
+msgstr "Edit group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:101
 msgid "Delete group member"
-msgstr ""
+msgstr "Delete group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:102
 msgid "View group member"
-msgstr ""
+msgstr "View group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Add office"
-msgstr ""
+msgstr "Add office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "Edit office"
-msgstr ""
+msgstr "Edit office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:107
 msgid "Delete office"
-msgstr ""
+msgstr "Delete office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:108
 msgid "View office"
-msgstr ""
+msgstr "View office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:11
 msgid "Edit historical content"
-msgstr ""
+msgstr "Edit historical content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:111
 msgid "Add office member"
-msgstr ""
+msgstr "Add office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:112
 msgid "Edit office member"
-msgstr ""
+msgstr "Edit office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:113
 msgid "Delete office member"
-msgstr ""
+msgstr "Delete office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:114
 msgid "View office member"
-msgstr ""
+msgstr "View office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Translate content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
-msgstr ""
+msgstr "Add ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:121
 msgid "Edit ministry"
-msgstr ""
+msgstr "Edit ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:122
 msgid "Delete ministry"
-msgstr ""
+msgstr "Delete ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "View ministry"
-msgstr ""
+msgstr "View ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:126
 msgid "Add mp"
-msgstr ""
+msgstr "Add mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:127
 msgid "Edit mp"
-msgstr ""
+msgstr "Edit mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:128
 msgid "Delete mp"
-msgstr ""
+msgstr "Delete mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:129
 msgid "View mp"
-msgstr ""
+msgstr "View mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:135
 msgid "Add user"
-msgstr ""
+msgstr "Add user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:136
 msgid "Edit user"
-msgstr ""
+msgstr "Edit user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Delete user"
-msgstr ""
+msgstr "Delete user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:138
 msgid "View user"
-msgstr ""
+msgstr "View user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Add session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
-msgstr ""
+msgstr "Add constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:142
 msgid "Edit constituency"
-msgstr ""
+msgstr "Edit constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:143
 msgid "Delete constituency"
-msgstr ""
+msgstr "Delete constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:144
 msgid "View constituency"
-msgstr ""
+msgstr "View constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Add minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
-msgstr ""
+msgstr "Edit minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "Delete minister"
-msgstr ""
+msgstr "Delete minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Edit session"
-msgstr ""
+msgstr "Edit session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:150
 msgid "View minister"
-msgstr ""
+msgstr "View minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Add committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
-msgstr ""
+msgstr "Edit committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Delete committee member"
-msgstr ""
+msgstr "Delete committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:159
 msgid "View committee member"
-msgstr ""
+msgstr "View committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:16
 msgid "Delete session"
-msgstr ""
+msgstr "Delete session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Add committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
-msgstr ""
+msgstr "Edit committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Delete committee staff"
-msgstr ""
+msgstr "Delete committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:168
 msgid "View committee staff"
-msgstr ""
+msgstr "View committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:17
 msgid "Add sitting"
-msgstr ""
+msgstr "Add sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Add political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
-msgstr ""
+msgstr "Edit political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Delete political group member"
-msgstr ""
+msgstr "Delete political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "View political group member"
-msgstr ""
+msgstr "View political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Edit sitting"
-msgstr ""
+msgstr "Edit sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Add address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
-msgstr ""
+msgstr "Edit address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:185
 msgid "Delete address"
@@ -5534,91 +5535,91 @@ msgstr "Delete address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:186
 msgid "View address"
-msgstr ""
+msgstr "View address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:189
 msgid "Add delegation"
-msgstr ""
+msgstr "Add delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:19
 msgid "Delete sitting"
-msgstr ""
+msgstr "Delete sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:190
 msgid "Edit delegation"
-msgstr ""
+msgstr "Edit delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:191
 msgid "Delete delegation"
-msgstr ""
+msgstr "Delete delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:192
 msgid "View delegation"
-msgstr ""
+msgstr "View delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Add tile/function"
-msgstr ""
+msgstr "Add tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Edit tile/function"
-msgstr ""
+msgstr "Edit tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:197
 msgid "Delete tile/function"
-msgstr ""
+msgstr "Delete tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:198
 msgid "View tile/function"
-msgstr ""
+msgstr "View tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Reorder schedulings"
-msgstr ""
+msgstr "Reorder schedulings"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:201
 msgid "Add tile/event"
-msgstr ""
+msgstr "Add tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:202
 msgid "Edit tile/event"
-msgstr ""
+msgstr "Edit tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:203
 msgid "Delete tile/event"
-msgstr ""
+msgstr "Delete tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:204
 msgid "View tile/event"
-msgstr ""
+msgstr "View tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:208
 msgid "View audit log"
-msgstr ""
+msgstr "View audit log"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Add item scheduling"
-msgstr ""
+msgstr "Add item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:217
 msgid "Add and edit amendments"
-msgstr ""
+msgstr "Add and edit amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:218
 msgid "View amendments"
-msgstr ""
+msgstr "View amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Edit item scheduling"
-msgstr ""
+msgstr "Edit item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:220
 msgid "Add and edit comments"
-msgstr ""
+msgstr "Add and edit comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:221
 msgid "View comments"
-msgstr ""
+msgstr "View comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:223
 msgid "View Agenda"
@@ -5642,12 +5643,12 @@ msgstr "Edit consignatory"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:23
 msgid "Delete item scheduling"
-msgstr ""
+msgstr "Delete item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:230
 #: src/bungeni.models/bungeni/models/permissions.zcml:231
 msgid "Add Group Item Assignment"
-msgstr "Add group Item assignment"
+msgstr "Add Group Item Assignment"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:232
 msgid "Delete Group Item Assignment"
@@ -5659,27 +5660,27 @@ msgstr "Edit group item assignment"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Add item scheduling category"
-msgstr ""
+msgstr "Add item scheduling category"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:26
 msgid "Edit item scheduling discussion"
-msgstr ""
+msgstr "Edit item scheduling discussion"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add committee"
-msgstr ""
+msgstr "Add committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:31
 msgid "Edit committee"
-msgstr ""
+msgstr "Edit committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:32
 msgid "Delete committee"
-msgstr ""
+msgstr "Delete committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:33
 msgid "View committee"
-msgstr ""
+msgstr "View committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:37
 msgid "Add Question"
@@ -5723,7 +5724,7 @@ msgstr "Edit agenda item"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:57
 msgid "Delete agendaitem"
-msgstr ""
+msgstr "Delete agendaitem"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:58
 msgid "View agendaitem"
@@ -5739,7 +5740,7 @@ msgstr "Edit tabled document"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:63
 msgid "Delete tableddocument"
-msgstr ""
+msgstr "Delete tableddocument"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:64
 msgid "View tableddocument"
@@ -5791,51 +5792,51 @@ msgstr "Admin user record"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:84
 msgid "Edit historical data"
-msgstr ""
+msgstr "Edit historical data"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add party"
-msgstr ""
+msgstr "Add party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:88
 msgid "Edit party"
-msgstr ""
+msgstr "Edit party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:89
 msgid "Delete party"
-msgstr ""
+msgstr "Delete party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:90
 msgid "View party"
-msgstr ""
+msgstr "View party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Add government"
-msgstr ""
+msgstr "Add government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit government"
-msgstr ""
+msgstr "Edit government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:95
 msgid "Delete government"
-msgstr ""
+msgstr "Delete government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:96
 msgid "View government"
-msgstr ""
+msgstr "View government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:99
 msgid "Add group member"
-msgstr ""
+msgstr "Add group member"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:10
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Minister"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:13
 msgid "Speaker Office"
@@ -5843,7 +5844,7 @@ msgstr "Speaker office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
-msgstr ""
+msgstr "All authenticated users"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
@@ -5859,11 +5860,11 @@ msgstr "Bungeni admin"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Member of parliament"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:29
 msgid "Ordinary"
-msgstr ""
+msgstr "Ordinary"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:29
 msgid "Private Notice"
@@ -5871,51 +5872,51 @@ msgstr "Private notice"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:30
 msgid "Oral"
-msgstr ""
+msgstr "Oral"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:30
 msgid "Written"
-msgstr ""
+msgstr "Written"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:31
 msgid "Female"
-msgstr ""
+msgstr "Female"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:31
 msgid "Male"
-msgstr ""
+msgstr "Male"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:32
 msgid "nominated"
-msgstr ""
+msgstr "nominated"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:32
 msgid "elected"
-msgstr ""
+msgstr "elected"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:32
 msgid "ex officio"
-msgstr ""
+msgstr "ex officio"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:33
 msgid "inactive"
-msgstr ""
+msgstr "inactive"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:33
 msgid "active"
-msgstr ""
+msgstr "active"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:33
 msgid "deceased"
-msgstr ""
+msgstr "deceased"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:34
 msgid "subsequent"
-msgstr ""
+msgstr "subsequent"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:34
 msgid "initial"
-msgstr ""
+msgstr "initial"
 
 #: src/bungeni.models/bungeni/models/vocabulary.py:35
 msgid "Speakers Office"
@@ -5928,11 +5929,11 @@ msgstr "Clerks office"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "History"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -5953,21 +5954,21 @@ msgstr "Alternative views of the object (RSS, ICAL, etc)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
 msgid "Contents"
-msgstr ""
+msgstr "Contents"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
 msgid "Contextual Action Views of the Object"
@@ -5976,32 +5977,32 @@ msgstr "Contextual action views of the object"
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
 msgid "ICal"
-msgstr ""
+msgstr "ICal"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
-msgstr ""
+msgstr "Schedule a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Respond to a question"
-msgstr ""
+msgstr "Respond to a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Answer a question"
-msgstr ""
+msgstr "Answer a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Withdraw a question"
-msgstr ""
+msgstr "Withdraw a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question in writing"
-msgstr ""
+msgstr "Answer a question in writing"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
 msgid "Submit a Response"
@@ -6013,43 +6014,43 @@ msgstr "Complete a response"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a motion"
-msgstr ""
+msgstr "Submit a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Recieve a motion"
-msgstr ""
+msgstr "Recieve a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
 msgid "Review a motion"
-msgstr ""
+msgstr "Review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr ""
+msgstr "Speaker review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
-msgstr ""
+msgstr "Schedule a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Mark a motion as debated"
-msgstr ""
+msgstr "Mark a motion as debated"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Withdraw a motion"
-msgstr ""
+msgstr "Withdraw a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Submit a bill"
-msgstr ""
+msgstr "Submit a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Schedule a bill"
-msgstr ""
+msgstr "Schedule a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
 msgid "Assign a bill to a committee"
-msgstr ""
+msgstr "Assign a bill to a committee"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Reject/Approve a bill"
@@ -6057,15 +6058,15 @@ msgstr "Reject/approve a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Withdraw a bill"
-msgstr ""
+msgstr "Withdraw a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Revert a transition back to an earlier stage"
-msgstr ""
+msgstr "Revert a transition back to an earlier stage"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Manage Bungeni groups"
-msgstr ""
+msgstr "Manage Bungeni groups"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
 msgid "Manage User Adresses"
@@ -6133,227 +6134,227 @@ msgstr "Change Sitting Status"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
 msgid "Submit a question"
-msgstr ""
+msgstr "Submit a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
 msgid "Recieve a question"
-msgstr ""
+msgstr "Recieve a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
-msgstr ""
+msgstr "Review a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr ""
+msgstr "Speaker review a question"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
-msgstr ""
+msgstr "Edit group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:101
 msgid "Delete group member"
-msgstr ""
+msgstr "Delete group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:102
 msgid "View group member"
-msgstr ""
+msgstr "View group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Add office"
-msgstr ""
+msgstr "Add office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "Edit office"
-msgstr ""
+msgstr "Edit office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:107
 msgid "Delete office"
-msgstr ""
+msgstr "Delete office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:108
 msgid "View office"
-msgstr ""
+msgstr "View office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:11
 msgid "Edit historical content"
-msgstr ""
+msgstr "Edit historical content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:111
 msgid "Add office member"
-msgstr ""
+msgstr "Add office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:112
 msgid "Edit office member"
-msgstr ""
+msgstr "Edit office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:113
 msgid "Delete office member"
-msgstr ""
+msgstr "Delete office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:114
 msgid "View office member"
-msgstr ""
+msgstr "View office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Translate content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
-msgstr ""
+msgstr "Add ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:121
 msgid "Edit ministry"
-msgstr ""
+msgstr "Edit ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:122
 msgid "Delete ministry"
-msgstr ""
+msgstr "Delete ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "View ministry"
-msgstr ""
+msgstr "View ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:126
 msgid "Add mp"
-msgstr ""
+msgstr "Add mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:127
 msgid "Edit mp"
-msgstr ""
+msgstr "Edit mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:128
 msgid "Delete mp"
-msgstr ""
+msgstr "Delete mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:129
 msgid "View mp"
-msgstr ""
+msgstr "View mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:135
 msgid "Add user"
-msgstr ""
+msgstr "Add user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:136
 msgid "Edit user"
-msgstr ""
+msgstr "Edit user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Delete user"
-msgstr ""
+msgstr "Delete user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:138
 msgid "View user"
-msgstr ""
+msgstr "View user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Add session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
-msgstr ""
+msgstr "Add constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:142
 msgid "Edit constituency"
-msgstr ""
+msgstr "Edit constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:143
 msgid "Delete constituency"
-msgstr ""
+msgstr "Delete constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:144
 msgid "View constituency"
-msgstr ""
+msgstr "View constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Add minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
-msgstr ""
+msgstr "Edit minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "Delete minister"
-msgstr ""
+msgstr "Delete minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Edit session"
-msgstr ""
+msgstr "Edit session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:150
 msgid "View minister"
-msgstr ""
+msgstr "View minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Add committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
-msgstr ""
+msgstr "Edit committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Delete committee member"
-msgstr ""
+msgstr "Delete committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:159
 msgid "View committee member"
-msgstr ""
+msgstr "View committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:16
 msgid "Delete session"
-msgstr ""
+msgstr "Delete session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Add committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
-msgstr ""
+msgstr "Edit committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Delete committee staff"
-msgstr ""
+msgstr "Delete committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:168
 msgid "View committee staff"
-msgstr ""
+msgstr "View committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:17
 msgid "Add sitting"
-msgstr ""
+msgstr "Add sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Add political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
-msgstr ""
+msgstr "Edit political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Delete political group member"
-msgstr ""
+msgstr "Delete political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "View political group member"
-msgstr ""
+msgstr "View political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Edit sitting"
-msgstr ""
+msgstr "Edit sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Add address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
-msgstr ""
+msgstr "Edit address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:185
 msgid "Delete address"
@@ -6361,91 +6362,91 @@ msgstr "Delete address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:186
 msgid "View address"
-msgstr ""
+msgstr "View address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:189
 msgid "Add delegation"
-msgstr ""
+msgstr "Add delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:19
 msgid "Delete sitting"
-msgstr ""
+msgstr "Delete sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:190
 msgid "Edit delegation"
-msgstr ""
+msgstr "Edit delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:191
 msgid "Delete delegation"
-msgstr ""
+msgstr "Delete delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:192
 msgid "View delegation"
-msgstr ""
+msgstr "View delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Add tile/function"
-msgstr ""
+msgstr "Add tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Edit tile/function"
-msgstr ""
+msgstr "Edit tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:197
 msgid "Delete tile/function"
-msgstr ""
+msgstr "Delete tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:198
 msgid "View tile/function"
-msgstr ""
+msgstr "View tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Reorder schedulings"
-msgstr ""
+msgstr "Reorder schedulings"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:201
 msgid "Add tile/event"
-msgstr ""
+msgstr "Add tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:202
 msgid "Edit tile/event"
-msgstr ""
+msgstr "Edit tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:203
 msgid "Delete tile/event"
-msgstr ""
+msgstr "Delete tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:204
 msgid "View tile/event"
-msgstr ""
+msgstr "View tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:208
 msgid "View audit log"
-msgstr ""
+msgstr "View audit log"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Add item scheduling"
-msgstr ""
+msgstr "Add item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:217
 msgid "Add and edit amendments"
-msgstr ""
+msgstr "Add and edit amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:218
 msgid "View amendments"
-msgstr ""
+msgstr "View amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Edit item scheduling"
-msgstr ""
+msgstr "Edit item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:220
 msgid "Add and edit comments"
-msgstr ""
+msgstr "Add and edit comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:221
 msgid "View comments"
-msgstr ""
+msgstr "View comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:223
 msgid "View Agenda"
@@ -6469,7 +6470,7 @@ msgstr "Edit consignatory"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:23
 msgid "Delete item scheduling"
-msgstr ""
+msgstr "Delete item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:230
 #: src/bungeni.models/bungeni/models/permissions.zcml:231
@@ -6486,27 +6487,27 @@ msgstr "Edit group item assignment"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Add item scheduling category"
-msgstr ""
+msgstr "Add item scheduling category"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:26
 msgid "Edit item scheduling discussion"
-msgstr ""
+msgstr "Edit item scheduling discussion"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add committee"
-msgstr ""
+msgstr "Add committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:31
 msgid "Edit committee"
-msgstr ""
+msgstr "Edit committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:32
 msgid "Delete committee"
-msgstr ""
+msgstr "Delete committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:33
 msgid "View committee"
-msgstr ""
+msgstr "View committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:37
 msgid "Add Question"
@@ -6550,7 +6551,7 @@ msgstr "Edit agenda item"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:57
 msgid "Delete agendaitem"
-msgstr ""
+msgstr "Delete agendaitem"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:58
 msgid "View agendaitem"
@@ -6566,7 +6567,7 @@ msgstr "Edit tabled document"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:63
 msgid "Delete tableddocument"
-msgstr ""
+msgstr "Delete tableddocument"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:64
 msgid "View tableddocument"
@@ -6618,51 +6619,51 @@ msgstr "Admin user record"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:84
 msgid "Edit historical data"
-msgstr ""
+msgstr "Edit historical data"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add party"
-msgstr ""
+msgstr "Add party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:88
 msgid "Edit party"
-msgstr ""
+msgstr "Edit party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:89
 msgid "Delete party"
-msgstr ""
+msgstr "Delete party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:90
 msgid "View party"
-msgstr ""
+msgstr "View party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Add government"
-msgstr ""
+msgstr "Add government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit government"
-msgstr ""
+msgstr "Edit government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:95
 msgid "Delete government"
-msgstr ""
+msgstr "Delete government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:96
 msgid "View government"
-msgstr ""
+msgstr "View government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:99
 msgid "Add group member"
-msgstr ""
+msgstr "Add group member"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:10
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Minister"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:12
 msgid "Clerks Office"
@@ -6674,7 +6675,7 @@ msgstr "Speaker office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
-msgstr ""
+msgstr "All authenticated users"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
@@ -6690,15 +6691,15 @@ msgstr "Bungeni admin"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Member of parliament"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "History"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -6719,21 +6720,21 @@ msgstr "Alternative views of the object (RSS, ICAL, etc)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
 msgid "Contents"
-msgstr ""
+msgstr "Contents"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
 msgid "Contextual Action Views of the Object"
@@ -6742,32 +6743,32 @@ msgstr "Contextual action views of the object"
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
 msgid "ICal"
-msgstr ""
+msgstr "ICal"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
-msgstr ""
+msgstr "Schedule a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Respond to a question"
-msgstr ""
+msgstr "Respond to a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Answer a question"
-msgstr ""
+msgstr "Answer a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Withdraw a question"
-msgstr ""
+msgstr "Withdraw a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question in writing"
-msgstr ""
+msgstr "Answer a question in writing"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
 msgid "Submit a Response"
@@ -6779,43 +6780,43 @@ msgstr "Complete a response"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a motion"
-msgstr ""
+msgstr "Submit a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Recieve a motion"
-msgstr ""
+msgstr "Recieve a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
 msgid "Review a motion"
-msgstr ""
+msgstr "Review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr ""
+msgstr "Speaker review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
-msgstr ""
+msgstr "Schedule a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Mark a motion as debated"
-msgstr ""
+msgstr "Mark a motion as debated"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Withdraw a motion"
-msgstr ""
+msgstr "Withdraw a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Submit a bill"
-msgstr ""
+msgstr "Submit a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Schedule a bill"
-msgstr ""
+msgstr "Schedule a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
 msgid "Assign a bill to a committee"
-msgstr ""
+msgstr "Assign a bill to a committee"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Reject/Approve a bill"
@@ -6823,15 +6824,15 @@ msgstr "Reject/approve a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Withdraw a bill"
-msgstr ""
+msgstr "Withdraw a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Revert a transition back to an earlier stage"
-msgstr ""
+msgstr "Revert a transition back to an earlier stage"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Manage Bungeni groups"
-msgstr ""
+msgstr "Manage Bungeni groups"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
 msgid "Manage User Adresses"
@@ -6899,227 +6900,227 @@ msgstr "Change Sitting Status"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
 msgid "Submit a question"
-msgstr ""
+msgstr "Submit a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
 msgid "Recieve a question"
-msgstr ""
+msgstr "Recieve a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
-msgstr ""
+msgstr "Review a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr ""
+msgstr "Speaker review a question"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
-msgstr ""
+msgstr "Edit group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:101
 msgid "Delete group member"
-msgstr ""
+msgstr "Delete group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:102
 msgid "View group member"
-msgstr ""
+msgstr "View group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Add office"
-msgstr ""
+msgstr "Add office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "Edit office"
-msgstr ""
+msgstr "Edit office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:107
 msgid "Delete office"
-msgstr ""
+msgstr "Delete office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:108
 msgid "View office"
-msgstr ""
+msgstr "View office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:11
 msgid "Edit historical content"
-msgstr ""
+msgstr "Edit historical content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:111
 msgid "Add office member"
-msgstr ""
+msgstr "Add office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:112
 msgid "Edit office member"
-msgstr ""
+msgstr "Edit office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:113
 msgid "Delete office member"
-msgstr ""
+msgstr "Delete office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:114
 msgid "View office member"
-msgstr ""
+msgstr "View office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Translate content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
-msgstr ""
+msgstr "Add ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:121
 msgid "Edit ministry"
-msgstr ""
+msgstr "Edit ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:122
 msgid "Delete ministry"
-msgstr ""
+msgstr "Delete ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "View ministry"
-msgstr ""
+msgstr "View ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:126
 msgid "Add mp"
-msgstr ""
+msgstr "Add mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:127
 msgid "Edit mp"
-msgstr ""
+msgstr "Edit mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:128
 msgid "Delete mp"
-msgstr ""
+msgstr "Delete mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:129
 msgid "View mp"
-msgstr ""
+msgstr "View mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:135
 msgid "Add user"
-msgstr ""
+msgstr "Add user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:136
 msgid "Edit user"
-msgstr ""
+msgstr "Edit user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Delete user"
-msgstr ""
+msgstr "Delete user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:138
 msgid "View user"
-msgstr ""
+msgstr "View user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Add session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
-msgstr ""
+msgstr "Add constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:142
 msgid "Edit constituency"
-msgstr ""
+msgstr "Edit constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:143
 msgid "Delete constituency"
-msgstr ""
+msgstr "Delete constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:144
 msgid "View constituency"
-msgstr ""
+msgstr "View constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Add minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
-msgstr ""
+msgstr "Edit minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "Delete minister"
-msgstr ""
+msgstr "Delete minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Edit session"
-msgstr ""
+msgstr "Edit session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:150
 msgid "View minister"
-msgstr ""
+msgstr "View minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Add committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
-msgstr ""
+msgstr "Edit committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Delete committee member"
-msgstr ""
+msgstr "Delete committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:159
 msgid "View committee member"
-msgstr ""
+msgstr "View committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:16
 msgid "Delete session"
-msgstr ""
+msgstr "Delete session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Add committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
-msgstr ""
+msgstr "Edit committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Delete committee staff"
-msgstr ""
+msgstr "Delete committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:168
 msgid "View committee staff"
-msgstr ""
+msgstr "View committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:17
 msgid "Add sitting"
-msgstr ""
+msgstr "Add sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Add political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
-msgstr ""
+msgstr "Edit political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Delete political group member"
-msgstr ""
+msgstr "Delete political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "View political group member"
-msgstr ""
+msgstr "View political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Edit sitting"
-msgstr ""
+msgstr "Edit sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Add address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
-msgstr ""
+msgstr "Edit address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:185
 msgid "Delete address"
@@ -7127,91 +7128,91 @@ msgstr "Delete address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:186
 msgid "View address"
-msgstr ""
+msgstr "View address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:189
 msgid "Add delegation"
-msgstr ""
+msgstr "Add delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:19
 msgid "Delete sitting"
-msgstr ""
+msgstr "Delete sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:190
 msgid "Edit delegation"
-msgstr ""
+msgstr "Edit delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:191
 msgid "Delete delegation"
-msgstr ""
+msgstr "Delete delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:192
 msgid "View delegation"
-msgstr ""
+msgstr "View delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Add tile/function"
-msgstr ""
+msgstr "Add tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Edit tile/function"
-msgstr ""
+msgstr "Edit tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:197
 msgid "Delete tile/function"
-msgstr ""
+msgstr "Delete tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:198
 msgid "View tile/function"
-msgstr ""
+msgstr "View tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Reorder schedulings"
-msgstr ""
+msgstr "Reorder schedulings"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:201
 msgid "Add tile/event"
-msgstr ""
+msgstr "Add tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:202
 msgid "Edit tile/event"
-msgstr ""
+msgstr "Edit tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:203
 msgid "Delete tile/event"
-msgstr ""
+msgstr "Delete tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:204
 msgid "View tile/event"
-msgstr ""
+msgstr "View tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:208
 msgid "View audit log"
-msgstr ""
+msgstr "View audit log"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Add item scheduling"
-msgstr ""
+msgstr "Add item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:217
 msgid "Add and edit amendments"
-msgstr ""
+msgstr "Add and edit amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:218
 msgid "View amendments"
-msgstr ""
+msgstr "View amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Edit item scheduling"
-msgstr ""
+msgstr "Edit item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:220
 msgid "Add and edit comments"
-msgstr ""
+msgstr "Add and edit comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:221
 msgid "View comments"
-msgstr ""
+msgstr "View comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:223
 msgid "View Agenda"
@@ -7235,7 +7236,7 @@ msgstr "Edit consignatory"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:23
 msgid "Delete item scheduling"
-msgstr ""
+msgstr "Delete item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:230
 #: src/bungeni.models/bungeni/models/permissions.zcml:231
@@ -7252,27 +7253,27 @@ msgstr "Edit group item assignment"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Add item scheduling category"
-msgstr ""
+msgstr "Add item scheduling category"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:26
 msgid "Edit item scheduling discussion"
-msgstr ""
+msgstr "Edit item scheduling discussion"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add committee"
-msgstr ""
+msgstr "Add committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:31
 msgid "Edit committee"
-msgstr ""
+msgstr "Edit committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:32
 msgid "Delete committee"
-msgstr ""
+msgstr "Delete committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:33
 msgid "View committee"
-msgstr ""
+msgstr "View committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:37
 msgid "Add Question"
@@ -7316,7 +7317,7 @@ msgstr "Edit agenda item"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:57
 msgid "Delete agendaitem"
-msgstr ""
+msgstr "Delete agendaitem"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:58
 msgid "View agendaitem"
@@ -7332,7 +7333,7 @@ msgstr "Edit tabled document"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:63
 msgid "Delete tableddocument"
-msgstr ""
+msgstr "Delete tableddocument"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:64
 msgid "View tableddocument"
@@ -7384,51 +7385,51 @@ msgstr "Admin user record"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:84
 msgid "Edit historical data"
-msgstr ""
+msgstr "Edit historical data"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add party"
-msgstr ""
+msgstr "Add party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:88
 msgid "Edit party"
-msgstr ""
+msgstr "Edit party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:89
 msgid "Delete party"
-msgstr ""
+msgstr "Delete party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:90
 msgid "View party"
-msgstr ""
+msgstr "View party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Add government"
-msgstr ""
+msgstr "Add government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit government"
-msgstr ""
+msgstr "Edit government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:95
 msgid "Delete government"
-msgstr ""
+msgstr "Delete government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:96
 msgid "View government"
-msgstr ""
+msgstr "View government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:99
 msgid "Add group member"
-msgstr ""
+msgstr "Add group member"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:10
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Minister"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:12
 msgid "Clerks Office"
@@ -7440,7 +7441,7 @@ msgstr "Speaker office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
-msgstr ""
+msgstr "All authenticated users"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
@@ -7456,15 +7457,15 @@ msgstr "Bungeni admin"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Member of parliament"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "History"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -7485,21 +7486,21 @@ msgstr "Alternative views of the object (RSS, ICAL, etc)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
 msgid "Contents"
-msgstr ""
+msgstr "Contents"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
 msgid "Contextual Action Views of the Object"
@@ -7508,32 +7509,32 @@ msgstr "Contextual action views of the object"
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
 msgid "ICal"
-msgstr ""
+msgstr "ICal"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
-msgstr ""
+msgstr "Schedule a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Respond to a question"
-msgstr ""
+msgstr "Respond to a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Answer a question"
-msgstr ""
+msgstr "Answer a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Withdraw a question"
-msgstr ""
+msgstr "Withdraw a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question in writing"
-msgstr ""
+msgstr "Answer a question in writing"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
 msgid "Submit a Response"
@@ -7545,43 +7546,43 @@ msgstr "Complete a response"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a motion"
-msgstr ""
+msgstr "Submit a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Recieve a motion"
-msgstr ""
+msgstr "Recieve a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
 msgid "Review a motion"
-msgstr ""
+msgstr "Review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr ""
+msgstr "Speaker review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
-msgstr ""
+msgstr "Schedule a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Mark a motion as debated"
-msgstr ""
+msgstr "Mark a motion as debated"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Withdraw a motion"
-msgstr ""
+msgstr "Withdraw a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Submit a bill"
-msgstr ""
+msgstr "Submit a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Schedule a bill"
-msgstr ""
+msgstr "Schedule a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
 msgid "Assign a bill to a committee"
-msgstr ""
+msgstr "Assign a bill to a committee"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Reject/Approve a bill"
@@ -7589,15 +7590,15 @@ msgstr "Reject/approve a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Withdraw a bill"
-msgstr ""
+msgstr "Withdraw a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Revert a transition back to an earlier stage"
-msgstr ""
+msgstr "Revert a transition back to an earlier stage"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Manage Bungeni groups"
-msgstr ""
+msgstr "Manage Bungeni groups"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
 msgid "Manage User Adresses"
@@ -7665,227 +7666,227 @@ msgstr "Change Sitting Status"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
 msgid "Submit a question"
-msgstr ""
+msgstr "Submit a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
 msgid "Recieve a question"
-msgstr ""
+msgstr "Recieve a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
-msgstr ""
+msgstr "Review a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr ""
+msgstr "Speaker review a question"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
-msgstr ""
+msgstr "Edit group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:101
 msgid "Delete group member"
-msgstr ""
+msgstr "Delete group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:102
 msgid "View group member"
-msgstr ""
+msgstr "View group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Add office"
-msgstr ""
+msgstr "Add office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "Edit office"
-msgstr ""
+msgstr "Edit office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:107
 msgid "Delete office"
-msgstr ""
+msgstr "Delete office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:108
 msgid "View office"
-msgstr ""
+msgstr "View office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:11
 msgid "Edit historical content"
-msgstr ""
+msgstr "Edit historical content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:111
 msgid "Add office member"
-msgstr ""
+msgstr "Add office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:112
 msgid "Edit office member"
-msgstr ""
+msgstr "Edit office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:113
 msgid "Delete office member"
-msgstr ""
+msgstr "Delete office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:114
 msgid "View office member"
-msgstr ""
+msgstr "View office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Translate content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
-msgstr ""
+msgstr "Add ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:121
 msgid "Edit ministry"
-msgstr ""
+msgstr "Edit ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:122
 msgid "Delete ministry"
-msgstr ""
+msgstr "Delete ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "View ministry"
-msgstr ""
+msgstr "View ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:126
 msgid "Add mp"
-msgstr ""
+msgstr "Add mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:127
 msgid "Edit mp"
-msgstr ""
+msgstr "Edit mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:128
 msgid "Delete mp"
-msgstr ""
+msgstr "Delete mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:129
 msgid "View mp"
-msgstr ""
+msgstr "View mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:135
 msgid "Add user"
-msgstr ""
+msgstr "Add user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:136
 msgid "Edit user"
-msgstr ""
+msgstr "Edit user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Delete user"
-msgstr ""
+msgstr "Delete user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:138
 msgid "View user"
-msgstr ""
+msgstr "View user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Add session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
-msgstr ""
+msgstr "Add constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:142
 msgid "Edit constituency"
-msgstr ""
+msgstr "Edit constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:143
 msgid "Delete constituency"
-msgstr ""
+msgstr "Delete constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:144
 msgid "View constituency"
-msgstr ""
+msgstr "View constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Add minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
-msgstr ""
+msgstr "Edit minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "Delete minister"
-msgstr ""
+msgstr "Delete minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Edit session"
-msgstr ""
+msgstr "Edit session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:150
 msgid "View minister"
-msgstr ""
+msgstr "View minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Add committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
-msgstr ""
+msgstr "Edit committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Delete committee member"
-msgstr ""
+msgstr "Delete committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:159
 msgid "View committee member"
-msgstr ""
+msgstr "View committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:16
 msgid "Delete session"
-msgstr ""
+msgstr "Delete session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Add committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
-msgstr ""
+msgstr "Edit committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Delete committee staff"
-msgstr ""
+msgstr "Delete committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:168
 msgid "View committee staff"
-msgstr ""
+msgstr "View committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:17
 msgid "Add sitting"
-msgstr ""
+msgstr "Add sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Add political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
-msgstr ""
+msgstr "Edit political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Delete political group member"
-msgstr ""
+msgstr "Delete political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "View political group member"
-msgstr ""
+msgstr "View political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Edit sitting"
-msgstr ""
+msgstr "Edit sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Add address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
-msgstr ""
+msgstr "Edit address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:185
 msgid "Delete address"
@@ -7893,91 +7894,91 @@ msgstr "Delete address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:186
 msgid "View address"
-msgstr ""
+msgstr "View address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:189
 msgid "Add delegation"
-msgstr ""
+msgstr "Add delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:19
 msgid "Delete sitting"
-msgstr ""
+msgstr "Delete sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:190
 msgid "Edit delegation"
-msgstr ""
+msgstr "Edit delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:191
 msgid "Delete delegation"
-msgstr ""
+msgstr "Delete delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:192
 msgid "View delegation"
-msgstr ""
+msgstr "View delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Add tile/function"
-msgstr ""
+msgstr "Add tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Edit tile/function"
-msgstr ""
+msgstr "Edit tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:197
 msgid "Delete tile/function"
-msgstr ""
+msgstr "Delete tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:198
 msgid "View tile/function"
-msgstr ""
+msgstr "View tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Reorder schedulings"
-msgstr ""
+msgstr "Reorder schedulings"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:201
 msgid "Add tile/event"
-msgstr ""
+msgstr "Add tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:202
 msgid "Edit tile/event"
-msgstr ""
+msgstr "Edit tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:203
 msgid "Delete tile/event"
-msgstr ""
+msgstr "Delete tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:204
 msgid "View tile/event"
-msgstr ""
+msgstr "View tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:208
 msgid "View audit log"
-msgstr ""
+msgstr "View audit log"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Add item scheduling"
-msgstr ""
+msgstr "Add item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:217
 msgid "Add and edit amendments"
-msgstr ""
+msgstr "Add and edit amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:218
 msgid "View amendments"
-msgstr ""
+msgstr "View amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Edit item scheduling"
-msgstr ""
+msgstr "Edit item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:220
 msgid "Add and edit comments"
-msgstr ""
+msgstr "Add and edit comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:221
 msgid "View comments"
-msgstr ""
+msgstr "View comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:223
 msgid "View Agenda"
@@ -8001,7 +8002,7 @@ msgstr "Edit consignatory"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:23
 msgid "Delete item scheduling"
-msgstr ""
+msgstr "Delete item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:230
 #: src/bungeni.models/bungeni/models/permissions.zcml:231
@@ -8018,27 +8019,27 @@ msgstr "Edit group item assignment"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Add item scheduling category"
-msgstr ""
+msgstr "Add item scheduling category"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:26
 msgid "Edit item scheduling discussion"
-msgstr ""
+msgstr "Edit item scheduling discussion"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add committee"
-msgstr ""
+msgstr "Add committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:31
 msgid "Edit committee"
-msgstr ""
+msgstr "Edit committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:32
 msgid "Delete committee"
-msgstr ""
+msgstr "Delete committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:33
 msgid "View committee"
-msgstr ""
+msgstr "View committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:37
 msgid "Add Question"
@@ -8082,7 +8083,7 @@ msgstr "Edit agenda item"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:57
 msgid "Delete agendaitem"
-msgstr ""
+msgstr "Delete agendaitem"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:58
 msgid "View agendaitem"
@@ -8098,7 +8099,7 @@ msgstr "Edit tabled document"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:63
 msgid "Delete tableddocument"
-msgstr ""
+msgstr "Delete tableddocument"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:64
 msgid "View tableddocument"
@@ -8150,51 +8151,51 @@ msgstr "Admin user record"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:84
 msgid "Edit historical data"
-msgstr ""
+msgstr "Edit historical data"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add party"
-msgstr ""
+msgstr "Add party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:88
 msgid "Edit party"
-msgstr ""
+msgstr "Edit party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:89
 msgid "Delete party"
-msgstr ""
+msgstr "Delete party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:90
 msgid "View party"
-msgstr ""
+msgstr "View party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Add government"
-msgstr ""
+msgstr "Add government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit government"
-msgstr ""
+msgstr "Edit government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:95
 msgid "Delete government"
-msgstr ""
+msgstr "Delete government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:96
 msgid "View government"
-msgstr ""
+msgstr "View government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:99
 msgid "Add group member"
-msgstr ""
+msgstr "Add group member"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:10
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Minister"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:12
 msgid "Clerks Office"
@@ -8206,7 +8207,7 @@ msgstr "Speaker office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
-msgstr ""
+msgstr "All authenticated users"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
@@ -8222,15 +8223,15 @@ msgstr "Bungeni admin"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Member of parliament"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
 msgid "Metadata"
-msgstr ""
+msgstr "Metadata"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
 msgid "History"
-msgstr ""
+msgstr "History"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
 msgid "Add, Remove, Delete actions for a Container"
@@ -8251,21 +8252,21 @@ msgstr "Alternative views of the object (RSS, ICAL, etc)"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
 msgid "Edit"
-msgstr ""
+msgstr "Edit"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
 msgid "Contents"
-msgstr ""
+msgstr "Contents"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
 msgid "Settings"
-msgstr ""
+msgstr "Settings"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
 msgid "Contextual Action Views of the Object"
@@ -8274,32 +8275,32 @@ msgstr "Contextual action views of the object"
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
 msgid "RSS"
-msgstr ""
+msgstr "RSS"
 
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
 msgid "ICal"
-msgstr ""
+msgstr "ICal"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
-msgstr ""
+msgstr "Schedule a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Respond to a question"
-msgstr ""
+msgstr "Respond to a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Answer a question"
-msgstr ""
+msgstr "Answer a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Withdraw a question"
-msgstr ""
+msgstr "Withdraw a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question in writing"
-msgstr ""
+msgstr "Answer a question in writing"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
 msgid "Submit a Response"
@@ -8311,71 +8312,71 @@ msgstr "Complete a response"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a motion"
-msgstr ""
+msgstr "Submit a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Recieve a motion"
-msgstr ""
+msgstr "Recieve a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
 msgid "Review a motion"
-msgstr ""
+msgstr "Review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Speaker review a motion"
-msgstr ""
+msgstr "Speaker review a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Schedule a motion"
-msgstr ""
+msgstr "Schedule a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Mark a motion as debated"
-msgstr ""
+msgstr "Mark a motion as debated"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Withdraw a motion"
-msgstr ""
+msgstr "Withdraw a motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Submit a bill"
-msgstr ""
+msgstr "Submit a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Schedule a bill"
-msgstr ""
+msgstr "Schedule a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
 msgid "Assign a bill to a committee"
-msgstr ""
+msgstr "Assign a bill to a committee"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Reject/Approve a bill"
-msgstr "Reject/approve a bill"
+msgstr "Reject/Approve a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Withdraw a bill"
-msgstr ""
+msgstr "Withdraw a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Revert a transition back to an earlier stage"
-msgstr ""
+msgstr "Revert a transition back to an earlier stage"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Manage Bungeni groups"
-msgstr ""
+msgstr "Manage Bungeni groups"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
 msgid "Manage User Adresses"
-msgstr "Manage user adresses"
+msgstr "Manage User Adresses"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:38
 msgid "Submit a agendaitem"
-msgstr "Submit an agenda item"
+msgstr "Submit a agendaitem"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:39
 msgid "Recieve a agendaitem"
-msgstr "Recieve an agenda item"
+msgstr "Recieve a agendaitem"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:40
 msgid "Review a agendaitem"
@@ -8431,227 +8432,227 @@ msgstr "Change sitting status"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
 msgid "Submit a question"
-msgstr ""
+msgstr "Submit a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
 msgid "Recieve a question"
-msgstr ""
+msgstr "Recieve a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
-msgstr ""
+msgstr "Review a question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Speaker review a question"
-msgstr ""
+msgstr "Speaker review a question"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "Edit group member"
-msgstr ""
+msgstr "Edit group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:101
 msgid "Delete group member"
-msgstr ""
+msgstr "Delete group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:102
 msgid "View group member"
-msgstr ""
+msgstr "View group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Add office"
-msgstr ""
+msgstr "Add office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "Edit office"
-msgstr ""
+msgstr "Edit office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:107
 msgid "Delete office"
-msgstr ""
+msgstr "Delete office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:108
 msgid "View office"
-msgstr ""
+msgstr "View office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:11
 msgid "Edit historical content"
-msgstr ""
+msgstr "Edit historical content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:111
 msgid "Add office member"
-msgstr ""
+msgstr "Add office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:112
 msgid "Edit office member"
-msgstr ""
+msgstr "Edit office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:113
 msgid "Delete office member"
-msgstr ""
+msgstr "Delete office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:114
 msgid "View office member"
-msgstr ""
+msgstr "View office member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Translate content"
-msgstr ""
+msgstr "Translate content"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:120
 msgid "Add ministry"
-msgstr ""
+msgstr "Add ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:121
 msgid "Edit ministry"
-msgstr ""
+msgstr "Edit ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:122
 msgid "Delete ministry"
-msgstr ""
+msgstr "Delete ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "View ministry"
-msgstr ""
+msgstr "View ministry"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:126
 msgid "Add mp"
-msgstr ""
+msgstr "Add mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:127
 msgid "Edit mp"
-msgstr ""
+msgstr "Edit mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:128
 msgid "Delete mp"
-msgstr ""
+msgstr "Delete mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:129
 msgid "View mp"
-msgstr ""
+msgstr "View mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:135
 msgid "Add user"
-msgstr ""
+msgstr "Add user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:136
 msgid "Edit user"
-msgstr ""
+msgstr "Edit user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Delete user"
-msgstr ""
+msgstr "Delete user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:138
 msgid "View user"
-msgstr ""
+msgstr "View user"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:14
 msgid "Add session"
-msgstr ""
+msgstr "Add session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:141
 msgid "Add constituency"
-msgstr ""
+msgstr "Add constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:142
 msgid "Edit constituency"
-msgstr ""
+msgstr "Edit constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:143
 msgid "Delete constituency"
-msgstr ""
+msgstr "Delete constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:144
 msgid "View constituency"
-msgstr ""
+msgstr "View constituency"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Add minister"
-msgstr ""
+msgstr "Add minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Edit minister"
-msgstr ""
+msgstr "Edit minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "Delete minister"
-msgstr ""
+msgstr "Delete minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Edit session"
-msgstr ""
+msgstr "Edit session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:150
 msgid "View minister"
-msgstr ""
+msgstr "View minister"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:156
 msgid "Add committee member"
-msgstr ""
+msgstr "Add committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:157
 msgid "Edit committee member"
-msgstr ""
+msgstr "Edit committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Delete committee member"
-msgstr ""
+msgstr "Delete committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:159
 msgid "View committee member"
-msgstr ""
+msgstr "View committee member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:16
 msgid "Delete session"
-msgstr ""
+msgstr "Delete session"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:165
 msgid "Add committee staff"
-msgstr ""
+msgstr "Add committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:166
 msgid "Edit committee staff"
-msgstr ""
+msgstr "Edit committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Delete committee staff"
-msgstr ""
+msgstr "Delete committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:168
 msgid "View committee staff"
-msgstr ""
+msgstr "View committee staff"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:17
 msgid "Add sitting"
-msgstr ""
+msgstr "Add sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:174
 msgid "Add political group member"
-msgstr ""
+msgstr "Add political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:175
 msgid "Edit political group member"
-msgstr ""
+msgstr "Edit political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Delete political group member"
-msgstr ""
+msgstr "Delete political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "View political group member"
-msgstr ""
+msgstr "View political group member"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Edit sitting"
-msgstr ""
+msgstr "Edit sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:183
 msgid "Add address"
-msgstr ""
+msgstr "Add address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:184
 msgid "Edit address"
-msgstr ""
+msgstr "Edit address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:185
 msgid "Delete address"
@@ -8659,91 +8660,91 @@ msgstr "Delete address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:186
 msgid "View address"
-msgstr ""
+msgstr "View address"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:189
 msgid "Add delegation"
-msgstr ""
+msgstr "Add delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:19
 msgid "Delete sitting"
-msgstr ""
+msgstr "Delete sitting"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:190
 msgid "Edit delegation"
-msgstr ""
+msgstr "Edit delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:191
 msgid "Delete delegation"
-msgstr ""
+msgstr "Delete delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:192
 msgid "View delegation"
-msgstr ""
+msgstr "View delegation"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Add tile/function"
-msgstr ""
+msgstr "Add tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Edit tile/function"
-msgstr ""
+msgstr "Edit tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:197
 msgid "Delete tile/function"
-msgstr ""
+msgstr "Delete tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:198
 msgid "View tile/function"
-msgstr ""
+msgstr "View tile/function"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Reorder schedulings"
-msgstr ""
+msgstr "Reorder schedulings"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:201
 msgid "Add tile/event"
-msgstr ""
+msgstr "Add tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:202
 msgid "Edit tile/event"
-msgstr ""
+msgstr "Edit tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:203
 msgid "Delete tile/event"
-msgstr ""
+msgstr "Delete tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:204
 msgid "View tile/event"
-msgstr ""
+msgstr "View tile/event"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:208
 msgid "View audit log"
-msgstr ""
+msgstr "View audit log"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Add item scheduling"
-msgstr ""
+msgstr "Add item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:217
 msgid "Add and edit amendments"
-msgstr ""
+msgstr "Add and edit amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:218
 msgid "View amendments"
-msgstr ""
+msgstr "View amendments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Edit item scheduling"
-msgstr ""
+msgstr "Edit item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:220
 msgid "Add and edit comments"
-msgstr ""
+msgstr "Add and edit comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:221
 msgid "View comments"
-msgstr ""
+msgstr "View comments"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:223
 msgid "View Agenda"
@@ -8767,7 +8768,7 @@ msgstr "Edit consignatory"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:23
 msgid "Delete item scheduling"
-msgstr ""
+msgstr "Delete item scheduling"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:230
 #: src/bungeni.models/bungeni/models/permissions.zcml:231
@@ -8784,27 +8785,27 @@ msgstr "Edit group item assignment"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Add item scheduling category"
-msgstr ""
+msgstr "Add item scheduling category"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:26
 msgid "Edit item scheduling discussion"
-msgstr ""
+msgstr "Edit item scheduling discussion"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add committee"
-msgstr ""
+msgstr "Add committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:31
 msgid "Edit committee"
-msgstr ""
+msgstr "Edit committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:32
 msgid "Delete committee"
-msgstr ""
+msgstr "Delete committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:33
 msgid "View committee"
-msgstr ""
+msgstr "View committee"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:37
 msgid "Add Question"
@@ -8848,7 +8849,7 @@ msgstr "Edit agenda item"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:57
 msgid "Delete agendaitem"
-msgstr ""
+msgstr "Delete agendaitem"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:58
 msgid "View agendaitem"
@@ -8864,7 +8865,7 @@ msgstr "Edit tabled document"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:63
 msgid "Delete tableddocument"
-msgstr ""
+msgstr "Delete tableddocument"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:64
 msgid "View tableddocument"
@@ -8916,51 +8917,51 @@ msgstr "Admin user record"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:84
 msgid "Edit historical data"
-msgstr ""
+msgstr "Edit historical data"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add party"
-msgstr ""
+msgstr "Add party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:88
 msgid "Edit party"
-msgstr ""
+msgstr "Edit party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:89
 msgid "Delete party"
-msgstr ""
+msgstr "Delete party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:90
 msgid "View party"
-msgstr ""
+msgstr "View party"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Add government"
-msgstr ""
+msgstr "Add government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit government"
-msgstr ""
+msgstr "Edit government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:95
 msgid "Delete government"
-msgstr ""
+msgstr "Delete government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:96
 msgid "View government"
-msgstr ""
+msgstr "View government"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:99
 msgid "Add group member"
-msgstr ""
+msgstr "Add group member"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:10
 msgid "Owner"
-msgstr ""
+msgstr "Owner"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:11
 msgid "Minister"
-msgstr ""
+msgstr "Minister"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:12
 msgid "Clerks Office"
@@ -8972,7 +8973,7 @@ msgstr "Speaker office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
-msgstr ""
+msgstr "All authenticated users"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
@@ -8988,6 +8989,6 @@ msgstr "Bungeni admin"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
-msgstr ""
+msgstr "Member of parliament"
 
 

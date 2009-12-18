@@ -37,6 +37,7 @@
      name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".workspace.UserIdViewlet"
+     view="bungeni.ui.interfaces.IMPWorkspace"     
      for="*"
      permission="zope.View"
      weight="10"

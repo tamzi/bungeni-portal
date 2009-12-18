@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
 "POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-17 17:11-0500\n"
+"PO-Revision-Date: 2009-12-18 02:31-0500\n"
 "Last-Translator: \n"
 "Language-Team: American English <kde-i18n-doc@kde.org>\n"
 "MIME-Version: 1.0\n"
@@ -988,7 +988,7 @@ msgstr "Scéances"
 #: src/bungeni.core/bungeni/core/dc.py:133
 #. Default: ""
 msgid "Sitting scheduled for '$group' ($start to $end)."
-msgstr "Prévue pour le '$group' ($ start à $ fin)."
+msgstr "Prévue pour le '$group' ($start à $end)."
 
 #: src/bungeni.core/bungeni/core/dc.py:143
 msgid "Item scheduling"
@@ -1043,7 +1043,7 @@ msgstr "Groupe principal inconnu"
 #: src/bungeni.core/bungeni/core/transformation.py:189
 #. Default: "HTML fragment to OpenDocument format"
 msgid "title_html_fragment_odf_transform"
-msgstr "title_html_fragment_odf_transform"
+msgstr "Fragment HTML à un format d'opendocument"
 
 #: src/bungeni.core/bungeni/core/version.py:117
 #. Default: ""
@@ -1861,11 +1861,11 @@ msgstr "Supprimer parlement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:74
 msgid "View Parliament"
-msgstr "View parliament"
+msgstr "Voir un parlement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:77
 msgid "Add Bill"
-msgstr "Add bill"
+msgstr "Ajouter un projet de loi"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:78
 msgid "Edit Bill"
@@ -1877,7 +1877,7 @@ msgstr "Supprimer un projet de loi"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:80
 msgid "View Bill"
-msgstr "View bill"
+msgstr "Voir un projet de loi"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:83
 msgid "Admin User Record"
@@ -1937,7 +1937,7 @@ msgstr "Employés de bureau"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:13
 msgid "Speaker Office"
-msgstr "Speaker office"
+msgstr "Office du Coordinateur"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "All authenticated users"
@@ -1945,15 +1945,15 @@ msgstr "Tous les utilisateurs authentifiés"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Bungeni Visitor"
-msgstr "Bungeni visitor"
+msgstr "Visiteur de BUNGENI"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:7
 msgid "Site Manager"
-msgstr "Site Manager"
+msgstr "Gérant du site"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:8
 msgid "Bungeni Admin"
-msgstr "Bungeni admin"
+msgstr "Administrateur de bungeni"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Member of parliament"
@@ -2015,7 +2015,7 @@ msgstr "Syndications réellement simple (RSS)"
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
 #: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
 msgid "ICal"
-msgstr "Calendrier"
+msgstr "ICalendrier"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Schedule a question"
@@ -2738,7 +2738,7 @@ msgstr "Déscritpion"
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:163
 #. Default: ""
 msgid "$R"
-msgstr ""
+msgstr "$R"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:246
 #. Default: ""
@@ -2749,17 +2749,17 @@ msgstr "Agenda n'est pas disponible parce que le groupe d'ordonnancement ($ labe
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:308
 #. Default: ""
 msgid "$B $Y"
-msgstr ""
+msgstr "$B $Y"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:373
 #. Default: ""
 msgid "$A $e, $B $Y"
-msgstr ""
+msgstr "$A $e, $B $Y"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:374
 #. Default: ""
 msgid "$type &mdash; ${start}-${end}"
-msgstr ""
+msgstr "$type &mdash; ${start}-${end}"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:444
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1211
@@ -2809,7 +2809,7 @@ msgstr "Ce formulaire génère le \ 342 \ 200 \ 234 ordre du jour \ 342 \ 200 \ 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:576
 #. Default: ""
 msgid "$x"
-msgstr ""
+msgstr "$x"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:59
 msgid "Daily"
@@ -2841,7 +2841,7 @@ msgstr "Ordre du jour"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:12
 msgid "&rarr;"
-msgstr ""
+msgstr "&rarr;"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:178
 msgid "No items scheduled."
@@ -2850,12 +2850,12 @@ msgstr "Pas d'articles réguliers."
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:211
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:307
 msgid "Week ${week_no}"
-msgstr ""
+msgstr "Semaine ${week_no}"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:270
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:367
 msgid "${count} item(s) scheduled."
-msgstr ""
+msgstr "${count} Planification d'un objet/d'objets"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:367
 #. Default: ""
@@ -3159,7 +3159,7 @@ msgstr "Points prévus pour cette réunion"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:6
 msgid "&larr;"
-msgstr ""
+msgstr "&larr;"
 
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:61
 msgid "Refresh"
@@ -3424,7 +3424,7 @@ msgstr "Question type"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1451
 msgid "(O)rdinary or (P)rivate Notice"
-msgstr ""
+msgstr "Notice (O)rdinaire ou (P)rivée"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1456
 msgid "Response Type"
@@ -3432,7 +3432,7 @@ msgstr "Response type"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1457
 msgid "(O)ral or (W)ritten"
-msgstr ""
+msgstr "(O)ral(e) ou (É)crit"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1462
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:486
@@ -4472,7 +4472,7 @@ msgstr "Confirmation de suppression de l'objet"
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:337
 #: src/bungeni.ui/bungeni/ui/calendar/macros.pt:340
 msgid "${DYNAMIC_CONTENT}"
-msgstr ""
+msgstr "${DYNAMIC_CONTENT}"
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/mp_item_viewlet.pt:1
 msgid "Parliamentary activities"
@@ -4910,12 +4910,12 @@ msgstr "Filtrer par rangées de dates."
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:14
 #. Default: ""
 msgid "day_%d"
-msgstr ""
+msgstr "Jour_%d"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:48
 #. Default: ""
 msgid "Day $number of every month"
-msgstr ""
+msgstr "Jour $number de chaque mois"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:52
 #. Default: ""
@@ -4932,7 +4932,7 @@ msgstr "Question initialle"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:327
 msgid "Jan"
-msgstr ""
+msgstr "Jan"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:328
 msgid "Feb"
@@ -4940,7 +4940,7 @@ msgstr "Fev"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:329
 msgid "Mar"
-msgstr ""
+msgstr "Mar"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:330
 msgid "Apr"
@@ -4960,23 +4960,23 @@ msgstr "Juillet"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:334
 msgid "Aug"
-msgstr ""
+msgstr "Août"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:335
 msgid "Sep"
-msgstr ""
+msgstr "Sep"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:336
 msgid "Oct"
-msgstr ""
+msgstr "Oct"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:337
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:338
 msgid "Dec"
-msgstr ""
+msgstr "Dec"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:36
 #. Default: ""

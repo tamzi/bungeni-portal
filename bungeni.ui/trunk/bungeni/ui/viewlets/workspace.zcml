@@ -42,6 +42,15 @@
      permission="zope.View"
      weight="10"
      />   
+     
+  <browser:viewlet
+     name="bungeni.viewlet.schedule-user_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".workspace.UserIdViewlet"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     permission="zope.View"
+     weight="10"
+     />      
   
    <browser:viewlet
      name="bungeni.workspace.mp-draft"

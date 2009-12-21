@@ -31,21 +31,31 @@ redirect_stderr = true
 command = <%=plone_buildout_dir%>/bin/paster serve <%=plone_buildout_dir%>/etc/deploy.ini --log-file=<%=plone_buildout_dir%>/plone.log --pid-file=<%=plone_buildout_dir%>/plone.pid
 process_name = plone
 directory = <%=plone_buildout_dir%>/bin
-priority = 10
+priority = 20
 redirect_stderr = true
 
 [program:portal]
 command = <%=portal_buildout_dir%>/bin/paster serve <%=portal_buildout_dir%>/deploy.ini --log-file=<%=portal_buildout_dir%>/portal.log --pid-file=<%=portal_buildout_dir%>/portal.pid
 process_name = portal
 directory = <%=portal_buildout_dir%>/bin
-priority = 10
+priority = 30
 redirect_stderr = true
 
 [program:postgres]
 command = <%=buildout_dir%>/parts/postgresql/bin/postmaster -D <%=buildout_dir%>/parts/db
 stdout_logfile = <%=buildout_dir%>/log/postgres.log
+priority = 40
 redirect_stderr = true
 stopsignal = INT
+
+[program:varnish]
+command = <%=varnish_runtime%>/sbin/varnishd -T <%=varnish_admin_host%>:<%=varnish_admin_port%> -f <%=varnish_vcl_config%> -s file,<%=varnish_cache%>,<%=varnish_cache_mem%>
+process_name = varnish
+priority = 50
+redirect_stderr = true
+stopsignal = INT
+
+
 ;
 ;
 ;command = <%=buildout_dir%>/bin/pg_ctl start

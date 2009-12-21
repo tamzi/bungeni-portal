@@ -26,7 +26,7 @@ set :user_install_root, "/home/undesa/cap_installs"
 set :python_download_url, "/home/undesa/cache/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
 set :python_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7.tar.gz"
 set :svn_download_url,  "/home/undesa/cache/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
-
+set :varnish_download_url, "/home/undesa/cache/varnish-2.0.6.tar.gz" # "http://downloads.sourceforge.net/project/varnish/varnish/2.0.6/varnish-2.0.6.tar.gz?use_mirror=garr"
 
 ##### Component Specific Parameters ##### 
 
@@ -59,6 +59,13 @@ set :svn_download_command, get_download_command(svn_download_url)
 set :svn_download_file, File.basename(svn_download_url)
 set :svn_src_dir, File.basename(svn_download_file, ".tar.gz")
 set :svn_neon_config, "#{neon_runtime}/bin/neon-config"
+
+#### varnish parameters ###
+set :varnish_build_path, "#{user_build_root}/varnish"
+set :varnish_runtime, "#{user_install_root}/varnish"
+set :varnish_download_command, get_download_command(varnish_download_url)
+set :varnish_download_file, File.basename(varnish_download_url)
+set :varnish_src_dir, File.basename(varnish_download_file, ".tar.gz")
 
 
 namespace :bungeni_presetup do
@@ -147,13 +154,28 @@ namespace :bungeni_presetup do
 	].each {|cmd| run cmd}
     end
 
+    task :build_varnish, :roles=> [:app] do 
+	[
+	"mkdir -p #{varnish_build_path}",
+	"rm -rf #{varnish_build_path}/*.*",
+	"mkdir -p #{varnish_runtime}",
+	"cd #{varnish_build_path} && #{varnish_download_command}",
+ 	"cd #{varnish_build_path} && tar xvzf #{varnish_download_file}",
+	"cd #{varnish_build_path}/#{varnish_src_dir} && ./configure --prefix=#{varnish_runtime}",
+	"cd #{varnish_build_path}/#{varnish_src_dir} && make && make install"
+	].each {|cmd| run cmd}
+    end
+
+
+
+
     desc "the build_all task sets up all the prerequisites for a bungeni buildout"
     task :build_all, :roles=> [:app] do
 	run "echo 'Installing all bungeni prerequisites'"
     end 
 	
 	
-    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging", "bungeni_presetup:build_libneon", "bungeni_presetup:build_svn"
+    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging", "bungeni_presetup:build_libneon", "bungeni_presetup:build_svn", "bungeni_presetup:build_varnish"
 
 
 end

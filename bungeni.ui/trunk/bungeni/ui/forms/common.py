@@ -599,6 +599,6 @@ class DeleteForm(BaseForm, form.PageForm):
         next_url = self.nextURL()
         if next_url is None:
             next_url = absoluteURL(container, self.request) + \
-                       '/@@add?portal_status_message=%d items deleted' % count
+                       '/?portal_status_message=%d items deleted' % count
 
         self.request.response.redirect(next_url)

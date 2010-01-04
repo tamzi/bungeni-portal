@@ -131,7 +131,8 @@ class AuditorFactory( object ):
         #return self._objectChanged(u'workflow', object )
         
     def objectDeleted( self, object, event ):
-        return self._objectChanged(u'deleted', object )
+        #return self._objectChanged(u'deleted', object )
+        return
 
     def objectNewVersion( self, object, event ):
         return self._objectChanged(u"new-version", object, description=event.message )

@@ -122,7 +122,7 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
 
     class IWorkflowComment(zope.interface.Interface):
         note = zope.schema.Text(
-            title=_("Comment on workflow change"), required=False )
+            title=_("Comment on workflow change"), required=True )
 
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
@@ -149,9 +149,12 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
         # after we transition we have different actions
         self.setupActions(transition)
         # only display the notes field to comment if there is an action
+        # and a log table
+        auditor = audit.getAuditor( self.context )                
         if len(self.actions) == 0: 
             self.form_fields = self.form_fields.omit('note')
-            
+        elif auditor is None:          
+            self.form_fields = self.form_fields.omit('note')    
         self.setUpWidgets()
 
     def setupActions(self, transition):

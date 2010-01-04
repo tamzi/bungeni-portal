@@ -1060,7 +1060,15 @@
      permission="bungeni.bill.Edit"           
      />
 
-
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IBill"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.bill.Delete"           
+     />
+     
   <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IQuestion"
@@ -1068,6 +1076,15 @@
      title="Edit"
      order="10"
      permission="bungeni.question.Edit"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IQuestion"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.question.Delete"           
      />
 
 
@@ -1080,6 +1097,14 @@
      permission="bungeni.motion.Edit"           
      />
 
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IMotion"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.motion.Delete"           
+     />
  
   <browser:menuItem
      menu="context_actions"
@@ -1088,6 +1113,16 @@
      title="Edit"
      order="10"
      permission="bungeni.tableddocument.Edit"           
+     />
+
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.ITabledDocument"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.tableddocument.Delete"           
      />
      
   <browser:menuItem
@@ -1098,6 +1133,15 @@
      order="10"
      permission="bungeni.agendaitem.Edit"           
      />
+     
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IAgendaItem"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.agendaitem.Delete"           
+     />     
 
   <browser:menuItem
      menu="context_actions"

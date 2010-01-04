@@ -114,7 +114,11 @@ class AuditorFactory( object ):
         comment = event.comment
         if comment is None:
             comment =u""
-        wf = IWorkflowInfo(object)    
+        else:
+            if getattr(object, 'note', False) and len(comment)>1:
+                object.note = comment
+                                                
+        wf = IWorkflowInfo(object)  
         if event.source:
             #get human readable titles for workflow state
             event_title = wf.workflow().workflow.states[event.source].title

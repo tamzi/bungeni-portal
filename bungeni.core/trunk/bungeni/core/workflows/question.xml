@@ -152,6 +152,7 @@
      action="bungeni.core.workflows.question.actions.require_edit_by_mp"
      condition=""
      event=".interfaces.IQuestionClarifyEvent"
+     require_confirmation="true"     
      />
   
   <!--After the Clerk's Office is through with the Notices reviews and there are satisfied 
@@ -215,6 +216,7 @@
      action="bungeni.core.workflows.question.actions.require_amendment"
      condition=""
      event=""
+     require_confirmation="true"     
      />
   
   <!--
@@ -247,6 +249,7 @@
      action="bungeni.core.workflows.question.actions.mp_clarify"
      condition=""
      event=""
+     require_confirmation="true"     
      />
 
   <!--

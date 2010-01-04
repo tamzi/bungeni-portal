@@ -237,7 +237,8 @@ mapper( domain.Question, schema.questions,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='question',
         properties = {
-             'changes':relation( domain.QuestionChange, backref='origin'),  
+             'changes':relation( domain.QuestionChange, backref='origin',
+             cascade="all, delete-orphan", passive_deletes=False),  
              'ministry': relation( domain.Ministry),
              }
         )
@@ -256,7 +257,8 @@ mapper( domain.Motion, schema.motions,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='motion',
         properties = {
-             'changes':relation( domain.MotionChange, backref='origin'),
+             'changes':relation( domain.MotionChange, backref='origin',
+             cascade="all, delete-orphan", passive_deletes=False),
              }
         )
         
@@ -272,7 +274,8 @@ mapper( domain.Bill, schema.bills,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='bill',
         properties = {
-             'changes':relation( domain.BillChange, backref='origin')
+             'changes':relation( domain.BillChange, backref='origin',
+             cascade="all, delete-orphan", passive_deletes=False)
              }
         )
 mapper( domain.BillChange, schema.bill_changes )
@@ -295,7 +298,8 @@ mapper( domain.AgendaItem, schema.agenda_items,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='agendaitem',
         properties = {
-             'changes' : relation( domain.AgendaItemChange, backref='origin'),
+             'changes' : relation( domain.AgendaItemChange, backref='origin',
+             cascade="all, delete-orphan", passive_deletes=False),
              'group' : relation(domain.Group, 
                 primaryjoin=(schema.agenda_items.c.group_id==schema.groups.c.group_id ),
                 backref = 'agenda_items',
@@ -313,7 +317,8 @@ mapper( domain.TabledDocument, schema.tabled_documents,
         polymorphic_on=schema.parliamentary_items.c.type,
         polymorphic_identity='tableddocument',
         properties = {
-             'changes':relation( domain.TabledDocumentChange, backref='origin'),
+             'changes':relation( domain.TabledDocumentChange, backref='origin',
+             cascade="all, delete-orphan", passive_deletes=False),
              } )
 mapper( domain.TabledDocumentChange, schema.tabled_document_changes )
 mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,

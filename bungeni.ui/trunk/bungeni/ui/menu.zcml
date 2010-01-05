@@ -495,6 +495,27 @@
      />
           
   <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IMemberOfParliament"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.mp.Delete"           
+     />          
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IBungeniGroupMembership"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.groupmember.Delete"           
+     />   
+
+
+          
+          
+  <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.OfficeContainer"
      title="Add Office..."

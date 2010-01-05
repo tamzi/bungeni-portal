@@ -4,6 +4,11 @@ load 'config/commonfunctions'
 load 'config/bungeni_presetup'
 load 'config/bungeniconfigvars'
 load 'config/bungeniconfiglocalcache'
+## Varnish
+load 'config/varnishconfigvars'
+load 'config/varnish_presetup'
+load 'config/varnish_tasks'
+### Bungeni
 load 'config/bungeni_tasks'
 load 'config/bungeni_update'
 load 'config/bungeni_install'

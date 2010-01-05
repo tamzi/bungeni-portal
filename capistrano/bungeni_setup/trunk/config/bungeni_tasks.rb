@@ -20,6 +20,7 @@ namespace :bungeni_tasks do
 	run "echo 'Local buildout configuration has been generated'"
     end
 
+
     ## setup easy_install for the python and then install supervisord
     task :python_setup, :roles => [:app] do
       run "cd #{user_python_home} && [ -f ./ez_setup.py ] && echo 'ez_setup.py exists' || wget http://peak.telecommunity.com/dist/ez_setup.py"

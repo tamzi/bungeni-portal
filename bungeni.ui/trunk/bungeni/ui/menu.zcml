@@ -1177,6 +1177,41 @@
      permission="bungeni.party.Edit"           
      />
 
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IParliament"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.parliament.Delete"           
+     />
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IOffice"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.office.Delete"           
+     />
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.ICommittee"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.committee.Delete"           
+     />     
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IPoliticalParty"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.party.Delete"           
+     />
+
   <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IGovernment"

@@ -1,0 +1,12 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@standard_macros/page">
+  
+  <div metal:fill-slot="body" i18n:domain="bungeni">
+  <p>Test video</p>
+	    <video src="http://192.168.0.20/media/aug-5.ogg" controls="controls" width="400" height="300">
+            your browser does not support the video tag
+        </video>
+  </div>
+</html>
+

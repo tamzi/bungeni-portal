@@ -1,0 +1,14 @@
+README.txt
+setup.py
+bungeni/__init__.py
+bungeni.transcripts.egg-info/PKG-INFO
+bungeni.transcripts.egg-info/SOURCES.txt
+bungeni.transcripts.egg-info/dependency_links.txt
+bungeni.transcripts.egg-info/entry_points.txt
+bungeni.transcripts.egg-info/namespace_packages.txt
+bungeni.transcripts.egg-info/not-zip-safe
+bungeni.transcripts.egg-info/requires.txt
+bungeni.transcripts.egg-info/top_level.txt
+bungeni/transcripts/__init__.py
+bungeni/transcripts/tests.py
+bungeni/transcripts/zope2.py

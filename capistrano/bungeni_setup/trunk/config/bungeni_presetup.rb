@@ -159,7 +159,7 @@ namespace :bungeni_presetup do
     end 
 	
 	
-    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging", "bungeni_presetup:build_libneon", "bungeni_presetup:build_svn", "bungeni_presetup:build_varnish"
+    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging", "bungeni_presetup:build_libneon", "bungeni_presetup:build_svn" ###, "varnish_presetup:build_varnish"
 
 
 end

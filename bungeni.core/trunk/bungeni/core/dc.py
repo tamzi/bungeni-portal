@@ -430,3 +430,17 @@ class ItemScheduleCategoryDescriptiveProperties(DescriptiveProperties):
     def description(self):            
         return u""
     
+class UserDelegationDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IUserDelegation)         
+    
+    @property
+    def title(self):    
+        context = removeSecurityProxy(self.context)
+        session = Session()
+        session.add(context)      
+        return u'%s %s' % (context.delegation.first_name,
+            context.delegation.last_name)
+           
+    @property
+    def description(self):            
+        return u""    

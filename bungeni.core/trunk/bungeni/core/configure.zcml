@@ -226,6 +226,7 @@
   <adapter factory=".dc.MemberRoleTitleDescriptiveProperties" />
   <adapter factory=".dc.ReportDescriptiveProperties" />
   <adapter factory=".dc.ItemScheduleCategoryDescriptiveProperties" />  
+  <adapter factory=".dc.UserDelegationDescriptiveProperties" />    
   <adapter
      name="dc"
      for="*"

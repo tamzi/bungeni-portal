@@ -48,12 +48,6 @@ priority = 40
 redirect_stderr = true
 stopsignal = INT
 
-;[program:varnish]
-;command = <%=varnish_runtime%>/sbin/varnishd -T <%=varnish_admin_host%>:<%=varnish_admin_port%> -f <%=varnish_vcl_config%> -s file,<%=varnish_cache%>,<%=varnish_cache_mem%>
-;process_name = varnish
-;priority = 50
-;redirect_stderr = true
-;stopsignal = INT
 
 
 ;

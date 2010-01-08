@@ -343,3 +343,6 @@ class IItemGroupItemAssignment(IGroupItemAssignment):
 class IReport(interface.Interface):
     pass        
             
+class IUserDelegation(interface.Interface):
+    pass
+                

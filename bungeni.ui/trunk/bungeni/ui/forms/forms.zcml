@@ -443,6 +443,40 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
+
+<!-- UserDelegations -->
+  <browser:page
+     name="view"
+     for="bungeni.models.interfaces.IUserDelegation"
+     class=".common.DisplayForm"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="add"
+     for="bungeni.models.domain.UserDelegationContainer"
+     class=".common.AddForm"
+     permission="bungeni.delegation.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.interfaces.IUserDelegation"
+     class=".common.EditForm"
+     permission="bungeni.delegation.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.interfaces.IUserDelegation"
+     class=".common.DeleteForm"
+     permission="bungeni.delegation.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
 <!-- sitting catergories (same permissions as sitting-->
 
   <browser:page

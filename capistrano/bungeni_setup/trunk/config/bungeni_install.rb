@@ -31,7 +31,7 @@ namespace :bungeni_install do
 
     after "bungeni_install:full_from_cache", "bungeni_tasks:python_setup", "bungeni_tasks:bootstrap_bo", "bungeni_tasks:localbuildout_config", "bungeni_tasks:buildout_full_local", "bungeni_install:setup_db"
 
-    after "bungeni_install:setup_db", "bungeni_tasks:setup_db", "bungeni_tasks:install_demo_data", "bungeni_tasks:supervisord_config"
+    after "bungeni_install:setup_db", "bungeni_tasks:setup_db", "bungeni_tasks:install_demo_data", "bungeni_tasks:supervisord_config", "bungeni_tasks:postgres_stop"
 
 
 end

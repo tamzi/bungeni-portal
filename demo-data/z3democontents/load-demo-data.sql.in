@@ -299,17 +299,17 @@ WHERE user_id IN
     
 
 
-update user_group_memberships set membership_type = 'committeestaff'
-where membership_type = 'committeemember'
-and user_group_memberships.user_id not in (
-select user_id 
-from user_group_memberships  as ugms inner join parliaments 
-	on ugms.group_id = parliaments.parliament_id);    
+UPDATE user_group_memberships SET membership_type = 'committeestaff'
+WHERE membership_type = 'committeemember'
+AND user_group_memberships.user_id NOT IN (
+SELECT user_id 
+FROM user_group_memberships  AS ugms INNER JOIN parliaments 
+	ON ugms.group_id = parliaments.parliament_id);    
     
     
     
 UPDATE user_group_memberships set "membership_type" = 'parliamentmember'
-where "user_group_memberships"."membership_id"
+WHERE "user_group_memberships"."membership_id"
 IN
 (
 SELECT "user_group_memberships_1"."membership_id" 
@@ -328,5 +328,9 @@ WHERE login IS NULL;
 
 
 UPDATE constituencies SET start_date = '1963-07-11';	
+
+INSERT INTO zope_principal_role_map (principal_id, role_id, setting, object_type, object_id)
+SELECT login, 'bungeni.Owner' AS role_id, True AS setting, 'user' AS object_type, user_id FROM users;
+
 
 

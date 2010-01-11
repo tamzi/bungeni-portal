@@ -779,6 +779,11 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
     ]
     list_id = "items-action-required"
 
+class SpeakersClerkItemActionRequiredViewlet(ClerkItemActionRequiredViewlet):
+    name = "Clerks Office"
+    list_id = "clerks-items-action-required"
+
+
 class ClerkReviewedItemViewlet( AllItemsInStageViewlet ): 
     name = "Reviewed Items"
     states = [

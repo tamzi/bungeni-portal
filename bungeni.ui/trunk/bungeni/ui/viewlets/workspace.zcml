@@ -326,8 +326,18 @@
      permission="zope.View"
      weight="20"
      />  
-     
-     
+
+  <browser:viewlet
+     name="bungeni.workspace.items-pending"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.SpeakersClerkItemActionRequiredViewlet"
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"
+     permission="zope.View"
+     weight="30"
+     />      
+
+    
      
   <!-- Ministers workspace -->
 

@@ -188,7 +188,9 @@
      id="approve"
      title="Approve"
      trigger="manual"
-     source="complete"
+     source="complete
+            submitted
+            received"
      destination="admissible"
      permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.actions.approve"

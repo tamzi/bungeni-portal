@@ -21,6 +21,7 @@
   <state id="submitted" title="Submitted to clerk">
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Clerk" />    
+    <grant permission="zope.View" role="bungeni.Speaker" />        
     <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
   </state>
 
@@ -50,7 +51,6 @@
   </state>
 
   <state id="clarify_clerk" title="Needs clerks clarification">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
   </state>
 

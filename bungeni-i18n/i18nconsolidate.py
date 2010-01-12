@@ -26,7 +26,7 @@ while infile:
         if nl.startswith('msgstr'):
             message = messages.get(line.split('"')[1], '')
             outfile.write( 'msgid "%s"\n' % line.split('"')[1])         
-            outfile.write( 'msgid "%s"\n' % message)    
+            outfile.write( 'msgstr "%s"\n' % message)    
             outfile.write('#\n')                 
     if not line:
         break

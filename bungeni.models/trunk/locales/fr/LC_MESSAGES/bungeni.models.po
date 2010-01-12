@@ -1,0 +1,525 @@
+msgid ""
+msgid ""
+#
+msgid "Speaker's Office Email"
+msgid "Office du Coordinateur"
+#
+msgid "Speaker's Office Notification"
+msgid "Notification de l'Office du greffier"
+#
+msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+msgid "vrai si le bureau des greffiers souhaite être alerté par mail chaque fois qu'un projet de loi, mouvement, question est soumise"
+#
+msgid "Clerk's Office Notification"
+msgid "Notification de l'Office du greffier"
+#
+msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+msgid "vrai si le bureau des greffiers souhaite être alerté par mail chaque fois qu'un projet de loi, mouvement, question est soumise"
+#
+msgid "Clerks's Office Email"
+msgid "Mails d'employés de bureau"
+#
+msgid "Administrator's Email"
+msgid "Mails d'employés de bureau"
+#
+msgid "Allow Question Submission"
+msgid "Permettre le dépôt de la question"
+#
+msgid "Days to Defer Question"
+msgid "Days to defer question"
+#
+msgid "Time after which admissible questions are automatically deferred"
+msgid "Délai après lequel les questions admissibles sont automatiquement reportées"
+#
+msgid "Days to Notify Ministry of Pending Response"
+msgid "Jours pour aviser le ministère de la réponse en suspens"
+#
+msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
+msgid ""
+#
+msgid "Days before question scheduled"
+msgid "Jours avant que la question soit planifiée"
+#
+msgid "Days before bill scheduled"
+msgid "Jours avant planification d'un projet de loi"
+#
+msgid "Max Questions Per Sitting"
+msgid "Maximum de questions par scéance"
+#
+msgid "Max Questions Per Sitting Per MP"
+msgid "Maximum de questions par membre du parlement"
+#
+msgid "Email Notifications Enabled?"
+msgid "Mails d'employés de bureau activés?"
+#
+msgid "Name of the Assignment"
+msgid "Nom de la cession"
+#
+msgid "Start Date of the Assignment"
+msgid "Date de départ de la cession"
+#
+msgid "End Date of the Assignment"
+msgid "Date de clôture de la cession"
+#
+msgid "Assignment Type"
+msgid "Type de devoir"
+#
+msgid "Status"
+msgid "Statut"
+#
+msgid "Notes"
+msgid "Notes"
+#
+msgid "Add group member"
+msgid "Ajouter un/une membre d'un groupe"
+#
+msgid "Edit group member"
+msgid "Modifier le/les membre(s) d'un groupe"
+#
+msgid "Delete group member"
+msgid "Supprimer/Effacer un/une membre d'un groupe"
+#
+msgid "View group member"
+msgid "Voir le/les membre(s) d'un group"
+#
+msgid "Add office"
+msgid "Ajouter un bureau"
+#
+msgid "Edit office"
+msgid "Modifier un bureau"
+#
+msgid "Delete office"
+msgid "Supprimer un bureau"
+#
+msgid "View office"
+msgid "Voir un bureau"
+#
+msgid "Add office member"
+msgid "Ajouter un/une membre d'un bureau"
+#
+msgid "Edit office member"
+msgid "Modifier un/une membre d'un office"
+#
+msgid "Delete office member"
+msgid "Supprimer un/une membre d'un office"
+#
+msgid "View office member"
+msgid "Voir un/une membre d'un office"
+#
+msgid "Edit historical content"
+msgid "Modifier le contenu historique"
+#
+msgid "Add ministry"
+msgid "Ajouter ministre"
+#
+msgid "Edit ministry"
+msgid "Modifier ministère"
+#
+msgid "Delete ministry"
+msgid "Supprimer ministère"
+#
+msgid "View ministry"
+msgid "Voir ministère"
+#
+msgid "Add mp"
+msgid "Ajouter un/une membre du parlement"
+#
+msgid "Edit mp"
+msgid "Modifier"
+#
+msgid "Delete mp"
+msgid "Supprimer/Effacer un/une membre du parlement"
+#
+msgid "Translate content"
+msgid "Traduire le contenu"
+#
+msgid "View mp"
+msgid "Voir un/une membre du parlement"
+#
+msgid "Add user"
+msgid "Ajouter un/une utilisateur/utilisatrice"
+#
+msgid "Edit user"
+msgid "Modifier un/une utilisateur/utilisatrice"
+#
+msgid "Delete user"
+msgid "Supprimer/Effacer un/une utilisateur/utilisatrice"
+#
+msgid "View user"
+msgid "Voir un/une utilisateur/utilisatrice"
+#
+msgid "Add constituency"
+msgid "Ajouter une circonscription"
+#
+msgid "Edit constituency"
+msgid "Modifier une circonscription"
+#
+msgid "Delete constituency"
+msgid "Supprimer une circonscription"
+#
+msgid "View constituency"
+msgid "Voir une circonscription"
+#
+msgid "Add minister"
+msgid "Ajouter un ministre"
+#
+msgid "Edit minister"
+msgid "Modifier un ministre"
+#
+msgid "Add session"
+msgid "Ajouter une session"
+#
+msgid "Delete minister"
+msgid "Supprimer un ministre"
+#
+msgid "View minister"
+msgid "Voir une ministre"
+#
+msgid "Add committee member"
+msgid "Ajouter un/une membre du comité"
+#
+msgid "Edit committee member"
+msgid "Modifier un/une membre du comité"
+#
+msgid "Delete committee member"
+msgid "Supprimer/Effacer un/une membre du comité"
+#
+msgid "Edit session"
+msgid "Modifier une session"
+#
+msgid "View committee member"
+msgid "Voir un/une membre du comité"
+#
+msgid "Add committee staff"
+msgid "Ajouter le personnel du comité"
+#
+msgid "Edit committee staff"
+msgid "Modifier le personnel du comité"
+#
+msgid "Delete committee staff"
+msgid "Supprimer/Effacer le personnel du comité"
+#
+msgid "View committee staff"
+msgid "Voir le personnel du comité"
+#
+msgid "Delete session"
+msgid "Supprimer une session"
+#
+msgid "Add political group member"
+msgid "Ajouter un/une membre d'un groupe politique"
+#
+msgid "Edit political group member"
+msgid "Modifier le/les membre(s) d'un groupe"
+#
+msgid "Delete political group member"
+msgid "Supprimer/Effacer un/une membre d'un groupe politique"
+#
+msgid "View political group member"
+msgid "Voir un/une membre d'un groupe politique"
+#
+msgid "Add sitting"
+msgid "Ajouter scéance"
+#
+msgid "Add address"
+msgid "Ajouter une adresse"
+#
+msgid "Edit address"
+msgid "Modifier une adresse"
+#
+msgid "Delete address"
+msgid "Supprimer une adresse"
+#
+msgid "View address"
+msgid "Voir une adresse"
+#
+msgid "Edit sitting"
+msgid "Modifier une scéance"
+#
+msgid "Add delegation"
+msgid "Ajouter une délegation"
+#
+msgid "Edit delegation"
+msgid "Modifier une délégation"
+#
+msgid "Delete delegation"
+msgid "Supprimer/Effacer une délégation"
+#
+msgid "View delegation"
+msgid "Voir une délégation"
+#
+msgid "Add tile/function"
+msgid "Ajouter titre/fonction"
+#
+msgid "Edit tile/function"
+msgid "modifier titre/fonction"
+#
+msgid "Delete tile/function"
+msgid "Supprimer titre/fonction"
+#
+msgid "View tile/function"
+msgid "Voir titre/fonction"
+#
+msgid "Delete sitting"
+msgid "Supprimer/Effacer une scéance"
+#
+msgid "Add tile/event"
+msgid "Ajouter titre/événement"
+#
+msgid "Edit tile/event"
+msgid "Modifier titre/événement"
+#
+msgid "Delete tile/event"
+msgid "Supprimer titre/événement"
+#
+msgid "View tile/event"
+msgid "Voir titre/événement"
+#
+msgid "View audit log"
+msgid "Voir le journal d'audit"
+#
+msgid "Reorder schedulings"
+msgid "Réorganiser les ordonnances/plans"
+#
+msgid "Add and edit amendments"
+msgid "Ajouter et modifier des amendements"
+#
+msgid "View amendments"
+msgid "Voir des amendements"
+#
+msgid "Add item scheduling"
+msgid "Ajouter ordonnance/plan"
+#
+msgid "Add and edit comments"
+msgid "Ajouter et modifier des commentaires"
+#
+msgid "View comments"
+msgid "Voir commentaires"
+#
+msgid "View Agenda"
+msgid "Voir agenda"
+#
+msgid "View 'Votes and Proceedings'"
+msgid "Voir les votes et délibérations"
+#
+msgid "Add Consignatory"
+msgid "Ajouter Cosignateur"
+#
+msgid "Delete Consignatory"
+msgid "Supprimer/Effacer Cosignateur"
+#
+msgid "Edit Consignatory"
+msgid "Modifier Cosignateur"
+#
+msgid "Edit item scheduling"
+msgid "Modifier ordonnance/plan"
+#
+msgid "Add Group Item Assignment"
+msgid "Ajouter un devoir à l'objet d'un groupe"
+#
+msgid "Delete Group Item Assignment"
+msgid "Supprimer un devoir à l'objet d'un groupe"
+#
+msgid "Edit Group Item Assignment"
+msgid "Modifier un devoir à l'objet d'un groupe"
+#
+msgid "Delete item scheduling"
+msgid "Supprimer ordonnance/plan"
+#
+msgid "Add item scheduling category"
+msgid "Ajouter une catégorie à ordonnance/plan"
+#
+msgid "Edit item scheduling discussion"
+msgid "Modifier une discussion à ordonnance/plan"
+#
+msgid "Add committee"
+msgid "Ajouter un comité"
+#
+msgid "Edit committee"
+msgid "Modifier un comité"
+#
+msgid "Delete committee"
+msgid "Supprimer/Effacer un comité"
+#
+msgid "View committee"
+msgid "Voir comité"
+#
+msgid "Add Question"
+msgid "Ajouter une question"
+#
+msgid "Edit Question"
+msgid "Modifier une question"
+#
+msgid "Delete Question"
+msgid "Supprimer une question"
+#
+msgid "View Question"
+msgid "Voir une question"
+#
+msgid "Add Motion"
+msgid "Ajouter une proposition"
+#
+msgid "Edit Motion"
+msgid "Modifier une proposition"
+#
+msgid "Delete Motion"
+msgid "Supprimer une proposition"
+#
+msgid "View Motion"
+msgid "Voir une proposition"
+#
+msgid "Add agendaitem"
+msgid "Ajouter un objet  à un agenda"
+#
+msgid "Edit agendaitem"
+msgid "Modifier un objet  d'un agenda"
+#
+msgid "Delete agendaitem"
+msgid "Supprimer un objet d'un agenda"
+#
+msgid "View agendaitem"
+msgid "Voir l'objet  d'un agenda"
+#
+msgid "Add tableddocument"
+msgid "Ajouter un document déposé"
+#
+msgid "Edit tableddocument"
+msgid "Modifier un document déposé"
+#
+msgid "Delete tableddocument"
+msgid "Supprimer un document déposé"
+#
+msgid "View tableddocument"
+msgid "Voir un document déposé"
+#
+msgid "Edit Response"
+msgid "Modifier une réponse"
+#
+msgid "View Response"
+msgid "Voir réponse"
+#
+msgid "Add Parliament"
+msgid "Ajouter parlement"
+#
+msgid "Edit Parliament"
+msgid "Modifier parlement"
+#
+msgid "Delete Parliament"
+msgid "Modifier parlement"
+#
+msgid "View Parliament"
+msgid "Voir parlement"
+#
+msgid "Add Bill"
+msgid "Ajouter un projet de loi"
+#
+msgid "Edit Bill"
+msgid "Modifier un projet de loi"
+#
+msgid "Delete Bill"
+msgid "Supprimer un projet de loi"
+#
+msgid "View Bill"
+msgid "Voir un projet de loi"
+#
+msgid "Admin User Record"
+msgid "Administrer un/des enregistrement(s) d'un utilisateurs."
+#
+msgid "Edit historical data"
+msgid "Modifier les données historiques"
+#
+msgid "Add party"
+msgid "Ajouter un parti"
+#
+msgid "Edit party"
+msgid "modifier un parti"
+#
+msgid "Delete party"
+msgid "Supprimer/Effacer un parti"
+#
+msgid "View party"
+msgid "Voir un parti"
+#
+msgid "Add government"
+msgid "Ajouter un gouvernement"
+#
+msgid "Edit government"
+msgid "Modifier un gouvernement"
+#
+msgid "Delete government"
+msgid "Supprimer/Efface un gouvernement"
+#
+msgid "View government"
+msgid "Voir un gouvernement"
+#
+msgid "Member of parliament"
+msgid "Membre du parlement"
+#
+msgid "Owner"
+msgid "Propriétaire"
+#
+msgid "Minister"
+msgid "Ministre"
+#
+msgid "Speaker Office"
+msgid "Office du Coordinateur"
+#
+msgid "All authenticated users"
+msgid "Tous les utilisateurs authentifiés"
+#
+msgid "Bungeni Visitor"
+msgid "Visiteur de BUNGENI"
+#
+msgid "Site Manager"
+msgid "Manageur d'un site"
+#
+msgid "Bungeni Admin"
+msgid "Administrateur de BUNGENI"
+#
+msgid "Ordinary"
+msgid "Ordinaire"
+#
+msgid "Private Notice"
+msgid "Notice privée"
+#
+msgid "Oral"
+msgid "Orale"
+#
+msgid "Written"
+msgid "Ecrit"
+#
+msgid "Female"
+msgid "Femelle/Femme"
+#
+msgid "Male"
+msgid "Male/Homme"
+#
+msgid "nominated"
+msgid "nommés"
+#
+msgid "elected"
+msgid "Elu(e)s"
+#
+msgid "ex officio"
+msgid "ex officio"
+#
+msgid "inactive"
+msgid "Inactif/Inactive"
+#
+msgid "active"
+msgid "Actif/Active"
+#
+msgid "deceased"
+msgid "décédé(e)"
+#
+msgid "subsequent"
+msgid "ultérieures"
+#
+msgid "initial"
+msgid "Initiale"
+#
+msgid "Speakers Office"
+msgid "Office des Coordinateurs"
+#
+msgid "Clerks Office"
+msgid "Employés de bureau"
+#

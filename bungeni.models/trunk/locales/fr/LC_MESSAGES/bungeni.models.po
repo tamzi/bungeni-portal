@@ -1,525 +1,525 @@
 msgid ""
-msgid ""
+msgstr ""
 #
 msgid "Speaker's Office Email"
-msgid "Office du Coordinateur"
+msgstr "Office du Coordinateur"
 #
 msgid "Speaker's Office Notification"
-msgid "Notification de l'Office du greffier"
+msgstr "Notification de l'Office du greffier"
 #
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgid "vrai si le bureau des greffiers souhaite être alerté par mail chaque fois qu'un projet de loi, mouvement, question est soumise"
+msgstr "vrai si le bureau des greffiers souhaite être alerté par mail chaque fois qu'un projet de loi, mouvement, question est soumise"
 #
 msgid "Clerk's Office Notification"
-msgid "Notification de l'Office du greffier"
+msgstr "Notification de l'Office du greffier"
 #
 msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgid "vrai si le bureau des greffiers souhaite être alerté par mail chaque fois qu'un projet de loi, mouvement, question est soumise"
+msgstr "vrai si le bureau des greffiers souhaite être alerté par mail chaque fois qu'un projet de loi, mouvement, question est soumise"
 #
 msgid "Clerks's Office Email"
-msgid "Mails d'employés de bureau"
+msgstr "Mails d'employés de bureau"
 #
 msgid "Administrator's Email"
-msgid "Mails d'employés de bureau"
+msgstr "Mails d'employés de bureau"
 #
 msgid "Allow Question Submission"
-msgid "Permettre le dépôt de la question"
+msgstr "Permettre le dépôt de la question"
 #
 msgid "Days to Defer Question"
-msgid "Days to defer question"
+msgstr "Days to defer question"
 #
 msgid "Time after which admissible questions are automatically deferred"
-msgid "Délai après lequel les questions admissibles sont automatiquement reportées"
+msgstr "Délai après lequel les questions admissibles sont automatiquement reportées"
 #
 msgid "Days to Notify Ministry of Pending Response"
-msgid "Jours pour aviser le ministère de la réponse en suspens"
+msgstr "Jours pour aviser le ministère de la réponse en suspens"
 #
 msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
-msgid ""
+msgstr ""
 #
 msgid "Days before question scheduled"
-msgid "Jours avant que la question soit planifiée"
+msgstr "Jours avant que la question soit planifiée"
 #
 msgid "Days before bill scheduled"
-msgid "Jours avant planification d'un projet de loi"
+msgstr "Jours avant planification d'un projet de loi"
 #
 msgid "Max Questions Per Sitting"
-msgid "Maximum de questions par scéance"
+msgstr "Maximum de questions par scéance"
 #
 msgid "Max Questions Per Sitting Per MP"
-msgid "Maximum de questions par membre du parlement"
+msgstr "Maximum de questions par membre du parlement"
 #
 msgid "Email Notifications Enabled?"
-msgid "Mails d'employés de bureau activés?"
+msgstr "Mails d'employés de bureau activés?"
 #
 msgid "Name of the Assignment"
-msgid "Nom de la cession"
+msgstr "Nom de la cession"
 #
 msgid "Start Date of the Assignment"
-msgid "Date de départ de la cession"
+msgstr "Date de départ de la cession"
 #
 msgid "End Date of the Assignment"
-msgid "Date de clôture de la cession"
+msgstr "Date de clôture de la cession"
 #
 msgid "Assignment Type"
-msgid "Type de devoir"
+msgstr "Type de devoir"
 #
 msgid "Status"
-msgid "Statut"
+msgstr "Statut"
 #
 msgid "Notes"
-msgid "Notes"
+msgstr "Notes"
 #
 msgid "Add group member"
-msgid "Ajouter un/une membre d'un groupe"
+msgstr "Ajouter un/une membre d'un groupe"
 #
 msgid "Edit group member"
-msgid "Modifier le/les membre(s) d'un groupe"
+msgstr "Modifier le/les membre(s) d'un groupe"
 #
 msgid "Delete group member"
-msgid "Supprimer/Effacer un/une membre d'un groupe"
+msgstr "Supprimer/Effacer un/une membre d'un groupe"
 #
 msgid "View group member"
-msgid "Voir le/les membre(s) d'un group"
+msgstr "Voir le/les membre(s) d'un group"
 #
 msgid "Add office"
-msgid "Ajouter un bureau"
+msgstr "Ajouter un bureau"
 #
 msgid "Edit office"
-msgid "Modifier un bureau"
+msgstr "Modifier un bureau"
 #
 msgid "Delete office"
-msgid "Supprimer un bureau"
+msgstr "Supprimer un bureau"
 #
 msgid "View office"
-msgid "Voir un bureau"
+msgstr "Voir un bureau"
 #
 msgid "Add office member"
-msgid "Ajouter un/une membre d'un bureau"
+msgstr "Ajouter un/une membre d'un bureau"
 #
 msgid "Edit office member"
-msgid "Modifier un/une membre d'un office"
+msgstr "Modifier un/une membre d'un office"
 #
 msgid "Delete office member"
-msgid "Supprimer un/une membre d'un office"
+msgstr "Supprimer un/une membre d'un office"
 #
 msgid "View office member"
-msgid "Voir un/une membre d'un office"
+msgstr "Voir un/une membre d'un office"
 #
 msgid "Edit historical content"
-msgid "Modifier le contenu historique"
+msgstr "Modifier le contenu historique"
 #
 msgid "Add ministry"
-msgid "Ajouter ministre"
+msgstr "Ajouter ministre"
 #
 msgid "Edit ministry"
-msgid "Modifier ministère"
+msgstr "Modifier ministère"
 #
 msgid "Delete ministry"
-msgid "Supprimer ministère"
+msgstr "Supprimer ministère"
 #
 msgid "View ministry"
-msgid "Voir ministère"
+msgstr "Voir ministère"
 #
 msgid "Add mp"
-msgid "Ajouter un/une membre du parlement"
+msgstr "Ajouter un/une membre du parlement"
 #
 msgid "Edit mp"
-msgid "Modifier"
+msgstr "Modifier"
 #
 msgid "Delete mp"
-msgid "Supprimer/Effacer un/une membre du parlement"
+msgstr "Supprimer/Effacer un/une membre du parlement"
 #
 msgid "Translate content"
-msgid "Traduire le contenu"
+msgstr "Traduire le contenu"
 #
 msgid "View mp"
-msgid "Voir un/une membre du parlement"
+msgstr "Voir un/une membre du parlement"
 #
 msgid "Add user"
-msgid "Ajouter un/une utilisateur/utilisatrice"
+msgstr "Ajouter un/une utilisateur/utilisatrice"
 #
 msgid "Edit user"
-msgid "Modifier un/une utilisateur/utilisatrice"
+msgstr "Modifier un/une utilisateur/utilisatrice"
 #
 msgid "Delete user"
-msgid "Supprimer/Effacer un/une utilisateur/utilisatrice"
+msgstr "Supprimer/Effacer un/une utilisateur/utilisatrice"
 #
 msgid "View user"
-msgid "Voir un/une utilisateur/utilisatrice"
+msgstr "Voir un/une utilisateur/utilisatrice"
 #
 msgid "Add constituency"
-msgid "Ajouter une circonscription"
+msgstr "Ajouter une circonscription"
 #
 msgid "Edit constituency"
-msgid "Modifier une circonscription"
+msgstr "Modifier une circonscription"
 #
 msgid "Delete constituency"
-msgid "Supprimer une circonscription"
+msgstr "Supprimer une circonscription"
 #
 msgid "View constituency"
-msgid "Voir une circonscription"
+msgstr "Voir une circonscription"
 #
 msgid "Add minister"
-msgid "Ajouter un ministre"
+msgstr "Ajouter un ministre"
 #
 msgid "Edit minister"
-msgid "Modifier un ministre"
+msgstr "Modifier un ministre"
 #
 msgid "Add session"
-msgid "Ajouter une session"
+msgstr "Ajouter une session"
 #
 msgid "Delete minister"
-msgid "Supprimer un ministre"
+msgstr "Supprimer un ministre"
 #
 msgid "View minister"
-msgid "Voir une ministre"
+msgstr "Voir une ministre"
 #
 msgid "Add committee member"
-msgid "Ajouter un/une membre du comité"
+msgstr "Ajouter un/une membre du comité"
 #
 msgid "Edit committee member"
-msgid "Modifier un/une membre du comité"
+msgstr "Modifier un/une membre du comité"
 #
 msgid "Delete committee member"
-msgid "Supprimer/Effacer un/une membre du comité"
+msgstr "Supprimer/Effacer un/une membre du comité"
 #
 msgid "Edit session"
-msgid "Modifier une session"
+msgstr "Modifier une session"
 #
 msgid "View committee member"
-msgid "Voir un/une membre du comité"
+msgstr "Voir un/une membre du comité"
 #
 msgid "Add committee staff"
-msgid "Ajouter le personnel du comité"
+msgstr "Ajouter le personnel du comité"
 #
 msgid "Edit committee staff"
-msgid "Modifier le personnel du comité"
+msgstr "Modifier le personnel du comité"
 #
 msgid "Delete committee staff"
-msgid "Supprimer/Effacer le personnel du comité"
+msgstr "Supprimer/Effacer le personnel du comité"
 #
 msgid "View committee staff"
-msgid "Voir le personnel du comité"
+msgstr "Voir le personnel du comité"
 #
 msgid "Delete session"
-msgid "Supprimer une session"
+msgstr "Supprimer une session"
 #
 msgid "Add political group member"
-msgid "Ajouter un/une membre d'un groupe politique"
+msgstr "Ajouter un/une membre d'un groupe politique"
 #
 msgid "Edit political group member"
-msgid "Modifier le/les membre(s) d'un groupe"
+msgstr "Modifier le/les membre(s) d'un groupe"
 #
 msgid "Delete political group member"
-msgid "Supprimer/Effacer un/une membre d'un groupe politique"
+msgstr "Supprimer/Effacer un/une membre d'un groupe politique"
 #
 msgid "View political group member"
-msgid "Voir un/une membre d'un groupe politique"
+msgstr "Voir un/une membre d'un groupe politique"
 #
 msgid "Add sitting"
-msgid "Ajouter scéance"
+msgstr "Ajouter scéance"
 #
 msgid "Add address"
-msgid "Ajouter une adresse"
+msgstr "Ajouter une adresse"
 #
 msgid "Edit address"
-msgid "Modifier une adresse"
+msgstr "Modifier une adresse"
 #
 msgid "Delete address"
-msgid "Supprimer une adresse"
+msgstr "Supprimer une adresse"
 #
 msgid "View address"
-msgid "Voir une adresse"
+msgstr "Voir une adresse"
 #
 msgid "Edit sitting"
-msgid "Modifier une scéance"
+msgstr "Modifier une scéance"
 #
 msgid "Add delegation"
-msgid "Ajouter une délegation"
+msgstr "Ajouter une délegation"
 #
 msgid "Edit delegation"
-msgid "Modifier une délégation"
+msgstr "Modifier une délégation"
 #
 msgid "Delete delegation"
-msgid "Supprimer/Effacer une délégation"
+msgstr "Supprimer/Effacer une délégation"
 #
 msgid "View delegation"
-msgid "Voir une délégation"
+msgstr "Voir une délégation"
 #
 msgid "Add tile/function"
-msgid "Ajouter titre/fonction"
+msgstr "Ajouter titre/fonction"
 #
 msgid "Edit tile/function"
-msgid "modifier titre/fonction"
+msgstr "modifier titre/fonction"
 #
 msgid "Delete tile/function"
-msgid "Supprimer titre/fonction"
+msgstr "Supprimer titre/fonction"
 #
 msgid "View tile/function"
-msgid "Voir titre/fonction"
+msgstr "Voir titre/fonction"
 #
 msgid "Delete sitting"
-msgid "Supprimer/Effacer une scéance"
+msgstr "Supprimer/Effacer une scéance"
 #
 msgid "Add tile/event"
-msgid "Ajouter titre/événement"
+msgstr "Ajouter titre/événement"
 #
 msgid "Edit tile/event"
-msgid "Modifier titre/événement"
+msgstr "Modifier titre/événement"
 #
 msgid "Delete tile/event"
-msgid "Supprimer titre/événement"
+msgstr "Supprimer titre/événement"
 #
 msgid "View tile/event"
-msgid "Voir titre/événement"
+msgstr "Voir titre/événement"
 #
 msgid "View audit log"
-msgid "Voir le journal d'audit"
+msgstr "Voir le journal d'audit"
 #
 msgid "Reorder schedulings"
-msgid "Réorganiser les ordonnances/plans"
+msgstr "Réorganiser les ordonnances/plans"
 #
 msgid "Add and edit amendments"
-msgid "Ajouter et modifier des amendements"
+msgstr "Ajouter et modifier des amendements"
 #
 msgid "View amendments"
-msgid "Voir des amendements"
+msgstr "Voir des amendements"
 #
 msgid "Add item scheduling"
-msgid "Ajouter ordonnance/plan"
+msgstr "Ajouter ordonnance/plan"
 #
 msgid "Add and edit comments"
-msgid "Ajouter et modifier des commentaires"
+msgstr "Ajouter et modifier des commentaires"
 #
 msgid "View comments"
-msgid "Voir commentaires"
+msgstr "Voir commentaires"
 #
 msgid "View Agenda"
-msgid "Voir agenda"
+msgstr "Voir agenda"
 #
 msgid "View 'Votes and Proceedings'"
-msgid "Voir les votes et délibérations"
+msgstr "Voir les votes et délibérations"
 #
 msgid "Add Consignatory"
-msgid "Ajouter Cosignateur"
+msgstr "Ajouter Cosignateur"
 #
 msgid "Delete Consignatory"
-msgid "Supprimer/Effacer Cosignateur"
+msgstr "Supprimer/Effacer Cosignateur"
 #
 msgid "Edit Consignatory"
-msgid "Modifier Cosignateur"
+msgstr "Modifier Cosignateur"
 #
 msgid "Edit item scheduling"
-msgid "Modifier ordonnance/plan"
+msgstr "Modifier ordonnance/plan"
 #
 msgid "Add Group Item Assignment"
-msgid "Ajouter un devoir à l'objet d'un groupe"
+msgstr "Ajouter un devoir à l'objet d'un groupe"
 #
 msgid "Delete Group Item Assignment"
-msgid "Supprimer un devoir à l'objet d'un groupe"
+msgstr "Supprimer un devoir à l'objet d'un groupe"
 #
 msgid "Edit Group Item Assignment"
-msgid "Modifier un devoir à l'objet d'un groupe"
+msgstr "Modifier un devoir à l'objet d'un groupe"
 #
 msgid "Delete item scheduling"
-msgid "Supprimer ordonnance/plan"
+msgstr "Supprimer ordonnance/plan"
 #
 msgid "Add item scheduling category"
-msgid "Ajouter une catégorie à ordonnance/plan"
+msgstr "Ajouter une catégorie à ordonnance/plan"
 #
 msgid "Edit item scheduling discussion"
-msgid "Modifier une discussion à ordonnance/plan"
+msgstr "Modifier une discussion à ordonnance/plan"
 #
 msgid "Add committee"
-msgid "Ajouter un comité"
+msgstr "Ajouter un comité"
 #
 msgid "Edit committee"
-msgid "Modifier un comité"
+msgstr "Modifier un comité"
 #
 msgid "Delete committee"
-msgid "Supprimer/Effacer un comité"
+msgstr "Supprimer/Effacer un comité"
 #
 msgid "View committee"
-msgid "Voir comité"
+msgstr "Voir comité"
 #
 msgid "Add Question"
-msgid "Ajouter une question"
+msgstr "Ajouter une question"
 #
 msgid "Edit Question"
-msgid "Modifier une question"
+msgstr "Modifier une question"
 #
 msgid "Delete Question"
-msgid "Supprimer une question"
+msgstr "Supprimer une question"
 #
 msgid "View Question"
-msgid "Voir une question"
+msgstr "Voir une question"
 #
 msgid "Add Motion"
-msgid "Ajouter une proposition"
+msgstr "Ajouter une proposition"
 #
 msgid "Edit Motion"
-msgid "Modifier une proposition"
+msgstr "Modifier une proposition"
 #
 msgid "Delete Motion"
-msgid "Supprimer une proposition"
+msgstr "Supprimer une proposition"
 #
 msgid "View Motion"
-msgid "Voir une proposition"
+msgstr "Voir une proposition"
 #
 msgid "Add agendaitem"
-msgid "Ajouter un objet  à un agenda"
+msgstr "Ajouter un objet  à un agenda"
 #
 msgid "Edit agendaitem"
-msgid "Modifier un objet  d'un agenda"
+msgstr "Modifier un objet  d'un agenda"
 #
 msgid "Delete agendaitem"
-msgid "Supprimer un objet d'un agenda"
+msgstr "Supprimer un objet d'un agenda"
 #
 msgid "View agendaitem"
-msgid "Voir l'objet  d'un agenda"
+msgstr "Voir l'objet  d'un agenda"
 #
 msgid "Add tableddocument"
-msgid "Ajouter un document déposé"
+msgstr "Ajouter un document déposé"
 #
 msgid "Edit tableddocument"
-msgid "Modifier un document déposé"
+msgstr "Modifier un document déposé"
 #
 msgid "Delete tableddocument"
-msgid "Supprimer un document déposé"
+msgstr "Supprimer un document déposé"
 #
 msgid "View tableddocument"
-msgid "Voir un document déposé"
+msgstr "Voir un document déposé"
 #
 msgid "Edit Response"
-msgid "Modifier une réponse"
+msgstr "Modifier une réponse"
 #
 msgid "View Response"
-msgid "Voir réponse"
+msgstr "Voir réponse"
 #
 msgid "Add Parliament"
-msgid "Ajouter parlement"
+msgstr "Ajouter parlement"
 #
 msgid "Edit Parliament"
-msgid "Modifier parlement"
+msgstr "Modifier parlement"
 #
 msgid "Delete Parliament"
-msgid "Modifier parlement"
+msgstr "Modifier parlement"
 #
 msgid "View Parliament"
-msgid "Voir parlement"
+msgstr "Voir parlement"
 #
 msgid "Add Bill"
-msgid "Ajouter un projet de loi"
+msgstr "Ajouter un projet de loi"
 #
 msgid "Edit Bill"
-msgid "Modifier un projet de loi"
+msgstr "Modifier un projet de loi"
 #
 msgid "Delete Bill"
-msgid "Supprimer un projet de loi"
+msgstr "Supprimer un projet de loi"
 #
 msgid "View Bill"
-msgid "Voir un projet de loi"
+msgstr "Voir un projet de loi"
 #
 msgid "Admin User Record"
-msgid "Administrer un/des enregistrement(s) d'un utilisateurs."
+msgstr "Administrer un/des enregistrement(s) d'un utilisateurs."
 #
 msgid "Edit historical data"
-msgid "Modifier les données historiques"
+msgstr "Modifier les données historiques"
 #
 msgid "Add party"
-msgid "Ajouter un parti"
+msgstr "Ajouter un parti"
 #
 msgid "Edit party"
-msgid "modifier un parti"
+msgstr "modifier un parti"
 #
 msgid "Delete party"
-msgid "Supprimer/Effacer un parti"
+msgstr "Supprimer/Effacer un parti"
 #
 msgid "View party"
-msgid "Voir un parti"
+msgstr "Voir un parti"
 #
 msgid "Add government"
-msgid "Ajouter un gouvernement"
+msgstr "Ajouter un gouvernement"
 #
 msgid "Edit government"
-msgid "Modifier un gouvernement"
+msgstr "Modifier un gouvernement"
 #
 msgid "Delete government"
-msgid "Supprimer/Efface un gouvernement"
+msgstr "Supprimer/Efface un gouvernement"
 #
 msgid "View government"
-msgid "Voir un gouvernement"
+msgstr "Voir un gouvernement"
 #
 msgid "Member of parliament"
-msgid "Membre du parlement"
+msgstr "Membre du parlement"
 #
 msgid "Owner"
-msgid "Propriétaire"
+msgstr "Propriétaire"
 #
 msgid "Minister"
-msgid "Ministre"
+msgstr "Ministre"
 #
 msgid "Speaker Office"
-msgid "Office du Coordinateur"
+msgstr "Office du Coordinateur"
 #
 msgid "All authenticated users"
-msgid "Tous les utilisateurs authentifiés"
+msgstr "Tous les utilisateurs authentifiés"
 #
 msgid "Bungeni Visitor"
-msgid "Visiteur de BUNGENI"
+msgstr "Visiteur de BUNGENI"
 #
 msgid "Site Manager"
-msgid "Manageur d'un site"
+msgstr "Manageur d'un site"
 #
 msgid "Bungeni Admin"
-msgid "Administrateur de BUNGENI"
+msgstr "Administrateur de BUNGENI"
 #
 msgid "Ordinary"
-msgid "Ordinaire"
+msgstr "Ordinaire"
 #
 msgid "Private Notice"
-msgid "Notice privée"
+msgstr "Notice privée"
 #
 msgid "Oral"
-msgid "Orale"
+msgstr "Orale"
 #
 msgid "Written"
-msgid "Ecrit"
+msgstr "Ecrit"
 #
 msgid "Female"
-msgid "Femelle/Femme"
+msgstr "Femelle/Femme"
 #
 msgid "Male"
-msgid "Male/Homme"
+msgstr "Male/Homme"
 #
 msgid "nominated"
-msgid "nommés"
+msgstr "nommés"
 #
 msgid "elected"
-msgid "Elu(e)s"
+msgstr "Elu(e)s"
 #
 msgid "ex officio"
-msgid "ex officio"
+msgstr "ex officio"
 #
 msgid "inactive"
-msgid "Inactif/Inactive"
+msgstr "Inactif/Inactive"
 #
 msgid "active"
-msgid "Actif/Active"
+msgstr "Actif/Active"
 #
 msgid "deceased"
-msgid "décédé(e)"
+msgstr "décédé(e)"
 #
 msgid "subsequent"
-msgid "ultérieures"
+msgstr "ultérieures"
 #
 msgid "initial"
-msgid "Initiale"
+msgstr "Initiale"
 #
 msgid "Speakers Office"
-msgid "Office des Coordinateurs"
+msgstr "Office des Coordinateurs"
 #
 msgid "Clerks Office"
-msgid "Employés de bureau"
+msgstr "Employés de bureau"
 #

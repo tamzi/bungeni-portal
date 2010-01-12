@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
   <theme href="/static/themes/layout.html" />
-  <match path="regex:.*/(private_folder|web_pages)$"
+  <match path="regex:.*/(private_folder|web_pages).*$"
  	 class="menu-items" />
   <match path="regex:.*/(private_folder|web_pages/).+$"
  	 class="menu-items" />      
@@ -32,9 +32,11 @@
   <match path="regex:.*/audit-log$"
  	 class="bungeni-header" />
   <match path="regex:.*/(emptypage)$"
- 	 abort="1" />    
+ 	 abort="1" />
   <match path="/"
          class="primary" />
+  
+
 
 
   <rule class="workspace-committee">
@@ -94,7 +96,7 @@
             content=".documentActions"
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
-        <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
   </rule>   
 
   <rule class="bungeni">

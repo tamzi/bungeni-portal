@@ -1,0 +1,432 @@
+msgid ""
+msgid ""
+#
+msgid "Metadata"
+msgid "Metadata"
+#
+msgid "History"
+msgid "History"
+#
+msgid "Add, Remove, Delete actions for a Container"
+msgid "Add, remove, delete actions for a container"
+#
+msgid "Add Directory"
+msgid "Add directory"
+#
+msgid "Add File"
+msgid "Add file"
+#
+msgid "Alternative Views of the Object (RSS, ICAL, etc)"
+msgid "Alternative views of the object (RSS, ICAL, etc)"
+#
+msgid "Edit"
+msgid "Edit"
+#
+msgid "Download"
+msgid "Download"
+#
+msgid "Contents"
+msgid "Contents"
+#
+msgid "Settings"
+msgid "Settings"
+#
+msgid "Contextual Action Views of the Object"
+msgid "Contextual action views of the object"
+#
+msgid "RSS"
+msgid "RSS"
+#
+msgid "ICal"
+msgid "ICal"
+#
+msgid "Questions"
+msgid "Questions"
+#
+msgid "View questions issued by the current parliament."
+msgid "View questions issued by the current parliament."
+#
+msgid "Motions"
+msgid "Motions"
+#
+msgid "View motions issued by the current parliament."
+msgid "View motions issued by the current parliament."
+#
+msgid "Tabled documents"
+msgid "Tabled documents"
+#
+msgid "View the tabled documents of the current parliament."
+msgid "View the tabled documents of the current parliament."
+#
+msgid "View the agenda items of the current parliament."
+msgid "View the agenda items of the current parliament."
+#
+msgid "Sittings"
+msgid "Sittings"
+#
+msgid "View the sittings of the current parliament."
+msgid "View the sittings of the current parliament."
+#
+msgid "Current"
+msgid "Current"
+#
+msgid "View current parliament members (MPs)."
+msgid "View current parliament members (MPs)."
+#
+msgid "Political groups"
+msgid "Political groups"
+#
+msgid "View current political groups."
+msgid "View current political groups."
+#
+msgid "Browse"
+msgid "Browse"
+#
+msgid "Current and historical records."
+msgid "Current and historical records."
+#
+msgid "Documents"
+msgid "Documents"
+#
+msgid "Visit the digital document repository."
+msgid "Visit the digital document repository."
+#
+msgid "Business"
+msgid "Business"
+#
+msgid "Daily operations of the parliament."
+msgid "Daily operations of the parliament."
+#
+msgid "Members"
+msgid "Members"
+#
+msgid "Records on members of parliament."
+msgid "Records on members of parliament."
+#
+msgid "Archive"
+msgid "Archive"
+#
+msgid "Parliament records and documents."
+msgid "Parliament records and documents."
+#
+msgid "Administration"
+msgid "Administration"
+#
+msgid "Administer bungeni settings."
+msgid "Administer bungeni settings"
+#
+msgid "What's on"
+msgid "What's on"
+#
+msgid "Current parliamentary activity."
+msgid "Current parliamentary activity."
+#
+msgid "Committees"
+msgid "Committees"
+#
+msgid "View committees created by the current parliament."
+msgid "View committees created by the current parliament."
+#
+msgid "Bills"
+msgid "Bills"
+#
+msgid "View bills issued by the current parliament."
+msgid "View bills issued by the current parliament."
+#
+msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
+msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
+#
+msgid "No IRequest in interaction"
+msgid "No IRequest in interaction"
+#
+msgid "Sitting"
+msgid "Sitting"
+#
+msgid "Sitting scheduled for '$group' ($start to $end)."
+msgid "Sitting scheduled for '$group' ($start to $end)."
+#
+msgid "Item scheduling"
+msgid "Item scheduling"
+#
+msgid "Scheduled for sitting ($start to $end)."
+msgid "Scheduled for sitting ($start to $end)."
+#
+msgid "$language translation"
+msgid "$language translation"
+#
+msgid "Version $version"
+msgid "Version $version"
+#
+msgid "Last modified $date."
+msgid "Last modified $date."
+#
+msgid "Discussion ($time)"
+msgid "Discussion ($time)"
+#
+msgid "Discussion"
+msgid "Discussion"
+#
+msgid "("
+msgid "("
+#
+msgid "Plenary"
+msgid "Plenary"
+#
+msgid "$x"
+msgid "$x"
+#
+msgid "Unknown principal group"
+msgid "Unknown principal group"
+#
+msgid "title_html_fragment_odf_transform"
+msgid "title_html_fragment_odf_transform"
+#
+msgid "Reverted to previous version $version."
+msgid "Reverted to previous version $version."
+#
+msgid "notification_email_to_member_upon_receipt_of_agenda_item"
+msgid "Agenda Item received."
+#
+msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
+msgid "Agenda Item submitted."
+#
+msgid "notification_email_to_member_upon_rejection_of_agenda_item"
+msgid "Agenda Item rejected"
+#
+msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
+msgid "Your agenda_item needs to be clarified."
+#
+msgid "notification_email_to_member_upon_defer_of_agenda_item"
+msgid "Agenda Item deferred."
+#
+msgid "notification_email_to_member_upon_schedule_of_agenda_item"
+msgid "Agenda Item scheduled."
+#
+msgid "notification_email_to_member_upon_postpone_of_agenda_item"
+msgid "Agenda Item postponed."
+#
+msgid "notification_email_to_member_upon_debate_of_agenda_item"
+msgid "Agenda Item was debated."
+#
+msgid "notification_email_to_member_upon_receipt_of_motion"
+msgid "Motion received."
+#
+msgid "notification_email_to_clerk_upon_submit_of_motion"
+msgid "Motion submitted."
+#
+msgid "notification_email_to_member_upon_rejection_of_motion"
+msgid "Motion rejected."
+#
+msgid "notification_email_to_member_upon_need_clarification_of_motion"
+msgid "Your motion needs to be clarified."
+#
+msgid "notification_email_to_member_upon_defer_of_motion"
+msgid "Motion deferred."
+#
+msgid "notification_email_to_member_upon_schedule_of_motion"
+msgid "Motion scheduled."
+#
+msgid "notification_email_to_member_upon_postpone_of_motion"
+msgid "Motion postponed."
+#
+msgid "notification_email_to_member_upon_debate_of_motion"
+msgid "Motion was debated."
+#
+msgid "Review a question"
+msgid "Review a question"
+#
+msgid "Speaker review a question"
+msgid "Speaker review a question"
+#
+msgid "Schedule a question"
+msgid "Schedule a question"
+#
+msgid "Respond to a question"
+msgid "Respond to a question"
+#
+msgid "Answer a question"
+msgid "Answer a question"
+#
+msgid "Withdraw a question"
+msgid "Withdraw a question"
+#
+msgid "Answer a question in writing"
+msgid "Answer a question in writing"
+#
+msgid "Submit a Response"
+msgid "Submit a response"
+#
+msgid "Complete a Response"
+msgid "Complete a response"
+#
+msgid "Submit a motion"
+msgid "Submit a motion"
+#
+msgid "Recieve a motion"
+msgid "Recieve a motion"
+#
+msgid "Review a motion"
+msgid "Review a motion"
+#
+msgid "Speaker review a motion"
+msgid "Speaker review a motion"
+#
+msgid "Schedule a motion"
+msgid "Schedule a motion"
+#
+msgid "Mark a motion as debated"
+msgid "Mark a motion as debated"
+#
+msgid "Withdraw a motion"
+msgid "Withdraw a motion"
+#
+msgid "Submit a bill"
+msgid "Submit a bill"
+#
+msgid "Schedule a bill"
+msgid "Schedule a bill"
+#
+msgid "Assign a bill to a committee"
+msgid "Assign a bill to a committee"
+#
+msgid "Reject/Approve a bill"
+msgid "Reject/Approve a bill"
+#
+msgid "Withdraw a bill"
+msgid "Withdraw a bill"
+#
+msgid "Revert a transition back to an earlier stage"
+msgid "Revert a transition back to an earlier stage"
+#
+msgid "Manage Bungeni groups"
+msgid "Manage Bungeni groups"
+#
+msgid "Manage User Adresses"
+msgid "Manage User Adresses"
+#
+msgid "Submit a agendaitem"
+msgid "Submit a agendaitem"
+#
+msgid "Recieve a agendaitem"
+msgid "Recieve a agendaitem"
+#
+msgid "Review a agendaitem"
+msgid "Review an agenda item"
+#
+msgid "Speaker review a agendaitem"
+msgid "Speaker review an agenda item"
+#
+msgid "Schedule a agendaitem"
+msgid "Schedule an agenda item"
+#
+msgid "Mark a agendaitem as debated"
+msgid "Mark a agenda item as debated"
+#
+msgid "Withdraw a agendaitem"
+msgid "Withdraw an agenda item"
+#
+msgid "Submit a tableddocument"
+msgid "Submit a tabled document"
+#
+msgid "Recieve a tableddocument"
+msgid "Recieve a tabled document"
+#
+msgid "Review a tableddocument"
+msgid "Review a tabled document"
+#
+msgid "Speaker review a tableddocument"
+msgid "Speaker review a tabled document"
+#
+msgid "Schedule a tableddocument"
+msgid "Schedule a tabled document"
+#
+msgid "Mark a tableddocument as debated"
+msgid "Mark a tabled document as debated"
+#
+msgid "Withdraw a tableddocument"
+msgid "Withdraw a tabled document"
+#
+msgid "Change Sitting Status"
+msgid "Change sitting status"
+#
+msgid "Submit a question"
+msgid "Submit a question"
+#
+msgid "Recieve a question"
+msgid "Recieve a question"
+#
+msgid "notification_email_to_member_upon_receipt_of_question"
+msgid "Question received."
+#
+msgid "notification_email_to_clerk_upon_submit_of_question"
+msgid "Question submitted."
+#
+msgid "notification_email_to_member_upon_rejection_of_question"
+msgid "Question rejected."
+#
+msgid "notification_email_to_member_upon_need_clarification_of_question"
+msgid "Your question needs to be clarified."
+#
+msgid "notification_email_to_member_upon_defer_of_question"
+msgid "Question deferred."
+#
+msgid "notification_email_to_member_upon_schedule_of_question"
+msgid "Question scheduled."
+#
+msgid "notification_email_to_member_upon_postpone_of_question"
+msgid "Question postponed."
+#
+msgid "notification_email_to_member_upon_complete_of_question"
+msgid "Question completed for review at the speakers office."
+#
+msgid "notification_email_to_ministry_upon_complete_question"
+msgid "Question assigned to ministry."
+#
+msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
+msgid "Question sent to ministry for a written answer."
+#
+msgid "notification_email_to_member_upon_answer_of_question"
+msgid "Question answered."
+#
+msgid "notification_email_to_member_upon_debate_question"
+msgid "Question debated."
+#
+msgid "visible"
+msgid "visible"
+#
+msgid "pending"
+msgid "pending"
+#
+msgid "scheduled"
+msgid "scheduled"
+#
+msgid "Submit to Clerk"
+msgid "Submit to clerk"
+#
+msgid "Schedule"
+msgid "Schedule"
+#
+msgid "notification_email_to_member_upon_receipt_of_tabled_document"
+msgid "Tabled Document received."
+#
+msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
+msgid "Tabled Document submitted."
+#
+msgid "notification_email_to_member_upon_rejection_of_tabled_document"
+msgid "Tabled Document rejected."
+#
+msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
+msgid "Your tabled_document needs to be clarified."
+#
+msgid "notification_email_to_member_upon_defer_of_tabled_document"
+msgid "Tabled Document deferred."
+#
+msgid "notification_email_to_member_upon_schedule_of_tabled_document"
+msgid "Tabled Document scheduled."
+#
+msgid "notification_email_to_member_upon_postpone_of_tabled_document"
+msgid "Tabled Document postponed."
+#
+msgid "notification_email_to_member_upon_debate_of_tabled_document"
+msgid "Tabled Document was debated."
+#

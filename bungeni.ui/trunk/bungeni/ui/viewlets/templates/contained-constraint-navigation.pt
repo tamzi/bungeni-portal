@@ -1,5 +1,5 @@
 <dl class="portlet"
-    i18n:domain="bungeni" tal:condition="view/menu" >
+    i18n:domain="bungeni.ui" tal:condition="view/menu" >
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>

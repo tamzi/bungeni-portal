@@ -1,5 +1,5 @@
 <dl class="portlet"
-    i18n:domain="bungeni"
+    i18n:domain="bungeni.ui"
     tal:condition="python: len(view.context_actions) > 1">
 
     <dt class="portletHeader">

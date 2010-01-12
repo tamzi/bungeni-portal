@@ -1,7 +1,7 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="context/@@standard_macros/page">
-    <div metal:fill-slot="body" i18n:domain="bungeni" class="report_body">
+    <div metal:fill-slot="body" i18n:domain="bungeni.ui" class="report_body">
         <a tal:attributes="href view/back_link"> back to calendar </a>
         <div class="report_mainTitle">
                  <span tal:content="view/doc_type"/> 

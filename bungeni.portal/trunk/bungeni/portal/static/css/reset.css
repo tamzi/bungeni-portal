@@ -73,7 +73,7 @@ a {
 
 q:before, q:after {content: ""; }
 table {border-collapse: collapse; border-spacing: 0; }
-caption, th, td {text-align: left; font-weight: normal; }
+caption, th, td {font-weight: normal; }
 
 h1, h2 {color: #C8631B;}
 
@@ -454,7 +454,11 @@ div#portal-globalnav ul.level0 li ul.level1 li.selected a{
   border: 0px;
 }
 
-#bungeni-workspace #portal-column-one {
+#bungeni-workspace #portal-column-one,
+.section-how-we-work #portal-column-one,
+.section-reference-material #portal-column-one,
+.section-have-your-say #portal-column-one
+{
   display:none;
 }
 
@@ -553,7 +557,7 @@ dl.section-front-page {
 
 #portal-column-content {
   max-width:1px;
-  padding: 0 0 0;
+  padding: 0 10 0 0;
 }
 
 .documentContent {
@@ -704,6 +708,7 @@ li.lastFormTab a {
 .yui-skin-sam .yui-dt table {
   border: 1px solid #FAAD5F;
   margin: auto;
+  width: 100%;
 }
 
 .yui-skin-sam tr.yui-dt-odd {
@@ -736,6 +741,7 @@ input.inputLabelActive {
 table.listing, .stx table {
   border-bottom:1px solid #FAAD5F;
   border-left:1px solid #FAAD5F;
+  width: 100%;
 }
 
 table.listing th, .stx table th {

@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <configure
- xmlns="http://namespaces.zope.org/zope"
- xmlns:db="http://namespaces.objectrealms.net/rdb"
- >
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:db="http://namespaces.objectrealms.net/rdb"
+    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    i18n_domain="bungeni.ui">
 
 
   <!-- Catalyze Domain Models -->

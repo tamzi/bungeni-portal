@@ -688,7 +688,7 @@ class MemberItemsViewlet( viewlet.ViewletBase ):
                 domain.ParliamentaryItem.parliament_id == parliament_id,
                 domain.ParliamentaryItem.status.in_(self.states),
             )).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc())
-        self.for_display = (self.query.count() > 0)
+        #self.for_display = (self.query.count() > 0)
             
         
     def results(self):

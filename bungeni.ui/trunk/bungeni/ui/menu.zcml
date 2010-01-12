@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"
-	   xmlns:z3c="http://namespaces.zope.org/z3c"
-           i18n_domain="bungeni">
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    i18n_domain="bungeni.ui">	   
+
 
   <!-- menus -->
 

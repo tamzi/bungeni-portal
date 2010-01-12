@@ -25,7 +25,7 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
-            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1] +'/">Member Profile</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
+            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">Member Web Pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
             theme('body').addClass('template-member-space')                    
         elif content('#portal-personaltools li a#user-name span').html() in content('#portal-breadcrumbs').html():
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')

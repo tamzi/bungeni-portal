@@ -438,8 +438,11 @@ class UserDelegationDescriptiveProperties(DescriptiveProperties):
         context = removeSecurityProxy(self.context)
         session = Session()
         session.add(context)      
-        return u'%s %s' % (context.delegation.first_name,
-            context.delegation.last_name)
+        if getattr(context, 'delegation', None):
+            return u'%s %s' % (context.delegation.first_name,
+                context.delegation.last_name)
+        else:
+            return u""                
            
     @property
     def description(self):            

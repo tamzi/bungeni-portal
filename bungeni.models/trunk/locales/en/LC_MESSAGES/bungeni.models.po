@@ -1,0 +1,525 @@
+msgid ""
+msgid ""
+#
+msgid "Speaker's Office Email"
+msgid "Speaker's office email"
+#
+msgid "Speaker's Office Notification"
+msgid "Speaker's office notification"
+#
+msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+#
+msgid "Clerk's Office Notification"
+msgid "Clerk's office notification"
+#
+msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+#
+msgid "Clerks's Office Email"
+msgid "Clerks's office email"
+#
+msgid "Administrator's Email"
+msgid "Administrator's email"
+#
+msgid "Allow Question Submission"
+msgid "Allow question submission"
+#
+msgid "Days to Defer Question"
+msgid "Days to defer question"
+#
+msgid "Time after which admissible questions are automatically deferred"
+msgid "Time after which admissible questions are automatically deferred"
+#
+msgid "Days to Notify Ministry of Pending Response"
+msgid "Days to notify ministry of pending response"
+#
+msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
+msgid ""
+#
+msgid "Days before question scheduled"
+msgid "Days before question scheduled"
+#
+msgid "Days before bill scheduled"
+msgid "Days before bill scheduled"
+#
+msgid "Max Questions Per Sitting"
+msgid "Max questions per sitting"
+#
+msgid "Max Questions Per Sitting Per MP"
+msgid "Max questions per sitting per mp"
+#
+msgid "Email Notifications Enabled?"
+msgid "Email notifications enabled?"
+#
+msgid "Name of the Assignment"
+msgid "Name of the assignment"
+#
+msgid "Start Date of the Assignment"
+msgid "Start date of the assignment"
+#
+msgid "End Date of the Assignment"
+msgid "End date of the assignment"
+#
+msgid "Assignment Type"
+msgid "Assignment type"
+#
+msgid "Status"
+msgid "Status"
+#
+msgid "Notes"
+msgid "Notes"
+#
+msgid "Add group member"
+msgid "Add group member"
+#
+msgid "Edit group member"
+msgid "Edit group member"
+#
+msgid "Delete group member"
+msgid "Delete group member"
+#
+msgid "View group member"
+msgid "View group member"
+#
+msgid "Add office"
+msgid "Add office"
+#
+msgid "Edit office"
+msgid "Edit office"
+#
+msgid "Delete office"
+msgid "Delete office"
+#
+msgid "View office"
+msgid "View office"
+#
+msgid "Add office member"
+msgid "Add office member"
+#
+msgid "Edit office member"
+msgid "Edit office member"
+#
+msgid "Delete office member"
+msgid "Delete office member"
+#
+msgid "View office member"
+msgid "View office member"
+#
+msgid "Edit historical content"
+msgid "Edit historical content"
+#
+msgid "Add ministry"
+msgid "Add ministry"
+#
+msgid "Edit ministry"
+msgid "Edit ministry"
+#
+msgid "Delete ministry"
+msgid "Delete ministry"
+#
+msgid "View ministry"
+msgid "View ministry"
+#
+msgid "Add mp"
+msgid "Add mp"
+#
+msgid "Edit mp"
+msgid "Edit mp"
+#
+msgid "Delete mp"
+msgid "Delete mp"
+#
+msgid "Translate content"
+msgid "Translate content"
+#
+msgid "View mp"
+msgid "View mp"
+#
+msgid "Add user"
+msgid "Add user"
+#
+msgid "Edit user"
+msgid "Edit user"
+#
+msgid "Delete user"
+msgid "Delete user"
+#
+msgid "View user"
+msgid "View user"
+#
+msgid "Add constituency"
+msgid "Add constituency"
+#
+msgid "Edit constituency"
+msgid "Edit constituency"
+#
+msgid "Delete constituency"
+msgid "Delete constituency"
+#
+msgid "View constituency"
+msgid "View constituency"
+#
+msgid "Add minister"
+msgid "Add minister"
+#
+msgid "Edit minister"
+msgid "Edit minister"
+#
+msgid "Add session"
+msgid "Add session"
+#
+msgid "Delete minister"
+msgid "Delete minister"
+#
+msgid "View minister"
+msgid "View minister"
+#
+msgid "Add committee member"
+msgid "Add committee member"
+#
+msgid "Edit committee member"
+msgid "Edit committee member"
+#
+msgid "Delete committee member"
+msgid "Delete committee member"
+#
+msgid "Edit session"
+msgid "Edit session"
+#
+msgid "View committee member"
+msgid "View committee member"
+#
+msgid "Add committee staff"
+msgid "Add committee staff"
+#
+msgid "Edit committee staff"
+msgid "Edit committee staff"
+#
+msgid "Delete committee staff"
+msgid "Delete committee staff"
+#
+msgid "View committee staff"
+msgid "View committee staff"
+#
+msgid "Delete session"
+msgid "Delete session"
+#
+msgid "Add political group member"
+msgid "Add political group member"
+#
+msgid "Edit political group member"
+msgid "Edit political group member"
+#
+msgid "Delete political group member"
+msgid "Delete political group member"
+#
+msgid "View political group member"
+msgid "View political group member"
+#
+msgid "Add sitting"
+msgid "Add sitting"
+#
+msgid "Add address"
+msgid "Add address"
+#
+msgid "Edit address"
+msgid "Edit address"
+#
+msgid "Delete address"
+msgid "Delete address"
+#
+msgid "View address"
+msgid "View address"
+#
+msgid "Edit sitting"
+msgid "Edit sitting"
+#
+msgid "Add delegation"
+msgid "Add delegation"
+#
+msgid "Edit delegation"
+msgid "Edit delegation"
+#
+msgid "Delete delegation"
+msgid "Delete delegation"
+#
+msgid "View delegation"
+msgid "View delegation"
+#
+msgid "Add tile/function"
+msgid "Add tile/function"
+#
+msgid "Edit tile/function"
+msgid "Edit tile/function"
+#
+msgid "Delete tile/function"
+msgid "Delete tile/function"
+#
+msgid "View tile/function"
+msgid "View tile/function"
+#
+msgid "Delete sitting"
+msgid "Delete sitting"
+#
+msgid "Add tile/event"
+msgid "Add tile/event"
+#
+msgid "Edit tile/event"
+msgid "Edit tile/event"
+#
+msgid "Delete tile/event"
+msgid "Delete tile/event"
+#
+msgid "View tile/event"
+msgid "View tile/event"
+#
+msgid "View audit log"
+msgid "View audit log"
+#
+msgid "Reorder schedulings"
+msgid "Reorder schedulings"
+#
+msgid "Add and edit amendments"
+msgid "Add and edit amendments"
+#
+msgid "View amendments"
+msgid "View amendments"
+#
+msgid "Add item scheduling"
+msgid "Add item scheduling"
+#
+msgid "Add and edit comments"
+msgid "Add and edit comments"
+#
+msgid "View comments"
+msgid "View comments"
+#
+msgid "View Agenda"
+msgid "View agenda"
+#
+msgid "View 'Votes and Proceedings'"
+msgid "View 'votes and proceedings'"
+#
+msgid "Add Consignatory"
+msgid "Add consignatory"
+#
+msgid "Delete Consignatory"
+msgid "Delete consignatory"
+#
+msgid "Edit Consignatory"
+msgid "Edit consignatory"
+#
+msgid "Edit item scheduling"
+msgid "Edit item scheduling"
+#
+msgid "Add Group Item Assignment"
+msgid "Add group Item assignment"
+#
+msgid "Delete Group Item Assignment"
+msgid "Delete group item assignment"
+#
+msgid "Edit Group Item Assignment"
+msgid "Edit group item assignment"
+#
+msgid "Delete item scheduling"
+msgid "Delete item scheduling"
+#
+msgid "Add item scheduling category"
+msgid "Add item scheduling category"
+#
+msgid "Edit item scheduling discussion"
+msgid "Edit item scheduling discussion"
+#
+msgid "Add committee"
+msgid "Add committee"
+#
+msgid "Edit committee"
+msgid "Edit committee"
+#
+msgid "Delete committee"
+msgid "Delete committee"
+#
+msgid "View committee"
+msgid "View committee"
+#
+msgid "Add Question"
+msgid "Add question"
+#
+msgid "Edit Question"
+msgid "Edit question"
+#
+msgid "Delete Question"
+msgid "Delete question"
+#
+msgid "View Question"
+msgid "View question"
+#
+msgid "Add Motion"
+msgid "Add motion"
+#
+msgid "Edit Motion"
+msgid "Edit motion"
+#
+msgid "Delete Motion"
+msgid "Delete motion"
+#
+msgid "View Motion"
+msgid "View motion"
+#
+msgid "Add agendaitem"
+msgid "Add agenda item"
+#
+msgid "Edit agendaitem"
+msgid "Edit agenda item"
+#
+msgid "Delete agendaitem"
+msgid "Delete agendaitem"
+#
+msgid "View agendaitem"
+msgid "View agenda item"
+#
+msgid "Add tableddocument"
+msgid "Add tabled document"
+#
+msgid "Edit tableddocument"
+msgid "Edit tabled document"
+#
+msgid "Delete tableddocument"
+msgid "Delete tableddocument"
+#
+msgid "View tableddocument"
+msgid "View tabled document"
+#
+msgid "Edit Response"
+msgid "Edit response"
+#
+msgid "View Response"
+msgid "View response"
+#
+msgid "Add Parliament"
+msgid "Add parliament"
+#
+msgid "Edit Parliament"
+msgid "Edit parliament"
+#
+msgid "Delete Parliament"
+msgid "Delete parliament"
+#
+msgid "View Parliament"
+msgid "View parliament"
+#
+msgid "Add Bill"
+msgid "Add bill"
+#
+msgid "Edit Bill"
+msgid "Edit bill"
+#
+msgid "Delete Bill"
+msgid "Delete bill"
+#
+msgid "View Bill"
+msgid "View bill"
+#
+msgid "Admin User Record"
+msgid "Admin user record"
+#
+msgid "Edit historical data"
+msgid "Edit historical data"
+#
+msgid "Add party"
+msgid "Add party"
+#
+msgid "Edit party"
+msgid "Edit party"
+#
+msgid "Delete party"
+msgid "Delete party"
+#
+msgid "View party"
+msgid "View party"
+#
+msgid "Add government"
+msgid "Add government"
+#
+msgid "Edit government"
+msgid "Edit government"
+#
+msgid "Delete government"
+msgid "Delete government"
+#
+msgid "View government"
+msgid "View government"
+#
+msgid "Member of parliament"
+msgid "Member of parliament"
+#
+msgid "Owner"
+msgid "Owner"
+#
+msgid "Minister"
+msgid "Minister"
+#
+msgid "Speaker Office"
+msgid "Speaker office"
+#
+msgid "All authenticated users"
+msgid "All authenticated users"
+#
+msgid "Bungeni Visitor"
+msgid "Bungeni visitor"
+#
+msgid "Site Manager"
+msgid "Site Manager"
+#
+msgid "Bungeni Admin"
+msgid "Bungeni admin"
+#
+msgid "Ordinary"
+msgid "Ordinary"
+#
+msgid "Private Notice"
+msgid "Private notice"
+#
+msgid "Oral"
+msgid "Oral"
+#
+msgid "Written"
+msgid "Written"
+#
+msgid "Female"
+msgid "Female"
+#
+msgid "Male"
+msgid "Male"
+#
+msgid "nominated"
+msgid "nominated"
+#
+msgid "elected"
+msgid "elected"
+#
+msgid "ex officio"
+msgid "ex officio"
+#
+msgid "inactive"
+msgid "inactive"
+#
+msgid "active"
+msgid "active"
+#
+msgid "deceased"
+msgid "deceased"
+#
+msgid "subsequent"
+msgid "subsequent"
+#
+msgid "initial"
+msgid "initial"
+#
+msgid "Speakers Office"
+msgid "Speaker's office"
+#
+msgid "Clerks Office"
+msgid "Clerks office"
+#

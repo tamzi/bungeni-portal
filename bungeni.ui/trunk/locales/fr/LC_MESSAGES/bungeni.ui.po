@@ -1,0 +1,1281 @@
+msgid ""
+msgid ""
+#
+msgid "action"
+msgid "Actions"
+#
+msgid "date"
+msgid "Date"
+#
+msgid "user"
+msgid "Utilisateurs"
+#
+msgid "description"
+msgid "Déscritpion"
+#
+msgid "Votes and Proceedings"
+msgid "votes et délibérations"
+#
+msgid "Order of the day"
+msgid "Ordre du jour"
+#
+msgid "$R"
+msgid "$R"
+#
+msgid "Calendar is not available because the scheduling group ($label) is inactive."
+msgid "Agenda n'est pas disponible parce que le groupe d'ordonnancement ($ label) est inactif."
+#
+msgid "$B $Y"
+msgid "$B $Y"
+#
+msgid "$A $e, $B $Y"
+msgid "$A $e, $B $Y"
+#
+msgid "$type &mdash; ${start}-${end}"
+msgid "$type &mdash; ${start}-${end}"
+#
+msgid "verticalMultiCheckBoxWidget"
+msgid ""
+#
+msgid "horizontalMultiCheckBoxWidget"
+msgid ""
+#
+msgid "Document Type"
+msgid ""
+#
+msgid "Type of document to be produced"
+msgid ""
+#
+msgid "Date"
+msgid "Date"
+#
+msgid "Choose a starting date for this report."
+msgid "Choisissez une date de départ de ce rapport."
+#
+msgid "A parliament must be active in the period."
+msgid "Un parlement doit être actif dans la période."
+#
+msgid "Preview"
+msgid "Voir d'abord"
+#
+msgid "Daily"
+msgid "Quotidiens/Journaliers"
+#
+msgid "Weekly"
+msgid "Hebdomadaire"
+#
+msgid "Agenda"
+msgid "Agenda"
+#
+msgid "ORDER OF THE DAY"
+msgid "Ordre du jour"
+#
+msgid "This form generates the agenda report."
+msgid ""
+#
+msgid "$x"
+msgid "$x"
+#
+msgid "Votes and proceedings"
+msgid "votes et délibérations"
+#
+msgid "This form generates the \342\200\234votes and proceedings\342\200\235 report."
+msgid "Ce formulaire génère le \ 342 \ 200 \ 234 votes et délibérations \ 342 \ 200 \ 235 rapport."
+#
+msgid "VOTES AND PROCEEDINGS"
+msgid "votes et délibérations"
+#
+msgid "Create and Store"
+msgid "Créer et conserver"
+#
+msgid "Government"
+msgid "Gouvernement"
+#
+msgid "Governments"
+msgid "Gouvernements"
+#
+msgid "Name of the Head of Government"
+msgid "Nom du chef du gouvernement"
+#
+msgid "Number"
+msgid "Nombre"
+#
+msgid "Due Date"
+msgid "Date due"
+#
+msgid "Assigned bill"
+msgid "le projet de loi attribué"
+#
+msgid "Assigned bills"
+msgid "les projets de loi attribués"
+#
+msgid "Bill"
+msgid "un projet de loi"
+#
+msgid "Item"
+msgid "objet"
+#
+msgid "Assigned group"
+msgid "le groupe attribué "
+#
+msgid "Assigned groups"
+msgid "les groupes attribués"
+#
+msgid "Committee"
+msgid "comité"
+#
+msgid "Group"
+msgid "Groupe"
+#
+msgid "Summary"
+msgid "Résumé"
+#
+msgid "Owner"
+msgid "Propriétaire"
+#
+msgid "Select the user who should own this document."
+msgid "Sélectionnez l'utilisateur qui doit posséder ce document."
+#
+msgid "Language"
+msgid "Langue"
+#
+msgid "Text"
+msgid "Texte"
+#
+msgid "Submission Date"
+msgid "Date de soumission"
+#
+msgid "Recommendation note"
+msgid "Note de recommendations"
+#
+msgid "Receive notification"
+msgid "Recevoir Notification"
+#
+msgid "Select this option to receive notifications for this item."
+msgid "Séléctionner cette option"
+#
+msgid "Change"
+msgid "Changer"
+#
+msgid "Changes"
+msgid "Changements"
+#
+msgid "Action"
+msgid "Action"
+#
+msgid "Agenda item"
+msgid "objet de l'agenda"
+#
+msgid "Agenda items"
+msgid "objets de l'agenda"
+#
+msgid "Agenda Item version"
+msgid "version d'élément de l'agenda"
+#
+msgid "Versions"
+msgid "Versions"
+#
+msgid "Agenda Item change"
+msgid "changements sur l'objet de l'agenda"
+#
+msgid "Motion"
+msgid "Proposition"
+#
+msgid "Motions"
+msgid "Propositions"
+#
+msgid "Approval Date"
+msgid "Date de l'approbation"
+#
+msgid "Notice Date"
+msgid "Date de notification"
+#
+msgid "Identifier"
+msgid "Identificateur"
+#
+msgid "Entered By"
+msgid "Entered by"
+#
+msgid "Motion version"
+msgid "Version de la Proposition"
+#
+msgid "Motion change"
+msgid "changer proposition"
+#
+msgid "Bills"
+msgid "projets de loi"
+#
+msgid "Bill Type"
+msgid "Type de projet de loi"
+#
+msgid "active"
+msgid "Actif/Active"
+#
+msgid "Statements of Purpose"
+msgid "Statements of purpose"
+#
+msgid "Identifer"
+msgid "Identificateur"
+#
+msgid "inactive"
+msgid "Inactif/Inactive"
+#
+msgid "Publication Date"
+msgid "Publication date"
+#
+msgid "deceased"
+msgid "décédé(e)"
+#
+msgid "Bill version"
+msgid "Version de la Proposition"
+#
+msgid "Bill change"
+msgid "Changement d'un projet de loi"
+#
+msgid "Question"
+msgid "Question"
+#
+msgid "Questions"
+msgid "Questions"
+#
+msgid "Question Number"
+msgid "Question number"
+#
+msgid "Initial/supplementary question"
+msgid "question initiale/complémentaire"
+#
+msgid "Date approved"
+msgid "Date approuvé(e)"
+#
+msgid "Submitted to ministry"
+msgid "soumis au ministère"
+#
+msgid "Question Type"
+msgid "Question type"
+#
+msgid "(O)rdinary or (P)rivate Notice"
+msgid "Notice (O)rdinaire ou (P)rivée"
+#
+msgid "Response Type"
+msgid "Response type"
+#
+msgid "(O)ral or (W)ritten"
+msgid "(O)ral(e) ou (É)crit"
+#
+msgid "Response"
+msgid "Réponse"
+#
+msgid "Response to the Question"
+msgid "Response to the question"
+#
+msgid "Sitting Time"
+msgid "Durée de scéance"
+#
+msgid "Question version"
+msgid "Version de la question"
+#
+msgid "Question change"
+msgid "changement de la question"
+#
+msgid "Event"
+msgid "Événement"
+#
+msgid "Events"
+msgid "Événements"
+#
+msgid "Tabled document"
+msgid "Document déposé"
+#
+msgid "Tabled documents"
+msgid "documents déposés"
+#
+msgid "Tabled Document version"
+msgid "Version du document déposé"
+#
+msgid "Tabled Document change"
+msgid "Changement du document déposé"
+#
+msgid "Motion amendment"
+msgid "amendement de proposition"
+#
+msgid "Motion amendments"
+msgid "amendement de propositions"
+#
+msgid "Subject"
+msgid "Sujet"
+#
+msgid "Motion Amendment Text"
+msgid "textes d'amendement de proposition"
+#
+msgid "Vote Date"
+msgid "Date voté(e)"
+#
+msgid "Accepted"
+msgid "Accépter"
+#
+msgid "Sitting"
+msgid "Scéances"
+#
+msgid "Sittings"
+msgid "séances"
+#
+msgid "Sitting Type"
+msgid "type de scéances"
+#
+msgid "Start"
+msgid "Début"
+#
+msgid "End"
+msgid "fin"
+#
+msgid "Venue"
+msgid "venue"
+#
+msgid "Types"
+msgid "types"
+#
+msgid "Short Name"
+msgid "surnom"
+#
+msgid "Sitting attendance"
+msgid "Présence/assistance de la scéance"
+#
+msgid "Sitting attendances"
+msgid "Présences/assistances de la scéance"
+#
+msgid "Attendance"
+msgid "Présence"
+#
+msgid "Attendance type"
+msgid "type de présence"
+#
+msgid "Consignatory"
+msgid "cosignateur"
+#
+msgid "Consignatories"
+msgid "cosignateurs"
+#
+msgid "A parliament has to be elected before it can be sworn in"
+msgid "Un parlement doit être élu avant d'être assermenté"
+#
+msgid "Constituencies"
+msgid "Circonscriptions"
+#
+msgid "Name of the constituency"
+msgid "Nom de la circonscription"
+#
+msgid "Province"
+msgid "Province"
+#
+msgid "Region"
+msgid "Région"
+#
+msgid "Name of the Province"
+msgid "Nom de la province"
+#
+msgid "Name of the Region"
+msgid "Nom de la région"
+#
+msgid "End Date must be after Start Date"
+msgid "La date de fin"
+#
+msgid "Country Code"
+msgid "code du pays"
+#
+msgid "ISO Code of the  country"
+msgid "ISO Code du pays"
+#
+msgid "Name of the Country"
+msgid "Name of the country"
+#
+msgid "Constituency details"
+msgid "Détails de la Circonscription"
+#
+msgid "Details"
+msgid "détails"
+#
+msgid "Date the data was submitted from the Constituency"
+msgid "Date à laquelle les données ont été présentées de la circonscription"
+#
+msgid "Population"
+msgid "Population"
+#
+msgid "Total Number of People living in this Constituency"
+msgid "Total population of this Constituency"
+#
+msgid "Voters"
+msgid "Voteurs"
+#
+msgid "Number of Voters registered in this Constituency"
+msgid "Nombre d'électeurs inscrits dans cette circonscription"
+#
+msgid "Rota Identifier"
+msgid "Identificateur du Rota"
+#
+msgid "Document source"
+msgid "Source du document"
+#
+msgid "Document sources"
+msgid "Sources du document"
+#
+msgid "Document Souce"
+msgid "Source du document"
+#
+msgid "Scheduling"
+msgid "ordonnance/plan"
+#
+msgid "Schedulings"
+msgid "ordonnances/plans"
+#
+msgid "A committee must be disolved before it can be reinstated"
+msgid "Un comité doit être dissous avant de pouvoir être réintégré"
+#
+msgid "Category"
+msgid "Catégorie"
+#
+msgid "Discussion"
+msgid "Discussion"
+#
+msgid "Discussions"
+msgid "Discussions"
+#
+msgid "Minutes"
+msgid "Minutes "
+#
+msgid "Categories"
+msgid "Catégories"
+#
+msgid "Short name"
+msgid "Surnom"
+#
+msgid "Report"
+msgid "Rapport"
+#
+msgid "Reports"
+msgid "Rapports"
+#
+msgid "Date created"
+msgid "Date crée/créée"
+#
+msgid "Report type"
+msgid "Type de rapport"
+#
+msgid "Created by"
+msgid "Crée/créée par"
+#
+msgid "A person cannot be active and substituted at the same time"
+msgid "Une personne ne peut être active et remplacée au même moment"
+#
+msgid "If a person is substituted End Date must be set"
+msgid "Si une personne est remplacée, date de fin doit être spécifiée"
+#
+msgid "If a person is inactive End Date must be set"
+msgid "Si une personne est inactive, date de fin doit être spécifiée"
+#
+msgid "A parliament member has to be elected/nominated before she/he can be sworn in"
+msgid "Un membre du Parlement doit être élu(e) ou nommé(e) avant qu'il/elle puisse être assermenté(e)"
+#
+msgid "One cannot die before being born"
+msgid "Une personne ne peut mourir avant de naître"
+#
+msgid "If a user is deceased he must have the status 'D'"
+msgid "Si une personne est décédée, elle doit avoir le status 'D\"
+#
+msgid "A Date of Death must be given if a user is deceased"
+msgid "Une date de la mort doit être donnée si un utilisateur est décédé"
+#
+msgid "You have to enter either a P.O. Box or a Street Address"
+msgid "Vous devez entrer soit une boîte postale ou une adresse"
+#
+msgid "User"
+msgid "Utilisateur/utilisatrice"
+#
+msgid "Users"
+msgid "Utilisateurs/utilisatrices"
+#
+msgid "Name"
+msgid "Nom"
+#
+msgid "Salutation"
+msgid "Salutation"
+#
+msgid "e.g. Mr. Mrs, Prof. etc."
+msgid "example: Mr. Mrs, Prof. etc."
+#
+msgid "First Name"
+msgid "Prénom"
+#
+msgid "Middle Name"
+msgid "Deuxième Nom"
+#
+msgid "Last Name"
+msgid "Nom de famille"
+#
+msgid "Email"
+msgid "Email"
+#
+msgid "Email address"
+msgid "adresse email"
+#
+msgid "Login Name"
+msgid "Nom de connection ou nom de l'utilisateur"
+#
+msgid "Initial password"
+msgid "Mot de passe initial"
+#
+msgid "National Id"
+msgid "Identité nationale"
+#
+msgid "Gender"
+msgid "Genre"
+#
+msgid "Date of Birth"
+msgid "Date de naissance"
+#
+msgid "Country of Birth"
+msgid "Pays de naissance"
+#
+msgid "Nationality at Birth"
+msgid "Nationalité à la naissance"
+#
+msgid "Current Nationality"
+msgid "Nationalité actuelle"
+#
+msgid "Date of Death"
+msgid "Date de décès"
+#
+msgid "Status"
+msgid "Statut"
+#
+msgid "Notes"
+msgid "Notes"
+#
+msgid "Image"
+msgid "Image"
+#
+msgid "Picture of the person"
+msgid "Photo de la personne"
+#
+msgid "Delegate to user"
+msgid "Ajouter  un/une utilisateur/utilisatrice"
+#
+msgid "Delegations"
+msgid "Délégations"
+#
+msgid "Start Date"
+msgid "Date de début"
+#
+msgid "End Date"
+msgid "Date de clôture"
+#
+msgid "Active"
+msgid "Actif/active"
+#
+msgid "Type of Substitution"
+msgid "Type of substitution"
+#
+msgid "Substituted by"
+msgid "Remplacé(e) par"
+#
+msgid "Roles/Titles"
+msgid "Rôles/titres"
+#
+msgid "Member of parliament"
+msgid "Membre du parlement"
+#
+msgid "Members of parliament"
+msgid "Membre du parlement"
+#
+msgid "Constituency"
+msgid "Circonscription"
+#
+msgid "elected/nominated"
+msgid "élu(e) ou nominé(e)"
+#
+msgid "Election/Nomination Date"
+msgid "Election/nomination date"
+#
+msgid "Leave Reason"
+msgid "La raison l'abandon"
+#
+msgid "Party member"
+msgid "Membre d'un parti"
+#
+msgid "Party members"
+msgid "Membres d'un parti"
+#
+msgid "Party membership"
+msgid "Appartenance  à un parti"
+#
+msgid "Party memberships"
+msgid "Appartenances  à un parti"
+#
+msgid "Political Party"
+msgid "Parti politique"
+#
+msgid "Additional member"
+msgid "Membre supplémentaires d'un groupe"
+#
+msgid "Additional members"
+msgid "Membre supplémentaires d'un groupe"
+#
+msgid "Full Name"
+msgid "Nom complet"
+#
+msgid "Description"
+msgid "Déscription"
+#
+msgid "Parliament"
+msgid "Parlements"
+#
+msgid "Parliaments"
+msgid "Parlements"
+#
+msgid "Parliament Identifier"
+msgid "Identificateur d'un Parlement"
+#
+msgid "Unique identifier of each Parliament (e.g. nth Parliament)"
+msgid "Identificateur unique de chaque parlement (par exemple Parlement numéro: )"
+#
+msgid "Parliament name"
+msgid "Nom d'un Parlement"
+#
+msgid "Election Date"
+msgid "La date d'éléction"
+#
+msgid "Date the of the election"
+msgid "Date de l'éléction"
+#
+msgid "In power from"
+msgid "Au pouvoir à partir de"
+#
+msgid "Date the of the swearing in"
+msgid "Au pouvoir jusqu'à"
+#
+msgid "In power till"
+msgid "Au pouvoir jusqu'à"
+#
+msgid "Date the of the dissolution"
+msgid "Date de la dissolution"
+#
+msgid "Profile"
+msgid "Profile"
+#
+msgid "Committees"
+msgid "Comités"
+#
+msgid "Type of committee"
+msgid "type de comité"
+#
+msgid "Type"
+msgid "type"
+#
+msgid "Number of members"
+msgid "Nombre de membres"
+#
+msgid "Minimum Number of Members"
+msgid "Nombre minimal de membres"
+#
+msgid "Quorum"
+msgid "Quorum"
+#
+msgid "Number of clerks"
+msgid "Nombre d'employés de bureau"
+#
+msgid "Number of researchers"
+msgid "Nombre de chercheurs"
+#
+msgid "Proportional representation"
+msgid "Représentation proportionnelle"
+#
+msgid "Default chairperson"
+msgid "Président par défaut"
+#
+msgid "Dissolution date"
+msgid "Date de dissolution"
+#
+msgid "Reinstatement Date"
+msgid "Date de Rétablissement"
+#
+msgid "Member"
+msgid "Membre"
+#
+msgid "Membership"
+msgid "Appartenance"
+#
+msgid "Address type"
+msgid "Type d'adresse"
+#
+msgid "Address types"
+msgid "type d'adresse"
+#
+msgid "Address Type"
+msgid "Type d'adresse"
+#
+msgid "Address"
+msgid "Adresse"
+#
+msgid "Addresses"
+msgid "Adresses"
+#
+msgid "P.O. Box"
+msgid "Boîte postale"
+#
+msgid "City"
+msgid "Ville"
+#
+msgid "Zip Code"
+msgid "Zip code"
+#
+msgid "Country"
+msgid "Pays"
+#
+msgid "Phone Number(s)"
+msgid "Phone number(s)"
+#
+msgid "Enter one phone number per line"
+msgid "Entrer un numéro de téléphone par ligne"
+#
+msgid "Fax Number(s)"
+msgid "Fax number(s)"
+#
+msgid "Enter one fax number per line"
+msgid "Entrer un numéro de fax par ligne"
+#
+msgid "Instant Messenger Id"
+msgid "Instant messenger ID"
+#
+msgid "ICQ, AOL IM, GoogleTalk..."
+msgid "ICQ, AOL IM, GoogleTalk..."
+#
+msgid "Title"
+msgid "Titre"
+#
+msgid "Titles"
+msgid "Titres"
+#
+msgid "Staff"
+msgid "Employées/Équipe"
+#
+msgid "Political party"
+msgid "Parti politique"
+#
+msgid "Political parties"
+msgid "Parti politiques"
+#
+msgid "Logo"
+msgid "Logo"
+#
+msgid "Office"
+msgid "Bureau"
+#
+msgid "Offices"
+msgid "Bureaux"
+#
+msgid "Type of Office"
+msgid "Type of office"
+#
+msgid "Office Member"
+msgid "Membre d'un office"
+#
+msgid "Office Members"
+msgid "Membres d'un office"
+#
+msgid "Ministry"
+msgid "Ministère"
+#
+msgid "Ministries"
+msgid "Ministères"
+#
+msgid "Minister"
+msgid "Ministre"
+#
+msgid "Ministers"
+msgid "Ministres"
+#
+msgid "Parliamentary session"
+msgid "Scéance parlementaire"
+#
+msgid "Parliamentary sessions"
+msgid "Scéances parlementaires"
+#
+msgid "add_item_legend"
+msgid "Ajouter la légende d'un article"
+#
+msgid "add_item_title"
+msgid "Ajouter  titre d'un article"
+#
+msgid "Save and view"
+msgid "Sauvegarder et Voir"
+#
+msgid "Cancel"
+msgid "Annuler"
+#
+msgid "Save"
+msgid "Sauvegarder"
+#
+msgid "Save and add another"
+msgid "Sauvegarder et ajouter autre"
+#
+msgid "edit_translation_legend"
+msgid "Modifier la légende de la translation"
+#
+msgid "edit_version_legend"
+msgid "Modifier la légende de la version"
+#
+msgid "edit_item_legend"
+msgid "Modifier la légende de l'objet"
+#
+msgid "edit_translation_help"
+msgid "Modifier l'aide de la translation"
+#
+msgid "translate_item_legend"
+msgid "traduire la légende d'un élément"
+#
+msgid "translate_item_help"
+msgid "traduire l'aide d'un objet"
+#
+msgid "translate_item_title"
+msgid "traduire le titre d'un objet"
+#
+msgid "Save translation"
+msgid "Sauvegarder traduction"
+#
+msgid "Item reordering"
+msgid "Réordonnance d'un objet"
+#
+msgid "Delete"
+msgid "Supprimer"
+#
+msgid "Could not delete item due to database integrity error."
+msgid "Impossible de supprimer l'objet en raison d'une erreur d'intégrité base de données."
+#
+msgid "General"
+msgid "Général(le)"
+#
+msgid "Direction"
+msgid "Direction"
+#
+msgid "AM"
+msgid "Matin"
+#
+msgid "Move"
+msgid "Déplacer"
+#
+msgid "Weekdays"
+msgid "Jours de la semaine"
+#
+msgid "Select the days on which the event should occur."
+msgid "Indiquez les jours où l'événement doit se produire."
+#
+msgid "Monthly"
+msgid "Mensuel(le)"
+#
+msgid "Select the mode of montly recurrence."
+msgid "Sélectionnez le mode de récidive mensuel."
+#
+msgid "Repeat"
+msgid "Répéter"
+#
+msgid "Enter the number of times which the event should be repeated (as an integer)."
+msgid "Entrez le nombre de fois où l'événement doit être répété (comme un entier fini)."
+#
+msgid "Repeat until date"
+msgid "Répéter jusqu'à"
+#
+msgid "Limit recurrence to the specified date."
+msgid "Limiter la réapparition à la date spécifiée."
+#
+msgid "Exceptions"
+msgid "Excéptions"
+#
+msgid "Events will not be scheduled at dates appearing in this field. Separate with comma or newline. Format: YYYY/MM/DD."
+msgid ""
+#
+msgid "Must limit recurrence (by number or date)."
+msgid "Doit limiter récidive (en nombre ou date)."
+#
+msgid "Recurring events"
+msgid "Evénements récurrents"
+#
+msgid "Attach a file"
+msgid "Attacher un document"
+#
+msgid "Bill timeline"
+msgid "Chronologie du projet de loi"
+#
+msgid "Delete item confirmation"
+msgid "Confirmation de suppression de l'objet"
+#
+msgid "${DYNAMIC_CONTENT}"
+msgid "${DYNAMIC_CONTENT}"
+#
+msgid "Parliamentary activities"
+msgid "Activités parlementaires"
+#
+msgid "Offices held"
+msgid "Postes occupés"
+#
+msgid "The person is a member in (%s) at that date"
+msgid "La personne est un membre en (% s) à cette date"
+#
+msgid "The start date overlaps with (%s)"
+msgid "La date de début s'imbrique avec (% s)"
+#
+msgid "The end date overlaps with (%s)"
+msgid "La date de  clôture s'imbrique avec (% s)"
+#
+msgid "The election date overlaps with (%s)"
+msgid "La date d'éléction s'imbrique avec (%s)"
+#
+msgid "Another parliament is not yet dissolved (%s)"
+msgid "Un autre parlement n'est pas encore dissous (%s)"
+#
+msgid "Start date cannot be after the parliaments dissolution (%s)"
+msgid "Date de début ne peut pas être après la dissolution des parlements (% s)"
+#
+msgid "Start date must start after the swearing in of the parliament (%s)"
+msgid "Date de début doit commencer après la prestation de serment du Parlement (% s)"
+#
+msgid "Another government is not yet dissolved (%s)"
+msgid "Un autre gouvernement n'est pas encore dissous (%s)"
+#
+msgid "This persons allready has the title %s"
+msgid "Cette personne a déjà le titre de % s"
+#
+msgid "A person with the title %s allready exists"
+msgid "Une personne avec le titre de % s existe déjà"
+#
+msgid "Start date must be after (%s)"
+msgid "La date de départ doit être postérieure (% s)"
+#
+msgid "Venue \"
+msgid "Lieu de la rencontre \"
+#
+msgid "Start date must be prior to (%s)"
+msgid "Date de début doit être antérieure à (%s)"
+#
+msgid "If recurrence is limited by date, it must lie after the starting date."
+msgid "Si une récurrence est limité par jour, elle doit se situer après la date de départ."
+#
+msgid "One or more events would be scheduled for $F, which is after the scheduling group's end date."
+msgid "Un ou plusieurs événements seraient programmés pour $F, qui est après la date de fin de planification du groupe."
+#
+msgid "One or more events would be scheduled for $F, which overlaps with an existing sitting."
+msgid "Un ou plusieurs événements seraient programmés pour $F, qui recoupe une entreprise existante séance."
+#
+msgid "End date must be equal to start date."
+msgid "La date de fin doit être la même que la date de début."
+#
+msgid "End date must be after (%s)"
+msgid "La date de fin doit être postérieure à (% s)"
+#
+msgid "End date must be prior to (%s)"
+msgid "Date de clôture doit être antérieure à (%s)"
+#
+msgid "Personal Info"
+msgid "Information personelle"
+#
+msgid "Parliament Membership"
+msgid ""
+#
+msgid "Add response"
+msgid "Ajouter réponse"
+#
+msgid "add event"
+msgid "Ajouter un événement"
+#
+msgid "Add"
+msgid "Ajouter"
+#
+msgid "No item has been set."
+msgid "Aucun objet n'a été fixé"
+#
+msgid "Username"
+msgid "Nom de l'utilisateur/utilisatrice"
+#
+msgid "Password"
+msgid "Mot de Passe"
+#
+msgid "Login"
+msgid "Se connecter"
+#
+msgid "Invalid account credentials"
+msgid "Pouvoirs d'identification de compte non valide"
+#
+msgid "You are now logged in"
+msgid "Vous êtes maintenant connecté"
+#
+msgid "label_translate"
+msgid "étiquette de traduction"
+#
+msgid "label_state"
+msgid "État de l'étiquette"
+#
+msgid "label_calendar_context"
+msgid "contexte du calendrier de l'étiquette"
+#
+msgid "box_sessions"
+msgid "sessions de boîte"
+#
+msgid "box_members"
+msgid "membre de case"
+#
+msgid "Search"
+msgid "rechercher"
+#
+msgid "Invalid Query"
+msgid "requête invalide"
+#
+msgid "Query"
+msgid "Requête"
+#
+msgid "rank"
+msgid "rang"
+#
+msgid "type"
+msgid "type"
+#
+msgid "title"
+msgid "titre"
+#
+msgid "status"
+msgid "statut"
+#
+msgid "weight"
+msgid "poids"
+#
+msgid "percent"
+msgid "pour cent"
+#
+msgid "Settings"
+msgid "Réglages"
+#
+msgid "Archive"
+msgid "Archives"
+#
+msgid "Access to current and historical records."
+msgid "Accès aux dossiers courants et historiques."
+#
+msgid "keep-image"
+msgid "Garder image"
+#
+msgid "delete-image"
+msgid "Supprimer image"
+#
+msgid "replace-image"
+msgid "remplacer image"
+#
+msgid "upload-image"
+msgid "Charger image"
+#
+msgid "Results"
+msgid "Résultats"
+#
+msgid "Similar Content"
+msgid "contenu similaire"
+#
+msgid "Select a version to compare to the current working copy, or make two selections to compare historic versions."
+msgid ""
+#
+msgid "Current state: ${state}."
+msgid "État actuel: ${state}"
+#
+msgid "No history available for this item."
+msgid "Aucune histoire disponible pour cet article."
+#
+msgid "Workflow"
+msgid "Flux de travail"
+#
+msgid "Change state..."
+msgid "Changer état..."
+#
+msgid "Form values must be of type string or list"
+msgid "Valeurs d'un formulaire doit être une chaîne ou une liste"
+#
+msgid "date must be of type datetime or date"
+msgid "date doit être du date temps ou date"
+#
+msgid "New Version"
+msgid "Nouvelle version"
+#
+msgid "New Version Created"
+msgid "Nouvelle version créée"
+#
+msgid "Revert To"
+msgid "Faire revenir à un stade antérieur"
+#
+msgid "Select one item to revert to."
+msgid "Séléctionner un objet à Faire revenir à un stade antérieur"
+#
+msgid "Reverted to Previous Version %s"
+msgid "Faire revenir à une version antérieure %s"
+#
+msgid "Show Differences"
+msgid "Voir differences"
+#
+msgid "Displaying differences."
+msgid "Affichage des différences."
+#
+msgid "Select one or two items to show differences."
+msgid "Sélectionnez un ou deux éléments pour montrer les différences."
+#
+msgid "View"
+msgid "Voir"
+#
+msgid "Currently displaying version ${version}."
+msgid "Actuellement la version affichant ${version}."
+#
+msgid "Change Message"
+msgid "Changer message"
+#
+msgid "version"
+msgid "version"
+#
+msgid "manual"
+msgid "manuel(le)"
+#
+msgid "modified"
+msgid "Modifé(e)"
+#
+msgid "by"
+msgid "Par"
+#
+msgid "message"
+msgid "Message"
+#
+msgid "Start date must be before %s"
+msgid "Date de début doit être antérieure à %s"
+#
+msgid "End date must be after %s"
+msgid "Date de clôture doit être postérieure à %s"
+#
+msgid "Date range set."
+msgid "rangées de dates réglées"
+#
+msgid "Date range cleared."
+msgid "rangées de dates effacées"
+#
+msgid "From"
+msgid "De"
+#
+msgid "Leave blank or set lower limit."
+msgid "Laissez en blanc ou un réglez limite inférieure."
+#
+msgid "To"
+msgid "À"
+#
+msgid "Leave blank or set upper limit."
+msgid "Laissez en blanc ou un régler limite supérieure."
+#
+msgid "Or"
+msgid "Ou"
+#
+msgid "Set date range to that of a given particular parliament."
+msgid "Fixer la rangée de date à celui d'un parlement particulier donné."
+#
+msgid "Filter the archive by date range."
+msgid "Filtrer les archives par rangées de dates."
+#
+msgid "Select parliament..."
+msgid "Séléctionner parlement"
+#
+msgid "Invalid Date Range"
+msgid "rangée de dates invalides"
+#
+msgid "$F"
+msgid "$F"
+#
+msgid "you_are_here"
+msgid "Vous êtes ici"
+#
+msgid "tabs_home"
+msgid "tabs_Acceuil"
+#
+msgid "No items."
+msgid "pas d'objet"
+#
+msgid "Upcoming sittings"
+msgid "Prochaines séances"
+#
+msgid "What's on"
+msgid "Ce qui est sur"
+#
+msgid "An overview of the daily operations of the parliament."
+msgid "Un aperçu des activités quotidiennes du parlement."
+#
+msgid "Filter by date range."
+msgid "Filtrer par rangées de dates."
+#
+msgid "day_%d"
+msgid "Jour_%d"
+#
+msgid "Day $number of every month"
+msgid "Jour $number de chaque mois"
+#
+msgid "First $day of every month"
+msgid "Premier $day de chaque mois"
+#
+msgid "Supplementary Question to: <br/> %s"
+msgid "Questions supplémentaires à: <br/> %s"
+#
+msgid "Initial Question"
+msgid "Question initialle"
+#
+msgid "Jan"
+msgid "Jan"
+#
+msgid "Feb"
+msgid "Fev"
+#
+msgid "Mar"
+msgid "Mar"
+#
+msgid "Apr"
+msgid "Avr"
+#
+msgid "May"
+msgid "Mai"
+#
+msgid "Jun"
+msgid "Juin"
+#
+msgid "Jul"
+msgid "Juillet"
+#
+msgid "Aug"
+msgid "Août"
+#
+msgid "Sep"
+msgid "Sep"
+#
+msgid "Oct"
+msgid "Oct"
+#
+msgid "Nov"
+msgid "Nov"
+#
+msgid "Dec"
+msgid "Dec"
+#
+msgid "Invalid date: $value."
+msgid "La date est invalide: $value"
+#
+msgid "Incorrect string data for date"
+msgid "Les données de chaîne incorrecte pour la date"
+#
+msgid "Incorrect string data for date and time"
+msgid "Les données de chaîne incorrectes pour la date et l'heure"
+#
+msgid "Form upload is not a file object"
+msgid " Le formulaire en cours de chargement n'est pas un objet de fichier"
+#
+msgid "Comment on workflow change"
+msgid "Commentaires sur les changements du flux du travail"
+#
+msgid "Confirmation required for workflow transition: '${title}'."
+msgid "Confirmation requise pour la transition du : '${title}'."
+#
+msgid "Workflow history"
+msgid "Flux Histoirique du travail"
+#

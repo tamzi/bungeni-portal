@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Thu Dec 10 14:23:13 2009\n"
+"POT-Creation-Date: Tue Jan 12 15:15:08 2010\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -22,6 +22,63 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
+msgid "Metadata"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
+msgid "History"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
+msgid "Add, Remove, Delete actions for a Container"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:129
+msgid "Add Directory"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:169
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:177
+msgid "Add File"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:17
+msgid "Alternative Views of the Object (RSS, ICAL, etc)"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
+msgid "Edit"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
+msgid "Download"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
+msgid "Contents"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
+msgid "Settings"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
+msgid "Contextual Action Views of the Object"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
+msgid "RSS"
+msgstr ""
+
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
+#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
+msgid "ICal"
+msgstr ""
 
 #: src/bungeni.core/bungeni/core/app.py:100
 msgid "Questions"
@@ -147,57 +204,57 @@ msgstr ""
 msgid "View bills issued by the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/audit.py:128
+#: src/bungeni.core/bungeni/core/audit.py:132
 msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/audit.py:178
+#: src/bungeni.core/bungeni/core/audit.py:183
 msgid "No IRequest in interaction"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:128
+#: src/bungeni.core/bungeni/core/dc.py:130
 msgid "Sitting"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:133
+#: src/bungeni.core/bungeni/core/dc.py:135
 #. Default: ""
 msgid "Sitting scheduled for '$group' ($start to $end)."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:143
+#: src/bungeni.core/bungeni/core/dc.py:145
 msgid "Item scheduling"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:151
+#: src/bungeni.core/bungeni/core/dc.py:153
 #. Default: ""
 msgid "Scheduled for sitting ($start to $end)."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:162
+#: src/bungeni.core/bungeni/core/dc.py:164
 #. Default: ""
 msgid "$language translation"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:165
+#: src/bungeni.core/bungeni/core/dc.py:167
 #. Default: ""
 msgid "Version $version"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:170
+#: src/bungeni.core/bungeni/core/dc.py:172
 #. Default: ""
 msgid "Last modified $date."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:298
+#: src/bungeni.core/bungeni/core/dc.py:300
 #. Default: ""
 msgid "Discussion ($time)"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:300
+#: src/bungeni.core/bungeni/core/dc.py:302
 msgid "Discussion"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/dc.py:314
+#: src/bungeni.core/bungeni/core/dc.py:316
 msgid "("
 msgstr ""
 
@@ -305,167 +362,167 @@ msgid "notification_email_to_member_upon_debate_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
-msgid "Schedule a question"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
-msgid "Respond to a question"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
-msgid "Answer a question"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
-msgid "Withdraw a question"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
-msgid "Answer a question in writing"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
-msgid "Submit a Response"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:17
-msgid "Complete a Response"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
-msgid "Submit a motion"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
-msgid "Recieve a motion"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
-msgid "Review a motion"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
-msgid "Speaker review a motion"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
-msgid "Schedule a motion"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
-msgid "Mark a motion as debated"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
-msgid "Withdraw a motion"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
-msgid "Submit a bill"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
-msgid "Schedule a bill"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
-msgid "Assign a bill to a committee"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
-msgid "Reject/Approve a bill"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
-msgid "Withdraw a bill"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
-msgid "Revert a transition back to an earlier stage"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
-msgid "Manage Bungeni groups"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
-msgid "Manage User Adresses"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:38
-msgid "Submit a agendaitem"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:39
-msgid "Recieve a agendaitem"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:40
-msgid "Review a agendaitem"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
-msgid "Speaker review a agendaitem"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
-msgid "Schedule a agendaitem"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
-msgid "Mark a agendaitem as debated"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
-msgid "Withdraw a agendaitem"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
-msgid "Submit a tableddocument"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:47
-msgid "Recieve a tableddocument"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:48
-msgid "Review a tableddocument"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
-msgid "Speaker review a tableddocument"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
-msgid "Schedule a tableddocument"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
-msgid "Mark a tableddocument as debated"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
-msgid "Withdraw a tableddocument"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
-msgid "Change Sitting Status"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:6
-msgid "Submit a question"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:7
-msgid "Recieve a question"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Review a question"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Speaker review a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
+msgid "Schedule a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
+msgid "Respond to a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
+msgid "Answer a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:15
+msgid "Withdraw a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
+msgid "Answer a question in writing"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:18
+msgid "Submit a Response"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
+msgid "Complete a Response"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:21
+msgid "Submit a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
+msgid "Recieve a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
+msgid "Review a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
+msgid "Speaker review a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
+msgid "Schedule a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:26
+msgid "Mark a motion as debated"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
+msgid "Withdraw a motion"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:29
+msgid "Submit a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
+msgid "Schedule a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
+msgid "Assign a bill to a committee"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
+msgid "Reject/Approve a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:33
+msgid "Withdraw a bill"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
+msgid "Revert a transition back to an earlier stage"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:36
+msgid "Manage Bungeni groups"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:38
+msgid "Manage User Adresses"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:40
+msgid "Submit a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
+msgid "Recieve a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
+msgid "Review a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
+msgid "Speaker review a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
+msgid "Schedule a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:45
+msgid "Mark a agendaitem as debated"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
+msgid "Withdraw a agendaitem"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:48
+msgid "Submit a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
+msgid "Recieve a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
+msgid "Review a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
+msgid "Speaker review a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
+msgid "Schedule a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:53
+msgid "Mark a tableddocument as debated"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
+msgid "Withdraw a tableddocument"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:56
+msgid "Change Sitting Status"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
+msgid "Submit a question"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
+msgid "Recieve a question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:231

@@ -1,432 +1,432 @@
 msgid ""
-msgid ""
+msgstr ""
 #
 msgid "Metadata"
-msgid "Metadata"
+msgstr "Metadata"
 #
 msgid "History"
-msgid "Histoire"
+msgstr "Histoire"
 #
 msgid "Add, Remove, Delete actions for a Container"
-msgid "Actions Ajouter, enlever, supprimer pour un récipient"
+msgstr "Actions Ajouter, enlever, supprimer pour un récipient"
 #
 msgid "Add Directory"
-msgid "Ajouter un annuaire (directoire)"
+msgstr "Ajouter un annuaire (directoire)"
 #
 msgid "Add File"
-msgid "Ajouter un document"
+msgstr "Ajouter un document"
 #
 msgid "Alternative Views of the Object (RSS, ICAL, etc)"
-msgid "Vues alternatives  des objets (RSS, ICAL, etc)"
+msgstr "Vues alternatives  des objets (RSS, ICAL, etc)"
 #
 msgid "Edit"
-msgid "Modifier"
+msgstr "Modifier"
 #
 msgid "Download"
-msgid "Téléchager"
+msgstr "Téléchager"
 #
 msgid "Contents"
-msgid "Contenu(e)s"
+msgstr "Contenu(e)s"
 #
 msgid "Settings"
-msgid "Réglages"
+msgstr "Réglages"
 #
 msgid "Contextual Action Views of the Object"
-msgid "Action de vues contextuelles de l'objet"
+msgstr "Action de vues contextuelles de l'objet"
 #
 msgid "RSS"
-msgid "Syndications réellement simple (RSS)"
+msgstr "Syndications réellement simple (RSS)"
 #
 msgid "ICal"
-msgid "Calendrier"
+msgstr "Calendrier"
 #
 msgid "Questions"
-msgid "Questions"
+msgstr "Questions"
 #
 msgid "View questions issued by the current parliament."
-msgid "Voir les questions émises par le Parlement actuel."
+msgstr "Voir les questions émises par le Parlement actuel."
 #
 msgid "Motions"
-msgid "Propositions"
+msgstr "Propositions"
 #
 msgid "View motions issued by the current parliament."
-msgid "Voir les propositions émises par le Parlement actuel."
+msgstr "Voir les propositions émises par le Parlement actuel."
 #
 msgid "Tabled documents"
-msgid "documents déposés"
+msgstr "documents déposés"
 #
 msgid "View the tabled documents of the current parliament."
-msgid "Voir les propositions émises par le Parlement actuel."
+msgstr "Voir les propositions émises par le Parlement actuel."
 #
 msgid "View the agenda items of the current parliament."
-msgid "Voir les propositions émises par le Parlement actuel."
+msgstr "Voir les propositions émises par le Parlement actuel."
 #
 msgid "Sittings"
-msgid "séances"
+msgstr "séances"
 #
 msgid "View the sittings of the current parliament."
-msgid "Voir les propositions émises par le Parlement actuel."
+msgstr "Voir les propositions émises par le Parlement actuel."
 #
 msgid "Current"
-msgid "Actuel(le)"
+msgstr "Actuel(le)"
 #
 msgid "View current parliament members (MPs)."
-msgid "Voir les propositions émises par le Parlement actuel)."
+msgstr "Voir les propositions émises par le Parlement actuel)."
 #
 msgid "Political groups"
-msgid "Groupes politiques"
+msgstr "Groupes politiques"
 #
 msgid "View current political groups."
-msgid "Voir un/une membre d'un groupe politique."
+msgstr "Voir un/une membre d'un groupe politique."
 #
 msgid "Browse"
-msgid "Naviguer"
+msgstr "Naviguer"
 #
 msgid "Current and historical records."
-msgid "Données actuelles et historiques"
+msgstr "Données actuelles et historiques"
 #
 msgid "Documents"
-msgid "Documents"
+msgstr "Documents"
 #
 msgid "Visit the digital document repository."
-msgid "Visitez le référentiel de documents numériques."
+msgstr "Visitez le référentiel de documents numériques."
 #
 msgid "Business"
-msgid "Entreprise"
+msgstr "Entreprise"
 #
 msgid "Daily operations of the parliament."
-msgid "Les opérations quotidiennes du parlement."
+msgstr "Les opérations quotidiennes du parlement."
 #
 msgid "Members"
-msgid "Membres"
+msgstr "Membres"
 #
 msgid "Records on members of parliament."
-msgid "Dossiers sur les membres du parlement."
+msgstr "Dossiers sur les membres du parlement."
 #
 msgid "Archive"
-msgid "Archives"
+msgstr "Archives"
 #
 msgid "Parliament records and documents."
-msgid "Dossiers et documents du parlement."
+msgstr "Dossiers et documents du parlement."
 #
 msgid "Administration"
-msgid "Administration"
+msgstr "Administration"
 #
 msgid "Administer bungeni settings."
-msgid "Réglages de l'administrateur de BUNGENI."
+msgstr "Réglages de l'administrateur de BUNGENI."
 #
 msgid "What's on"
-msgid "Ce qui est sur"
+msgstr "Ce qui est sur"
 #
 msgid "Current parliamentary activity."
-msgid "Activités actuelles du Parlement."
+msgstr "Activités actuelles du Parlement."
 #
 msgid "Committees"
-msgid "Comités"
+msgstr "Comités"
 #
 msgid "View committees created by the current parliament."
-msgid "Voir les propositions émises par le Parlement actuel."
+msgstr "Voir les propositions émises par le Parlement actuel."
 #
 msgid "Bills"
-msgid "projets de loi"
+msgstr "projets de loi"
 #
 msgid "View bills issued by the current parliament."
-msgid "Voir les propositions émises par le Parlement actuel."
+msgstr "Voir les propositions émises par le Parlement actuel."
 #
 msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
-msgid "%(transition)s : %(comment)s [ transition de %(source)s à %(destination)s ]"
+msgstr "%(transition)s : %(comment)s [ transition de %(source)s à %(destination)s ]"
 #
 msgid "No IRequest in interaction"
-msgid "Pas de IRequest en interaction"
+msgstr "Pas de IRequest en interaction"
 #
 msgid "Sitting"
-msgid "Scéances"
+msgstr "Scéances"
 #
 msgid "Sitting scheduled for '$group' ($start to $end)."
-msgid "Prévue pour le '$group' ($start à $end)."
+msgstr "Prévue pour le '$group' ($start à $end)."
 #
 msgid "Item scheduling"
-msgid "ordonnance/plan d'un objet"
+msgstr "ordonnance/plan d'un objet"
 #
 msgid "Scheduled for sitting ($start to $end)."
-msgid "Prévue pour la séance ($start à $end)."
+msgstr "Prévue pour la séance ($start à $end)."
 #
 msgid "$language translation"
-msgid "traduction $language"
+msgstr "traduction $language"
 #
 msgid "Version $version"
-msgid "Version $version"
+msgstr "Version $version"
 #
 msgid "Last modified $date."
-msgid "Dernière modification $date."
+msgstr "Dernière modification $date."
 #
 msgid "Discussion ($time)"
-msgid "Discussion ($time)"
+msgstr "Discussion ($time)"
 #
 msgid "Discussion"
-msgid "Discussion"
+msgstr "Discussion"
 #
 msgid "("
-msgid "("
+msgstr "("
 #
 msgid "Plenary"
-msgid "Plénière/Absolu(e)"
+msgstr "Plénière/Absolu(e)"
 #
 msgid "$x"
-msgid "$x"
+msgstr "$x"
 #
 msgid "Unknown principal group"
-msgid "Groupe principal inconnu"
+msgstr "Groupe principal inconnu"
 #
 msgid "title_html_fragment_odf_transform"
-msgid "Fragment HTML à un format d'opendocument"
+msgstr "Fragment HTML à un format d'opendocument"
 #
 msgid "Reverted to previous version $version."
-msgid "Faire revenir à une version antérieure %s."
+msgstr "Faire revenir à une version antérieure %s."
 #
 msgid "notification_email_to_member_upon_receipt_of_agenda_item"
-msgid "email après Réception d'un objet d'un agenda"
+msgstr "email après Réception d'un objet d'un agenda"
 #
 msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
-msgid "email après Soumission d'un objet d'un agenda"
+msgstr "email après Soumission d'un objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_rejection_of_agenda_item"
-msgid "email après Rejet d'un objet d'un agenda"
+msgstr "email après Rejet d'un objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
-msgid "email après Besoin d'une clarification sur l'objet d'un agenda"
+msgstr "email après Besoin d'une clarification sur l'objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_defer_of_agenda_item"
-msgid "email après Différation de l'objet d'un agenda"
+msgstr "email après Différation de l'objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_schedule_of_agenda_item"
-msgid "email après Planification de l'objet d'un agenda"
+msgstr "email après Planification de l'objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_postpone_of_agenda_item"
-msgid "email après Report de l'objet d'un agenda"
+msgstr "email après Report de l'objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_debate_of_agenda_item"
-msgid "email après Débat sur l'objet d'un agenda"
+msgstr "email après Débat sur l'objet d'un agenda"
 #
 msgid "notification_email_to_member_upon_receipt_of_motion"
-msgid "email après Récéption d'une proposition"
+msgstr "email après Récéption d'une proposition"
 #
 msgid "notification_email_to_clerk_upon_submit_of_motion"
-msgid "email après Soumission d'une proposition"
+msgstr "email après Soumission d'une proposition"
 #
 msgid "notification_email_to_member_upon_rejection_of_motion"
-msgid "email après Rejet d'une proposition"
+msgstr "email après Rejet d'une proposition"
 #
 msgid "notification_email_to_member_upon_need_clarification_of_motion"
-msgid "email après Besoin d'une clarification sur une proposition"
+msgstr "email après Besoin d'une clarification sur une proposition"
 #
 msgid "notification_email_to_member_upon_defer_of_motion"
-msgid "email après Différation d'une propostion"
+msgstr "email après Différation d'une propostion"
 #
 msgid "notification_email_to_member_upon_schedule_of_motion"
-msgid "email après Planification d'une proposition"
+msgstr "email après Planification d'une proposition"
 #
 msgid "notification_email_to_member_upon_postpone_of_motion"
-msgid "email après Report d'une proposition"
+msgstr "email après Report d'une proposition"
 #
 msgid "notification_email_to_member_upon_debate_of_motion"
-msgid "email après Débat sur une proposition"
+msgstr "email après Débat sur une proposition"
 #
 msgid "Review a question"
-msgid "Revoir une question"
+msgstr "Revoir une question"
 #
 msgid "Speaker review a question"
-msgid "Révision d'une question par le Coordinateur"
+msgstr "Révision d'une question par le Coordinateur"
 #
 msgid "Schedule a question"
-msgid "Soumettre/annexer/Poser une question"
+msgstr "Soumettre/annexer/Poser une question"
 #
 msgid "Respond to a question"
-msgid "Répondre à une question"
+msgstr "Répondre à une question"
 #
 msgid "Answer a question"
-msgid "Répondre à une question"
+msgstr "Répondre à une question"
 #
 msgid "Withdraw a question"
-msgid "Retirer une question"
+msgstr "Retirer une question"
 #
 msgid "Answer a question in writing"
-msgid "Répondre à une question par écrit"
+msgstr "Répondre à une question par écrit"
 #
 msgid "Submit a Response"
-msgid "Soumettre une réponse"
+msgstr "Soumettre une réponse"
 #
 msgid "Complete a Response"
-msgid "Compléter une réponse"
+msgstr "Compléter une réponse"
 #
 msgid "Submit a motion"
-msgid "Soumettre une proposition"
+msgstr "Soumettre une proposition"
 #
 msgid "Recieve a motion"
-msgid "Recevoir une proposition"
+msgstr "Recevoir une proposition"
 #
 msgid "Review a motion"
-msgid "Revoir une proposition"
+msgstr "Revoir une proposition"
 #
 msgid "Speaker review a motion"
-msgid "Révision d'une proposition par le Coordinateur"
+msgstr "Révision d'une proposition par le Coordinateur"
 #
 msgid "Schedule a motion"
-msgid "Soumettre/annexer/Poser/Donner une proposition"
+msgstr "Soumettre/annexer/Poser/Donner une proposition"
 #
 msgid "Mark a motion as debated"
-msgid "Marquer une proposition comme étant sous débat"
+msgstr "Marquer une proposition comme étant sous débat"
 #
 msgid "Withdraw a motion"
-msgid "Retirer une proposition"
+msgstr "Retirer une proposition"
 #
 msgid "Submit a bill"
-msgid "Soumettre un projet de loi"
+msgstr "Soumettre un projet de loi"
 #
 msgid "Schedule a bill"
-msgid "Planifier un projet de loi"
+msgstr "Planifier un projet de loi"
 #
 msgid "Assign a bill to a committee"
-msgid "Assigner un projet de loi à un comité"
+msgstr "Assigner un projet de loi à un comité"
 #
 msgid "Reject/Approve a bill"
-msgid "Rejeter/Approuver un projet de loi"
+msgstr "Rejeter/Approuver un projet de loi"
 #
 msgid "Withdraw a bill"
-msgid "Retirer un projet de loi"
+msgstr "Retirer un projet de loi"
 #
 msgid "Revert a transition back to an earlier stage"
-msgid "Faire revenir une transitoin à un stade antérieur"
+msgstr "Faire revenir une transitoin à un stade antérieur"
 #
 msgid "Manage Bungeni groups"
-msgid "Gérer les groupes de Bungeni"
+msgstr "Gérer les groupes de Bungeni"
 #
 msgid "Manage User Adresses"
-msgid "Gérer les adresses des utilisateurs"
+msgstr "Gérer les adresses des utilisateurs"
 #
 msgid "Submit a agendaitem"
-msgid "Soumettre un objet  à un agenda"
+msgstr "Soumettre un objet  à un agenda"
 #
 msgid "Recieve a agendaitem"
-msgid "Recevoir un objet  d'un agenda"
+msgstr "Recevoir un objet  d'un agenda"
 #
 msgid "Review a agendaitem"
-msgid "Revoir un objet  d'un agenda"
+msgstr "Revoir un objet  d'un agenda"
 #
 msgid "Speaker review a agendaitem"
-msgid "Révision d'un objet d'un agenda par le Coordinateur"
+msgstr "Révision d'un objet d'un agenda par le Coordinateur"
 #
 msgid "Schedule a agendaitem"
-msgid "Planifier un objet  d'un agenda"
+msgstr "Planifier un objet  d'un agenda"
 #
 msgid "Mark a agendaitem as debated"
-msgid "Marquer l'objet  d'un agenda comme étant sous débat"
+msgstr "Marquer l'objet  d'un agenda comme étant sous débat"
 #
 msgid "Withdraw a agendaitem"
-msgid "Retirer un objet  d'un agenda"
+msgstr "Retirer un objet  d'un agenda"
 #
 msgid "Submit a tableddocument"
-msgid "Soumettre un document déposé"
+msgstr "Soumettre un document déposé"
 #
 msgid "Recieve a tableddocument"
-msgid "Recevoir un document déposé"
+msgstr "Recevoir un document déposé"
 #
 msgid "Review a tableddocument"
-msgid "Revoir un document déposé"
+msgstr "Revoir un document déposé"
 #
 msgid "Speaker review a tableddocument"
-msgid "Révision d'un document déposé  par le Coordinateur"
+msgstr "Révision d'un document déposé  par le Coordinateur"
 #
 msgid "Schedule a tableddocument"
-msgid "Planifier un document déposé"
+msgstr "Planifier un document déposé"
 #
 msgid "Mark a tableddocument as debated"
-msgid "Marquer un document déposé comme étant sous débat"
+msgstr "Marquer un document déposé comme étant sous débat"
 #
 msgid "Withdraw a tableddocument"
-msgid "Retirer un document déposé"
+msgstr "Retirer un document déposé"
 #
 msgid "Change Sitting Status"
-msgid "Modifier le statut de la séance"
+msgstr "Modifier le statut de la séance"
 #
 msgid "Submit a question"
-msgid "Répondre à une question"
+msgstr "Répondre à une question"
 #
 msgid "Recieve a question"
-msgid "Recevoir une question"
+msgstr "Recevoir une question"
 #
 msgid "notification_email_to_member_upon_receipt_of_question"
-msgid "Récéption d'une question"
+msgstr "Récéption d'une question"
 #
 msgid "notification_email_to_clerk_upon_submit_of_question"
-msgid "Soumission d'une question"
+msgstr "Soumission d'une question"
 #
 msgid "notification_email_to_member_upon_rejection_of_question"
-msgid "Rejet d'une question"
+msgstr "Rejet d'une question"
 #
 msgid "notification_email_to_member_upon_need_clarification_of_question"
-msgid "Clarification d'une question"
+msgstr "Clarification d'une question"
 #
 msgid "notification_email_to_member_upon_defer_of_question"
-msgid "Différation d'une question"
+msgstr "Différation d'une question"
 #
 msgid "notification_email_to_member_upon_schedule_of_question"
-msgid "Planification d'une question"
+msgstr "Planification d'une question"
 #
 msgid "notification_email_to_member_upon_postpone_of_question"
-msgid "Repot d'une question"
+msgstr "Repot d'une question"
 #
 msgid "notification_email_to_member_upon_complete_of_question"
-msgid "complément d'une question"
+msgstr "complément d'une question"
 #
 msgid "notification_email_to_ministry_upon_complete_question"
-msgid "Rapport d'une question complétée"
+msgstr "Rapport d'une question complétée"
 #
 msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
-msgid "Rapport d'une question envoyée au ministère"
+msgstr "Rapport d'une question envoyée au ministère"
 #
 msgid "notification_email_to_member_upon_answer_of_question"
-msgid "Réponse à la question"
+msgstr "Réponse à la question"
 #
 msgid "notification_email_to_member_upon_debate_question"
-msgid "Débat sur une question"
+msgstr "Débat sur une question"
 #
 msgid "visible"
-msgid "visible"
+msgstr "visible"
 #
 msgid "pending"
-msgid "en Attente"
+msgstr "en Attente"
 #
 msgid "scheduled"
-msgid "Planifié(e)"
+msgstr "Planifié(e)"
 #
 msgid "Submit to Clerk"
-msgid "Soumettre au greffier"
+msgstr "Soumettre au greffier"
 #
 msgid "Schedule"
-msgid "Planification"
+msgstr "Planification"
 #
 msgid "notification_email_to_member_upon_receipt_of_tabled_document"
-msgid "email après Réception d'un document déposé"
+msgstr "email après Réception d'un document déposé"
 #
 msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
-msgid "email après Soumission d'un document déposé"
+msgstr "email après Soumission d'un document déposé"
 #
 msgid "notification_email_to_member_upon_rejection_of_tabled_document"
-msgid "email après Rejet d'un document déposé"
+msgstr "email après Rejet d'un document déposé"
 #
 msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
-msgid "email après Besoin d'une clarification sur un document déposé"
+msgstr "email après Besoin d'une clarification sur un document déposé"
 #
 msgid "notification_email_to_member_upon_defer_of_tabled_document"
-msgid "email après Différation d'un document déposé"
+msgstr "email après Différation d'un document déposé"
 #
 msgid "notification_email_to_member_upon_schedule_of_tabled_document"
-msgid "email après Planification d'un document déposé"
+msgstr "email après Planification d'un document déposé"
 #
 msgid "notification_email_to_member_upon_postpone_of_tabled_document"
-msgid "email après Report d'un document déposé"
+msgstr "email après Report d'un document déposé"
 #
 msgid "notification_email_to_member_upon_debate_of_tabled_document"
-msgid "email après Débat sur un document déposé"
+msgstr "email après Débat sur un document déposé"
 #

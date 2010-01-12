@@ -17,16 +17,17 @@
 #### General Build Parameter #####
 
 ### only the following 2 parameters need to be set by the user to customize
-### this installation script for different computers
-set :user_build_root, "/home/undesa/cap_builds"
-set :user_install_root, "/home/undesa/cap_installs"
+### this installation script for different computersi
+set :system_build_root, "/home/undesa/disk1/bungeni"
+set :user_build_root, "#{system_build_root}/cap_builds"
+set :user_install_root, "#{system_build_root}/cap_installs"
 
 #### download URLs for components #####
 ### can be set to a http / ftp url or an absolute path to the file on the computer
-set :python_download_url, "/home/undesa/cache/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
+set :python_download_url, "http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz"
 set :python_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7.tar.gz"
-set :svn_download_url,  "/home/undesa/cache/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
-set :varnish_download_url, "/home/undesa/cache/varnish-2.0.6.tar.gz" # "http://downloads.sourceforge.net/project/varnish/varnish/2.0.6/varnish-2.0.6.tar.gz?use_mirror=garr"
+set :svn_download_url,  "http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
+set :varnish_download_url, "http://sourceforge.net/projects/varnish/files/varnish/2.0.6/varnish-2.0.6.tar.gz/download"
 
 ##### Component Specific Parameters ##### 
 
@@ -70,7 +71,7 @@ namespace :bungeni_presetup do
 	required_libs = [
 			"wget",
 			"build-essential", # for building from source
-			"linux-headers-`uname -r`", # for building from source
+			#"linux-headers-generic", # for building from source
 			"libjpeg62-dev", # for python
 			"libfreetype6-dev", # for python
 			"libbz2-dev", # for python bz2 processing

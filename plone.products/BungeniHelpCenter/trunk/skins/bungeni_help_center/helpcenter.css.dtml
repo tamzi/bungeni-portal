@@ -234,7 +234,17 @@ h2.section-subheading {
   border:none;
   padding:2px;
   margin:0px;
+  padding-left: 25px;
 }
+
+.depth-2 {
+  padding-left: 15px
+}
+
+.depth-3 {
+  padding-left: 25px
+}
+
 
 .pmargin {
   margin:2px 8px;

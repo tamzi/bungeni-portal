@@ -151,7 +151,7 @@
 
 
   <browser:viewlet
-     name="bungeni.viewlet.group_id"
+     name="bungeni.viewlet.ws-user_id"     
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".workspace.UserIdViewlet"
      view="bungeni.ui.interfaces.IClerkWorkspace"     
@@ -299,7 +299,7 @@
   <!-- speakers workspace -->
 
   <browser:viewlet
-     name="bungeni.viewlet.group_id"
+     name="bungeni.viewlet.ws-user_id"     
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".workspace.UserIdViewlet"
      view="bungeni.ui.interfaces.ISpeakerWorkspace"     

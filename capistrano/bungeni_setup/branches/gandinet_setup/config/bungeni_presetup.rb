@@ -18,7 +18,8 @@
 
 ### only the following 2 parameters need to be set by the user to customize
 ### this installation script for different computersi
-set :system_build_root, "/home/undesa/disk1/bungeni"
+#set :use_sudo, false
+#set :system_build_root, "/home/undesa/disk1/bungeni"
 set :user_build_root, "#{system_build_root}/cap_builds"
 set :user_install_root, "#{system_build_root}/cap_installs"
 

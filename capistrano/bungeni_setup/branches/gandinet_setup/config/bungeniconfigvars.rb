@@ -1,14 +1,14 @@
 #### CONFIG VARIABLE SETTING ####
 
 set :application, "bungeni"
-set :bungeni_username, "bungeni"
+#set :bungeni_username, "bungeni"
 set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
 
 ## prompt for svn user names & passwords
 set :scm, :subversion
 
 ## all prompts here
-prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
+#prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
 set :scm_username, Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
 set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
 #prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
@@ -45,7 +45,7 @@ set :deploy_to, "#{deploy_to_root}/#{application}"
 set :buildout_dir, "#{deploy_to}/current"
 set :local_buildout_config_file , "buildout_local.cfg"
 
-set :user, "#{bungeni_username}"
+#set :user, "#{bungeni_username}"
 set :use_sudo, false
 set :app_host, "localhost"
 

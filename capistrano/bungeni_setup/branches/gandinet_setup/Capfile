@@ -1,5 +1,6 @@
 load 'deploy' if respond_to?(:namespace) # cap2 differentiator
 Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
+load 'config/manual_configs'
 load 'config/commonfunctions'
 load 'config/bungeni_presetup'
 load 'config/bungeniconfigvars'

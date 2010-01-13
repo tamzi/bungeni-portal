@@ -1,5 +1,5 @@
 <metal:block metal:define-macro="form"
-             i18n:domain="alchemist">
+             i18n:domain="bungeni.ui">
   
 
   <dt id="fieldsetlegend-display-form"

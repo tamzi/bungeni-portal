@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Tue Jan 12 17:55:54 2010\n"
+"POT-Creation-Date: Wed Jan 13 16:02:01 2010\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -83,16 +83,6 @@ msgstr ""
 #: src/bungeni.ui/bungeni/ui/calendar/browser2.py:379
 #. Default: ""
 msgid "$type &mdash; ${start}-${end}"
-msgstr ""
-
-#: src/bungeni.ui/bungeni/ui/calendar/browser.py:406
-#: src/bungeni.ui/bungeni/ui/calendar/browser2.py:405
-msgid "verticalMultiCheckBoxWidget"
-msgstr ""
-
-#: src/bungeni.ui/bungeni/ui/calendar/browser.py:413
-#: src/bungeni.ui/bungeni/ui/calendar/browser2.py:412
-msgid "horizontalMultiCheckBoxWidget"
 msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:521
@@ -166,11 +156,19 @@ msgid "Votes and proceedings"
 msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:890
-msgid "This form generates the 'otes and proceedings' report."
+msgid "This form generates the \342\200\234votes and proceedings\342\200\235 report."
 msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:891
 msgid "VOTES AND PROCEEDINGS"
+msgstr ""
+
+#: src/bungeni.ui/bungeni/ui/calendar/browser2.py:405
+msgid "verticalMultiCheckBoxWidget"
+msgstr ""
+
+#: src/bungeni.ui/bungeni/ui/calendar/browser2.py:412
+msgid "horizontalMultiCheckBoxWidget"
 msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser2.py:610

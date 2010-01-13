@@ -166,7 +166,7 @@ msgid "Votes and proceedings"
 msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:890
-msgid "This form generates the \342\200\234votes and proceedings\342\200\235 report."
+msgid "This form generates the 'otes and proceedings' report."
 msgstr ""
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:891

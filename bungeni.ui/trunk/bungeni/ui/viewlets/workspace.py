@@ -753,7 +753,36 @@ class MPItemFailedEndViewlet(ItemInStageViewlet):
         ]
     list_id = "items-failed"     
 
-
+class AllItemArchiveViewlet(AllItemsInStageViewlet):
+    types = ['motion',
+            'question',
+            'agendaitem',
+            'tableddocument']
+            
+    name = "Archived Items"
+    states = [
+        question_wf_state[u"response_complete"].id,                
+        question_wf_state[u"debated"].id,
+        motion_wf_state[u"debated"].id,
+        agendaitem_wf_state[u"debated"].id,
+        tableddocument_wf_state[u"debated"].id,  
+        question_wf_state[u"elapsed"].id,
+        question_wf_state[u"withdrawn"].id,
+        question_wf_state[u"inadmissible"].id, 
+        motion_wf_state[u"withdrawn"].id,
+        motion_wf_state[u"elapsed"].id,
+        motion_wf_state[u"inadmissible"].id,          
+        agendaitem_wf_state[u"withdrawn"].id,
+        agendaitem_wf_state[u"elapsed"].id,
+        agendaitem_wf_state[u"inadmissible"].id,  
+        tableddocument_wf_state[u"withdrawn"].id,
+        tableddocument_wf_state[u"elapsed"].id,
+        tableddocument_wf_state[u"inadmissible"].id,          
+        bill_wf_state[u"approved"].id , 
+        bill_wf_state[u"rejected"].id ,          
+        ]
+    list_id = "items-archived"  
+    
 class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ): 
     types = ['motion',
             'question',

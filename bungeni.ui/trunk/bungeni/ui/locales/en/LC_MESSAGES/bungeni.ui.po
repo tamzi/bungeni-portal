@@ -1,40 +1,29 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Thu Dec 10 14:32:08 2009\n"
-"PO-Revision-Date: 2009-12-21 02:33-0500\n"
-"Last-Translator: \n"
-"Language-Team: American English <kde-i18n-doc@kde.org>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Generated-By: zope/app/locales/extract.py\n"
-"X-Generator: Lokalize 1.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 #
 msgid "action"
-msgstr "Actions"
+msgstr "Action"
 #
 msgid "date"
-msgstr "Date"
+msgstr "date"
 #
 msgid "user"
-msgstr "Utilisateurs"
+msgstr "user"
 #
 msgid "description"
-msgstr "Déscritpion"
+msgstr "description"
 #
 msgid "Votes and Proceedings"
-msgstr "votes et délibérations"
+msgstr "Votes and proceedings"
 #
 msgid "Order of the day"
-msgstr "Ordre du jour"
+msgstr "Order of the day"
 #
 msgid "$R"
 msgstr "$R"
 #
 msgid "Calendar is not available because the scheduling group ($label) is inactive."
-msgstr "Agenda n'est pas disponible parce que le groupe d'ordonnancement ($ label) est inactif."
+msgstr "Calendar is not available because the scheduling group ($label) is inactive."
 #
 msgid "$B $Y"
 msgstr "$B $Y"
@@ -61,25 +50,25 @@ msgid "Date"
 msgstr "Date"
 #
 msgid "Choose a starting date for this report."
-msgstr "Choisissez une date de départ de ce rapport."
+msgstr "Choose a starting date for this report."
 #
 msgid "A parliament must be active in the period."
-msgstr "Un parlement doit être actif dans la période."
+msgstr "A parliament must be active in the period."
 #
 msgid "Preview"
-msgstr "Voir d'abord"
+msgstr "Preview"
 #
 msgid "Daily"
-msgstr "Quotidiens/Journaliers"
+msgstr "Daily"
 #
 msgid "Weekly"
-msgstr "Hebdomadaire"
+msgstr "Weekly"
 #
 msgid "Agenda"
 msgstr "Agenda"
 #
 msgid "ORDER OF THE DAY"
-msgstr "Ordre du jour"
+msgstr "Order of the day"
 #
 msgid "This form generates the agenda report."
 msgstr ""
@@ -88,160 +77,160 @@ msgid "$x"
 msgstr "$x"
 #
 msgid "Votes and proceedings"
-msgstr "votes et délibérations"
+msgstr "Votes and proceedings"
 #
 msgid "This form generates the \342\200\234votes and proceedings\342\200\235 report."
-msgstr "Ce formulaire génère le \ 342 \ 200 \ 234 votes et délibérations \ 342 \ 200 \ 235 rapport."
+msgstr "This form generates the \342\200\234votes and proceedings\342\200\235 report."
 #
 msgid "VOTES AND PROCEEDINGS"
-msgstr "votes et délibérations"
+msgstr "Votes and Proceedings"
 #
 msgid "Create and Store"
-msgstr "Créer et conserver"
+msgstr "Create and Store"
 #
 msgid "Government"
-msgstr "Gouvernement"
+msgstr "Government"
 #
 msgid "Governments"
-msgstr "Gouvernements"
+msgstr "Governments"
 #
 msgid "Name of the Head of Government"
-msgstr "Nom du chef du gouvernement"
+msgstr "Name of the head of government"
 #
 msgid "Number"
-msgstr "Nombre"
+msgstr "Number"
 #
 msgid "Due Date"
-msgstr "Date due"
+msgstr "Due Date"
 #
 msgid "Assigned bill"
-msgstr "le projet de loi attribué"
+msgstr "Assigned bill"
 #
 msgid "Assigned bills"
-msgstr "les projets de loi attribués"
+msgstr "Assigned bills"
 #
 msgid "Bill"
-msgstr "un projet de loi"
+msgstr "Bill"
 #
 msgid "Item"
-msgstr "objet"
+msgstr "Item"
 #
 msgid "Assigned group"
-msgstr "le groupe attribué "
+msgstr "Assigned group"
 #
 msgid "Assigned groups"
-msgstr "les groupes attribués"
+msgstr "Assigned groups"
 #
 msgid "Committee"
-msgstr "comité"
+msgstr "Committee"
 #
 msgid "Group"
-msgstr "Groupe"
+msgstr "Group"
 #
 msgid "Summary"
-msgstr "Résumé"
+msgstr "Summary"
 #
 msgid "Owner"
-msgstr "Propriétaire"
+msgstr "Owner"
 #
 msgid "Select the user who should own this document."
-msgstr "Sélectionnez l'utilisateur qui doit posséder ce document."
+msgstr "Select the user who should own this document."
 #
 msgid "Language"
-msgstr "Langue"
+msgstr "Language"
 #
 msgid "Text"
-msgstr "Texte"
+msgstr "Text"
 #
 msgid "Submission Date"
-msgstr "Date de soumission"
+msgstr "Submission Date"
 #
 msgid "Recommendation note"
-msgstr "Note de recommendations"
+msgstr "Recommendation note"
 #
 msgid "Receive notification"
-msgstr "Recevoir Notification"
+msgstr "Receive notification"
 #
 msgid "Select this option to receive notifications for this item."
-msgstr "Séléctionner cette option"
+msgstr "Select this option to receive notifications for this item."
 #
 msgid "Change"
-msgstr "Changer"
+msgstr "Change"
 #
 msgid "Changes"
-msgstr "Changements"
+msgstr "Changes"
 #
 msgid "Action"
 msgstr "Action"
 #
 msgid "Agenda item"
-msgstr "objet de l'agenda"
+msgstr "Agenda item"
 #
 msgid "Agenda items"
-msgstr "objets de l'agenda"
+msgstr "Agenda items"
 #
 msgid "Agenda Item version"
-msgstr "version d'élément de l'agenda"
+msgstr "Agenda Item version"
 #
 msgid "Versions"
 msgstr "Versions"
 #
 msgid "Agenda Item change"
-msgstr "changements sur l'objet de l'agenda"
+msgstr "Agenda Item change"
 #
 msgid "Motion"
-msgstr "Proposition"
+msgstr "Motion"
 #
 msgid "Motions"
-msgstr "Propositions"
+msgstr "Motions"
 #
 msgid "Approval Date"
-msgstr "Date de l'approbation"
+msgstr "Approval date"
 #
 msgid "Notice Date"
-msgstr "Date de notification"
+msgstr "Notice date"
 #
 msgid "Identifier"
-msgstr "Identificateur"
+msgstr "Identifier"
 #
 msgid "Entered By"
 msgstr "Entered by"
 #
 msgid "Motion version"
-msgstr "Version de la Proposition"
+msgstr "Motion version"
 #
 msgid "Motion change"
-msgstr "changer proposition"
+msgstr "Motion change"
 #
 msgid "Bills"
-msgstr "projets de loi"
+msgstr "Bills"
 #
 msgid "Bill Type"
-msgstr "Type de projet de loi"
+msgstr "Bill type"
 #
 msgid "active"
-msgstr "Actif/Active"
+msgstr "active"
 #
 msgid "Statements of Purpose"
 msgstr "Statements of purpose"
 #
 msgid "Identifer"
-msgstr "Identificateur"
+msgstr "Identifer"
 #
 msgid "inactive"
-msgstr "Inactif/Inactive"
+msgstr "inactive"
 #
 msgid "Publication Date"
 msgstr "Publication date"
 #
 msgid "deceased"
-msgstr "décédé(e)"
+msgstr "deceased"
 #
 msgid "Bill version"
-msgstr "Version de la Proposition"
+msgstr "Bill version"
 #
 msgid "Bill change"
-msgstr "Changement d'un projet de loi"
+msgstr "Bill change"
 #
 msgid "Question"
 msgstr "Question"
@@ -253,160 +242,160 @@ msgid "Question Number"
 msgstr "Question number"
 #
 msgid "Initial/supplementary question"
-msgstr "question initiale/complémentaire"
+msgstr "Initial/supplementary question"
 #
 msgid "Date approved"
-msgstr "Date approuvé(e)"
+msgstr "Date approved"
 #
 msgid "Submitted to ministry"
-msgstr "soumis au ministère"
+msgstr "Submitted to ministry"
 #
 msgid "Question Type"
 msgstr "Question type"
 #
 msgid "(O)rdinary or (P)rivate Notice"
-msgstr "Notice (O)rdinaire ou (P)rivée"
+msgstr "(O)rdinary or (P)rivate Notice"
 #
 msgid "Response Type"
 msgstr "Response type"
 #
 msgid "(O)ral or (W)ritten"
-msgstr "(O)ral(e) ou (É)crit"
+msgstr "(O)ral or (W)ritten"
 #
 msgid "Response"
-msgstr "Réponse"
+msgstr "Response"
 #
 msgid "Response to the Question"
 msgstr "Response to the question"
 #
 msgid "Sitting Time"
-msgstr "Durée de scéance"
+msgstr "Sitting time"
 #
 msgid "Question version"
-msgstr "Version de la question"
+msgstr "Question version"
 #
 msgid "Question change"
-msgstr "changement de la question"
+msgstr "Question change"
 #
 msgid "Event"
-msgstr "Événement"
+msgstr "Event"
 #
 msgid "Events"
-msgstr "Événements"
+msgstr "Events"
 #
 msgid "Tabled document"
-msgstr "Document déposé"
+msgstr "Tabled document"
 #
 msgid "Tabled documents"
-msgstr "documents déposés"
+msgstr "Tabled documents"
 #
 msgid "Tabled Document version"
-msgstr "Version du document déposé"
+msgstr "Tabled document version"
 #
 msgid "Tabled Document change"
-msgstr "Changement du document déposé"
+msgstr "Tabled document change"
 #
 msgid "Motion amendment"
-msgstr "amendement de proposition"
+msgstr "Motion amendment"
 #
 msgid "Motion amendments"
-msgstr "amendement de propositions"
+msgstr "Motion amendments"
 #
 msgid "Subject"
-msgstr "Sujet"
+msgstr "Subject"
 #
 msgid "Motion Amendment Text"
-msgstr "textes d'amendement de proposition"
+msgstr "Motion amendment text"
 #
 msgid "Vote Date"
-msgstr "Date voté(e)"
+msgstr "Vote Date"
 #
 msgid "Accepted"
-msgstr "Accépter"
+msgstr "Accepted"
 #
 msgid "Sitting"
-msgstr "Scéances"
+msgstr "Sitting"
 #
 msgid "Sittings"
-msgstr "séances"
+msgstr "Sittings"
 #
 msgid "Sitting Type"
-msgstr "type de scéances"
+msgstr "Sitting type"
 #
 msgid "Start"
-msgstr "Début"
+msgstr "Start"
 #
 msgid "End"
-msgstr "fin"
+msgstr "End"
 #
 msgid "Venue"
-msgstr "venue"
+msgstr "Venue"
 #
 msgid "Types"
-msgstr "types"
+msgstr "Types"
 #
 msgid "Short Name"
-msgstr "surnom"
+msgstr "Short Name"
 #
 msgid "Sitting attendance"
-msgstr "Présence/assistance de la scéance"
+msgstr "Sitting attendance"
 #
 msgid "Sitting attendances"
-msgstr "Présences/assistances de la scéance"
+msgstr "Sitting attendances"
 #
 msgid "Attendance"
-msgstr "Présence"
+msgstr "Attendance"
 #
 msgid "Attendance type"
-msgstr "type de présence"
+msgstr "Attendance type"
 #
 msgid "Consignatory"
-msgstr "cosignateur"
+msgstr "Consignatory"
 #
 msgid "Consignatories"
-msgstr "cosignateurs"
+msgstr "Consignatories"
 #
 msgid "A parliament has to be elected before it can be sworn in"
-msgstr "Un parlement doit être élu avant d'être assermenté"
+msgstr "A parliament has to be elected before it can be sworn in"
 #
 msgid "Constituencies"
-msgstr "Circonscriptions"
+msgstr "Constituencies"
 #
 msgid "Name of the constituency"
-msgstr "Nom de la circonscription"
+msgstr "Name of the constituency"
 #
 msgid "Province"
 msgstr "Province"
 #
 msgid "Region"
-msgstr "Région"
+msgstr "Region"
 #
 msgid "Name of the Province"
-msgstr "Nom de la province"
+msgstr "Name of the province"
 #
 msgid "Name of the Region"
-msgstr "Nom de la région"
+msgstr "Name of the region"
 #
 msgid "End Date must be after Start Date"
-msgstr "La date de fin"
+msgstr "End date must be after start date"
 #
 msgid "Country Code"
-msgstr "code du pays"
+msgstr "Country code"
 #
 msgid "ISO Code of the  country"
-msgstr "ISO Code du pays"
+msgstr "ISO Code of the  country"
 #
 msgid "Name of the Country"
 msgstr "Name of the country"
 #
 msgid "Constituency details"
-msgstr "Détails de la Circonscription"
+msgstr "Constituency details"
 #
 msgid "Details"
-msgstr "détails"
+msgstr "Details"
 #
 msgid "Date the data was submitted from the Constituency"
-msgstr "Date à laquelle les données ont été présentées de la circonscription"
+msgstr "Date the data was submitted from the constituency"
 #
 msgid "Population"
 msgstr "Population"
@@ -415,34 +404,34 @@ msgid "Total Number of People living in this Constituency"
 msgstr "Total population of this Constituency"
 #
 msgid "Voters"
-msgstr "Voteurs"
+msgstr "Voters"
 #
 msgid "Number of Voters registered in this Constituency"
-msgstr "Nombre d'électeurs inscrits dans cette circonscription"
+msgstr "Number of voters registered in this constituency"
 #
 msgid "Rota Identifier"
-msgstr "Identificateur du Rota"
+msgstr "Rota Identifier"
 #
 msgid "Document source"
-msgstr "Source du document"
+msgstr "Document source"
 #
 msgid "Document sources"
-msgstr "Sources du document"
+msgstr "Document sources"
 #
 msgid "Document Souce"
-msgstr "Source du document"
+msgstr "Document Souce"
 #
 msgid "Scheduling"
-msgstr "ordonnance/plan"
+msgstr "Scheduling"
 #
 msgid "Schedulings"
-msgstr "ordonnances/plans"
+msgstr "Schedulings"
 #
 msgid "A committee must be disolved before it can be reinstated"
-msgstr "Un comité doit être dissous avant de pouvoir être réintégré"
+msgstr "A committee must be disolved before it can be reinstated"
 #
 msgid "Category"
-msgstr "Catégorie"
+msgstr "Category"
 #
 msgid "Discussion"
 msgstr "Discussion"
@@ -451,112 +440,112 @@ msgid "Discussions"
 msgstr "Discussions"
 #
 msgid "Minutes"
-msgstr "Minutes "
+msgstr "Minutes"
 #
 msgid "Categories"
-msgstr "Catégories"
+msgstr "Categories"
 #
 msgid "Short name"
-msgstr "Surnom"
+msgstr "Short name"
 #
 msgid "Report"
-msgstr "Rapport"
+msgstr "Report"
 #
 msgid "Reports"
-msgstr "Rapports"
+msgstr "Reports"
 #
 msgid "Date created"
-msgstr "Date crée/créée"
+msgstr "Date created"
 #
 msgid "Report type"
-msgstr "Type de rapport"
+msgstr "Report type"
 #
 msgid "Created by"
-msgstr "Crée/créée par"
+msgstr "Created by"
 #
 msgid "A person cannot be active and substituted at the same time"
-msgstr "Une personne ne peut être active et remplacée au même moment"
+msgstr "A person cannot be active and substituted at the same time"
 #
 msgid "If a person is substituted End Date must be set"
-msgstr "Si une personne est remplacée, date de fin doit être spécifiée"
+msgstr "If a person is substituted end date must be set"
 #
 msgid "If a person is inactive End Date must be set"
-msgstr "Si une personne est inactive, date de fin doit être spécifiée"
+msgstr "If a person is inactive end date must be set"
 #
 msgid "A parliament member has to be elected/nominated before she/he can be sworn in"
-msgstr "Un membre du Parlement doit être élu(e) ou nommé(e) avant qu'il/elle puisse être assermenté(e)"
+msgstr "A parliament member has to be elected/nominated before she/he can be sworn in"
 #
 msgid "One cannot die before being born"
-msgstr "Une personne ne peut mourir avant de naître"
+msgstr "One cannot die before being born"
 #
 msgid "If a user is deceased he must have the status 'D'"
-msgstr "Si une personne est décédée, elle doit avoir le status 'D\"
+msgstr "If a user is deceased he must have the status 'D'"
 #
 msgid "A Date of Death must be given if a user is deceased"
-msgstr "Une date de la mort doit être donnée si un utilisateur est décédé"
+msgstr "A Date of Death must be given if a user is deceased"
 #
 msgid "You have to enter either a P.O. Box or a Street Address"
-msgstr "Vous devez entrer soit une boîte postale ou une adresse"
+msgstr "You have to enter either a P.O. Box or a street address"
 #
 msgid "User"
-msgstr "Utilisateur/utilisatrice"
+msgstr "User"
 #
 msgid "Users"
-msgstr "Utilisateurs/utilisatrices"
+msgstr "Users"
 #
 msgid "Name"
-msgstr "Nom"
+msgstr "Name"
 #
 msgid "Salutation"
 msgstr "Salutation"
 #
 msgid "e.g. Mr. Mrs, Prof. etc."
-msgstr "example: Mr. Mrs, Prof. etc."
+msgstr "e.g. Mr. Mrs, Prof. etc."
 #
 msgid "First Name"
-msgstr "Prénom"
+msgstr "First name"
 #
 msgid "Middle Name"
-msgstr "Deuxième Nom"
+msgstr "Middle name"
 #
 msgid "Last Name"
-msgstr "Nom de famille"
+msgstr "Last name"
 #
 msgid "Email"
 msgstr "Email"
 #
 msgid "Email address"
-msgstr "adresse email"
+msgstr "Email address"
 #
 msgid "Login Name"
-msgstr "Nom de connection ou nom de l'utilisateur"
+msgstr "Login name"
 #
 msgid "Initial password"
-msgstr "Mot de passe initial"
+msgstr "Initial password"
 #
 msgid "National Id"
-msgstr "Identité nationale"
+msgstr "National ID"
 #
 msgid "Gender"
-msgstr "Genre"
+msgstr "Gender"
 #
 msgid "Date of Birth"
-msgstr "Date de naissance"
+msgstr "Date of birth"
 #
 msgid "Country of Birth"
-msgstr "Pays de naissance"
+msgstr "Country of birth"
 #
 msgid "Nationality at Birth"
-msgstr "Nationalité à la naissance"
+msgstr "Nationality at birth"
 #
 msgid "Current Nationality"
-msgstr "Nationalité actuelle"
+msgstr "Current nationality"
 #
 msgid "Date of Death"
-msgstr "Date de décès"
+msgstr "Date of death"
 #
 msgid "Status"
-msgstr "Statut"
+msgstr "Status"
 #
 msgid "Notes"
 msgstr "Notes"
@@ -565,193 +554,193 @@ msgid "Image"
 msgstr "Image"
 #
 msgid "Picture of the person"
-msgstr "Photo de la personne"
+msgstr "Picture of the person"
 #
 msgid "Delegate to user"
-msgstr "Ajouter  un/une utilisateur/utilisatrice"
+msgstr "Delegate to user"
 #
 msgid "Delegations"
-msgstr "Délégations"
+msgstr "Delegations"
 #
 msgid "Start Date"
-msgstr "Date de début"
+msgstr "Start date"
 #
 msgid "End Date"
-msgstr "Date de clôture"
+msgstr "End date"
 #
 msgid "Active"
-msgstr "Actif/active"
+msgstr "Active"
 #
 msgid "Type of Substitution"
 msgstr "Type of substitution"
 #
 msgid "Substituted by"
-msgstr "Remplacé(e) par"
+msgstr "Substituted by"
 #
 msgid "Roles/Titles"
-msgstr "Rôles/titres"
+msgstr "Roles/titles"
 #
 msgid "Member of parliament"
-msgstr "Membre du parlement"
+msgstr "Member of parliament"
 #
 msgid "Members of parliament"
-msgstr "Membre du parlement"
+msgstr "Members of parliament"
 #
 msgid "Constituency"
-msgstr "Circonscription"
+msgstr "Constituency"
 #
 msgid "elected/nominated"
-msgstr "élu(e) ou nominé(e)"
+msgstr "elected/nominated"
 #
 msgid "Election/Nomination Date"
 msgstr "Election/nomination date"
 #
 msgid "Leave Reason"
-msgstr "La raison l'abandon"
+msgstr "Leave reason"
 #
 msgid "Party member"
-msgstr "Membre d'un parti"
+msgstr "Party member"
 #
 msgid "Party members"
-msgstr "Membres d'un parti"
+msgstr "Party members"
 #
 msgid "Party membership"
-msgstr "Appartenance  à un parti"
+msgstr "Party membership"
 #
 msgid "Party memberships"
-msgstr "Appartenances  à un parti"
+msgstr "Party memberships"
 #
 msgid "Political Party"
-msgstr "Parti politique"
+msgstr "Political party"
 #
 msgid "Additional member"
-msgstr "Membre supplémentaires d'un groupe"
+msgstr "Additional member"
 #
 msgid "Additional members"
-msgstr "Membre supplémentaires d'un groupe"
+msgstr "Additional member"
 #
 msgid "Full Name"
-msgstr "Nom complet"
+msgstr "Full name"
 #
 msgid "Description"
-msgstr "Déscription"
+msgstr "Description"
 #
 msgid "Parliament"
-msgstr "Parlements"
+msgstr "Parliament"
 #
 msgid "Parliaments"
-msgstr "Parlements"
+msgstr "Parliaments"
 #
 msgid "Parliament Identifier"
-msgstr "Identificateur d'un Parlement"
+msgstr "Parliament Identifier"
 #
 msgid "Unique identifier of each Parliament (e.g. nth Parliament)"
-msgstr "Identificateur unique de chaque parlement (par exemple Parlement numéro: )"
+msgstr "Unique identifier of each parliament (e.g. nth parliament)"
 #
 msgid "Parliament name"
-msgstr "Nom d'un Parlement"
+msgstr "Parliament name"
 #
 msgid "Election Date"
-msgstr "La date d'éléction"
+msgstr "Election date"
 #
 msgid "Date the of the election"
-msgstr "Date de l'éléction"
+msgstr "Date the of the election"
 #
 msgid "In power from"
-msgstr "Au pouvoir à partir de"
+msgstr "In power from"
 #
 msgid "Date the of the swearing in"
-msgstr "Au pouvoir jusqu'à"
+msgstr "Date the of the swearing in"
 #
 msgid "In power till"
-msgstr "Au pouvoir jusqu'à"
+msgstr "In power till"
 #
 msgid "Date the of the dissolution"
-msgstr "Date de la dissolution"
+msgstr "Date the of the dissolution"
 #
 msgid "Profile"
 msgstr "Profile"
 #
 msgid "Committees"
-msgstr "Comités"
+msgstr "Committees"
 #
 msgid "Type of committee"
-msgstr "type de comité"
+msgstr "Type of committee"
 #
 msgid "Type"
-msgstr "type"
+msgstr "Type"
 #
 msgid "Number of members"
-msgstr "Nombre de membres"
+msgstr "Number of members"
 #
 msgid "Minimum Number of Members"
-msgstr "Nombre minimal de membres"
+msgstr "Minimum number of members"
 #
 msgid "Quorum"
 msgstr "Quorum"
 #
 msgid "Number of clerks"
-msgstr "Nombre d'employés de bureau"
+msgstr "Number of clerks"
 #
 msgid "Number of researchers"
-msgstr "Nombre de chercheurs"
+msgstr "Number of researchers"
 #
 msgid "Proportional representation"
-msgstr "Représentation proportionnelle"
+msgstr "Proportional representation"
 #
 msgid "Default chairperson"
-msgstr "Président par défaut"
+msgstr "Default chairperson"
 #
 msgid "Dissolution date"
-msgstr "Date de dissolution"
+msgstr "Dissolution date"
 #
 msgid "Reinstatement Date"
-msgstr "Date de Rétablissement"
+msgstr "Reinstatement date"
 #
 msgid "Member"
-msgstr "Membre"
+msgstr "Member"
 #
 msgid "Membership"
-msgstr "Appartenance"
+msgstr "Membership"
 #
 msgid "Address type"
-msgstr "Type d'adresse"
+msgstr "Address type"
 #
 msgid "Address types"
-msgstr "type d'adresse"
+msgstr "Address type"
 #
 msgid "Address Type"
-msgstr "Type d'adresse"
+msgstr "Address type"
 #
 msgid "Address"
-msgstr "Adresse"
+msgstr "Address"
 #
 msgid "Addresses"
-msgstr "Adresses"
+msgstr "Addresses"
 #
 msgid "P.O. Box"
-msgstr "Boîte postale"
+msgstr "P.O. Box"
 #
 msgid "City"
-msgstr "Ville"
+msgstr "City"
 #
 msgid "Zip Code"
 msgstr "Zip code"
 #
 msgid "Country"
-msgstr "Pays"
+msgstr "Country"
 #
 msgid "Phone Number(s)"
 msgstr "Phone number(s)"
 #
 msgid "Enter one phone number per line"
-msgstr "Entrer un numéro de téléphone par ligne"
+msgstr "Enter one phone number per line"
 #
 msgid "Fax Number(s)"
 msgstr "Fax number(s)"
 #
 msgid "Enter one fax number per line"
-msgstr "Entrer un numéro de fax par ligne"
+msgstr "Enter one fax number per line"
 #
 msgid "Instant Messenger Id"
 msgstr "Instant messenger ID"
@@ -760,502 +749,500 @@ msgid "ICQ, AOL IM, GoogleTalk..."
 msgstr "ICQ, AOL IM, GoogleTalk..."
 #
 msgid "Title"
-msgstr "Titre"
+msgstr "Title"
 #
 msgid "Titles"
-msgstr "Titres"
+msgstr "Titles"
 #
 msgid "Staff"
-msgstr "Employées/Équipe"
+msgstr "Staff"
 #
 msgid "Political party"
-msgstr "Parti politique"
+msgstr "Political party"
 #
 msgid "Political parties"
-msgstr "Parti politiques"
+msgstr "Political parties"
 #
 msgid "Logo"
 msgstr "Logo"
 #
 msgid "Office"
-msgstr "Bureau"
+msgstr "Office"
 #
 msgid "Offices"
-msgstr "Bureaux"
+msgstr "Offices"
 #
 msgid "Type of Office"
 msgstr "Type of office"
 #
 msgid "Office Member"
-msgstr "Membre d'un office"
+msgstr "Office member"
 #
 msgid "Office Members"
-msgstr "Membres d'un office"
+msgstr "Office members"
 #
 msgid "Ministry"
-msgstr "Ministère"
+msgstr "Ministry"
 #
 msgid "Ministries"
-msgstr "Ministères"
+msgstr "Ministries"
 #
 msgid "Minister"
-msgstr "Ministre"
+msgstr "Minister"
 #
 msgid "Ministers"
-msgstr "Ministres"
+msgstr "Ministers"
 #
 msgid "Parliamentary session"
-msgstr "Scéance parlementaire"
+msgstr "Parliamentary session"
 #
 msgid "Parliamentary sessions"
-msgstr "Scéances parlementaires"
+msgstr "Parliamentary sessions"
 #
 msgid "add_item_legend"
-msgstr "Ajouter la légende d'un article"
+msgstr "add_item_legend"
 #
 msgid "add_item_title"
-msgstr "Ajouter  titre d'un article"
+msgstr "add_item_title"
 #
 msgid "Save and view"
-msgstr "Sauvegarder et Voir"
+msgstr "Save and view"
 #
 msgid "Cancel"
-msgstr "Annuler"
+msgstr "Cancel"
 #
 msgid "Save"
-msgstr "Sauvegarder"
+msgstr "Save"
 #
 msgid "Save and add another"
-msgstr "Sauvegarder et ajouter autre"
+msgstr "Save and add another"
 #
 msgid "edit_translation_legend"
-msgstr "Modifier la légende de la translation"
+msgstr "edit translation legend"
 #
 msgid "edit_version_legend"
-msgstr "Modifier la légende de la version"
+msgstr "edit version legend"
 #
 msgid "edit_item_legend"
-msgstr "Modifier la légende de l'objet"
+msgstr "edit item legend"
 #
 msgid "edit_translation_help"
-msgstr "Modifier l'aide de la translation"
+msgstr "edit translation help"
 #
 msgid "translate_item_legend"
-msgstr "traduire la légende d'un élément"
+msgstr "translate_item_legend"
 #
 msgid "translate_item_help"
-msgstr "traduire l'aide d'un objet"
+msgstr "translate_item_help"
 #
 msgid "translate_item_title"
-msgstr "traduire le titre d'un objet"
+msgstr "translate_item_title"
 #
 msgid "Save translation"
-msgstr "Sauvegarder traduction"
+msgstr "Save translation"
 #
 msgid "Item reordering"
-msgstr "Réordonnance d'un objet"
+msgstr "Item reordering"
 #
 msgid "Delete"
-msgstr "Supprimer"
+msgstr "Delete"
 #
 msgid "Could not delete item due to database integrity error."
-msgstr "Impossible de supprimer l'objet en raison d'une erreur d'intégrité base de données."
+msgstr "Could not delete item due to database integrity error."
 #
 msgid "General"
-msgstr "Général(le)"
+msgstr "General"
 #
 msgid "Direction"
 msgstr "Direction"
 #
 msgid "AM"
-msgstr "Matin"
+msgstr "AM"
 #
 msgid "Move"
-msgstr "Déplacer"
+msgstr "Move"
 #
 msgid "Weekdays"
-msgstr "Jours de la semaine"
+msgstr "Weekdays"
 #
 msgid "Select the days on which the event should occur."
-msgstr "Indiquez les jours où l'événement doit se produire."
+msgstr "Select the days on which the event should occur."
 #
 msgid "Monthly"
-msgstr "Mensuel(le)"
+msgstr "Monthly"
 #
 msgid "Select the mode of montly recurrence."
-msgstr "Sélectionnez le mode de récidive mensuel."
+msgstr "Select the mode of montly recurrence."
 #
 msgid "Repeat"
-msgstr "Répéter"
+msgstr "Repeat"
 #
 msgid "Enter the number of times which the event should be repeated (as an integer)."
-msgstr "Entrez le nombre de fois où l'événement doit être répété (comme un entier fini)."
+msgstr "Enter the number of times which the event should be repeated (as an integer)."
 #
 msgid "Repeat until date"
-msgstr "Répéter jusqu'à"
+msgstr "Repeat until date"
 #
 msgid "Limit recurrence to the specified date."
-msgstr "Limiter la réapparition à la date spécifiée."
+msgstr "Limit recurrence to the specified date."
 #
 msgid "Exceptions"
-msgstr "Excéptions"
+msgstr "Exceptions"
 #
 msgid "Events will not be scheduled at dates appearing in this field. Separate with comma or newline. Format: YYYY/MM/DD."
-msgstr ""
+msgstr "Events will not be scheduled at dates appearing in this field. Separate with comma or newline. Format: YYYY/MM/DD."
 #
 msgid "Must limit recurrence (by number or date)."
-msgstr "Doit limiter récidive (en nombre ou date)."
+msgstr "Must limit recurrence (by number or date)."
 #
 msgid "Recurring events"
-msgstr "Evénements récurrents"
+msgstr "Recurring events"
 #
 msgid "Attach a file"
-msgstr "Attacher un document"
+msgstr "Attach a file"
 #
 msgid "Bill timeline"
-msgstr "Chronologie du projet de loi"
+msgstr "Bill timeline"
 #
 msgid "Delete item confirmation"
-msgstr "Confirmation de suppression de l'objet"
+msgstr "Delete item confirmation"
 #
 msgid "${DYNAMIC_CONTENT}"
 msgstr "${DYNAMIC_CONTENT}"
 #
 msgid "Parliamentary activities"
-msgstr "Activités parlementaires"
+msgstr "Parliamentary activities"
 #
 msgid "Offices held"
-msgstr "Postes occupés"
+msgstr "Offices held"
 #
 msgid "The person is a member in (%s) at that date"
-msgstr "La personne est un membre en (% s) à cette date"
+msgstr "The person is a member in (%s) at that date"
 #
 msgid "The start date overlaps with (%s)"
-msgstr "La date de début s'imbrique avec (% s)"
+msgstr "The start date overlaps with (%s)"
 #
 msgid "The end date overlaps with (%s)"
-msgstr "La date de  clôture s'imbrique avec (% s)"
+msgstr "The end date overlaps with (%s)"
 #
 msgid "The election date overlaps with (%s)"
-msgstr "La date d'éléction s'imbrique avec (%s)"
+msgstr "The election date overlaps with (%s)"
 #
 msgid "Another parliament is not yet dissolved (%s)"
-msgstr "Un autre parlement n'est pas encore dissous (%s)"
+msgstr "Another parliament is not yet dissolved (%s)"
 #
 msgid "Start date cannot be after the parliaments dissolution (%s)"
-msgstr "Date de début ne peut pas être après la dissolution des parlements (% s)"
+msgstr "Start date cannot be after the parliaments dissolution (%s)"
 #
 msgid "Start date must start after the swearing in of the parliament (%s)"
-msgstr "Date de début doit commencer après la prestation de serment du Parlement (% s)"
+msgstr "Start date must start after the swearing in of the parliament (%s)"
 #
 msgid "Another government is not yet dissolved (%s)"
-msgstr "Un autre gouvernement n'est pas encore dissous (%s)"
+msgstr "Another government is not yet dissolved (%s)"
 #
 msgid "This persons allready has the title %s"
-msgstr "Cette personne a déjà le titre de % s"
+msgstr "This persons allready has the title %s"
 #
 msgid "A person with the title %s allready exists"
-msgstr "Une personne avec le titre de % s existe déjà"
+msgstr "A person with the title %s allready exists"
 #
 msgid "Start date must be after (%s)"
-msgstr "La date de départ doit être postérieure (% s)"
+msgstr "Start date must be after (%s)"
 #
-msgid "Venue \"
-msgstr "Lieu de la rencontre \"
 #
 msgid "Start date must be prior to (%s)"
-msgstr "Date de début doit être antérieure à (%s)"
+msgstr "Start date must be prior to (%s)"
 #
 msgid "If recurrence is limited by date, it must lie after the starting date."
-msgstr "Si une récurrence est limité par jour, elle doit se situer après la date de départ."
+msgstr "If recurrence is limited by date, it must lie after the starting date."
 #
 msgid "One or more events would be scheduled for $F, which is after the scheduling group's end date."
-msgstr "Un ou plusieurs événements seraient programmés pour $F, qui est après la date de fin de planification du groupe."
+msgstr "One or more events would be scheduled for $F, which is after the scheduling group's end date."
 #
 msgid "One or more events would be scheduled for $F, which overlaps with an existing sitting."
-msgstr "Un ou plusieurs événements seraient programmés pour $F, qui recoupe une entreprise existante séance."
+msgstr "One or more events would be scheduled for $F, which overlaps with an existing sitting."
 #
 msgid "End date must be equal to start date."
-msgstr "La date de fin doit être la même que la date de début."
+msgstr "End date must be equal to start date."
 #
 msgid "End date must be after (%s)"
-msgstr "La date de fin doit être postérieure à (% s)"
+msgstr "End date must be after (%s)"
 #
 msgid "End date must be prior to (%s)"
-msgstr "Date de clôture doit être antérieure à (%s)"
+msgstr "End date must be prior to (%s)"
 #
 msgid "Personal Info"
-msgstr "Information personelle"
+msgstr "Personal Info"
 #
 msgid "Parliament Membership"
 msgstr ""
 #
 msgid "Add response"
-msgstr "Ajouter réponse"
+msgstr "Add response"
 #
 msgid "add event"
-msgstr "Ajouter un événement"
+msgstr "add event"
 #
 msgid "Add"
-msgstr "Ajouter"
+msgstr "Add"
 #
 msgid "No item has been set."
-msgstr "Aucun objet n'a été fixé"
+msgstr "No item has been set."
 #
 msgid "Username"
-msgstr "Nom de l'utilisateur/utilisatrice"
+msgstr "Username"
 #
 msgid "Password"
-msgstr "Mot de Passe"
+msgstr "Password"
 #
 msgid "Login"
-msgstr "Se connecter"
+msgstr "Login"
 #
 msgid "Invalid account credentials"
-msgstr "Pouvoirs d'identification de compte non valide"
+msgstr "Invalid account credentials"
 #
 msgid "You are now logged in"
-msgstr "Vous êtes maintenant connecté"
+msgstr "You are now logged in"
 #
 msgid "label_translate"
-msgstr "étiquette de traduction"
+msgstr "label translate"
 #
 msgid "label_state"
-msgstr "État de l'étiquette"
+msgstr "label state"
 #
 msgid "label_calendar_context"
-msgstr "contexte du calendrier de l'étiquette"
+msgstr "label calendar context"
 #
 msgid "box_sessions"
-msgstr "sessions de boîte"
+msgstr "box_sessions"
 #
 msgid "box_members"
-msgstr "membre de case"
+msgstr "box_members"
 #
 msgid "Search"
-msgstr "rechercher"
+msgstr "Search"
 #
 msgid "Invalid Query"
-msgstr "requête invalide"
+msgstr "Invalid Query"
 #
 msgid "Query"
-msgstr "Requête"
+msgstr "Query"
 #
 msgid "rank"
-msgstr "rang"
+msgstr "rank"
 #
 msgid "type"
 msgstr "type"
 #
 msgid "title"
-msgstr "titre"
+msgstr "title"
 #
 msgid "status"
-msgstr "statut"
+msgstr "status"
 #
 msgid "weight"
-msgstr "poids"
+msgstr "weight"
 #
 msgid "percent"
-msgstr "pour cent"
+msgstr "percent"
 #
 msgid "Settings"
-msgstr "Réglages"
+msgstr "Settings"
 #
 msgid "Archive"
-msgstr "Archives"
+msgstr "Archive"
 #
 msgid "Access to current and historical records."
-msgstr "Accès aux dossiers courants et historiques."
+msgstr "Access to current and historical records."
 #
 msgid "keep-image"
-msgstr "Garder image"
+msgstr "keep image"
 #
 msgid "delete-image"
-msgstr "Supprimer image"
+msgstr "delete-image"
 #
 msgid "replace-image"
-msgstr "remplacer image"
+msgstr "replace-image"
 #
 msgid "upload-image"
-msgstr "Charger image"
+msgstr "upload-image"
 #
 msgid "Results"
-msgstr "Résultats"
+msgstr "Results"
 #
 msgid "Similar Content"
-msgstr "contenu similaire"
+msgstr "Similar content"
 #
 msgid "Select a version to compare to the current working copy, or make two selections to compare historic versions."
-msgstr ""
+msgstr "Select a version to compare to the current working copy, or make two selections to compare historic versions."
 #
 msgid "Current state: ${state}."
-msgstr "État actuel: ${state}"
+msgstr "Current state: ${state}."
 #
 msgid "No history available for this item."
-msgstr "Aucune histoire disponible pour cet article."
+msgstr "No history available for this item."
 #
 msgid "Workflow"
-msgstr "Flux de travail"
+msgstr "Workflow"
 #
 msgid "Change state..."
-msgstr "Changer état..."
+msgstr "Change state..."
 #
 msgid "Form values must be of type string or list"
-msgstr "Valeurs d'un formulaire doit être une chaîne ou une liste"
+msgstr "Form values must be of type string or list"
 #
 msgid "date must be of type datetime or date"
-msgstr "date doit être du date temps ou date"
+msgstr "date must be of type datetime or date"
 #
 msgid "New Version"
-msgstr "Nouvelle version"
+msgstr "New version"
 #
 msgid "New Version Created"
-msgstr "Nouvelle version créée"
+msgstr "New version created"
 #
 msgid "Revert To"
-msgstr "Faire revenir à un stade antérieur"
+msgstr "Revert to"
 #
 msgid "Select one item to revert to."
-msgstr "Séléctionner un objet à Faire revenir à un stade antérieur"
+msgstr "Select one item to revert to."
 #
 msgid "Reverted to Previous Version %s"
-msgstr "Faire revenir à une version antérieure %s"
+msgstr "Reverted to previous version %s"
 #
 msgid "Show Differences"
-msgstr "Voir differences"
+msgstr "Show differences"
 #
 msgid "Displaying differences."
-msgstr "Affichage des différences."
+msgstr "Displaying differences."
 #
 msgid "Select one or two items to show differences."
-msgstr "Sélectionnez un ou deux éléments pour montrer les différences."
+msgstr "Select one or two items to show differences."
 #
 msgid "View"
-msgstr "Voir"
+msgstr "View"
 #
 msgid "Currently displaying version ${version}."
-msgstr "Actuellement la version affichant ${version}."
+msgstr "Currently displaying version ${version}."
 #
 msgid "Change Message"
-msgstr "Changer message"
+msgstr "Change message"
 #
 msgid "version"
 msgstr "version"
 #
 msgid "manual"
-msgstr "manuel(le)"
+msgstr "manual"
 #
 msgid "modified"
-msgstr "Modifé(e)"
+msgstr "modified"
 #
 msgid "by"
-msgstr "Par"
+msgstr "by"
 #
 msgid "message"
-msgstr "Message"
+msgstr "message"
 #
 msgid "Start date must be before %s"
-msgstr "Date de début doit être antérieure à %s"
+msgstr "Start date must be before %s"
 #
 msgid "End date must be after %s"
-msgstr "Date de clôture doit être postérieure à %s"
+msgstr "End date must be after %s"
 #
 msgid "Date range set."
-msgstr "rangées de dates réglées"
+msgstr "Date range set"
 #
 msgid "Date range cleared."
-msgstr "rangées de dates effacées"
+msgstr "Date range cleared"
 #
 msgid "From"
-msgstr "De"
+msgstr "From"
 #
 msgid "Leave blank or set lower limit."
-msgstr "Laissez en blanc ou un réglez limite inférieure."
+msgstr "Leave blank or set lower limit."
 #
 msgid "To"
-msgstr "À"
+msgstr "To"
 #
 msgid "Leave blank or set upper limit."
-msgstr "Laissez en blanc ou un régler limite supérieure."
+msgstr "Leave blank or set upper limit."
 #
 msgid "Or"
-msgstr "Ou"
+msgstr "Or"
 #
 msgid "Set date range to that of a given particular parliament."
-msgstr "Fixer la rangée de date à celui d'un parlement particulier donné."
+msgstr "Set date range to that of a given particular parliament."
 #
 msgid "Filter the archive by date range."
-msgstr "Filtrer les archives par rangées de dates."
+msgstr "Filter the archive by date range."
 #
 msgid "Select parliament..."
-msgstr "Séléctionner parlement"
+msgstr "Select parliament..."
 #
 msgid "Invalid Date Range"
-msgstr "rangée de dates invalides"
+msgstr "Invalid date range"
 #
 msgid "$F"
 msgstr "$F"
 #
 msgid "you_are_here"
-msgstr "Vous êtes ici"
+msgstr "you are here"
 #
 msgid "tabs_home"
-msgstr "tabs_Acceuil"
+msgstr "tabs_home"
 #
 msgid "No items."
-msgstr "pas d'objet"
+msgstr "No items."
 #
 msgid "Upcoming sittings"
-msgstr "Prochaines séances"
+msgstr "Upcoming sittings"
 #
 msgid "What's on"
-msgstr "Ce qui est sur"
+msgstr "What's on"
 #
 msgid "An overview of the daily operations of the parliament."
-msgstr "Un aperçu des activités quotidiennes du parlement."
+msgstr "An overview of the daily operations of the parliament."
 #
 msgid "Filter by date range."
-msgstr "Filtrer par rangées de dates."
+msgstr "Filter by date range."
 #
 msgid "day_%d"
-msgstr "Jour_%d"
+msgstr "day_%d"
 #
 msgid "Day $number of every month"
-msgstr "Jour $number de chaque mois"
+msgstr "Day $number of every month"
 #
 msgid "First $day of every month"
-msgstr "Premier $day de chaque mois"
+msgstr "First $day of every month"
 #
 msgid "Supplementary Question to: <br/> %s"
-msgstr "Questions supplémentaires à: <br/> %s"
+msgstr "Supplementary question to: <br/> %s"
 #
 msgid "Initial Question"
-msgstr "Question initialle"
+msgstr "Initial question"
 #
 msgid "Jan"
 msgstr "Jan"
 #
 msgid "Feb"
-msgstr "Fev"
+msgstr "Feb"
 #
 msgid "Mar"
 msgstr "Mar"
 #
 msgid "Apr"
-msgstr "Avr"
+msgstr "Apr"
 #
 msgid "May"
-msgstr "Mai"
+msgstr "May"
 #
 msgid "Jun"
-msgstr "Juin"
+msgstr "Jun"
 #
 msgid "Jul"
-msgstr "Juillet"
+msgstr "Jul"
 #
 msgid "Aug"
-msgstr "Août"
+msgstr "Aug"
 #
 msgid "Sep"
 msgstr "Sep"
@@ -1270,23 +1257,23 @@ msgid "Dec"
 msgstr "Dec"
 #
 msgid "Invalid date: $value."
-msgstr "La date est invalide: $value"
+msgstr "Invalid date: $value."
 #
 msgid "Incorrect string data for date"
-msgstr "Les données de chaîne incorrecte pour la date"
+msgstr "Incorrect string data for date"
 #
 msgid "Incorrect string data for date and time"
-msgstr "Les données de chaîne incorrectes pour la date et l'heure"
+msgstr "Incorrect string data for date and time"
 #
 msgid "Form upload is not a file object"
-msgstr " Le formulaire en cours de chargement n'est pas un objet de fichier"
+msgstr "Form upload is not a file object"
 #
 msgid "Comment on workflow change"
-msgstr "Commentaires sur les changements du flux du travail"
+msgstr "Comment on workflow change"
 #
 msgid "Confirmation required for workflow transition: '${title}'."
-msgstr "Confirmation requise pour la transition du : '${title}'."
+msgstr "Confirmation required for workflow transition: '${title}'."
 #
 msgid "Workflow history"
-msgstr "Flux Histoirique du travail"
+msgstr "Workflow history"
 #

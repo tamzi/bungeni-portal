@@ -403,14 +403,14 @@ class SittingCalendarView(CalendarView):
 def verticalMultiCheckBoxWidget(field, request):
     vocabulary = field.value_type.vocabulary
     widget = _MultiCheckBoxWidget(field, vocabulary, request)
-    widget.cssClass = _(u"verticalMultiCheckBoxWidget")
+    widget.cssClass = u"verticalMultiCheckBoxWidget"
     widget.orientation='vertical'
     return widget 
 
 def horizontalMultiCheckBoxWidget(field, request):
     vocabulary = field.value_type.vocabulary
     widget = _MultiCheckBoxWidget(field, vocabulary, request)
-    widget.cssClass = _(u"horizontalMultiCheckBoxWidget")
+    widget.cssClass = u"horizontalMultiCheckBoxWidget"
     widget.orientation='horizontal'
     return widget 
     

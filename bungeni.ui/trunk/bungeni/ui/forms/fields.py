@@ -92,3 +92,6 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
 
         return name
 
+    def getObjectClass(self):
+        return self.context.__class__.__name__
+

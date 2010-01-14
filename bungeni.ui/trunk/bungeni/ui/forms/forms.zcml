@@ -420,7 +420,13 @@
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
-
+<!--browser:page
+     name="view"
+     for="bungeni.models.interfaces.IReport"
+     class=".viewlets.SittingReportDisplay"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     /--> 
   <browser:page
      name="add"
      for="bungeni.models.interfaces.IParliamentSessionContainer"

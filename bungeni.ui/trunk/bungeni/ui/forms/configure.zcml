@@ -206,7 +206,15 @@
      permission="zope.View"
      weight="10"
      />     
-
+     
+    <!--browser:viewlet
+     name="bungeni.viewlet.sittingreportdisplay"
+     manager="alchemist.ui.interfaces.IContentViewManager"          
+     class=".viewlets.SittingReportDisplay"
+     for="bungeni.models.interfaces.IReport"
+     permission="zope.View"
+     weight="10"
+     /--> 
 
 
   <browser:viewlet

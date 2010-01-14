@@ -1,8 +1,4 @@
-<html xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      metal:use-macro="context/@@standard_macros/page">
-    <div metal:fill-slot="body" i18n:domain="bungeni.ui" class="report_body">
-        <a tal:attributes="href view/back_link"> back to calendar </a>
+<div i18n:domain="bungeni">
         <div class="report_mainTitle">
                  <span tal:content="view/doc_type"/> 
         </div>
@@ -127,7 +123,7 @@
                         <h2>
                                     Tabled Document
                                     <span tal:condition="view/tabled_document_number">   
-                                         : <span tal:replace="scheduled/item/tabled_document_number"/>
+                                         : <span tal:replace="scheduled/item/tabled_document_id"/>
                                     </span>
                                     <span tal:condition="view/tabled_document_title">   
                                          - <span tal:replace="scheduled/item/short_name"/>
@@ -152,6 +148,4 @@
                 </div>
             </tal:loop>          
         </tal:loop>
-        <a tal:attributes="href view/back_link"> back to calendar </a>
     </div>
-</html>  

@@ -566,6 +566,10 @@ class ReportingView(form.PageForm):
                                           required=False,
                                           value_type=schema.Choice(
                                           vocabulary='Tabled Document Options'),)
+        note = schema.TextLine( title = u'Note',
+                                required=False,
+                                description=u'Optional note regarding this report'
+                        )
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields = form.Fields(IReportingForm)
     form_fields['item_types'].custom_widget = horizontalMultiCheckBoxWidget
@@ -595,6 +599,7 @@ class ReportingView(form.PageForm):
             question_options = 'Title'
             motion_options = 'Title'
             tabled_document_options = 'Title'
+            note = None
         self.adapters = {
             self.IReportingForm: context
             }
@@ -635,10 +640,9 @@ class ReportingView(form.PageForm):
         #        "date"))
 
         return errors
-        
-    @form.action(_(u"Preview"))  
-    def handle_preview(self, action, data):                
-        date =data['date']
+    
+    def process_form(self, data):
+        self.start_date = data['date']
         time_span = TIME_SPAN.daily 
         self.doc_type = data['doc_type']
         if self.doc_type == "Order of the day":
@@ -649,8 +653,8 @@ class ReportingView(form.PageForm):
             time_span = TIME_SPAN.weekly     
         elif data['doc_type'] == "Proceedings of the day":
             time_span = TIME_SPAN.daily                 
-        end = self.get_end_date(date, time_span)
-        self.sitting_items = self.get_sittings_items(date, end)
+        self.end_date = self.get_end_date(self.start_date, time_span)
+        self.sitting_items = self.get_sittings_items(self.start_date, self.end_date)
         self.item_types = data['item_types']
         self.bill = False
         self.motion = False
@@ -661,6 +665,7 @@ class ReportingView(form.PageForm):
         self.agenda_options = data['agenda_options']
         self.motion_options = data['motion_options']
         self.question_options = data['question_options']
+        self.note = data['note']
         self.tabled_document_options = data['tabled_document_options']
         for type in self.item_types:
             if type == 'Bills':
@@ -713,7 +718,7 @@ class ReportingView(form.PageForm):
                 self.tabled_document_text = False
                 self.tabled_document_owner = False
                 self.tabled_document_number = False
-                for option in self.agenda_options:
+                for option in self.tabled_document_options:
                     if option == 'Title':
                         self.tabled_document_title = True
                     elif option == 'Text':
@@ -761,8 +766,45 @@ class ReportingView(form.PageForm):
             self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
             self.back_link = absoluteURL(self.context, self.request)  
-        return self.result_template()
-                     
+    
+        
+    @form.action(_(u"Preview"))  
+    def handle_preview(self, action, data):                
+        self.process_form(data)
+        return self.main_result_template()
+    
+    @form.action(_(u"Save"))
+    def handle_save(self, action, data):                
+        self.process_form(data)
+        body_text = self.result_template()
+        session = Session()
+        report = domain.Report()
+        report.start_date = self.start_date                      
+        report.end_date = self.end_date                        
+        report.created_date = datetime.datetime.now()   
+        report.note = self.note
+        if self.display_minutes:                                 
+            report.report_type = 'minutes'
+        else:
+            report.report_type = 'agenda'                    
+        report.body_text = body_text
+        report.user_id = getUserId()
+        report.group_id = self.group.group_id
+        session.add(report)
+        for sitting in self.sitting_items:
+            sr = domain.SittingReport()
+            sr.report = report
+            sr.sitting = sitting
+            session.add(sr)
+        session.flush()
+        if IGroupSitting.providedBy(self.context):        
+            back_link = absoluteURL(self.context, self.request)  + '/schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            back_link = absoluteURL(self.context, self.request)  
+        else:   
+            raise NotImplementedError                                                                     
+        self.request.response.redirect(back_link)    
+                 
     #@form.action(_(u"Create and Store"))
     def handle_create_and_store(self, action, data):
         next_url = ('save-report?date=' + data['date'].strftime('%Y-%m-%d') + 
@@ -826,6 +868,7 @@ class AgendaReportingView(ReportingView):
     form_description = _(u"This form generates the agenda report.")
     odf_filename = "agenda.odt"
     display_minutes = False
+    main_result_template = ViewPageTemplateFile('main_reports.pt')
     result_template = ViewPageTemplateFile('reports.pt')
     def get_archive(self, date, time_span):
         end_date = self.get_end_date(date, time_span)

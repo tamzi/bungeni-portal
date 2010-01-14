@@ -1167,28 +1167,28 @@ msgstr "Leave reason"
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:504
 msgid "Party member"
-msgstr "Party member"
+msgstr "Political group member"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:505
 msgid "Party members"
-msgstr "Party members"
+msgstr "Political group members"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:527
 msgid "Party membership"
-msgstr "Party membership"
+msgstr "Political group membership"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:528
 msgid "Party memberships"
-msgstr "Party memberships"
+msgstr "Political group memberships"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:537
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1342
 msgid "Political Party"
-msgstr "Political party"
+msgstr "Political group"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:574
@@ -1456,12 +1456,12 @@ msgstr "Staff"
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:883
 msgid "Political party"
-msgstr "Political party"
+msgstr "Political group"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:884
 msgid "Political parties"
-msgstr "Political parties"
+msgstr "Political groups"
 
 #
 #: src/bungeni.ui/bungeni/ui/descriptor.py:890

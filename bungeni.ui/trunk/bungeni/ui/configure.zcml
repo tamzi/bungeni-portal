@@ -84,7 +84,13 @@
        provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
        factory="bungeni.ui.adaptors.BillAnnotationAdaptor"
        />
-
+    <!-- Experimental transcripts support -->
+   <class class="bungeni.models.domain.GroupSitting">
+    <implements
+       interface="bungeni.transcripts.interfaces.ITranscribable"
+       />
+  </class> 
+    <!--End Experimental transcripts support -->
    <browser:resourceDirectory
       name="ui-images"
       directory="images" />

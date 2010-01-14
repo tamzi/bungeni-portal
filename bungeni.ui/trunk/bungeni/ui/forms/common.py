@@ -168,6 +168,7 @@ class DisplayForm(ui.DisplayForm):
     def __call__(self):
         return super(DisplayForm, self).__call__()    
 
+
 class AddForm(BaseForm, ui.AddForm):
     """Custom add-form for Bungeni content.
 

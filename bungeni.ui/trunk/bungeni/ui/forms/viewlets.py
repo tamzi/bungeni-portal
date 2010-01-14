@@ -33,7 +33,7 @@ from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
 from bungeni.ui.utils import getDisplayDate, get_wf_state
-
+from common import DisplayForm
 
 
 from fields import BungeniAttributeDisplay
@@ -769,7 +769,11 @@ class DisplayViewlet(BungeniAttributeDisplay):
     def form_name(self):
         descriptor = queryModelDescriptor(self.factory)
         return descriptor.display_name
-
+        
+class SittingReportDisplay(DisplayForm):
+    render = ViewPageTemplateFile ('templates/sitting_report_display_form.pt')
+    
+    
 class SchedulingMinutesViewlet(DisplayViewlet):
     factory = domain.ScheduledItemDiscussion
 

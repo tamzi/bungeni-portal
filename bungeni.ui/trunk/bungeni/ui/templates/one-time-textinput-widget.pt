@@ -2,6 +2,6 @@
   <div tal:content="view/_getFormValue" >  
   </div>
   <hr/>
-  <textarea rows="15" cols="60"
+  <textarea rows="3" cols="40"
   tal:attributes="name view/name ; id view/name"></textarea>  
 </div>

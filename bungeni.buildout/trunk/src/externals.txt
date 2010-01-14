@@ -7,7 +7,8 @@ bungeni.plonepas  https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/tru
 bungeni.ui        https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 bungeni.theme.private        https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
 marginalia        https://bungeni-portal.googlecode.com/svn/marginalia/trunk
-
+bungeni.transcipts  https://bungeni-portal.googlecode.com/svn/bungeni.transcripts
+ 
 # plone 3 skin
 ploned.ui        https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 plone.maintemplate https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/

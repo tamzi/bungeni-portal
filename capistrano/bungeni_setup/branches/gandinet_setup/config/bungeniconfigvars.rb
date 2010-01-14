@@ -9,8 +9,8 @@ set :scm, :subversion
 
 ## all prompts here
 #prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
-set :scm_username, Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
-set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
+set :scm_username, "bungenibuild" #Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
+set :scm_password, "CC2Hy6xh5Pz6" #Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
 #prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
 #prompt_def(:deploy_to_root, 'Deploy within this folder: ', '/home/bungeni/bungeni_deploy')
 set :user_python_home, "#{user_python25_runtime}"

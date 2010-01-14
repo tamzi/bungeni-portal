@@ -2,7 +2,7 @@ import sqlalchemy as rdb
 from sqlalchemy.orm import mapper
 from datetime import datetime
 metadata = rdb.MetaData()
-
+ItemSequence = rdb.Sequence('item_sequence')
 def make_changes_table( table, metadata ):
     """Create an object log table for an object."""
     
@@ -62,22 +62,28 @@ def make_versions_table( table, metadata, secondarytable=None ):
             
     return versions_table
 
-transcript_table = rdb.Table(
-    "transcripts",
+#TranscriptSequence = rdb.Sequence('transcript_id_sequence', metadata)
+
+transcript = rdb.Table(
+    "transcript",
     metadata,
     rdb.Column('transcript_id', rdb.Integer, primary_key=True),  
-    rdb.Column("person", rdb.Integer, nullable=False),
+    rdb.Column("person", rdb.UnicodeText),
     rdb.Column("text", rdb.UnicodeText),
     rdb.Column("start_time", rdb.Unicode(80), nullable=False),
     rdb.Column("end_time", rdb.Unicode(80), nullable=False),
     #rdb.Column("sitting_id", rdb.Integer, rdb.ForeignKey('sitting_table.id')),
    )
 
-transcript_changes = make_changes_table( transcript_table, metadata )
-transcript_versions = make_versions_table( transcript_table, metadata)
+transcript_changes = make_changes_table( transcript, metadata )
+transcript_versions = make_versions_table( transcript, metadata)
 
-sitting_table = rdb.Table(
-    "Sitting",
+sitting = rdb.Table(
+    "sitting",
     metadata,
     rdb.Column('sitting_id', rdb.Integer, primary_key=True), 
     )
+
+db = rdb.create_engine('postgres://localhost/bungeni', echo=True)
+metadata.bind = db
+metadata.create_all()

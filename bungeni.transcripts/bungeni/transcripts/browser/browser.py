@@ -9,13 +9,33 @@ from bungeni.ui.forms.common import set_widget_errors
 from ore.alchemist import Session
 from bungeni.transcripts import domain
 from bungeni.transcripts import orm
-class MainView(BrowserView):
-    __call__ = ViewPageTemplateFile("main.pt")
-    
-    def user_agent(self):
-        return self.request.get('HTTP_USER_AGENT','')
+from alchemist.catalyst import ui
+from zope.traversing.browser import absoluteURL
+from zope.component import getMultiAdapter
+from bungeni import models
 
-class Add(form.PageForm):
+class MainView(BrowserView):
+    def __call__(self):
+        self.group = self.get_group()
+        self.group_id = self.context.group_id
+        self.sitting_id = self.context.sitting_id
+        return super(MainView, self).__call__()
+        
+    def get_group(self):
+        try:              
+            group = self.context.get_group()
+        except:
+            session = Session()
+            group = session.query(models.domain.Group).get(self.context.group_id)
+        return group
+    
+    
+    
+    def get_transcripts(self):
+        session = Session()
+        return self.request.get('HTTP_USER_AGENT','')
+        
+class Add(ui.AddForm):
     class IReportingForm(interface.Interface):
         start_time = schema.TextLine(
             title=_(u"Start Time"),
@@ -65,4 +85,15 @@ class Add(form.PageForm):
         transcript.text = data['text']
         transcript.person = data['person'] 
         session.add(transcript)
-        session.flush()
+        session.commit()
+        '''
+        ob = self.createAndAdd(data)
+        
+        name = self.context.domain_model.__name__
+
+        if not self._next_url:
+            self._next_url = absoluteURL(
+                ob, self.request) + \
+                '?portal_status_message=%s added' % name'''
+       
+                

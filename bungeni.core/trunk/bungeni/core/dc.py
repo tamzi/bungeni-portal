@@ -351,7 +351,10 @@ class AgendaItemDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        return self.context.short_name
+        context = removeSecurityProxy(self.context)
+        session = Session()
+        session.add(context)  
+        return u"%s - %s" % (context.short_name, context.group.short_name)
 
             
 class TabledDocumentDescriptiveProperties(DescriptiveProperties):

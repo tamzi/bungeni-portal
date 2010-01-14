@@ -16,36 +16,58 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             member_workspace_content_id = content('#user-workspace-id').val()
         if member_workspace_content_id is not None:
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
-            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folders</a></li>")
-            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/web_pages?ct=ws" + "'>Web pages</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folder</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web pages</a></li>")
     else:
         #we are on the membership page and there are 3 sets of users
         #anonymous, logged-in, owner
         if not content('#portal-personaltools li a#user-name span'):
+            #anonymous user
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
             theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">Member Web Pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
             theme('body').addClass('template-member-space')                    
         elif content('#portal-personaltools li a#user-name span').html() in content('#portal-breadcrumbs').html():
+            #owner of the web pages and private folder
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
             content('#portal-logo img').attr('width', '803px')
-            content('#portal-logo img').attr('height', '60px')             
+            content('#portal-logo img').attr('height', '60px')
+            theme('#portal-globalnav ul.level1 li:first-child').removeClass('selected')
+            if content('.template-private_folder'):
+                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>Private folder</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>Web pages</a></li>")
+            elif content('.template-web_pages'):
+                theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>Private folder</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>Web pages</a></li>")
+            #remove the membership breadcrumb link and username href attribute
+            content('#portal-breadcrumbs span:nth-child(4)').remove()
+            content('#portal-breadcrumbs a:nth-child(5)').removeAttr('href')
         else:
+            #logged in user who is not the owner of the web pages and private folder
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
+            content('body').addClass('template-member-space') 
+            theme('body').addClass('template-member-space')
+            theme('#portal-personaltools').remove()
+            content('#content-views').remove()            
+            theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
+            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">Member Web Pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
+            theme('body').addClass('template-member-space')
+
+            
             
 def add_section_links(content, theme, resource_fetcher, log):
     """
-    Add top level class links abd logos for the different sections (workspace and portal).
+    Add top level class links and logos for the different sections (workspace and portal).
     """
     link_val= None
     host_url = urlsplit(log.theme_url)
     link_items = str(theme("ul.level0 li.selected")).split("</li>")
     if "Workspace" not in link_items[0] and "Workspace" not in link_items[1] and not content('.section-membership'):
         theme('body').addClass('template-portal')        
-    elif ("Workspace" in link_items[0] or  "Workspace" in link_items[1]) and not content('.section-membership'):
+    elif (("Workspace" in link_items[0] or  "Workspace" in link_items[1])) and (not content('.section-membership') and not theme('.template-member-space')):
         theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
         theme('#portal-logo img').attr('width', '803px')
         theme('#portal-logo img').attr('height', '60px')

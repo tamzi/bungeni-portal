@@ -769,10 +769,7 @@ class DisplayViewlet(BungeniAttributeDisplay):
     def form_name(self):
         descriptor = queryModelDescriptor(self.factory)
         return descriptor.display_name
-        
-class SittingReportDisplay(DisplayForm):
-    render = ViewPageTemplateFile ('templates/sitting_report_display_form.pt')
-    
+
     
 class SchedulingMinutesViewlet(DisplayViewlet):
     factory = domain.ScheduledItemDiscussion

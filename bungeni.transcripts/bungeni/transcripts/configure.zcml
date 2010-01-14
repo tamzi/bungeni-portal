@@ -11,7 +11,7 @@
     <include package="alchemist.ui" />
 
     <include package="bungeni.core" />
-
+    <include package=".browser" />
     <db:bind
      engine="bungeni-db"
      metadata=".schema.metadata" />
@@ -20,10 +20,16 @@
       for=".interfaces.ITranscribable"
       name="transcripts"
       class=".browser.browser.MainView"
-      template="browser/main.pt"
       permission="zope.View"
+      template="browser/main_page.pt"
       />
-      
+      <browser:page
+      for=".interfaces.ITranscribable"
+      name="main_transcripts"
+      class=".browser.browser.MainView"
+      permission="zope.View"
+      template="browser/main.pt"
+      />
       <browser:page
       for=".interfaces.ITranscribable"
       name="add"
@@ -37,5 +43,5 @@
      action="transcripts"
      title="Transcripts"
      /> 
-
+    
 </configure>

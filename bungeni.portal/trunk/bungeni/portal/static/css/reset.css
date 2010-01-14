@@ -55,6 +55,7 @@ html {
 .main-column {
   vertical-align: top;
   valign:top;
+  background-color: #ffffff;
 }
 
 .template-workspace #main-body-table {
@@ -144,6 +145,7 @@ div#portal-globalnav {
   border-bottom: 5px solid #d4e2ef;  
 }
 
+
 .template-workspace div#portal-globalnav ul.level0 li#portaltab- a {
   background-color: #a4bed7;
   border-color: #a4bed7 #a4bed7 #a4bed7;
@@ -173,8 +175,11 @@ div#portal-globalnav {
 }
 
 /*on the homepage - display the first tab as selected*/
+#bungeni-workspace div#portal-globalnav ul.level0 li#portaltab- a,
+.template-private_folder div#portal-globalnav ul.level0 li#portaltab- a,
+.template-web_pages div#portal-globalnav ul.level0 li#portaltab- a,
 .template-workspace .section-front-page div#portal-globalnav ul.level0 li#portaltab- a,
-.template-workspace .section-bungeni-workspace_archive div#portal-globalnav ul.level0 li#portaltab- a,
+.section-bungeni-workspace_archive div#portal-globalnav ul.level0 li#portaltab- a,
 .template-workspace .section-bungeni-calendar div#portal-globalnav ul.level0 li#portaltab- a
 {
   background-color: #d4e2ef;
@@ -184,8 +189,20 @@ div#portal-globalnav {
   border-bottom: 5px solid #d4e2ef;
   font-weight:bold;
   padding:0 10px;
-  height: 1.1em;
+  height: 1.4em;
 }
+
+.template-workspace .section-front-page div#portal-globalnav ul.level0 li#portaltab- a {
+  background-color: #d4e2ef;
+  border-top: 0.5px solid #a4bed7;
+  border-left: 1px solid #a4bed7;
+  border-right: 1px solid #a4bed7;
+  border-bottom: 5px solid #d4e2ef;
+  font-weight:bold;
+  padding:0 10px;
+  height: 1.1em;  
+}  
+
 
 /*layout -portal*/
 .template-portal td.left-column {
@@ -359,6 +376,10 @@ div#portal-globalnav {
   white-space:nowrap;
   z-index:2;
 }
+
+.template-member-space .documentEditable .documentContent {
+  border: 0px;
+}  
 
 /*Navigation styles - member space*/
 
@@ -794,6 +815,7 @@ h4.tabberHeading {
   display: none;
 }
 
+
 .section-have-your-say #portal-column-two{
   display: none;
 }
@@ -802,38 +824,19 @@ div#footer {
   background: none;
 }
 
-.template-web_pages .level0 #portaltab- {
-    display: none;
-}
-
 .template-private_folder div#portal-globalnav ul.level0 li#portaltab-members a, 
 .template-web_pages div#portal-globalnav ul.level0 li#portaltab-members a {
-    background-color:#d4e2ef;
+    background-color:#a4bed7;
     border:0px;
     color:#000000;
     font-weight:normal;
 }
 
-.template-private_folder div#portal-globalnav ul.level0 li#portaltab- a {
-  background-color:#FFE7B8;
-  border-color:#FAAD5F #FAAD5F #FFE7B8;
-  border-style:solid;
-  border-width:0.5px 1px 5px;
-  font-weight:bold;
-  height: 1.1em;
-  padding: 0 10px;
-}
 
 .template-private_folder div#portal-globalnav ul.level1 li.selected a,
 .template-web_pages div#portal-globalnav ul.level1 li.selected a{
-  font-weight:normal;
+  font-weight:bold;
 }  
-
-
-.template-private_folder div#portal-globalnav ul.level1 li:nth-child(4),
-.template-web_pages div#portal-globalnav ul.level1 li:nth-child(5) { 
-    font-weight: bold;
-}
 
 .template-web_pages ul.contentViews,
 .template-private_folder ul.contentViews,

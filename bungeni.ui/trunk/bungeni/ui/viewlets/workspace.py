@@ -875,9 +875,9 @@ class ItemsApprovedViewlet( AllItemsInStageViewlet ):
     ]
     list_id = "items-approved"
 
-class MinistryItemsViewlet(viewlet.ViewletBase):
-    render = ViewPageTemplateFile ('templates/ministry_ws_viewlet.pt')
-
+class MinistryItemsViewlet(ViewletBase):
+    list_id = "ministry-items"
+    name = "questions to the ministry"
     states = [
         question_wf_state[u"admissible"].id,  
         question_wf_state[u"scheduled"].id,                                          
@@ -895,21 +895,23 @@ class MinistryItemsViewlet(viewlet.ViewletBase):
         
         for result in results:            
             data ={}
-            data['qid']= ( 'q_' + str(result.question_id) )  
+            data['qid'] = ( 'q_' + str(result.question_id) )  
             if result.question_number:                       
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name + ' (' + result.status + ')'
             else:
                 data['subject'] = result.short_name + ' (' + result.status + ')'
             data['title'] = result.short_name + ' (' + result.status + ')'
             data['result_item_class'] = 'workflow-state-' + result.status 
-            #http://localhost:8081/archive/browse/parliaments/obj-9/governments/obj-4/ministries/obj-121/questions/obj-4004            
             data['url'] = '/archive/browse/parliaments/obj-%i/governments/obj-%i/ministries/obj-%i/questions/obj-%i' %(
                 self._parent.context.parliament_id, self._parent.government_id, 
                 ministry.group_id, result.question_id)                
-            
+            data['status'] = get_wf_state(result)
+            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
+            data['type'] =  result.type.capitalize()            
             data_list.append(data)            
         return data_list        
-    
+         
+           
     def getData(self):
         """
         return the data of the query
@@ -918,7 +920,7 @@ class MinistryItemsViewlet(viewlet.ViewletBase):
         results = self.query.all()
         
         for result in results:            
-            data_list= data_list + self._getItems(result)           
+            data_list= data_list + self._getItems(result)  
         return data_list
     
     

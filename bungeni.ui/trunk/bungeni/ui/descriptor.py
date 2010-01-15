@@ -1131,7 +1131,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             add_widget = widgets.LongTextWidget,            
             add=True, 
             edit=True, 
-            omit=False),
+            omit=True),
         dict( name="owner_id", 
               property = schema.Choice(
                 title=_(u"Owner"),
@@ -1288,9 +1288,7 @@ class VersionDescriptor( ModelDescriptor ):
               edit = True, 
               add = True, 
               view = False, 
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor,
-              differ=diff.HTMLDiff,),    
+              edit_widget=OneTimeEditWidget,),    
         dict( name="receive_notification",               
               omit=True ),  
         dict( name="type", 
@@ -1478,7 +1476,8 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
               differ=diff.HTMLDiff,),             
         dict( name="sitting_time", 
             label=_(u"Sitting Time"), 
-            listing=False ),         
+            listing=False,
+            omit=True ),         
         ])
 
 class QuestionVersionDescriptor( VersionDescriptor ):

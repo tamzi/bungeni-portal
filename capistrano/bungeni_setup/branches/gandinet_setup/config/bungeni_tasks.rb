@@ -35,13 +35,22 @@ namespace :bungeni_tasks do
       run  "cd #{buildout_dir} && #{user_python} ./bootstrap.py"
     end
 
+    desc "full buildouti  gandi"
+    task :buildout_full_gandi, :roles=> :app do
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_gandi.cfg -v"
+    end
 
-    desc "full buildout"
-    task :buildout_full, :roles=> :app do
-      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600"
+    desc "optimisitic builout gandi"
+    task :buildout_opt_gandi, :roles=> :app do
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_gandi.cfg -N "
     end
 
     desc "full buildout"
+    task :buildout_full, :roles=> :app do
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_gandi.cfg -v"
+    end
+
+    desc "full buildout local"
     task :buildout_full_local, :roles=> :app do
       run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_local.cfg -v"
     end
@@ -51,7 +60,7 @@ namespace :bungeni_tasks do
       run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -N"
     end
 
-    desc "optimisitic builout"
+    desc "optimisitic builout local "
     task :buildout_opt_local, :roles=> :app do
       run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_local.cfg -N"
     end

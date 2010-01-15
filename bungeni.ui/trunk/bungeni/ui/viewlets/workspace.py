@@ -918,16 +918,7 @@ class MinistryItemsViewlet(viewlet.ViewletBase):
         results = self.query.all()
         
         for result in results:            
-            data ={}
-            data['subject'] = result.short_name 
-            data['url'] = '/archive/browse/parliaments/obj-%i/governments/obj-%i/ministries/obj-%i/' %(
-                self._parent.context.parliament_id, self._parent.government_id, result.group_id)
-            data['items'] = self._getItems(result)                
-            data_list.append(data)         
-            data['status'] = get_wf_state(result)
-            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()
-            data_list.append(data)                 
+            data_list= data_list + self._getItems(result)           
         return data_list
     
     

@@ -311,7 +311,9 @@ class DailyCalendarView(CalendarView):
 
         return template(
             display="daily",
-            title=_(u"$B $Y", mapping=date),
+#            title=_(u"$B $Y", mapping=date),
+            title = date,
+#
             day={
                 'formatted': datetime.datetime.strftime(date, '%A %d'),
                 'id': datetime.datetime.strftime(date, '%Y-%m-%d'),
@@ -376,12 +378,15 @@ class GroupSittingScheduleView(CalendarView):
         
         return template(
             display="sitting",
-            title=_(u"$A $e, $B $Y", mapping=start_date),
-            description=_(u"$type &mdash; ${start}-${end}", mapping={
-                'type': translate(sitting_type_dc.title),
-                'start': start_date,
-                'end': end_date,
-                }),
+#            title=_(u"$A $e, $B $Y", mapping=start_date),
+#            description=_(u"$type &mdash; ${start}-${end}", mapping={
+#                'type': translate(sitting_type_dc.title),
+#                'start': start_date,
+#                'end': end_date,
+#                }),
+            title = u"",
+            description = u"",
+#
             links=links,
             actions=get_sitting_actions(self.context, self.request),
             items=get_sitting_items(

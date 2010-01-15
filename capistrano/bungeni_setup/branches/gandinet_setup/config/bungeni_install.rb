@@ -29,13 +29,17 @@ namespace :bungeni_install do
     task :setup_db, :role=> [:app] do 
       run "echo 'setting up postgres'"
     end
+	
+    task :svn_perm, :role=> [:app] do
+      run "echo 't' > #{system_build_root}/svn_ans_t.txt"
+      run "svn info #{repository} --username=#{scm_username} --password=#{scm_password} <#{system_build_root}/svn_ans_t.txt"
+    end
 
+    after "bungeni_install:setup", "bungeni_install:svn_perm", "deploy:setup", "deploy:update", "bungeni_install:full"
 
-    after "bungeni_install:setup", "deploy:setup", "deploy:update", "bungeni_install:full"
+    after "bungeni_install:setup_from_cache", "bungeni_install:svn_perm",  "deploy:setup", "deploy:update", "bungeni_install:full_from_cache"
 
-    after "bungeni_install:setup_from_cache", "deploy:setup", "deploy:update", "bungeni_install:full_from_cache"
-
-    after "bungeni_install:setup_gandi", "deploy:setup", "deploy:update", "bungeni_install:full_gandi"
+    after "bungeni_install:setup_gandi", "bungeni_install:svn_perm", "deploy:setup", "deploy:update", "bungeni_install:full_gandi"
 
     after "bungeni_install:full", "bungeni_tasks:python_setup", "bungeni_tasks:bootstrap_bo", "bungeni_tasks:buildout_full", "bungeni_install:setup_db"
 

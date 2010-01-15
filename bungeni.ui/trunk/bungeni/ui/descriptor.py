@@ -1190,6 +1190,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               edit = True, 
               add = True, 
               view = False, 
+              add_widget=OneTimeEditWidget,
               edit_widget=OneTimeEditWidget, ),    
         dict( name="receive_notification", 
               label=_(u"Receive notification"), 

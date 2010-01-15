@@ -17,11 +17,13 @@ from ore.alchemist.interfaces import IAlchemistContainer
 from ore.alchemist.interfaces import IAlchemistContent
 from ore.workflow.interfaces import IWorkflowInfo
 from bungeni.ui.forms.workflow import bindTransitions
-from bungeni.core.i18n import _
+from bungeni.ui.i18n import _
 from bungeni.core import audit
 from bungeni.ui.forms.common import BaseForm
 from bungeni.ui.table import TableFormatter
 from bungeni.ui.menu import get_actions
+
+from i18n import _
 
 class WorkflowVocabulary(object):
     zope.interface.implements(IVocabularyFactory)
@@ -37,7 +39,7 @@ class WorkflowVocabulary(object):
         for state in wf.workflow.states.keys():
             items.append(SimpleTerm(wf.workflow.states[state].id,
                         wf.workflow.states[state].id,
-                        wf.workflow.states[state].title))
+                        _(wf.workflow.states[state].title)))
         return SimpleVocabulary(items)
 
 workflow_vocabulary_factory = WorkflowVocabulary()
@@ -141,7 +143,7 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
             state_transition = wf.getTransitionById(transition)
             self.status = _(
                 u"Confirmation required for workflow transition: '${title}'.",
-                mapping={'title': state_transition.title})
+                mapping={'title': _(state_transition.title)})
 
         self.setupActions(transition)
         super(WorkflowActionViewlet, self).update()
@@ -194,7 +196,7 @@ class WorkflowView(BrowserView):
         wf = interfaces.IWorkflow(self.context) 
         wf_state = interfaces.IWorkflowState(
             removeSecurityProxy(self.context)).getState()
-        return wf.workflow.states[wf_state].title
+        return _(wf.workflow.states[wf_state].title)
 
     def __call__(self):
         self.update()

@@ -102,8 +102,10 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             'title': properties.title,
             'name': item.__class__.__name__,
             'description': properties.description,
-            'date': _(u"$F", mapping=
-                      datetimedict.fromdatetime(item.changes[-1].date)),
+#            'date': _(u"$F", mapping=
+#                      datetimedict.fromdatetime(item.changes[-1].date)),
+            'date':item.changes[-1].date,
+#
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,
             'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",
@@ -193,8 +195,10 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
             'title': properties.title,
             'name': item.__class__.__name__,
             'description': properties.description,
-            'date': _(u"$F", mapping=
-                      datetimedict.fromdatetime(item.changes[-1].date)),
+#            'date': _(u"$F", mapping=
+#                      datetimedict.fromdatetime(item.changes[-1].date)),
+            'date': item.changes[-1].date,
+#
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,
             'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",            

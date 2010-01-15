@@ -12,7 +12,7 @@
     </p>
 
     
-    <h2>History</h2>
+    <h2 i18n:translate="">History</h2>
     
     <tal:history define="viewlet view/history_viewlet">
       

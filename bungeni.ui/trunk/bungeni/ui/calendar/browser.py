@@ -165,11 +165,11 @@ def create_sittings_map(sittings, request):
             'class': u"sitting",
             'actions': get_sitting_actions(sitting, request),
             'span': sitting.end_date.hour - sitting.start_date.hour,
-            'formatted_start_time': _(u"$R", mapping=start_date),
-            'formatted_end_time': _(u"$R", mapping=end_date),
+            'formatted_start_time': start_date,
+            'formatted_end_time': end_date,
         }
         
-        # make sure start- and end-date is the same year
+        # make sure start- and end-date is the same DAY
         assert (sitting.start_date.day == sitting.end_date.day) and \
                (sitting.start_date.month == sitting.end_date.month) and \
                (sitting.start_date.year == sitting.end_date.year)
@@ -267,7 +267,7 @@ class CalendarView(BrowserView):
 
         return template(
             display="weekly",
-            title=_(u"$B $Y", mapping=date),
+            title=date,
             days=[{
                 'formatted': datetime.datetime.strftime(day, '%A %d'),
                 'id': datetime.datetime.strftime(day, '%Y-%m-%d'),
@@ -379,8 +379,8 @@ class GroupSittingScheduleView(CalendarView):
             title=_(u"$A $e, $B $Y", mapping=start_date),
             description=_(u"$type &mdash; ${start}-${end}", mapping={
                 'type': translate(sitting_type_dc.title),
-                'start': translate(u"$H:$M", mapping=start_date),
-                'end': translate(u"$H:$M", mapping=end_date),
+                'start': start_date,
+                'end': end_date,
                 }),
             links=links,
             actions=get_sitting_actions(self.context, self.request),

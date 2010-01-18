@@ -356,7 +356,7 @@ class UserDescriptor( ModelDescriptor ):
               listing=True,
               edit_widget=CustomRadioWidget),
         dict( name="description", 
-              property=schema.Text(title=_(u"Notes"), required=False),
+              property=schema.Text(title=_(u"Biographical notes"), required=False),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor,
@@ -367,6 +367,7 @@ class UserDescriptor( ModelDescriptor ):
                 description=_(u"Picture of the person"),
                 view_widget=ImageDisplayWidget,
                 edit_widget = ImageInputWidget,
+                required=False,
                 listing=False),       
         dict( name="salt", omit=True),
         dict( name="type", omit=True ),
@@ -472,16 +473,7 @@ class MpDescriptor ( ModelDescriptor ):
                     token_field='constituency_id', 
                     title_field='name', 
                     value_field='constituency_id')
-    fields.extend([
-        dict( name="constituency_id",
-            property=schema.Choice( 
-                title=_(u"Constituency"), 
-                source=constituencySource,),
-            listing_column=vocab_column( 
-                "constituency_id" , 
-                _(u'Constituency'), 
-                constituencySource, ),
-            listing=True),   
+    fields.extend([ 
         dict( name="elected_nominated", 
             property=schema.Choice( 
                 title=_(u"elected/nominated"), 
@@ -493,6 +485,15 @@ class MpDescriptor ( ModelDescriptor ):
             required=True, 
             edit_widget=DateWidget, 
             add_widget=DateWidget ),
+        dict( name="constituency_id",
+            property=schema.Choice( 
+                title=_(u"Constituency"), 
+                source=constituencySource,),
+            listing_column=vocab_column( 
+                "constituency_id" , 
+                _(u'Constituency'), 
+                constituencySource, ),
+            listing=True),              
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
@@ -1146,7 +1147,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
              label=_(u"Language"), 
              listing=False, 
              add=True, 
-             edit=False, 
+             edit=True, 
              omit=False,
              required=True,
              property=schema.Choice(
@@ -1164,8 +1165,8 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               ),
         dict( name="submission_date", 
             label=_(u"Submission Date"), 
-            add=False, 
-            #edit=False, 
+            add=True, 
+            edit=True, 
             view_permission = "bungeni.edit.historical", 
             edit_permission = "bungeni.edit.historical",            
             listing=True ,  
@@ -1179,7 +1180,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                  vocabulary="bungeni.vocabulary.workflow",
                  ),
             listing_column=workflow_column("status","Workflow status"),
-            add=False,
+            add=True,
             listing=True, 
             omit=False ),           
         dict( name="note", 
@@ -1325,7 +1326,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
             label=_(u"Approval Date"), 
             view_permission = "bungeni.edit.historical", 
             edit_permission = "bungeni.edit.historical", 
-            add = False,
+            add = True,
             listing=False,
             edit_widget=DateWidget, 
             add_widget=DateWidget),
@@ -1346,12 +1347,13 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
         # TODO omit for now
         dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
         dict( name="party_id",
-            property = schema.Choice( title=_(u"Political Party"), 
-              source=vocabulary.MotionPartySource( 
-                title_field='short_name', 
-                token_field='party_id', 
-                value_field = 'party_id' ), 
-              required=False) ),                
+#            property = schema.Choice( title=_(u"Political Party"), 
+#              source=vocabulary.MotionPartySource( 
+#                title_field='short_name', 
+#                token_field='party_id', 
+#                value_field = 'party_id' ), 
+#              required=False),
+              omit=True, ),                
         ])
 
 class MotionVersionDescriptor( VersionDescriptor ):
@@ -1396,7 +1398,7 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
         dict( name="publication_date", 
                 label=_(u"Publication Date"), 
                 listing=True, 
-                add=False, 
+                add=True, 
                 edit_widget=DateWidget, 
                 add_widget=DateWidget ,
                 listing_column=day_column("publication_date", 

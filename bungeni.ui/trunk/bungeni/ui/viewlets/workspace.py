@@ -877,7 +877,7 @@ class ItemsApprovedViewlet( AllItemsInStageViewlet ):
 
 class MinistryItemsViewlet(ViewletBase):
     list_id = "ministry-items"
-    name = "questions to the ministry"
+    name = "Questions to the ministry"
     states = [
         question_wf_state[u"admissible"].id,  
         question_wf_state[u"scheduled"].id,                                          

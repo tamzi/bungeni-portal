@@ -94,6 +94,16 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
+
+  <browser:page
+     name="respond"
+     for="bungeni.models.interfaces.IQuestion"
+     class=".common.EditForm"
+     permission="bungeni.response.Edit"
+     layer="bungeni.ui.interfaces.IArchiveSectionLayer"
+     />
+
+
   <browser:page
      name="delete"
      for="bungeni.models.interfaces.IQuestion"

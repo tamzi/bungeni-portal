@@ -35,6 +35,7 @@ set :supervisorctl, "#{adm_python_home}/bin/supervisorctl"
 
 # erb template to supervisord.conf
 set :supervisord_config_file, "supervisord.conf.erb"
+set :supervisord_config_gandi_file, "supervisord_gandi.conf.erb"
 
 ## force prompt if any unknown prompts pop up
 default_run_options[:pty] = true

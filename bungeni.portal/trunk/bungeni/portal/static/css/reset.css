@@ -111,7 +111,7 @@ div#portal-globalnav {
   margin-left: 0em;
   white-space: nowrap;
   width: 100%;
-  height:2.0em;
+  height:1.75em;
 }
 
 .template-workspace li {
@@ -462,7 +462,8 @@ div#portal-globalnav ul.level0 li.plain a{
 }
 
 div#portal-globalnav ul.level1{
-  width:70em;
+  width: 70em;
+  height: 1.60em;
 }
 
 div#portal-globalnav ul.level1 li.selected a{

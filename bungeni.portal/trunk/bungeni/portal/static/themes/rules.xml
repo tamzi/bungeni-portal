@@ -74,8 +74,7 @@
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
-    <drop content="ul#portal-personaltools > li:nth-child(8)"
-          if-content="ul#portal-personaltools > li:nth-child(9) a[href$='login']" />    
+    <drop content="ul#portal-personaltools > li:nth-child(7)" />
   </rule>
     
   <rule class="load-member-navigation">

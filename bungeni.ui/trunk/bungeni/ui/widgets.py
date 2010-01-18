@@ -86,6 +86,7 @@ class ImageInputWidget(FileWidget):
     def _toFieldValue( self, (update_action, upload) ):
         """convert the input value to an value suitable for the field.
         check the update_action if we should leave the data alone, delete or replace it"""
+        import pdb; pdb.set_trace()
         if update_action == u'update':
             if upload is None or upload == '':
                 if self._data is None:

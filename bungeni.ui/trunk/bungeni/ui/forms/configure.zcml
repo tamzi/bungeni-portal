@@ -134,11 +134,11 @@
 
   <browser:viewlet
      name="bungeni.viewlet.member-addresses"
-     manager="alchemist.ui.interfaces.IContentViewManager"
+     manager=".interfaces.ISubFormViewletManager"
      class=".viewlets.AddressesViewlet"
      for="bungeni.models.interfaces.IUser"
      permission="zope.View"
-     weight="10"
+     weight="100"
      /> 
 
   <browser:viewlet

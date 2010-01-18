@@ -3,6 +3,7 @@
    id="address-workflow"
    title="Address Workflow"
    description="Workflow for user addresss"
+   domain="bungeni.ui"
    initial_state="">
 
   <state id="private" title="Private">

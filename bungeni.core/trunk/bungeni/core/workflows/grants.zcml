@@ -14,7 +14,7 @@
   <grant permission="bungeni.question.Withdraw" role="bungeni.Owner"/>
   <grant permission="bungeni.question.Write_answer" role="bungeni.Minister" />  
   <!-- response workflow permissions -->
-  <grant permission="bungeni.response.Submit" role="bungeni.Owner"/>
+  <grant permission="bungeni.response.Submit" role="bungeni.Minister"/>
   <grant permission="bungeni.response.Complete" role="bungeni.Clerk"/>  
   <!--TODO motion workflow permissions -->
   <grant permission="bungeni.motion.Submit" role="bungeni.Owner"/>

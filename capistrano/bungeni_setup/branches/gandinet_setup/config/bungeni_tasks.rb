@@ -11,7 +11,16 @@ namespace :bungeni_tasks do
 	run "echo 'You can start bungeni by running cap bungeni_services:start_bungeni'"
     end
 
-    desc "write supervisor config file"
+    task :supervisord_config_gandi, :roles => [:app] do
+        file = File.join(File.dirname(__FILE__), "templates", supervisord_config_gandi_file)
+        template = File.read(file)
+        buffer = ERB.new(template).result(binding)
+        put buffer, "#{buildout_dir}/supervisord.conf", :mode => 0644
+	run "echo 'Supervisor service manager has been configured, and can be accessed on http://#{app_host}:8888'"
+	run "echo 'You can start bungeni by running cap bungeni_services:start_bungeni'"
+    end
+
+    desc "write local buildou config file"
     task :localbuildout_config, :roles => [:app] do
         file = File.join(File.dirname(__FILE__), "templates", local_buildout_config_file+".erb")
         template = File.read(file)

@@ -3,6 +3,7 @@
    id="parliament-workflow"
    title="Parliament Workflow"
    description="Workflow for parliaments"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft - Parliament not yet Active">

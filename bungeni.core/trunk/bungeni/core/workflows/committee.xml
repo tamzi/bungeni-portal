@@ -3,6 +3,7 @@
    id="committee-workflow"
    title="Committee Workflow"
    description="Workflow for Committees"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft - Committee not yet Active">

@@ -10,9 +10,9 @@ from zope.viewlet import viewlet
 from ore.alchemist import Session
 
 
-from bungeni.core.workflows.question import states as question_wf_state #[u"questionstates
-from bungeni.core.workflows.motion import states as motion_wf_state #[u"motionstates
-from bungeni.core.workflows.bill import states as bill_wf_state #[u"billstates
+from bungeni.core.workflows.question import states as question_wf_state 
+from bungeni.core.workflows.motion import states as motion_wf_state 
+from bungeni.core.workflows.bill import states as bill_wf_state 
 from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
 from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 from bungeni.core.workflows.groupsitting import states as sitting_wf_state
@@ -874,6 +874,14 @@ class ItemsApprovedViewlet( AllItemsInStageViewlet ):
         
     ]
     list_id = "items-approved"
+
+class QuestionsPendingResponseViewlet( AllItemsInStageViewlet ): 
+    name = "Questions pending reponse"
+    states = [   
+        question_wf_state[u"response_submitted"].id,  
+        question_wf_state[u"response_pending"].id,                                        
+    ]
+    list_id = "questions-pending-response"    
 
 class MinistryItemsViewlet(ViewletBase):
     list_id = "ministry-items"

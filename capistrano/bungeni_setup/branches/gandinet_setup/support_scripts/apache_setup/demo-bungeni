@@ -1,0 +1,29 @@
+NameVirtualHost demo.bungeni.org:80
+<VirtualHost demo.bungeni.org:80>
+	ServerAdmin webmaster@bungeni.org
+        ServerName  demo.bungeni.org
+	
+   # prevent the webserver from beeing used as proxy
+#   <LocationMatch "^[^/]">
+#     Deny from all
+#   </LocationMatch>#
+
+
+ <Proxy http://demo.bungeni.org:8080>
+	Allow from all
+ </Proxy>
+  ProxyRequests Off 
+  ProxyPreserveHost on
+  ProxyPass / http://demo.bungeni.org:8080/
+  ProxyPassReverse / http://demo.bungeni.org:8080/
+	ErrorLog /var/log/apache2/demo.bungeni.error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog /var/log/apache2/demo.bungeni.access.log combined
+	ServerSignature On
+
+
+</VirtualHost>

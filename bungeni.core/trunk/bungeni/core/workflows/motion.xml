@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <workflow
-   id="bill-workflow"
-   title="bill Workflow"
-   description="A bill"
+   id="motion-workflow"
+   title="Motion Workflow"
+   description="A Motion"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft Motion">
@@ -27,13 +28,15 @@
     <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />    
     <!--grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /-->
     <grant permission="zope.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Speaker" />          
   </state>
 
   <state id="received" title="Motion Received by Clerks Office">  
     <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
     <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />     
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
-    <grant permission="zope.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Clerk" />     
+    <grant permission="zope.View" role="bungeni.Speaker" />               
   </state>
 
   <state id="complete" title="Motion Complete">  
@@ -196,6 +199,19 @@
      action="bungeni.core.workflows.motion.actions.complete"
      condition=""
      />
+     
+  <transition
+     id="complete-speaker"
+     title="Complete"
+     trigger="manual"
+     source="submitted
+             received"
+     destination="complete"
+     permission="bungeni.motion.speaker.Review"
+     action="bungeni.core.workflows.motion.actions.complete"
+     condition=""
+     />          
+     
   <transition
      id="approve"
      title="Approve"

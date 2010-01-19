@@ -3,6 +3,7 @@
    id="question-workflow"
    title="Question Workflow"
    description="A question"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft">
@@ -23,10 +24,12 @@
     <grant permission="zope.View" role="bungeni.Clerk" />    
     <grant permission="zope.View" role="bungeni.Speaker" />        
     <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
+    <grant permission="zope.View" role="bungeni.Speaker" />        
   </state>
 
   <state id="received" title="Received by clerk">
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />        
   </state>
 
   <state id="complete" title="Submitted to the Speaker">
@@ -175,6 +178,20 @@
      condition=""
      event=".interfaces.IQuestionCompleteEvent"
      />
+
+  <transition
+     id="complete-speaker"
+     title="Complete"
+     trigger="manual"
+     source="submitted
+             received"
+     destination="complete"
+     permission="bungeni.question.speaker.Review"          
+     action="bungeni.core.workflows.question.actions.complete"
+     condition=""
+     event=".interfaces.IQuestionCompleteEvent"
+     />     
+     
   <!--the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
       or “requires amendment”.
       
@@ -188,9 +205,7 @@
      id="approve"
      title="Approve"
      trigger="manual"
-     source="complete
-            submitted
-            received"
+     source="complete"
      destination="admissible"
      permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.actions.approve"
@@ -317,11 +332,12 @@
      title="Forward to another Ministry"
      trigger="manual"
      source="response_pending"
-     destination="response_pending"
+     destination="complete"
      permission="bungeni.question.Write_answer"
      action="bungeni.core.workflows.question.actions.send_to_ministry"
      condition="bungeni.core.workflows.question.conditions.is_ministry_set"
      event=".interfaces.IQuestionSentToMinistryEvent"
+     require_confirmation="true"     
      />
 
     <transition 

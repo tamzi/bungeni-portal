@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <workflow
-   id="bill-workflow"
-   title="Bill Workflow"
-   description="A bill"
+   id="tableddocument-workflow"
+   title="Tabled Document Workflow"
+   description="A tabled document"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft Tabled document">
@@ -20,17 +21,17 @@
 
   <state id="submitted" title="Tabled document Submitted">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
-    <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />    
-    <!--grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" /-->
     <grant permission="zope.View" role="bungeni.Clerk" />   
-    <deny permission="zope.ManageContent" role="bungeni.Owner" />                   
+    <deny permission="zope.ManageContent" role="bungeni.Owner" />  
+    <grant permission="zope.View" role="bungeni.Speaker" />                        
   </state>
 
   <state id="received" title="Tabled document Received by Clerks Office">  
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" /> 
     <grant permission="zope.ManageContent" role="bungeni.Clerk" />                     
+    <grant permission="zope.View" role="bungeni.Speaker" />       
   </state>
 
   <state id="complete" title="Tabled document Complete">  
@@ -158,6 +159,19 @@
      action="bungeni.core.workflows.tableddocument.actions.complete"
      condition=""
      />
+     
+  <transition
+     id="complete-speaker"
+     title="Complete"
+     trigger="manual"
+     source="submitted
+             received"
+     destination="complete"     
+     permission="bungeni.tableddocument.speaker.Review"
+     action="bungeni.core.workflows.tableddocument.actions.complete"
+     condition=""
+     />
+               
   <transition
      id="approve"
      title="Approve"

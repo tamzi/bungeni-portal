@@ -3,6 +3,7 @@
    id="agenda-item-workflow"
    title="Agenda Item Workflow"
    description="Agenda Item"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft Agenda item">
@@ -22,12 +23,14 @@
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />    
     <!--grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" /-->
-    <grant permission="zope.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Clerk" />   
+    <grant permission="zope.View" role="bungeni.Speaker" />                    
   </state>
 
   <state id="received" title="Agenda item Received by Clerks Office">  
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" />      
+    <grant permission="zope.View" role="bungeni.Speaker" />                 
   </state>
 
   <state id="complete" title="Agenda item Complete">  
@@ -148,6 +151,21 @@
      action="bungeni.core.workflows.agendaitem.actions.complete"
      condition=""
      />
+     
+
+  <transition
+     id="complete-speaker"
+     title="Complete"
+     trigger="manual"
+     source="submitted
+             received"
+     destination="complete"
+     permission="bungeni.agendaitem.speaker.Review"
+     action="bungeni.core.workflows.agendaitem.actions.complete"
+     condition=""
+     />
+     
+     
   <transition
      id="approve"
      title="Approve"

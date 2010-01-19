@@ -3,6 +3,7 @@
    id="bill-workflow"
    title="bill Workflow"
    description="A bill"
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft" title="Draft Bill">

@@ -3,6 +3,7 @@
    id="groupsitting-workflow"
    title="Group-sitting workflow"
    description="Workflow for a group-sitting."
+   domain="bungeni.ui"   
    initial_state="">
 
   <state id="draft-agenda" title="Draft Agenda">

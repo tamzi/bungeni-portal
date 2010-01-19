@@ -115,9 +115,8 @@ class AuditorFactory( object ):
         if comment is None:
             comment =u""
         else:
-            if getattr(object, 'note', False) and len(comment)>1:
+            if hasattr(object, 'note') and len(comment)>1:
                 object.note = comment
-                                                
         wf = IWorkflowInfo(object)  
         if event.source:
             #get human readable titles for workflow state

@@ -221,8 +221,6 @@ class Parliament( Group ):
     governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parent_group_id")
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "group_id")
-    #extensionmembers = one2many("extensionmembers", "bungeni.models.domain.ExtensionGroupContainer",
-    #                             "parliament_id")
     politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parent_group_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "parliament_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")

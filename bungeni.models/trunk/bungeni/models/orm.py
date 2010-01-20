@@ -7,7 +7,11 @@ import domain
 
 # Users
 # general representation of a person
-mapper( domain.User, schema.users,         
+mapper( domain.User, schema.users,  
+        properties={
+            'user_addresses': relation( domain.UserAddress ),
+                     
+       }        
        )
 
 mapper (domain.Keyword, schema.keywords)

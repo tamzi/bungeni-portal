@@ -23,7 +23,11 @@
     <grant permission="bungeni.itemschedule.Delete" role="bungeni.Clerk" />     
     <grant permission="bungeni.itemschedule.Add" role="bungeni.Owner" />
     <grant permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
-    <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />         
+    <grant permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />     
+    <deny permission="zope.View" role="bungeni.MP" />      
+    <deny permission="zope.View" role="bungeni.Minister" />  
+    <deny permission="zope.View" role="bungeni.Everybody" /> 
+    <deny permission="zope.View" role="bungeni.Anybody" />         
   </state>
   
   <state id="published-agenda" title="Published Agenda">
@@ -45,7 +49,11 @@
     <deny permission="bungeni.itemschedule.Edit" role="bungeni.Clerk" />   
     <deny permission="bungeni.itemschedule.Add" role="bungeni.Owner" />
     <deny permission="bungeni.itemschedule.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />                
+    <deny permission="bungeni.itemschedule.Add" role="bungeni.Clerk" />     
+    <grant permission="zope.View" role="bungeni.MP" />      
+    <grant permission="zope.View" role="bungeni.Minister" />  
+    <grant permission="zope.View" role="bungeni.Everybody" /> 
+    <grant permission="zope.View" role="bungeni.Anybody" />                   
   </state>
 
   <state id="draft-minutes" title="Draft Minutes">

@@ -140,6 +140,7 @@
      action="bungeni.core.workflows.agendaitem.actions.require_edit_by_mp"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemClarifyEvent"
+     require_confirmation="true"     
      />
   <transition
      id="complete"
@@ -210,6 +211,7 @@
      permission="bungeni.agendaitem.speaker.Review"
      action="bungeni.core.workflows.agendaitem.actions.require_amendment"
      condition=""
+     require_confirmation="true"     
      />
   <transition
      id="complete-clarify"
@@ -231,6 +233,7 @@
      action="bungeni.core.workflows.agendaitem.actions.mp_clarify"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemClarifyEvent"    
+     require_confirmation="true"          
      />
   <transition
      id="resubmit-clerk"

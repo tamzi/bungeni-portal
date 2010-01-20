@@ -131,7 +131,6 @@ class AuditorFactory( object ):
         description = (_(u"""%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]""")
                       %event_description  )
         return self._objectChanged(u'workflow', object, description )
-        #return self._objectChanged(u'workflow', object )
         
     def objectDeleted( self, object, event ):
         #return self._objectChanged(u'deleted', object )
@@ -146,16 +145,6 @@ class AuditorFactory( object ):
     def _objectChanged( self, change_kind, object, description=u'' ):
         oid, otype = self._getKey( object )
         user_id = self._getCurrentUserId()
-        #statement = self.change_table.insert(
-        #    values = dict( action = change_kind,
-        #                   date = datetime.now(),
-        #                   user_id = user_id,
-        #                   description = description,
-        #                   content_type = otype,
-        #                   content_id = oid )
-        #    )
-        #value = statement.execute()
-        #return value.last_inserted_ids()[0]
         session = Session()
         change = self.change_object()
         change.action = change_kind

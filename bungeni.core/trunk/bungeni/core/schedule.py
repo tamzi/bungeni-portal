@@ -109,8 +109,14 @@ class PrincipalGroupSchedulingContext(object):
 
         unproxied.__parent__ = ProxyFactory(LocationProxy(
             unproxied.__parent__, container=self, name="group"))
-
+#        r_sittings = []
         return sittings
+#        for sitting in sittings:
+#            sitting.__parent__ = self
+#            proxied = ProxyFactory(sitting)
+#            if checkPermission("zope.View", proxied):
+#                r_sittings.append(sitting)
+#        return r_sittings                
 
     def get_categories(self):
         return domain.ItemScheduleCategoryContainer()

@@ -6,7 +6,7 @@ from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContainer
 from ore.alchemist.model import queryModelDescriptor
 
-from marginalia.interfaces import IMarginaliaAnnotation
+#from marginalia.interfaces import IMarginaliaAnnotation
 
 from bungeni.models import interfaces
 from bungeni.models import domain

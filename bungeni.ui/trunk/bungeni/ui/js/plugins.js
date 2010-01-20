@@ -20,10 +20,11 @@
             var helper = $('<div class="helper" />');
             helper.text(title);
             return helper;
-          },
+          }
         });
+        return this;
 
-  }
+  };
 
   $.fn.bungeniInteractiveSchedule = function() {
     var calendar = $(this);
@@ -51,9 +52,9 @@
         } else {
           $(this).addClass('enabled');
           expandable.show();
-          var editor = new YAHOO.widget.SimpleEditor(id);
-          editor.render();
-          editors[id] = editor;
+          var editor2 = new YAHOO.widget.SimpleEditor(id);
+          editor2.render();
+          editors[id] = editor2;
         }
       });
     
@@ -70,16 +71,16 @@
         var editor = editors[id];
         if (editor) {
           editor.saveHTML();
-        };
+        }
 
         $(this).ajaxSubmit({
             'success': function(html, status, form) {
               $("#kss-spinner").hide();
               var discussion = form.siblings(".discussion");
               form.siblings("a.expandable").triggerHandler("click");
-              var html = textarea.val();
+              var html2 = textarea.val();
               discussion.empty();
-              discussion.append($("<div>"+html+"</div>"));
+              discussion.append($("<div>"+html2+"</div>"));
             }});
         return false;
       });
@@ -123,7 +124,9 @@
                     label.text(title.text());
 
                     if (options.length == 1)
+                    {
                       select.hide();
+                    }
                   }
                 }});
           });
@@ -133,7 +136,7 @@
     var current = null;
     $.each(calendar.find("a[rel=category]"), function(i, o) {
         var id = $(this).attr('name');
-        if (id == current) return;
+        if (id == current) {return;}
         current = id;
         
         var row = $(this).parents("tr").eq(0);
@@ -159,7 +162,7 @@
             var options = dropdown.children();
             var option = options.eq(index);
             var value = option.attr('value');
-            if (!parseInt(value)) {
+            if (!parseInt(value, 10)) {
               window.location = value;
               return true;
             }
@@ -180,7 +183,7 @@
 
             // if there is a matching category row use it, else create
             // and insert a new row
-            if (category_row.length == 0) {
+            if (category_row.length === 0) {
               category_row =
                 $('<tr class="category"><td colspan="'+cols+'"></td></tr>');
               category_row.insertBefore(row);
@@ -202,10 +205,10 @@
 
             // save category assignment
             var url = row.find("a[rel=edit-scheduling]").attr('href');
-            var data = {
-              'headless': 'true',
-              'category_id': value,
-            }
+            
+            data = {
+              'headless': "true",
+              'category_id': value };
 
             $("#kss-spinner").show();
             $.post(url, data, function(data, status) {
@@ -233,13 +236,13 @@
                 break;
             case "move-scheduling-down":
                 mode = 'down';
-                break            
-            };
+                break;            
+            }
             
         var data = {
-          "headless": 'true',
+          "headless": "true",
           "mode": mode,
-          "field": field,
+          "field": field
         };
 
         $("#kss-spinner").show();
@@ -250,18 +253,21 @@
                 switch (direction) {
                 case "move-scheduling-up":
                   var next = row.next();
-                  if (row.prev().is('.category') && (next.is('.category') || next.length == 0))
+                  if (row.prev().is('.category') && (next.is('.category') || next.length === 0))
+                  {
                     row.prev().remove();
-                  
+                  }
                   var element = row.prev('not:(.category)');
-                  if (!element) return false;
+                  if (!element) {return false;}
                   element.insertAfter(row);
                   break;
                 case "move-scheduling-down":
                   if (row.next().is('.category') && row.prev().is('.category'))
+                  {
                     row.prev('.category').remove();
-                  var element = row.next('not:(.category)');
-                  if (!element) return false;
+                  }
+                  element = row.next('not:(.category)');
+                  if (!element) {return false;}
                   element.insertBefore(row);
                   break;
                 case "delete-scheduling":
@@ -288,7 +294,7 @@
         $(o)
           .droppable({
             accept: "tr",
-            tolerance: "touch",
+            tolerance: "touch"
                 })
           .bind('drop', function(event, draggable) {
               var target = $(o);
@@ -302,7 +308,7 @@
                             
               $("#kss-spinner").show();
               $.post(url, {
-                headless: 'true',
+                headless: "true",
                     next_url: next_url,
                     item_id: id}, function(data, status) {
                   $("#kss-spinner").hide();
@@ -314,13 +320,16 @@
                 });
             });
       });
-  }
+      return this;
+
+  };
 
   $.fn.bungeniCalendarInteractivity = function(ajax_navigation) {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
 
     if (ajax_navigation)
+    {
       calendar.find("thead a.navigation")
         .click(function() {
             $("#kss-spinner").show();
@@ -334,7 +343,9 @@
               });
             return false;
           });
-  }
+     }     
+     return this;
+  };
   
   $.fn.bungeniSafeResize = function() {
     $.each($(this), function(i, o) {
@@ -347,7 +358,7 @@
           wrapper
             .resizable({
               helper: "resize-proxy",
-                  handles: "s",
+                  handles: "s"
                   });
           
           wrapper.bind("resizestop", function(event, ui) {
@@ -356,6 +367,8 @@
             });
         }
       });
+      return this;
+
   };
   
   $.fn.bungeniCalendarSittingsDragAndDrop = function(sittings) {
@@ -364,6 +377,8 @@
         var dd = new YAHOO.util.DDProxy(id);
 
       });
+      return this;
+
   };
 
   function post_workflow_transition(href) {
@@ -384,7 +399,7 @@
       });
 
     form.get(0).submit();
-  };
+  }
   
   $.fn.bungeniPostWorkflowActionMenuItem = function() {
     $(this).click(function() {
@@ -392,6 +407,7 @@
         post_workflow_transition(href);
         return false;
       });
+      return this;
   };
   
   // when selecting an option on the format "Label
@@ -433,7 +449,7 @@
         handle_time = true;
       }
 
-      if (!(handle_date || handle_time)) return;
+      if (!(handle_date || handle_time)){ return;}
 
       if (handle_date && same_day) {
         // the year, month and date of the end-time should follow the
@@ -441,13 +457,13 @@
         $([end_year, end_month, end_day, end_date]).
           attr('disabled', 'disabled');
         $(start_year).change(function() {
-            end_year.selectedIndex = start_year.selectedIndex });
+            end_year.selectedIndex = start_year.selectedIndex; });
         $(start_month).change(function() {
-            end_month.selectedIndex = start_month.selectedIndex });
+            end_month.selectedIndex = start_month.selectedIndex; });
         $(start_day).change(function() {
-            end_day.selectedIndex = start_day.selectedIndex });
+            end_day.selectedIndex = start_day.selectedIndex; });
         $(start_date).change(function() {
-            end_date.value = start_date.value});            
+            end_date.value = start_date.value;});            
         form.submit(function() {
             $([end_year, end_month, end_day, end_date]).
               attr('disabled', '');
@@ -466,7 +482,7 @@
             option.text(matches[1]);
           }
 
-          var matches = re_date_range.exec(text);
+          matches = re_date_range.exec(text);
           
           if (matches) {
             option_date_matches.push(matches);
@@ -477,8 +493,8 @@
       function convert_matches(matches) {
         for (var k=1; k < matches.length; k++) {
           var v = matches[k];
-          if (v[0] == '0') v = v[1];
-          matches[k] = parseInt(v);
+          if (v[0] == '0') {v = v[1];}
+          matches[k] = parseInt(v,10);
         }
       }
       
@@ -487,7 +503,7 @@
         for (var index in options) {
           var option = options[index];
           if (option.value == value) {
-            select.selectedIndex = parseInt(index);
+            select.selectedIndex = parseInt(index, 10);
             break;
           }
         }
@@ -495,41 +511,41 @@
       
       function handle_time_change() {
         var matches = option_time_matches[o.selectedIndex];
-        if (!matches) return;
+        if (!matches) {return;}
 
         // convert matches to integers
         convert_matches(matches);
 
         // for each dropdown, change selection
-        if (start_hour) {start_hour.selectedIndex = matches[2];};
-        if (start_minute) {start_minute.selectedIndex = matches[3];};
-        if (start_time) {start_time.value = matches[2] + ':' + matches[3];};
-        if (end_hour) {end_hour.selectedIndex = matches[4];};
-        if (end_minute) {end_minute.selectedIndex = matches[5];};
-        if (end_time) {end_time.value = matches[4] + ':' + matches[5];};        
-      };
+        if (start_hour) {start_hour.selectedIndex = matches[2];}
+        if (start_minute) {start_minute.selectedIndex = matches[3];}
+        if (start_time) {start_time.value = matches[2] + ':' + matches[3];}
+        if (end_hour) {end_hour.selectedIndex = matches[4];}
+        if (end_minute) {end_minute.selectedIndex = matches[5];}
+        if (end_time) {end_time.value = matches[4] + ':' + matches[5];}        
+      }
 
       function handle_date_change() {
         var matches = option_date_matches[o.selectedIndex-1];
-        if (!matches) return;
+        if (!matches) {return;}
         
         // for each dropdown, change selection
-        if (start_year) {select_item(start_year, matches[2]);};
-        if (start_month) {select_item(start_month, matches[3]);};
+        if (start_year) {select_item(start_year, matches[2]);}
+        if (start_month) {select_item(start_month, matches[3]);}
         if (start_day) {select_item(start_day, matches[4]);}
-        if (start_date) {start_date.value=matches[2] + '-' + matches[3] + '-' + matches[4];};
+        if (start_date) {start_date.value=matches[2] + '-' + matches[3] + '-' + matches[4];}
         if (end_year) {select_item(end_year, matches[5]);}
-        if (end_month) {select_item(end_month, matches[6]);};
-        if (end_day) {select_item(end_day, matches[7]);};
+        if (end_month) {select_item(end_month, matches[6]);}
+        if (end_day) {select_item(end_day, matches[7]);}
         if (end_date) {
             if (matches[5] && matches[6] && matches[7]){ 
                     end_date.value=matches[5] + '-' + matches[6] + '-' + matches[7];
                 }
                 else {
-                    end_date.value=''
-                    };
-            };        
-      };
+                    end_date.value='';
+                    }
+            }        
+      }
 
       // setup event handlers
       if (handle_time) {
@@ -539,32 +555,35 @@
 
       if (handle_date) {
         $(o).change(handle_date_change);
-        if (set_default) handle_date_change();
+        if (set_default) {handle_date_change();}
       }
     });
+    return this;
   };
     
     
   $.fn.yuiTabView = function(elements) {
     if (!YAHOO.widget.TabView) {
-      return console.log("Warning: YAHOO.widget.TabView module not loaded.")
+      return console.log("Warning: YAHOO.widget.TabView module not loaded.");
     }
     var tab_view = new YAHOO.widget.TabView();
     
     $.each(elements, function(i, o) {
-        var label = YAHOO.util.Dom.getFirstChild(o)
+        var label = YAHOO.util.Dom.getFirstChild(o);
           tab_view.addTab(new YAHOO.widget.Tab({
-              labelEl : label, contentEl : o,
+              labelEl : label, contentEl : o
                   }));
       });
 
     tab_view.appendTo($(this).get(0));
     tab_view.set('activeTab', tab_view.getTab(0));
+    return this;
+
   };
   
   $.fn.yuiDataTable = function(context_name, link_url, data_url, fields, columns, table_id) {
     if (!YAHOO.widget.DataTable) {
-      return console.log("Warning: YAHOO.widget.DataTable module not loaded.")
+      return console.log("Warning: YAHOO.widget.DataTable module not loaded.");
     }
 
     var datasource, columns, config;
@@ -572,6 +591,8 @@
     var formatter = function(elCell, oRecord, oColumn, oData) {
       var object_id = oRecord.getData("object_id");
       elCell.innerHTML = "<a href=\"" +  link_url + '/' + object_id + "\">" + oData + "</a>";
+    return this;
+
     };
     
     YAHOO.widget.DataTable.Formatter[context_name+"Custom"] = formatter;
@@ -584,17 +605,17 @@
     resultsList: "nodes",
     fields: fields,
     metaFields: { totalRecords: "length", sortKey:"sort", sortDir:"dir", paginationRecordOffset:"start"}
-    }
+    };
       
     // filter per column  
     var get_filter = function(oSelf) {
-        var table_columns = oSelf.getColumnSet()
+        var table_columns = oSelf.getColumnSet();
         var qstr = '';
         for (i=0;i<table_columns.keys.length;i++){
             var input_id = 'input#input-' + table_columns.keys[i].getId();            
-            qstr = qstr + '&filter_' + table_columns.keys[i].getKey() + '=' + $(input_id).val()
+            qstr = qstr + '&filter_' + table_columns.keys[i].getKey() + '=' + $(input_id).val();
 
-        };   
+        }   
         return qstr;
     };  
       
@@ -624,14 +645,14 @@
     paginator: new YAHOO.widget.Paginator({
       rowsPerPage: 25,
           template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-          rowsPerPageOptions: [10,25,50,100],
-          //pageLinks: 5
+          rowsPerPageOptions: [10,25,50,100]
+          //,pageLinks: 5
           }),
     initialRequest : 'start=0&limit=25',
     generateRequest : RequestBuilder, 
     sortedBy : { dir : YAHOO.widget.DataTable.CLASS_ASC },
-    dynamicData: true, // Enables dynamic server-driven data
-    }
+    dynamicData: true // Enables dynamic server-driven data
+    };
 
     table = new YAHOO.widget.DataTable(YAHOO.util.Dom.get(table_id), columns, datasource, config  );
 
@@ -642,7 +663,7 @@
         oPayload.pagination = oPayload.pagination || {};
         oPayload.pagination.recordOffset = oResponse.meta.paginationRecordOffset;
         return oPayload;
-        }
+        };
 
 
      table.fnFilterCallback = {
@@ -659,7 +680,7 @@
             table.onDataReturnInitializeTable(sRequest, oResponse, oPayload);
             table.render();
             paginator.setPage(1);                            
-        },
+        }
     }; 
 
     table.fnFilterchange = function(e) {               
@@ -698,14 +719,14 @@
       sorted_by = sorted_by || {key:null, dir:null};
       if(oColumn.key == sorted_by.key) {
         cDir = (sorted_by.dir === YAHOO.widget.DataTable.CLASS_ASC || sorted_by.dir == "") ? "desc" : "asc";
-      };
+      }
        
       if (sDir == YAHOO.widget.DataTable.CLASS_ASC) {
-        cDir = "asc"
+        cDir = "asc";
           }
       else if (sDir == YAHOO.widget.DataTable.CLASS_DESC) {
-        cDir = "desc"
-      };
+        cDir = "desc";
+      }
 
       // Pass in sort values to server request
       var newRequest = "sort=" + oColumn.key + "&dir=" + cDir + "&start=0";
@@ -718,7 +739,7 @@
           // Pass in sort values so UI can be updated in callback function
         sorting: {
           key: oColumn.key,
-          dir: (cDir === "asc") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC,
+          dir: (cDir === "asc") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC
         }
         }
       };

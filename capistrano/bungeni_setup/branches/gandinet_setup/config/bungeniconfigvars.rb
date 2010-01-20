@@ -6,7 +6,7 @@ set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/tr
 
 ## prompt for svn user names & passwords
 set :scm, :subversion
-
+set :scm_auth_cache, true
 ## all prompts here
 #prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
 set :scm_username, "bungenibuild" #Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }

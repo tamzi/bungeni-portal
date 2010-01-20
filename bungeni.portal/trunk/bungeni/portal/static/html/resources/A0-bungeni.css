@@ -50,10 +50,11 @@ table.side-by-side th span.fieldRequired {
   float: left;
   clear: none;
   margin-right: 1em;
-  width: 25em;
+  width: 15em;
 }
 
 #portletArchiveDates #actionsView {
+  clear: none;
   float: right;
 }
 

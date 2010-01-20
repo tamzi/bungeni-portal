@@ -54,14 +54,14 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
                     formatter:"%(formatter)sCustom", sortable:true, 
                     resizeable:true ,
                     children: [ 
-	                { key:"%(key)s", sortable:false},]}""" % coldef
+	                { key:"%(key)s", sortable:false}]}""" % coldef
                     )
             else:
                 column_model.append(
                     """{label:"%(label)s", key:"sort_%(key)s", 
                     sortable:true, resizeable:true,
                     children: [ 
-	                {key:"%(key)s", sortable:false},]   
+	                {key:"%(key)s", sortable:false}]   
                     }""" % coldef
                     )
             field_model.append(

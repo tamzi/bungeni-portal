@@ -43,7 +43,7 @@ namespace :bungeni_install do
 
     after "bungeni_install:full", "bungeni_tasks:python_setup", "bungeni_tasks:bootstrap_bo", "bungeni_tasks:buildout_full", "bungeni_install:setup_db"
 
-    after "bungeni_install:full_gandi", "bungeni_tasks:python_setup", "bungeni_tasks:bootstrap_bo", "bungeni_tasks:buildout_full_gandi","bungeni_tasks:supervisord_config"
+    after "bungeni_install:full_gandi", "bungeni_tasks:python_setup", "bungeni_tasks:bootstrap_bo", "bungeni_tasks:buildout_full_gandi","bungeni_tasks:supervisord_config_gandi"
 
     after "bungeni_install:full_from_cache", "bungeni_tasks:python_setup", "bungeni_tasks:bootstrap_bo", "bungeni_tasks:localbuildout_config", "bungeni_tasks:buildout_full_local", "bungeni_install:setup_db"
 

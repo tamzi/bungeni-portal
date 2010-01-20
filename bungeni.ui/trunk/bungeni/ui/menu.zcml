@@ -424,6 +424,7 @@
      permission="zope.View"
      />
   
+  
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
@@ -1067,6 +1068,16 @@
       />
 
   <browser:menuItem
+     menu="site_actions"
+     for="*"
+     title="Administration"
+     action="/admin"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     permission="zope.ManageSite"
+     />  
+
+
+  <browser:menuItem
      menu="context_actions"
      for="ore.alchemist.interfaces.IAlchemistContent"
      action="view"
@@ -1395,7 +1406,7 @@
      weight="25"
      /-->
 
-   <browser:viewlet
+   <!--browser:viewlet
      name="admin"
      for="*"
      class=".menu.AdminAction"
@@ -1403,7 +1414,7 @@
      permission="zope.ManageSite"
      viewName=""
      weight="30"
-     />
+     /-->
 
    <!-- task actions -->
 

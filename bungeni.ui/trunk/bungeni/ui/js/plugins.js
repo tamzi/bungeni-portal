@@ -586,7 +586,7 @@
       return console.log("Warning: YAHOO.widget.DataTable module not loaded.");
     }
 
-    var datasource, columns, config;
+    var datasource, config;
     
     var formatter = function(elCell, oRecord, oColumn, oData) {
       var object_id = oRecord.getData("object_id");
@@ -687,14 +687,17 @@
         table.getDataSource().sendRequest(RequestBuilder(null,table), table.fnFilterCallback);
         //table.getState().pagination.paginator.setPage(1);
     };
-
+   
+    
+ 
     // create the inputs for column filtering
     var i=0;
     var table_columns = table.getColumnSet();
+    
+  
     for (i=0;i<table_columns.keys.length;i++){
         var input = document.createElement('input');
         var sButton = document.createElement('input');        
-        sButton.innerHTML = 'Search';
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
@@ -708,7 +711,8 @@
         //table_columns.keys[i].getThEl().appendChild(input);              
         thEl.innerHTML = "";
         thEl.appendChild(input);
-        thEl.appendChild(sButton);        
+        thEl.appendChild(sButton); 
+               
     }
 
     table.sortColumn = function(oColumn, sDir) {

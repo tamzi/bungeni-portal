@@ -651,7 +651,8 @@ reports = rdb.Table(
     rdb.Column( "report_type", rdb.String(32), nullable=False ),
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "user_id", rdb.Unicode(32) ),
-    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),     
+    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),  
+    rdb.Column( "note", rdb.String(32)),   
     )
     
 sitting_reports = rdb.Table(

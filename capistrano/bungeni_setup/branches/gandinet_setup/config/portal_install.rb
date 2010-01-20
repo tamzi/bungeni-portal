@@ -21,6 +21,14 @@ namespace :portal_install do
 
 #### After Hooks ####
 
+	after "portal_install:setup", 
+		"portal_tasks:portal_checkout"
+
+	after "portal_install:full",
+		"portal_install:setup",
+		"portal_tasks:bootstrap_bo",
+		"portal_tasks:buildout_full"
+		
 	after "portal_install:setup_from_cache", 
 		"portal_tasks:portal_checkout"
 

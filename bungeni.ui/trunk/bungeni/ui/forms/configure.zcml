@@ -132,14 +132,14 @@
      />    
 
 
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.viewlet.member-addresses"
      manager=".interfaces.ISubFormViewletManager"
      class=".viewlets.AddressesViewlet"
      for="bungeni.models.interfaces.IUser"
      permission="zope.View"
      weight="100"
-     /> 
+     /--> 
 
   <browser:viewlet
      name="bungeni.viewlet.user_id"

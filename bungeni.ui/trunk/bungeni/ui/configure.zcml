@@ -19,7 +19,7 @@
 
   <include package="plone.memoize" />
   <include package="z3c.schemadiff" />
-  <include package="marginalia" />
+  <!--include package="marginalia" /-->
   <includeOverrides file="overrides.zcml" />
   
   <!-- TimeZone Definition -->
@@ -73,7 +73,7 @@
   
   <!-- Marginalia Settings for bungeni types -->
 
-  <class class="bungeni.models.domain.Bill">
+  <!--class class="bungeni.models.domain.Bill">
     <implements
        interface="marginalia.interfaces.IMarginaliaAnnotatable"
        />
@@ -83,7 +83,7 @@
        for="bungeni.models.interfaces.IBill"
        provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
        factory="bungeni.ui.adaptors.BillAnnotationAdaptor"
-       />
+       /-->
     <!-- Experimental transcripts support -->
    <!--class class="bungeni.models.domain.GroupSitting">
     <implements

@@ -12,6 +12,7 @@ from ploned.ui.interfaces import IViewView
 
 from bungeni.models import domain, schema
 from bungeni.core.globalsettings import getCurrentParliamentId
+from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.ui.utils import get_wf_state
 
@@ -58,7 +59,7 @@ class WhatsOnBrowserView(BrowserView):
     def get_sittings(self):
         session = Session()   
         query = session.query(domain.GroupSitting).filter(
-            sql.and_( schema.sittings.c.status != 'draft',
+            sql.and_( schema.sittings.c.status != sitting_wf_state[u'draft-agenda'].id ,
             sql.between(
                 schema.sittings.c.start_date,   
                 self.start_date,
@@ -103,7 +104,8 @@ class WhatsOnBrowserView(BrowserView):
         session = Session()
         start = self.start_date.strftime("%Y-%m-%d")
         end = self.end_date.strftime("%Y-%m-%d 23:59")
-        where_clause = "start_date BETWEEN '%s' AND '%s' AND group_sittings_1.status <> 'draft-agenda' " % (start, end)
+        where_clause = "start_date BETWEEN '%s' AND '%s' AND group_sittings_1.status <> '%s' " % (
+            start, end, sitting_wf_state[u'draft-agenda'].id )
         query = session.query(domain.ItemSchedule).filter( 
             where_clause).order_by('start_date').options(
                     eagerload('sitting'), eagerload('item'),

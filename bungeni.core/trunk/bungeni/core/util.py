@@ -46,9 +46,9 @@ def cli_setup( **kw ):
     metadata.bind = db
     mdset.append( metadata )    
 
-    from marginalia.schema import metadata
-    metadata.bind = db
-    mdset.append( metadata )    
+    #from marginalia.schema import metadata
+    #metadata.bind = db
+    #mdset.append( metadata )    
 
     return mdset
 

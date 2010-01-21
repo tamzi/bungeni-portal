@@ -74,3 +74,8 @@ table.side-by-side th span.fieldRequired {
 #portletArchiveDates .documentDescription {
   display: none;
 }
+
+#portletArchiveDates .portletItem.dates-filtered  {
+  background: yellow;
+}
+

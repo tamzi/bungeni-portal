@@ -21,7 +21,7 @@
          class="workspace-member" />
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="member-links" />
-  <match path="/business/whats-on"  class="load-whatson-navigation" />  
+  <match path="regex:^/business(/whats-on/*|/|$)$"  class="load-whatson-navigation" />  
   <match path="/business/"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
   <match path="/archive/"  class="load-archive-navigation" />
@@ -36,8 +36,6 @@
   <match path="/"
          class="primary" />
   
-
-
 
   <rule class="workspace-committee">
     <!-- content -->
@@ -61,6 +59,7 @@
   
 
   <rule class="load-whatson-navigation">
+    <drop content="#portal-column-one" />
     <prepend content="#viewlet-above-content"
              theme=".main-content" />    
   </rule>  

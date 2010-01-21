@@ -64,6 +64,12 @@
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Speaker" />
 
 
+  <grant permission="bungeni.sittingattendance.Add" role="bungeni.Clerk" />  
+  <grant permission="bungeni.sittingattendance.Edit" role="bungeni.Clerk" />
+  <grant permission="bungeni.sittingattendance.Delete" role="bungeni.Clerk" />
+  <grant permission="bungeni.sittingattendance.Add" role="bungeni.Speaker" />  
+  <grant permission="bungeni.sittingattendance.Edit" role="bungeni.Speaker" />
+  <grant permission="bungeni.sittingattendance.Delete" role="bungeni.Speaker" />
   
   <!-- parliamentary items permissions:
        note that the workflow sets these permissions 
@@ -71,18 +77,21 @@
   
   <grant permission="bungeni.question.Add" role="bungeni.MP" />    
   <grant permission="bungeni.question.Add" role="bungeni.Clerk" />      
+  <grant permission="bungeni.question.Add" role="bungeni.Speaker" />        
   <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.question.View" role="bungeni.Owner" />
 
   <grant permission="bungeni.motion.Add" role="bungeni.MP" />
   <grant permission="bungeni.motion.Add" role="bungeni.Clerk" />  
+  <grant permission="bungeni.motion.Add" role="bungeni.Speaker" />    
   <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.motion.View" role="bungeni.Owner" />
 
   <grant permission="bungeni.tableddocument.Add" role="bungeni.MP" />
   <grant permission="bungeni.tableddocument.Add" role="bungeni.Clerk" />  
+  <grant permission="bungeni.tableddocument.Add" role="bungeni.Speaker" />    
   <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.tableddocument.View" role="bungeni.Owner" />
@@ -147,5 +156,11 @@ should be defined by workflow not static here ! -->
   <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />   
   <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
   <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />   
+  
+  
+  <grant permission="bungeni.delegation.Add" role="bungeni.Owner" />
+  <grant permission="bungeni.delegation.Edit" role="bungeni.Owner" />
+  <grant permission="bungeni.delegation.Delete" role="bungeni.Owner" />
+  
   
 </configure>

@@ -377,17 +377,20 @@ class GroupSittingScheduleView(CalendarView):
         sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
 
         site_url = absoluteURL(getSite(), self.request)
-        
+
         return template(
             display="sitting",
-#            title=_(u"$A $e, $B $Y", mapping=start_date),
-#            description=_(u"$type &mdash; ${start}-${end}", mapping={
-#                'type': translate(sitting_type_dc.title),
-#                'start': start_date,
-#                'end': end_date,
-#                }),
-            title = u"",
-            description = u"",
+            #title=_(u"$A $e, $B $Y", mapping=start_date),
+            title = "%s: %s - %s" % (self.context.group.short_name, 
+                self.context.start_date.strftime('%Y-%m-%d %H:%M'), 
+                self.context.end_date.strftime('%H:%M')),
+            description=_(u"$type &mdash; ${start}-${end}", mapping={
+                'type': translate(sitting_type_dc.title),
+                'start': self.context.start_date.strftime('%Y-%m-%d %H:%M'), 
+                'end': self.context.end_date.strftime('%H:%M')
+                }),
+#            title = u"",
+#            description = u"",
 #
             links=links,
             actions=get_sitting_actions(self.context, self.request),

@@ -25,7 +25,7 @@ body.smallText { font-size: 60%; }
 /* Padding for the columns */
 
 #portal-column-one .visualPadding {
-    padding: 2em 0em 1em 2em;
+    padding: 1em 0em 1em 2em;
 }
 #portal-column-two .visualPadding {
     padding: 2em 2em 1em 0em;

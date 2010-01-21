@@ -170,6 +170,20 @@
                         body_text sitting_time" />
   </class>      
   
+  
+  <class class=".domain.GroupSittingAttendance">
+    <require permission="zope.View"
+             attributes="sitting_id
+                        member_id
+                        attendance_id" />
+    <require permission="bungeni.sittingattendance.Edit"
+             set_attributes="sitting_id
+                        member_id
+                        attendance_id" />
+  </class>     
+
+  
+  
   <class class=".domain.AgendaItem">
     <require permission="zope.View"
              attributes="parliamentary_item_id

@@ -26,8 +26,12 @@
               title="Add item scheduling category" />
   <permission id="bungeni.itemschedulediscussion.Edit"
               title="Edit item scheduling discussion" />
-
-  
+  <permission id="bungeni.sittingattendance.View" title="View sitting attendance" />              
+  <permission id="bungeni.sittingattendance.Add" title="Add sitting attendance" />
+  <permission id="bungeni.sittingattendance.Edit" title="Edit sitting attendance" />
+  <permission id="bungeni.sittingattendance.Delete" title="Delete sitting attendance" />
+  <meta:redefinePermission from="bungeni.sittingattendance.View" to="zope.View" />
+    
   <permission id="bungeni.committee.Add" title="Add committee" />
   <permission id="bungeni.committee.Edit" title="Edit committee" />
   <permission id="bungeni.committee.Delete" title="Delete committee" />

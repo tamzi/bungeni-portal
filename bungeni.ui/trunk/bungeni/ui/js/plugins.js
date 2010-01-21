@@ -697,22 +697,13 @@
   
     for (i=0;i<table_columns.keys.length;i++){
         var input = document.createElement('input');
-        var sButton = document.createElement('input');        
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
         input.setAttribute('size', '10');        
-        sButton.setAttribute('id', 'button-' + table_columns.keys[i].getId());
-        sButton.setAttribute('type', 'button');
-        sButton.setAttribute('class', 'searchButton');
-        //input.setAttribute('change', table.sortColumn(table_columns.keys[i], null));
         var thEl = table_columns.keys[i].getThEl();  
-        YAHOO.util.Event.addListener(sButton, 'click', table.fnFilterchange);
-        //table_columns.keys[i].getThEl().appendChild(input);              
         thEl.innerHTML = "";
-        thEl.appendChild(input);
-        thEl.appendChild(sButton); 
-               
+        thEl.appendChild(input);               
     }
 
     table.sortColumn = function(oColumn, sDir) {

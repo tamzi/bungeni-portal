@@ -15,6 +15,9 @@ from bungeni.ui.cookies import unset_date_range
 from bungeni.ui.widgets import TextDateWidget as DateWidget
 
 class ArchiveDatesForm(form.PageForm):
+
+    status = None
+    
     class IDateRangeSchema(interface.Interface):
         range_start_date = schema.Date(
             title=_(u"From"),
@@ -136,5 +139,6 @@ class ArchiveDatesViewlet(object):
 
     def update(self):
         self.form = ArchiveDatesForm(self.context, self.request)
+       
             
             

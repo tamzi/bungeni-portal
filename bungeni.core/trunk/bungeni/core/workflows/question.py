@@ -20,6 +20,11 @@ class conditions:
     @staticmethod
     def is_ministry_set(info, context):
         return context.ministry_id is not None
+        
+    @staticmethod
+    def is_written_response(info, context):
+        return (context.ministry_id is not None) and (
+            context.response_type == u"W")
 
 class actions:
     @staticmethod

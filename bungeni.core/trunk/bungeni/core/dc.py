@@ -180,8 +180,8 @@ class GroupDescriptiveProperties(DescriptiveProperties):
         session = Session()
         trusted = removeSecurityProxy(self.context)
         session.add(trusted)
-        return "%s: %s - %s" %(
-            self.context.type.capitalize(),
+        return "%s - %s" %(
+            #self.context.type.capitalize(),
             self.context.short_name,
             self.context.full_name)           
 

@@ -319,7 +319,7 @@
      destination="response_pending"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.send_to_ministry"
-     condition="bungeni.core.workflows.question.conditions.is_ministry_set"
+     condition="bungeni.core.workflows.question.conditions.is_written_response"
      event=".interfaces.IQuestionSentToMinistryEvent"
      />
   

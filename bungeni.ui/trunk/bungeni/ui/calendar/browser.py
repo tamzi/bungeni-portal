@@ -60,6 +60,8 @@ from ore.workflow.interfaces import IWorkflowInfo
 
 from zc.resourcelibrary import need
 
+from bungeni.core.workflows.groupsitting import states as sitting_wf_state
+
 class TIME_SPAN:
     daily = _(u"Daily")
     weekly = _(u"Weekly")
@@ -79,7 +81,7 @@ def get_workflow_actions(context, request):
 def get_sitting_items(sitting, request, include_actions=False):
     items = []
 
-    if sitting.status in ['draft-agenda', 'published-agenda']:
+    if sitting.status in [sitting_wf_state[u'draft-agenda'].id , sitting_wf_state[u'published-agenda'].id]:
         order = "planned_order"
     else:
         order = "real_order"        

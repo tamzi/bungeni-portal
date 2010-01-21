@@ -149,7 +149,17 @@
      permission="zope.View"
      weight="10"
      />      
-     
+  <!-- for some reasons committee memberships need to be treated
+  explicitly -->   
+  <browser:viewlet
+     name="bungeni.viewlet.user_id"
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".viewlets.UserIdViewlet"
+     for="bungeni.models.interfaces.ICommitteeMember"
+     permission="zope.View"
+     weight="10"
+     />    
+
      
   <!--browser:viewlet
      name="bungeni.viewlet.ws-user_id"

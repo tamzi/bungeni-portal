@@ -1115,7 +1115,8 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             property = schema.Choice(
                 title=_(u"Parliament"),                
                 source=parliamentSource,
-                required=True),  
+                required=True), 
+                add=False, 
         ),
         dict(name="short_name", 
             label=_(u"Title"), 

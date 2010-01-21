@@ -286,7 +286,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Add Attendance ..."
      action="./attendance/add"
-     permission="bungeni.sitting.Add"     
+     permission="bungeni.sittingattendance.Add"     
      order="10"
      />  
 

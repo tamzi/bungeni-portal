@@ -135,7 +135,7 @@ def nextprev_links(content, theme, resource_fetcher, log):
         calendar_next_link_node.replaceWith('<a class="navigation next-link" onClick="document.location=&#39;' + str(content('.next-link').attr('href'))  + '&#39;">&#8594;</a>')
         
     if calendar_previous_link_node:
-        calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(content('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')    
+        calendar_previous_link_node.replaceWith('<a class="navigation previous-link" onClick="document.location=&#39;' + str(content('.previous-link').attr('href'))  + '&#39;">&#8592;</a>')
 
 def image_links(content, theme, resource_fetcher, log):
     """
@@ -160,7 +160,7 @@ def rewrite_links(content, theme, resource_fetcher, log):
     """
 
     repeating_link_values = ['business', 'calendar', 'workspace_archive']
-    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar' }
+    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin' }
     content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
@@ -221,3 +221,10 @@ def documentActions_links(content, theme, resource_fetcher, log):
         if link_value in (unicode(content_value)):
             new_content = content_value.replace('/'+link_value, '/plone/'+link_value)
             content_node.replaceWith('<div class="documentActions">' + new_content + '</div>')
+
+def match_request(content, theme, resource_fetcher, log):
+    if str(content('head').html()) is not None and "Not Found" in str(content('head').html()):
+        content('title').replaceWith('Bungeni')
+        content('body').replaceWith(theme('body').html())
+    else:
+        pass

@@ -25,7 +25,8 @@
   <match path="/business/"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
   <match path="/archive/"  class="load-archive-navigation" />
-  <match path="regex:^/(business|members|archive)/?"
+  <match path="/admin/"  class="load-admin-navigation" />  
+  <match path="regex:^/(business|members|archive|admin)/?"
          class="bungeni" />
   <match path="/calendar/"  class="load-calendar-navigation" />
   <match path="/workspace_archive/"  class="load-workspace_archive-navigation" />      
@@ -85,6 +86,7 @@
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
   </rule>
+
   
   <rule class="load-archive-navigation">
     <append href="/plone/archive"
@@ -95,7 +97,18 @@
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
-  </rule>   
+  </rule>
+
+  <rule class="load-admin-navigation">
+    <append href="/plone"
+            content="#portal-globalnav > li:not(:first-child)"
+            theme="children:#portal-globalnav > ul" />
+    <append href="/plone/archive"
+            content=".documentActions"
+            theme="children:#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
+  </rule>     
 
   <rule class="bungeni">
 

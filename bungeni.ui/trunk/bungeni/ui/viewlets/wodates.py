@@ -118,5 +118,10 @@ class WhatsOnDatesViewlet(object):
 
     def update(self):
         self.form = WhatsOnDatesForm(self.context, self.request)
+        start_date, end_date = get_date_range(self.request)          
+        if start_date or end_date:
+            self.filter_on = 'dates-filtered'     
+        else:
+            self.filter_on = ''            
             
             

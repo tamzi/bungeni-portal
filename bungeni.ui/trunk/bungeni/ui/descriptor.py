@@ -1136,8 +1136,8 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             omit=True),
         dict( name="owner_id", 
               property = schema.Choice(
-                title=_(u"Owner"),
-                description=_(u"Select the user who should own this document."),
+                title=_(u"Moved by"),
+                description=_(u"Select the user who moved document."),
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
                 ),
               listing_column=member_fk_column("owner_id", 

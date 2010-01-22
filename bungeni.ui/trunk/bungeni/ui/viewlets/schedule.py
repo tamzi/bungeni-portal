@@ -34,7 +34,8 @@ from bungeni.ui.calendar.utils import datetimedict
 class SchedulablesViewlet(viewlet.ViewletBase):
     """Renders a portlet which calls upon the scheduling viewlet
     manager to render a list of schedulable items."""
-
+    
+    for_display = True
     render = ViewPageTemplateFile('templates/scheduling.pt')
     title = _(u"Scheduling")
 

@@ -700,7 +700,6 @@
         input.setAttribute('type', 'text');
         input.setAttribute('name', 'filter_' + table_columns.keys[i].getKey());
         input.setAttribute('id', 'input-' + table_columns.keys[i].getId());
-        input.setAttribute('size', '10');        
         var thEl = table_columns.keys[i].getThEl();  
         thEl.innerHTML = "";
         thEl.appendChild(input);               

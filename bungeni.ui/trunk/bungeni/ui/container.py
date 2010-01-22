@@ -23,6 +23,7 @@ from alchemist.ui import container
 from bungeni.models.interfaces import IDateRangeFilter
 from bungeni.models.interfaces import ICommitteeContainer
 from bungeni.models.interfaces import IMemberOfParliamentContainer
+from bungeni.models.interfaces import ICommitteeMemberContainer
 from bungeni.ui.utils import getDisplayDate
 from bungeni.ui.utils import getFilter
 from bungeni.ui.cookies import get_date_range
@@ -72,7 +73,9 @@ def get_query(context, request):
     if (IBusinessSectionLayer.providedBy(request) and
         ICommitteeContainer.providedBy(context)) or (
         IMembersSectionLayer.providedBy(request) and
-        IMemberOfParliamentContainer.providedBy(context)) :
+        IMemberOfParliamentContainer.providedBy(context)) or (
+        (IBusinessSectionLayer.providedBy(request) and
+        ICommitteeMemberContainer.providedBy(context))):
         start_date = datetime.date.today()
         end_date = None
     else:    

@@ -79,7 +79,6 @@ def get_query(context, request):
         ICommitteeMemberContainer.providedBy(context)) or (
         IBusinessSectionLayer.providedBy(request) and
         ICommitteeStaffContainer.providedBy(context)):
-        print context
         start_date = datetime.date.today()
         end_date = None
     else:    

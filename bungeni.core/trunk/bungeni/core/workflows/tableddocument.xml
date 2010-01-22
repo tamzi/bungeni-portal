@@ -148,6 +148,7 @@
      action="bungeni.core.workflows.tableddocument.actions.require_edit_by_mp"
      condition=""
      event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"
+     require_confirmation="true"          
      />
   <transition
      id="complete"
@@ -216,6 +217,7 @@
      permission="bungeni.tableddocument.speaker.Review"
      action="bungeni.core.workflows.tableddocument.actions.require_amendment"
      condition=""
+     require_confirmation="true"          
      />
   <transition
      id="complete-clarify"
@@ -237,6 +239,7 @@
      action="bungeni.core.workflows.tableddocument.actions.mp_clarify"
      condition=""
      event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"    
+     require_confirmation="true"          
      />
   <transition
      id="resubmit-clerk"

@@ -30,7 +30,7 @@ class ArchiveDatesForm(form.PageForm):
             required=False)
 
         parliament = schema.Choice(
-            title=_(u"Or"),
+            title=_(u"Or select"),
             description=_(u"Set date range to that of a given particular parliament."),
             vocabulary="bungeni.vocabulary.Parliaments",
             required=False)
@@ -79,7 +79,7 @@ class ArchiveDatesForm(form.PageForm):
             form=self, adapters=self.adapters, ignore_request=True)
         try:
             self.widgets['parliament']._messageNoValue = _(
-                u"Select parliament...")
+                u"parliament...")
         except KeyError:
             pass   
         start, end = self.get_start_end_restictions(self.context)                         

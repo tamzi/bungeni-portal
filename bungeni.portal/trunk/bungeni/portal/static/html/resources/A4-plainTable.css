@@ -53,4 +53,13 @@ background-image:none !important;
     background:url(sort_none.gif) no-repeat right; 
 }
 
+.yui-dt-sortable a {
+    padding-right: 18px;
+    background:url(search_icon.gif) no-repeat right; 
+}
+.yui-dt-resizeable input {
+ width : 100% 
+}
+
+
 

@@ -267,6 +267,9 @@ class AddForm(BaseForm, ui.AddForm):
     @form.action(_(u"Cancel"), validator=null_validator )
     def handle_cancel( self, action, data ):
         """Cancelling redirects to the listing."""
+        if not self._next_url:        
+            self._next_url = absoluteURL(self.__parent__, self.request)
+        self.request.response.redirect(self._next_url)            
 
     @form.action(_(u"Save"),
                  condition=form.haveInputWidgets, validator='validateAdd')

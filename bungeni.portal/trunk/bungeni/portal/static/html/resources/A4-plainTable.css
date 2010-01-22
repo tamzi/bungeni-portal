@@ -61,5 +61,9 @@ background-image:none !important;
  width : 100% 
 }
 
+.filterColumns input {
+  width: 100%;
+  }
+
 
 

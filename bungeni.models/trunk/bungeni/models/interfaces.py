@@ -115,7 +115,9 @@ class IGroupSittingContainer( IBungeniContainer ):
 class IBungeniGroupMembershipContainer( IBungeniContainer ):
     pass
 
-
+class ICommitteeMemberContainer(IBungeniGroupMembershipContainer):
+    pass
+    
 class IVersionContainer(IBungeniContainer):
     pass
 

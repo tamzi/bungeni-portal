@@ -1438,7 +1438,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
                  required=True),
                 listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
                 DatabaseSource(domain.Ministry,
-                                title_field='short_name', 
+                                title_field='full_name', 
                                 token_field='group_id', 
                                 value_field = 'group_id' )),
                 listing=True,                 

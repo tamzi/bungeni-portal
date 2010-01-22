@@ -45,7 +45,8 @@
   </state>
 
   <state id="inadmissible" title="Inadmissible">
-    <grant permission="zope.View" role="bungeni.Everybody" />      
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                             
   </state>
 
   <state id="clarify_mp" title="Needs MPs clarification">

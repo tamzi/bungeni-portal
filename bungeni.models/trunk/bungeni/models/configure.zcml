@@ -96,6 +96,11 @@
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.group_membership_filter" />  
 
+ <adapter
+     for=".domain.CommitteeStaff"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.group_membership_filter" />  
+
   <adapter
      for=".domain.Minister"
      provides=".interfaces.IDateRangeFilter"

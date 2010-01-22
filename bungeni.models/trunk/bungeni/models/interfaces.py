@@ -118,6 +118,9 @@ class IBungeniGroupMembershipContainer( IBungeniContainer ):
 class ICommitteeMemberContainer(IBungeniGroupMembershipContainer):
     pass
     
+class ICommitteeStaffContainer(IBungeniGroupMembershipContainer):
+    pass
+       
 class IVersionContainer(IBungeniContainer):
     pass
 

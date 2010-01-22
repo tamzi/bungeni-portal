@@ -53,6 +53,10 @@ table.side-by-side th span.fieldRequired {
   width: 15em;
 }
 
+#portletArchiveDates .widget-dropdownwidget.field {
+  width: 19em;
+}
+
 #portletArchiveDates #actionsView {
   clear: none;
   float: right;

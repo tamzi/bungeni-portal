@@ -40,6 +40,9 @@
       $('#workspace-table-items-approved').tablesorter();
       $('#workspace-table-sitting-draft').tablesorter();
       $('#fieldset-mp-items').tablesorter();
+      $('#workspace-table-clerks-items-action-required').tablesorter();
+      $('#workspace-table-questions-pending-response').tablesorter();
+      
       
       // set up table filters 
       $('#workspace-table-items-action-required').columnFilters({alternateRowClassNames:['odd','even']});
@@ -53,6 +56,9 @@
       $('#workspace-table-items-approved').columnFilters({alternateRowClassNames:['odd','even']});
       $('#workspace-table-sitting-draft').columnFilters({alternateRowClassNames:['odd','even']});
       $('#fieldset-mp-items').columnFilters({alternateRowClassNames:['odd','even']});
+      $('#workspace-table-clerks-items-action-required').columnFilters({alternateRowClassNames:['odd','even']});
+      $('#workspace-table-questions-pending-response').columnFilters({alternateRowClassNames:['odd','even']});
+      
       
     });
  })(jQuery);

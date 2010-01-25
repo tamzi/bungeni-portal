@@ -438,14 +438,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             listing_column=current_titles_in_group_column("membership_id", 
                 _(u"Roles/Titles"))),
         dict( name="status", omit=True ),
-        dict( name="membership_type", omit=True ),
-        dict( name="notes", 
-              label=_(u"Notes"), 
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor,
-              add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,
-             ),        
+        dict( name="membership_type", omit=True ),   
         ]
         
     schema_invariants = [EndAfterStart, ActiveAndSubstituted,
@@ -495,6 +488,13 @@ class MpDescriptor ( ModelDescriptor ):
                 constituencySource, ),
             listing=True),              
         dict( name="leave_reason", label=_("Leave Reason")),     
+        dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),             
     ])
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
@@ -518,6 +518,16 @@ class PartyMemberDescriptor( ModelDescriptor ):
             ),]  
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
+    fields.extend([
+            dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),     
+    ])
+    
     custom_validators = [validations.validate_date_range_within_parent,
                     validations.validate_party_membership]                                                       
     
@@ -740,6 +750,16 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
             ),]  
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))    
+    fields.extend([
+            dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),     
+    ])
+        
     custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]
@@ -876,6 +896,15 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
               listing=True,
             ),]  
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))     
+    fields.extend([
+            dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),     
+    ])
     custom_validators = [validations.validate_date_range_within_parent,]    
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]     
@@ -932,6 +961,15 @@ class OfficeMemberDescriptor( ModelDescriptor ):
             ),]  
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
+    fields.extend([
+            dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),     
+    ])
     custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]   
@@ -962,6 +1000,15 @@ class MinisterDescriptor( ModelDescriptor ):
             ),]  
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
+    fields.extend([
+            dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),     
+    ])    
     custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]

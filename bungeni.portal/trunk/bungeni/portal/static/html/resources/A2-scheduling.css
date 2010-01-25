@@ -52,3 +52,8 @@ div#scheduling-calendar {
  overflow: auto;
 }
 
+p.scheduling-dd-description {
+  text-align: center;
+  font-weight:bold;
+}
+

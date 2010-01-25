@@ -651,11 +651,13 @@
     initialRequest : 'start=0&limit=25',
     generateRequest : RequestBuilder, 
     sortedBy : { dir : YAHOO.widget.DataTable.CLASS_ASC },
-    dynamicData: true // Enables dynamic server-driven data
+    dynamicData: true, // Enables dynamic server-driven data
+    MSG_SORTASC : "Click to filter and sort ascending",
+    MSG_SORTDESC : "Click to filter and sort descending"    
     };
 
-    table = new YAHOO.widget.DataTable(YAHOO.util.Dom.get(table_id), columns, datasource, config  );
-
+    table = new YAHOO.widget.DataTable(YAHOO.util.Dom.get(table_id), columns, datasource, config  );    
+    
     // Update totalRecords on the fly with value from server
     table.handleDataReturnPayload = function(oRequest, oResponse, oPayload) {
         oPayload = oPayload || {pagination:null, totalRecords:null};

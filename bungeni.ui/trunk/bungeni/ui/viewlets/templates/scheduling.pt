@@ -6,7 +6,7 @@
     <span class="portletTopRight"></span>
   </dt>
   <dd> 
-    <p>Add items by dragging to schedule.</p>      
+    <p class="scheduling-dd-description" i18n:translate="">Add items by dragging to schedule.</p>      
    <dl class="enableFormTabbing">
         <dd tal:replace="structure provider:bungeni.scheduling" />
    </dl>

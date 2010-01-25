@@ -1,15 +1,15 @@
 <dt id="fieldsetlegend-..." 
-    tal:attributes="id string:fieldsetlegend-${view/name}-for-scheduling"
+    tal:attributes="id string:fieldsetlegend-${view/view_name}-for-scheduling"
     tal:condition="view/visible"
     i18n:translate="" tal:content="view/name">
 </dt>
 
 <dd id="fieldset-..." 
-    tal:attributes="id string:fieldset-${view/name}-for-scheduling" 
+    tal:attributes="id string:fieldset-${view/view_name}-for-scheduling" 
     tal:condition="view/visible"
     class="items-for-scheduling">
     <table class="listing grid items-for-scheduling" id="items-for-scheduling" tal:condition="view/items"
-        tal:attributes="id string:items-for-scheduling-${view/name}">
+        tal:attributes="id string:items-for-scheduling-${view/view_name}">
           <thead>
             <tr>
               <th>Type name</th>

@@ -117,8 +117,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
 
 class SchedulableBillsViewlet(SchedulableItemsViewlet):
     model = domain.Bill
-    name = 'bill'
-    
+    name = _('Bills')
+    view_name="bill"
     states = (
         bill_wf_state[u"gazetted"].id,
         bill_wf_state[u"first_reading"].id,        
@@ -135,8 +135,8 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
 
 class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     model = domain.Question
-    name = 'question'
-
+    name = _('Questions')
+    view_name="question"
     states = (
         question_wf_state[u"admissible"].id,
         question_wf_state[u"postponed"].id,
@@ -144,8 +144,8 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
 
 class SchedulableMotionsViewlet(SchedulableItemsViewlet):
     model = domain.Motion
-    name = 'motion'
-
+    name = _('Motions')
+    view_name="motion"
     states = (
         motion_wf_state[u"admissible"].id,
         motion_wf_state[u"postponed"].id,
@@ -153,7 +153,8 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
         
 class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
     model = domain.AgendaItem
-    name = 'agendaitem'
+    name = _('Agenda items')
+    view_name="agendaitem"
     visible = True
     states = (
         agendaitem_wf_state[u"admissible"].id,
@@ -211,7 +212,8 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
         
 class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
     model = domain.TabledDocument
-    name = 'tableddocument'
+    name = _('Tabled documents')
+    view_name="tableddocument"
     states = (
         tableddocument_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"postponed"].id,

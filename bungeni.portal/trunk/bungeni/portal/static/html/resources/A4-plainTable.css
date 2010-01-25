@@ -65,5 +65,7 @@ background-image:none !important;
   width: 100%;
   }
 
-
+.yui-dt-data td {
+  line-height: 150%
+  }
 

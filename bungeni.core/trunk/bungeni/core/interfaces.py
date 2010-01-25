@@ -53,6 +53,9 @@ class ITabledDocumentAddContext(IAddContext):
     
 class IAgendaItemAddContext(IAddContext):
     """Add-context for agenda items."""
+
+class IReportAddContext(IAddContext):
+    """Add-context for agenda items."""
     
 ####################
 # Feature - Marker Interfaces 

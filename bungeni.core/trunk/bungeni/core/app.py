@@ -136,6 +136,15 @@ class AppSetup(object):
             container_getter(get_current_parliament, 'sittings'),
             title=_(u"Sittings"),
             description=_(u"View the sittings of the current parliament."))
+            
+        #Parliamentary reports
+        preports =  business[u"preports"] = QueryContent(
+            container_getter(get_current_parliament, 'preports'),
+            title=_(u"Parliamentary Reports"),
+            marker=interfaces.IReportAddContext,
+            description=_(u"View Agenda and Minutes reports of the current parliament."))    
+            
+            
 
         # members section
         current = members[u"current"] = QueryContent(
@@ -190,7 +199,10 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
                        (implementedBy(domain.Report), ILocation)) 
 
-
+        documents[u"preports"] = domain.ReportContainer()
+        provideAdapter(location.ContainerLocation(preports, documents[u"preports"]),
+                       (implementedBy(domain.Report4Sitting), ILocation))
+                       
         records[u"parliaments"] = domain.ParliamentContainer()
         provideAdapter(location.ContainerLocation(records[u"parliaments"]),
                        (implementedBy(domain.Parliament), ILocation))

@@ -193,7 +193,10 @@ countries = rdb.Table(
     "countries",
     metadata,
     rdb.Column( "country_id", rdb.String(2), primary_key=True ),
-    rdb.Column( "country_name", rdb.Unicode(256), nullable=False ),
+    rdb.Column( "iso_name", rdb.Unicode(80), nullable=False ),
+    rdb.Column( "country_name", rdb.Unicode(80), nullable=False ),
+    rdb.Column( "iso3", rdb.String(3)),
+    rdb.Column( "numcode", rdb.Integer),
     )
         
 constituency_details = rdb.Table(

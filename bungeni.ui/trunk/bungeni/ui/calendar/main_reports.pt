@@ -3,16 +3,16 @@
       metal:use-macro="context/@@standard_macros/page">
 
   <div metal:fill-slot="body" i18n:domain="bungeni" class="report_body">
-        <a tal:attributes="href view/back_link"> back to calendar </a>
+        <a tal:attributes="href view/back_link"> back to schedule </a>
         <div class="report_mainTitle">
-                 <span tal:content="view/doc_type"/> 
+                 <span tal:replace="view/group/short_name"/> Parliament 
         </div>
         <tal:loop tal:repeat="item view/sitting_items">
             <div class="report_title">      
-                  <span tal:replace="view/group/short_name"/> Parliament : <span tal:content="item/sitting_type/sitting_type"/> Sitting
+                   <span tal:replace="view/doc_type"/>
             </div> 
-            <div class="report_date">Date : 
-            	<span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />
+            <div class="report_date"> 
+            	<span tal:content="item/sitting_type/sitting_type"/> Sitting : <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />, <span tal:content="python:item.start_date.strftime('%H:%M')" />
            	</div>   
             <tal:loop tal:repeat="scheduled item/item_schedule">
                 <div class="report_items">
@@ -54,7 +54,7 @@
                                     </h2>
                                 </span>
                                 <span tal:condition="scheduled/item/owner/first_name | nothing">
-                                        <h3> Tabled by 
+                                        <h3> Moved by 
                                             <span tal:replace="scheduled/item/owner/first_name" /> 
                                             <span tal:replace="scheduled/item/owner/last_name" tal:condition="scheduled/item/owner/last_name | nothing" /> 
                                         </h3>
@@ -135,7 +135,7 @@
                                     </span>
                         </h2>
                         <span tal:condition="view/tabled_document_owner">
-                                    <h3> Tabled by <span tal:replace="scheduled/item/owner/first_name" /> 
+                                    <h3> Moved by <span tal:replace="scheduled/item/owner/first_name" /> 
                                         <span tal:replace="scheduled/item/owner/last_name" />  
                                     </h3>
                         </span>
@@ -153,7 +153,7 @@
                 </div>
             </tal:loop>          
         </tal:loop>
-        <a tal:attributes="href view/back_link"> back to calendar </a>
+        <a tal:attributes="href view/back_link"> back to schedule </a>
     </div>
   
 </html>  

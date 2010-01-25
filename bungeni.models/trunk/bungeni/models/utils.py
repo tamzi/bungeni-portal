@@ -70,9 +70,10 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
     group_ids = get_all_group_ids_in_parliament(parliament_id)
     offices_held = rdb.select([schema.groups.c.short_name,
         schema.groups.c.type,
+        schema.user_role_types.c.user_role_name,
         schema.role_titles.c.start_date,
         schema.role_titles.c.end_date,
-        schema.user_role_types.c.user_role_name], 
+        ], 
         from_obj=[   
         rdb.join(schema.groups, schema.user_group_memberships,
         schema.groups.c.group_id == schema.user_group_memberships.c.group_id).join(

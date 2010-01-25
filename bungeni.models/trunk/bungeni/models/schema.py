@@ -227,6 +227,7 @@ groups = rdb.Table(
    rdb.Column( "full_name", rdb.Unicode(256) ),   
    rdb.Column( "description", rdb.UnicodeText ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
+   rdb.Column( "status_date", rdb.Date ),   
    rdb.Column( "start_date", rdb.Date, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),  #
    rdb.Column( "type", rdb.String(30),  nullable=False ),
@@ -351,6 +352,7 @@ group_item_assignments = rdb.Table(
    rdb.Column( "end_date", rdb.Date ),   
    rdb.Column( "due_date", rdb.Date ),
    rdb.Column( "status", rdb.String(16) ),    
+   rdb.Column( "status_date", rdb.Date ),      
    rdb.Column( "notes", rdb.UnicodeText ),
    )
 
@@ -427,6 +429,7 @@ addresses = rdb.Table(
     rdb.Column( "im_id", rdb.String(40) ),
     # Workflow State -> determins visibility
     rdb.Column( "status", rdb.Unicode(16) ),
+    rdb.Column( "status_date", rdb.Date ),       
     )
 
 
@@ -488,6 +491,7 @@ sittings = rdb.Table(
    # to make it possible to delete the original sitting
    rdb.Column( "recurring_id", rdb.Integer ),
    rdb.Column( "status", rdb.Unicode(48) ),
+   rdb.Column( "status_date", rdb.Date ),      
    # venues for sittings   
    rdb.Column( "venue_id", rdb.Integer, rdb.ForeignKey('venues.venue_id'))
    )   
@@ -703,6 +707,7 @@ parliamentary_items = rdb.Table(
     rdb.Column( "submission_date", rdb.Date ),
     # Workflow State
     rdb.Column( "status", rdb.Unicode(48) ),
+    rdb.Column( "status_date", rdb.Date ),       
     # the reviewer may add a recommendation note
     rdb.Column( "note", rdb.UnicodeText),
     # Receive  Notifications -> triggers notification on workflow change

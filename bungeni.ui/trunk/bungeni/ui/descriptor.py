@@ -422,13 +422,6 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                 edit_widget=DateWidget, 
                 add_widget=DateWidget ),
         dict( name="active_p", label=_(u"Active"), view=False),
-        dict( name="notes", 
-              label=_(u"Notes"), 
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor,
-              add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,
-             ),
         dict( name="substitution_type", 
                 label=_(u"Type of Substitution"), 
                 add = False ),
@@ -446,6 +439,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                 _(u"Roles/Titles"))),
         dict( name="status", omit=True ),
         dict( name="membership_type", omit=True )
+        dict( name="notes", 
+              label=_(u"Notes"), 
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor,
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+             ),        
         ]
         
     schema_invariants = [EndAfterStart, ActiveAndSubstituted,

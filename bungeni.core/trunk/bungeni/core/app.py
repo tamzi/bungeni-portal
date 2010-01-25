@@ -120,12 +120,6 @@ class AppSetup(object):
             marker=interfaces.IAgendaItemAddContext,
             description=_(u"View the agenda items of the current parliament."))                       
 
-        publications = business[u"publications"] = QueryContent(
-            container_getter(get_current_parliament, 'publications'),
-            title=_(u"Publications"),
-            marker=interfaces.IAgendaItemAddContext,
-            description=_(u"View the publications of the current parliament."))   
-
        # sessions = business[u"sessions"] = QueryContent(
        #     container_getter(get_current_parliament, 'sessions'),
        #     title=_(u"Sessions"),

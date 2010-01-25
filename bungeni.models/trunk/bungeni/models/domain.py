@@ -229,7 +229,7 @@ class Parliament( Group ):
     offices = one2many("offices", "bungeni.models.domain.OfficeContainer", "parent_group_id")   
     agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     tableddocuments = one2many("tableddocuments", "bungeni.models.domain.TabledDocumentContainer", "parliament_id")
-    publications = one2many("publications", "bungeni.models.domain.ReportContainer", "group_id")
+    preports = one2many("preports", "bungeni.models.domain.ReportContainer", "group_id")
 
 class MemberOfParliament ( GroupMembership ):    
     """

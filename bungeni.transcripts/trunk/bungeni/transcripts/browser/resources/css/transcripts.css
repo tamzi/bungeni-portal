@@ -8,6 +8,12 @@
     right:15px;
     top:80px;
 }
-#video_side_bar fieldset {
+#video_side_bar_fieldset {
+    min-height:480px;
+}
+#transcript_fieldset{
+    height:50px;
+}
+#transcripts_main{
     min-height:480px;
 }

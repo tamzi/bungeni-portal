@@ -4,9 +4,7 @@
     xmlns:browser="http://namespaces.zope.org/browser">
     
     <browser:resource name="transcripts.css" file="resources/css/transcripts.css" />
-    <browser:resourceDirectory
-     name="css"
-     directory="resources/css"
-     />
+    <browser:resource name="no_media.png" file="resources/img/no_media.png" />
+    <browser:resource name="control_play_blue.png" file="resources/img/control_play_blue.png" />
 
 </configure>

@@ -19,6 +19,8 @@ class MainView(BrowserView):
         self.group = self.get_group()
         self.group_id = self.context.group_id
         self.sitting_id = self.context.sitting_id
+        self.sitting_media_path = self.get_media_path()
+        self.transcripts = self.get_transcripts()
         return super(MainView, self).__call__()
         
     def get_group(self):
@@ -29,11 +31,24 @@ class MainView(BrowserView):
             group = session.query(models.domain.Group).get(self.context.group_id)
         return group
     
-    
+    def get_media_path(self):
+        session = Session()
+        sitting = session.query(domain.Sitting).filter(domain.Sitting.sitting_id == self.context.sitting_id).first()
+        if sitting is not None:
+            media_path = sitting.media_path
+        else:
+            media_path = None
+        return media_path
     
     def get_transcripts(self):
         session = Session()
-        return self.request.get('HTTP_USER_AGENT','')
+        transcripts = session.query(domain.Transcript).filter(domain.Transcript.sitting_id == self.context.sitting_id).order_by(domain.Transcript.start_time)
+        new_t = []
+        for t in transcripts:
+            t.version_link = absoluteURL(t, self.context)  + '/version'
+            new_t.append(t);
+        import pdb; pdb.set_trace();
+        return transcripts
         
 class Add(ui.AddForm):
     class IReportingForm(interface.Interface):
@@ -84,6 +99,7 @@ class Add(ui.AddForm):
         transcript.end_time =  data['end_time']                      
         transcript.text = data['text']
         transcript.person = data['person'] 
+        transcript.sitting_id = self.context.sitting_id
         session.add(transcript)
         session.commit()
         '''

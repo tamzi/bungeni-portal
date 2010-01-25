@@ -2,21 +2,44 @@
     <link rel="stylesheet" type="text/css" media="all" href="transcripts.css"
       tal:attributes="href context/++resource++transcripts.css" /> 
     <metal:main> 
-    <div>
+    <div id="transcripts_main">
         <div id="transcript_video">
             <span tal:content="view/sitting_id"/><br/>
-	        <video src="http://192.168.0.20/media/aug-5.ogg" controls="controls" width="400" height="300">
-                your browser does not support the video tag
-            </video>
+            <span tal:condition="view/sitting_media_path | nothing">
+	            <video src="http://192.168.0.20/media/aug-5.ogg" controls="controls" width="400" height="300">
+                    your browser does not support the video tag
+                </video>
+            </span>
+            <span tal:condition="not: view/sitting_media_path">
+	            <img tal:attributes="src context/++resource++no_media.png"></img>
+            </span>
         </div>  
         <div id="video_side_bar">
-            <fieldset>
+            <fieldset id="video_side_bar_fieldset"  >
                 <legend >
-                    <a href="javascript:mv_disp_add_mvd('ht_en')" title="New transcript">New transcript</a>
+                    <a href="javascript:add_transcript()">New transcript</a>
                 </legend>
+                <tal:loop tal:repeat="transcript view/transcripts">
+                    <fieldset id="transcript_fieldset" >
+                        <legend>
+                            <a href="javascript:play();" style="font-weight: bold; color: rgb(0, 0, 0);">
+                                <img tal:attributes="src context/++resource++control_play_blue.png"/>
+                                <span tal:replace="transcript/start_time | nothing"/> to <span tal:replace="transcript/end_time | nothing"/>
+                            </a> | 
+                            <a href="javascript:edit_transcript()">Edit</a> |
+                            <a href="javascript:delete_transcript()">Delete</a> | 
+                            <a href="javascript:edit_transcript()">Versions</a> |
+                            <a href="javascript:edit_transcript()">Audit Log</a>
+                        </legend>
+                        <!-- div tal:content="transcript/version_link">
+                            test
+                        </div -->
+                    </fieldset>
+                </tal:loop>
             </fieldset>
+            
         </div>  
     </div>
-</metal:main>
+    </metal:main>
 
 </metal:block>

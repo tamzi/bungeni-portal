@@ -72,7 +72,7 @@ transcript = rdb.Table(
     rdb.Column("text", rdb.UnicodeText),
     rdb.Column("start_time", rdb.Unicode(80), nullable=False),
     rdb.Column("end_time", rdb.Unicode(80), nullable=False),
-    #rdb.Column("sitting_id", rdb.Integer, rdb.ForeignKey('sitting_table.id')),
+    rdb.Column("sitting_id", rdb.Integer, nullable=False ),
    )
 
 transcript_changes = make_changes_table( transcript, metadata )
@@ -82,8 +82,10 @@ sitting = rdb.Table(
     "sitting",
     metadata,
     rdb.Column('sitting_id', rdb.Integer, primary_key=True), 
+    rdb.Column('media_path', rdb.UnicodeText, nullable=False), 
     )
 
-db = rdb.create_engine('postgres://localhost/bungeni', echo=True)
+db = rdb.create_engine('postgres://localhost/bungeni', echo=False)
 metadata.bind = db
+#metadata.drop_all()
 metadata.create_all()

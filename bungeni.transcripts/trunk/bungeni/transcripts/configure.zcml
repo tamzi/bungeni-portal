@@ -12,10 +12,13 @@
 
     <include package="bungeni.core" />
     <include package=".browser" />
-    <db:bind
-     engine="bungeni-db"
-     metadata=".schema.metadata" />
-     
+    <include package="bungeni.models" />
+    
+    <class class="bungeni.models.domain.GroupSitting">
+        <implements
+            interface="bungeni.transcripts.interfaces.ITranscribable"
+       /> 
+    </class>   
     <browser:page
       for=".interfaces.ITranscribable"
       name="transcripts"

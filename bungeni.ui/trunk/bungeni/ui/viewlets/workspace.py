@@ -647,7 +647,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
     """
     going through the workflow in clerks/speakers office
     """
-    name = _("Items in Progress")
+    name = _("Items reviewed & in progress")
     states = [
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
@@ -807,12 +807,12 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
     list_id = "items-action-required"
 
 class SpeakersClerkItemActionRequiredViewlet(ClerkItemActionRequiredViewlet):
-    name = _("Clerks Office")
+    name = _("Pending with the clerk")
     list_id = "clerks-items-action-required"
 
 
 class ClerkReviewedItemViewlet( AllItemsInStageViewlet ): 
-    name = _("Reviewed Items")
+    name = _("Reviewed & in progress")
     states = [
         question_wf_state[u"complete"].id,  
         motion_wf_state[u"complete"].id,
@@ -946,7 +946,7 @@ class MinistryItemsViewlet(ViewletBase):
 class DraftSittingsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')
     
-    name = _("Draft Minutes/Agenda")
+    name = _("Pending Agendas/Minutes")
     states = [   
         sitting_wf_state[u"draft-agenda"].id,  
         sitting_wf_state[u"draft-minutes"].id,

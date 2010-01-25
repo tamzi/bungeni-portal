@@ -6,11 +6,11 @@
   <table class="listing">
     <thead>
       <tr>
-        <th> Group </th>
-        <th> Type </th>
-        <th> from </th>
-        <th> to </th>            
-        <th> Title </th>
+        <th i18n:translate="office_held"> Office </th>
+        <th i18n:translate="office_type"> Type </th>
+        <th i18n:translate="office_title"> Title </th>        
+        <th i18n:translate="office_from"> From </th>
+        <th i18n:translate="office_to"> To </th>            
       </tr>
     </thead>
     <tbody>

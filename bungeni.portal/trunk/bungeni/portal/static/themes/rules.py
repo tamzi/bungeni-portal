@@ -200,7 +200,7 @@ def drop_contentActions(content, theme, resource_fetcher, log):
     """
     content_item = pq(theme('#portal-column-content'))
     if not pq(theme('#portal-personaltools')).filter('#user-name'):
-        content_item.remove('.contentActions')
+        content_item.remove('#plone-contentmenu-workflow')
 
         
 def move_portlet(content, theme, resource_fetcher, log):
@@ -221,6 +221,14 @@ def documentActions_links(content, theme, resource_fetcher, log):
         if link_value in (unicode(content_value)):
             new_content = content_value.replace('/'+link_value, '/plone/'+link_value)
             content_node.replaceWith('<div class="documentActions">' + new_content + '</div>')
+
+def add_ArchiveDates(content, theme, resource_fetcher, log, portlet_id):
+    """Move the ArchiveDates portlet to the top of the business and whats-on pages
+    """
+    portletContent = theme(portlet_id).html().replace('/++resource++calbtn.gif', '++resource++calbtn.gif')
+    theme(portlet_id).empty()
+    content('.contentActions').after(portletContent)
+
 
 def match_request(content, theme, resource_fetcher, log):
     if str(content('head').html()) is not None and "Not Found" in str(content('head').html()):

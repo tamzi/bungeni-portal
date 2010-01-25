@@ -21,8 +21,8 @@
          class="workspace-member" />
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="member-links" />
-  <match path="regex:^/business(/whats-on/*|/|$)$"  class="load-whatson-navigation" />  
-  <match path="/business/"  class="load-business-navigation" />
+  <match path="regex:^/business(/$|$)$"  class="load-whatson-navigation" />  
+  <match path="regex:^(/business/.*)"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
   <match path="/archive/"  class="load-archive-navigation" />
   <match path="/admin/"  class="load-admin-navigation" />  
@@ -57,13 +57,18 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace_link"
              pyarg-workspace_id="#user-workspace-id"/>
    </rule>
-  
 
   <rule class="load-whatson-navigation">
     <drop content="#portal-column-one" />
-    <prepend content="#viewlet-above-content"
-             theme=".main-content" />    
-  </rule>  
+    <prepend href="/business/whats-on"
+             theme="//head"
+             content="//head" />        
+    <prepend href="/business/whats-on"    
+            content="#viewlet-above-content"
+            theme="children:#portal-column-content" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_ArchiveDates"
+             pyarg-portlet_id="#viewlet-above-content"/>    
+  </rule>      
   
   <rule class="load-business-navigation">
     <append href="/plone/business"
@@ -76,7 +81,7 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
     <drop content="ul#portal-personaltools > li:nth-child(7)" />
   </rule>
-    
+
   <rule class="load-member-navigation">
     <append href="/plone/members"
             content="#portal-globalnav > li:not(:first-child)"

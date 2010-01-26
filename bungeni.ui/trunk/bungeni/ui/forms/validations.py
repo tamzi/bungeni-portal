@@ -32,7 +32,7 @@ def validate_start_date_within_parent( parent, data ):
     It must not start before the contextParents start date or end
     after the contextsParents end date"""
     errors =[]   
-    if data['start_date'] is not None:
+    if data.get('start_date',None):
         start = get_date(data['start_date'])    
         if getattr(parent, 'start_date', None):
             pstart = get_date(parent.start_date)
@@ -53,7 +53,7 @@ def validate_start_date_equals_end_date(action, data, context, container):
     It must not start before the contextParents start date or end
     after the contextsParents end date"""
     errors =[]   
-    if data['start_date'] and  data['end_date']is not None:
+    if data.get('start_date',None) and data.get('end_date', None):
         start = get_date(data['end_date']) 
         end = get_date(data['start_date'])   
         if start != end:
@@ -70,7 +70,7 @@ def validate_end_date_within_parent( parent, data ):
     after the context.Parents end date    
     """    
     errors =[]   
-    if data['end_date'] is not None:
+    if data.get( 'end_date', None):
         end = get_date(data['end_date'])                
         if getattr(parent, 'start_date', None):
             pstart = get_date(parent.start_date)
@@ -429,14 +429,12 @@ def validate_venues(action, data, context, container):
         svenue = session.query(domain.Venue).get(venue_id)            
     else:
         return []
-    if data['start_date']:
-        start = data['start_date']
-    else:
-        return []        
-    if data['end_date']:            
-        end = data['start_date']
-    else:
-        return []        
+        
+    start = data.get('start_date')    
+    end = dataget('end_date')
+    if not(start and end):
+        return []
+                
     for booking in  venue.check_venue_bookings( start, end, svenue, sitting):
         errors.append(
             interface.Invalid(
@@ -484,7 +482,7 @@ def validate_recurring_sittings(action, data, context, container):
                 errors.append(interface.Invalid(
                     _(u"One or more events would be scheduled for $F, which is "
                       "after the scheduling group's end date.",
-                      mapping=datetimedict.fromdate(date)),
+                      mapping={'F':datetimedict.fromdate(date)}),
                     "repeat" if repeat else "repeat_until",
                     ))
                 break
@@ -512,8 +510,8 @@ def validate_recurring_sittings(action, data, context, container):
     return errors
 
 def validate_non_overlapping_sitting(action, data, context, container, *fields):
-    start = data['start_date']
-    end = data['end_date']
+    start = data.get('start_date')
+    end = data.get('end_date',None)
 
     if not fields:
         fields = "start_date", "end_date"
@@ -528,7 +526,7 @@ def validate_non_overlapping_sitting(action, data, context, container, *fields):
             return [interface.Invalid(
                 _(u"One or more events would be scheduled for $F, which "
                   "overlaps with an existing sitting.",
-                  mapping=datetimedict.fromdatetime(start)),
+                  mapping={'F':datetimedict.fromdatetime(start)}),
                 *fields)]        
     return []
 

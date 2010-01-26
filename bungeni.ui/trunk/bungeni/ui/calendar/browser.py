@@ -38,6 +38,7 @@ from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import is_ajax_request
+from bungeni.ui.utils import get_wf_state
 from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
@@ -160,7 +161,9 @@ def create_sittings_map(sittings, request):
         end_date = utils.timedict(
             sitting.end_date.hour,
             sitting.end_date.minute)
-
+        
+        status = get_wf_state(sitting)
+        
         mapping[day, hour] = {
             'url': "%s/schedule" % absoluteURL(sitting, request),
             'record': sitting,
@@ -169,6 +172,7 @@ def create_sittings_map(sittings, request):
             'span': sitting.end_date.hour - sitting.start_date.hour,
             'formatted_start_time': start_date,
             'formatted_end_time': end_date,
+            'status' : status,
         }
         
         # make sure start- and end-date is the same DAY

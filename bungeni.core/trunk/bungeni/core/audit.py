@@ -118,6 +118,8 @@ class AuditorFactory( object ):
             if hasattr(object, 'note') and len(comment)>1:
                 object.note = comment
         wf = IWorkflowInfo(object)  
+        if hasattr(object, 'status_date'):
+            object.status_date = datetime.now()
         if event.source:
             #get human readable titles for workflow state
             event_title = wf.workflow().workflow.states[event.source].title

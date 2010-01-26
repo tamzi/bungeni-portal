@@ -1846,6 +1846,8 @@ class ConstituencyDescriptor( ModelDescriptor ):
 schema_invariants = [EndAfterStart]
         
 class ProvinceDescriptor( ModelDescriptor ):
+    display_name = _(u"Province")
+    container_name = _(u"Provinces")
     fields = [
         dict( name="province_id", omit=True ),
         dict( name="province", 
@@ -1855,6 +1857,8 @@ class ProvinceDescriptor( ModelDescriptor ):
         ]
         
 class RegionDescriptor( ModelDescriptor ):
+    display_name = _(u"Region")
+    container_name = _(u"Regions")
     fields = [
         dict( name="region_id", omit=True ),
         dict( name="region", 

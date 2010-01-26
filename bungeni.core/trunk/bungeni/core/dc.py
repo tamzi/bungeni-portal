@@ -453,3 +453,27 @@ class UserDelegationDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):            
         return u""    
+        
+class ProvinceDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IProvince)       
+      
+    @property
+    def title(self):  
+        return self.context.province
+
+    @property
+    def description(self):            
+        return u""  
+        
+class RegionDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IRegion)   
+
+    @property
+    def title(self):  
+        return self.context.region
+
+    @property
+    def description(self):            
+        return u""      
+    
+                

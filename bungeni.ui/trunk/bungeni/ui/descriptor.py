@@ -437,7 +437,6 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             add=False, edit=False, view=False, listing=True,
             listing_column=current_titles_in_group_column("membership_id", 
                 _(u"Roles/Titles"))),
-        dict( name="status", omit=True ),
         dict( name="membership_type", omit=True ),   
         ]
         
@@ -626,6 +625,7 @@ class GroupDescriptor( ModelDescriptor ):
                     edit_widget=DateWidget, 
                     add_widget=DateWidget),        
         dict( name="status", omit=True),
+        dict( name="status_date", omit=True),
         ]
 
     schema_invariants = [EndAfterStart]
@@ -678,6 +678,8 @@ class ParliamentDescriptor( GroupDescriptor ):
               add_widget=DateWidget 
               ),
         dict( name="status", omit=True),
+        dict( name="status_date", omit=True,
+                ) ,        
         dict( name="type", omit=True),
         ]
     schema_invariants = [EndAfterStart, ElectionAfterStart]
@@ -835,6 +837,8 @@ class AddressDescriptor ( ModelDescriptor ):
             label=_(u"Instant Messenger Id"), 
             description=_(u"ICQ, AOL IM, GoogleTalk...")),
         dict( name="status", omit=True ),
+        dict( name="status_date", omit=True,
+                ) ,        
         ]
         
     schema_invariants = [POBoxOrAddress]
@@ -1077,6 +1081,8 @@ class GovernmentDescriptor( ModelDescriptor ):
               differ=diff.HTMLDiff,
             ),
         dict( name="status", omit=True), 
+        dict( name="status_date", omit=True
+                ) ,        
         dict( name="type", omit=True ),  
         ]
     
@@ -1104,6 +1110,12 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
                 listing=True,
             edit_widget=DateWidget, add_widget=DateWidget),
         dict(name="status", omit=True),
+        dict( name="status_date", add=False, edit=False,
+            label=_(u"Status date"),        
+            view=False, listing=False,
+            listing_column=day_column("status_date", 
+                _(u'Status date')),
+                ) ,        
         dict(name="notes",
             property=schema.Text(title=_(u"Notes") , required=False),
                 view_widget=HTMLDisplay,
@@ -1230,7 +1242,13 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             listing_column=workflow_column("status","Workflow status"),
             add=False,
             listing=True, 
-            omit=False ),           
+            omit=False ),     
+        dict( name="status_date", add=False, edit=False,
+            view=True, listing=True,
+            label=_(u"Status date"),            
+            listing_column=day_column("status_date", 
+                _(u'Status date')),
+                ) ,                  
         dict( name="note", 
             label=_(u"Notes"), 
             description="Recommendation note", 

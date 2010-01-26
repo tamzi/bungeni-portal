@@ -11,7 +11,7 @@
   <include package="Products.ATContentTypes" />
   <include package="Products.CMFPlone.browser" />
   
-  <five:registerPackage package="." />  
+  
   <include file="skins.zcml" />
 
   <!-- The support page -->
@@ -21,6 +21,8 @@
      template="skins/bungenicms_theme/support.pt"
      permission="zope2.View"
      />
+
+  <five:registerPackage package="." />    
   
   <genericsetup:registerProfile
      name="default"

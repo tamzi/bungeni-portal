@@ -350,4 +350,11 @@ class IReport(interface.Interface):
             
 class IUserDelegation(interface.Interface):
     pass
+
+class IProvince(interface.Interface):
+    pass
+    
+class IRegion(interface.Interface):
+    pass    
+
                 

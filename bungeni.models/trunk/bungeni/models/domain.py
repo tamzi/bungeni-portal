@@ -379,7 +379,7 @@ class AgendaItem( ParliamentaryItem ):
     """
     Generic Agenda Item that can be scheduled on a sitting
     """
-    #interface.implements( interfaces.IAgendaItem )
+    
     versions = one2many(
         "versions",
         "bungeni.models.domain.AgendaItemVersionContainer",
@@ -507,7 +507,9 @@ class Constituency( Entity ):
     """ a locality region, which elects an MP 
     """
     cdetail = one2many("cdetail", "bungeni.models.domain.ConstituencyDetailContainer", "constituency_id")
-    sort_replace = {'province_id': ['province'], 'region_id': ['region']}      
+    sort_replace = {'province_id': ['province'], 'region_id': ['region']}    
+    parliamentmembers = one2many("parliamentmembers", 
+                                 "bungeni.models.domain.MemberOfParliamentContainer", "constituency_id")      
     
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
@@ -516,13 +518,13 @@ class Region( Entity ):
     """
     Region of the constituency
     """
-    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "region" ) 
+    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "region_id" ) 
     
 class Province( Entity ):
     """
     Province of the Constituency
     """
-    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "province" )
+    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "province_id" )
     
 class Country( object ):
     """

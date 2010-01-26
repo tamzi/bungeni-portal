@@ -614,7 +614,7 @@
      menu="plone_contentmenu"
      for="bungeni.models.domain.User"
      title="Add Address..."
-     action="./adddresses/add"
+     action="./addresses/add"
      permission="bungeni.address.Add"
      order="100"
      />     

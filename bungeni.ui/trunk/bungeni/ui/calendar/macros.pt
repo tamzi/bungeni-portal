@@ -311,9 +311,9 @@
                   tal:repeat="day options/days"
                   tal:attributes="id string:tdid-${day/id};
                                   class python: default + ' ' + (day['today'] and 'today' or '')">
-                <a tal:attributes="href day/url">
+                <!--a tal:attributes="href day/url"-->
                   <b tal:content="day/formatted" />
-                </a>
+                <!--/a-->
               </th>
             </tr>
           </thead>

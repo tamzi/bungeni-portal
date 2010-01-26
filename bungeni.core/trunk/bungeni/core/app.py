@@ -212,6 +212,14 @@ class AppSetup(object):
         records[u"constituencies"] = domain.ConstituencyContainer()
         provideAdapter(location.ContainerLocation(records[u"constituencies"]),
                        (implementedBy(domain.Constituency), ILocation))
+                       
+        records[u"provinces"] = domain.ProvinceContainer()
+        provideAdapter(location.ContainerLocation(records[u"provinces"]),
+                       (implementedBy(domain.Province), ILocation))
+                       
+        records[u"regions"] = domain.RegionContainer()
+        provideAdapter(location.ContainerLocation(records[u"regions"]),
+                       (implementedBy(domain.Region), ILocation))                                              
 
         records[u"offices"] = domain.OfficeContainer()
         provideAdapter(location.ContainerLocation(records[u"offices"]),

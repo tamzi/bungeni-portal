@@ -696,7 +696,7 @@
     var i=0;
     var table_columns = table.getColumnSet();
     
-  
+    
     for (i=0;i<table_columns.keys.length;i++){
         var input = document.createElement('input');
         input.setAttribute('type', 'text');

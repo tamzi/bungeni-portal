@@ -517,14 +517,15 @@ class ReportingView(form.PageForm):
                 context.start_date.year,
                 context.start_date.month,
                 context.start_date.day) 
-        
+        '''
         while not ISchedulingContext.providedBy(context):
             context = context.__parent__
             if context is None:
-                raise RuntimeError(
-                    "No scheduling context found.")
-        
-        self.scheduling_context = context
+                break;
+                #raise RuntimeError(
+                #    "No scheduling context found.")
+        if context is not None:
+            self.scheduling_context = context'''
 
     class IReportingForm(interface.Interface):
         doc_type = schema.Choice(
@@ -580,6 +581,13 @@ class ReportingView(form.PageForm):
                                 required=False,
                                 description=u'Optional note regarding this report'
                         )
+        draft = schema.Choice(
+                    title = _(u"Include draft items"),
+                    description = _(u"Whether or not to include dratf items"),
+                    values= ['Yes',
+                             'No'],
+                    required=True
+                    )
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields = form.Fields(IReportingForm)
     form_fields['item_types'].custom_widget = horizontalMultiCheckBoxWidget
@@ -610,6 +618,7 @@ class ReportingView(form.PageForm):
             motion_options = 'Title'
             tabled_document_options = 'Title'
             note = None
+            draft = 'No'
         self.adapters = {
             self.IReportingForm: context
             }
@@ -855,12 +864,12 @@ class ReportingView(form.PageForm):
 
     def generate(self, date, time_span):
         raise NotImplementedError("Must be implemented by subclass.")
-
-    def get_sittings(self, start_date, time_span):
+    
+    '''def get_sittings(self, start_date, time_span):
         end_date = self.get_end_date(start_date, time_span)
         container = self.scheduling_context.get_sittings(
             start_date=start_date, end_date=end_date)
-        return container.values()
+        return container.values()'''
 
     def get_end_date(self, start_date, time_span):
         if time_span is TIME_SPAN.daily:
@@ -893,7 +902,7 @@ class AgendaReportingView(ReportingView):
             'session': session,
             'country': u"Republic of Kenya".upper(),
             'assembly': u"National Assembly".upper(),
-            'sittings': self.get_sittings(date, time_span),
+         #   'sittings': self.get_sittings(date, time_span),
             'display_minutes': self.display_minutes,
             }
 

@@ -17,5 +17,6 @@ bakname="configure-$dname.zcml"
 cp "$full_path" "$2/$file_path/$bakname"
 rm out.txt 
 sed -i 's/postgres\:\/\/localhost\/bungeni/'$FILE_DATA'/g' $full_path
+cat $full_path | grep $1
 
 

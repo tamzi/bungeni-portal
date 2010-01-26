@@ -696,9 +696,10 @@ parliamentary_items = rdb.Table(
     "parliamentary_items",
     metadata,
     rdb.Column( "parliamentary_item_id", rdb.Integer, ItemSequence, primary_key=True ),
+    #XXX it should be nullable = False, but that crashes agendaitems add
     rdb.Column( "parliament_id", rdb.Integer, 
         rdb.ForeignKey('parliaments.parliament_id'),
-        nullable=False), 
+        nullable=True), 
     rdb.Column( "owner_id", rdb.Integer, 
         rdb.ForeignKey('users.user_id'), 
         nullable=False ),

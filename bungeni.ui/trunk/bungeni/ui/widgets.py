@@ -467,12 +467,15 @@ class TextDateWidget(SelectDateWidget):
     
     def _toFieldValue(self, date):
         """convert the input value to an value suitable for the field."""
-        try:
-            return  datetime.datetime.strptime(date,"%Y-%m-%d").date()
-        except ValueError, e:
-            if date=="":
-                return
-            raise ConversionError(_(u"Incorrect string data for date"), e)                
+        if (date == self.context.missing_value) and self.required:
+            return self.context.missing_value
+        else:
+            try:
+                return  datetime.datetime.strptime(date,"%Y-%m-%d").date()
+            except ValueError, e:
+                if date=="":
+                    return
+                raise ConversionError(_(u"Incorrect string data for date"), e)                
             
     
     def _toFormValue(self, value):

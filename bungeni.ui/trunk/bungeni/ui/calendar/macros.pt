@@ -343,6 +343,9 @@
                         
                         <span class="sitting-type" 
                               tal:content="string:(${sitting/record/sitting_type/sitting_type})" />
+                        <span class="discreet"
+                                i18n:translate=""
+                                tal:content="sitting/status" />                        
                       </a>
                     </div>
 

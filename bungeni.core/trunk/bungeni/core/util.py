@@ -19,14 +19,14 @@ zcml_slug = """\
      
   <db:bind
      engine="bungeni-db"
-     metadata="bungeni.core.metadata" />
+     metadata="bungeni.models.metadata" />
 
   <db:bind
      engine="bungeni-db"
      metadata="alchemist.security.metadata" />     
 
   <!-- Setup Core Model --> 
-  <include package="bungeni.core" file="catalyst.zcml"/>
+  <include package="bungeni.ui" file="catalyst.zcml"/>
  
 </configure>
 """%( config.DATABASE_URL )
@@ -38,7 +38,7 @@ def cli_setup( **kw ):
     db = create_engine( config.DATABASE_URL, **kw )
     mdset = []
     
-    from bungeni.core.schema import metadata
+    from bungeni.models.schema import metadata
     metadata.bind = db
     mdset.append( metadata )
     

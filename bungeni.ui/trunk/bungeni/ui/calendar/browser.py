@@ -25,6 +25,8 @@ from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
 from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
+from zope.security import checkPermission
+
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
@@ -163,17 +165,19 @@ def create_sittings_map(sittings, request):
             sitting.end_date.minute)
         
         status = get_wf_state(sitting)
-        
-        mapping[day, hour] = {
-            'url': "%s/schedule" % absoluteURL(sitting, request),
-            'record': sitting,
-            'class': u"sitting",
-            'actions': get_sitting_actions(sitting, request),
-            'span': sitting.end_date.hour - sitting.start_date.hour,
-            'formatted_start_time': start_date,
-            'formatted_end_time': end_date,
-            'status' : status,
-        }
+               
+        proxied = ProxyFactory(sitting)
+        if checkPermission("zope.View", proxied):                          
+            mapping[day, hour] = {
+                'url': "%s/schedule" % absoluteURL(sitting, request),
+                'record': sitting,
+                'class': u"sitting",
+                'actions': get_sitting_actions(sitting, request),
+                'span': sitting.end_date.hour - sitting.start_date.hour,
+                'formatted_start_time': start_date,
+                'formatted_end_time': end_date,
+                'status' : status,
+            }
         
         # make sure start- and end-date is the same DAY
         assert (sitting.start_date.day == sitting.end_date.day) and \

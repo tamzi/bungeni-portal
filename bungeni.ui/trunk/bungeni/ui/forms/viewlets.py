@@ -442,23 +442,28 @@ class ParliamentMembershipInfo(BungeniAttributeDisplay):
         self.query = None
         md = queryModelDescriptor(domain.MemberOfParliament)          
         self.form_fields=md.fields
-
-    def update(self):
-        """
-        refresh the query
-        """       
         session = Session()
         trusted = removeSecurityProxy(self.context)
         user_id = self.context.user_id
         parliament_id = trusted.group.parent_group_id
-        parent = self.context.__parent__
         self.query = session.query(domain.MemberOfParliament).filter(
             sql.and_(
             domain.MemberOfParliament.user_id == user_id,
             domain.MemberOfParliament.group_id == parliament_id)
             ).order_by(
             domain.MemberOfParliament.start_date.desc()) 
-        self.context = self.query.all()[0]
+        self.for_display = self.query.count() >0    
+        
+    def update(self):
+        """
+        refresh the query
+        """       
+        parent = self.context.__parent__
+        try:    
+            self.context = self.query.all()[0]
+        except IndexError:
+            self.context = None
+            return            
         self.context.__parent__= parent
         super( ParliamentMembershipInfo, self).update()        
         

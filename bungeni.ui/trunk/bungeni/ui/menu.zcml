@@ -738,6 +738,15 @@
      order="100"
      />
      
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.QuestionContainer"
+     title="Add Question..."
+     action="./add"
+     permission="bungeni.question.Add"
+     order="100"
+     />
+
      
 
   <browser:menuItem

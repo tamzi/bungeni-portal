@@ -101,7 +101,6 @@ div#portal-globalnav {
 
 /*Navigation styles - workspace*/
 .template-workspace div#portal-globalnav ul.level0 {
-  background-color: #a4bed7;
   height: 1.6em;
   line-height: normal;
   list-style-image: none;
@@ -118,17 +117,28 @@ div#portal-globalnav {
   line-height: 1.1em;
 }
 
-.template-workspace div#portal-globalnav ul.level0 a{
-  background-color: #a4bed7;
-  border-color: #a4bed7 #a4bed7 #a4bed7;
+.template-workspace div#portal-globalnav ul.level0 li a:hover{
+  background-color: #d4e2ef;
   margin-left: 8px;
+  height: 16px;
+  border: 1px solid #a4bed7;
+}
+
+.template-workspace div#portal-globalnav ul.level0 a{
+  background-color: #ffffff;
+  margin-left: 8px;
+  height: 16px;
+  border: 1px solid #a4bed7;
 }
 
 .template-workspace div#portal-globalnav ul.level0 ul.level1 a{
   background-color: #d4e2ef;
-  border-color: #d4e2ef #d4e2ef #d4e2ef;
   margin-left: 8px;
   margin-top: 2px;
+  border-top: 0.5px solid #d4e2ef;
+  border-left: 1px solid #d4e2ef;
+  border-right: 1px solid #d4e2ef;
+  border-bottom: 0px solid #d4e2ef;  
 }
 
 .template-workspace div#portal-globalnav ul.level0 li.selected {
@@ -139,18 +149,41 @@ div#portal-globalnav {
 
 .template-workspace div#portal-globalnav ul.level0 li.selected a{
   background-color:#d4e2ef;
+  border-top: 0.5px solid #a4bed7;
+  border-left: 1px solid #a4bed7;
+  border-right: 1px solid #a4bed7;
+  border-bottom: 0px solid #a4bed7;  
+}
+
+.template-workspace div#portal-globalnav ul.level0 ul.level1 li.selected a{
+  background-color:#d4e2ef;
   border-top: 0.5px solid #d4e2ef;
   border-left: 1px solid #d4e2ef;
   border-right: 1px solid #d4e2ef;
-  border-bottom: 5px solid #d4e2ef;  
+  border-bottom: 0px solid #d4e2ef;    
 }
 
+.template-workspace div#portal-globalnav ul.level1 li a:hover {
+  color: #000;
+  background: #d4e2ef;
+  border-top: 0.5px solid #d4e2ef;
+  border-left: 1px solid #d4e2ef;
+  border-right: 1px solid #d4e2ef;
+  border-bottom: 0px solid #d4e2ef;    
+  text-decoration: underline;
+}
 
 .template-workspace div#portal-globalnav ul.level0 li#portaltab- a {
-  background-color: #a4bed7;
+  background-color: #ffffff;
   border-color: #a4bed7 #a4bed7 #a4bed7;
   font-weight: normal;
   height: 1em;
+  border-top: 1px solid #a4bed7;
+  border-left: 1px solid #a4bed7;
+  border-right: 1px solid #a4bed7;
+  border-bottom: 0px solid #d4e2ef;
+  padding:0 10px;
+  height: 1.45em;    
 }
 
 .template-workspace div#portal-globalnav ul.level1 {
@@ -158,9 +191,8 @@ div#portal-globalnav {
 }
 
 .template-workspace div#portal-globalnav-bottom {
-  padding-top:1.7em;
-  background-color: #d4e2ef;  
-  border: 1px solid #d4e2ef;
+  padding-top:1.8em;
+  border: 1px solid #a4bed7;
   background:#d4e2ef none repeat scroll 0 0;
 }
 
@@ -168,8 +200,8 @@ div#portal-globalnav {
   margin-top: -2em;
   margin-bottom: 2em;
   background-color: #d4e2ef;
-  border-top: 1px solid #d4e2ef;
-  border-bottom: 1px solid #d4e2ef;
+  border-top: 1px solid #a4bed7;
+  border-bottom: 0px;
   float:right;
   padding:0 1em;
 }
@@ -259,12 +291,12 @@ div#portal-globalnav {
 }
 
 .template-portal div#portal-globalnav {
-  height:1.5em;
+  height:1.6em;
   position:relative;
 }
 
 .template-portal div#portal-globalnav ul.level0 {
-  background-color: #faa631;
+  background-color: #ffffff;
   height: auto;
   line-height: normal;
   list-style-image: none;
@@ -274,62 +306,87 @@ div#portal-globalnav {
   margin-left: 0em;
   white-space: nowrap;
   width: 100%;
-  height:1.7em;
+  height:1.5em;
+  border-bottom: 1px solid #fb9c14;
 }
 
 .template-portal div#portal-globalnav ul.level0 a{
-  background-color: #faa631;
+  background-color: #ffffff;
   border-color: #faa631 #faa631 #faa631;
   margin-left: 8px;
+  height: 15px;
+  border-bottom: 0px;
+}
+
+.template-portal div#portal-globalnav ul.level0 li a:hover{
+  background-color: #f8ba61;
+  border-color: #faa631 #faa631 #faa631;
+  margin-left: 8px;
+  height: 15px;
+  border-bottom: 0px;
 }
 
 .template-portal div#portal-globalnav ul.level0 ul.level1 a{
-  background-color: #fae2a1;
-  border-color: #fae2a1 #fae2a1 #fae2a1;
+  background-color: #f8ba61;
+  border-color: #f8ba61 #f8ba61 #f8ba61;
   margin-left: 8px;
+  padding-top: 3px;
 }
 
 .template-portal div#portal-globalnav ul.level0 li.selected {
-  background-color:#fae2a1;
-  border-top: 0.5px solid #fae2a1;
+  background-color:#f8ba61;
+  border-top: 0.5px solid #f8ba61;
 }
 
 
 .template-portal div#portal-globalnav ul.level0 li.selected a{
-  background-color: #fae2a1;
-  border-top: 0.5px solid #fae2a1;
-  border-left: 1px solid #fae2a1;
-  border-right: 1px solid #fae2a1;
-  border-bottom: 5px solid #fae2a1;  
+  background-color: #f8ba61;
+  border-top: 0.5px solid #f8ba61;
+  border-left: 1px solid #f8ba61;
+  border-right: 1px solid #f8ba61;
+  border-bottom: 0px solid #f8ba61;  
 }
 
 .template-portal div#portal-globalnav ul.level0 li#portaltab- a {
-  background-color: #faa631;
-  border-color: #faa631 #faa631 #faa631;
+  background-color: #ffffff;
   font-weight: normal;
-  height: 1em;
+  height: 1.35em;
+  border-top: 0.5px solid #f8ba61;
+  border-left: 1px solid #f8ba61;
+  border-right: 1px solid #f8ba61;
+  border-bottom: 0px solid #f8ba61;   
 }
 
 .template-portal div#portal-globalnav-bottom {
   padding-top:1.8em;
-  background-color: #fae2a1;  
-  border: 1px solid #fae2a1;
-  background:#fae2a1 none repeat scroll 0 0;
+  background-color: #f8ba61;  
+  border: 1px solid #FB9C14;
+  background:#f8ba61 none repeat scroll 0 0;
 }
 
 .template-portal #portal-personaltools {
-  background-color: #fae2a1;
+  background-color: #f8ba61;
   margin-top: -2em;
   margin-bottom: 2em;
   background-color: #;
-  border-top: 1px solid #fae2a1;
-  border-bottom: 1px solid #fae2a1;
+  border-top: 1px solid #f8ba61;
+  border-bottom: 1px solid #f8ba61;
   float:right;
   padding:0 1em;
 }
 
 /*on the homepage - display the first tab as selected*/
-.template-portal .section-front-page div#portal-globalnav ul.level0 li#portaltab- a,
+
+.section-front-page div#portal-globalnav ul.level0 li#portaltab- a {
+  background-color: #f8ba61;
+  border-color: #faa631 #faa631 #faa631;
+  margin-left: 8px;
+  height: 15px;
+  border-bottom: 0px;  
+      
+}
+
+.section-front-page .template-portal div#portal-globalnav ul.level0 li.selected a,
 .template-portal .section-bungeni-workspace_archive div#portal-globalnav ul.level0 li#portaltab- a,
 .template-portal .section-bungeni-calendar div#portal-globalnav ul.level0 li#portaltab- a
 {
@@ -389,7 +446,7 @@ div#portal-globalnav {
 }
 
 .template-member-space div#portal-globalnav ul.level0 {
-  background-color: #a9cd76;
+  background-color: #ffffff;
   height: auto;
   line-height: normal;
   list-style-image: none;
@@ -400,12 +457,22 @@ div#portal-globalnav {
   white-space: nowrap;
   width: 100%;
   height:1.7em;
+  border-bottom:1px solid #A9CD76;
 }
 
 .template-member-space div#portal-globalnav ul.level0 a{
-  background-color: #a9cd76;
+  background-color: #ffffff;
   border-color: #a9cd76 #a9cd76 #a9cd76;
   margin-left: 8px;
+  height: 17px;
+}
+
+
+.template-member-space div#portal-globalnav ul.level0 li a:hover{
+  background-color: #d1eaae;
+  border-color: #a9cd76 #a9cd76 #a9cd76;  
+  margin-left: 8px;
+  height: 17px;
 }
 
 .template-member-space div#portal-globalnav ul.level0 li.selected {
@@ -461,7 +528,17 @@ div#portal-globalnav ul.level0 li.plain a{
   padding-top:0px;
 }
 
-div#portal-globalnav ul.level1{
+.template-portal div#portal-globalnav ul.level1{
+  width: 75em;
+  height: 1.50em;
+}
+
+.template-workspace div#portal-globalnav ul.level1{
+  width: 70em;
+  height: 1.60em;
+}
+
+.template-member-space div#portal-globalnav ul.level1{
   width: 70em;
   height: 1.60em;
 }
@@ -497,8 +574,25 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
 }
 
 
-#portal-breadcrumbs {
+.template-portal #portal-breadcrumbs {
+  margin-top: 1.5em;
+  background-color: #ffffff;
+  border-top:1px solid #FAAD5F;  
   border-bottom:1px solid #FAAD5F;
+}
+
+.template-workspace #portal-breadcrumbs {
+  margin-top: 1.5em;
+  background-color: #ffffff;
+  border-top:1px solid #d4e2ef;  
+  border-bottom:1px solid #d4e2ef;
+}
+
+.template-member-space #portal-breadcrumbs {
+  margin-top: 1.5em;
+  background-color: #ffffff;
+  border-top:1px solid #A9CD76;  
+  border-bottom:1px solid #A9CD76;
 }
 
 .contentActions {

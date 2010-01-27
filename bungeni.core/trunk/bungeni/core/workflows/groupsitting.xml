@@ -132,7 +132,7 @@
      trigger="manual"
      source="draft-agenda"
      destination="published-agenda"
-     action=""
+     action="bungeni.core.workflows.groupsitting.actions.publish_agenda"
      condition=""
      require_confirmation="false"
      permission="bungeni.sitting.ChangeStatus"     

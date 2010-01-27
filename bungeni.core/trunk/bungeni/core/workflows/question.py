@@ -26,6 +26,10 @@ class conditions:
         return (context.ministry_id is not None) and (
             context.response_type == u"W")
 
+    @staticmethod
+    def is_oral_response(info, context):
+        return context.response_type == u"O"
+
 class actions:
     @staticmethod
     def denyAllWrites(question):

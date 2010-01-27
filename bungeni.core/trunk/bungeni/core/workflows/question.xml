@@ -58,6 +58,13 @@
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
   </state>
 
+  <state id="schedule_pending" title="Schedule pending">
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
+    <grant permission="bungeni.response.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
+    <grant permission="bungeni.response.View" role="bungeni.Clerk" />         
+  </state> 
+
   <state id="scheduled" title="Scheduled">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.Add" role="bungeni.Clerk" />
@@ -65,6 +72,10 @@
     <grant permission="bungeni.response.View" role="bungeni.Clerk" />         
   </state>
 
+  
+  <state id="debate_adjourned" title="Debate adjourned">
+  </state>
+  
   <state id="response_pending" title="Pending response">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <grant permission="bungeni.response.Edit" role="bungeni.Minister" />   
@@ -295,11 +306,32 @@
       Questions with the “require a Written response” flag do not appear as questions available for scheduling.
     -->    
   
+  
+  <!--
+  An admissible question has to be made available for scheduling 
+  -->
+  
+   <transition 
+     id="allow_schedule"
+     title="Make available for scheduling"
+     trigger="manual"
+     source="admissible"
+     destination="schedule_pending"
+     permission="bungeni.question.Schedule"
+     action=""
+     condition="bungeni.core.workflows.question.conditions.is_oral_response"
+     event=".interfaces.IQuestionSchedulePendingEvent"
+     /> 
+  
+  
+  
   <transition 
      id="schedule"
      title="Schedule"
-     trigger="manual"
-     source="admissible"
+     trigger="system"
+     source="schedule_pending
+            postponed
+            debate_adjourned"
      destination="scheduled"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.schedule"
@@ -441,15 +473,16 @@
      title="Schedule"
      trigger="manual"
      source="deferred"
-     destination="scheduled"
+     destination="schedule_pending"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.schedule"
-     condition="bungeni.core.workflows.question.conditions.is_scheduled"
+     condition="bungeni.core.workflows.question.conditions.is_oral_response"
      event=""
      />
 
   <!--
-      in a sitting the question is either answered or it gets postopned  
+      in a sitting the question is debated, it gets postponed if it could not be debated,
+      or it may be debated partially and the debate is continued in another sitting 
     -->
   
   <transition 
@@ -462,7 +495,8 @@
      action="bungeni.core.workflows.question.actions.postpone"
      condition=""
      event=".interfaces.IQuestionPostponedEvent"
-     />          
+     />      
+         
   <transition 
      id="respond-sitting"
      title="Respond"
@@ -475,21 +509,19 @@
      event=""
      />
 
-  <!--
-      postponed questions are rescheduled
-    -->           
-  
   <transition 
-     id="schedule-postponed"
-     title="Schedule"
+     id="continue-debate"
+     title="Debate continues"
      trigger="manual"
-     source="postponed"
-     destination="scheduled"
+     source="scheduled"
+     destination="debate_adjourned"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.question.actions.schedule"
-     condition="bungeni.core.workflows.question.conditions.is_scheduled"
-     event=".interfaces.IQuestionScheduledEvent"
+     action="bungeni.core.workflows.question.actions.respondSitting"
+     condition=""
+     event=""
      />
+
+
   
   <!--
       postponed question can elapse
@@ -556,6 +588,7 @@
              complete
              admissible
              clarify_mp
+             schedule_pending
              scheduled
              deferred
              postponed"

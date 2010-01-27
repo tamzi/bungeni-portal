@@ -7,6 +7,8 @@ from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 
 from ore.workflow.interfaces import IWorkflowInfo, InvalidTransitionError
+from ore.workflow.interfaces import NoTransitionAvailableError
+
 import ore.workflow.workflow
 from ore.alchemist import Session
 
@@ -180,13 +182,25 @@ def response_allow_submit(info, context):
     if instance.response_text is None:
         return False
     else:
-        return True                  
-
-  
+        return True                    
             
 def dissolveChildGroups(groups, context):
     for group in groups:
-        IWorkflowInfo(group).fireTransition('dissolve')
+        IWorkflowInfo(group).fireTransition('dissolve', check_security=False)
         
           
+def schedule_sitting_items(info, context):
+    instance = removeSecurityProxy(context)
+    for schedule in instance.item_schedule:
+        item = schedule.item
+        if interfaces.IQuestion.providedBy(item):
+            try:
+                IWorkflowInfo(item).fireTransitionToward('scheduled', 
+                                check_security=False)            
+            except NoTransitionAvailableError:
+                import pdb; pdb.set_trace()                                
+            #IWorkflowInfo(item).fireTransition('schedule', check_security=False)
+        
+
+
     

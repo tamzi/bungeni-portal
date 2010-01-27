@@ -39,6 +39,9 @@ class IQuestionAnsweredEvent(IWorkflowTransitionEvent):
 class IQuestionDebatedEvent(IWorkflowTransitionEvent):   
     """ A question was debated in the plenary """ 
     
+class IQuestionSchedulePendingEvent(IWorkflowTransitionEvent): 
+    """ a question is made available for scheduling """
+    
 #######################
 # Resonses to questions
 #######################

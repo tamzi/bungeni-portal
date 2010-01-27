@@ -75,8 +75,7 @@
      id="deactivate"
      title="Deactivate"
      trigger="manual"
-     source="active 
-            dissolved"
+     source="active"
      destination="draft"
      action="bungeni.core.workflows.groups.actions.deactivate"
      permission="bungeni.group.Manage"

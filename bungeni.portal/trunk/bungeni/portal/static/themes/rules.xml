@@ -22,7 +22,7 @@
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="member-links" />
   <match path="regex:^/business(/$|$)$"  class="load-whatson-navigation" />  
-  <match path="regex:^(/business/.*)"  class="load-business-navigation" />
+  <match path="regex:^(/business/.*|/business$)"  class="load-business-navigation" />
   <match path="/members/"  class="load-member-navigation" />
   <match path="/archive/"  class="load-archive-navigation" />
   <match path="/admin/"  class="load-admin-navigation" />  

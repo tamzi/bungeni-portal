@@ -306,7 +306,6 @@
 
  
   <rule class="primary">
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_request" />
     <drop theme=".workspace-tab"
           if-content="not:a[href*='committees/obj-'], a[href*='members/current/obj-']"/>     
     <append theme="//head" content="//head/meta" nocontent="ignore" />     

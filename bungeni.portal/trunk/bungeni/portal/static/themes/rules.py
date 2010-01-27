@@ -229,6 +229,11 @@ def add_ArchiveDates(content, theme, resource_fetcher, log, portlet_id):
     theme(portlet_id).empty()
     content('.contentActions').after(portletContent)
 
+def rewrite_request(request, response, response_headers, log):
+    
+    print "This is the request."
+    print request('base').attr('href')
+
 
 def match_request(content, theme, resource_fetcher, log):
     if str(content('head').html()) is not None and "Not Found" in str(content('head').html()):

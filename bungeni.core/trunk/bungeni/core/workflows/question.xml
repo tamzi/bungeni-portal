@@ -190,7 +190,7 @@
 
   <transition
      id="complete-speaker"
-     title="Complete"
+     title="Submit to the Speaker Office"
      trigger="manual"
      source="submitted
              received"

@@ -169,7 +169,7 @@
      source="draft-minutes"
      destination="published-minutes"
      action=""
-     condition=""
+     condition="bungeni.core.workflows.groupsitting.conditions.all_items_unscheduled"
      permission="bungeni.sitting.ChangeStatus"          
      require_confirmation="false"
      />         

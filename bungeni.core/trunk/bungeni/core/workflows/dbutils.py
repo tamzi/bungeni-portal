@@ -50,19 +50,6 @@ def removeQuestionFromItemSchedule(question_id):
         results[0].active = False
     
     
-def removeMotionFromItemSchedule(motion_id):
-    """
-    when a motion gets postponed the previous schedules of that
-    motion are invalidated so the do not show up in the schedule 
-    calendar any more
-    """            
-    session = Session()
-    active_motion_filter = rdb.and_( schema.items_schedule.c.item_id == motion_id,
-                                       schema.items_schedule.c.active == True)
-    item_schedule = session.query(domain.ItemSchedule).filter(active_motion_filter)
-    results = item_schedule.all()
-    assert (len(results) == 1)
-    results[0].active = False    
     
 def setQuestionSerialNumber(question):
     """

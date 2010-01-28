@@ -328,14 +328,13 @@
   <transition 
      id="schedule"
      title="Schedule"
-     trigger="system"
+     trigger="manual"
      source="schedule_pending
             postponed
             debate_adjourned"
      destination="scheduled"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.schedule"
-     condition="bungeni.core.workflows.question.conditions.is_scheduled"
      event=".interfaces.IQuestionScheduledEvent"
      />
   
@@ -409,15 +408,18 @@
 
   
   <transition 
-     id="elapse-pending"
+     id="elapse"
      title="Elapse"
      trigger="manual"
-     source="response_pending"
+     source="response_pending
+            deferred
+            postponed"
      destination="elapsed"
      permission="bungeni.question.Write_answer"
      action="bungeni.core.workflows.question.actions.elapse"
      condition=""
      event=""
+     require_confirmation="true"     
      />
   
   <!--
@@ -429,24 +431,17 @@
      id="defer"
      title="Defer"
      trigger="manual"
-     source="admissible"
+     source="admissible
+            postponed
+            schedule_pending
+            debate_adjourned"
      destination="deferred"
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.actions.defer"
      condition=""
      event=".interfaces.IQuestionDeferredEvent"
      />
-  <transition 
-     id="elapse-defered"
-     title="Elapse"
-     trigger="manual"
-     source="deferred"
-     destination="elapsed"
-     permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.question.actions.elapse"
-     condition=""
-     event=""
-     />
+
   
   <!--
       a deferred question may be send to a ministry for a written response     
@@ -497,21 +492,11 @@
      event=".interfaces.IQuestionPostponedEvent"
      />      
          
-  <transition 
-     id="respond-sitting"
-     title="Respond"
-     trigger="system"
-     source="scheduled"
-     destination="responded"
-     permission="bungeni.question.Respond"
-     action="bungeni.core.workflows.question.actions.respondSitting"
-     condition=""
-     event=""
-     />
+
 
   <transition 
      id="continue-debate"
-     title="Debate continues"
+     title="Debate adjourned"
      trigger="manual"
      source="scheduled"
      destination="debate_adjourned"
@@ -523,21 +508,7 @@
 
 
   
-  <!--
-      postponed question can elapse
-    -->           
-  
-  <transition 
-     id="elapse-postponed"
-     title="Elapse"
-     trigger="manual"
-     source="postponed"
-     destination="elapsed"
-     permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.question.actions.elapse"
-     condition=""
-     event=""
-     />
+ 
   
   <!--
       postponed question can be send to a ministry for a written response       

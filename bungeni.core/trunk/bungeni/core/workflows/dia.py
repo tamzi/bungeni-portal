@@ -5,7 +5,6 @@ from bungeni.core.workflows import adapters
 from bungeni.core.workflows import bill
 from bungeni.core.workflows import question
 from bungeni.core.workflows import motion
-from bungeni.core.workflows import response
 from bungeni.core.workflows import version
 from bungeni.core.workflows import groupsitting
 from bungeni.core.workflows import groups
@@ -28,10 +27,6 @@ def main():
     f = open('motion.dot', 'w')
     f.write(motion.wf.dot())
     f.close()    
-
-    f = open('response.dot', 'w')
-    f.write(response.wf.dot())
-    f.close()
 
     f = open('version.dot', 'w')
     f.write(version.wf.dot())

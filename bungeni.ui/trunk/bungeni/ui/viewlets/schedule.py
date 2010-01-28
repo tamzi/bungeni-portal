@@ -138,7 +138,8 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     name = _('Questions')
     view_name="question"
     states = (
-        question_wf_state[u"admissible"].id,
+        question_wf_state[u"schedule_pending"].id,
+        question_wf_state[u"debate_adjourned"].id,        
         question_wf_state[u"postponed"].id,
         )
 

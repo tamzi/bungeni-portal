@@ -47,10 +47,16 @@ ul.items-for-scheduling ul li {
   cursor:move;
 }
 
-div#scheduling-calendar {
+.scheduling.scheduling-drop-target {
  height: 20em;
  overflow: auto;
 }
+
+.scheduling.scheduling-drop-target.published-minutes  {
+ height: auto;
+ overflow: auto;
+}
+
 
 p.scheduling-dd-description {
   text-align: center;

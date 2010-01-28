@@ -83,7 +83,7 @@
   <permission id="bungeni.bill.Edit" title="Edit Bill" />
   <permission id="bungeni.bill.Delete" title="Delete Bill" />
   <permission id="bungeni.bill.View" title="View Bill" />  
-  <meta:redefinePermission from="bungeni.bill.View" to="zope.View" />
+  <!--meta:redefinePermission from="bungeni.bill.View" to="zope.View" /-->
   
   <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
   <permission id="bungeni.edit.historical" title="Edit historical data" />

@@ -7,10 +7,11 @@
         <div class="report_mainTitle">
                  <span tal:replace="view/group/short_name"/> Parliament 
         </div>
-        <tal:loop tal:repeat="item view/sitting_items">
-            <div class="report_title">      
+        <div class="report_title">      
                    <span tal:replace="view/doc_type"/>
-            </div> 
+            </div>
+        <tal:loop tal:repeat="item view/sitting_items">
+             
             <div class="report_date"> 
             	<span tal:content="item/sitting_type/sitting_type"/> Sitting : <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />, <span tal:content="python:item.start_date.strftime('%H:%M')" />
            	</div>   

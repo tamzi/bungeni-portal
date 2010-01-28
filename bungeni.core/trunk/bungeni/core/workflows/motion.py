@@ -32,7 +32,7 @@ class actions:
 
     @staticmethod
     def postpone(info,context):
-        utils.setMotionHistory(info,context)
+        pass
 
     @staticmethod
     def create( info, context ):

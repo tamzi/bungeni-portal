@@ -74,7 +74,7 @@
 
   </state>    
   <!--agenda_item was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="APostponed">  
+  <state id="postponed" title="Postponed">  
 
   </state>    
   <!--defered or postponed agenda_item that were not debated -->
@@ -147,7 +147,7 @@
      />
   <transition
      id="complete"
-     title="Complete"
+     title="Submit to the Speaker Office"
      trigger="manual"
      source="received"
      destination="complete"
@@ -159,7 +159,7 @@
 
   <transition
      id="complete-speaker"
-     title="Complete"
+     title="Submit to the Speaker Office"
      trigger="manual"
      source="submitted
              received"

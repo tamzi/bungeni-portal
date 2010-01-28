@@ -158,12 +158,6 @@ def setBillPublicationDate( info, context ):
     if instance.publication_date == None:
         instance.publication_date = datetime.date.today()
 
-
-    
-def setMotionHistory( info, context ):
-    motion_id = context.motion_id
-    dbutils.removeMotionFromItemSchedule(motion_id)
-
 def setAgendaItemHistory( info, context ):
     pass
     
@@ -199,9 +193,23 @@ def schedule_sitting_items(info, context):
                                 check_security=False)                                            
             except NoTransitionAvailableError:
                 pass
-
-            
-        
-
+        elif interfaces.IMotion.providedBy(item):
+            try:
+                IWorkflowInfo(item).fireTransitionToward('scheduled', 
+                                check_security=False)                                            
+            except NoTransitionAvailableError:
+                pass
+        elif interfaces.IAgendaItem.providedBy(item):
+            try:
+                IWorkflowInfo(item).fireTransitionToward('scheduled', 
+                                check_security=False)                                            
+            except NoTransitionAvailableError:
+                pass        
+        elif interfaces.ITabledDocument.providedBy(item):
+            try:
+                IWorkflowInfo(item).fireTransitionToward('scheduled', 
+                                check_security=False)                                            
+            except NoTransitionAvailableError:
+                pass
 
     

@@ -198,10 +198,11 @@
      action="bungeni.core.workflows.motion.actions.require_edit_by_mp"
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"
+     require_confirmation="true"     
      />
   <transition
      id="complete"
-     title="Complete"
+     title="Submit to the Speaker Office"
      trigger="manual"
      source="received"
      destination="complete"
@@ -212,7 +213,7 @@
      
   <transition
      id="complete-speaker"
-     title="Complete"
+     title="Submit to the Speaker Office"
      trigger="manual"
      source="submitted
              received"
@@ -278,6 +279,7 @@
      permission="bungeni.motion.speaker.Review"
      action="bungeni.core.workflows.motion.actions.require_amendment"
      condition=""
+     require_confirmation="true"     
      />
   <transition
      id="complete-clarify"
@@ -299,6 +301,7 @@
      action="bungeni.core.workflows.motion.actions.mp_clarify"
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"    
+     require_confirmation="true"     
      />
   <transition
      id="resubmit-clerk"
@@ -342,6 +345,7 @@
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.elapse"
      condition=""
+     require_confirmation="true"     
      />
 
   <transition

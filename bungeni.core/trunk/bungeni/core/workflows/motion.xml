@@ -6,7 +6,7 @@
    domain="bungeni.ui"   
    initial_state="">
 
-  <state id="draft" title="Draft Motion">
+  <state id="draft" title="Draft">
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
     <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />   
@@ -20,7 +20,7 @@
     <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />          
   </state>
 
-  <state id="submitted" title="Motion Submitted">  
+  <state id="submitted" title="Submitted">  
     <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
     <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />     
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />
@@ -31,7 +31,7 @@
     <grant permission="zope.View" role="bungeni.Speaker" />          
   </state>
 
-  <state id="received" title="Motion Received by Clerks Office">  
+  <state id="received" title="Received by Clerks Office">  
     <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
     <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />     
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
@@ -39,7 +39,7 @@
     <grant permission="zope.View" role="bungeni.Speaker" />               
   </state>
 
-  <state id="complete" title="Motion Complete">  
+  <state id="complete" title="Submitted to the Speaker">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />         
@@ -49,7 +49,7 @@
     <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
   </state>
 
-  <state id="admissible" title="Motion Admissible">  
+  <state id="admissible" title="Admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
@@ -58,13 +58,18 @@
     <dent permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />               
   </state>    
 
-  <state id="inadmissible" title="Motion Inadmissible">     
+  <state id="schedule_pending" title="Schedule pending">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
+  </state>    
+
+
+  <state id="inadmissible" title="Inadmissible">     
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" /> 
     <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
     <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />  
   </state>
   
-  <state id="clarify_clerk" title="Motion Needs Clarification by Clerks Office">     
+  <state id="clarify_clerk" title="Needs Clarification by Clerks Office">     
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /> 
     <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
@@ -73,7 +78,7 @@
     <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
   </state>
 
-  <state id="clarify_mp" title="Motion Needs Clarification by MP">  
+  <state id="clarify_mp" title="Needs Clarification by MP">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />    
     <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
@@ -87,31 +92,36 @@
 
 
   <!-- is scheduled for debate at a sitting -->
-  <state id="scheduled" title="Motion Scheduled">  
+  <state id="scheduled" title="Scheduled">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>    
   <!-- admissable motion that cannot be debated -->
-  <state id="deferred" title="Motion Deferred">  
+  <state id="deferred" title="Deferred">  
 
   </state>    
   <!--motion was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="Motion Postponed">  
+  <state id="postponed" title="Postponed">  
 
   </state>    
   <!--defered or postponed motion that were not debated -->
-  <state id="elapsed" title="Motion Elapsed">  
+  <state id="elapsed" title="Elapsed">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>    
   <!--a motion was debated  -->
-  <state id="debated" title="Motion Debated">  
+  <state id="debated" title="Debated">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
   </state>
   
+  <!--a motion was debated and the debate adjourned  -->
+  <state id="debate_adjourned" title="Debate adjourned">  
+  
+  </state> 
 
-  <state id="withdrawn" title="Motion Withdrawn">  
+
+  <state id="withdrawn" title="Withdrawn">  
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
@@ -222,6 +232,18 @@
      action="bungeni.core.workflows.motion.actions.approve"
      condition=""
      />
+ 
+    <transition 
+     id="allow_schedule"
+     title="Make available for scheduling"
+     trigger="manual"
+     source="admissible deferred"
+     destination="schedule_pending"
+     permission="bungeni.motion.Schedule"
+     action=""
+     event="bungeni.core.workflows.interfaces.IMotionPendingEvent"
+     />     
+     
   <transition
      id="reject"
      title="Reject"
@@ -292,13 +314,14 @@
      id="schedule"
      title="Schedule"
      trigger="manual"
-     source="admissible"
+     source="schedule_pending debate_adjourned postponed"
      destination="scheduled"
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.schedule"
-     condition="bungeni.core.workflows.motion.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"
      />
+     
+     
   <transition
      id="defer"
      title="Defer"
@@ -365,6 +388,16 @@
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionDebatedEvent"
      />
+  <transition 
+     id="continue-debate"
+     title="Debate adjourned"
+     trigger="manual"
+     source="scheduled"
+     destination="debate_adjourned"
+     permission="bungeni.motion.Schedule"
+     condition=""
+     event=""
+     />     
   <transition
      id="schedule-postponed"
      title="Schedule"

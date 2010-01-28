@@ -6,7 +6,7 @@
    domain="bungeni.ui"   
    initial_state="">
 
-  <state id="draft" title="Draft Agenda item">
+  <state id="draft" title="Draft">
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
     <grant permission="zope.View" role="bungeni.Owner" />    
     <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />   
@@ -18,7 +18,7 @@
     <deny permission="zope.View" role="bungeni.Anybody" />          
   </state>
 
-  <state id="submitted" title="Agenda item Submitted">
+  <state id="submitted" title="Submitted">
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
     <!--deny permission="zope.View" role="bungeni.Owner" /-->    
     <deny permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />    
@@ -27,69 +27,72 @@
     <grant permission="zope.View" role="bungeni.Speaker" />                    
   </state>
 
-  <state id="received" title="Agenda item Received by Clerks Office">  
+  <state id="received" title="Received by Clerks Office">  
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" />      
     <grant permission="zope.View" role="bungeni.Speaker" />                 
   </state>
 
-  <state id="complete" title="Agenda item Complete">  
+  <state id="complete" title="Submitted to the Speaker">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />         
   </state>
 
-  <state id="admissible" title="Agenda item Admissible">  
+  <state id="admissible" title="Admissible">  
     <grant permission="zope.View" role="bungeni.Everybody" />   
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />             
   </state>    
 
-  <state id="inadmissible" title="Agenda item Inadmissible">     
+  <state id="inadmissible" title="Inadmissible">     
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>
   
-  <state id="clarify_clerk" title="Agenda item Needs Clarification by Clerks Office">     
+  <state id="clarify_clerk" title="Needs Clarification by Clerks Office">     
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="clarify_mp" title="Agenda item Needs Clarification by MP">  
+  <state id="clarify_mp" title="Needs Clarification by MP">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />    
   </state>
 
-
-
-
+  <state id="schedule_pending" title="Schedule pending">
+    <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
+  </state>    
 
   <!-- is scheduled for debate at a sitting -->
-  <state id="scheduled" title="Agenda item Scheduled">  
+  <state id="scheduled" title="Scheduled">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>    
   <!-- admissable agenda_item that cannot be debated -->
-  <state id="deferred" title="Agenda item Deferred">  
+  <state id="deferred" title="Deferred">  
 
   </state>    
   <!--agenda_item was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="Agenda item Postponed">  
+  <state id="postponed" title="APostponed">  
 
   </state>    
   <!--defered or postponed agenda_item that were not debated -->
-  <state id="elapsed" title="Agenda item Elapsed">  
+  <state id="elapsed" title="Elapsed">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>    
   <!--a agenda_item was debated  -->
-  <state id="debated" title="Agenda item Debated">  
+  <state id="debated" title="Debated">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
   </state>
+  <!--a agenda_item was debated and the debate adjourned  -->
+  <state id="debate_adjourned" title="Debate adjourned">  
   
+  </state>  
 
-  <state id="withdrawn" title="Agenda item Withdrawn">  
+  <state id="withdrawn" title="Withdrawn">  
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />      
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" /> 
@@ -245,22 +248,38 @@
      action="bungeni.core.workflows.agendaitem.actions.submit"
      condition=""
      />
+
+   <transition 
+     id="allow_schedule"
+     title="Make available for scheduling"
+     trigger="manual"
+     source="admissible deferred"
+     destination="schedule_pending"
+     permission="bungeni.agendaitem.Schedule"
+     action=""
+     event="bungeni.core.workflows.interfaces.IAgendaItemPendingEvent"
+     /> 
+     
+     
   <transition
      id="schedule"
      title="Schedule"
      trigger="manual"
-     source="admissible"
+     source="schedule_pending debate_adjourned postponed"
      destination="scheduled"
      permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.schedule"
-     condition="bungeni.core.workflows.agendaitem.conditions.is_scheduled"
      event="bungeni.core.workflows.interfaces.IAgendaItemScheduledEvent"
      />
+     
   <transition
      id="defer"
      title="Defer"
      trigger="manual"
-     source="admissible"
+     source="admissible
+            postponed
+            schedule_pending
+            debate_adjourned"
      destination="deferred"
      permission="bungeni.agendaitem.Schedule"
      action="bungeni.core.workflows.agendaitem.actions.defer"
@@ -289,17 +308,8 @@
      condition=""
      />  
   
-  <transition
-     id="schedule-deferred"
-     title="Schedule"
-     trigger="manual"
-     source="deferred"
-     destination="scheduled"
-     permission="bungeni.agendaitem.Schedule"
-     action="bungeni.core.workflows.agendaitem.actions.schedule"
-     condition="bungeni.core.workflows.agendaitem.conditions.is_scheduled"
-     event="bungeni.core.workflows.interfaces.IAgendaItemScheduledEvent"    
-     />
+
+     
   <transition
      id="postpone"
      title="Postpone"
@@ -322,17 +332,18 @@
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemDebatedEvent"
      />
-  <transition
-     id="schedule-postponed"
-     title="Schedule"
+
+  <transition 
+     id="continue-debate"
+     title="Debate adjourned"
      trigger="manual"
-     source="postponed"
-     destination="scheduled"
+     source="scheduled"
+     destination="debate_adjourned"
      permission="bungeni.agendaitem.Schedule"
-     action="bungeni.core.workflows.agendaitem.actions.schedule"
-     condition="bungeni.core.workflows.agendaitem.conditions.is_scheduled"
-     event="bungeni.core.workflows.interfaces.IAgendaItemScheduledEvent"    
+     condition=""
+     event=""
      />
+
   <transition
      id="elapse-postponed"
      title="Elapse"

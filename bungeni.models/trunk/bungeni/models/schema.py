@@ -426,7 +426,7 @@ addresses = rdb.Table(
     rdb.Column( "zipcode", rdb.Unicode(20) ),
     rdb.Column( "country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
     rdb.Column( "phone", rdb.Unicode(256) ),
-    rdb.Column( "fax", rdb.Unicode(40) ),
+    rdb.Column( "fax", rdb.Unicode(256) ),
     rdb.Column( "email", rdb.String(40) ),
     rdb.Column( "im_id", rdb.String(40) ),
     # Workflow State -> determins visibility
@@ -471,7 +471,7 @@ parliament_sessions = rdb.Table(
    rdb.Column( "session_id", rdb.Integer,   primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
    rdb.Column( "short_name", rdb.Unicode(32), nullable=False ),
-   rdb.Column( "full_name", rdb.Unicode(32), nullable=False ),      
+   rdb.Column( "full_name", rdb.Unicode(256), nullable=False ),      
    rdb.Column( "start_date", rdb.Date, nullable=False),
    rdb.Column( "end_date", rdb.Date),
    rdb.Column( "notes", rdb.UnicodeText )   

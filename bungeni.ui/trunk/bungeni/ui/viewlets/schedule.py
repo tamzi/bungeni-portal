@@ -103,8 +103,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             'title': properties.title,
             'name': item.__class__.__name__,
             'description': properties.description,
-#            'date': _(u"$F", mapping=
-#                      datetimedict.fromdatetime(item.changes[-1].date)),
+#            'date': _(u"$F", mapping={"F":
+#                      datetimedict.fromdatetime(item.changes[-1].date)}),
             'date':item.changes[-1].date,
 #
             'state': IWorkflow(item).workflow.states[item.status].title,
@@ -138,6 +138,7 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     name = _('Questions')
     view_name="question"
     states = (
+        question_wf_state[u"scheduled"].id,
         question_wf_state[u"schedule_pending"].id,
         question_wf_state[u"debate_adjourned"].id,        
         question_wf_state[u"postponed"].id,
@@ -148,9 +149,24 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
     name = _('Motions')
     view_name="motion"
     states = (
-        motion_wf_state[u"admissible"].id,
-        motion_wf_state[u"postponed"].id,
+        motion_wf_state[u"scheduled"].id,    
+        motion_wf_state[u"schedule_pending"].id,
+        motion_wf_state[u"debate_adjourned"].id,        
+        motion_wf_state[u"postponed"].id,        
         )
+
+class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
+    model = domain.TabledDocument
+    name = _('Tabled documents')
+    view_name="tableddocument"
+    states = (
+        tableddocument_wf_state[u"scheduled"].id,
+        tableddocument_wf_state[u"schedule_pending"].id,
+        tableddocument_wf_state[u"debate_adjourned"].id,          
+        tableddocument_wf_state[u"postponed"].id,
+        
+        )
+                 
         
 class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
     model = domain.AgendaItem
@@ -158,8 +174,10 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
     view_name="agendaitem"
     visible = True
     states = (
-        agendaitem_wf_state[u"admissible"].id,
-        agendaitem_wf_state[u"postponed"].id,
+        agendaitem_wf_state[u"scheduled"].id,
+        agendaitem_wf_state[u"schedule_pending"].id,
+        agendaitem_wf_state[u"debate_adjourned"].id,        
+        agendaitem_wf_state[u"postponed"].id,            
         )
 
     def get_group_id(self):
@@ -198,11 +216,11 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
             'title': properties.title,
             'name': item.__class__.__name__,
             'description': properties.description,
-#            'date': _(u"$F", mapping=
-#                      datetimedict.fromdatetime(item.changes[-1].date)),
+#            'date': _(u"$F", mapping={'F':
+#                      datetimedict.fromdatetime(item.changes[-1].date)}),
             'date': item.changes[-1].date,
 #
-            'state': IWorkflow(item).workflow.states[item.status].title,
+            'state': _(IWorkflow(item).workflow.states[item.status].title),
             'id': item.parliamentary_item_id,
             'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",            
             'url': absoluteURL(item, self.request)} for item, properties in \
@@ -211,15 +229,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
              item in items]]
 
         
-class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
-    model = domain.TabledDocument
-    name = _('Tabled documents')
-    view_name="tableddocument"
-    states = (
-        tableddocument_wf_state[u"admissible"].id,
-        tableddocument_wf_state[u"postponed"].id,
-        )
-                 
+
 
              
              

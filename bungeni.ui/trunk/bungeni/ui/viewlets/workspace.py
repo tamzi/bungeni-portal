@@ -881,15 +881,19 @@ class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ):
     name = _("Scheduling")
     states = [   
         question_wf_state[u"schedule_pending"].id,  
+        question_wf_state[u"scheduled"].id,          
         question_wf_state[u"postponed"].id,  
         question_wf_state[u"debate_adjourned"].id,      
         agendaitem_wf_state[u"schedule_pending"].id,  
+        agendaitem_wf_state[u"scheduled"].id,                  
         agendaitem_wf_state[u"postponed"].id,  
         agendaitem_wf_state[u"debate_adjourned"].id,   
         motion_wf_state[u"schedule_pending"].id,  
+        motion_wf_state[u"scheduled"].id,                  
         motion_wf_state[u"postponed"].id,  
         motion_wf_state[u"debate_adjourned"].id,      
         tableddocument_wf_state[u"schedule_pending"].id,  
+        tableddocument_wf_state[u"scheduled"].id,                  
         tableddocument_wf_state[u"postponed"].id,  
         tableddocument_wf_state[u"debate_adjourned"].id,                                                                      
     ]

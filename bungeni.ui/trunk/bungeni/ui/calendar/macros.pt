@@ -40,7 +40,8 @@
         </table>
       </div>
     </div>
-    <div id="scheduling-calendar" class="scheduling scheduling-drop-target">
+    <div id="scheduling-calendar" class="scheduling scheduling-drop-target"
+        tal:attributes="class string:scheduling scheduling-drop-target ${options/status}">
       <fieldset>
         <legend i18n:translate="">
           Items scheduled for this meeting

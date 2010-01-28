@@ -196,10 +196,11 @@ def schedule_sitting_items(info, context):
         if interfaces.IQuestion.providedBy(item):
             try:
                 IWorkflowInfo(item).fireTransitionToward('scheduled', 
-                                check_security=False)            
+                                check_security=False)                                            
             except NoTransitionAvailableError:
-                import pdb; pdb.set_trace()                                
-            #IWorkflowInfo(item).fireTransition('schedule', check_security=False)
+                pass
+
+            
         
 
 

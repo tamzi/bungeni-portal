@@ -337,15 +337,25 @@
      />  
 
   <browser:viewlet
+     name="bungeni.workspace.items-pending-schedule"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.ItemsPendingScheduleViewlet"
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"
+     permission="zope.View"
+     weight="30"
+     />   
+
+
+  <browser:viewlet
      name="bungeni.workspace.items-pending"
      for="*"
      manager=".interfaces.IWorkspaceManager"
      class=".workspace.SpeakersClerkItemActionRequiredViewlet"
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
-     weight="30"
+     weight="40"
      />      
-
 
   <browser:viewlet
      name="bungeni.workspace.speaker-questions-pending"
@@ -354,7 +364,7 @@
      class=".workspace.QuestionsPendingResponseViewlet"
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
-     weight="40"
+     weight="50"
      />      
      
   <!-- Ministers workspace -->

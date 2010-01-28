@@ -862,18 +862,38 @@ class ItemsCompleteViewlet( AllItemsInStageViewlet ):
     list_id = "items-action-required"
 
 class ItemsApprovedViewlet( AllItemsInStageViewlet ): 
-    name = _("Approved Items")
+    name = _("To be scheduled")
     states = [   
         question_wf_state[u"admissible"].id,  
         motion_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"admissible"].id,                                   
         
+        question_wf_state[u"deferred"].id,  
+        motion_wf_state[u"deferred"].id,
+        agendaitem_wf_state[u"deferred"].id,
+        tableddocument_wf_state[u"deferred"].id, 
+        
     ]
     list_id = "items-approved"
 
+class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ): 
+    name = _("Scheduling")
+    states = [   
+        question_wf_state[u"schedule_pending"].id,  
+        question_wf_state[u"postponed"].id,  
+        question_wf_state[u"debate_adjourned"].id,          
+#        motion_wf_state[u"admissible"].id,
+#        agendaitem_wf_state[u"admissible"].id,
+#        tableddocument_wf_state[u"admissible"].id,                                   
+        
+        
+    ]
+    list_id = "items-pending-schedule"
+
+
 class QuestionsPendingResponseViewlet( AllItemsInStageViewlet ): 
-    name = _("Questions pending reponse")
+    name = _("Questions pending response")
     states = [   
         question_wf_state[u"response_submitted"].id,  
         question_wf_state[u"response_pending"].id,                                        

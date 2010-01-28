@@ -59,10 +59,7 @@
   </state>
 
   <state id="schedule_pending" title="Schedule pending">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <grant permission="bungeni.response.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
-    <grant permission="bungeni.response.View" role="bungeni.Clerk" />         
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />          
   </state> 
 
   <state id="scheduled" title="Scheduled">
@@ -501,7 +498,6 @@
      source="scheduled"
      destination="debate_adjourned"
      permission="bungeni.question.Schedule"
-     action="bungeni.core.workflows.question.actions.respondSitting"
      condition=""
      event=""
      />

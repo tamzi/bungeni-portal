@@ -78,6 +78,9 @@ class IMotionPostponedEvent(IWorkflowTransitionEvent):
 class IMotionDebatedEvent(IWorkflowTransitionEvent):
     """Issued when a Motions answer was debated"""
     
+class IMotionPendingEvent(IWorkflowTransitionEvent):
+    pass    
+    
 ######################
 # Bills
 ######################
@@ -109,6 +112,9 @@ class ITabledDocumentPostponedEvent(IWorkflowTransitionEvent):
 
 class ITabledDocumentDebatedEvent(IWorkflowTransitionEvent):
     """Issued when a TabledDocuments answer was debated"""
+
+class ITabledDocumentPendingEvent(IWorkflowTransitionEvent):
+    pass
     
 ###################
 # Agenda Item
@@ -137,4 +143,7 @@ class IAgendaItemPostponedEvent(IWorkflowTransitionEvent):
 
 class IAgendaItemDebatedEvent(IWorkflowTransitionEvent):
     """Issued when a AgendaItem answer was debated"""
-    
+
+class IAgendaItemPendingEvent(IWorkflowTransitionEvent):
+    pass
+        

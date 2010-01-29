@@ -47,7 +47,7 @@
     <grant permission="zope.View" role="bungeni.Anybody" />    
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />   
-    <deny permission="zope.ManageContent" role="bungeni.Clerk" />                                 
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                                 
   </state>    
 
   <state id="schedule_pending" title="Schedule pending">

@@ -160,7 +160,7 @@ def rewrite_links(content, theme, resource_fetcher, log):
     """
 
     repeating_link_values = ['business', 'calendar', 'workspace_archive']
-    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin' }
+    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin', 'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"' }
     content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
@@ -195,12 +195,17 @@ def rewrite_links(content, theme, resource_fetcher, log):
                 content_node.replaceWith('<'+content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_content + '</' + content_item[2] + '>')
 
 
+
 def drop_contentActions(content, theme, resource_fetcher, log):
-    """If the user is anonymous drop the 'contentActions' bar.
+    """If the user is anonymous drop the 'workflow status' item.
+       If the contentActions bar is empty, then drop it.
     """
     content_item = pq(theme('#portal-column-content'))
     if not pq(theme('#portal-personaltools')).filter('#user-name'):
         content_item.remove('#plone-contentmenu-workflow')
+        if not theme('.actionMenu'):
+            content_item.remove('.contentActions')
+
 
         
 def move_portlet(content, theme, resource_fetcher, log):
@@ -225,7 +230,7 @@ def documentActions_links(content, theme, resource_fetcher, log):
 def add_ArchiveDates(content, theme, resource_fetcher, log, portlet_id):
     """Move the ArchiveDates portlet to the top of the business and whats-on pages
     """
-    portletContent = theme(portlet_id).html().replace('/++resource++calbtn.gif', '++resource++calbtn.gif')
+    portletContent = theme(portlet_id).html()
     theme(portlet_id).empty()
     content('.contentActions').after(portletContent)
 

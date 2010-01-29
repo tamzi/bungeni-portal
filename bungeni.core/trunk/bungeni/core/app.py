@@ -74,7 +74,7 @@ class AppSetup(object):
             title=_(u"Administration"),
             description=_(u"Administer bungeni settings."),
             marker=model_interfaces.IBungeniAdmin,
-            default_name=u"index.html" 
+            default_name=u"content" 
             )
 
         # business section
@@ -134,7 +134,7 @@ class AppSetup(object):
         #Parliamentary reports
         preports =  business[u"preports"] = QueryContent(
             container_getter(get_current_parliament, 'preports'),
-            title=_(u"Parliamentary Reports"),
+            title=_(u"Parliamentary publications"),
             marker=interfaces.IReportAddContext,
             description=_(u"View Agenda and Minutes reports of the current parliament."))    
             
@@ -162,9 +162,6 @@ class AppSetup(object):
             description=_(u"Visit the digital document repository."),
             default_name="@@browse-archive")
 
-        ##########
-        # Admin User Interface
-        #self.context['admin'] = admin = BungeniAdmin()            
 
         # archive/records
         documents[u"bills"] = domain.BillContainer()
@@ -197,13 +194,6 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(preports, documents[u"preports"]),
                        (implementedBy(domain.Report4Sitting), ILocation))
                        
-        records[u"parliaments"] = domain.ParliamentContainer()
-        provideAdapter(location.ContainerLocation(records[u"parliaments"]),
-                       (implementedBy(domain.Parliament), ILocation))
-
-        #records[u"members"] = domain.UserContainer()
-        #provideAdapter(location.ContainerLocation(current, records[u"members"]),
-        #               (implementedBy(domain.User), ILocation))
 
         records[u"parties"] = domain.PoliticalPartyContainer()
         provideAdapter(location.ContainerLocation(records[u"parties"]),
@@ -212,14 +202,7 @@ class AppSetup(object):
         records[u"constituencies"] = domain.ConstituencyContainer()
         provideAdapter(location.ContainerLocation(records[u"constituencies"]),
                        (implementedBy(domain.Constituency), ILocation))
-                       
-        records[u"provinces"] = domain.ProvinceContainer()
-        provideAdapter(location.ContainerLocation(records[u"provinces"]),
-                       (implementedBy(domain.Province), ILocation))
-                       
-        records[u"regions"] = domain.RegionContainer()
-        provideAdapter(location.ContainerLocation(records[u"regions"]),
-                       (implementedBy(domain.Region), ILocation))                                              
+                                                                     
 
         records[u"offices"] = domain.OfficeContainer()
         provideAdapter(location.ContainerLocation(records[u"offices"]),
@@ -233,38 +216,41 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(records[u"governments"]),
                        (implementedBy(domain.Government), ILocation))
 
+        ##########
+        # Admin User Interface
+        # Administration section
 
+        content = admin["content"] = Section(
+            title=_(u"Content"),
+            description=_(u"browse the content"),
+            default_name="@@browse-archive")
+
+        settings = admin["settings"] = Section(
+            title=_(u"Settings"),
+            description=_(u"settings"),
+            marker=model_interfaces.IBungeniAdmin,            
+            default_name="settings")
+
+        content[u"parliaments"] = domain.ParliamentContainer()
+        provideAdapter(location.ContainerLocation(content[u"parliaments"]),
+                       (implementedBy(domain.Parliament), ILocation))
         
-        admin['users'] = domain.UserContainer()
-        provideAdapter(location.ContainerLocation(admin[u"users"]),
+        content[u'users'] = domain.UserContainer()
+        provideAdapter(location.ContainerLocation(content[u"users"]),
                        (implementedBy(domain.User), ILocation))    
 
-        admin['categories'] = domain.ItemScheduleCategoryContainer()
-        provideAdapter(location.ContainerLocation(admin[u"categories"]),
+        content[u'categories'] = domain.ItemScheduleCategoryContainer()
+        provideAdapter(location.ContainerLocation(content[u"categories"]),
                        (implementedBy(domain.ItemScheduleCategory), ILocation))                           
-                           
-        #interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
-        #admin['groups'] = domain.GroupContainer()
-        
-        ##########
-        
-        #titles = domain.MemberTitleContainer()
-        #self.context('titles') = titles
-        
-        # todo separate out to url module
-        #url.setupResolver( self.context )
-        # 
-        # provide a url resolver for object urls
-        
-        ######### does this cause the multiadapter error? ########
-        
-        #url_resolver = url.AbsoluteURLFactory( self.context )
-        #sm.registerAdapter( factory=url_resolver, 
-        #                    required=(IAlchemistContent, IHTTPRequest), 
-        #                    provided=IAbsoluteURL, name="absolute_url")
-                           
-        #sm.registerAdapter( factory=url_resolver, 
-        #                    required=(IAlchemistContent, IHTTPRequest),
-        #                    provided=IAbsoluteURL )
 
+        content[u"provinces"] = domain.ProvinceContainer()
+        provideAdapter(location.ContainerLocation(content[u"provinces"]),
+                       (implementedBy(domain.Province), ILocation))
+                       
+        content[u"regions"] = domain.RegionContainer()
+        provideAdapter(location.ContainerLocation(content[u"regions"]),
+                       (implementedBy(domain.Region), ILocation))
+
+                           
+   
 

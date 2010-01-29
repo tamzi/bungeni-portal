@@ -448,3 +448,27 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                  'kind': 'container',
                  'nodes': nodes,
                  })
+                 
+class TopLevelContainerNavigation(NavigationTreeViewlet):
+
+   def __new__(cls, context, request, view, manager):
+        # we have both primary and secondary navigation, so we won't
+        # show the navigation tree unless we're at a depth > 2
+        chain = get_parent_chain(context)[:-2]
+        if len(chain) > 2:
+            chain = chain[-2:]
+
+        if not chain:
+            return
+
+        # we require the tree to begin with a container object
+        if not IReadContainer.providedBy(chain[-1]):
+            return
+
+        subcontext = chain[-1]
+        if (len(chain) > 1 or
+            IReadContainer.providedBy(subcontext) and not
+            IAlchemistContainer.providedBy(subcontext) and len(subcontext)):
+            inst = object.__new__(cls, context, request, view, manager)
+            inst.chain = chain
+            return inst

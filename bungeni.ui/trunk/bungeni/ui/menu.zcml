@@ -14,6 +14,12 @@
      />
 
   <browser:menu
+     id="admin_navigation"
+     title="Actions for the Administrator"
+     />
+
+
+  <browser:menu
      id="business_navigation"
      title="Actions for the 'Business' section"
      />
@@ -405,6 +411,27 @@
      /-->       
 
   <!-- Navigation -->
+
+
+
+  <browser:menuItem
+     menu="admin_navigation"
+     for="bungeni.models.interfaces.IBungeniApplication"
+     title="content"
+     action=""
+     layer=".interfaces.IAdministratorWorkspace"
+     permission="zope.ManageContent"
+     />
+
+
+ <browser:menuItem
+     menu="admin_navigation"
+     for="bungeni.models.interfaces.IBungeniApplication"
+     title="settings"
+     action="settings"
+     layer=".interfaces.IAdministratorWorkspace"
+     permission="zope.ManageSite"
+     />
 
   <browser:menuItem
      menu="workspace_navigation"
@@ -1091,7 +1118,7 @@
    <browser:menuItem
       menu="site_actions"
       for="*"
-      action="/archive/browse/parliaments"
+      action="/archive/browse/"
       title="Archive"
      permission="zope.Public"           
       />

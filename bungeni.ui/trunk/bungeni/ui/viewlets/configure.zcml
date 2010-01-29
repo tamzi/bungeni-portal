@@ -30,11 +30,21 @@
   <browser:viewlet
      name="bungeni.navigation.navtree"
      manager="ploned.ui.interfaces.ILeftColumnManager"
-     class=".navigation.NavigationTreeViewlet"
+     class=".navigation.TopLevelContainerNavigation"
      permission="zope.Public"
      layer="bungeni.ui.interfaces.IArchiveSectionLayer"     
      weight="10"
      />
+
+  <browser:viewlet
+     name="bungeni.navigation.admin.navtree"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".navigation.NavigationTreeViewlet"
+     permission="zope.Public"
+     layer="bungeni.ui.interfaces.IAdminSectionLayer"     
+     weight="10"
+     />
+
 
   <browser:viewlet
      name="bungeni.navigation.secondary"

@@ -205,7 +205,9 @@ def drop_contentActions(content, theme, resource_fetcher, log):
         content_item.remove('#plone-contentmenu-workflow')
         if not theme('.actionMenu'):
             content_item.remove('.contentActions')
-
+    else:
+        if "href" not in theme('.contentActions').html():
+            content_item.remove('.contentActions')
 
         
 def move_portlet(content, theme, resource_fetcher, log):

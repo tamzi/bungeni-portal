@@ -7,8 +7,19 @@ html {
 #portletArchiveDates form .field {
   clear:none;
   float:left;
-  margin-left:1em;
-  width:19em;
+  margin-left:-12px;
+  width:17em;
+}
+
+#portletArchiveDates label {
+  float: left;
+  margin-right: 0.2em;
+}
+
+#portletArchiveDates .widget-dropdownwidget.field {
+  margin-left: -25px;
+  margin-right: -10px;
+  width: 19em;
 }
 
 .template-portal {
@@ -139,7 +150,7 @@ div#portal-globalnav {
 }
 
 .template-workspace div#portal-globalnav ul.level0 ul.level1 a{
-  background-color: #d4e2ef;
+  background-color: transparent;
   margin-left: 8px;
   margin-top: 2px;
   border-top: 0.5px solid #d4e2ef;
@@ -166,11 +177,12 @@ div#portal-globalnav {
 }
 
 .template-workspace div#portal-globalnav ul.level0 ul.level1 li.selected a{
-  background-color: #bdd1d7;
-  border-top: 1px solid #bdd1d7;
-  border-left: 1px solid #bdd1d7;
-  border-right: 1px solid #bdd1d7;
-  border-bottom: 1px solid #bdd1d7;
+  background-color: transparent;
+  border-top: 0.5px solid #d4e2ef;
+  border-left: 1px solid #d4e2ef;
+  border-right: 1px solid #d4e2ef;
+  border-bottom: 0px solid #d4e2ef;  
+  color: #0066cc !important;
   font-weight:normal;
   margin-top: 0px;
   padding-top: 2px;
@@ -232,7 +244,7 @@ div#portal-globalnav {
   border-left: 1px solid #a4bed7;
   border-right: 1px solid #a4bed7;
   border-bottom: 5px solid #d4e2ef;
-  font-weight:bold;
+  font-weight:normal;
   padding:0 10px;
   height: 1.4em;
 }
@@ -243,7 +255,7 @@ div#portal-globalnav {
   border-left: 1px solid #a4bed7;
   border-right: 1px solid #a4bed7;
   border-bottom: 5px solid #d4e2ef;
-  font-weight:bold;
+  font-weight:normal;
   padding:0 10px;
   height: 1.1em;  
 }  
@@ -355,14 +367,15 @@ div#portal-globalnav {
 
 
 .template-portal div#portal-globalnav ul.level0 ul.level1 li.selected a{
-  background-color: #ea8712;
-  border-top: 0.5px solid #ea8712;
-  border-left: 1px solid #ea8712;
-  border-right: 1px solid #ea8712;
-  border-bottom: 0px solid #ea8712;
+  background-color: transparent;
+  border-top: 0.5px solid #f8ba61;
+  border-left: 1px solid #f8ba61;
+  border-right: 1px solid #f8ba61;
+  border-bottom: 0px solid #f8ba61;  
+  color: #d50005 !important;
   font-weight:normal;
   margin-top:0;
-  padding-top:4px;
+  padding-top:2px;
 }
 
 .template-portal div#portal-globalnav ul.level0 li.selected a{
@@ -580,14 +593,6 @@ div#portal-globalnav ul.level0 li ul.level1 li.selected a{
   border: 0px;
 }
 
-#bungeni-workspace #portal-column-one,
-.section-how-we-work #portal-column-one,
-.section-reference-material #portal-column-one,
-.section-have-your-say #portal-column-one
-{
-  display:none;
-}
-
 div#portal-globalnav ul.level0 li#portaltab-index_html {
   display:none;
 }
@@ -626,7 +631,8 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
   background-color: #bdd1d7;
   border-left: transparent;
   border-right: transparent;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
+  padding-top: 3px;
 }
 
 .template-portal .contentActions {
@@ -634,12 +640,13 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
   border-left: transparent;
   border-right: transparent;
   margin-bottom: 10px;
+  padding-top: 3px;
 }
 
 .contentActions a {
   color: black;
   cursor: pointer;
-  padding: 2.5px 0.5em;
+  padding: 0 0.5em;
   text-decoration: none;
 }
 
@@ -680,9 +687,10 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
 }
 
 #bungeni-workspace .contentActions {
-  background-color: transparent;
+  background-color: #bdd1d7;
   border-left: transparent;
   border-right: transparent;
+  margin-bottom: 10px;
 }
 
 #bungeni-workspace .item {
@@ -709,22 +717,18 @@ dl.section-front-page {
   background-color: #F3F3F3;
 }
 
-#portal-column-one .portlet {
-  margin: 103px 0 1em;
-}
+#portal-column-one {
+  width: 0em;
+  min-width: 5em;
+  max-width: 22em;
+  padding-top: 3em;
+}  
 
-.section-bungeni-business #portal-column-one .portlet,
-.section-bungeni-members  #portal-column-one .portlet{ 
-  margin: 55px 0 1em;
-}
-
-
-
-#portal-column-one .portletNavigationTree {
-  margin: 40px 0 1em;
-}
 
 #portal-column-two {
+  width: 0em;
+  min-width: 5em;
+  max-width: 22em;
   padding-top: 3em;
 }  
 
@@ -740,13 +744,16 @@ dl.section-front-page {
   margin:1px -1em 1em 1em;  
 }
 
-.section-bungeni-members #portal-column-one {
-  display:none;
+#portal-column-one .portlet {
+  margin: -25px 0 1em;
+  width: 16em;
 }
-.section-bungeni-members #portal-column-two,
-.section-bungeni-business #portal-column-two{
-  display:none;
+
+.section-bungeni-archive #portal-column-one .portletNavigationTree {
+  margin: -13px 0 1em;
+  width: 16em;
 }
+    
 
 #portal-column-content {
   max-width:1px;
@@ -754,7 +761,11 @@ dl.section-front-page {
 }
 
 .documentContent {
-  padding: 1em 4px 2em 2px!important;
+  padding: 0em 10px 2em 10px!important;
+}
+
+.documentEditable .documentContent {
+  border: 1px solid #BDD1D7;
 }
 
 #portal-column-one .portletHeader,
@@ -853,9 +864,7 @@ dl.section-front-page {
   border-bottom: 1px solid #FAAD5F;
 }
 
-.section-bungeni-archive #portal-column-two {
-  display: none;
-}
+
 
 .portletsBelowContentA .portletNews {
   width: 100%;
@@ -979,19 +988,6 @@ h4.tabberHeading {
   margin-top: 2em;
 }
 
-.section-reference-material #portal-column-two{
-  display: none;
-}
-
-.section-how-we-work #portal-column-two{
-  display: none;
-}
-
-
-.section-have-your-say #portal-column-two{
-  display: none;
-}
-
 div#footer {
   background: none;
 }
@@ -1019,3 +1015,6 @@ div#footer {
   display: none;
 }
 
+.indItem {
+  margin-left: 1.5em;
+}

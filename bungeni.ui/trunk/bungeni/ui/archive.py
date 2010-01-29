@@ -8,3 +8,8 @@ class ArchiveBrowserView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/archive.pt")
 
     interface.implements(IViewView)
+    
+class AdminBrowserView(BrowserView):
+    __call__ = ViewPageTemplateFile("templates/archive.pt")
+
+    interface.implements(IViewView)

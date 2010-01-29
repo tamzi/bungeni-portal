@@ -227,6 +227,15 @@
      permission="zope.Public"
      />
 
+  <browser:page
+     name="browse-admin"
+     for="bungeni.core.interfaces.ISection"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".archive.AdminBrowserView"
+     permission="zope.ManageSite"
+     />
+
+
   <!-- json view of containers-->
   
   <browser:page

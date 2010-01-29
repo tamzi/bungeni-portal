@@ -365,7 +365,7 @@ class GroupSittingScheduleView(CalendarView):
     def render(self, date, template=None):
         need('yui-editor')
         need('yui-resize')
-        
+        need('yui-button')
         if template is None:
             template = self.template
 

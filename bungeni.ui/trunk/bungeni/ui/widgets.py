@@ -150,7 +150,7 @@ class RichTextEditor( TextAreaWidget ):
         # require yahoo rich text editor and dependencies
         need('yui-editor')
         need('yui-resize')
-        
+        need('yui-button')
         # render default input widget for text
         input_widget = super( RichTextEditor, self).__call__()
         

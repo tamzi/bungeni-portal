@@ -29,13 +29,9 @@
   $.fn.bungeniInteractiveSchedule = function() {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
-
-    // hide edit action
     calendar.find("a[rel=edit-scheduling]").hide();
-
+    /*
     var editors = {};
-    
-    // set up expandable sections
     calendar.find("a.expandable").click(function() {
         var expandable = $(this).siblings(".expandable");
         var form = $(this).siblings("form");
@@ -57,35 +53,71 @@
           editors[id] = editor2;
         }
       });
-    
-    // set up ajax form submit
-    var form = calendar.find("form");
-    $.each(form.find("textarea"), function(i, o) {
-        var id = $(o).attr('id');
-      });
-
-    form.submit(function(event) {
-        $("#kss-spinner").show();
-        var textarea = $(this).find("textarea");
+      */
+    var buttons = calendar.find("a.showDlg-button")
+    $.each(buttons, function(i, o){
+        //alert("test");
+        var form = $(this).siblings("form");
+        var textarea = form.find("textarea");
         var id = textarea.attr('id');
-        var editor = editors[id];
-        if (editor) {
-          editor.saveHTML();
-        }
+        //alert(form.attr('id'));
+	    var editor = new YAHOO.widget.SimpleEditor(id);
+        
+	    editor.on('afterRender', editor.hide);
 
-        $(this).ajaxSubmit({
-            'success': function(html, status, form) {
-              $("#kss-spinner").hide();
-              var discussion = form.siblings(".discussion");
-              form.siblings("a.expandable").triggerHandler("click");
-              var html2 = textarea.val();
-              discussion.empty();
-              discussion.append($("<div>"+html2+"</div>"));
-            }});
-        return false;
-      });
-    
-    // ajax workflow
+	    editor.render();
+	
+	    var dlg = new YAHOO.widget.Dialog(form.attr('id'), {
+		    width:"725px",
+		    fixedcenter:true,
+		    modal:true,
+		    visible:false
+	    });
+
+	    function handleSave() {
+		    editor.saveHTML();
+		    this.submit();
+	    }
+	
+	    function handleCancel() {
+		    this.cancel();
+	    }
+	    var myButtons = [ { text:"Save", 
+						handler:handleSave },
+					  { text:"Cancel", 
+						handler:handleCancel,
+						isDefault:true } ];
+	    dlg.cfg.queueProperty("buttons", myButtons);
+
+	
+	    var onSuccess = function(o) {
+	        
+	    }
+	    var onFailure = function(o) {
+		    //in the event of a failure, we can log the problem:
+		    YAHOO.log("Dialog reported a communication failure; connection object: " + YAHOO.lang.dump(o, 5));
+	    }
+	    dlg.callback.success = onSuccess;
+	    dlg.callback.failure = onFailure;
+	
+	//Now that our Dialog is fully configured, we can
+	//render it:
+	    dlg.render();
+	
+	//RTE needs a little love to work in in a Dialog that can be 
+	//shown and hidden; we let it know that it's being
+	//shown/hidden so that it can recover from these actions:
+	    dlg.showEvent.subscribe(editor.show, editor, true);
+	    dlg.hideEvent.subscribe(editor.hide, editor, true);
+	    var id_button = $(this).attr('id');
+	//instantiate button to show Dialog:
+	//alert(id_button);
+	    var btn = new YAHOO.widget.Button(id_button, {type:"link"});
+	    btn.on("click", dlg.show, dlg, true);
+	    //YAHOO.util.Event.addListener($(this), "click", dlg.show, dlg, true);
+        //dlg.show();
+	});
+	
     var selects = calendar.find('#scheduling-table select.workflow-status');
     $.each(selects, function(i, o) {
         var select = $(o);

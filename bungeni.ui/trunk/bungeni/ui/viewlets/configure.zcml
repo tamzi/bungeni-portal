@@ -33,7 +33,7 @@
      class=".navigation.TopLevelContainerNavigation"
      permission="zope.Public"
      layer="bungeni.ui.interfaces.IArchiveSectionLayer"     
-     weight="10"
+     weight="5"
      />
 
   <browser:viewlet

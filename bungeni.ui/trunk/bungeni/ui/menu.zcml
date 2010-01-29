@@ -1162,6 +1162,15 @@
 
   <browser:menuItem
      menu="context_actions"
+     for="bungeni.models.interfaces.IBungeniUser"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="zope.ManageContent"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
      for="bungeni.models.interfaces.IQuestion"
      action="respond"
      title="Respond"

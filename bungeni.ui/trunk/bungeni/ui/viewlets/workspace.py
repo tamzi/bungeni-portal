@@ -74,6 +74,7 @@ class QuestionInStateViewlet( ViewletBase ):
             data['result_item_class'] = 'workflow-state-' + result.status
             data['url'] = '/business/questions/obj-' + str(result.question_id)
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')           
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()
             data_list.append(data)            
@@ -112,6 +113,7 @@ class MyQuestionsViewlet( ViewletBase ):
             data['result_item_class'] = 'workflow-state-' + result.status 
             data['url'] = '/business/questions/obj-' + str(result.question_id)
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()            
             data_list.append(data)            
@@ -153,6 +155,7 @@ class MyMotionsViewlet( ViewletBase ):
             data['result_item_class'] = 'workflow-state-' + result.status             
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()            
             data_list.append(data)            
@@ -208,6 +211,7 @@ class MyGroupsViewlet( ViewletBase ):
             else:               
                 data['url'] = '#' 
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = ""
             data['type'] =  result.type.capitalize()            
             data_list.append(data)            
@@ -392,6 +396,7 @@ class MotionInStateViewlet( ViewletBase ):
                 data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()            
             data_list.append(data)            
@@ -500,6 +505,7 @@ class BillItemsViewlet( ViewletBase ):
             data['url'] = '/business/%ss/obj-%i' %(result.type, 
                             result.parliamentary_item_id)   
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()                                         
             data_list.append(data)            
@@ -578,6 +584,7 @@ class ItemInStageViewlet( ViewletBase ):
             data['url'] = '/business/%ss/obj-%i' %(result.type, 
                             result.parliamentary_item_id)
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()
             data_list.append(data)            
@@ -632,7 +639,7 @@ class MPItemActionRequiredViewlet( ItemInStageViewlet ):
     Display all questions and motions that require action
     (e.g. draft, clarification required)
     """  
-    name = _("Action Required")
+    name = _("to do")
     states = [motion_wf_state[u"clarify_mp"].id,
         question_wf_state[u"clarify_mp"].id,
         agendaitem_wf_state[u"clarify_mp"].id,
@@ -788,7 +795,7 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
             'agendaitem',
             'tableddocument']
 
-    name = _("Action Required")
+    name = _("to do")
     states = [
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
@@ -812,7 +819,7 @@ class SpeakersClerkItemActionRequiredViewlet(ClerkItemActionRequiredViewlet):
 
 
 class ClerkReviewedItemViewlet( AllItemsInStageViewlet ): 
-    name = _("Reviewed & in progress")
+    name = _("reviewed & in progress")
     states = [
         question_wf_state[u"complete"].id,  
         motion_wf_state[u"complete"].id,
@@ -852,7 +859,7 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
     ]
     
 class ItemsCompleteViewlet( AllItemsInStageViewlet ): 
-    name = _("Action Required")
+    name = _("to do")
     states = [
         question_wf_state[u"complete"].id,  
         motion_wf_state[u"complete"].id,
@@ -862,7 +869,7 @@ class ItemsCompleteViewlet( AllItemsInStageViewlet ):
     list_id = "items-action-required"
 
 class ItemsApprovedViewlet( AllItemsInStageViewlet ): 
-    name = _("To be scheduled")
+    name = _("approved")
     states = [   
         question_wf_state[u"admissible"].id,  
         motion_wf_state[u"admissible"].id,
@@ -878,7 +885,7 @@ class ItemsApprovedViewlet( AllItemsInStageViewlet ):
     list_id = "items-approved"
 
 class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ): 
-    name = _("Scheduling")
+    name = _("to be scheduled")
     states = [   
         question_wf_state[u"schedule_pending"].id,  
         question_wf_state[u"scheduled"].id,          
@@ -901,7 +908,7 @@ class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ):
 
 
 class QuestionsPendingResponseViewlet( AllItemsInStageViewlet ): 
-    name = _("Questions pending response")
+    name = _("questions at the ministries")
     states = [   
         question_wf_state[u"response_submitted"].id,  
         question_wf_state[u"response_pending"].id,                                        
@@ -939,6 +946,7 @@ class MinistryItemsViewlet(ViewletBase):
                 self._parent.context.parliament_id, self._parent.government_id, 
                 ministry.group_id, result.question_id)                
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()            
             data_list.append(data)            
@@ -974,7 +982,7 @@ class MinistryItemsViewlet(ViewletBase):
 class DraftSittingsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')
     
-    name = _("Pending Agendas/Minutes")
+    name = _("agendas/minutes")
     states = [   
         sitting_wf_state[u"draft-agenda"].id,  
         sitting_wf_state[u"draft-minutes"].id,
@@ -1000,6 +1008,7 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
                 data['url'] = "/calendar/group/sittings/obj-%i/schedule" % result.sitting_id
             data['items'] = ''                
             data['status'] = get_wf_state(result)
+            data['status_date'] = result.status_date.strftime('%Y-%m-%d')
             data['owner'] = ""
             data['type'] =  result.group.type
             data['group'] = u"%s %s" %(result.group.type.capitalize(), 

@@ -275,9 +275,17 @@ class CalendarView(BrowserView):
             end_date=days[-1],
             )
 
+        s_month = days[0].strftime( '%B %Y')
+        e_month = days[6].strftime('%B %Y')
+        if s_month == e_month:
+            c_title = s_month
+        else:
+            c_title = s_month  + u' - ' + e_month                  
+
+
         return template(
             display="weekly",
-            title=date,
+            title=c_title,
             days=[{
                 'formatted': datetime.datetime.strftime(day, '%A %d'),
                 'id': datetime.datetime.strftime(day, '%Y-%m-%d'),

@@ -1,5 +1,6 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="bungeni.ui"
       tal:omit-tag="">
 
   <tal:dl 
@@ -20,10 +21,11 @@
             class="listing grid" tal:condition="results">
         <thead>
           <tr>
-            <th>Subject</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Owner</th>
+            <th i18n:translate="">Subject</th>
+            <th i18n:translate="">Type</th>
+            <th i18n:translate="">Status</th>
+            <th i18n:translate="">Status date</th>
+            <th i18n:translate="">Owner</th>
           </tr>
         </thead>
         <tbody>
@@ -31,11 +33,14 @@
             <td>  <a tal:content="result/subject" tal:attributes="href result/url" />  </td>
             <td tal:content="result/type" />
             <td tal:content="result/status" />
+            <td tal:content="result/status_date" />            
             <td tal:content="result/owner" />
           </tr>
         </tbody>           
       </table>
-      
+      <p tal:condition="not:results" i18n:translate="workspace_no_items"> 
+      No items found
+      </p>
       
     </dd>
   </tal:dl>

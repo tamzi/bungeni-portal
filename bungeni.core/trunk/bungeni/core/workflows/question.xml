@@ -16,7 +16,8 @@
     <deny permission="zope.View" role="bungeni.Speaker" />  
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />                
+    <deny permission="zope.View" role="bungeni.Anybody" />     
+    <grant permission="zope.ManageContent" role="bungeni.Owner" />                                           
   </state>
 
   <state id="submitted" title="Submitted to clerk">
@@ -24,24 +25,28 @@
     <grant permission="zope.View" role="bungeni.Clerk" />    
     <grant permission="zope.View" role="bungeni.Speaker" />        
     <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
-    <grant permission="zope.View" role="bungeni.Speaker" />        
+    <grant permission="zope.View" role="bungeni.Speaker" />      
+    <deny permission="zope.ManageContent" role="bungeni.Owner" />                            
   </state>
 
   <state id="received" title="Received by clerk">
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Speaker" />        
+    <grant permission="zope.ManageContent" role="bungeni.Clerk" />                                          
   </state>
 
   <state id="complete" title="Submitted to the Speaker">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />    
+    <deny permission="zope.ManageContent" role="bungeni.Clerk" />                                      
+    <grant permission="zope.ManageContent" role="bungeni.Speaker" />                                              
   </state>
 
   <state id="admissible" title="Admissible">
     <grant permission="zope.View" role="bungeni.Everybody" />    
     <grant permission="zope.View" role="bungeni.Anybody" />          
-    <!-- TODO permissions for the ministry the question is directed to, maybe to be set in the action? -->    
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                                      
   </state>
 
   <state id="inadmissible" title="Inadmissible">
@@ -52,10 +57,15 @@
   <state id="clarify_mp" title="Needs MPs clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />  
+    <deny permission="zope.ManageContent" role="bungeni.clerk" />
+    <grant permission="zope.ManageContent" role="bungeni.Owner" />        
   </state>
 
   <state id="clarify_clerk" title="Needs clerks clarification">
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />
+    <grant permission="zope.ManageContent" role="bungeni.Clerk" />        
   </state>
 
   <state id="schedule_pending" title="Schedule pending">
@@ -112,7 +122,10 @@
   <state id="withdrawn" title="Withdrawn">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
-    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />            
+    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />          
+    <deny permission="zope.ManageContent" role="bungeni.Speaker" />
+    <deny permission="zope.ManageContent" role="bungeni.Clerk" />
+    <deny permission="zope.ManageContent" role="bungeni.Owner" />  
   </state>
 
   <transition 

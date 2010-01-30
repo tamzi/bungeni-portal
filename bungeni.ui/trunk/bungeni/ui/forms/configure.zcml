@@ -13,6 +13,27 @@
      template="templates/form.pt"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />   
+     
+  <!-- Macros -->
+  <browser:page
+      name="bungeni.library_macros"
+      for="*"
+      class=".viewlets.LibraryMacros"
+      allowed_interface="zope.interface.common.mapping.IItemMapping"
+      permission="zope.View"
+      />
+
+  <!--browser:page
+      name="library_template"
+      for="*"
+      template="templates/library-template.pt"
+      permission="zope.View"/-->
+
+  <browser:page
+      name="bungeni.lib_macros"
+      for="*"
+      template="templates/library-macros.pt"
+      permission="zope.View"/>     
 
   <!-- Generic forms -->
 
@@ -466,6 +487,18 @@
      permission="bungeni.question.View"
      weight="5"
      />      
+
+
+  <browser:viewlet
+     name="bungeni.viewlet.question-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".viewlets.LibraryViewlet"
+     for="bungeni.models.interfaces.IQuestion"
+     permission="zope.View"
+     weight="5"
+     />   
+
+
 
 
   

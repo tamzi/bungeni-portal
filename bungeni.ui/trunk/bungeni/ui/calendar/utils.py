@@ -16,7 +16,11 @@ def pack_date_range(start, end):
         (start, end)))
 
 def unpack_date_range(value):
-    start, end = value.split(';')
+    try:
+        start, end = value.split(';')
+    except (ValueError):            
+        start = value
+        end = None
     try:
         start = date.fromtimestamp(int(start))
     except (TypeError, ValueError):

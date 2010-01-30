@@ -624,7 +624,7 @@ class AllItemsInStageViewlet( ItemInStageViewlet ):
 
 
 class MPItemDraftViewlet( ItemInStageViewlet ): 
-    name = _("Draft Items")
+    name = _("draft items")
     states = [motion_wf_state[u"draft"].id,
         question_wf_state[u"draft"].id,
         agendaitem_wf_state[u"draft"].id,
@@ -654,7 +654,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
     """
     going through the workflow in clerks/speakers office
     """
-    name = _("Items reviewed & in progress")
+    name = _("in progress")
     states = [
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
@@ -706,7 +706,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
 
 
 class ItemArchiveViewlet(ItemInStageViewlet):
-    name = _("Archived Items")
+    name = _("archived items")
     states = [
         question_wf_state[u"response_complete"].id,                
         question_wf_state[u"debated"].id,
@@ -814,7 +814,7 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
     list_id = "items-action-required"
 
 class SpeakersClerkItemActionRequiredViewlet(ClerkItemActionRequiredViewlet):
-    name = _("Pending with the clerk")
+    name = _("pending with the clerk")
     list_id = "clerks-items-action-required"
 
 
@@ -917,7 +917,7 @@ class QuestionsPendingResponseViewlet( AllItemsInStageViewlet ):
 
 class MinistryItemsViewlet(ViewletBase):
     list_id = "ministry-items"
-    name = _("Questions to the ministry")
+    name = _("questions to the ministry")
     states = [
         question_wf_state[u"admissible"].id,  
         question_wf_state[u"scheduled"].id,                                          

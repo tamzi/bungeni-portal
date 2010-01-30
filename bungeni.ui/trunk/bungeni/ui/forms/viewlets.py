@@ -6,17 +6,21 @@ from copy import copy
 from zope import interface
 from zope.viewlet import viewlet, manager
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.app.basicskin.standardmacros import StandardMacros
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.traversing.browser import absoluteURL 
 from zope.formlib import form
 from zope.security.proxy import removeSecurityProxy
+
+from zc.table import column
 
 import sqlalchemy.sql.expression as sql
 
 from alchemist import ui
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
-
+from ore.library.browser.container import ContainerFormatView
+from ore.library.browser.container import ListingColumns
 from bungeni.models import domain, interfaces
 from bungeni.models.utils import get_offices_held_for_user_in_parliament
 from bungeni.models.utils import get_parliament_for_group_id
@@ -138,6 +142,29 @@ class SubformViewlet ( AjaxContainerListing ):
     """
     render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
     for_display = True
+
+
+class LibraryMacros( StandardMacros ):
+
+    macro_pages = ('bungeni.lib_macros', 'library_template') + StandardMacros.macro_pages
+
+
+
+class LibraryViewlet (viewlet.ViewletBase, ContainerFormatView):
+    render = ViewPageTemplateFile ('templates/library-container.pt')  
+    for_display = True
+    form_name = _(u"attached files")    
+    columns = ListingColumns
+        
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.files
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+
 
 class SessionViewlet( SubformViewlet ):
 

@@ -1362,6 +1362,7 @@
      for="bungeni.models.interfaces.IFileAttachments"
      action="files/"
      title="Files"
+     permission="zope.ManageContent"     
      order="30"
      />
 

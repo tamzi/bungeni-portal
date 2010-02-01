@@ -54,20 +54,30 @@
         }
       });
       */
-    var buttons = calendar.find("a.showDlg-button")
-    $.each(buttons, function(i, o){
+    var discussion = calendar.find("div.discussion")
+    $.each(discussion, function(i, o){
         //alert("test");
-        var form = $(this).siblings("form");
+        var form = $(this).find("form");
+        var dialog = $(this);
         var textarea = form.find("textarea");
-        var id = textarea.attr('id');
-        //alert(form.attr('id'));
-	    var editor = new YAHOO.widget.SimpleEditor(id);
+        var a = new Array();
+        a = $(this).attr('id').split("-");
         
+        var id = a[1];
+        //alert(form.attr('id'));
+	    //var editor = new YAHOO.widget.Editor(id);
+	    //alert(id);
+	    //alert(dialog.attr('id'));
+	    //alert(textarea.attr('id'));
+        var editor = new YAHOO.widget.Editor(textarea.attr('id'), { 
+	        width: '702px', 
+	        height: '200px' 
+	    }); 
 	    editor.on('afterRender', editor.hide);
 
 	    editor.render();
 	
-	    var dlg = new YAHOO.widget.Dialog(form.attr('id'), {
+	    var dlg = new YAHOO.widget.Dialog(dialog.attr('id'), {
 		    width:"725px",
 		    fixedcenter:true,
 		    modal:true,
@@ -91,7 +101,18 @@
 
 	
 	    var onSuccess = function(o) {
-	        
+	            var discussion_id = "discussion_"+id;
+                var html2 = textarea.val();
+                //$('#'+discussion_id).html("<div>"+html2+"</div>");
+                //alert(discussion_id);
+                //alert(id);
+                var d = document.getElementById(discussion_id);
+                d.innerHTML = "<div>"+html2+"</div>";
+                //alert(html2);
+                /*
+                var html2 = textarea.val();
+                id2 = "#discussion_" + id;
+                $(id2).html("<div>"+html2+"</div>"); */
 	    }
 	    var onFailure = function(o) {
 		    //in the event of a failure, we can log the problem:
@@ -99,23 +120,12 @@
 	    }
 	    dlg.callback.success = onSuccess;
 	    dlg.callback.failure = onFailure;
-	
-	//Now that our Dialog is fully configured, we can
-	//render it:
 	    dlg.render();
-	
-	//RTE needs a little love to work in in a Dialog that can be 
-	//shown and hidden; we let it know that it's being
-	//shown/hidden so that it can recover from these actions:
 	    dlg.showEvent.subscribe(editor.show, editor, true);
 	    dlg.hideEvent.subscribe(editor.hide, editor, true);
-	    var id_button = $(this).attr('id');
-	//instantiate button to show Dialog:
-	//alert(id_button);
+	    var id_button = "discussion-link-"+id;
 	    var btn = new YAHOO.widget.Button(id_button, {type:"link"});
 	    btn.on("click", dlg.show, dlg, true);
-	    //YAHOO.util.Event.addListener($(this), "click", dlg.show, dlg, true);
-        //dlg.show();
 	});
 	
     var selects = calendar.find('#scheduling-table select.workflow-status');

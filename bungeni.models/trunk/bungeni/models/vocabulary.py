@@ -33,7 +33,7 @@ ElectedNominated = vocabulary.SimpleVocabulary.fromItems( [(_(u"elected"),'E'),(
 InActiveDead = vocabulary.SimpleVocabulary.fromItems([(_(u"active"),'A'),(_(u"inactive"), 'I'),(_(u"deceased"), 'D')])
 ISResponse = vocabulary.SimpleVocabulary.fromItems([(_(u"initial"),'I'),(_(u"subsequent"), 'S'),])
 OfficeType = vocabulary.SimpleVocabulary.fromItems( [(_(u"Speakers Office"), "S"), (_(u"Clerks Office"), "C")] )
-
+YesNoSource = vocabulary.SimpleVocabulary.fromItems( [(_(u"Yes"), True), (_(u"No"), False)] )
 
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
 Parliaments = ObjectSource(

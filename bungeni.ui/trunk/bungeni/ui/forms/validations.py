@@ -431,7 +431,7 @@ def validate_venues(action, data, context, container):
         return []
         
     start = data.get('start_date')    
-    end = dataget('end_date')
+    end = data.get('end_date')
     if not(start and end):
         return []
                 

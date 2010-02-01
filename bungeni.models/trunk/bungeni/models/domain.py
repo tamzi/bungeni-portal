@@ -359,9 +359,10 @@ class ItemVotes( object ):
 class ParliamentaryItem( Entity ):
     """
     """
-    interface.implements( interfaces.IBungeniContent )
+    interface.implements( interfaces.IBungeniContent, 
+         interfaces.IHeadFileAttachments )
     sort_replace = {'owner_id': ['last_name', 'first_name']}  
-       
+    files = files.DirectoryDescriptor()       
     # votes
 
     # schedule
@@ -389,9 +390,7 @@ AgendaItemVersion = ItemVersions.makeVersionFactory("AgendaItemVersion")
 
 
 class Question( ParliamentaryItem ):
-    interface.implements( interfaces.IQuestion, interfaces.IHeadFileAttachments )
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
-    files = files.DirectoryDescriptor()
     versions = one2many(
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
@@ -415,9 +414,7 @@ QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 
 
 
-class Motion( ParliamentaryItem ):
-    interface.implements( interfaces.IMotion, interfaces.IHeadFileAttachments )  
-    files = files.DirectoryDescriptor()      
+class Motion( ParliamentaryItem ):  
     motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
 
@@ -446,9 +443,6 @@ class BillType(object):
     """
 
 class Bill( ParliamentaryItem ):
-    interface.implements( interfaces.IBill, interfaces.IHeadFileAttachments )
-    files = files.DirectoryDescriptor()
-    
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
     event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
     assignedgroups = one2many("assignedgroups", "bungeni.models.domain.GroupGroupItemAssignmentContainer", "item_id")               
@@ -613,9 +607,7 @@ class TabledDocument(ParliamentaryItem):
     (a person -> normally mp can be other user)
 
     It must be possible to schedule a tabled document for a sitting.
-    """
-    interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
-    files = files.DirectoryDescriptor()     
+    """ 
     versions = one2many(
         "versions",
         "bungeni.models.domain.TabledDocumentVersionContainer",

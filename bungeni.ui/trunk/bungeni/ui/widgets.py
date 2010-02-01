@@ -86,7 +86,6 @@ class ImageInputWidget(FileWidget):
     def _toFieldValue( self, (update_action, upload) ):
         """convert the input value to an value suitable for the field.
         check the update_action if we should leave the data alone, delete or replace it"""
-        import pdb; pdb.set_trace()
         if update_action == u'update':
             if upload is None or upload == '':
                 if self._data is None:
@@ -107,6 +106,22 @@ class ImageInputWidget(FileWidget):
                     return self.context.missing_value
         elif update_action == u'delete':
             return None
+        elif update_action == u'add':
+            if upload is None or upload == '':
+                return None
+            else:
+                try:
+                    seek = upload.seek
+                    read = upload.read
+                except AttributeError, e:
+                    raise ConversionError(_('Form upload is not a file object'), e)
+                else:
+                    seek(0)
+                    data = read()
+                    if data or getattr(upload, 'filename', ''):
+                        return data
+                    else:
+                        return self.context.missing_value                                                    
         else:
             raise NotImplementedError
             return                    

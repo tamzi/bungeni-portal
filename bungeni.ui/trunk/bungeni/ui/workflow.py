@@ -7,6 +7,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.app.schema.vocabulary import IVocabularyFactory
+from zope.app.form.browser.textwidgets import TextAreaWidget
 from zc.table import column
 
 from sqlalchemy import orm
@@ -156,7 +157,12 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
         if len(self.actions) == 0: 
             self.form_fields = self.form_fields.omit('note')
         elif auditor is None:          
-            self.form_fields = self.form_fields.omit('note')    
+            self.form_fields = self.form_fields.omit('note')   
+        else:
+            note_widget = TextAreaWidget
+            note_widget.height = 1
+            self.form_fields['note'].custom_widget = note_widget
+                        
         self.setUpWidgets()
 
     def setupActions(self, transition):

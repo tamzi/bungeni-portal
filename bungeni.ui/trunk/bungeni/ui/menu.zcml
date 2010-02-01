@@ -445,7 +445,7 @@
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
-     title="Archive"
+     title="My archive"
      action="/workspace_archive"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"

@@ -16,7 +16,8 @@ from bungeni.ui.i18n import _
 
 class LibraryMacros( StandardMacros ):
 
-    macro_pages = ('bungeni.lib_macros', 'library_template') + StandardMacros.macro_pages
+    macro_pages = ('bungeni.lib_macros', 
+        'library_template') + StandardMacros.macro_pages
 
 def iconLink( value, item, formatter ):
     icon_url = formatter.getIcon( item )
@@ -43,15 +44,12 @@ class LogGetter( object ):
 
 ListingColumns = [
     column.GetterColumn( title=_(u"Name"), 
-        getter=container.Decorate(lambda item, formatter: item.__name__, iconLink)), 
-    #column.GetterColumn( title=_(u"Revision"), getter=container.Decorate(
-    #    container.getColumnRevision, container.changeLink) ),
+        getter=container.Decorate(
+            lambda item, formatter: item.__name__, iconLink)), 
     column.GetterColumn( title=_(u"Type"), getter=container.getMimeType ),
     column.GetterColumn( title=_(u"Size"), getter=container.getSize ),
-
     column.GetterColumn( title=_(u"Modified"), getter=container.Decorate( 
         LogGetter( 'date' ), lambda x,y,z: container.format_date(x))),
-
     column.GetterColumn( title=_(u"Message"), getter=container.Decorate(
         LogGetter( 'message' ), lambda x,y,z: container.shortLog(x) ) ),
     ]

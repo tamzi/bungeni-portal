@@ -46,7 +46,45 @@
      class=".files.LibraryViewlet"
      for="bungeni.models.interfaces.IQuestion"
      permission="zope.View"
-     weight="5"
+     weight="50"
      />        
+
+  <browser:viewlet
+     name="bungeni.viewlet.bill-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".files.LibraryViewlet"
+     for="bungeni.models.interfaces.IBill"
+     permission="zope.View"
+     weight="50"
+     />          
+     
+     
+  <browser:viewlet
+     name="bungeni.viewlet.motion-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".files.LibraryViewlet"
+     for="bungeni.models.interfaces.IMotion"
+     permission="zope.View"
+     weight="50"
+     />         
+
+  <browser:viewlet
+     name="bungeni.viewlet.tableddocument-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".files.LibraryViewlet"
+     for="bungeni.models.interfaces.ITabledDocument"
+     permission="zope.View"
+     weight="50"
+     />    
+
+  <browser:viewlet
+     name="bungeni.viewlet.agendaitem-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".files.LibraryViewlet"
+     for="bungeni.models.interfaces.IAgendaItem"
+     permission="zope.View"
+     weight="50"
+     />    
+
 
 </configure>    

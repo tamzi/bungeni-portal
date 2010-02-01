@@ -10,7 +10,6 @@
 
   
   <class class=".domain.Bill">
-    <require permission="zope.Public" attributes="files"/>
     <require permission="zope.View"
              attributes="submission_date
                         status
@@ -25,6 +24,7 @@
                         publication_date
                         receive_notification
                         owner_id
+                        files
                         parliament_id" />
     <require permission="bungeni.bill.Edit"       
             attributes="note" />                          
@@ -49,7 +49,6 @@
   </class>
 
   <class class=".domain.Question">
-    <require permission="zope.Public" attributes="files"/>  
     <require permission="zope.View"
              attributes="submission_date
                         status
@@ -67,6 +66,7 @@
                         question_number
                         receive_notification
                         parliament_id
+                        files
                         owner_id" />
     <require permission="bungeni.question.Edit"       
             attributes="note" />                          
@@ -111,6 +111,7 @@
                         seconder_id
                         entered_by_id
                         party_id
+                        files
                         notice_date" />
     <require permission="bungeni.motion.Edit"       
             attributes="note" />                 
@@ -196,6 +197,7 @@
                         receive_notification
                         group_id
                         approval_date
+                        files
                         " />
     <require permission="bungeni.agendaitem.Edit"       
             attributes="note" />                 
@@ -232,6 +234,7 @@
                         status                        
                         receive_notification
                         approval_date
+                        files
                         " />
     <require permission="bungeni.tableddocument.Edit"       
             attributes="note" />                 

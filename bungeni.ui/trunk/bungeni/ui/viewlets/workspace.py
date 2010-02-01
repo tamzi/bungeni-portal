@@ -923,14 +923,18 @@ class MinistryItemsViewlet(ViewletBase):
         question_wf_state[u"scheduled"].id,                                          
         question_wf_state[u"response_pending"].id,          
     ]
-
+    response_types = ['O','W']
+    
+    
     def _getItems(self, ministry):
         data_list = []   
         session = Session()
         query = session.query(domain.Question).filter(
             sql.and_(
                 domain.Question.ministry_id == ministry.group_id,
-                domain.Question.status.in_(self.states)))                    
+                domain.Question.status.in_(self.states),
+                domain.Question.response_type.in_(self.response_types)                
+                ))                    
         results = query.all()
         
         for result in results:            
@@ -942,8 +946,8 @@ class MinistryItemsViewlet(ViewletBase):
                 data['subject'] = result.short_name + ' (' + result.status + ')'
             data['title'] = result.short_name + ' (' + result.status + ')'
             data['result_item_class'] = 'workflow-state-' + result.status 
-            data['url'] = '/archive/browse/parliaments/obj-%i/governments/obj-%i/ministries/obj-%i/questions/obj-%i' %(
-                self._parent.context.parliament_id, self._parent.government_id, 
+            data['url'] = '/archive/browse/governments/obj-%i/ministries/obj-%i/questions/obj-%i' %(
+                self._parent.government_id, 
                 ministry.group_id, result.question_id)                
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
@@ -978,6 +982,27 @@ class MinistryItemsViewlet(ViewletBase):
         ministries = session.query(domain.Ministry).filter(qfilter).order_by(
             domain.Ministry.start_date.desc())            
         self.query = ministries    
+
+
+class OralMinistryQuestionsViewlet(MinistryItemsViewlet):
+    list_id = "ministry-oral-questions"
+    name = _("oral questions")
+    states = [
+        question_wf_state[u"admissible"].id,  
+        question_wf_state[u"scheduled"].id,                                          
+        question_wf_state[u"schedule_pending"].id,          
+    ]
+    response_types = ['O']
+    
+class WrittenMinistryQuestionsViewlet(MinistryItemsViewlet):
+    list_id = "ministry-written-questions"
+    name = _("writtem questions")
+    states = [
+        question_wf_state[u"admissible"].id,  
+        question_wf_state[u"response_pending"].id,          
+    ]
+    response_types = ['W']
+
         
 class DraftSittingsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')

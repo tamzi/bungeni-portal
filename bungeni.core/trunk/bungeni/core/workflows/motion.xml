@@ -275,6 +275,7 @@
      action="bungeni.core.workflows.motion.actions.reject"
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionRejectedEvent"
+     require_confirmation="true"     
      />
   
   <transition

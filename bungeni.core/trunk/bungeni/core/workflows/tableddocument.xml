@@ -212,6 +212,7 @@
      action="bungeni.core.workflows.tableddocument.actions.reject"
      condition=""
      event="bungeni.core.workflows.interfaces.ITabledDocumentRejectedEvent"
+     require_confirmation="true"     
      />
   
   <transition

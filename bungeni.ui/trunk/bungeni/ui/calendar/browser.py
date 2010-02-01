@@ -363,9 +363,11 @@ class GroupSittingScheduleView(CalendarView):
         BrowserView.__init__(self, context, request)
 
     def render(self, date, template=None):
-        need('yui-editor')
+        #need('yui-editor')
+        need('yui-rte')
         need('yui-resize')
         need('yui-button')
+        
         if template is None:
             template = self.template
 

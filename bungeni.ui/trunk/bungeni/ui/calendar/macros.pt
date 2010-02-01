@@ -95,49 +95,56 @@
                      class="expandable" href="#">
                     <span>Nothing should be here</span>
                   </a> -->
-                  <div id="myDialog">
-                      <span tal:content="item/type" />:  
+                  
+                                <span tal:content="item/type" />:  
                         <a rel="item"
                      tal:attributes="name item/name;
                                      href item/url"
                      tal:content="item/title" />
-                      <a tabindex="0" class="showDlg-button" tal:define="id repeat/item/number"
-                                tal:attributes="id string:discussion-link-$id">Discussion</a>
-                               <span tal:content="python: body_text or u''" tal:define="id repeat/item/number"
-                                tal:attributes="id string:discussion-span-$id"></span> 
+                     <div style="float:right;">
+                     <a tabindex="0" style="float:right;" class="showDlg-button" tal:define="id repeat/item/number"
+                                tal:attributes="id string:discussion-link-$id">Minutes</a> </div>
+                      
+                             <!--  <span tal:content="python: body_text or u''" tal:define="id repeat/item/number"
+                                tal:attributes="id string:discussion-span-$id"></span>  -->
                   
-                  <p class="discussion">
-                    <span tal:replace="structure body_text" />
-                  </p>
-                 
-                  <form class="expandable" style="display: none"
-                        method="post"
-                        tal:condition="discussion_action"
-                        tal:define="id repeat/item/number"
-                        tal:attributes="action discussion_action/url; 
+                  
+                  <div class="discussion" tal:define="id repeat/item/number"
+                                tal:attributes="id string:dialog-$id" style="width:725px; visibility:inherit;">
+                        
+                        <div class="hd">Minutes</div>
+                        <div class="bd">
+
+                       
+                                <form class="expandable"
+                                        method="post"
+                                        tal:condition="discussion_action"
+                                        tal:define="id repeat/item/number"
+                                        tal:attributes="action discussion_action/url; 
                                         id string:discussion-form-$id">
 
-                    <input type="hidden" name="headless" value="true" />
+                                        <input type="hidden" name="headless" value="true" />
 
-                    <div class="field">
-                        
-                      <textarea class="discussion" name="body_text" lines="5"
-                                tal:define="id repeat/item/number"
-                                tal:attributes="id string:discussion-textarea-$id"
-                                tal:content="python: body_text or u''">
-                      </textarea>
-                    </div>
+                                        <label for="body_text">Minutes</label><textarea class="discussion" name="body_text" lines="5"
+                                                                            tal:define="id repeat/item/number"
+                                                                            tal:attributes="id string:discussion-textarea-$id"
+                                                                            tal:content="python: body_text or u''">
+                                                                            </textarea>
 
-                    <input type="submit" name="submit" value="Save"
-                           i18n:attributes="value" id="submitDialog"/>
-                  </form> 
-
-                  <a rel="category"
+                                            <!-- <input type="submit" name="submit" value="Save"
+                                                    i18n:attributes="value" id="submitDialog"/> -->
+                                    </form> 
+                        </div>
+                  
+                     </div>
+                     <a rel="category"
                      style="display: none"
                      tal:condition="item/category"
                      tal:attributes="name item/category_id"
                      tal:content="item/category/short_name" />
-                     </div>
+                     <p tal:define="id repeat/item/number" tal:attributes="id string:discussion_$id">
+                        <span tal:replace="structure body_text" />
+                    </p>
                 </td>
                 <td tal:define="discussion_action item/discussion_action;">
                   <form method="POST"

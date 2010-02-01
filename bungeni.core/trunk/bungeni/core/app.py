@@ -190,9 +190,9 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
                        (implementedBy(domain.Report), ILocation)) 
 
-        documents[u"preports"] = domain.ReportContainer()
-        provideAdapter(location.ContainerLocation(preports, documents[u"preports"]),
-                       (implementedBy(domain.Report4Sitting), ILocation))
+        #documents[u"preports"] = domain.ReportContainer()
+        #provideAdapter(location.ContainerLocation(preports, documents[u"preports"]),
+        #               (implementedBy(domain.Report4Sitting), ILocation))
                        
 
         records[u"parties"] = domain.PoliticalPartyContainer()
@@ -215,6 +215,9 @@ class AppSetup(object):
         records[u"governments"] = domain.GovernmentContainer()
         provideAdapter(location.ContainerLocation(records[u"governments"]),
                        (implementedBy(domain.Government), ILocation))
+        records[u"mps"] = domain.MemberOfParliamentContainer()
+        provideAdapter(location.ContainerLocation(records[u"mps"]),
+                       (implementedBy(domain.MemberOfParliament), ILocation))                       
 
         ##########
         # Admin User Interface

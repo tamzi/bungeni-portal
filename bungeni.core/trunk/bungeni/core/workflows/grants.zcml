@@ -13,6 +13,8 @@
   <grant permission="bungeni.question.Answer" role="bungeni.Clerk"/>
   <grant permission="bungeni.question.Withdraw" role="bungeni.Owner"/>
   <grant permission="bungeni.question.Write_answer" role="bungeni.Minister" />  
+  <grant permission="bungeni.question.Elapse" role="bungeni.Clerk"/>
+  <grant permission="bungeni.question.Elapse" role="bungeni.Speaker"/>    
   <!-- response workflow permissions -->
   <grant permission="bungeni.response.Submit" role="bungeni.Minister"/>
   <grant permission="bungeni.response.Complete" role="bungeni.Clerk"/>  

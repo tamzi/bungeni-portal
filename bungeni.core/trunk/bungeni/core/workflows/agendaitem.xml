@@ -205,6 +205,7 @@
      action="bungeni.core.workflows.agendaitem.actions.reject"
      condition=""
      event="bungeni.core.workflows.interfaces.IAgendaItemRejectedEvent"
+     require_confirmation="true"     
      />
   
   <transition

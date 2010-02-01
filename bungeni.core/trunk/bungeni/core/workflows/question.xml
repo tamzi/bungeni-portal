@@ -245,6 +245,7 @@
      action="bungeni.core.workflows.question.actions.reject"
      condition=""
      event=".interfaces.IQuestionRejectedEvent"
+     require_confirmation="true"     
      />
      
   <transition 

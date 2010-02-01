@@ -102,7 +102,7 @@
 	
 	    var onSuccess = function(o) {
 	            var discussion_id = "discussion_"+id;
-                var html2 = textarea.val();
+                var html2 = textarea.val().substring(0,100)+"...";
                 //$('#'+discussion_id).html("<div>"+html2+"</div>");
                 //alert(discussion_id);
                 //alert(id);
@@ -116,7 +116,8 @@
 	    }
 	    var onFailure = function(o) {
 		    //in the event of a failure, we can log the problem:
-		    YAHOO.log("Dialog reported a communication failure; connection object: " + YAHOO.lang.dump(o, 5));
+		    //YAHOO.log("Dialog reported a communication failure; connection object: " + YAHOO.lang.dump(o, 5));
+		    alert("An error occured when connecting to server.");
 	    }
 	    dlg.callback.success = onSuccess;
 	    dlg.callback.failure = onFailure;

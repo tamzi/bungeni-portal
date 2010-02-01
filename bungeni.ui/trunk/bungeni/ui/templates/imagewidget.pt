@@ -43,7 +43,7 @@
   </span>
   <b tal:condition="view/empty_field" i18n:translate="upload-image" >Upload image</b>
   <br/>  
-  <input type="hidden" tal:condition="view/empty_field" value="update"
+  <input type="hidden" tal:condition="view/empty_field" value="add"
          tal:attributes="id view/update_action_name; name view/update_action_name"/> 
   <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
          disabled='true'

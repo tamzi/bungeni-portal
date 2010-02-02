@@ -90,7 +90,8 @@
                             status
                             supplement_parent_id
                             approval_date
-                            sitting_time                            
+                            sitting_time  
+                            question_number                          
                             ministry_submit_date" />            
                          
   </class>             

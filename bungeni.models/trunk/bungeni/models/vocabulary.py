@@ -260,40 +260,24 @@ class MinistrySource(SpecializedSource):
                                 domain.Government.start_date,
                                 domain.Government.end_date)                        
                         )
-                    ))  
+                    ))                                
             government = governments.all()
-            if len(government) == 1:
-                gov_id = government[0].group_id
+            if len(government) <= 1:
+                gov_ids = [gov.group_id for gov in government]
                 if ministry_id:
                     query = session.query(domain.Ministry).filter(
                         sql.or_(
                             domain.Ministry.group_id == ministry_id,
                             sql.and_(
-                                domain.Ministry.parent_group_id == gov_id,
-                                sql.or_( 
-                                    sql.and_(
-                                        domain.Ministry.start_date <= today,
-                                        domain.Ministry.end_date == None
-                                        ),
-                                    sql.between(today, 
-                                            domain.Ministry.start_date,
-                                            domain.Ministry.end_date)                        
-                                    )
+                                domain.Ministry.parent_group_id.in_(gov_ids),
+                                domain.Ministry.status == u'active'                                
                                 ))  
                     )
                 else:
                     query = session.query(domain.Ministry).filter(
                             sql.and_(
-                                domain.Ministry.parent_group_id== gov_id,
-                                sql.or_( 
-                                    sql.and_(
-                                        domain.Ministry.start_date <= today,
-                                        domain.Ministry.end_date == None
-                                        ),
-                                    sql.between(today, 
-                                            domain.Ministry.start_date,
-                                            domain.Ministry.end_date)                        
-                                    )
+                                domain.Ministry.parent_group_id.in_(gov_ids),
+                                domain.Ministry.status == u'active'                                
                                 ))                                                       
             else:
                 if ministry_id:
@@ -303,12 +287,15 @@ class MinistrySource(SpecializedSource):
                     query = session.query(domain.Ministry)            
         else:
             query = session.query(domain.Ministry)
+        session.close()            
         return query     
                
     def __call__( self, context=None ):
         query = self.constructQuery( context )
         results = query.all()        
         terms = []
+        trusted=removeSecurityProxy(context)        
+        ministry_id = getattr(trusted, self.value_field, None)
         for ob in results:
             terms.append( 
                 vocabulary.SimpleTerm( 
@@ -317,7 +304,19 @@ class MinistrySource(SpecializedSource):
                     title = "%s - %s" % (getattr( ob, 'short_name') ,
                             getattr( ob, 'full_name'))
                     ))
-
+        if ministry_id:
+            if query.filter(domain.Group.group_id == ministry_id).count() == 0:
+                session = Session()            
+                ob = session.query(domain.Group).get(ministry_id)
+                terms.append( 
+                    vocabulary.SimpleTerm( 
+                        value = getattr( ob, 'group_id'), 
+                        token = getattr( ob, 'group_id'),
+                        title = "%s - %s" % (getattr( ob, 'short_name') ,
+                                getattr( ob, 'full_name'))
+                        ))
+                session.close()                        
+                            
         return vocabulary.SimpleVocabulary( terms )                
 
 class MemberTitleSource(SpecializedSource):
@@ -395,7 +394,7 @@ class UserNotMPSource(SpecializedSource):
                     ))
         user_id = getattr(context, self.value_field, None) 
         if user_id:
-            if len(query.filter(domain.GroupMembership.user_id == user_id).all()) == 0:
+            if query.filter(domain.GroupMembership.user_id == user_id).count() == 0:
                 # The user is not a member of this group. 
                 # This should not happen in real life
                 # but if we do not add it her the view form will 

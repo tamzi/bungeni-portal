@@ -794,9 +794,11 @@ class ReportingView(form.PageForm):
         self.end_date = self.get_end_date(self.start_date, time_span)
         if 'date' in data:
             self.sitting_items = self.get_sittings_items(self.start_date, self.end_date)
+            self.single="False"
         else:
             self.sitting_items = []
             self.sitting_items.append(self.context)
+            self.single="True"
         self.item_types = data['item_types']
         self.bill = False
         self.motion = False
@@ -1123,8 +1125,10 @@ class SaveView(AgendaReportingView):
         body_text = self.request.form['body_text']
         session = Session()
         report = domain.Report()
-        report.start_date = self.request.form['end_date']                    
-        report.end_date = self.request.form['start_date']                     
+        start_date = self.request.form['start_date']
+        end_date = self.request.form['end_date']
+        report.start_date = start_date                 
+        report.end_date = end_date                     
         report.created_date = datetime.datetime.now()   
         report.note = self.request.form['note']                                
         report.report_type = self.request.form['report_type']                    
@@ -1133,7 +1137,7 @@ class SaveView(AgendaReportingView):
         report.group_id = self.context.group_id
         session.add(report)
         
-        if 'date' in self.request.form:
+        if self.request.form['single']=="False":
             self.sitting_items = self.get_sittings_items(start_date, end_date)
         else:
             self.sitting_items = []

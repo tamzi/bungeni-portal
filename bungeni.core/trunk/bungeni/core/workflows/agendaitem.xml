@@ -232,6 +232,7 @@
      condition=""
      require_confirmation="true"     
      />
+     
   <transition
      id="complete-clarify"
      title="Complete"
@@ -242,6 +243,7 @@
      action=""
      condition=""
      />
+     
   <transition
      id="mp-clarify"
      title="Needs Clarification by MP"

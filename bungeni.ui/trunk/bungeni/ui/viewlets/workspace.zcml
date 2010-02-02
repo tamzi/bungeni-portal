@@ -137,7 +137,7 @@
   <browser:viewlet
      name="bungeni.workspace.my-groups"
      for="*"
-     manager="ploned.ui.interfaces.IRightColumnManager"
+     manager=".interfaces.IWorkspaceManager"
      class=".workspace.MyGroupsViewlet"
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"

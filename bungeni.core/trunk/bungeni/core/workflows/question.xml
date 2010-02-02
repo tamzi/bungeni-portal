@@ -426,7 +426,7 @@
             deferred
             postponed"
      destination="elapsed"
-     permission="bungeni.question.elapse"
+     permission="bungeni.question.Elapse"
      action="bungeni.core.workflows.question.actions.elapse"
      condition=""
      event=""

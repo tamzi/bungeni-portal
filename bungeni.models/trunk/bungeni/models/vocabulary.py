@@ -136,7 +136,8 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                 query = session.query(MemberOfParliament).order_by(
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name)                
+                            MemberOfParliament.middle_name)    
+        session.close()                                                    
         return query                                                                                                           
 
     def __call__( self, context=None ):
@@ -167,6 +168,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                     title = "(%s %s)" % (getattr( ob, 'first_name') ,
                             getattr( ob, 'last_name'))
                     ))
+                session.close()                                
         return vocabulary.SimpleVocabulary( terms )
 
 class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
@@ -212,7 +214,8 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                 query = session.query(MemberOfParliament).order_by(
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name)                
+                            MemberOfParliament.middle_name)    
+        session.close()                                                    
         return query   
 
 class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
@@ -251,15 +254,7 @@ class MinistrySource(SpecializedSource):
             governments = session.query(domain.Government).filter(
                 sql.and_(
                     domain.Government.parent_group_id == parliament_id,
-                    sql.or_( 
-                        sql.and_(
-                            domain.Government.start_date <= today,
-                            domain.Government.end_date == None
-                            ),
-                        sql.between(today, 
-                                domain.Government.start_date,
-                                domain.Government.end_date)                        
-                        )
+                    domain.Government.status == u'active'
                     ))                                
             government = governments.all()
             if len(government) <= 1:
@@ -338,6 +333,7 @@ class MemberTitleSource(SpecializedSource):
         titles = session.query(domain.MemberTitle).filter(
             domain.MemberTitle.user_type == user_type).order_by(
                 domain.MemberTitle.sort_order)
+        session.close()                            
         return titles
 
     def __call__( self, context=None ):
@@ -361,6 +357,7 @@ class UserSource(SpecializedSource):
         
         users = session.query(domain.User).order_by(
                 domain.User.last_name, domain.User.first_name)
+        session.close()                            
         return users    
     
 
@@ -378,6 +375,7 @@ class UserNotMPSource(SpecializedSource):
             sql.not_(domain.User.user_id.in_( mp_user_ids)),
             domain.User.active_p == 'A')).order_by(
                 domain.User.last_name, domain.User.first_name)
+        session.close()                            
         return query                       
 
     def __call__( self, context=None ):
@@ -408,6 +406,7 @@ class UserNotMPSource(SpecializedSource):
                     title = "(%s %s)" % (getattr( ob, 'first_name') ,
                             getattr( ob, 'last_name'))
                     ))
+                session.close()                                
         return vocabulary.SimpleVocabulary( terms )
 
 
@@ -416,7 +415,7 @@ class UserNotStaffSource(SpecializedSource):
     """ all users that are NOT staff """
     def constructQuery( self, context):
         session= Session()
-        
+        session.close()                    
         
 class SubstitutionSource(SpecializedSource):
     """ active user of the same group """
@@ -448,6 +447,7 @@ class SubstitutionSource(SpecializedSource):
         if group_id:
             query = query.filter(
                 domain.GroupMembership.group_id == group_id)
+        session.close()                            
         return query                
                     
         
@@ -468,6 +468,7 @@ class SubstitutionSource(SpecializedSource):
                 tdict[getattr( ob, 'user_id')] = "%s %s" % (
                             getattr( ob, 'first_name') ,
                             getattr( ob, 'last_name'))
+                session.close()                                        
         terms = []
         for t in tdict.keys():
             terms.append( 
@@ -502,6 +503,7 @@ class BillSource(SpecializedSource):
             sql.not_(domain.Bill.status.in_(
                 ['draft','withdrawn','approved','rejected'])),
             domain.Bill.parliament_id == parliament_id))
+        session.close()                        
         return query                
                 
 class CommitteeSource(SpecializedSource):  
@@ -514,6 +516,7 @@ class CommitteeSource(SpecializedSource):
             sql.and_(
             domain.Committee.status == 'active',
             domain.Committee.parent_group_id == parliament_id))
+        session.close()                        
         return query                
 
 
@@ -538,6 +541,7 @@ class MotionPartySource(SpecializedSource):
         else:
             query = session.query(domain.PoliticalParty).filter(                    
                         domain.PoliticalParty.parent_group_id == parliament_id)
+        session.close()                                    
         return query                        
         
 
@@ -595,7 +599,7 @@ class QuerySource( object ):
         if self.order_by_field:
             query = query.order_by(self.domain_model.c[self.order_by_field])
             
-            
+        session.close()                        
         return query
         
     def __call__( self, context=None ):

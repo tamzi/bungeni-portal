@@ -792,7 +792,11 @@ class ReportingView(form.PageForm):
         elif data['doc_type'] == "Proceedings of the day":
             time_span = TIME_SPAN.daily                 
         self.end_date = self.get_end_date(self.start_date, time_span)
-        self.sitting_items = self.get_sittings_items(self.start_date, self.end_date)
+        if 'date' in data:
+            self.sitting_items = self.get_sittings_items(self.start_date, self.end_date)
+        else:
+            self.sitting_items = []
+            self.sitting_items.append(self.context)
         self.item_types = data['item_types']
         self.bill = False
         self.motion = False
@@ -913,6 +917,14 @@ class ReportingView(form.PageForm):
                 if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes", "draft-agenda"]:
                     sitting_items.append(sitting)
         self.sitting_items = sitting_items
+        if self.display_minutes:                                 
+            self.report_type = 'minutes'
+        else:
+            self.report_type = 'agenda'
+        if self.display_minutes:
+            self.link = absoluteURL(self.context, self.request)+'/votes-and-proceedings'
+        else :
+            self.link = absoluteURL(self.context, self.request)+'/agenda'
         try:              
             self.group = self.context.get_group()
         except:
@@ -927,6 +939,10 @@ class ReportingView(form.PageForm):
     @form.action(_(u"Preview"))  
     def handle_preview(self, action, data):                
         self.process_form(data)
+        #import pdb; pdb.set_trace()
+        self.save_link = absoluteURL(self.context, self.request)+"/save_report"
+        self.body_text = self.result_template()
+        #import pdb; pdb.set_trace()
         return self.main_result_template()
     
     @form.action(_(u"Save"))
@@ -953,6 +969,7 @@ class ReportingView(form.PageForm):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
+        
         if IGroupSitting.providedBy(self.context):        
             back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
@@ -1015,7 +1032,9 @@ class ReportingView(form.PageForm):
             return start_date + timedelta(weeks=1)
         
         raise RuntimeError("Unknown time span: %s." % time_span)
-    
+
+
+
 class AgendaReportingView(ReportingView):
     """Agenda report."""
     
@@ -1097,6 +1116,45 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
             str(time_span).lower(), date.year, date.month, date.day)
 
         return file
+
+
+class SaveView(AgendaReportingView):
+    def __call__(self):
+        body_text = self.request.form['body_text']
+        session = Session()
+        report = domain.Report()
+        report.start_date = self.request.form['end_date']                    
+        report.end_date = self.request.form['start_date']                     
+        report.created_date = datetime.datetime.now()   
+        report.note = self.request.form['note']                                
+        report.report_type = self.request.form['report_type']                    
+        report.body_text = body_text
+        report.user_id = getUserId()
+        report.group_id = self.context.group_id
+        session.add(report)
+        
+        if 'date' in self.request.form:
+            self.sitting_items = self.get_sittings_items(start_date, end_date)
+        else:
+            self.sitting_items = []
+            st = self.context.sitting_id
+            sitting = session.query(domain.GroupSitting).get(st)
+            self.sitting_items.append(sitting)
+        
+        for sitting in self.sitting_items:
+            sr = domain.SittingReport()
+            sr.report = report
+            sr.sitting = sitting
+            session.add(sr)
+        session.flush()
+        
+        if IGroupSitting.providedBy(self.context):        
+            back_link = absoluteURL(self.context, self.request)  + '/schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            back_link = absoluteURL(self.context, self.request)  
+        else:   
+            raise NotImplementedError                                                                     
+        self.request.response.redirect(back_link) 
 
 
 class HTMLPreviewPage(ReportingView):

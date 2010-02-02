@@ -8,6 +8,9 @@ from zope import interface
 from bungeni.core.i18n import _
 
 from ore.alchemist import Session
+from ore.alchemist.interfaces import IAlchemistContent
+from ore.alchemist.interfaces import IAlchemistContainer
+
 
 import sqlalchemy as rdb
 
@@ -141,11 +144,9 @@ def validate_party_membership(action, data, context, container):
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
                     "end_date" )) 
+    session.close()                    
     return errors                    
-    
-
-
-
+         
 
 def validate_parliament_dates(action, data, context, container):
     """Parliaments must not overlap."""
@@ -270,7 +271,7 @@ def validate_group_membership_dates(action, data, context, container):
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
                     "end_date" )) 
-
+    session.close()
     return errors
                  
 
@@ -411,7 +412,8 @@ def validate_member_titles(action, data, context, container):
                 errors.append( interface.Invalid(
                     _(u"A person with the title %s allready exists") % 
                     overlaps, 
-                    "end_date" ))                                         
+                    "end_date" ))  
+    session.close()                                                           
     return errors
 
 def validate_venues(action, data, context, container):
@@ -428,6 +430,7 @@ def validate_venues(action, data, context, container):
         session = Session()        
         svenue = session.query(domain.Venue).get(venue_id)            
     else:
+        session.close()
         return []
         
     start = data.get('start_date')    
@@ -441,6 +444,7 @@ def validate_venues(action, data, context, container):
                 _(u'Venue "$venue" already booked in this time slot.',
                   mapping={'venue': booking.short_name}),
                 "venue_id"))
+    session.close()                
     return errors
 
 def validate_recurring_sittings(action, data, context, container):
@@ -470,6 +474,7 @@ def validate_recurring_sittings(action, data, context, container):
         # that invariant methods pertain to a single schema, it's not
         # possible
         if repeat_until is not None and repeat_until < start.date():
+            session.close()
             return [interface.Interface(
                 _(u"If recurrence is limited by date, it "
                   "must lie after the starting date."),
@@ -506,7 +511,7 @@ def validate_recurring_sittings(action, data, context, container):
 
             if errors:
                 break
-
+    session.close()
     return errors
 
 def validate_non_overlapping_sitting(action, data, context, container, *fields):
@@ -523,11 +528,14 @@ def validate_non_overlapping_sitting(action, data, context, container, *fields):
 
     for sitting in queries.get_sittings_between(sittings, start, end):
         if context != sitting:
+            session.close() 
             return [interface.Invalid(
                 _(u"One or more events would be scheduled for $F, which "
                   "overlaps with an existing sitting.",
                   mapping={'F':datetimedict.fromdatetime(start)}),
-                *fields)]        
+                *fields)]  
+
+    session.close()                 
     return []
 
 def generate_recurring_sitting_dates(start_date, repeat, repeat_until,

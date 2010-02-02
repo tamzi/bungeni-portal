@@ -31,7 +31,7 @@ from bungeni.ui.widgets import ImageDisplayWidget
 from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
 from bungeni.ui.widgets import OneTimeEditWidget
-from bungeni.ui.constraints import check_email
+from bungeni.ui import constraints
 from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
 from bungeni.ui import diff
@@ -292,11 +292,11 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="email",
               property = schema.TextLine( title =_(u"Email"), 
                           description=_(u"Email address"),
-                          constraint=check_email,
+                          constraint=constraints.check_email,
                           required=True
                           ),
              ),                                                                                
-        dict( name="login", label=_(u"Login Name"), 
+        dict( name="login", label=_(u"Login"), 
             add=True, edit=False, view=True, required=True),
         dict( name="password", omit = True),
         dict( name="_password",
@@ -831,7 +831,7 @@ class AddressDescriptor ( ModelDescriptor ):
               property = schema.TextLine( 
                 title =_(u"Email"), 
                 description=_(u"Email address"),
-                constraint=check_email,
+                constraint=constraints.check_email,
                 required=False                
                 ),
                 listing = True,

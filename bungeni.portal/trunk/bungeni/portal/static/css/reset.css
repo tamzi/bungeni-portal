@@ -1,4 +1,4 @@
-
+ 
 * {margin: 0; padding: 0; vertical-align: baseline; }
 html {
   height: 100%;
@@ -1011,10 +1011,28 @@ div#footer {
 .template-web_pages #plone-contentmenu-actions,
 .template-private_folder #plone-contentmenu-actions,
 .template-web_pages #plone-contentmenu-workflow,
-.template-private_folder #plone-contentmenu-workflow {
+.template-privateshell_folder #plone-contentmenu-workflow {
   display: none;
 }
 
 .indItem {
   margin-left: 1.5em;
 }
+
+#document-action-sendto {
+  display: none;
+}
+
+#document-action-extedit {
+  display: none;
+}
+
+#link-presentation {
+  display: none;
+}
+
+.section-have-your-say .discreet {
+  display: none;
+
+}
+

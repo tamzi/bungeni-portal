@@ -17,6 +17,8 @@ from zope.formlib.namedtemplate import NamedTemplate
 from zope.traversing.browser import absoluteURL
 from zope.container.contained import ObjectRemovedEvent
 from zope.app.pagetemplate import ViewPageTemplateFile
+from sqlalchemy import orm
+from ore.alchemist import Session
 from alchemist.catalyst import ui
 from alchemist.ui.core import null_validator
 from ore.alchemist.model import queryModelDescriptor
@@ -24,6 +26,7 @@ from ore.alchemist.container import stringKey
 from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.ui.core import handle_edit_action
 from alchemist.ui.core import setUpFields
+from alchemist.ui.core import unique_columns
 from zope.app.form.interfaces import IDisplayWidget
 
 
@@ -179,17 +182,17 @@ class AddForm(BaseForm, ui.AddForm):
     interface.implements(ILocation, IDCDescriptiveProperties)
     description = None
     
+    def getDomainModel( self ):
+        return getattr( self.context, 'domain_model', self.context.__class__)    
+    
     def validate(self, action, data):    
         errors = super(AddForm, self).validate(action, data)
 
         descriptor = queryModelDescriptor(self.domain_model)
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, None, self.context)
-        
         return errors
         
-    def validateUnique( self, action, data ):
-        return
         
     def validateUnique(self, action, data):
         """Validate unique.
@@ -198,7 +201,35 @@ class AddForm(BaseForm, ui.AddForm):
         return an empty list of errors.
         """
         
-        return self.validate(action, data)
+        errors = self.validate(action, data)
+        domain_model = removeSecurityProxy( self.getDomainModel() )
+        
+        # find unique columns in data model.. TODO do this statically
+        mapper = orm.class_mapper( domain_model  )
+        ucols = list( unique_columns( mapper ) )
+
+        # query out any existing values with the same unique values,        
+        s = Session()        
+        # find data matching unique columns
+        for key, col in ucols:
+            if key in data:
+                # on edit ignore new value if its the same as the previous value
+                if isinstance( self.context, domain_model ) \
+                   and data[key] == getattr( self.context, key, None):
+                   continue
+                
+                value = s.query( domain_model ).filter( col == data[key] ).count()
+                if not value:
+                    continue
+                
+                widget = self.widgets[ key ]
+                error = form.WidgetInputError( widget.name, 
+                               widget.label, 
+                              _(u"Duplicate Value for Unique Field"))
+                widget._error = error
+                errors.append( error )
+
+        return errors
 
     def filter_fields(self):
         return filterFields(self.context, self.form_fields)

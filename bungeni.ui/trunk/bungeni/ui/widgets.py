@@ -146,7 +146,7 @@ class ImageDisplayWidget(DisplayWidget):
     def __call__(self):
         #url = absoluteURL( self.__parent__.context, self.request )
         #return '<img src="' + url + '/@@file-image/%s" />' % self.context.__name__
-        return '<img src="@@file-image/%s" />' % self.context.__name__
+        return '<img src="./@@file-image/%s" />' % self.context.__name__
 
 class HTMLDisplay(UnicodeDisplayWidget):
     

@@ -234,7 +234,7 @@ class ItemScheduleDeleteForm(DeleteForm):
             del unproxied.discussions[key]
             session.delete(discussion)
             count += 1
-        session.close()            
+        #session.close()            
         return count
 
 class GroupSittingAddForm(AddForm):
@@ -346,7 +346,7 @@ class GroupSittingAddForm(AddForm):
     Cleanup.
 
       >>> session.flush()  
-      >>> session.close() 
+      >>> #session.close() 
 
     """
     
@@ -465,5 +465,5 @@ class GroupSittingAddForm(AddForm):
                 notify(ObjectCreatedEvent(ob))
 
                 objs.append(ob)
-        session.close()
+        #session.close()
         return objs

@@ -57,6 +57,10 @@ ul.items-for-scheduling ul li {
  overflow: auto;
 }
 
+.scheduling.scheduling-drop-target.draft-minutes{
+ height: auto;
+ overflow: auto;
+}
 
 p.scheduling-dd-description {
   text-align: center;

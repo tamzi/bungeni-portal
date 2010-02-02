@@ -15,7 +15,7 @@ def get_current_parliament(context):
     session = Session()
     parliament = session.query(domain.Parliament).order_by(
         desc(domain.Parliament.election_date)).first()
-    session.close()            
+    #session.close()            
     return parliament    
 
 
@@ -26,7 +26,7 @@ def get_parliament_by_date_range(context, start_date, end_date):
         ((domain.Parliament.end_date == None) | \
          (domain.Parliament.end_date > end_date))).\
         order_by(desc(domain.Parliament.election_date)).first()
-    session.close()            
+    #session.close()            
     return parliament         
 
 def get_session_by_date_range(context, start_date, end_date):
@@ -35,7 +35,7 @@ def get_session_by_date_range(context, start_date, end_date):
         (domain.ParliamentSession.start_date < start_date) & \
         ((domain.ParliamentSession.end_date == None) | \
          (domain.ParliamentSession.end_date > end_date))).first()
-    session.close()            
+    #session.close()            
     return ps 
 
 

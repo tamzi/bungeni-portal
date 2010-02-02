@@ -20,4 +20,4 @@ def get_user_delegations(user_id):
             (len(result.user.login) > 1) and
             (result.delegation.active_p == 'A')):                                        
             yield result.user
-    session.close()                        
+    #session.close()                        

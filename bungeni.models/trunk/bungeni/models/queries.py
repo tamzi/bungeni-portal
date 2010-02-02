@@ -13,23 +13,31 @@ def container_getter(getter, name):
 
 def get_current_parliament(context):
     session = Session()
-    return session.query(domain.Parliament).order_by(
+    parliament = session.query(domain.Parliament).order_by(
         desc(domain.Parliament.election_date)).first()
+    session.close()            
+    return parliament    
+
 
 def get_parliament_by_date_range(context, start_date, end_date):
     session = Session()
-    return session.query(domain.Parliament).filter(
+    parliament = session.query(domain.Parliament).filter(
         (domain.Parliament.start_date < start_date) & \
         ((domain.Parliament.end_date == None) | \
          (domain.Parliament.end_date > end_date))).\
         order_by(desc(domain.Parliament.election_date)).first()
+    session.close()            
+    return parliament         
 
 def get_session_by_date_range(context, start_date, end_date):
     session = Session()
-    return session.query(domain.ParliamentSession).filter(
+    ps = session.query(domain.ParliamentSession).filter(
         (domain.ParliamentSession.start_date < start_date) & \
         ((domain.ParliamentSession.end_date == None) | \
          (domain.ParliamentSession.end_date > end_date))).first()
+    session.close()            
+    return ps 
+
 
 def get_sittings_between(sittings, start, end):
     modifier = sittings.getQueryModifier()

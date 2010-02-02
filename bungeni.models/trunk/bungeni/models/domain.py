@@ -135,8 +135,10 @@ class Group( Entity ):
                 )
             )
         if query.count() == 0:
+            session.close()                    
             return False
         else:
+            session.close()                
             return True            
 
                     
@@ -403,6 +405,7 @@ class Question( ParliamentaryItem ):
         if self.supplement_parent_id:
             session = Session()
             parent = session.query(Question).get(self.supplement_parent_id)   
+            session.close()                        
             return parent.short_name
 
             
@@ -571,6 +574,7 @@ class ItemSchedule(Entity):
         session = Session()
         s_item = self.item
         s_item.__parent__ = self
+        session.close()                    
         return s_item
         
     @property
@@ -578,6 +582,7 @@ class ItemSchedule(Entity):
         session = Session()
         s_discussion = self.discussion
         s_discussion.__parent__ = self
+        session.close()                    
         return s_discussion
 
 class ItemScheduleCategory(Entity):

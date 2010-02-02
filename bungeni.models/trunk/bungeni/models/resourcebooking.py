@@ -55,7 +55,9 @@ def get_available_resources( start, end ):
     """ % sql_booked_resources
     connection = session.connection( domain.Resource )                                              
     query = connection.execute(rdb.text(sql_resources), start=start, end=end)
-    return query.fetchall()                   
+    resources= query.fetchall()                   
+    session.close()            
+    return resources    
 
 def get_unavailable_resources( start, end ):
     """
@@ -75,7 +77,9 @@ def get_unavailable_resources( start, end ):
                     )
                     
     query = session.query(BookedResources).filter(b_filter)       
-    return query.all()                        
+    resources = query.all()                        
+    session.close()            
+    return resources    
     
 def check_bookings( start, end, resource ):
     """
@@ -98,7 +102,9 @@ def check_bookings( start, end, resource ):
                         )
                     )
     query = session.query(BookedResources).filter(b_filter)    
-    return query.all()
+    bookings = query.all()
+    session.close()            
+    return bookings    
 
                     
 def check_availability( start, end, resource):
@@ -127,6 +133,7 @@ def book_resource( sitting, resource ):
     results = cq.all()
     if results:
         print "allready booked"
+        session.close()            
         return
         #nothing to do here it is already booked            
     
@@ -139,7 +146,7 @@ def book_resource( sitting, resource ):
         
     else:
         print "not available"
-                        
+    session.close()                        
 
 def unbook_resource( sitting, resource ):
     """
@@ -157,6 +164,7 @@ def unbook_resource( sitting, resource ):
     for result in results:
         session.delete(result)
         session.flush()
+    session.close()            
 
                     
     

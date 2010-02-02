@@ -58,7 +58,7 @@ class GroupIdViewlet(viewlet.ViewletBase):
         else:
             self.parent_group_principal_id = trusted.parent_group.group_principal_id
         self.my_group_principal_id = trusted.group_principal_id        
-        session.close()
+        #session.close()
         
     render = ViewPageTemplateFile ('templates/group_id.pt')  
 
@@ -79,7 +79,7 @@ class UserIdViewlet(viewlet.ViewletBase):
         session = Session()
         trusted = removeSecurityProxy(self.context)    
         self.principal_id = trusted.user.login    
-        session.close()
+        #session.close()
         
     render = ViewPageTemplateFile ('templates/user_id.pt')  
 
@@ -104,7 +104,7 @@ class ResponseQuestionViewlet(viewlet.ViewletBase):
             question_id = self.context.response_id
             session = Session()            
             question = session.query(domain.Question).get(question_id)
-            session.close()
+            #session.close()
             return question
             #self.subject = self.context.__parent__.__parent__.subject
             #self.question_text = self.context.__parent__.__parent__.question_text
@@ -113,7 +113,7 @@ class ResponseQuestionViewlet(viewlet.ViewletBase):
             if self.context.__parent__.__class__ == domain.Question:
                 self.subject = self.context.__parent__.subject
                 self.question_text = self.context.__parent__.question_text
-        session.close()
+        #session.close()
     render = ViewPageTemplateFile ('templates/question.pt')  
     
     
@@ -429,7 +429,7 @@ class PersonInfo( BungeniAttributeDisplay ):
         self.context = self.query.all()[0]
         self.context.__parent__= parent
         super( PersonInfo, self).update()
-        session.close()
+        #session.close()
 
 class ParliamentMembershipInfo(BungeniAttributeDisplay):
     """ for a given user get his last parliament 
@@ -457,7 +457,7 @@ class ParliamentMembershipInfo(BungeniAttributeDisplay):
             ).order_by(
             domain.MemberOfParliament.start_date.desc()) 
         self.for_display = self.query.count() >0    
-        session.close()
+        #session.close()
         
     def update(self):
         """
@@ -522,7 +522,7 @@ class InitialQuestionsViewlet( BungeniAttributeDisplay ):
             self.context = None
             
         super( InitialQuestionsViewlet, self).update()
-        session.close()
+        #session.close()
         
 class ResponseViewlet( BungeniAttributeDisplay ):
     """Response to question."""
@@ -700,7 +700,7 @@ class MemberItemsViewlet( viewlet.ViewletBase ):
                 domain.ParliamentaryItem.status.in_(self.states),
             )).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc())
         #self.for_display = (self.query.count() > 0)
-        session.close()    
+        #session.close()    
         
     def results(self):
         for result in self.query.all():
@@ -810,7 +810,7 @@ class SessionCalendarViewlet( viewlet.ViewletBase ):
         self.Data = []
         session = Session()
         self.type_query = session.query(domain.SittingType)        
-        session.close()
+        #session.close()
         
     def _getDisplayDate(self, request):
         display_date = getDisplayDate(self.request)                    
@@ -955,7 +955,7 @@ class SessionCalendarViewlet( viewlet.ViewletBase ):
         results = query.all()
         if results:        
             css_class = css_class + "holyday-date "  
-        session.close()        
+        #session.close()        
         return css_class.strip()
             
     def getWeekNo(self, Date):

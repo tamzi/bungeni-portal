@@ -247,7 +247,7 @@ h2.section-subheading {
 
 
 .pmargin {
-  margin:2px 8px;
+  margin:2px 28px;
 }
 
 #sectabs {

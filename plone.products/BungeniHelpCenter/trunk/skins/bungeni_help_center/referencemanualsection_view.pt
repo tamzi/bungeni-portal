@@ -60,7 +60,7 @@
       see also - shows the references if this feature is switched on
     </div>
      
-   <metal:recursion use-macro="here/referencemanual_macros/macros/section_title_collation"/>    
+   <metal:recursion use-macro="here/referencemanual_macros/macros/section_toc"/>    
 <br/>
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'bottom']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>

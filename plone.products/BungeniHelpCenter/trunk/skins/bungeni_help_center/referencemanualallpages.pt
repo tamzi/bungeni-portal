@@ -14,8 +14,7 @@
            <b><span tal:replace="here/Title" /></b>
         </h1>
 
-        <p class="discreet visualNoPrint"
-           i18n:translate="view_paginated_reference_manual">
+        <p class="discreet visualNoPrint">
 	  Note: Return to <a href="" tal:attributes="href here/absolute_url">hierarchical view</a>.
         </p>
 

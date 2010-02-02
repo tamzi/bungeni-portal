@@ -102,7 +102,13 @@
      class=".calendar.browser.VotesAndProceedingsReportingView"
      />
   
-  
+  <browser:page
+     name="save_report"
+     for="zope.location.interfaces.ILocation"
+     permission="zope.View"
+     class=".calendar.browser.SaveView"
+     />
+     
     <browser:page
      name="preview.html"
      for="zope.location.interfaces.ILocation"

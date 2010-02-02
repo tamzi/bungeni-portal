@@ -57,7 +57,9 @@ def get_available_venues( start, end, sitting=None ):
                         sql.select( [schema.sittings.c.venue_id] 
                                     ).where(b_filter)
                     )))                  
-    return query.all()                    
+    venues = query.all()                    
+    session.close()    
+    return venues
     
 def get_unavailable_venues( start, end, sitting = None ):
     """
@@ -80,7 +82,9 @@ def get_unavailable_venues( start, end, sitting = None ):
             b_filter = sql.and_(b_filter,
                         schema.sittings.c.sitting_id != sitting.sitting_id)                                                
     query = session.query(BookedVenue).filter(b_filter)  
-    return query.all()    
+    venues = query.all()    
+    session.close()
+    return venues
 
 def check_venue_bookings( start, end, venue, sitting=None ):
     """
@@ -104,7 +108,9 @@ def check_venue_bookings( start, end, venue, sitting=None ):
             b_filter = sql.and_(b_filter,
                         schema.sittings.c.sitting_id != sitting.sitting_id)                                                
     query = session.query(BookedVenue).filter(b_filter)   
-    return query.all()    
+    venues = query.all()    
+    session.close()
+    return venues
     
 def check_availability( start, end, venue, sitting=None):
     """

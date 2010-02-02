@@ -22,6 +22,7 @@ def get_db_user_id():
     query = session.query(domain.User).filter(
                     domain.User.login == userId)
     results = query.all()
+    session.close()                 
     if len(results) == 1:
         return results[0].user_id                    
 
@@ -39,7 +40,8 @@ def get_all_group_ids_in_parliament(parliament_id):
     for result in results:
         group_ids.append(result.group_id)
         for group in result.contained_groups:
-            group_ids.append(group.group_id)  
+            group_ids.append(group.group_id)
+    session.close()              
     return group_ids
     
     
@@ -61,6 +63,7 @@ def get_ministry_ids_for_user_in_government(user_id, government_id):
     ministry_ids = []
     for group_id in connection.execute(ministries):
         ministry_ids.append(group_id[0])
+    session.close()        
     return ministry_ids    
 
 def get_offices_held_for_user_in_parliament(user_id, parliament_id):
@@ -87,8 +90,9 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
                 schema.user_group_memberships.c.user_id == user_id),  
             order_by = [schema.role_titles.c.start_date, schema.role_titles.c.end_date]                                     
             )
-    return connection.execute(offices_held)           
-            
+    o_held = connection.execute(offices_held) 
+    session.close()              
+    return o_held            
     
 def get_group_ids_for_user_in_parliament(user_id, parliament_id):
     """ get the groups a user is member of for a specific parliament """
@@ -103,6 +107,7 @@ def get_group_ids_for_user_in_parliament(user_id, parliament_id):
     my_group_ids = []
     for group_id in connection.execute(my_groups):
         my_group_ids.append(group_id[0])
+    session.close()
     return my_group_ids
                                     
 def get_parliament_for_group_id(group_id):
@@ -110,6 +115,7 @@ def get_parliament_for_group_id(group_id):
         return None
     session = Session()
     group = session.query(domain.Group).get(group_id)
+    session.close()    
     if group.type == 'parliament':
         return group
     else:

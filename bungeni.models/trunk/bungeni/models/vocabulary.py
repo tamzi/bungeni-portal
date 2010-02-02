@@ -257,7 +257,7 @@ class MinistrySource(SpecializedSource):
                     domain.Government.status == u'active'
                     ))                                
             government = governments.all()
-            if len(government) <= 1:
+            if len(government) > 0:
                 gov_ids = [gov.group_id for gov in government]
                 if ministry_id:
                     query = session.query(domain.Ministry).filter(

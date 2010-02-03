@@ -520,6 +520,23 @@
                         election_nomination_date
                         leave_reason" />                                    
   </class>           
+
+  <class class=".domain.Constituency" >
+    <require permission="zope.View"
+        attributes="constituency_id
+                    name
+                    province_id
+                    region_id
+                    start_date
+                    end_date"/>
+    <require permission="zope.ManageContent"
+        set_attributes="constituency_id
+                    name
+                    province_id
+                    region_id
+                    start_date
+                    end_date"/>                    
+  </class>
             
           
 </configure>

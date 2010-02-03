@@ -83,7 +83,7 @@ users = rdb.Table(
    "users",
    metadata,
    rdb.Column( "user_id", rdb.Integer, PrincipalSequence, primary_key=True ),
-   rdb.Column( "login", rdb.Unicode(16), unique=True, nullable=True ),
+   rdb.Column( "login", rdb.Unicode(80), unique=True, nullable=True ),
    rdb.Column( "titles", rdb.Unicode(32)),
    rdb.Column( "first_name", rdb.Unicode(256), nullable=False ),
    rdb.Column( "last_name", rdb.Unicode(256), nullable=False ),

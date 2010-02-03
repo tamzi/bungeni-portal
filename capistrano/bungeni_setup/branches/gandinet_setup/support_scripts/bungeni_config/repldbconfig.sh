@@ -1,5 +1,13 @@
 # $1 = database name
 # $2 = bungeni installation folder path without trailing backslas e.g./home/undesa/cap_installs/bungeni_install/bungeni/current
+EXPECTED_ARGS=2
+BAD_ARGS=99
+if [ $# -ne $EXPECTED_ARGS ]
+then
+  echo "Usage: repldbconfig.sh <db name> <install folder path without trailing backslas>"
+  exit $BAD_ARGS
+fi
+
 file_path="src/bungeni.portal/bungeni/portal"
 file_name="configure.zcml"
 full_path="$2/$file_path/$file_name"

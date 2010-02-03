@@ -984,7 +984,7 @@ class ReportingView(form.PageForm):
             back_link = absoluteURL(self.context, self.request)  
         else:   
             raise NotImplementedError                                                                     
-        self.request.response.redirect(back_link)    
+        self.request.response.redirect('./schedule')    
         session.close()
                  
     #@form.action(_(u"Create and Store"))
@@ -1165,7 +1165,7 @@ class SaveView(AgendaReportingView):
             back_link = absoluteURL(self.context, self.request)  
         else:   
             raise NotImplementedError                                                                     
-        self.request.response.redirect(back_link) 
+        self.request.response.redirect('./schedule') 
 
 
 class HTMLPreviewPage(ReportingView):

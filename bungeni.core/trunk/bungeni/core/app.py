@@ -190,24 +190,21 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
                        (implementedBy(domain.Report), ILocation)) 
 
-        #documents[u"preports"] = domain.ReportContainer()
-        #provideAdapter(location.ContainerLocation(preports, documents[u"preports"]),
-        #               (implementedBy(domain.Report4Sitting), ILocation))
+
+        records[u"parliaments"] = domain.ParliamentContainer()
+        provideAdapter(location.ContainerLocation(records[u"parliaments"]),
+                       (implementedBy(domain.Parliament), ILocation))
                        
 
         records[u"parties"] = domain.PoliticalPartyContainer()
         provideAdapter(location.ContainerLocation(records[u"parties"]),
                        (implementedBy(domain.PoliticalParty), ILocation))
 
-        records[u"constituencies"] = domain.ConstituencyContainer()
-        provideAdapter(location.ContainerLocation(records[u"constituencies"]),
-                       (implementedBy(domain.Constituency), ILocation))
+        #records[u"constituencies"] = domain.ConstituencyContainer()
+        #provideAdapter(location.ContainerLocation(records[u"constituencies"]),
+        #               (implementedBy(domain.Constituency), ILocation))
                                                                      
-
-        records[u"offices"] = domain.OfficeContainer()
-        provideAdapter(location.ContainerLocation(records[u"offices"]),
-                       (implementedBy(domain.Office), ILocation))
-
+        
         records[u"committees"] = domain.CommitteeContainer()
         provideAdapter(location.ContainerLocation(committees, records[u"committees"]),
                        (implementedBy(domain.Committee), ILocation))

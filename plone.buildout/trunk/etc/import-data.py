@@ -1,11 +1,11 @@
 #!/usr/bin/python
 import urllib
 
-username = ''
-password = ''
+username = 'admin'
+password = 'admin'
 url = 'localhost:8082/site'
 
-ids_to_transfer = ['front-page', 'have-your-say', 'how-we-work', 'reference-material']
+ids_to_transfer = ['front-page', 'have-your-say', 'how-we-work', 'reference-material', 'images']
 
 for id in ids_to_transfer:
 

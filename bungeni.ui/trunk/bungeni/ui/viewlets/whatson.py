@@ -32,6 +32,7 @@ class WhatsOnBrowserView(BrowserView):
             self.context = parliament
             self.context.__parent__ = context
             self.context.__name__ = ""    
+       
         
     def get_end_date(self):
         self.get_items()                   

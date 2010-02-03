@@ -280,7 +280,6 @@
      />
 
 
-
   <browser:viewlet
      name="bungeni.viewlet.offices-held"
      manager=".interfaces.ISubFormViewletManager"     
@@ -487,6 +486,15 @@
      permission="zope.View"
      weight="20"
      />            
+     
+  <browser:viewlet
+     name="bungeni.viewlet.constituency-mp"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.MemberOfParliamentViewlet"
+     for="bungeni.models.interfaces.IConstituency"
+     permission="zope.View"
+     weight="20"
+     />        
 
   <browser:viewlet
      name="bungeni.viewlet.political-parties"

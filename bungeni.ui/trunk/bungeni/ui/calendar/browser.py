@@ -795,12 +795,16 @@ class ReportingView(form.PageForm):
         elif data['doc_type'] == "Proceedings of the day":
             time_span = TIME_SPAN.daily                 
         self.end_date = self.get_end_date(self.start_date, time_span)
+        #Hack:Check if called on scheduling page or sitting page. todo : fix this
         if 'date' in data:
             self.sitting_items = self.get_sittings_items(self.start_date, self.end_date)
             self.single="False"
         else:
+            session = Session()
             self.sitting_items = []
-            self.sitting_items.append(self.context)
+            st = self.context.sitting_id
+            sitting = session.query(domain.GroupSitting).get(st)
+            self.sitting_items.append(sitting)
             self.single="True"
         self.item_types = data['item_types']
         self.bill = False

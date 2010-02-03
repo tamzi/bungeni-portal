@@ -211,6 +211,7 @@ class CalendarView(BrowserView):
         self.__parent__ = context
 
     def __call__(self, timestamp=None):
+        session = Session()
         if timestamp is None:
             # start the week on the first weekday (e.g. Monday)
             date = utils.datetimedict.fromdate(datetime.date.today())
@@ -223,8 +224,10 @@ class CalendarView(BrowserView):
             date = utils.datetimedict.fromtimestamp(timestamp)
 
         if is_ajax_request(self.request):
-            return self.render(date, template=self.ajax)
-        return self.render(date)
+            rendered = self.render(date, template=self.ajax)
+        rendered = self.render(date)
+        session.close()
+        return rendered
 
     def publishTraverse(self, request, name):
         traverser = component.getMultiAdapter(
@@ -910,7 +913,6 @@ class ReportingView(form.PageForm):
                             items.append(item)
                     sitting.item_schedule = items'''
         sitting_items = []    
-        #import pdb; pdb.set_trace()       
         for sitting in self.sitting_items:
             if data["draft"] ==  'No':
                 if sitting.status in ["published-minutes"]:
@@ -979,6 +981,7 @@ class ReportingView(form.PageForm):
         else:   
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)    
+        session.close()
                  
     #@form.action(_(u"Create and Store"))
     def handle_create_and_store(self, action, data):
@@ -1275,3 +1278,4 @@ class StoreReportView(HTMLPreviewPage):
         else:   
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)
+        session.close()

@@ -98,6 +98,10 @@ class WorkspaceView(BrowserView):
                 interface.alsoProvides(self, iface)
 
                 
-                
+    def __call__(self):
+        session = Session()
+        call = super(WorkspaceView, self).__call__()    
+        session.close()
+        return call                
                 
                 

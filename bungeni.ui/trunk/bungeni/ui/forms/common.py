@@ -122,6 +122,13 @@ class BaseForm(form.FormBase):
         if next_url == "...":
             self._next_url = self.request['HTTP_REFERER']
 
+    def __call__(self):
+        #session = Session()
+        call = super(BaseForm, self).__call__()    
+        #session.close()
+        return call
+
+
     @property
     def widget_groups(self):
         groups = {}
@@ -169,8 +176,10 @@ class DisplayForm(ui.DisplayForm):
     template = ViewPageTemplateFile('templates/content-view.pt')
     
     def __call__(self):
-        return super(DisplayForm, self).__call__()    
-
+        session = Session()
+        call = super(DisplayForm, self).__call__()    
+        session.close()
+        return call
 
 class AddForm(BaseForm, ui.AddForm):
     """Custom add-form for Bungeni content.
@@ -209,7 +218,7 @@ class AddForm(BaseForm, ui.AddForm):
         ucols = list( unique_columns( mapper ) )
 
         # query out any existing values with the same unique values,        
-        s = Session()        
+        session = Session()        
         # find data matching unique columns
         for key, col in ucols:
             if key in data:
@@ -218,7 +227,7 @@ class AddForm(BaseForm, ui.AddForm):
                    and data[key] == getattr( self.context, key, None):
                    continue
                 
-                value = s.query( domain_model ).filter( col == data[key] ).count()
+                value = session.query( domain_model ).filter( col == data[key] ).count()
                 if not value:
                     continue
                 

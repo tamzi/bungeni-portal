@@ -16,6 +16,8 @@ import sqlalchemy as rdb
 from ore.workflow import interfaces
 from ore.alchemist.interfaces import IAlchemistContainer
 from ore.alchemist.interfaces import IAlchemistContent
+from ore.alchemist import Session
+
 from ore.workflow.interfaces import IWorkflowInfo
 from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.ui.i18n import _
@@ -116,6 +118,8 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
         content_id = mapper.primary_key_from_instance( instance )[0] 
         content_changes = query.execute( content_id = content_id )
         return map( dict, content_changes)
+
+
     
 class WorkflowComment(object):
     note = u""
@@ -205,15 +209,17 @@ class WorkflowView(BrowserView):
         return _(wf.workflow.states[wf_state].title)
 
     def __call__(self):
+        #session = Session()
         self.update()
-        return self.template()
+        template = self.template()
+        #session.close()
+        return template
         
 class WorkflowChangeStateView(WorkflowView):
     ajax_template = ViewPageTemplateFile('templates/workflow_ajax.pt')
     
     def __call__(self, headless=False, transition=None):
-        method = self.request['REQUEST_METHOD']
-
+        method = self.request['REQUEST_METHOD']        
         if transition:
             wf = interfaces.IWorkflow(self.context) 
             state_transition = wf.getTransitionById(transition)
@@ -247,5 +253,6 @@ class WorkflowChangeStateView(WorkflowView):
 
             return result
             
-        return self.template()
+        template = self.template()        
+        return template
 

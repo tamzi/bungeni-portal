@@ -57,7 +57,7 @@ def secured_iterator(permission, query, parent):
     for item in query:
         item.__parent__ = parent
         proxied = ProxyFactory(item)
-        if checkPermission("zope.View", proxied):
+        if checkPermission(u"zope.View", proxied):
             yield item
 
 def get_query(context, request):
@@ -401,6 +401,7 @@ class ContainerJSONListing( BrowserView ):
         return values
         
     def __call__( self ):
+        session = Session()
         self.set_size = 0
         self.fields = list( getFields( self.context )  )
         start, limit = self.getOffsets( )
@@ -413,6 +414,7 @@ class ContainerJSONListing( BrowserView ):
                      sort = self.request.get('sort'),
                      dir  = self.request.get('dir', "asc"),
                      nodes=batch )
+        session.close()                     
         return simplejson.dumps( data )
 
 

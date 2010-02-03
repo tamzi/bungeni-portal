@@ -296,9 +296,8 @@ class AddForm(BaseForm, ui.AddForm):
 
     @form.action(_(u"Save and view"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data):
-        ob = self.createAndAdd(data)
+        ob = self.createAndAdd(data)        
         name = self.context.domain_model.__name__
-
         if not self._next_url:
             self._next_url = absoluteURL(
                 ob, self.request) + \
@@ -307,16 +306,17 @@ class AddForm(BaseForm, ui.AddForm):
     @form.action(_(u"Cancel"), validator=null_validator )
     def handle_cancel( self, action, data ):
         """Cancelling redirects to the listing."""
+        session = Session()
         if not self._next_url:        
             self._next_url = absoluteURL(self.__parent__, self.request)
         self.request.response.redirect(self._next_url)            
-
+        session.close()
+        
     @form.action(_(u"Save"),
                  condition=form.haveInputWidgets, validator='validateAdd')
     def handle_add_edit( self, action, data ):
         ob = self.createAndAdd( data )
-        name = self.context.domain_model.__name__
-
+        name = self.context.domain_model.__name__        
         if not self._next_url:        
             self._next_url = absoluteURL(ob, self.request ) + \
                              "/@@edit?portal_status_message=%s Added" % name
@@ -437,12 +437,12 @@ class EditForm(BaseForm, ui.EditForm):
     @form.action(_(u"Cancel"), validator=null_validator )
     def handle_edit_cancel( self, action, data ):
         """Cancelling redirects to the listing."""
-	if not self._next_url:
+        session = Session()
+        if not self._next_url:
             self._next_url = absoluteURL(
-                self.context, self.request) + \
-                '?portal_status_message= Saved'   
+                self.context, self.request) 
         self.request.response.redirect(self._next_url)
-    
+        session.close()
 
 class TranslateForm(AddForm):
     """Custom translate-form for Bungeni content.

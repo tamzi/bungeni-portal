@@ -1160,12 +1160,12 @@ class SaveView(AgendaReportingView):
         session.flush()
         
         if IGroupSitting.providedBy(self.context):        
-            back_link = absoluteURL(self.context, self.request)  + '/schedule'
+            back_link =  './schedule'
         elif ISchedulingContext.providedBy(self.context):
-            back_link = absoluteURL(self.context, self.request)  
+            back_link = './'  
         else:   
             raise NotImplementedError                                                                     
-        self.request.response.redirect('./schedule') 
+        self.request.response.redirect(back_link) 
 
 
 class HTMLPreviewPage(ReportingView):

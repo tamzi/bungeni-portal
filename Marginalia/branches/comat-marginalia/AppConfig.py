@@ -1,13 +1,15 @@
 STYLESHEETS = (
         {'id': 'marginalia.css', 'expression': 'here/@@annotate/isAnnotatable|nothing'},
+        {'id': 'annotation-utils.css', 'expression': 'here/@@annotate/isAnnotatable|nothing'},
+        {'id': 'amendment-utils.css', 'expression': 'here/@@annotate/isAnnotatable|nothing'},
         )
 
 JAVASCRIPTS = (
-        {'id': '3rd-party.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
-        {'id': '3rd-party/shortcut.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
-        {'id': '3rd-party/cssQuery.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
-        {'id': '3rd-party/cssQuery-level2.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
-        {'id': '3rd-party/cssQuery-standard.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'third-party.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'third-party/shortcut.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'third-party/cssQuery.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'third-party/cssQuery-level2.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'third-party/cssQuery-standard.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
 
         {'id': 'log.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
         {'id': 'prefs.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
@@ -37,4 +39,7 @@ JAVASCRIPTS = (
         {'id': 'marginalia-config.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
         {'id': 'marginalia-strings.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
         {'id': 'bungeni-annotate.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'referencebrowser.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'annotation-utils.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},
+        {'id': 'amendment-utils.js', 'expression': 'here/@@annotate/isAnnotatable|nothing', 'compression': 'none'},        
         )

@@ -3,16 +3,14 @@ Q/* <dtml-var "enableHTTPCompression(request=REQUEST, debug=1, css=1)"> */
 #tabber-block .tabberlive .documentActions, .tabberlive .documentByLine { display: none; }
 #tabber-block .tabberlive h2.tabberHeading { display: none; }
 
-
-#tabber-block
-{
-text-align:center;
-}
-
 #tabber-block .tabberlive .edit-icon
 {
 	float: right;
 	margin-right: 1em;
+}
+
+h4.tabberHeading {
+  display: none;
 }
 
 /* Form tabs */
@@ -33,23 +31,24 @@ text-align:center;
 
 #tabber-block ul.tabbernav
 {
-	margin-top: 0;
-    padding: 1px 0;
-	/*border-bottom: 1px solid #b83d00;*/
-	text-align:center;
+  margin-top: 0;
+  padding: 1px 0;
+  /*border-bottom: 1px solid #b83d00;*/
+  text-align:center;
 
 }
 
 #tabber-block ul.tabbernav li
 {
 /*display:inline;*/
-float:left;
-line-height:21px;
-list-style-image:none;
-list-style-position:outside;
-list-style-type:none;
-margin:0pt;
-white-space: wrap;
+  /*float:left;*/
+  display:inline;
+  line-height:21px;
+  list-style-image:none;
+  list-style-position:outside;
+  list-style-type:none;
+  margin:0pt;
+  white-space: wrap;
 }
 
 

@@ -271,7 +271,7 @@ def getItemsBySections(self, **kwargs):
     sections = []
     
     sections.append({'id'       : 'no-section',
-                     'section'  : '',
+                     'section'  : 'No category',
                      'title' : 'No category',
                      'items'    : []})
     
@@ -284,7 +284,10 @@ def getItemsBySections(self, **kwargs):
 
     # Then insert each how-to in the appropriate audience/section
     for b in brains:
-        itemSections = b.getSections
+        if len(b.getSections) > 1:
+            itemSections = b.getSections
+        else:
+            itemSections = ['No category']
         matchedSections = [s for s in sections if s['section'] in itemSections]
         for s in matchedSections:
             s['items'].append(b)

@@ -20,7 +20,9 @@ class WhatsOnDatesForm(form.PageForm):
         range_start_date = schema.Date(
             title=_(u"From"),
             description=_(u"Leave blank or set lower limit."),
-            required=False)
+            required=False,
+            default=datetime.date.today(),
+            )
 
         range_end_date = schema.Date(
             title=_(u"To"),
@@ -74,7 +76,8 @@ class WhatsOnDatesForm(form.PageForm):
         start_date = data.get('range_start_date')
         end_date = data.get('range_end_date')
         params = {}
-
+        if type(start_date) != datetime.date:
+            start_date = datetime.date.today()
         if start_date and end_date:
             if start_date > end_date:
                 self.status = _("Invalid Date Range")
@@ -92,9 +95,11 @@ class WhatsOnDatesForm(form.PageForm):
                   self.status = (_("End date must be after %s") %
                         start.strftime("%d %B %Y"))                                                
                   unset_date_range(self.request)
-                  return
+                  return        
                                 
-        set_date_range(self.request, start_date, end_date)
+        if type(end_date) != datetime.date:
+            end_date = start_date + datetime.timedelta(10)                
+        set_date_range(self.request, start_date, end_date)       
         self.request.response.redirect(
             "?start=%s&end=%s" % (start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
 

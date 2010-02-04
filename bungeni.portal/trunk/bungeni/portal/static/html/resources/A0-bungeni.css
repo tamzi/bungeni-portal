@@ -49,12 +49,15 @@ table.side-by-side th span.fieldRequired {
 #portletArchiveDates form .field {
   float: left;
   clear: none;
-  margin-right: 1em;
-  width: 15em;
+  margin-right: 5em;
+  width: auto;
+  white-space: nowrap;
 }
 
 #portletArchiveDates .widget-dropdownwidget.field {
-  width: 19em;
+  margin-left: 1em;
+  width: auto;
+  white-space: nowrap;
 }
 
 #portletArchiveDates #actionsView {

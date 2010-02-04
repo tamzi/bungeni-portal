@@ -671,13 +671,13 @@ class ReportingView(form.PageForm):
                                 required=False,
                                 description=u'Optional note regarding this report'
                         )
-        draft = schema.Choice(
+        '''draft = schema.Choice(
                     title = _(u"Include draft sittings"),
                     description = _(u"Whether or not to include sittings still in draft"),
                     values= ['Yes',
                              'No'],
                     required=True
-                    )
+                    )'''
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields2 = form.Fields(IReportingForm2)
     form_fields2['item_types'].custom_widget = horizontalMultiCheckBoxWidget
@@ -707,7 +707,7 @@ class ReportingView(form.PageForm):
                 motion_options = 'Title'
                 tabled_document_options = 'Title'
                 note = None
-                draft = 'No'
+                #draft = 'No'
             self.adapters = {
                     self.IReportingForm2: context
                 }
@@ -916,15 +916,16 @@ class ReportingView(form.PageForm):
                         if item.item_status not in ["draft"]:
                             items.append(item)
                     sitting.item_schedule = items'''
-        sitting_items = []    
-        for sitting in self.sitting_items:
-            if data["draft"] ==  'No':
-                if sitting.status in ["published-minutes"]:
-                    sitting_items.append(sitting)
-            elif data["draft"] ==  'Yes':                
-                if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes", "draft-agenda"]:
-                    sitting_items.append(sitting)
-        self.sitting_items = sitting_items
+        if 'draft' in data:
+            sitting_items = []    
+            for sitting in self.sitting_items:
+                if data["draft"] ==  'No':
+                    if sitting.status in ["published-agenda","published-minutes"]:
+                        sitting_items.append(sitting)
+                elif data["draft"] ==  'Yes':                
+                    if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes", "draft-agenda"]:
+                        sitting_items.append(sitting)
+            self.sitting_items = sitting_items
         if self.display_minutes:                                 
             self.report_type = 'minutes'
         else:

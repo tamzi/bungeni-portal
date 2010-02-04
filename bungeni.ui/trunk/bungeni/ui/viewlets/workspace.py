@@ -77,6 +77,7 @@ class QuestionInStateViewlet( ViewletBase ):
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')           
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()
+            data['to'] = result.ministry.short_name
             data_list.append(data)            
         return data_list
     
@@ -115,7 +116,8 @@ class MyQuestionsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()            
+            data['type'] =  result.type.capitalize()       
+            data['to'] = result.ministry.short_name                 
             data_list.append(data)            
         return data_list
     
@@ -157,7 +159,8 @@ class MyMotionsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()            
+            data['type'] =  result.type.capitalize()       
+            data['to'] = ''
             data_list.append(data)            
         return data_list
     
@@ -398,7 +401,8 @@ class MotionInStateViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()            
+            data['type'] =  result.type.capitalize()    
+            data['to'] = ""                  
             data_list.append(data)            
         return data_list
     
@@ -507,7 +511,8 @@ class BillItemsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()                                         
+            data['type'] =  result.type.capitalize()      
+            data['to'] = ""                                         
             data_list.append(data)            
         return data_list
     
@@ -587,6 +592,10 @@ class ItemInStageViewlet( ViewletBase ):
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()
+            if type(result) == domain.Question:
+                data['to'] = result.ministry.short_name
+            else:
+                data['to']= u""                
             data_list.append(data)            
         return data_list
 
@@ -953,6 +962,10 @@ class MinistryItemsViewlet(ViewletBase):
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  result.type.capitalize()            
+            if type(result) == domain.Question:
+                data['to'] = result.ministry.short_name
+            else:
+                data['to']= u""            
             data_list.append(data)            
         return data_list        
          
@@ -1041,6 +1054,10 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
             data['date'] = u"%s %s" % (
                 result.start_date.strftime('%Y-%m-%d %H:%M'), 
                 result.sitting_type.sitting_type)
+            if type(result) == domain.Question:
+                data['to'] = result.ministry.short_name
+            else:
+                data['to']= u""                
             data_list.append(data)                 
         return data_list
 

@@ -72,23 +72,31 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
     connection = session.connection(domain.Group)
     group_ids = get_all_group_ids_in_parliament(parliament_id)
     offices_held = rdb.select([schema.groups.c.short_name,
+        schema.groups.c.full_name,
         schema.groups.c.type,
         schema.user_role_types.c.user_role_name,
         schema.role_titles.c.start_date,
         schema.role_titles.c.end_date,
+        schema.user_group_memberships.c.start_date,
+        schema.user_group_memberships.c.end_date,
         ], 
         from_obj=[   
         rdb.join(schema.groups, schema.user_group_memberships,
-        schema.groups.c.group_id == schema.user_group_memberships.c.group_id).join(
-            schema.role_titles, schema.user_group_memberships.c.membership_id ==
-            schema.role_titles.c.membership_id).join(schema.user_role_types,
-            schema.role_titles.c.title_name_id ==
-            schema.user_role_types.c.user_role_type_id)],
+        schema.groups.c.group_id == schema.user_group_memberships.c.group_id
+            ).outerjoin(
+            schema.role_titles, schema.user_group_memberships.c.membership_id==
+            schema.role_titles.c.membership_id).outerjoin(
+                schema.user_role_types,
+                schema.role_titles.c.title_name_id ==
+                schema.user_role_types.c.user_role_type_id)],
             whereclause =
             rdb.and_(
                 schema.groups.c.group_id.in_(group_ids),
                 schema.user_group_memberships.c.user_id == user_id),  
-            order_by = [schema.role_titles.c.start_date, schema.role_titles.c.end_date]                                     
+            order_by = [schema.user_group_memberships.c.start_date,
+                        schema.user_group_memberships.c.end_date,
+                        schema.role_titles.c.start_date, 
+                        schema.role_titles.c.end_date]                                     
             )
     o_held = connection.execute(offices_held) 
     #session.close              

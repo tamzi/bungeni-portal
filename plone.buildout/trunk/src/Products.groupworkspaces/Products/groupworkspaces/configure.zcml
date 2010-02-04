@@ -6,7 +6,8 @@
 
   <include package="Products.CMFPlone.browser" />  
   <include package="plone.app.contentmenu" />
-  <include package="plone.app.content" />  
+  <include package="plone.app.content" />
+  <include package=".browser" />  
 
   <genericsetup:registerProfile
       name="default"

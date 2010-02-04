@@ -1,6 +1,7 @@
 .report_mainTitle
 {
     text-align:center;
+    line-height:150%;
 }
 
 .report_title
@@ -9,14 +10,21 @@
     font-family: Arial, Helvetica, sans-serif;
     font-size:24px;
     white-space:nowrap;
+    line-height:150%;    
 }
-
+.report_header
+{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size:18px;
+    font-weight:bold;
+}
 .report_date
 {
     text-align:center;
     font-family: Arial, Helvetica, sans-serif;
     font-size:20px;
     white-space:nowrap;
+    line-height:150%;
 }
 
 .report_body
@@ -24,11 +32,12 @@
     width: 80%; margin: 0 auto;
 }
 
-.report_mainTitle span
+.report_mainTitle
 {
     font-family: Arial, Helvetica, sans-serif;
     font-size:28px;
     white-space:nowrap;
+    line-height:150%;
 }
 
 .verticalMultiCheckBoxWidget br
@@ -46,3 +55,13 @@
     display:inline;
     float:left;
 }
+.Report4Sitting div.content-left-column
+{
+    display:none;
+}
+.Report4Sitting div.content-right-column
+{
+    width:100%;
+    line-height:normal;
+}
+

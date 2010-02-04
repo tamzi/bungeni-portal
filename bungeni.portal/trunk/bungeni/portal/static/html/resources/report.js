@@ -98,6 +98,14 @@
                 $("#form\\.item_types\\.3").attr('checked', true);
                 $("#form\\.item_types\\.4").attr('checked', true);
             }
+            else if (choice == "Proceedings of the day")
+            {
+                $("#form\\.item_types\\.0").attr('checked', true);
+                $("#form\\.item_types\\.1").attr('checked', true);
+                $("#form\\.item_types\\.2").attr('checked', true);
+                $("#form\\.item_types\\.3").attr('checked', true);
+                $("#form\\.item_types\\.4").attr('checked', true);
+            }
             else if (choice == "Weekly Business")
             {
                 $("#form\\.item_types\\.0").attr('checked', true);

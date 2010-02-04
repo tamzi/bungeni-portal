@@ -60,7 +60,7 @@ input[type=checkbox] {
 
 button {
     font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
-    visibility: visible;
+    /* visibility: visible; */
     border: 1px solid #8cacbb;
     color: Black;
     vertical-align: middle;
@@ -164,11 +164,19 @@ dl.enableFormTabbing dd {
     text-transform: none;
     border: 1px solid #8cacbb;
 }
+
+#searchButtonDiv{
+    background-image: url(search_icon.gif);
+    background-color: White;
+    background-repeat: no-repeat;
+    width:30px;
+    float:right;
+}
+
 input.searchButton {
     margin-bottom: 1px ! important;
     color: Black;
     font-size: 90%;
-    background: White url(search_icon.gif) 2px 1px no-repeat;
     cursor: pointer;
     padding: 1px 1px 1px 19px;
     text-transform: none;

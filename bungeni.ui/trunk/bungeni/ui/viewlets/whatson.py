@@ -151,6 +151,11 @@ class WhatsOnBrowserView(BrowserView):
     def get_motions(self):
         return self.get_items_by_type(domain.Motion)                
         
+    def get_tableddocuments(self):
+        return self.get_items_by_type(domain.TabledDocument) 
+
+    def get_agendaitems(self):
+        return self.get_items_by_type(domain.AgendaItem) 
                 
 class WhatsOnPortletBrowserView (WhatsOnBrowserView):       
     max_items = 5

@@ -809,7 +809,7 @@ class AddressDescriptor ( ModelDescriptor ):
                      title_field='country_name',
                      token_field='country_id', 
                      value_field='country_id' ),                                        
-                required=True ), 
+                required=False ), 
              ),
         dict( name="phone",  
                 property = schema.Text( title=_(u"Phone Number(s)"), 

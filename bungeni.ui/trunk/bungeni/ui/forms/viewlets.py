@@ -577,6 +577,26 @@ class OfficesHeldViewlet( viewlet.ViewletBase ):
         self.manager = manager
         self.query = None            
      
+    def get_offices_held(self):
+        office_list=[]
+        for oh in self.offices_held:
+            title = {}
+            title['group'] = oh[0] + ' - ' + (oh[1] or'')
+            title['group_type'] = oh[2].capitalize()
+            if oh[3]:
+                title['member_title'] = oh[3]
+            else:
+                title['member_title'] = _(u"Member")              
+            if oh[4]:
+                title['start_date'] = oh[4]     
+            else:                           
+                title['start_date'] = oh[6]   
+            if oh[5]:
+                title['end_date'] = oh[5]     
+            else:                           
+                title['end_date'] = oh[7]  
+            office_list.append(title)
+        return office_list                            
     
     def update(self):
         """

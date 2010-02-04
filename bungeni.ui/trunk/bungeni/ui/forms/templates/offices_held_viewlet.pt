@@ -14,10 +14,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr tal:repeat="result view/offices_held"> 
-        <tal:loop tal:repeat="data result">
-          <td> <span tal:content="data" />  </td>
-        </tal:loop>           
+      <tr tal:repeat="result view/get_offices_held">         
+        <td tal:content="result/group">  </td>        
+        <td tal:content="result/group_type">  </td>                 
+        <td tal:content="result/member_title">  </td>                 
+        <td tal:content="result/start_date">  </td>                 
+        <td tal:content="result/end_date">  </td>                                                          
       </tr>
     </tbody>  
   </table>

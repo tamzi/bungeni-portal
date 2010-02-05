@@ -251,6 +251,10 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(content[u"regions"]),
                        (implementedBy(domain.Region), ILocation))
 
-                           
+        content[u"constituencies"] = domain.ConstituencyContainer()
+        provideAdapter(location.ContainerLocation(content[u"constituencies"]),
+                       (implementedBy(domain.Constituency), ILocation))     
+                       
+                                             
    
 

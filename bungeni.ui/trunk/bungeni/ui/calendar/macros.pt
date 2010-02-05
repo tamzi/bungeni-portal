@@ -355,10 +355,7 @@
                         </span>
                         
                         <span class="sitting-type" 
-                              tal:content="string:(${sitting/record/sitting_type/sitting_type})" />
-                        <span class="discreet"
-                                i18n:translate=""
-                                tal:content="sitting/status" />                        
+                              tal:content="string:(${sitting/record/sitting_type/sitting_type})" />                                                
                       </a>
                     </div>
 
@@ -375,7 +372,10 @@
                           </a>
                         </li>
                       </ul-->
-
+                      <span class="discreet"
+                                i18n:translate=""
+                                tal:content="sitting/status" />
+                      <br />                                
                       <span i18n:translate=""
                             tal:define="record sitting/record;
                                         count python: len(record.items)"

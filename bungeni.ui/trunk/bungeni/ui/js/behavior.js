@@ -41,9 +41,9 @@
       $('#workspace-table-sitting-draft').tablesorter();
       $('#fieldset-mp-items').tablesorter();
       $('#workspace-table-clerks-items-action-required').tablesorter();
-      $('#workspace-table-questions-pending-response').tablesorter();
-      
-      
+      $('#workspace-table-questions-pending-response').tablesorter();     
+      $('#workspace-table-items-pending-schedule').tablesorter();   
+           
       // set up table filters 
       $('#workspace-table-items-action-required').columnFilters({alternateRowClassNames:['odd','even']});
       $('#workspace-table-draft_bills').columnFilters({alternateRowClassNames:['odd','even']});
@@ -58,7 +58,7 @@
       $('#fieldset-mp-items').columnFilters({alternateRowClassNames:['odd','even']});
       $('#workspace-table-clerks-items-action-required').columnFilters({alternateRowClassNames:['odd','even']});
       $('#workspace-table-questions-pending-response').columnFilters({alternateRowClassNames:['odd','even']});
-      
+      $('#workspace-table-items-pending-schedule').columnFilters({alternateRowClassNames:['odd','even']});      
       
     });
  })(jQuery);

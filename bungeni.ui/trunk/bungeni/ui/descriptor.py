@@ -1745,10 +1745,10 @@ class AttendanceDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
                 property = schema.Choice(title=_(u"Attendance"), 
-                source=DatabaseSource(domain.User,  
+                source=vocabulary.SittingAttendanceSource(  
                     title_field='fullname', 
                     token_field='user_id', 
-                    value_field = 'user_id')), 
+                    value_field = 'member_id')), 
               listing_column=member_fk_column("member_id", 
                 _(u'Name') ) 
               ),

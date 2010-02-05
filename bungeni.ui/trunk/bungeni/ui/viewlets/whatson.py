@@ -80,11 +80,11 @@ class WhatsOnBrowserView(BrowserView):
                     day_list.append(s_dict)
                 s_dict = {}
             if sitting.group.type == 'parliament':
-                url = '/archive/browse/parliaments/obj-%i/sittings/obj-%i' % (
-                    sitting.group.group_id, sitting.sitting_id)
+                url = '/business/sittings/obj-%i' % (
+                     sitting.sitting_id)
             elif sitting.group.type == 'committee':
-                url = '/archive/browse/parliaments/obj-%i/committees/obj-%i/sittings/obj-%i' % (
-                    sitting.group.parent_group_id, sitting.group.group_id, 
+                url = '/business/committees/obj-%i/sittings/obj-%i' % (
+                    sitting.group.group_id, 
                     sitting.sitting_id)                    
             else:
                 url ='#'                                    

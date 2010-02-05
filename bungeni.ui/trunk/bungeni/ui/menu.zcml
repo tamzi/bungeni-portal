@@ -985,7 +985,7 @@
      action="schedule"
      title="Schedule"
      order="10"
-     permission="zope.View"
+     permission="bungeni.agendaitem.Schedule"
      />
 
   <browser:menuItem

@@ -22,6 +22,7 @@
         $("#form\\.question_options\\.3").attr('checked', true);
         $("#form\\.tabled_document_options\\.0").attr('checked', true);
         $("#form\\.tabled_document_options\\.3").attr('checked', true);
+        
         var pathname = window.location.pathname;
         var path = new Array();
         path = pathname.split("/");
@@ -128,6 +129,10 @@
             $("#form\\.item_types\\.3").trigger('change');
             $("#form\\.item_types\\.4").trigger('change');
         }).change();
-
+        $("#form\\.item_types\\.0").attr('checked', true).trigger('change');
+        $("#form\\.item_types\\.1").attr('checked', true).trigger('change');
+        $("#form\\.item_types\\.2").attr('checked', true).trigger('change');
+        $("#form\\.item_types\\.3").attr('checked', true).trigger('change');
+        $("#form\\.item_types\\.4").attr('checked', true).trigger('change');
     });
  })(jQuery)

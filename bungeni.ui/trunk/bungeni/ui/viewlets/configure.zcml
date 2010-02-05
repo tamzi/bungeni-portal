@@ -72,7 +72,7 @@
      name="bungeni.whatson.dates"
      for="*"
      layer="bungeni.ui.interfaces.IBusinessWhatsOnSectionLayer"
-     class=".wodates.WhatsOnDatesViewlet"
+     class=".archive.ArchiveDatesViewlet"
      manager="ploned.ui.interfaces.IAboveContentManager"
      permission="zope.Public"
      weight="0"

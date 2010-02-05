@@ -413,9 +413,65 @@ class UserNotMPSource(SpecializedSource):
 
 class UserNotStaffSource(SpecializedSource):
     """ all users that are NOT staff """
-    def constructQuery( self, context):
+
+class SittingAttendanceSource(SpecializedSource):
+    """ all members of the group which do not have an attendance record yet"""
+    def constructQuery(self, context):
         session= Session()
-        #session.close()                    
+        trusted=removeSecurityProxy(context)
+        user_id = getattr(trusted, self.value_field, None)
+        if user_id:
+            query = session.query( domain.User 
+                    ).filter(domain.User.user_id == 
+                        user_id).order_by(domain.User.last_name,
+                            domain.User.first_name,
+                            domain.User.middle_name)                                                                                                                 
+            return query
+        else:
+            sitting = trusted.__parent__
+            group_id = sitting.group_id
+            sitting_id = sitting.sitting_id
+            all_member_ids = sql.select([schema.user_group_memberships.c.user_id], 
+                    sql.and_(
+                        schema.user_group_memberships.c.group_id == group_id,
+                        schema.user_group_memberships.c.active_p == True))
+            attended_ids = sql.select([schema.sitting_attendance.c.member_id],   
+                     schema.sitting_attendance.c.sitting_id == sitting_id)
+            query = session.query( domain.User).filter(
+                sql.and_(domain.User.user_id.in_( all_member_ids),
+                    ~ domain.User.user_id.in_(attended_ids) )).order_by(
+                            domain.User.last_name,
+                            domain.User.first_name,
+                            domain.User.middle_name)   
+            return query                                              
+                 
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()        
+        terms = []
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "%s %s" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        user_id = getattr(context, self.value_field, None) 
+        if user_id:
+            if len(query.filter(schema.users.c.user_id == user_id).all()) == 0:
+                session = Session()            
+                ob = session.query(domain.User).get(user_id)
+                terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, 'user_id'), 
+                    token = getattr( ob, 'user_id'),
+                    title = "(%s %s)" % (getattr( ob, 'first_name') ,
+                            getattr( ob, 'last_name'))
+                    ))
+        return vocabulary.SimpleVocabulary( terms )
+
+
         
 class SubstitutionSource(SpecializedSource):
     """ active user of the same group """

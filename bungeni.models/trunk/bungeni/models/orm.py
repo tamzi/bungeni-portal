@@ -405,7 +405,10 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
                               lazy=False ),
             'attendance_type': relation( domain.AttendanceType,
                                 uselist = False,
-                                lazy = False ),                              
+                                lazy = False ), 
+            'sitting': relation( domain.GroupSitting,
+                                uselist = False,
+                                lazy = False ),                                                              
                   }
          )
 mapper( domain.AttendanceType, schema.attendance_type )

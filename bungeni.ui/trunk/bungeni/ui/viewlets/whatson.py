@@ -51,6 +51,18 @@ class WhatsOnBrowserView(BrowserView):
     def get_start_date(self):
         return self.start_date.strftime("%A %d %B %Y")                                
         
+    def get_sitting_items(self, sitting):
+        s_list = []
+        for schedule in sitting.item_schedule:
+            s_list.append({
+                    'name': schedule.item.short_name,
+                    'status' : get_wf_state(schedule.item),
+                    'url' : ('/business/' + schedule.item.type + 's/obj-' + 
+                        str(schedule.item.parliamentary_item_id)),               
+                    'item_type' : schedule.item.type.capitalize,
+                     })
+        return s_list        
+        
     def get_sittings(self):
         session = Session()   
         query = session.query(domain.GroupSitting).filter(
@@ -60,7 +72,9 @@ class WhatsOnBrowserView(BrowserView):
                 self.start_date,
                 self.end_date))).order_by(
                     schema.sittings.c.start_date).options(
-                    eagerload('group'), eagerload('sitting_type'))
+                    eagerload('group'), eagerload('sitting_type'),
+                    eagerload('item_schedule'), 
+                    eagerload('item_schedule.item'))
         sittings = query.all()
         day = u''
         day_list = []
@@ -87,7 +101,9 @@ class WhatsOnBrowserView(BrowserView):
                 'end' : sitting.end_date.strftime("%H:%M"),
                 'type' : sitting.group.type,
                 'name' : sitting.group.short_name,
-                'url' : url })
+                'url' : url, 
+                'items' : self.get_sitting_items(sitting),
+                })
             s_dict['day'] = day
             s_dict['sittings'] = s_list  
         else:

@@ -15,13 +15,11 @@ from bungeni.core.globalsettings import getCurrentParliamentId
 from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.ui.utils import get_wf_state
+from bungeni.ui.cookies import get_date_range
 
 class WhatsOnBrowserView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/whatson.pt")
     interface.implements(IViewView)
-    start_date = datetime.date.today()
-    end_date = datetime.date.today() + datetime.timedelta(10)
-    end_date = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59)
             
     def __init__(self, context, request):
         super(WhatsOnBrowserView, self).__init__(context, request)
@@ -32,29 +30,25 @@ class WhatsOnBrowserView(BrowserView):
             self.context = parliament
             self.context.__parent__ = context
             self.context.__name__ = ""    
-       
+        start_date, end_date = get_date_range(request)
+        if type(start_date) != datetime.date:
+            self.start_date = datetime.date.today()
+        else:
+            self.start_date = start_date            
+        if type(end_date) != datetime.date:           
+            end_date = datetime.date.today() + datetime.timedelta(10)
+            self.end_date = datetime.datetime(end_date.year, end_date.month, 
+                end_date.day, 23, 59)             
+        else:
+            self.end_date = datetime.datetime(end_date.year, end_date.month, 
+                end_date.day, 23, 59)               
+        self.get_items()                        
         
     def get_end_date(self):                         
-        end = self.request.form.get( 'end', None)
-        if end:
-            try:
-                end_date  = datetime.datetime.strptime(end,"%Y-%m-%d")
-                end_date = datetime.datetime(end_date.year, end_date.month, end_date.day, 23, 59)
-                self.end_date = end_date
-            except:
-                pass
-        self.get_items()                 
         return self.end_date.strftime("%A %d %B %Y")
 
 
     def get_start_date(self):
-        start = self.request.form.get( 'start', None)
-        if start:
-            try:
-                start_date = datetime.datetime.strptime(start,"%Y-%m-%d")
-                self.start_date = start_date.date()
-            except:
-                pass
         return self.start_date.strftime("%A %d %B %Y")                                
         
     def get_sittings(self):

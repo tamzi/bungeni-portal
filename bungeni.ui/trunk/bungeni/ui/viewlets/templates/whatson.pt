@@ -27,7 +27,15 @@
                     <span tal:content="sitting/end" /> 
                     (<span tal:content="sitting/type" />)
                     <span tal:content="sitting/name" /> 
-                  </a>                        
+                  </a> 
+                  <ul tal:define="items sitting/items">
+                    <li tal:repeat="item items">
+                        <a tal:attributes="href item/url">
+                          <span tal:content="item/name" />    
+                          (<span tal:content="item/item_type" /> <span tal:content="item/status" />)                      
+                        </a>                                               
+                    </li>                    
+                  </ul>                       
                 </li>
               </ul>  
              </tal:block>                                                    

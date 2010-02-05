@@ -4,11 +4,12 @@
     i18n_domain="basicview">
 
   <browser:page
-      for="*"
-      name="membership-view"
-      class=".membership.MembershipView"
-      template="membership_view.pt"
-      permission="zope2.View"
-      />
+     for="*"
+     name="membership-view"
+     class=".membership.MembershipView"
+     layer="..interfaces.IThemeSpecific"
+     permission="zope2.View"
+     />
+
 </configure>
 

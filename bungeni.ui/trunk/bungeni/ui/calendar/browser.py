@@ -167,9 +167,15 @@ def create_sittings_map(sittings, request):
         status = get_wf_state(sitting)
                
         proxied = ProxyFactory(sitting)
+        
+        if checkPermission(u"bungeni.agendaitem.Schedule", proxied):
+            link = "%s/schedule" % absoluteURL(sitting, request)
+        else:
+            link = absoluteURL(sitting, request)
+        
         if checkPermission("zope.View", proxied):                          
             mapping[day, hour] = {
-                'url': "%s/schedule" % absoluteURL(sitting, request),
+                'url': link,
                 'record': sitting,
                 'class': u"sitting",
                 'actions': get_sitting_actions(sitting, request),

@@ -1095,8 +1095,6 @@ class GovernmentDescriptor( ModelDescriptor ):
 class GroupItemAssignmentDescriptor( ModelDescriptor ):
     fields= [
         dict(name="assignment_id", omit=True),
-#        dict(name="object_id",),
-#        dict(name="group_id",),
         dict( name="start_date", label=_(u"Start Date"), 
             listing_column=day_column("start_date", 
                 _(u'Start Date') ), 
@@ -1199,7 +1197,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
         dict( name="owner_id", 
               property = schema.Choice(
                 title=_(u"Moved by"),
-                description=_(u"Select the user who moved document."),
+                description=_(u"Select the user who moved the document."),
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
                 ),
               listing_column=member_fk_column("owner_id", 

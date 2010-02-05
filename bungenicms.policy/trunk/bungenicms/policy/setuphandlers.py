@@ -6,6 +6,11 @@ from Products.PluggableAuthService.interfaces.plugins import *
 from bungeni.plonepas.install import install as install_plonepas
 from Products.CMFCore.utils import getToolByName
 
+member_indexhtml="""\
+member_search=context.restrictedTraverse('membership_view')
+return member_search()
+"""
+
 
 def setup_members_folder(context):
     """Set up the membership folder at <root>/membership.
@@ -37,6 +42,8 @@ def setup_members_folder(context):
 
     8.  If you wish the new Membership folder can be excluded from
     navigation bar.
+
+    9. Create a default page for the Membership folder.
     """
     
     if context.readDataFile('marker.txt') is None:
@@ -70,7 +77,15 @@ def setup_members_folder(context):
     members.setDescription("Membership")
     members._getWorkflowTool().doActionFor(members, 'publish' '')
     members.setExcludeFromNav(True)    
-    members.reindexObject()    
+    members.reindexObject()
+
+    # add index_html to Members area
+    if 'index_html' not in members.objectIds():
+        addPy = members.manage_addProduct['PythonScripts'].manage_addPythonScript
+        addPy('index_html')
+        index_html = getattr(members, 'index_html')
+        index_html.write(member_indexhtml)
+        index_html.ZPythonScript_setTitle('Member Listing')    
 
     # set members folder
     pm = portal['portal_membership']
@@ -79,6 +94,7 @@ def setup_members_folder(context):
 
 
 def setup_application_folders(context):
+    
     """For each of the Bungeni top level menu-items we set up top-level folders that match the global routing table:
 
     application    mount-point

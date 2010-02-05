@@ -161,7 +161,8 @@
      id="complete"
      title="Submit to the Speaker Office"
      trigger="manual"
-     source="received"
+     source="draft
+            received"
      destination="complete"
      permission="bungeni.tableddocument.clerk.Review"
      action="bungeni.core.workflows.tableddocument.actions.complete"
@@ -184,7 +185,7 @@
      id="approve"
      title="Approve"
      trigger="manual"
-     source="complete"
+     source="draft complete"
      destination="admissible"
      permission="bungeni.tableddocument.speaker.Review"
      action="bungeni.core.workflows.tableddocument.actions.approve"

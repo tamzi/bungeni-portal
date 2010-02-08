@@ -9,16 +9,10 @@
          class="frontpage" />
   <match path="exact:/front-page"
          class="frontpage" />
-  <match path="regex:^/(business/committees|archive/browse/committees)/obj-([0-9])+(/)?(view)?$"
- 	 class="workspace-committee" />
-  <match path="regex:^/(archive/browse/parliaments)/obj-([0-9])/committees/+obj-([0-9])+(/)?(view)?$"
- 	 class="workspace-committee" />
   <match path="regex:.*/calendar$"
  	 class="calendar-links" />
   <match path="regex:.*/presentation_view$"
  	 class="presentation-view" />
-  <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
-         class="workspace-member" />
   <match path="regex:^/(members/current)/obj-([0-9])+(/)?(view)?$"
          class="member-links" />
   <match path="regex:^/business(/$|$)$"  class="load-whatson-navigation" />  
@@ -37,35 +31,35 @@
   <match path="/"
          class="primary" />
   
-
+  
   <rule class="workspace-committee">
     <!-- content -->
     <append content="h2"
-             theme=".main-content" />
+            theme=".main-content" />
     <append content="dl.enableFormTabbing > dt"
-             theme="children:dl.enableFormTabbing" />
+            theme="children:dl.enableFormTabbing" />
     <append content="dl.enableFormTabbing > dd"
-             theme="children:dl.enableFormTabbing" />
+            theme="children:dl.enableFormTabbing" />
     <replace content="children:.documentContent"
              theme="children:#fieldset-display-form-workspace > div" />    
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
              pyarg-workspace_id="#workgroup-id"/>
-   </rule>
-
+  </rule>
+  
   <rule class="workspace-member">
     <!-- content -->
     <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace_link"
              pyarg-workspace_id="#user-workspace-id"/>
-   </rule>
-
+  </rule>
+  
   <rule class="load-whatson-navigation">
     <drop content="#portal-column-one" />
     <prepend href="/business/whats-on"
              theme="//head"
              content="//head" />        
     <prepend href="/business/whats-on"    
-            content="#viewlet-above-content"
-            theme="children:#portal-column-content" />
+             content="#viewlet-above-content"
+             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_ArchiveDates"
              pyarg-portlet_id="#viewlet-above-content"/>    
   </rule>      
@@ -81,7 +75,7 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />
     <drop content="ul#portal-personaltools > li:nth-child(7)" />
   </rule>
-
+  
   <rule class="load-member-navigation">
     <append href="/plone/members"
             content="#portal-globalnav > li:not(:first-child)"
@@ -91,7 +85,7 @@
             theme="children:#portal-column-content" />
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />    
   </rule>
-
+  
   
   <rule class="load-archive-navigation">
     <append href="/plone/archive"
@@ -103,7 +97,7 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
   </rule>
-
+  
   <rule class="load-admin-navigation">
     <append href="/plone"
             content="#portal-globalnav > li:not(:first-child)"
@@ -114,9 +108,9 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
   </rule>     
-
+  
   <rule class="bungeni">
-
+    
     <!-- site actions -->
     <replace href="/plone/"
              content="#portal-siteactions"
@@ -131,18 +125,18 @@
             theme="children:#portal-globalnav ul.level1"
             if-content=".navigation" />    
     <drop content="#portal-globalnav" />
- 
+    
     <!-- left portlet -->
     <replace content="#portal-column-one"
-            theme="#portal-column-one" />
+             theme="#portal-column-one" />
     <pyquery pyref="bungeni.portal/static/themes/rules:drop_workspace" />
     <!-- content -->
     <prepend content="children:#portal-column-content"
              theme="children:#portal-column-content" />
     <append content="#kss-spinner"
             theme="#portal-columns" />
-   </rule>
-
+  </rule>
+  
   <rule class="load-calendar-navigation">
     
     <!-- site actions -->
@@ -158,8 +152,8 @@
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
     <replace href="/bungeni/calendar"
-            content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />
+             content="ul#portal-personaltools li.navigation"
+             theme="children:#portal-globalnav ul.level1" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
              pyarg-link_id="#user-workspace-id"/>        
     <drop content="#portal-globalnav"/>
@@ -174,8 +168,8 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
     <append content="#kss-spinner"
             theme="#portal-columns" />    
-   </rule>
-
+  </rule>
+  
   <rule class="load-workspace_archive-navigation">
     <!-- site actions -->
     <replace href="/plone/"
@@ -190,8 +184,8 @@
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
     <replace href="/bungeni/workspace_archive"
-            content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />
+             content="ul#portal-personaltools li.navigation"
+             theme="children:#portal-globalnav ul.level1" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
              pyarg-link_id="#user-workspace-id"/>            
     <drop content="#portal-globalnav"/>
@@ -205,7 +199,7 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:documentActions_links" />
     <append content="#kss-spinner"
             theme="#portal-columns" />    
-   </rule>  
+  </rule>  
 
   <rule class="calendar-links">
     <pyquery pyref="bungeni.portal/static/themes/rules:nextprev_links" />    
@@ -239,24 +233,24 @@
   </rule>
   
   
-   <rule class="frontpage">
+  <rule class="frontpage">
     <replace content="#portal-logo" theme="#portal-logo" />
     <replace content="#portal-siteactions" theme="#portal-siteactions" />    
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
-
+    
     <!-- menu -->
     <drop href="/plone"
           content="#portal-globalnav > li:first-child"/>         
     <append href="/bungeni"
-             content="#portal-globalnav > li:first-child"
-             theme="children:#portal-globalnav > ul" />
+            content="#portal-globalnav > li:first-child"
+            theme="children:#portal-globalnav > ul" />
     <append content="#portal-globalnav > li"
-             theme="children:#portal-globalnav > ul" />
+            theme="children:#portal-globalnav > ul" />
     <prepend href="/bungeni"
              content=".contentActions"
              theme="children:.main-content"/>
     <append href="/bungeni"
-             content="#viewlet-above-content"
+            content="#viewlet-above-content"
              theme="children:.main-content"/>    
     <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <append href="/bungeni"
@@ -343,6 +337,7 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:drop_tabLinks" />    
     <pyquery pyref="bungeni.portal/static/themes/rules:add_section_links"/>    
     
    </rule>

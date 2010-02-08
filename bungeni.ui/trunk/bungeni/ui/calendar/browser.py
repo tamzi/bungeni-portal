@@ -1018,7 +1018,7 @@ class ReportingView(form.PageForm):
         else:   
             raise NotImplementedError                                                                     
         #self.request.response.redirect(back_link) 
-        return doc        '''' 
+        return doc        '''
         
         
     #@form.action(_(u"Create and Store"))

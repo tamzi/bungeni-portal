@@ -54,6 +54,8 @@
   <permission id="bungeni.tableddocument.Debate" title="Mark a tableddocument as debated" />
   <permission id="bungeni.tableddocument.Withdraw" title="Withdraw a tableddocument" />    
   
-  <permission id="bungeni.sitting.ChangeStatus" title="Change Sitting Status" />       
+  <permission id="bungeni.sitting.ChangeStatus" title="Change Sitting Status" />      
+  <!--Permission to generate report -->
+  <permission id="bungeni.reports.Edit" title="Permission to generate report" />
   
 </configure>

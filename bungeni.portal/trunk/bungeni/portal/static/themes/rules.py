@@ -16,8 +16,8 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             member_workspace_content_id = content('#user-workspace-id').val()
         if member_workspace_content_id is not None:
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
-            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/private_folder" + "'>Private folder</a></li>")
-            workspace_links_content.append("<li class='navigation'><a href='" + link_val + "/web_pages" + "'>Web pages</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='#'>Private folder</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='#'>Web pages</a></li>")
     else:
         #we are on the membership page and there are 3 sets of users
         #anonymous, logged-in, owner
@@ -150,6 +150,15 @@ def image_links(content, theme, resource_fetcher, log):
         new_value = link_value.replace('@@file-image/image', str(link_id) +'/@@file-image/image')
         link_node.replaceWith(new_value)
 
+def drop_tabLinks(content, theme, resource_fetcher, log):
+    """
+    Disable links on the plone tabs.
+    """
+    theme('#portaltab-how-we-work a').attr('href', '#')
+    theme('#portaltab-reference-material a').attr('href', '#')
+    theme('#portaltab-have-your-say a').attr('href', '#')    
+
+
 def rewrite_links(content, theme, resource_fetcher, log):
     """
     Fix links in folders that have been set up to act as root nodes.
@@ -206,7 +215,7 @@ def drop_contentActions(content, theme, resource_fetcher, log):
         if not theme('.actionMenu'):
             content_item.remove('.contentActions')
     else:
-        if "href" not in theme('.contentActions').html():
+        if "href" not in str(theme('.contentActions').html()):
             content_item.remove('.contentActions')
 
         

@@ -983,7 +983,6 @@ class ReportingView(form.PageForm):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
-        
         if IGroupSitting.providedBy(self.context):        
             back_link =  './schedule'
         elif ISchedulingContext.providedBy(self.context):
@@ -991,8 +990,37 @@ class ReportingView(form.PageForm):
         else:   
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)    
-        session.close()
-                 
+        
+    '''
+    @form.action(_(u"Download ODT"))
+    def handle_odt(self, action, data):
+        from appy.pod.renderer import Renderer
+        self.process_form(data)
+        body_text = self.result_template()
+        tempFileName = '/tmp/%f.odt' % ( time.time())
+        params = {}
+        params['body_text'] = body_text
+        params['test'] = True
+        params['another_test'] = '<text:p>another test</text:p>'
+        params['xml_test'] = '<p>xml <strong>test</strong></p>'
+        renderer = Renderer('test.odt', params, tempFileName)
+        renderer.run()
+        self.request.response.setHeader('Content-type', 'application/odt')
+        self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
+        f = open(tempFileName, 'rb')
+        doc = f.read()
+        #f.close()
+        #os.remove(tempFileName)
+        if IGroupSitting.providedBy(self.context):        
+            back_link =  './schedule'
+        elif ISchedulingContext.providedBy(self.context):
+            back_link = './' 
+        else:   
+            raise NotImplementedError                                                                     
+        #self.request.response.redirect(back_link) 
+        return doc        '''' 
+        
+        
     #@form.action(_(u"Create and Store"))
     def handle_create_and_store(self, action, data):
         next_url = ('save-report?date=' + data['date'].strftime('%Y-%m-%d') + 

@@ -862,7 +862,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Agenda..."
      action="agenda"
-     permission="bungeni.agenda.View"
+     permission="bungeni.reports.Edit"
      />
 
   <browser:menuItem
@@ -870,7 +870,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Votes and proceedings..."
      action="votes-and-proceedings"
-     permission="bungeni.minutes.View"
+     permission="bungeni.reports.Edit"
      />
 
   <browser:menuItem
@@ -890,7 +890,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Agenda..."
      action="agenda"
-     permission="bungeni.agenda.View"
+     permission="bungeni.reports.Edit"
      />
 
   <browser:menuItem
@@ -898,7 +898,7 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Votes and proceedings..."
      action="votes-and-proceedings"
-     permission="bungeni.minutes.View"
+     permission="bungeni.reports.Edit"
      />
 
   <!-- submenu adapters -->

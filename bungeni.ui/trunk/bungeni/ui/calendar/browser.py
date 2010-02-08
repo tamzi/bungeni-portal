@@ -184,14 +184,13 @@ def create_sittings_map(sittings, request):
                 'formatted_end_time': end_date,
                 'status' : status,
             }
+            for hour in range(sitting.start_date.hour+1, sitting.end_date.hour):
+                mapping[day, hour] = None            
         
         # make sure start- and end-date is the same DAY
         assert (sitting.start_date.day == sitting.end_date.day) and \
                (sitting.start_date.month == sitting.end_date.month) and \
                (sitting.start_date.year == sitting.end_date.year)
-
-        for hour in range(sitting.start_date.hour+1, sitting.end_date.hour):
-            mapping[day, hour] = None
 
     return mapping
 

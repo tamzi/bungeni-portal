@@ -113,10 +113,6 @@ class WhatsOnBrowserView(BrowserView):
 
     def get_items(self):
         session = Session()
-        #start = self.start_date.strftime("%Y-%m-%d")
-        #end = self.end_date.strftime("%Y-%m-%d 23:59")
-        #where_clause = "start_date BETWEEN '%s' AND '%s' AND group_sittings_1.status <> '%s' " % (
-        #    start, end, sitting_wf_state[u'draft-agenda'].id )
         where_clause = sql.and_( schema.sittings.c.status != 
                 sitting_wf_state[u'draft-agenda'].id ,
                 sql.between(

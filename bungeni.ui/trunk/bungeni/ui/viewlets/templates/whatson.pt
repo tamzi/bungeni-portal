@@ -13,9 +13,9 @@
     From: <span tal:replace="view/get_start_date" />
     to: <span tal:replace="view/get_end_date" />
     </p>
-    <dl class="portlet" tal:define="days view/get_sittings" tal:condition="days" >
-        <dt i18n:translate=""> Upcoming sittings </dt>
-        <dd>
+    <dl class="portlet whats-on-viewlet enableFormTabbing" >
+        <dt i18n:translate=""  id="fieldsetlegend-upcoming-sittings"> Sittings </dt>
+        <dd tal:define="days view/get_sittings" tal:condition="days" id="fieldset-upcoming-sittings">
             <ul>
               <tal:block tal:repeat="day days">
                   <li tal:content="day/day" /> 
@@ -41,10 +41,9 @@
              </tal:block>                                                    
             </ul>
         </dd>
-    </dl>
-    <dl class="portlet" tal:define="days view/get_bills" tal:condition="days" >
-        <dt i18n:translate=""> Bills </dt>
-        <dd>
+
+        <dt i18n:translate="" id="fieldsetlegend-upcoming-bills"> Bills </dt>
+        <dd tal:define="days view/get_bills" tal:condition="days" id="fieldset-upcoming-bills">
             <ul >
               <tal:block tal:repeat="day days">
                   <li tal:content="day/day" /> 
@@ -62,10 +61,9 @@
             </tal:block>                                                     
             </ul>
         </dd>
-    </dl>
-    <dl class="portlet" tal:define="days view/get_motions" tal:condition="days" >
-        <dt i18n:translate=""> Motions </dt>
-        <dd>
+
+        <dt i18n:translate="" id="fieldsetlegend-upcoming-motions"> Motions </dt>
+        <dd tal:define="days view/get_motions" tal:condition="days" id="fieldset-upcoming-motions">
             <ul>
               <tal:block tal:repeat="day days">
                   <li tal:content="day/day" /> 
@@ -83,10 +81,9 @@
                </tal:block>                          
             </ul>
         </dd>
-    </dl>
-    <dl class="portlet" tal:define="days view/get_questions" tal:condition="days" >
-        <dt i18n:translate=""> Questions </dt>
-        <dd>
+
+        <dt i18n:translate="" id="fieldsetlegend-upcoming-questions"> Questions </dt>
+        <dd tal:define="days view/get_questions" tal:condition="days" id="fieldset-upcoming-questions">
             <ul >
               <tal:block tal:repeat="day days">
                   <li tal:content="day/day" /> 
@@ -104,11 +101,9 @@
              </tal:block>                                                                  
             </ul>
         </dd>
-    </dl> 
-    
-  <dl class="portlet" tal:define="days view/get_tableddocuments" tal:condition="days" >
-        <dt i18n:translate=""> Tabled documents </dt>
-        <dd>
+
+        <dt i18n:translate="" id="fieldsetlegend-upcoming-tableddocuments"> Tabled documents </dt>
+        <dd tal:define="days view/get_tableddocuments" tal:condition="days" id="fieldset-upcoming-tableddocuments">
             <ul >
               <tal:block tal:repeat="day days">
                   <li tal:content="day/day" /> 
@@ -126,11 +121,9 @@
              </tal:block>                                                                  
             </ul>
         </dd>
-    </dl>     
-    
-  <dl class="portlet" tal:define="days view/get_agendaitems" tal:condition="days" >
-        <dt i18n:translate=""> Agenda items </dt>
-        <dd>
+
+        <dt i18n:translate="" id="fieldsetlegend-upcoming-agendaitems"> Agenda items </dt>
+        <dd tal:define="days view/get_agendaitems" tal:condition="days" id="fieldset-upcoming-agendaitems">
             <ul >
               <tal:block tal:repeat="day days">
                   <li tal:content="day/day" /> 

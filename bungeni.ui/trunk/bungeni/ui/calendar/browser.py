@@ -790,14 +790,17 @@ class ReportingView(form.PageForm):
         if 'doc_type' in data:    
             self.doc_type = data['doc_type']
         else:
-            self.doc_type = "Order of the day"        
+            if self.display_minutes: 
+                self.doc_type = "Proceedings of the day"  
+            else:
+                self.doc_type =  "Order of the day"     
         if self.doc_type == "Order of the day":
             time_span = TIME_SPAN.daily
         elif self.doc_type == "Weekly Business":
             time_span = TIME_SPAN.weekly      
         elif self.doc_type == "Questions of the week":
             time_span = TIME_SPAN.weekly     
-        elif data['doc_type'] == "Proceedings of the day":
+        elif self.doc_type == "Proceedings of the day":
             time_span = TIME_SPAN.daily                 
         self.end_date = self.get_end_date(self.start_date, time_span)
         #Hack:Check if called on scheduling page or sitting page. todo : fix this

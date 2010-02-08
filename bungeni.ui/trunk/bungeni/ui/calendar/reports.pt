@@ -9,13 +9,13 @@
         <tal:loop tal:repeat="item view/sitting_items">
              
             <div class="report_date"> 
-            	<span tal:content="item/sitting_type/sitting_type"/> Sitting : <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />, <span tal:content="python:item.start_date.strftime('%H:%M')" />
+            	<span tal:content="item/sitting_type/sitting_type"/> Sitting : <span tal:content="python:item.start_date.strftime('%H:%M')" /> to <span tal:content="python:item.end_date.strftime('%H:%M')" />, <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />
            	</div>   
             <tal:loop tal:repeat="scheduled item/item_schedule">
                 <div class="report_items">
-                    <div class="report_header" tal:condition="scheduled/category  | nothing"
+                    <h1 tal:condition="scheduled/category  | nothing"
                      tal:attributes="name scheduled/category_id"
-                     tal:content="scheduled/category/short_name"> </div> 
+                     tal:content="scheduled/category/short_name"> </h1> <span tal:condition="scheduled/category  | nothing"><hr/></span> 
                         <span tal:condition="python:scheduled.item.type == 'motion'" >
                             <span tal:condition="view/motion">
                                 <h2>
@@ -96,7 +96,7 @@
                                     </span>
                                 </h2>
                                 <span tal:condition="view/question_owner">
-                                    <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
+                                    <h3> Moved by <span tal:replace="scheduled/item/owner/first_name" /> 
                                         <span tal:replace="scheduled/item/owner/last_name" />  
                                         <span tal:condition="scheduled/item/ministry | nothing"> to <span tal:replace="scheduled/item/ministry/full_name"/></span>
                                     </h3>

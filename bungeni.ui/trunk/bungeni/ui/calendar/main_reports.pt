@@ -10,7 +10,7 @@
         <form name="hidden_form_save" method="post" tal:attributes="action view/save_link" style="visibility:hidden">
             <input type="text" name="body_text" tal:attributes="value view/body_text" style="visibility:hidden"></input>
             <input type="text" name="note" tal:attributes="value view/note" style="visibility:hidden"></input>
-            <input type="text" name="report_type" tal:attributes="value view/report_type" style="visibility:hidden"></input>
+            <input type="text" name="report_type" tal:attributes="value view/doc_type" style="visibility:hidden"></input>
             <input type="text" name="start_date" tal:attributes="value view/start_date" style="visibility:hidden"></input>
             <input type="text" name="end_date" tal:attributes="value view/end_date" style="visibility:hidden"></input>
             <input type="text" name="single" tal:attributes="value view/single" style="visibility:hidden"></input>

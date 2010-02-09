@@ -7,7 +7,7 @@
                    <span tal:replace="view/doc_type"/>
             </div>
         <tal:loop tal:repeat="item view/sitting_items">
-             
+             <br style="line-height:200%"/>
             <div class="report_date"> 
             	<span tal:content="item/sitting_type/sitting_type"/> Sitting : <span tal:content="python:item.start_date.strftime('%H:%M')" /> to <span tal:content="python:item.end_date.strftime('%H:%M')" />, <span tal:content="python:item.start_date.strftime('%A %d %B %Y')" />
            	</div>   

@@ -54,9 +54,10 @@
   
   <rule class="load-whatson-navigation">
     <drop content="#portal-column-one" />
+    <drop content="//head" />    
     <prepend href="/business/whats-on"
              theme="//head"
-             content="//head" />        
+             content="//head" />             
     <prepend href="/business/whats-on"    
              content="#viewlet-above-content"
              theme="children:#portal-column-content" />

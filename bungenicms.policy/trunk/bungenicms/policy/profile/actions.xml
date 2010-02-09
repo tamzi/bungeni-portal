@@ -4,6 +4,43 @@
   
   <object name="site_actions" meta_type="CMF Action Category">
     
+    <object name="sitemap" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Site Map</property>
+      <property name="description" i18n:translate=""></property>
+      <property name="url_expr">string:${globals_view/navigationRootUrl}/sitemap</property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">False</property>
+    </object>    
+    
+    <object name="accessibility" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Accessibility</property>
+      <property name="description" i18n:translate=""></property>
+      <property
+         name="url_expr">string:${globals_view/navigationRootUrl}/accessibility-info</property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">False</property>
+    </object>
+    
+    <object name="contact" meta_type="CMF Action" i18n:domain="plone">
+      <property name="title" i18n:translate="">Contact</property>
+      <property name="description" i18n:translate=""></property>
+      <property name="url_expr">string:${globals_view/navigationRootUrl}/contact-info</property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">False</property>
+    </object>    
+    
     <object name="support" meta_type="CMF Action" i18n:domain="plone">
       <property name="title" i18n:translate="">Support</property>
       <property name="description" i18n:translate=""></property>
@@ -15,6 +52,6 @@
       </property>
       <property name="visible">True</property>
     </object>
-
+    
   </object>
 </object>

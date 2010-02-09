@@ -181,7 +181,7 @@ class MyMotionsViewlet( ViewletBase ):
 class MyGroupsViewlet( ViewletBase ):
     name = _("My Groups")
     list_id = "my_groups"    
-    #render = ViewPageTemplateFile ('templates/workspace_item_portlet.pt')
+    render = ViewPageTemplateFile ('templates/workspace_group_viewlet.pt')
         
     def getData(self):
         """
@@ -216,7 +216,8 @@ class MyGroupsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = ""
-            data['type'] =  result.type.capitalize()            
+            data['type'] =  result.type.capitalize()      
+            data['to'] = u""      
             data_list.append(data)            
         return data_list
     

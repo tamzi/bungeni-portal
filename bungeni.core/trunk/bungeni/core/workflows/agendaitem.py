@@ -63,6 +63,7 @@ class actions:
     @staticmethod
     def complete( info, context ):
         utils.createVersion(info,context)
+        utils.setSubmissionDate(info, context)        
  
 
     @staticmethod

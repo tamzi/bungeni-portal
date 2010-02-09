@@ -176,7 +176,7 @@ class actions:
         it is available to the speakers office for review
         """
         utils.createVersion(info,context)
- 
+        utils.setSubmissionDate(info, context) 
 
 
     @staticmethod

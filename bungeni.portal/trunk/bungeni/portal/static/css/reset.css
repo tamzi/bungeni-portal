@@ -4,6 +4,10 @@ html {
   height: 100%;
 }
 
+.section-bungeni-archive #portletArchiveDates select {
+  width: 150px;
+}
+
 #portletArchiveDates form .field {
   clear:none;
   float:left;
@@ -117,6 +121,10 @@ div#portal-globalnav {
   width:10px !important;
 }
 
+.template-workspace #whats-on-overview {
+  display: none;
+}
+
 /*Navigation styles - workspace*/
 .template-workspace div#portal-globalnav ul.level0 {
   height: 1.6em;
@@ -157,8 +165,8 @@ div#portal-globalnav {
   border-left: 1px solid #d4e2ef;
   border-right: 1px solid #d4e2ef;
   border-bottom: 0px solid #d4e2ef;
-  padding-left: 0.9em;
-  padding-right: 0.9em;
+  padding-left: 0.75em;
+  padding-right: 0.75em;
 }
 
 .template-workspace div#portal-globalnav ul.level0 li.selected {
@@ -230,6 +238,7 @@ div#portal-globalnav {
   float:right;
   padding:0 1em;
 }
+
 
 /*on the homepage - display the first tab as selected*/
 #bungeni-workspace div#portal-globalnav ul.level0 li#portaltab- a,
@@ -313,6 +322,14 @@ div#portal-globalnav {
 
 .template-portal li {
   line-height: 1.1em;
+}
+
+.section-bungeni-business li {
+  line-height: 1.8em;
+}
+
+.links li {
+  line-height: 1.54em;    
 }
 
 .template-portal div#portal-globalnav {
@@ -832,6 +849,11 @@ dl.section-front-page {
   margin-bottom: 2em;
   width: 20em;
   margin-top: 15px;
+}
+
+
+.section-front-page #whats-on-overview ul.formTabs{
+  display: none;
 }
 
 .section-front-page #whats-on-overview .portlet dd ul{

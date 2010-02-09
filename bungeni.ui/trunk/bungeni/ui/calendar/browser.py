@@ -962,7 +962,7 @@ class ReportingView(form.PageForm):
         #import pdb; pdb.set_trace()
         return self.main_result_template()
     
-    @form.action(_(u"Save"))
+    @form.action(_(u"Publish"))
     def handle_save(self, action, data):                
         self.process_form(data)
         body_text = self.result_template()

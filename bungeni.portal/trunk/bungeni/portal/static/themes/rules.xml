@@ -232,7 +232,6 @@
              theme="children:.main-content"/>     
   </rule>
   
-  
   <rule class="frontpage">
     <!--header-->
     <prepend href="/bungeni"
@@ -291,7 +290,8 @@
     <append href="/bungeni/"
             content="attributes:div#bungeni-workspace"
             theme="attributes:body" />    
-    <pyquery pyref="bungeni.portal/static/themes/rules:move_portlet" />    
+    <pyquery pyref="bungeni.portal/static/themes/rules:move_portlet" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:drop_whatsonLinks" />    
 
   </rule>  
 

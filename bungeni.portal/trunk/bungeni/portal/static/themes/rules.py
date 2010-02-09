@@ -147,7 +147,7 @@ def image_links(content, theme, resource_fetcher, log):
         link_id = str(link_id).split('href="')
         link_id = str(link_id[1]).split('">')[0]
         link_node = content('#region-content')
-        new_value = link_value.replace('@@file-image/image', str(link_id) +'/@@file-image/image')
+        new_value = link_value.replace('./@@file-image/image', str(link_id) +'/@@file-image/image')
         link_node.replaceWith(new_value)
 
 def drop_tabLinks(content, theme, resource_fetcher, log):
@@ -169,8 +169,8 @@ def rewrite_links(content, theme, resource_fetcher, log):
     """
 
     repeating_link_values = ['business', 'calendar', 'workspace_archive']
-    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin', 'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"' }
-    content_items = [['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
+    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin', 'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"', '/business/whats-on/business': '/business' }
+    content_items = [['.level1','class', 'ul'],['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
         for content_item in content_items:
@@ -224,6 +224,11 @@ def move_portlet(content, theme, resource_fetcher, log):
     """
     if not pq(theme('html').filter('body#bungeni-workspace')):
         theme('#portal-column-two').append(theme('#review-portlet'))
+
+def drop_whatsonLinks(content, theme, resource_fetcher, log):
+    """On the homepage drop all the secondary links in the Whats on section.
+    """
+    theme('#fieldset-upcoming-sittings ul li ul').remove()
 
 def documentActions_links(content, theme, resource_fetcher, log):
     """Fix the 'documentActions' for the business, members, archive and

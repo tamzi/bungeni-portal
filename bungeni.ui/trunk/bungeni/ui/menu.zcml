@@ -72,11 +72,11 @@
      class="ploned.ui.menu.PloneBrowserMenu"
      />
 
-  <browser:menu
+  <!--browser:menu
      id="context_translate"
      title="The 'Translate' menu - allows the user to translate content"
      class=".menu.TranslateMenu"
-     />
+     /-->
 
   <browser:menu
      id="context_actions"
@@ -915,11 +915,11 @@
      factory=".menu.CalendarSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
 
-  <adapter
+  <!--adapter
      for="bungeni.core.interfaces.IVersionable *"
      name="plone.contentmenu.translation"
      factory=".menu.TranslationSubMenuItem"
-     provides="ploned.ui.interfaces.IContentMenuItem" />
+     provides="ploned.ui.interfaces.IContentMenuItem" /-->
 
 <!--  <adapter
      for="bungeni.core.interfaces.ISchedulingContext *"

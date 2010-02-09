@@ -243,6 +243,13 @@ def documentActions_links(content, theme, resource_fetcher, log):
             new_content = content_value.replace('/'+link_value, '/plone/'+link_value)
             content_node.replaceWith('<div class="documentActions">' + new_content + '</div>')
 
+def modify_siteactions (content, theme, resource_fetcher, log):
+    """
+    Open the 'Support' link in a new tab.
+    """
+    theme('#siteaction-support a').attr('target', '_blank')
+
+    
 def add_ArchiveDates(content, theme, resource_fetcher, log, portlet_id):
     """Move the ArchiveDates portlet to the top of the business and whats-on pages
     """

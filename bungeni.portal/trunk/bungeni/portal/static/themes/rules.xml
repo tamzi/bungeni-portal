@@ -342,6 +342,7 @@
     <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />
+    <pyquery pyref="bungeni.portal/static/themes/rules:modify_siteactions" />        
     <pyquery pyref="bungeni.portal/static/themes/rules:drop_tabLinks" />    
     <pyquery pyref="bungeni.portal/static/themes/rules:add_section_links"/>    
     

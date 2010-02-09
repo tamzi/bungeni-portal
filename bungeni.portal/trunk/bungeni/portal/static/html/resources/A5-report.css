@@ -65,3 +65,13 @@
     line-height:normal;
 }
 
+dd.Report div.content-left-column
+{
+    display:none;
+}
+dd.Report div.content-right-column
+{
+    width:100%;
+    line-height:normal;
+}
+

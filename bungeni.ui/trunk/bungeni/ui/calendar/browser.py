@@ -934,10 +934,6 @@ class ReportingView(form.PageForm):
                     if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes", "draft-agenda"]:
                         sitting_items.append(sitting)
             self.sitting_items = sitting_items
-        if self.display_minutes:                                 
-            self.report_type = 'minutes'
-        else:
-            self.report_type = 'agenda'
         if self.display_minutes:
             self.link = absoluteURL(self.context, self.request)+'/votes-and-proceedings'
         else :
@@ -972,10 +968,7 @@ class ReportingView(form.PageForm):
         report.end_date = self.end_date                        
         report.created_date = datetime.datetime.now()   
         report.note = self.note
-        if self.display_minutes:                                 
-            report.report_type = 'minutes'
-        else:
-            report.report_type = 'agenda'                    
+        report.report_type = self.doc_type                    
         report.body_text = body_text
         report.user_id = getUserId()
         report.group_id = self.group.group_id

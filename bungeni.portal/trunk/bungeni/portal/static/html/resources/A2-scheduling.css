@@ -52,6 +52,12 @@ ul.items-for-scheduling ul li {
  overflow: auto;
 }
 
+.scheduling.scheduling-drop-target.published-agenda  {
+ height: auto;
+ overflow: auto;
+}
+
+
 .scheduling.scheduling-drop-target.published-minutes  {
  height: auto;
  overflow: auto;

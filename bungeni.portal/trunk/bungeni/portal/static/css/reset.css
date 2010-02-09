@@ -324,7 +324,7 @@ div#portal-globalnav {
   line-height: 1.1em;
 }
 
-.section-bungeni-business li {
+.section-bungeni-business #whats-on-overview li {
   line-height: 1.8em;
 }
 
@@ -648,7 +648,7 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
   background-color: #bdd1d7;
   border-left: transparent;
   border-right: transparent;
-  margin-bottom: 0px;
+  margin-bottom: 2em;
   padding-top: 3px;
 }
 
@@ -658,6 +658,7 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
   border-right: transparent;
   margin-bottom: 10px;
   padding-top: 3px;
+  
 }
 
 .contentActions a {

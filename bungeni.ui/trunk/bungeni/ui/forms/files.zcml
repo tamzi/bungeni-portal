@@ -40,7 +40,7 @@
 
   <!-- file display viewlet -->
      
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.viewlet.question-files"
      manager=".interfaces.ISubFormViewletManager"                              
      class=".files.LibraryViewlet"
@@ -84,7 +84,7 @@
      for="bungeni.models.interfaces.IAgendaItem"
      permission="zope.View"
      weight="50"
-     />    
+     /-->    
 
 
 </configure>    

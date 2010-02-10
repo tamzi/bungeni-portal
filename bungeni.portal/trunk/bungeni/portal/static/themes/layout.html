@@ -9,11 +9,26 @@
     <link rel="stylesheet" href="/static/css/reset.css"
           type="text/css" media="screen" />
     <link rel="stylesheet" type"text/css"
-          href="/static/html/resources/print.css" media="print">
+          href="/static/html/resources/print.css" media="print"/>
     
     <title>BUNGENI</title>
   </head>
-  <body>
+  <body onLoad="init()">
+    
+    <div id="loading" style="position:absolute; width:100%;top:300px;"/>
+    <script>
+      var ld=(document.all);
+      var ns4=document.layers;
+      var ns6=document.getElementById&&!document.all;
+      var ie4=document.all;
+      if (ns4) ld=document.loading;
+      else if (ns6) ld=document.getElementById("loading").style;
+      else if (ie4) ld=document.all.loading.style;
+      function init()
+      { if(ns4){ld.visibility="hidden";}
+      else
+      if (ns6||ie4) ld.display="none"; }
+    </script>
     
     <div id="visual-table-wrapper">
       <table id="main-body-table">
@@ -47,7 +62,7 @@
             <table id="portal-columns">
               <tbody>
                 <tr>
-                  <td id="portal-column-one">
+                  <td iddel="portal-column-one">
                   </td>
                   <td id="portal-column-content">
                     
@@ -75,6 +90,8 @@
           </tr>
         </table>
       </div>
+      
+
     </body>
   </html>
     

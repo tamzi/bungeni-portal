@@ -1,16 +1,17 @@
 #### CONFIG VARIABLE SETTING ####
 
 set :application, "bungeni"
-set :bungeni_username, "bungeni"
+#set :bungeni_username, "bungeni"
 set :repository,  "https://bungeni-portal.googlecode.com/svn/bungeni.buildout/trunk"
 
 ## prompt for svn user names & passwords
 set :scm, :subversion
 
+set :scm_auth_cache, true
 ## all prompts here
-prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
-set :scm_username, Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
-set :scm_password, Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
+#prompt_def(:bungeni_username, 'User name to run as:', 'bungeni')
+set :scm_username, "bungenibuild" #Proc.new { Capistrano::CLI.ui.ask('SVN Username: ') }
+set :scm_password, "CC2Hy6xh5Pz6" #Proc.new { Capistrano::CLI.password_prompt('SVN Password: ') }
 #prompt_def(:user_python_home, 'User Python Home Directory', "/home/bungeni/apps/python" )
 #prompt_def(:deploy_to_root, 'Deploy within this folder: ', '/home/bungeni/bungeni_deploy')
 set :user_python_home, "#{user_python25_runtime}"
@@ -35,6 +36,7 @@ set :supervisorctl, "#{adm_python_home}/bin/supervisorctl"
 
 # erb template to supervisord.conf
 set :supervisord_config_file, "supervisord.conf.erb"
+set :supervisord_config_gandi_file, "supervisord_gandi.conf.erb"
 
 ## force prompt if any unknown prompts pop up
 default_run_options[:pty] = true
@@ -45,7 +47,7 @@ set :deploy_to, "#{deploy_to_root}/#{application}"
 set :buildout_dir, "#{deploy_to}/current"
 set :local_buildout_config_file , "buildout_local.cfg"
 
-set :user, "#{bungeni_username}"
+#set :user, "#{bungeni_username}"
 set :use_sudo, false
 set :app_host, "localhost"
 

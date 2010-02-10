@@ -17,9 +17,11 @@
 #### General Build Parameter #####
 
 ### only the following 2 parameters need to be set by the user to customize
-### this installation script for different computers
-set :user_build_root, "/home/undesa/cap_builds"
-set :user_install_root, "/home/undesa/cap_installs"
+### this installation script for different computersi
+#set :use_sudo, false
+#set :system_build_root, "/home/undesa/disk1/bungeni"
+set :user_build_root, "#{system_build_root}/cap_builds"
+set :user_install_root, "#{system_build_root}/cap_installs"
 
 #### download URLs for components #####
 ### can be set to a http / ftp url or an absolute path to the file on the computer

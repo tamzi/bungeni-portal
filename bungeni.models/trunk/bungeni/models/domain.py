@@ -361,10 +361,10 @@ class ItemVotes( object ):
 class ParliamentaryItem( Entity ):
     """
     """
-    interface.implements( interfaces.IBungeniContent, 
-         interfaces.IHeadFileAttachments )
+    interface.implements( interfaces.IBungeniContent, )
+    #     interfaces.IHeadFileAttachments )
     sort_replace = {'owner_id': ['last_name', 'first_name']}  
-    files = files.DirectoryDescriptor()       
+    #files = files.DirectoryDescriptor()       
     # votes
 
     # schedule
@@ -574,7 +574,6 @@ class ItemSchedule(Entity):
         session = Session()
         s_item = self.item
         s_item.__parent__ = self
-        #session.close                    
         return s_item
         
     @property
@@ -582,7 +581,6 @@ class ItemSchedule(Entity):
         session = Session()
         s_discussion = self.discussion
         s_discussion.__parent__ = self
-        #session.close                    
         return s_discussion
 
 class ItemScheduleCategory(Entity):

@@ -235,6 +235,7 @@
   
   <rule class="frontpage">
     <!--header-->
+    <drop content="//head" />        
     <prepend href="/bungeni"
              theme="//head"
              content="//head" />         

@@ -96,7 +96,7 @@
     <require permission="zope.Public"
              like_class="ore.svn.directory.SubversionDirectory"/>
     <require permission="zope.Public"
-             attributes="__call__ keys get getLog __getitem__ items files directories"/>
+             attributes="__call__ keys get getLog __getitem__ items files directories getSVNContext"/>
   </class>
   
 

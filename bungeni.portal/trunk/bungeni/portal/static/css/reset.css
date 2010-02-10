@@ -8,24 +8,6 @@ html {
   width: 150px;
 }
 
-#portletArchiveDates form .field {
-  clear:none;
-  float:left;
-  margin-left:-12px;
-  width:17em;
-}
-
-#portletArchiveDates label {
-  float: left;
-  margin-right: 0.2em;
-}
-
-#portletArchiveDates .widget-dropdownwidget.field {
-  margin-left: -25px;
-  margin-right: -10px;
-  width: 19em;
-}
-
 .template-portal {
   line-height: 1;
   cursor: default;
@@ -1059,3 +1041,24 @@ div#footer {
 
 }
 
+.section-bungeni-archive .documentContent {
+  padding: 0em 0px 2em 0px!important;
+}
+
+#portletArchiveDates form .field {
+  clear:none;
+  float:left;
+  margin-left:-12px;
+  width:14em;
+}
+
+#portletArchiveDates label {
+  float: left;
+  margin-right: 0.2em;
+}
+
+#portletArchiveDates .widget-dropdownwidget.field {
+  margin-left: -25px;
+  margin-right: -10px;
+  width: 19em;
+}

@@ -7,37 +7,35 @@ bungeni.plonepas  https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/tru
 bungeni.ui        https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 bungeni.theme.private        https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
 marginalia        https://bungeni-portal.googlecode.com/svn/marginalia/trunk
-bungeni.transcipts      https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
+bungeni.transcipts  https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
  
 # plone 3 skin
 ploned.ui        https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 plone.maintemplate https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
 
 # relational database support
-ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
+ore.alchemist  https://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
 
 # rdb ui components
-alchemist.ui   http://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
+alchemist.ui   https://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
 
 # rdb auto generation
-alchemist.catalyst http://zope-alchemist.googlecode.com/svn/alchemist.catalyst/branches/dynamic-ui
+alchemist.catalyst https://zope-alchemist.googlecode.com/svn/alchemist.catalyst/branches/dynamic-ui
 
 # various traversal mechanisms
-alchemist.traversal http://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
+alchemist.traversal https://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
 
 # zope.securitypolicy rdb implementation
-alchemist.security http://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
+alchemist.security https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
 
 # schema diff 
-z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
+# z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
 z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 
 # shows security information ( principal, permissions, views )
 # usage requires including security-debug.zcml
 # z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk
 
-# repoze.whooze z3 authentication
-repoze.whooze -r3893 http://svn.repoze.org/repoze.whooze/trunk
 
 # lovely memcached
 # lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/
@@ -49,3 +47,8 @@ repoze.whooze -r3893 http://svn.repoze.org/repoze.whooze/trunk
 
 bungenicms.theme https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk
 bungenicms.policy https://bungeni-portal.googlecode.com/svn/bungenicms.policy/trunk
+
+
+# repoze.whooze z3 authentication
+repoze.whooze -r3893 http://svn.repoze.org/repoze.whooze/trunk
+

@@ -1058,7 +1058,15 @@ div#footer {
 }
 
 #portletArchiveDates .widget-dropdownwidget.field {
-  margin-left: -25px;
-  margin-right: -10px;
-  width: 19em;
+  margin-left: -40px;
+  margin-right: 0px;
+  width: 18em;
+}
+
+#portletArchiveDates .actionButtons {
+  margin-left: 0px;
+}
+
+#portletArchiveDates input {
+  margin-top: 2px;
 }

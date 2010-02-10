@@ -24,6 +24,9 @@ namespace :plone_install do
 	after "plone_install:setup_from_cache", 
 		"plone_tasks:plone_checkout"
 
+	after "plone_install:setup",
+		"plone_tasks:plone_checkout"
+
 	after "plone_install:full_from_cache",
 		"plone_install:setup_from_cache",
 		"plone_tasks:bootstrap_bo",
@@ -35,5 +38,12 @@ namespace :plone_install do
 		
 
 			
+	after "plone_install:full",
+		"plone_install:setup",
+		"plone_tasks:bootstrap_bo",
+		"plone_tasks:buildout_full",
+		"plone_tasks:create_fs_folder",
+	        "plone_tasks:update_zopeconf",
+		"plone_tasks:add_admin_user"
 
 end

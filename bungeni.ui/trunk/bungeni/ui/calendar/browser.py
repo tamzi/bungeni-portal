@@ -26,6 +26,8 @@ from zope.app.component.hooks import getSite
 from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 from zope.security import checkPermission
+import zope.securitypolicy.interfaces
+
 
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
@@ -979,6 +981,10 @@ class ReportingView(form.PageForm):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
+        
+        rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
+        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
+        
         if IGroupSitting.providedBy(self.context):        
             back_link =  './schedule'
         elif ISchedulingContext.providedBy(self.context):
@@ -1174,6 +1180,7 @@ class SaveView(AgendaReportingView):
         report.group_id = self.context.group_id
         session.add(report)
         
+        
         if self.request.form['single']=="False":
             self.sitting_items = self.get_sittings_items(start_date, end_date)
         else:
@@ -1188,6 +1195,10 @@ class SaveView(AgendaReportingView):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
+        
+        rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
+        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )        
+        
         
         if IGroupSitting.providedBy(self.context):        
             back_link =  './schedule'
@@ -1305,6 +1316,10 @@ class StoreReportView(HTMLPreviewPage):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
+
+        rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
+        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
+        
         if IGroupSitting.providedBy(self.context):        
             back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):

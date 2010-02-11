@@ -103,8 +103,33 @@ div#portal-globalnav {
   width:10px !important;
 }
 
-.template-workspace #whats-on-overview {
+.template-workspace #portal-column-two #whats-on-overview {
   display: none;
+}
+
+#portal-column-content #whats-on-overview .whats-on-viewlet dd ul{
+  background: white;
+  margin-left: 2.5em;
+}
+
+#portal-column-content #whats-on-overview .whats-on-viewlet dd ul{
+  background: white;
+}
+
+#portal-column-content #whats-on-overview .whats-on-viewlet dd.formPanel ul li{
+  background: #dcd8d8;
+}
+
+#portal-column-content #whats-on-overview .whats-on-viewlet dd.formPanel ul ul li{
+  background: white !important;
+}
+
+#portal-column-content #whats-on-overview .whats-on-viewlet dd#fieldset-upcoming-sittings ul ul li a{
+  background: #e6e6e6;
+}
+
+#portal-column-content #whats-on-overview .whats-on-viewlet dd.formPanel ul ul li ul li a{
+  background: white !important;
 }
 
 /*Navigation styles - workspace*/
@@ -852,6 +877,11 @@ dl.section-front-page {
   padding: 0 1em 0 1em;;  
 
 }
+
+#portal-column-content #whats-on-overview .portlet dd {
+  margin-top: 10px;
+}
+
 #portal-column-two .portlet dd {
   border-left: 1px solid #FAAD5F;
   border-right: 1px solid #FAAD5F;

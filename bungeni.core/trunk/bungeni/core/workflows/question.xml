@@ -94,12 +94,16 @@
     <grant permission="zope.View" role="bungeni.Clerk"/>    
     <deny permission="bungeni.response.Edit" role="bungeni.Owner"/>
     <deny permission="bungeni.response.Edit" role="bungeni.Minister"/>
+    <grant permission="bungeni.response.View" role="bungeni.Clerk" />        
+    <grant permission="bungeni.response.View" role="bungeni.Speaker" />                
   </state>
 
   <state id="response_complete" title="Response completed">
     <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Everybody" />
-    <grant permission="zope.View" role="bungeni.Anybody" />    
+    <grant permission="zope.View" role="bungeni.Anybody" />   
+    <grant permission="bungeni.response.View" role="bungeni.Everybody" />        
+    <grant permission="bungeni.response.View" role="bungeni.Anybody" />                 
   </state>
 
 

@@ -71,7 +71,6 @@
 
   <permission id="bungeni.response.Edit" title="Edit Response" />
   <permission id="bungeni.response.View" title="View Response" />
-  <meta:redefinePermission from="bungeni.response.View" to="zope.View" />    
  
   <permission id="bungeni.parliament.Add" title="Add Parliament" />
   <permission id="bungeni.parliament.Edit" title="Edit Parliament" />

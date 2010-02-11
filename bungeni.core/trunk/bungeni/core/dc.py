@@ -61,8 +61,9 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        #prm = IPrincipalRoleMap(self.context)
-        context = removeSecurityProxy(self.context)
+        #prm = IPrincipalRoleMap(self.context)        
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))
         if context.question_number is None:
             return context.short_name
             
@@ -72,11 +73,13 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        text = "Submitted by %s" % self.context.owner.first_name + ' ' + \
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))    
+        text = "Submitted by %s" % context.owner.first_name + ' ' + \
                self.context.owner.last_name
 
         if self.context.approval_date:
-            text += ' (approved on %s)' % self.context.approval_date
+            text += ' (approved on %s)' % context.approval_date
 
         return text + "."
 
@@ -85,19 +88,23 @@ class BillDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        if self.context.identifier is None:
-            return self.context.short_name
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))
+        if context.identifier is None:
+            return context.short_name
         return "#%d: %s" % (
-            self.context.identifier,
-            self.context.short_name)
+            context.identifier,
+            context.short_name)
 
     @property
     def description(self):
-        text = "Submitted by %s" % self.context.owner.first_name + ' ' + \
-               self.context.owner.last_name
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))    
+        text = "Submitted by %s" % context.owner.first_name + ' ' + \
+               context.owner.last_name
 
-        if self.context.publication_date:
-            text += ' (published on %s)' % self.context.publication_date
+        if context.publication_date:
+            text += ' (published on %s)' % context.publication_date
 
         return text + "."
 
@@ -106,19 +113,23 @@ class MotionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        if self.context.motion_number is None:
-            return self.context.short_name
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))    
+        if context.motion_number is None:
+            return context.short_name
         return "#%d: %s" % (
-            self.context.motion_number,
-            self.context.short_name)
+            context.motion_number,
+            context.short_name)
 
     @property
     def description(self):
-        text = "Submitted by %s" %  self.context.owner.first_name + ' ' + \
-               self.context.owner.last_name
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
+        text = "Submitted by %s" %  context.owner.first_name + ' ' + \
+               context.owner.last_name
 
-        if self.context.notice_date:
-            text += ' (notice given on %s)' % self.context.notice_date
+        if context.notice_date:
+            text += ' (notice given on %s)' % context.notice_date
 
         return text + "."
 
@@ -127,18 +138,21 @@ class SittingDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         return _(u"Sitting: $group ($start to $end)",
-                 mapping={'group': self.context.group.short_name,
-                          'start': self.context.start_date.strftime('%Y-%m-%d %H:%M'),
-                          'end': self.context.end_date.strftime('%H:%M')})
+                 mapping={'group': context.group.short_name,
+                          'start': context.start_date.strftime('%Y-%m-%d %H:%M'),
+                          'end': context.end_date.strftime('%H:%M')})
 
     @property
     def description(self):
-        session = Session()
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))          
         return _(u"Sitting scheduled for '$group' ($start to $end).",
-                 mapping={'group': self.context.group.short_name,
-                          'start': self.context.start_date.strftime('%Y-%m-%d %H:%M'),
-                          'end': self.context.end_date.strftime('%H:%M')})
+                 mapping={'group': context.group.short_name,
+                          'start': context.start_date.strftime('%Y-%m-%d %H:%M'),
+                          'end': context.end_date.strftime('%H:%M')})
 
 class ItemScheduleDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IItemSchedule)
@@ -149,10 +163,9 @@ class ItemScheduleDescriptiveProperties(DescriptiveProperties):
 
     @property
     def description(self):
-        session = Session() 
-        trusted = removeSecurityProxy(self.context)
-        session.add(trusted)
-        sitting = self.context.sitting                             
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
+        sitting = context.sitting                             
         return _(u"Scheduled for sitting ($start to $end).",
                  mapping={'start': sitting.start_date,
                           'end': sitting.end_date})
@@ -180,13 +193,12 @@ class GroupDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):
-        session = Session()
-        trusted = removeSecurityProxy(self.context)
-        session.add(trusted)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         return "%s - %s" %(
             #self.context.type.capitalize(),
-            self.context.short_name,
-            self.context.full_name)           
+            context.short_name,
+            context.full_name)           
 
 class ContainerDescriptiveProperties(DescriptiveProperties):
     component.adapts(IAlchemistContainer)
@@ -203,18 +215,21 @@ class ContainerDescriptiveProperties(DescriptiveProperties):
 class UserDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IBungeniUser)
     
-    @property
+    @property  
     def title(self):
-        return "%s %s %s" % (self.context.titles,
-                self.context.first_name,
-                self.context.last_name)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return "%s %s %s" % (context.titles,
+                context.first_name,
+                context.last_name)
 
 class GroupMembershipDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IBungeniGroupMembership)
 
     @property
     def title(self):
-        context = removeSecurityProxy(self.context)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
@@ -232,7 +247,8 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        context = removeSecurityProxy(self.context)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
@@ -241,10 +257,9 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
             return u"New User"
     @property
     def description(self):            
-        session = Session()
-        trusted = removeSecurityProxy(self.context)
-        session.add(trusted)
-        return self.context.attendance_type.attendance_type
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
+        return context.attendance_type.attendance_type
 
 
 
@@ -253,7 +268,8 @@ class ConsignatoryDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        context = removeSecurityProxy(self.context)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
@@ -270,27 +286,32 @@ class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):
-        return self.context.short_name   
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.short_name   
 
     @property
-    def description(self):            
-        return self.context.full_name   
+    def description(self):  
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))                
+        return context.full_name   
                 
 class ConstituencyDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IConstituency)  
     
     @property
     def title(self):
-        return self.context.name         
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.name         
         
     @property
     def description(self):            
-        session = Session()
-        trusted = removeSecurityProxy(self.context)
-        session.add(trusted)
-        return u"%s - %s -%s" %( self.context.name,
-            self.context.province.province,
-            self.context.region.region)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
+        return u"%s - %s -%s" %( context.name,
+            context.province.province,
+            context.region.region)
                                 
 
 class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
@@ -298,10 +319,12 @@ class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        time = self.context.sitting_time
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        time = context.sitting_time
         if time is not None:
             return _(u"Discussion ($time)",
-                     mapping={'time': self.context.sitting_time})
+                     mapping={'time': context.sitting_time})
         return _(u"Discussion")
 
     @property
@@ -354,9 +377,8 @@ class AgendaItemDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        context = removeSecurityProxy(self.context)
-        session = Session()
-        session.add(context)  
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         return u"%s - %s" % (context.short_name, context.group.short_name)
 
             
@@ -364,8 +386,10 @@ class TabledDocumentDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.ITabledDocument)
     
     @property
-    def title(self):    
-        return self.context.short_name
+    def title(self):  
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))        
+        return context.short_name
     @property
     def description(self):            
         return u""
@@ -375,8 +399,10 @@ class ConstituencyDetailsDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):  
-        return '%s - %i' % (self.context.constituency.name,
-            self.context.date.year)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return '%s - %i' % (context.constituency.name,
+            context.date.year)
 
     @property
     def description(self):            
@@ -387,7 +413,9 @@ class GroupItemAssignmentDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):  
-        return '%s - %s ' % (self.context.item.short_name, self.context.group.short_name)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return '%s - %s ' % (context.item.short_name, context.group.short_name)
 
     @property
     def description(self):            
@@ -398,7 +426,8 @@ class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self): 
-        context = removeSecurityProxy(self.context)
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))  
         return context.title_name.user_role_name                                   
 
     @property
@@ -411,17 +440,15 @@ class ReportDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self): 
-        context = removeSecurityProxy(self.context)
-        session = Session()
-        session.add(context)        
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))          
         return u'%s: %s - %s' %(context.group.short_name, 
             context.start_date, context.end_date)                                  
 
     @property
     def description(self):        
-        context = removeSecurityProxy(self.context)
-        session = Session()
-        session.add(context)           
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))             
         return u"Created on %s by %s" %( context.created_date.strftime('%Y-%m-%d'),
             context.user_id)
 
@@ -429,8 +456,10 @@ class ItemScheduleCategoryDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IItemScheduleCategory)         
     
     @property
-    def title(self):    
-        return self.context.short_name
+    def title(self):   
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))       
+        return context.short_name
            
     @property
     def description(self):            
@@ -441,9 +470,8 @@ class UserDelegationDescriptiveProperties(DescriptiveProperties):
     
     @property
     def title(self):    
-        context = removeSecurityProxy(self.context)
-        session = Session()
-        session.add(context)      
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))       
         if getattr(context, 'delegation', None):
             return u'%s %s' % (context.delegation.first_name,
                 context.delegation.last_name)
@@ -459,7 +487,9 @@ class ProvinceDescriptiveProperties(DescriptiveProperties):
       
     @property
     def title(self):  
-        return self.context.province
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.province
 
     @property
     def description(self):            
@@ -470,7 +500,9 @@ class RegionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):  
-        return self.context.region
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.region
 
     @property
     def description(self):            

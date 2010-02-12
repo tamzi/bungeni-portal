@@ -17,8 +17,12 @@
     <div metal:define-macro="main">
       <h1 class="documentFirstHeading">Live Support Channel for Bungeni</h1>
       <div class="documentDescription">
-        Looking for help on setting up and using Bungeni?<br/>
-        Here you can talk to the Bungeni team who will assist you with any queries or problems you have.
+        Looking for help in setting up and using Bungeni?<br/>
+        Here you can talk to the Bungeni team who will assist you with any queries or problems you have.<br/>
+        Type in a nickname (any name) in the input box and click on connect.<br/>
+        Once you are connected you can ask for help or assistance by typing your
+question(s) in the white text box at the bottom of the page.<br/>
+        You will be assisted by members of the Bungeni team who are online.
       </div>
       
       <div class="documentBody">

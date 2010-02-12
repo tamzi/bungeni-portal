@@ -1010,7 +1010,7 @@ class OralMinistryQuestionsViewlet(MinistryItemsViewlet):
     
 class WrittenMinistryQuestionsViewlet(MinistryItemsViewlet):
     list_id = "ministry-written-questions"
-    name = _("writtem questions")
+    name = _("written questions")
     states = [
         question_wf_state[u"admissible"].id,  
         question_wf_state[u"response_pending"].id,          

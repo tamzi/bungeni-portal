@@ -41,7 +41,6 @@ addLoadEvent(show_annotations_on_load);
  */
 function bungeniClickCreateAnnotation( event, id )
 {
-  alert('selectd');
   var button = document.getElementById('clear');
   flag = myAnnotations(button);
   if (flag!=true) {

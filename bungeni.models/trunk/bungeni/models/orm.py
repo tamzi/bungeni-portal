@@ -5,6 +5,8 @@ from sqlalchemy.orm import mapper, relation, column_property, deferred, backref
 import schema
 import domain
 
+from i18n import _
+
 # Users
 # general representation of a person
 mapper( domain.User, schema.users,  
@@ -66,31 +68,31 @@ mapper (domain.UserDelegation, schema.user_delegations,
 mapper( domain.Government,
         inherits=domain.Group,                
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='government'
+        polymorphic_identity=_('government')
         )
 
 mapper( domain.Parliament, schema.parliaments,
         inherits=domain.Group,                
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='parliament'
+        polymorphic_identity=_('parliament')
         )
         
 mapper( domain.PoliticalParty, schema.political_parties,
         inherits=domain.Group,                        
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='political-party'
+        polymorphic_identity=_('political-party')
         )
 
 mapper( domain.Ministry,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='ministry'
+        polymorphic_identity=_('ministry')
         )
 
 mapper( domain.Committee, schema.committees,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='committee',
+        polymorphic_identity=_('committee'),
         properties={
             'committee_type': relation( domain.CommitteeType,
                               uselist=False,
@@ -102,7 +104,7 @@ mapper( domain.Committee, schema.committees,
 mapper( domain.Office, schema.offices,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='office'
+        polymorphic_identity=_('office')
         )   
 
    
@@ -159,32 +161,32 @@ mapper ( domain.MemberOfParliament ,
                
           },      
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='parliamentmember'  
+        polymorphic_identity=_('parliamentmember')  
         )
         
    
 mapper( domain.Minister, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='minister',        
+        polymorphic_identity=_('minister'),        
         )        
  
 mapper( domain.CommitteeMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='committeemember',                
+        polymorphic_identity=_('committeemember'),                
         )  
                 
 mapper( domain.PartyMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='partymember',        
+        polymorphic_identity=_('partymember'),        
         )  
                 
 mapper( domain.OfficeMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='officemember',        
+        polymorphic_identity=_('officemember'),        
         )  
                                          
  
@@ -195,7 +197,7 @@ mapper( domain.OfficeMember,
 mapper( domain.CommitteeStaff,
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='committeestaff',        
+        polymorphic_identity=_('committeestaff'),        
         )
 
                 
@@ -295,12 +297,12 @@ mapper( domain.EventItem, schema.event_items,
                     schema.event_items.c.event_item_id == 
                     schema.parliamentary_items.c.parliamentary_item_id),
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity='event')
+        polymorphic_identity=_('event'))
 
 mapper( domain.AgendaItem, schema.agenda_items, 
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity='agendaitem',
+        polymorphic_identity=_('agendaitem'),
         properties = {
              'changes' : relation( domain.AgendaItemChange, backref='origin',
              cascade="all, delete-orphan", passive_deletes=False),
@@ -319,7 +321,7 @@ mapper( domain.AgendaItemVersion, schema.agenda_item_versions,
 mapper( domain.TabledDocument, schema.tabled_documents,
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity='tableddocument',
+        polymorphic_identity=_('tableddocument'),
         properties = {
              'changes':relation( domain.TabledDocumentChange, backref='origin',
              cascade="all, delete-orphan", passive_deletes=False),

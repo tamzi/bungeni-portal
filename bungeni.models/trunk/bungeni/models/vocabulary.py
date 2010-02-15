@@ -11,7 +11,6 @@ from zope.security import checkPermission
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
 
-#import ore.alchemist
 from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
 import sqlalchemy.sql.expression as sql
@@ -136,8 +135,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                 query = session.query(MemberOfParliament).order_by(
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name)    
-        #session.close()                                                    
+                            MemberOfParliament.middle_name)
         return query                                                                                                           
 
     def __call__( self, context=None ):
@@ -168,7 +166,6 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                     title = "(%s %s)" % (getattr( ob, 'first_name') ,
                             getattr( ob, 'last_name'))
                     ))
-                #session.close()                                
         return vocabulary.SimpleVocabulary( terms )
 
 class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
@@ -215,7 +212,6 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
                             MemberOfParliament.middle_name)    
-        #session.close()                                                    
         return query   
 
 class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
@@ -282,7 +278,6 @@ class MinistrySource(SpecializedSource):
                     query = session.query(domain.Ministry)            
         else:
             query = session.query(domain.Ministry)
-        #session.close()            
         return query     
                
     def __call__( self, context=None ):
@@ -310,7 +305,6 @@ class MinistrySource(SpecializedSource):
                         title = "%s - %s" % (getattr( ob, 'short_name') ,
                                 getattr( ob, 'full_name'))
                         ))
-                #session.close()                        
                             
         return vocabulary.SimpleVocabulary( terms )                
 
@@ -333,7 +327,6 @@ class MemberTitleSource(SpecializedSource):
         titles = session.query(domain.MemberTitle).filter(
             domain.MemberTitle.user_type == user_type).order_by(
                 domain.MemberTitle.sort_order)
-        #session.close()                            
         return titles
 
     def __call__( self, context=None ):
@@ -357,7 +350,6 @@ class UserSource(SpecializedSource):
         
         users = session.query(domain.User).order_by(
                 domain.User.last_name, domain.User.first_name)
-        #session.close()                            
         return users    
     
 
@@ -406,7 +398,6 @@ class UserNotMPSource(SpecializedSource):
                     title = "(%s %s)" % (getattr( ob, 'first_name') ,
                             getattr( ob, 'last_name'))
                     ))
-                #session.close()                                
         return vocabulary.SimpleVocabulary( terms )
 
 
@@ -503,7 +494,6 @@ class SubstitutionSource(SpecializedSource):
         if group_id:
             query = query.filter(
                 domain.GroupMembership.group_id == group_id)
-        #session.close()                            
         return query                
                     
         
@@ -524,7 +514,6 @@ class SubstitutionSource(SpecializedSource):
                 tdict[getattr( ob, 'user_id')] = "%s %s" % (
                             getattr( ob, 'first_name') ,
                             getattr( ob, 'last_name'))
-                #session.close()                                        
         terms = []
         for t in tdict.keys():
             terms.append( 
@@ -559,7 +548,6 @@ class BillSource(SpecializedSource):
             sql.not_(domain.Bill.status.in_(
                 ['draft','withdrawn','approved','rejected'])),
             domain.Bill.parliament_id == parliament_id))
-        #session.close()                        
         return query                
                 
 class CommitteeSource(SpecializedSource):  
@@ -572,7 +560,6 @@ class CommitteeSource(SpecializedSource):
             sql.and_(
             domain.Committee.status == 'active',
             domain.Committee.parent_group_id == parliament_id))
-        #session.close()                        
         return query                
 
 

@@ -68,31 +68,31 @@ mapper (domain.UserDelegation, schema.user_delegations,
 mapper( domain.Government,
         inherits=domain.Group,                
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity=_('government')
+        polymorphic_identity='government'
         )
 
 mapper( domain.Parliament, schema.parliaments,
         inherits=domain.Group,                
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity=_('parliament')
+        polymorphic_identity='parliament'
         )
         
 mapper( domain.PoliticalParty, schema.political_parties,
         inherits=domain.Group,                        
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity=_('political-party')
+        polymorphic_identity='political-party'
         )
 
 mapper( domain.Ministry,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity=_('ministry')
+        polymorphic_identity='ministry'
         )
 
 mapper( domain.Committee, schema.committees,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity=_('committee'),
+        polymorphic_identity='committee',
         properties={
             'committee_type': relation( domain.CommitteeType,
                               uselist=False,
@@ -104,7 +104,7 @@ mapper( domain.Committee, schema.committees,
 mapper( domain.Office, schema.offices,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity=_('office')
+        polymorphic_identity='office'
         )   
 
    
@@ -161,32 +161,32 @@ mapper ( domain.MemberOfParliament ,
                
           },      
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity=_('parliamentmember')  
+        polymorphic_identity='parliamentmember' 
         )
         
    
 mapper( domain.Minister, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity=_('minister'),        
+        polymorphic_identity='minister',        
         )        
  
 mapper( domain.CommitteeMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity=_('committeemember'),                
+        polymorphic_identity='committeemember',                
         )  
                 
 mapper( domain.PartyMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity=_('partymember'),        
+        polymorphic_identity='partymember',        
         )  
                 
 mapper( domain.OfficeMember, 
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity=_('officemember'),        
+        polymorphic_identity='officemember',        
         )  
                                          
  
@@ -197,7 +197,7 @@ mapper( domain.OfficeMember,
 mapper( domain.CommitteeStaff,
         inherits=domain.GroupMembership,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity=_('committeestaff'),        
+        polymorphic_identity='committeestaff',        
         )
 
                 
@@ -297,12 +297,12 @@ mapper( domain.EventItem, schema.event_items,
                     schema.event_items.c.event_item_id == 
                     schema.parliamentary_items.c.parliamentary_item_id),
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity=_('event'))
+        polymorphic_identity='event')
 
 mapper( domain.AgendaItem, schema.agenda_items, 
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity=_('agendaitem'),
+        polymorphic_identity='agendaitem',
         properties = {
              'changes' : relation( domain.AgendaItemChange, backref='origin',
              cascade="all, delete-orphan", passive_deletes=False),
@@ -321,7 +321,7 @@ mapper( domain.AgendaItemVersion, schema.agenda_item_versions,
 mapper( domain.TabledDocument, schema.tabled_documents,
         inherits=domain.ParliamentaryItem,
         polymorphic_on=schema.parliamentary_items.c.type,
-        polymorphic_identity=_('tableddocument'),
+        polymorphic_identity='tableddocument',
         properties = {
              'changes':relation( domain.TabledDocumentChange, backref='origin',
              cascade="all, delete-orphan", passive_deletes=False),

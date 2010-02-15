@@ -76,7 +76,7 @@ class QuestionInStateViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')           
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()
+            data['type'] =  _(result.type)
             data['to'] = result.ministry.short_name
             data_list.append(data)            
         return data_list
@@ -116,7 +116,7 @@ class MyQuestionsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()       
+            data['type'] =  _(result.type)       
             data['to'] = result.ministry.short_name                 
             data_list.append(data)            
         return data_list
@@ -159,7 +159,7 @@ class MyMotionsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()       
+            data['type'] =  _(result.type)       
             data['to'] = ''
             data_list.append(data)            
         return data_list
@@ -216,7 +216,7 @@ class MyGroupsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = ""
-            data['type'] =  result.type.capitalize()      
+            data['type'] =  _(result.type)      
             data['to'] = u""      
             data_list.append(data)            
         return data_list
@@ -402,7 +402,7 @@ class MotionInStateViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()    
+            data['type'] =  _(result.type)    
             data['to'] = ""                  
             data_list.append(data)            
         return data_list
@@ -512,7 +512,7 @@ class BillItemsViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()      
+            data['type'] =  _(result.type)      
             data['to'] = ""                                         
             data_list.append(data)            
         return data_list
@@ -592,7 +592,7 @@ class ItemInStageViewlet( ViewletBase ):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()
+            data['type'] =  _(result.type)
             if type(result) == domain.Question:
                 data['to'] = result.ministry.short_name
             else:
@@ -966,7 +966,7 @@ class MinistryItemsViewlet(ViewletBase):
             data['status'] = get_wf_state(result)
             data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  result.type.capitalize()            
+            data['type'] =  _(result.type)            
             if type(result) == domain.Question:
                 data['to'] = result.ministry.short_name
             else:

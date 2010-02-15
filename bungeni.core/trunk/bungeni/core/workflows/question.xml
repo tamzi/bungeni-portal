@@ -577,7 +577,9 @@
              schedule_pending
              scheduled
              deferred
-             postponed"
+             postponed
+             debate_adjourned
+             schedule_pending"
      destination="withdrawn"
      permission="bungeni.question.Withdraw"
      action="bungeni.core.workflows.question.actions.withdraw"

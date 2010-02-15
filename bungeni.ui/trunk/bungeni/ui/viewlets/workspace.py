@@ -839,6 +839,10 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         motion_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"admissible"].id,  
+        question_wf_state[u"clarify_mp"].id,
+        motion_wf_state[u"clarify_mp"].id,
+        agendaitem_wf_state[u"clarify_mp"].id,
+        tableddocument_wf_state[u"clarify_mp"].id,    
         
         question_wf_state[u"scheduled"].id,
         question_wf_state[u"postponed"].id,

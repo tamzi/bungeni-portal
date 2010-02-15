@@ -385,7 +385,9 @@
              clarify_mp
              scheduled
              deferred
-             postponed"
+             postponed
+             debate_adjourned
+             schedule_pending"
      destination="withdrawn"
      permission="bungeni.agendaitem.Withdraw"
      action="bungeni.core.workflows.agendaitem.actions.withdraw"

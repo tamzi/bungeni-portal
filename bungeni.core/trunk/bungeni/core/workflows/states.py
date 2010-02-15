@@ -3,6 +3,8 @@ import zope.securitypolicy.interfaces
 
 from zope.security.proxy import removeSecurityProxy
 
+from ore.alchemist import Session
+
 from ore.workflow.workflow import Workflow
 from ore.workflow.workflow import WorkflowInfo
 from ore.workflow.workflow import WorkflowVersions
@@ -52,7 +54,9 @@ class State( object ):
 
     def initialize( self, context ):
         """ initialize content now in this state """
+        session = Session()
         _context = removeSecurityProxy(context)
+        session.merge(_context)
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( _context )
         for action, permission, role in self.permissions:
             if action == GRANT:

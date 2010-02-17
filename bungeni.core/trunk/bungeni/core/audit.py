@@ -177,5 +177,5 @@ MotionAuditor = AuditorFactory( schema.motion_changes, domain.MotionChange )
 QuestionAuditor = AuditorFactory( schema.question_changes, domain.QuestionChange )
 AgendaItemAuditor =  AuditorFactory( schema.agenda_item_changes, domain.AgendaItemChange )
 TabledDocumentAuditor =  AuditorFactory( schema.tabled_document_changes, domain.TabledDocumentChange )
-
+AttachedFileAuditor =  AuditorFactory( schema.attached_file_changes, domain.AttachedFileChange )
 

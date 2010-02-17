@@ -332,6 +332,16 @@ mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,
                      'head': relation( domain.TabledDocument, uselist=False)}
         )
 
+mapper( domain.AttachedFile, schema.attached_files,
+        properties = {
+             'changes':relation( domain.AttachedFileChange, backref='origin',
+             cascade="all, delete-orphan", passive_deletes=False),
+             } )
+mapper( domain.AttachedFileChange, schema.attached_file_changes )
+mapper( domain.AttachedFileVersion, schema.attached_file_versions,
+        properties= {'change':relation( domain.AttachedFileChange, uselist=False),
+                     'head': relation( domain.AttachedFile, uselist=False)}
+        )
 
 
 #Items scheduled for a sitting expressed as a relation

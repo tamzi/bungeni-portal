@@ -291,8 +291,8 @@ political_parties = rdb.Table(
    metadata,
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
    rdb.Column( "logo_data", rdb.Binary, ),
-   rdb.Column( "logo_name", rdb.String(40)),
-   rdb.Column( "logo_mimetype", rdb.String(40)),
+   rdb.Column( "logo_name", rdb.String(127)),
+   rdb.Column( "logo_mimetype", rdb.String(127)),
    )
 
 ###
@@ -691,6 +691,24 @@ subscriptions = rdb.Table(
 
 # parliamentary items contains the common fields for motions, questions,
 # bills and agenda items.
+
+attached_files = rdb.Table(
+    "attached_files",
+    metadata,
+    rdb.Column( "attached_file_id", rdb.Integer,  primary_key=True ),
+    rdb.Column( "item_id", rdb.Integer, 
+        rdb.ForeignKey('parliamentary_items.parliamentary_item_id')),
+    rdb.Column( "file_version_id", rdb.Integer ),
+    rdb.Column( "file_title", rdb.Unicode(255), nullable=False ),  
+    rdb.Column( "file_description", rdb.UnicodeText),          
+    rdb.Column( "file_data", rdb.Binary ),
+    rdb.Column( "file_name", rdb.String(127)),
+    rdb.Column( "file_mimetype", rdb.String(127)),        
+)
+
+attached_file_changes = make_changes_table( attached_files, metadata )
+attached_file_versions = make_versions_table( attached_files, metadata )
+
 
 parliamentary_items = rdb.Table(
     "parliamentary_items",

@@ -1357,14 +1357,6 @@
      order="20"
      />
   
-  <browser:menuItem
-     menu="context_actions"
-     for="bungeni.models.interfaces.IFileAttachments"
-     action="files/"
-     title="Files"
-     permission="zope.ManageContent"     
-     order="30"
-     />
 
 
   <browser:menuItem
@@ -1401,36 +1393,7 @@
      order="30"
       />           
 
-<!-- context actions menu for file attachments -->
 
-  <browser:menuItem
-     menu="context_actions"
-     for="ore.library.interfaces.ILibraryContainer"
-     action="../../view"
-     title="Info"
-     order="0"
-     />
-     
-  <browser:menuItem
-     menu="context_actions"
-     for="ore.library.interfaces.ILibraryContainer"
-     action=""
-     title="Files"
-     order="30"
-     />
-
-
-  <!-- what is this for? seems to be unused! -->
-   <!--browser:viewlet
-     name="dashboard"
-     for="*"
-     class=".menu.DashboardAction"
-     manager="ploned.ui.interfaces.IPersonalBarMenu"
-     permission="zope.Public"
-     view=".workspace.WorkspaceView"
-     viewName="workspace"
-     weight="10"
-     /-->
 
    <browser:viewlet
      name="login"

@@ -53,9 +53,4 @@
          tal:condition="view/empty_field"
          tal:attributes="id view/upload_name; name view/upload_name"/>
          
-<!--script type="text/javascript">
-  document.getElementById('<tal:replace="view/upload_name;" />').disabled=true;
-</script-->
-
-
 </div>

@@ -31,6 +31,8 @@ from bungeni.ui.widgets import ImageDisplayWidget
 from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
 from bungeni.ui.widgets import OneTimeEditWidget
+from bungeni.ui.widgets import FileInputWidget
+from bungeni.ui.widgets import NoInputWidget
 from bungeni.ui import constraints
 from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
@@ -1167,6 +1169,46 @@ class GroupGroupItemAssignmentDescriptor( ModelDescriptor ):
         ), 
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields ))      
+
+class AttachedFileDescriptor(ModelDescriptor):
+    display_name =_(u"File")
+    container_name =_(u"Files")
+    fields =[
+        dict(name="attached_file_id", omit=True),
+        dict(name="item_id", omit=True),
+        dict(name="file_version_id", omit=True),    
+        dict(name="file_title", 
+            label=_(u"Title"), 
+            listing=True, 
+            edit_widget = widgets.LongTextWidget,
+            add_widget = widgets.LongTextWidget,            
+            add=True, 
+            edit=True, 
+            omit=False),
+        dict( name="file_description",
+              property = schema.Text( title=u"Description" ),
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor, 
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+              ),                  
+        dict(name="file_data", label=_(u"File"),
+            description=_(u"Upload a file"),        
+            edit_widget=FileInputWidget,
+            add_widget=FileInputWidget,
+            view_widget=ImageDisplayWidget,            
+            required=False,
+            listing=False),                             
+        dict(name="file_name", label=u"", 
+            edit_widget=NoInputWidget,
+            add_widget=NoInputWidget,
+            view=False),              
+        dict(name="file_mimetype", label=u"", 
+            edit_widget=NoInputWidget,
+            add_widget=NoInputWidget,
+            view=False),                              
+    ]
+
     
 class ParliamentaryItemDescriptor( ModelDescriptor ):
     fields= [

@@ -67,7 +67,6 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
             field_model.append(
                 '{key:"%s"}'%( key )               
                 )
-        #columns, fields
         return ','.join( column_model ), ','.join( field_model )
 
 
@@ -76,7 +75,6 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
         config['columns'], config['fields'] = self.getFieldColumns()
         config['data_url'] = self.getDataSourceURL()
         config['table_id'] = self.prefix
-        #config['sort_field'] = self.columns[0].name.replace(' ', '_').lower()
         config['link_url'] = absoluteURL( self.context, self.request ) 
         config['context_name'] = self.context.__name__
         return config

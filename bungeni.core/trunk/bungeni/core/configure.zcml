@@ -51,8 +51,6 @@
   <!-- Assignment Infrastructure moved to bungeni.model -->
   <!--include file="assignment.zcml"/-->
 
-  <!-- Versioned File Infrastructure -->
-  <include file="files.zcml" />
 
   <!-- Searching -->
   <utility component=".index.searcher" />

@@ -31,9 +31,9 @@
                   <ul tal:define="items sitting/items">
                     <li tal:repeat="item items">
                         <a tal:attributes="href item/url">
-                          <span tal:content="item/item_type" />: 
+                          <span i18n:domain="bungeni.models" i18n:translate="" tal:content="item/item_type" />: 
                           <span tal:content="item/name" />    
-                          (<span tal:content="item/status" />)                      
+                          (<span i18n:domain="bungeni.core" i18n:translate="" tal:content="item/status" />)                      
                         </a>                                               
                     </li>                    
                   </ul>                       
@@ -52,9 +52,9 @@
                 <li tal:repeat="item items">
                     <a tal:attributes="href item/url">
                       <span tal:content="item/name" />    
-                      (<span tal:content="item/status" />)                      
+                      (<span i18n:domain="bungeni.core" i18n:translate="" tal:content="item/status" />)                      
                     </a>
-                    <span tal:content="item/group_type" />                        
+                    <span i18n:domain="bungeni.models" i18n:translate="" tal:content="item/group_type" />                        
                     <span tal:content="item/group_name" />  
                     <span tal:content="item/sitting_type" />                                                
                 </li>
@@ -72,9 +72,9 @@
                     <li tal:repeat="item items">
                       <a tal:attributes="href item/url">
                           <span tal:content="item/name" />    
-                          (<span tal:content="item/status" />)                                                
+                          (<span i18n:domain="bungeni.core" i18n:translate="" tal:content="item/status" />)                                                
                         </a>                    
-                        <span tal:content="item/group_type" />                        
+                        <span i18n:domain="bungeni.models" i18n:translate="" tal:content="item/group_type" />                        
                         <span tal:content="item/group_name" />       
                         <span tal:content="item/sitting_type" />                                                                                           
                     </li>
@@ -92,9 +92,9 @@
                 <li tal:repeat="item items">
                    <a tal:attributes="href item/url">
                       <span tal:content="item/name" />    
-                      (<span tal:content="item/status" />)                      
+                      (<span i18n:domain="bungeni.models" i18n:translate="" tal:content="item/status" />)                      
                     </a>                  
-                    <span tal:content="item/group_type" />                        
+                    <span i18n:domain="bungeni.core" i18n:translate="" tal:content="item/group_type" />                        
                     <span tal:content="item/group_name" />     
                     <span tal:content="item/sitting_type" />                                                                                             
                 </li>
@@ -112,9 +112,9 @@
                 <li tal:repeat="item items">
                    <a tal:attributes="href item/url">
                       <span tal:content="item/name" />    
-                      (<span tal:content="item/status" />)                      
+                      (<span i18n:domain="bungeni.core" i18n:translate="" tal:content="item/status" />)                      
                     </a>                  
-                    <span tal:content="item/group_type" />                        
+                    <span i18n:domain="bungeni.models" i18n:translate="" tal:content="item/group_type" />                        
                     <span tal:content="item/group_name" />     
                     <span tal:content="item/sitting_type" />                                                                                             
                 </li>
@@ -132,9 +132,9 @@
                 <li tal:repeat="item items">
                    <a tal:attributes="href item/url">
                       <span tal:content="item/name" />    
-                      (<span tal:content="item/status" />)                      
+                      (<span i18n:domain="bungeni.core" i18n:translate="" tal:content="item/status" />)                      
                     </a>                  
-                    <span tal:content="item/group_type" />                        
+                    <span i18n:domain="bungeni.models" i18n:translate="" tal:content="item/group_type" />                        
                     <span tal:content="item/group_name" />     
                     <span tal:content="item/sitting_type" />                                                                                             
                 </li>

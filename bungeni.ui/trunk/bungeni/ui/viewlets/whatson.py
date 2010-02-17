@@ -59,7 +59,7 @@ class WhatsOnBrowserView(BrowserView):
                     'status' : get_wf_state(schedule.item),
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
                         str(schedule.item.parliamentary_item_id)),               
-                    'item_type' : schedule.item.type.capitalize,
+                    'item_type' : schedule.item.type,
                      })
         return s_list        
         

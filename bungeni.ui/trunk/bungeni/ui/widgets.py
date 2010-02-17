@@ -11,7 +11,7 @@ from zope.app.form.browser.widget import SimpleInputWidget
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from zope.interface.common import idatetime
 from zope.app.form.browser.widget import UnicodeDisplayWidget, DisplayWidget
-from zope.app.form.browser.textwidgets import TextAreaWidget, FileWidget
+from zope.app.form.browser.textwidgets import TextAreaWidget, FileWidget, TextWidget 
 from zope.app.form.browser.itemswidgets import  RadioWidget
 
 from zc.resourcelibrary import need
@@ -140,6 +140,18 @@ class ImageInputWidget(FileWidget):
             else:
                 return self.upload_name  in self.request.form   
  
+
+class FileInputWidget(ImageInputWidget):
+
+    def _toFieldValue( self, (update_action, upload) ):
+        value = super(FileInputWidget, self)._toFieldValue((update_action, upload))
+        self.request.form['form.file_mimetype']=upload.headers.getheader('Content-Type')
+        self.request.form['form.file_name']=upload.filename
+        return value
+
+class NoInputWidget(TextWidget):
+    def __call__(self):
+        return u""
 
 
 class ImageDisplayWidget(DisplayWidget):

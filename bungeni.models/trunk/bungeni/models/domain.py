@@ -15,7 +15,6 @@ from alchemist.traversal.managed import one2many
 from zope.location.interfaces import ILocation
 import sqlalchemy.sql.expression as sql
 
-import files
 import logging
 import interfaces
 
@@ -345,12 +344,10 @@ class ItemVersions( Entity ):
     @classmethod
     def makeVersionFactory( klass, name ):
         factory = type( name, (klass,), {} )    
-        interface.classImplements( factory, interfaces.IVersion, 
-            interfaces.IBranchFileAttachments,  )
+        interface.classImplements( factory, interfaces.IVersion )
         return factory
             
-    files = files.DirectoryDescriptor()
-       
+    files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "file_version_id")        
             
         
         
@@ -364,7 +361,7 @@ class ParliamentaryItem( Entity ):
     interface.implements( interfaces.IBungeniContent, )
     #     interfaces.IHeadFileAttachments )
     sort_replace = {'owner_id': ['last_name', 'first_name']}  
-    #files = files.DirectoryDescriptor()       
+    files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "item_id")        
     # votes
 
     # schedule
@@ -375,8 +372,12 @@ class ParliamentaryItem( Entity ):
 
 
 
-#ParliamentaryItemChange = ItemLog.makeLogFactory( "ParliamentaryItemChange")
-#ParliamentaryItemVersions = ItemVersions.makeVersionFactory("ParliamentaryItemVersion")
+class AttachedFile( Entity ):
+    "Files attached to a parliamentary item"
+
+
+AttachedFileChange = ItemLog.makeLogFactory( "AttachedFileChange")
+AttachedFileVersion = ItemVersions.makeVersionFactory("AttachedFileVersion")
 
 class AgendaItem( ParliamentaryItem ):    
     """
@@ -392,7 +393,7 @@ AgendaItemVersion = ItemVersions.makeVersionFactory("AgendaItemVersion")
 
 
 class Question( ParliamentaryItem ):
-    supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
+    #supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
     versions = one2many(
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",

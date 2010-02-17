@@ -4,9 +4,6 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.models">
 
-  <class class=".domain.Committee">
-    <require permission="zope.Public" attributes="files"/>
-  </class>
 
   
   <class class=".domain.Bill">
@@ -24,7 +21,6 @@
                         publication_date
                         receive_notification
                         owner_id
-                        files
                         parliament_id" />
     <require permission="bungeni.bill.Edit"       
             attributes="note" />                          
@@ -65,7 +61,6 @@
                         question_number
                         receive_notification
                         parliament_id
-                        files
                         owner_id" />
     <require permission="bungeni.question.Edit"       
             attributes="note" />                          
@@ -114,7 +109,6 @@
                         seconder_id
                         entered_by_id
                         party_id
-                        files
                         notice_date" />
     <require permission="bungeni.motion.Edit"       
             attributes="note" />                 
@@ -201,7 +195,6 @@
                         receive_notification
                         group_id
                         approval_date
-                        files
                         " />
     <require permission="bungeni.agendaitem.Edit"       
             attributes="note" />                 
@@ -238,7 +231,6 @@
                         status                        
                         receive_notification
                         approval_date
-                        files
                         link
                         " />
     <require permission="bungeni.tableddocument.Edit"       

@@ -529,6 +529,31 @@
      />
      
 
+<!-- file attachments -->
+
+  <browser:page
+     name="add"
+     for="bungeni.models.domain.AttachedFileContainer"
+     class=".common.AddForm"
+     permission="bungeni.fileattachment.Add"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />          
+
+  <browser:page
+     name="edit"
+     for="bungeni.models.domain.AttachedFile"
+     class=".common.EditForm"
+     permission="bungeni.fileattachment.Edit"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+  <browser:page
+     name="delete"
+     for="bungeni.models.domain.AttachedFile"
+     class=".common.DeleteForm"
+     permission="bungeni.fileattachment.Delete"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
 
 <!-- sitting catergories (same permissions as sitting-->
 
@@ -566,5 +591,8 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />       
      
+
+
+
      
 </configure>     

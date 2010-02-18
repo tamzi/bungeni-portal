@@ -321,6 +321,17 @@
      order="10"
      />       
 
+  <browser:menuItem
+     menu="motion_additems"
+     for="bungeni.models.interfaces.IMotion"
+     title="Add file..."
+     action="./files/add"
+     permission="bungeni.fileattachment.Add"     
+     order="20"
+     /> 
+
+
+
   <browser:menu
      id="bill_additems"
      title="The 'Add..' menu - for bill"
@@ -353,6 +364,15 @@
      permission="bungeni.event.Add"     
      order="10"
      />       
+
+  <browser:menuItem
+     menu="bill_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Add file..."
+     action="./files/add"
+     permission="bungeni.fileattachment.Add"     
+     order="10"
+     />        
      
  <browser:menuItem
      menu="bill_additems"
@@ -363,6 +383,70 @@
      order="50"
      />
 
+  <browser:menu
+     id="question_additems"
+     title="The 'Add..' menu - for question"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:menuItem
+     menu="question_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Add file..."
+     action="./files/add"
+     permission="bungeni.fileattachment.Add"     
+     order="10"
+     />        
+
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IQuestion"
+     title="Add ..."
+     action="add_content"
+     permission="zope.View"
+     submenu="question_additems"
+     />
+
+  <!--browser:menuItem
+     menu="question_additems"
+     for="bungeni.models.interfaces.IQuestion"
+     title="Add supplementary question ..."
+     action="./supplementaryquestions/add"
+     permission="bungeni.question.Add"     
+     order="10"
+     /-->       
+
+
+  <browser:menu
+     id="tableddocument_additems"
+     title="The 'Add..' menu - for tabled document"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+     
+  <browser:menuItem
+     menu="tableddocument_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Add file..."
+     action="./files/add"
+     permission="bungeni.fileattachment.Add"     
+     order="10"
+     />   
+
+  <browser:menu
+     id="agendaitem_additems"
+     title="The 'Add..' menu - for agenda item"
+     class="ploned.ui.menu.PloneBrowserMenu"
+     />
+
+  <browser:menuItem
+     menu="agendaitem_additems"
+     for="bungeni.models.interfaces.IBill"
+     title="Add file..."
+     action="./files/add"
+     permission="bungeni.fileattachment.Add"     
+     order="10"
+     />   
+     
   <browser:menu
      id="office_additems"
      title="The 'Add..' menu - for offices"
@@ -386,29 +470,8 @@
      permission="bungeni.officemember.Add"
      />
 
-  <browser:menu
-     id="question_additems"
-     title="The 'Add..' menu - for question"
-     class="ploned.ui.menu.PloneBrowserMenu"
-     />
      
-  <browser:subMenuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.interfaces.IQuestion"
-     title="Add ..."
-     action="add_content"
-     permission="zope.View"
-     submenu="question_additems"
-     />
 
-  <!--browser:menuItem
-     menu="question_additems"
-     for="bungeni.models.interfaces.IQuestion"
-     title="Add supplementary question ..."
-     action="./supplementaryquestions/add"
-     permission="bungeni.question.Add"     
-     order="10"
-     /-->       
 
   <!-- Navigation -->
 

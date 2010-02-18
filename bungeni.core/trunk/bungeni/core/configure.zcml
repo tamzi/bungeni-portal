@@ -125,7 +125,11 @@
                             ore.xapian.interfaces.IIndexable
                             .interfaces.IAuditable" />
   </class>
-
+  <class class="bungeni.models.domain.AttachedFile">
+    <implements interface=".interfaces.IVersionable
+                            ore.xapian.interfaces.IIndexable
+                            .interfaces.IAuditable" />
+  </class>
          
   <!-- Workflow -->
   <include package=".workflows" />

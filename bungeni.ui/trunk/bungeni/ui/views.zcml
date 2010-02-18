@@ -61,10 +61,10 @@
      />    
 
   <browser:view
-     for="ore.alchemist.interfaces.IAlchemistContent"
+     for="bungeni.models.interfaces.IAttachedFile"
      permission="zope.View"
      name="download"
-     class=".file.FileDownload"
+     class=".file.FileDownload"     
      />   
 
 

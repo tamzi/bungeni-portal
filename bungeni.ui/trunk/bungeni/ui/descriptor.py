@@ -32,6 +32,9 @@ from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
 from bungeni.ui.widgets import OneTimeEditWidget
 from bungeni.ui.widgets import FileInputWidget
+from bungeni.ui.widgets import FileEditWidget
+from bungeni.ui.widgets import FileAddWidget
+from bungeni.ui.widgets import FileDisplayWidget
 from bungeni.ui.widgets import NoInputWidget
 from bungeni.ui import constraints
 from bungeni.ui.forms import validations
@@ -1194,10 +1197,10 @@ class AttachedFileDescriptor(ModelDescriptor):
               ),                  
         dict(name="file_data", label=_(u"File"),
             description=_(u"Upload a file"),        
-            edit_widget=FileInputWidget,
-            add_widget=FileInputWidget,
-            view_widget=ImageDisplayWidget,            
-            required=False,
+            edit_widget=FileEditWidget,
+            add_widget=FileAddWidget,
+            view_widget=FileDisplayWidget,            
+            required=True,
             listing=False),                             
         dict(name="file_name", label=u"", 
             edit_widget=NoInputWidget,

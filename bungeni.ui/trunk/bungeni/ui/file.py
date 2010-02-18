@@ -32,4 +32,23 @@ class RawView(BrowserView):
             tempfile.write(data)        
             return tempfile
  
+class FileDownload(BrowserView):
+    def __call__(self):
+        context = proxy.removeSecurityProxy( self.context )        
+        response = self.request.response
+        mimetype = getattr(context,'file_mimetype',None)
+        if mimetype == None:
+            mimetype='application/octect-stream'
+        filename=getattr(context,'file_name',None)            
+        if filename == None:
+            filename=getattr(context,'file_title',None) 
+        tempfile = TemporaryFile()
+        data =  getattr(context,'file_data',None)
+        if type(data) == buffer:
+            tempfile.write(data)       
+            self.request.response.setHeader('Content-type', mimetype)
+            self.request.response.setHeader('Content-disposition', 'inline;filename="%s"' % filename)   
+            return tempfile
+            
+
 

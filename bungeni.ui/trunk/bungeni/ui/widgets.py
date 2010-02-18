@@ -142,7 +142,7 @@ class ImageInputWidget(FileWidget):
  
 
 class FileInputWidget(ImageInputWidget):
-
+    fileURL="./download"
     def _toFieldValue( self, (update_action, upload) ):
         value = super(FileInputWidget, self)._toFieldValue((update_action, upload))
         self.request.form['form.file_mimetype']=upload.headers.getheader('Content-Type')
@@ -152,6 +152,16 @@ class FileInputWidget(ImageInputWidget):
 class NoInputWidget(TextWidget):
     def __call__(self):
         return u""
+
+class FileAddWidget(FileInputWidget):
+    __call__ = ViewPageTemplateFile('templates/addfilewidget.pt')    
+
+class FileEditWidget(FileInputWidget):
+    __call__ = ViewPageTemplateFile('templates/editfilewidget.pt')    
+
+class FileDisplayWidget(DisplayWidget):
+    def __call__(self):
+        return u'<a href="./download"> download </a>'
 
 
 class ImageDisplayWidget(DisplayWidget):

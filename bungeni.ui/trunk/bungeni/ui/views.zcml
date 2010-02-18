@@ -60,6 +60,14 @@
      class=".file.RawView"
      />    
 
+  <browser:view
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     permission="zope.View"
+     name="download"
+     class=".file.FileDownload"
+     />   
+
+
   <!-- Login UI -->
   
   <browser:page

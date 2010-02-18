@@ -124,6 +124,9 @@ class ICommitteeStaffContainer(IBungeniGroupMembershipContainer):
 class IVersionContainer(IBungeniContainer):
     pass
 
+class IEventItem( IBungeniContent ):
+    pass
+
 class IQuestion( IBungeniContent ):
     """ Parliamentary Question
     """

@@ -374,7 +374,10 @@ class ParliamentaryItem( Entity ):
 
 class AttachedFile( Entity ):
     "Files attached to a parliamentary item"
-
+    versions = one2many(
+        "versions",
+        "bungeni.models.domain.AttachedFileVersionContainer",
+        "content_id")  
 
 AttachedFileChange = ItemLog.makeLogFactory( "AttachedFileChange")
 AttachedFileVersion = ItemVersions.makeVersionFactory("AttachedFileVersion")

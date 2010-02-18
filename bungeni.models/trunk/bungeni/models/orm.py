@@ -233,7 +233,8 @@ mapper( domain.ParliamentaryItem, schema.parliamentary_items,
                               uselist=False,
                               lazy=False ),
                     'consignatories': relation( domain.User,
-                              secondary=schema.consignatories,),                                                            
+                              secondary=schema.consignatories,),    
+                    'attached_files': relation( domain.AttachedFile),                                                        
                 }
          )
 

@@ -4,43 +4,10 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"                  
     i18n_domain="bungeni.ui">
 
- <!-- Macros -->
-  <browser:page
-      name="bungeni.library_macros"
-      for="*"
-      class=".files.LibraryMacros"
-      allowed_interface="zope.interface.common.mapping.IItemMapping"
-      permission="zope.View"
-      layer="bungeni.ui.interfaces.IBungeniSkin"            
-      />
-
-  <!--browser:page
-      name="library_template"
-      for="*"
-      template="templates/library-template.pt"
-      permission="zope.View"/-->
-
-  <browser:page
-      name="bungeni.lib_macros"
-      for="*"
-      template="templates/library-macros.pt"
-      permission="zope.View"/>     
-
-  <!-- download file -->
-
-  <browser:page
-      for="ore.library.interfaces.ILibraryFile"
-      name="download"
-      permission="zope.View"
-      menu="library_actions"
-      title="Download"
-      class=".files.FileDownload"
-     layer="bungeni.ui.interfaces.IBungeniSkin"      
-     />
 
   <!-- file display viewlet -->
      
-  <!--browser:viewlet
+  <browser:viewlet
      name="bungeni.viewlet.question-files"
      manager=".interfaces.ISubFormViewletManager"                              
      class=".files.LibraryViewlet"
@@ -84,7 +51,7 @@
      for="bungeni.models.interfaces.IAgendaItem"
      permission="zope.View"
      weight="50"
-     /-->    
+     />    
 
 
 </configure>    

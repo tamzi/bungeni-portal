@@ -17,7 +17,8 @@
     <deny permission="zope.View" role="bungeni.Minister" />  
     <deny permission="zope.View" role="bungeni.Everybody" /> 
     <deny permission="zope.View" role="bungeni.Anybody" />     
-    <grant permission="zope.ManageContent" role="bungeni.Owner" />                                           
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />   
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                        
   </state>
 
   <state id="submitted" title="Submitted to clerk">
@@ -26,46 +27,56 @@
     <grant permission="zope.View" role="bungeni.Speaker" />        
     <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
     <grant permission="zope.View" role="bungeni.Speaker" />      
-    <deny permission="zope.ManageContent" role="bungeni.Owner" />                            
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                                        
   </state>
 
   <state id="received" title="Received by clerk">
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Speaker" />        
-    <grant permission="zope.ManageContent" role="bungeni.Clerk" />                                          
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />    
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                      
   </state>
 
   <state id="complete" title="Submitted to the Speaker">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="zope.View" role="bungeni.Speaker" />    
-    <deny permission="zope.ManageContent" role="bungeni.Clerk" />                                      
-    <grant permission="zope.ManageContent" role="bungeni.Speaker" />                                              
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                                      
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                      
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                                  
   </state>
 
   <state id="admissible" title="Admissible">
     <grant permission="zope.View" role="bungeni.Everybody" />    
     <grant permission="zope.View" role="bungeni.Anybody" />          
-    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                                      
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                         
   </state>
 
   <state id="inadmissible" title="Inadmissible">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <deny permission="zope.ManageContent" role="bungeni.Speaker" />                             
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                            
   </state>
 
   <state id="clarify_mp" title="Needs MPs clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />  
-    <deny permission="zope.ManageContent" role="bungeni.clerk" />
-    <grant permission="zope.ManageContent" role="bungeni.Owner" />        
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.clerk" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.clerk" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />          
   </state>
 
   <state id="clarify_clerk" title="Needs clerks clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />    
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
-    <deny permission="zope.ManageContent" role="bungeni.Speaker" />
-    <grant permission="zope.ManageContent" role="bungeni.Clerk" />        
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />           
   </state>
 
   <state id="schedule_pending" title="Schedule pending">
@@ -127,9 +138,12 @@
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />          
-    <deny permission="zope.ManageContent" role="bungeni.Speaker" />
-    <deny permission="zope.ManageContent" role="bungeni.Clerk" />
-    <deny permission="zope.ManageContent" role="bungeni.Owner" />  
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />     
   </state>
 
   <transition 

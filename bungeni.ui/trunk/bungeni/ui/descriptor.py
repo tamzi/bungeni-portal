@@ -1212,6 +1212,11 @@ class AttachedFileDescriptor(ModelDescriptor):
             view=False),                              
     ]
 
+
+class AttachedFileVersionDescriptor( ModelDescriptor ):
+    display_name = _(u"Attached file version")
+    container_name = _(u"Versions")
+    fields = deepcopy(AttachedFileDescriptor.fields)
     
 class ParliamentaryItemDescriptor( ModelDescriptor ):
     fields= [

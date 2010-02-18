@@ -47,7 +47,7 @@ class FileDownload(BrowserView):
         if type(data) == buffer:
             tempfile.write(data)       
             self.request.response.setHeader('Content-type', mimetype)
-            self.request.response.setHeader('Content-disposition', 'inline;filename="%s"' % filename)   
+            self.request.response.setHeader('Content-disposition', 'attachment;filename="%s"' % filename)   
             return tempfile
             
 

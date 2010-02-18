@@ -271,9 +271,13 @@ class IAssignmentFactory( interface.Interface ):
         """
         create a new assignment
         """
+        
 class IAttachedFile( interface.Interface ):     
-    pass      
-    
+    pass   
+       
+class IAttachedFileVersionContainer(IVersionContainer):
+    pass
+        
 class IConsignatory( interface.Interface ):
     """ consignatories for bills, motions,.."""
     

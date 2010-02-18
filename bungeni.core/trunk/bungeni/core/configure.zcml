@@ -232,7 +232,8 @@
   <adapter factory=".dc.UserDelegationDescriptiveProperties" />    
   <adapter factory=".dc.ProvinceDescriptiveProperties" />  
   <adapter factory=".dc.RegionDescriptiveProperties" />     
-  <adapter factory=".dc.AttachedFileDescriptiveProperties" />       
+  <adapter factory=".dc.AttachedFileDescriptiveProperties" />   
+  <adapter factory=".dc.EventItemProperties" />    
   <adapter
      name="dc"
      for="*"

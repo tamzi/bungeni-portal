@@ -507,6 +507,19 @@ class RegionDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):            
         return u""      
+        
+class EventItemProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IEventItem)   
+
+    @property
+    def title(self):  
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.short_name
+
+    @property
+    def description(self):            
+        return u""           
     
 class AttachedFileDescriptiveProperties(DescriptiveProperties):                        
     component.adapts(interfaces.IAttachedFile)   

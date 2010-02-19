@@ -27,8 +27,10 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 from zope.security import checkPermission
 import zope.securitypolicy.interfaces
-
-
+import re
+import os
+import htmlentitydefs
+from tempfile import NamedTemporaryFile
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.schema.vocabulary import SimpleTerm
@@ -949,6 +951,7 @@ class ReportingView(form.PageForm):
             self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
             self.back_link = absoluteURL(self.context, self.request)  
+            
     
         
     @form.action(_(u"Preview"))  
@@ -993,34 +996,52 @@ class ReportingView(form.PageForm):
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)    
         
-    '''
     @form.action(_(u"Download ODT"))
     def handle_odt(self, action, data):
+        def unescape(text):
+            '''Removes HTML or XML character references 
+                 entities from a text string.
+                keep &amp;, &gt;, &lt; in the source code.
+                from Fredrik Lundh
+                http://effbot.org/zone/re-sub.htm#unescape-html'''
+            def fixup(m):
+                text = m.group(0)
+                if text[:2] == "&#":
+                # character reference
+                    try:
+                        if text[:3] == "&#x":
+                            return unichr(int(text[3:-1], 16))
+                        else:
+                            return unichr(int(text[2:-1]))
+                    except ValueError:
+                        pass
+                else:
+                # named entity
+                    try:
+                        text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+                    except KeyError:
+                        pass
+                return text # leave as is
+            return re.sub("&#?\w+;", fixup, text)
+            
         from appy.pod.renderer import Renderer
         self.process_form(data)
         body_text = self.result_template()
+        
+        #appy.Renderer expects a file name of a file that does not exist.
+        
         tempFileName = '/tmp/%f.odt' % ( time.time())
         params = {}
-        params['body_text'] = body_text
-        params['test'] = True
-        params['another_test'] = '<text:p>another test</text:p>'
-        params['xml_test'] = '<p>xml <strong>test</strong></p>'
-        renderer = Renderer('test.odt', params, tempFileName)
+        params['body_text'] = unescape(body_text)
+        renderer = Renderer('agenda.odt', params, tempFileName)
         renderer.run()
-        self.request.response.setHeader('Content-type', 'application/odt')
+        self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
         self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
         f = open(tempFileName, 'rb')
         doc = f.read()
-        #f.close()
-        #os.remove(tempFileName)
-        if IGroupSitting.providedBy(self.context):        
-            back_link =  './schedule'
-        elif ISchedulingContext.providedBy(self.context):
-            back_link = './' 
-        else:   
-            raise NotImplementedError                                                                     
-        #self.request.response.redirect(back_link) 
-        return doc        '''
+        f.close()      
+        os.remove(tempFileName)    
+        return doc  
         
         
     #@form.action(_(u"Create and Store"))

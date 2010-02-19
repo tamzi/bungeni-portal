@@ -277,6 +277,9 @@ class IAssignmentFactory( interface.Interface ):
         
 class IAttachedFile( interface.Interface ):     
     pass   
+    
+class IAttachedFileVersion( interface.Interface ):     
+    pass       
        
 class IAttachedFileVersionContainer(IVersionContainer):
     pass

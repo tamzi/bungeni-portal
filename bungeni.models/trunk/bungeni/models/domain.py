@@ -347,7 +347,7 @@ class ItemVersions( Entity ):
         interface.classImplements( factory, interfaces.IVersion )
         return factory
             
-    files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "file_version_id")        
+    #files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "file_version_id")        
             
         
         

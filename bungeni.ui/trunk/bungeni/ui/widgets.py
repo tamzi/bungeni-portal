@@ -185,7 +185,7 @@ class RichTextEditor( TextAreaWidget ):
     
     def __call__( self ):
         # require yahoo rich text editor and dependencies
-        need('yui-editor')
+        need('yui-rte')
         need('yui-resize')
         need('yui-button')
         # render default input widget for text
@@ -203,8 +203,10 @@ class RichTextEditor( TextAreaWidget ):
                       width:'100%%', 
                       dompath:true, 
                       animate:true,
-                      focusAtStart:false};
-            var %(jsid)s_editor = new YAHOO.widget.SimpleEditor('%(js_name)s', options); 
+                      focusAtStart:false,
+                      ptags:true,
+                      markup:'xhtml'};
+            var %(jsid)s_editor = new YAHOO.widget.Editor('%(js_name)s', options); 
             YAHOO.util.Event.on(
                 %(jsid)s_editor.get('element').form, 
                 'submit', 

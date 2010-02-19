@@ -54,7 +54,7 @@
                                             </span> -->
                               </h3>
                           </span>
-                          <p tal:content="structure scheduled/item/body_text" tal:condition="view/motion_text" />
+                          <p tal:replace="structure scheduled/item/body_text" tal:condition="view/motion_text" />
                      </span>
                 </span>
                 
@@ -95,13 +95,13 @@
                         <span tal:condition="view/bill_summary">
                             <span tal:condition="scheduled/item/summary | nothing">
                                 <h3>Summary</h3>
-                                <p tal:content="structure scheduled/item/summary"/>
+                                <p tal:replace="structure scheduled/item/summary"/>
                             </span>
                         </span>
                                 
                         <span tal:condition="view/bill_text">
                             <h3>Bill Text</h3>
-                            <p tal:content="structure scheduled/item/body_text"/>
+                            <p tal:replace="structure scheduled/item/body_text"/>
                         </span>
                     </span>
                 </span>
@@ -130,12 +130,12 @@
                                     </h3>
                                 </span>
                                 <span tal:condition="view/question_text">
-                                    <p tal:content="structure scheduled/item/body_text"
+                                    <p tal:replace="structure scheduled/item/body_text"
                                        tal:condition="scheduled/item/body_text | nothing"/>
                                 </span>
                                 <span tal:condition="view/question_response">
                                     <h4 tal:condition="scheduled/item/response_text | nothing">Response</h4>
-                                    <p tal:content="structure scheduled/item/response" 
+                                    <p tal:replace="structure scheduled/item/response" 
                                        tal:condition="scheduled/item/response_text | nothing"/>
                                 </span>
                      </span>
@@ -154,7 +154,7 @@
                                           tal:condition="scheduled/item/owner/last_name | nothing" /> 
                                 </h3>
                           </span>
-                          <p tal:content="structure scheduled/item/body_text" tal:condition="view/agenda_text"/>   
+                          <p tal:replace="structure scheduled/item/body_text" tal:condition="view/agenda_text"/>   
                      </span>
                 </span>
                     
@@ -177,14 +177,14 @@
                                 <span tal:replace="scheduled/item/owner/last_name" />  
                             </h3>
                         </span>
-                        <p tal:content="structure scheduled/item/body_text" tal:condition="view/tabled_document_text"/>   
+                        <p tal:replace="structure scheduled/item/body_text" tal:condition="view/tabled_document_text"/>   
                    </span>
                 </span>
                     
                 <span tal:condition="view/display_minutes">
                     <span tal:condition="scheduled/discussion/body_text | nothing">
                         <h3>Minutes</h3>
-                            <p tal:content="structure scheduled/discussion/body_text"/>
+                            <p tal:replace="structure scheduled/discussion/body_text"/>
                     </span>
                 </span>
     </tal:loop>          

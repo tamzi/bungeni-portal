@@ -418,11 +418,11 @@ class EditForm(BaseForm, ui.EditForm):
                 widget.render_original = display_widget
 
 
-    @form.action(_(u"Save"),
-                 condition=form.haveInputWidgets)
+    @form.action(_(u"Save"), condition=form.haveInputWidgets)
     def handle_edit_save( self, action, data ):
         """Saves the document and goes back to edit page"""
-	form.applyChanges(self.context, self.form_fields, data)
+        form.applyChanges(self.context, self.form_fields, data)
+
 
     @form.action(_(u"Save and view"), condition=form.haveInputWidgets)
     def handle_edit_save_and_view(self, action, data):

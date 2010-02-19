@@ -53,5 +53,14 @@
      weight="50"
      />    
 
+  <browser:viewlet
+     name="bungeni.viewlet.version-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".files.VersionLibraryViewlet"
+     for="bungeni.models.interfaces.IVersion"
+     permission="zope.View"
+     weight="50"
+     />  
+
 
 </configure>    

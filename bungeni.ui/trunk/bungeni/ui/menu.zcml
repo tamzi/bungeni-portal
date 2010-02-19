@@ -837,6 +837,15 @@
      order="100"
      />
 
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.AttachedFileContainer"
+     title="Add file..."
+     action="./add"
+     permission="bungeni.fileattachment.Add"     
+     order="100"
+     /> 
+
      
 
   <browser:menuItem
@@ -1455,6 +1464,15 @@
      title="Workflow"
      order="30"
       />           
+
+   <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IBungeniContent"
+     action="files"
+     title="Files"
+     permission="bungeni.fileattachment.Edit"
+     order="40"
+      />   
 
 
 

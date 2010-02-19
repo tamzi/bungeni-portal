@@ -257,11 +257,11 @@ mapper( domain.QuestionVersion, schema.question_versions,
                      'attached_files': relation( domain.AttachedFileVersion,
                         primaryjoin = rdb.and_(
                             schema.question_versions.c.content_id ==
-                            schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.item_id,
                             schema.question_versions.c.version_id ==
                             schema.attached_file_versions.c.file_version_id
                         ),
-                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                        foreign_keys=[schema.attached_file_versions.c.item_id,
                             schema.attached_file_versions.c.file_version_id]
                         ),}
         )
@@ -285,11 +285,11 @@ mapper( domain.MotionVersion, schema.motion_versions,
                      'attached_files': relation( domain.AttachedFileVersion,
                         primaryjoin = rdb.and_(
                             schema.motion_versions.c.content_id ==
-                            schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.item_id,
                             schema.motion_versions.c.version_id ==
                             schema.attached_file_versions.c.file_version_id
                         ),
-                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                        foreign_keys=[schema.attached_file_versions.c.item_id,
                             schema.attached_file_versions.c.file_version_id]
                         ),}                     
         )
@@ -311,11 +311,11 @@ mapper( domain.BillVersion, schema.bill_versions,
                      'attached_files': relation( domain.AttachedFileVersion,
                         primaryjoin = rdb.and_(
                             schema.bill_versions.c.content_id ==
-                            schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.item_id,
                             schema.bill_versions.c.version_id ==
                             schema.attached_file_versions.c.file_version_id
                         ),
-                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                        foreign_keys=[schema.attached_file_versions.c.item_id,
                             schema.attached_file_versions.c.file_version_id]
                         ),}                     
         )
@@ -349,11 +349,11 @@ mapper( domain.AgendaItemVersion, schema.agenda_item_versions,
                      'attached_files': relation( domain.AttachedFileVersion,
                         primaryjoin = rdb.and_(
                             schema.agenda_item_versions.c.content_id ==
-                            schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.item_id,
                             schema.agenda_item_versions.c.version_id ==
                             schema.attached_file_versions.c.file_version_id
                         ),
-                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                        foreign_keys=[schema.attached_file_versions.c.item_id,
                             schema.attached_file_versions.c.file_version_id]
                         ),}                     
         )
@@ -373,11 +373,11 @@ mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,
                      'attached_files': relation( domain.AttachedFileVersion,
                         primaryjoin = rdb.and_(
                             schema.tabled_document_versions.c.content_id ==
-                            schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.item_id,
                             schema.tabled_document_versions.c.version_id ==
                             schema.attached_file_versions.c.file_version_id
                         ),
-                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                        foreign_keys=[schema.attached_file_versions.c.item_id,
                             schema.attached_file_versions.c.file_version_id]
                         ),}                     
         )

@@ -47,9 +47,6 @@ class AppSetup(object):
         # ensure indexing facilities are setup ( lazy )
         index.setupFieldDefinitions(index.indexer)        
 
-        # ensure version file are setup
-        import files
-        files.setup()
         
         sm = site.LocalSiteManager( self.context )
         self.context.setSiteManager( sm )

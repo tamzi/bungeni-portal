@@ -35,6 +35,9 @@
   <!-- events -->
   <include file="events.zcml" />
 
+  <!-- attached files -->
+  <include file="files.zcml" />
+
   <!-- Setup WebDAV -->
   <!--include file="webdav.zcml" /-->
                  
@@ -233,6 +236,7 @@
   <adapter factory=".dc.ProvinceDescriptiveProperties" />  
   <adapter factory=".dc.RegionDescriptiveProperties" />     
   <adapter factory=".dc.AttachedFileDescriptiveProperties" />   
+  <adapter factory=".dc.AttachedFileVersionDescriptiveProperties" />     
   <adapter factory=".dc.EventItemProperties" />    
   <adapter
      name="dc"

@@ -26,10 +26,8 @@ def getAuditableParent(obj):
         if  interfaces.IAuditable.providedBy(parent):
             return parent
         else:
-            try:
-                parent = parent.__parent__              
-            except:
-                parent = None  
+            parent = getattr(parent, '__parent__', None)              
+ 
 
 def getAuditor( ob ):
     return globals().get('%sAuditor' %(ob.__class__.__name__))

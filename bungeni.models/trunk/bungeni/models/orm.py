@@ -253,7 +253,17 @@ mapper( domain.Question, schema.questions,
 mapper( domain.QuestionChange, schema.question_changes )
 mapper( domain.QuestionVersion, schema.question_versions,
         properties= {'change': relation( domain.QuestionChange, uselist=False),
-                     'head': relation( domain.Question, uselist=False)}
+                     'head': relation( domain.Question, uselist=False),
+                     'attached_files': relation( domain.AttachedFileVersion,
+                        primaryjoin = rdb.and_(
+                            schema.question_versions.c.content_id ==
+                            schema.attached_file_versions.c.content_id,
+                            schema.question_versions.c.version_id ==
+                            schema.attached_file_versions.c.file_version_id
+                        ),
+                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.file_version_id]
+                        ),}
         )
 
 
@@ -265,14 +275,23 @@ mapper( domain.Motion, schema.motions,
         polymorphic_identity='motion',
         properties = {
              'changes':relation( domain.MotionChange, backref='origin',
-             cascade="all, delete-orphan", passive_deletes=False),
-             }
+             cascade="all, delete-orphan", passive_deletes=False),}             
         )
         
 mapper( domain.MotionChange, schema.motion_changes )
 mapper( domain.MotionVersion, schema.motion_versions,
         properties= {'change':relation( domain.MotionChange, uselist=False),
-                     'head': relation( domain.Motion, uselist=False)}
+                     'head': relation( domain.Motion, uselist=False),
+                     'attached_files': relation( domain.AttachedFileVersion,
+                        primaryjoin = rdb.and_(
+                            schema.motion_versions.c.content_id ==
+                            schema.attached_file_versions.c.content_id,
+                            schema.motion_versions.c.version_id ==
+                            schema.attached_file_versions.c.file_version_id
+                        ),
+                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.file_version_id]
+                        ),}                     
         )
 
         
@@ -288,7 +307,17 @@ mapper( domain.Bill, schema.bills,
 mapper( domain.BillChange, schema.bill_changes )
 mapper( domain.BillVersion, schema.bill_versions, 
         properties= {'change':relation( domain.BillChange, uselist=False),
-                     'head': relation( domain.Bill, uselist=False)}
+                     'head': relation( domain.Bill, uselist=False),
+                     'attached_files': relation( domain.AttachedFileVersion,
+                        primaryjoin = rdb.and_(
+                            schema.bill_versions.c.content_id ==
+                            schema.attached_file_versions.c.content_id,
+                            schema.bill_versions.c.version_id ==
+                            schema.attached_file_versions.c.file_version_id
+                        ),
+                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.file_version_id]
+                        ),}                     
         )
 
 
@@ -316,7 +345,17 @@ mapper( domain.AgendaItem, schema.agenda_items,
 mapper( domain.AgendaItemChange, schema.agenda_item_changes )  
 mapper( domain.AgendaItemVersion, schema.agenda_item_versions,
         properties= {'change':relation( domain.AgendaItemChange, uselist=False),
-                     'head': relation( domain.AgendaItem, uselist=False)}
+                     'head': relation( domain.AgendaItem, uselist=False),
+                     'attached_files': relation( domain.AttachedFileVersion,
+                        primaryjoin = rdb.and_(
+                            schema.agenda_item_versions.c.content_id ==
+                            schema.attached_file_versions.c.content_id,
+                            schema.agenda_item_versions.c.version_id ==
+                            schema.attached_file_versions.c.file_version_id
+                        ),
+                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.file_version_id]
+                        ),}                     
         )
               
 mapper( domain.TabledDocument, schema.tabled_documents,
@@ -330,7 +369,17 @@ mapper( domain.TabledDocument, schema.tabled_documents,
 mapper( domain.TabledDocumentChange, schema.tabled_document_changes )
 mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,
         properties= {'change':relation( domain.TabledDocumentChange, uselist=False),
-                     'head': relation( domain.TabledDocument, uselist=False)}
+                     'head': relation( domain.TabledDocument, uselist=False),
+                     'attached_files': relation( domain.AttachedFileVersion,
+                        primaryjoin = rdb.and_(
+                            schema.tabled_document_versions.c.content_id ==
+                            schema.attached_file_versions.c.content_id,
+                            schema.tabled_document_versions.c.version_id ==
+                            schema.attached_file_versions.c.file_version_id
+                        ),
+                        foreign_keys=[schema.attached_file_versions.c.content_id,
+                            schema.attached_file_versions.c.file_version_id]
+                        ),}                     
         )
 
 mapper( domain.AttachedFile, schema.attached_files,

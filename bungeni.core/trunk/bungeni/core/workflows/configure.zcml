@@ -207,6 +207,16 @@
      for="bungeni.models.interfaces.ITabledDocument"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.TabledDocumentWorkflowAdapter" />
-       
+
+  <!-- attached files workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IAttachedFile"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
+  
+  <adapter
+     for="bungeni.models.interfaces.IAttachedFile"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.AttachedFileWorkflowAdapter" />       
 
 </configure>    

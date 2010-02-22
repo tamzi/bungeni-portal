@@ -13,7 +13,7 @@ import tableddocument
 import agendaitem
 import committee
 import parliament
-
+import attachedfile
 
 
 from bungeni.models import domain
@@ -53,5 +53,7 @@ CommitteeWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(committee, domain.Committee))     
 GroupWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groups, domain.Group))
-
+AttachedFileWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(attachedfile, domain.AttachedFile))
+    
     

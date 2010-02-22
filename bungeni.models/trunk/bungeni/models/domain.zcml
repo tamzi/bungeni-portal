@@ -38,6 +38,7 @@
     <require permission="bungeni.edit.historical"
             set_attributes="parliament_id
                             status
+                            status_date
                             identifier
                             publication_date" /> 
 
@@ -84,6 +85,7 @@
             set_attributes="parliament_id
                             submission_date
                             status
+                            status_date
                             supplement_parent_id
                             approval_date
                             sitting_time  
@@ -101,7 +103,8 @@
                         short_name
                         full_name
                         body_text
-                        status                        
+                        status
+                        status_date                        
                         receive_notification
                         motion_number
                         approval_date
@@ -132,6 +135,7 @@
             set_attributes="parliament_id
                             submission_date
                             status
+                            status_date
                             motion_number
                             approval_date
                             entered_by_id
@@ -191,7 +195,8 @@
                         short_name
                         full_name
                         body_text
-                        status                        
+                        status     
+                        status_date                   
                         receive_notification
                         group_id
                         approval_date
@@ -216,7 +221,8 @@
             set_attributes="parliament_id
                             submission_date
                             approval_date
-                            status" />               
+                            status
+                            status_date" />               
              
   </class> 
 
@@ -228,7 +234,8 @@
                         short_name
                         full_name
                         body_text
-                        status                        
+                        status    
+                        status_date                    
                         receive_notification
                         approval_date
                         link
@@ -253,7 +260,8 @@
             set_attributes="parliament_id
                             submission_date
                             approval_date
-                            status" />               
+                            status
+                            status_date" />               
              
   </class>     
 
@@ -534,7 +542,31 @@
                     start_date
                     end_date"/>                    
   </class>
-            
-          
+ 
+  <class class=".domain.AttachedFile" >
+    <require permission="zope.View"
+        attributes="attached_file_id
+                    item_id
+                    file_version_id
+                    file_title
+                    file_description
+                    file_data
+                    file_name
+                    file_mimetype
+                    status
+                    status_date"/>     
+        <require permission="bungeni.attachedfile.Edit"
+             set_attributes="attached_file_id
+                    item_id
+                    file_version_id
+                    file_title
+                    file_description
+                    file_data
+                    file_name
+                    file_mimetype"/>                            
+        <require permission="bungeni.edit.historical"
+            set_attributes="status_date
+                            status" />  
+  </class>                            
 </configure>
 

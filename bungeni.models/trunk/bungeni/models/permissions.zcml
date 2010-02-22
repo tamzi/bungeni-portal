@@ -38,11 +38,6 @@
   <permission id="bungeni.committee.View" title="View committee" />  
   <meta:redefinePermission from="bungeni.committee.View" to="zope.View" />
   
-  <permission id="bungeni.fileattachment.Add" title="Add file attachment" />
-  <permission id="bungeni.fileattachment.Edit" title="Edit file attachment" />
-  <permission id="bungeni.fileattachment.Delete" title="Delete file attachment" />
-  <permission id="bungeni.fileattachment.View" title="View file attachment" />
-  <meta:redefinePermission from="bungeni.fileattachment.View" to="zope.View" />
   
   <permission id="bungeni.question.Add" title="Add Question" />
   <permission id="bungeni.question.Edit" title="Edit Question" />
@@ -245,4 +240,10 @@
   <!--Permission to generate report -->
   <permission id="bungeni.reports.Edit" title="Permission to generate report" />
   
+  <permission id="bungeni.attachedfile.Add" title="add an attached file" />
+  <permission id="bungeni.attachedfile.Edit" title="edit an attached file" />
+  <permission id="bungeni.attachedfile.View" title="view an attached file" />
+  <permission id="bungeni.attachedfile.Delete" title="delete an attached file" />  
+  <meta:redefinePermission from="bungeni.attachedfile.View" to="zope.View" />
+   
 </configure>

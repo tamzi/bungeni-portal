@@ -535,7 +535,7 @@
      name="add"
      for="bungeni.models.domain.AttachedFileContainer"
      class=".common.AddForm"
-     permission="bungeni.fileattachment.Add"
+     permission="bungeni.attachedfile.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />          
 
@@ -543,7 +543,7 @@
      name="edit"
      for="bungeni.models.domain.AttachedFile"
      class=".common.EditForm"
-     permission="bungeni.fileattachment.Edit"
+     permission="bungeni.attachedfile.Edit"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
@@ -551,7 +551,7 @@
      name="delete"
      for="bungeni.models.domain.AttachedFile"
      class=".common.DeleteForm"
-     permission="bungeni.fileattachment.Delete"
+     permission="bungeni.attachedfile.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 

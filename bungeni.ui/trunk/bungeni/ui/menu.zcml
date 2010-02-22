@@ -326,7 +326,7 @@
      for="bungeni.models.interfaces.IMotion"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.fileattachment.Add"     
+     permission="bungeni.attachedfile.Add"     
      order="20"
      /> 
 
@@ -370,7 +370,7 @@
      for="bungeni.models.interfaces.IBill"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.fileattachment.Add"     
+     permission="bungeni.attachedfile.Add"     
      order="10"
      />        
      
@@ -394,7 +394,7 @@
      for="bungeni.models.interfaces.IBill"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.fileattachment.Add"     
+     permission="bungeni.attachedfile.Add"     
      order="10"
      />        
 
@@ -428,7 +428,7 @@
      for="bungeni.models.interfaces.IBill"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.fileattachment.Add"     
+     permission="bungeni.attachedfile.Add"     
      order="10"
      />   
 
@@ -443,7 +443,7 @@
      for="bungeni.models.interfaces.IBill"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.fileattachment.Add"     
+     permission="bungeni.attachedfile.Add"     
      order="10"
      />   
      
@@ -842,7 +842,7 @@
      for="bungeni.models.domain.AttachedFileContainer"
      title="Add file..."
      action="./add"
-     permission="bungeni.fileattachment.Add"     
+     permission="bungeni.attachedfile.Add"     
      order="100"
      /> 
 
@@ -1470,7 +1470,7 @@
      for="bungeni.models.interfaces.IBungeniContent"
      action="files"
      title="Files"
-     permission="bungeni.fileattachment.Edit"
+     permission="bungeni.attachedfile.Edit"
      order="40"
       />   
 

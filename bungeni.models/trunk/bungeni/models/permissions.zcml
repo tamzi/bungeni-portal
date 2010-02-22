@@ -242,4 +242,7 @@
   <permission id="bungeni.groupitemassignment.Edit" title="Edit Group Item Assignment" />          
   <meta:redefinePermission from="bungeni.groupitemassignment.View" to="zope.View" />
   
+  <!--Permission to generate report -->
+  <permission id="bungeni.reports.Edit" title="Permission to generate report" />
+  
 </configure>

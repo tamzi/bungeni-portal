@@ -703,7 +703,11 @@ attached_files = rdb.Table(
     rdb.Column( "file_description", rdb.UnicodeText),          
     rdb.Column( "file_data", rdb.Binary ),
     rdb.Column( "file_name", rdb.String(127)),
-    rdb.Column( "file_mimetype", rdb.String(127)),        
+    rdb.Column( "file_mimetype", rdb.String(127)), 
+    # Workflow State
+    rdb.Column( "status", rdb.Unicode(48) ),
+    rdb.Column( "status_date", rdb.DateTime( timezone=False ), 
+        server_default=(text('now()')), nullable=False ),              
 )
 
 attached_file_changes = make_changes_table( attached_files, metadata )

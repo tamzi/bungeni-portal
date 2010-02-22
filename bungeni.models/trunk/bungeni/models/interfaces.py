@@ -277,9 +277,7 @@ class IAssignmentFactory( interface.Interface ):
         
 class IAttachedFile( interface.Interface ):     
     pass   
-    
-class IAttachedFileVersion( interface.Interface ):     
-    pass       
+        
        
 class IAttachedFileVersionContainer(IVersionContainer):
     pass
@@ -313,6 +311,10 @@ class IVersion( interface.Interface ):
     a version of an object is identical in attributes to the actual object, based
     on that object's domain schema
     """
+
+class IAttachedFileVersion( IVersion ):     
+    pass   
+
 
 class IDateRangeFilter(interface.Interface):
     """Adapts a model container instance and a SQLAlchemy query

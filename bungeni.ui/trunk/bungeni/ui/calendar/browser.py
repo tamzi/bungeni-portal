@@ -1029,11 +1029,11 @@ class ReportingView(form.PageForm):
         body_text = self.result_template()
         
         #appy.Renderer expects a file name of a file that does not exist.
-        
+        odt_file = os.path.dirname(__file__) + '/agenda.odt'
         tempFileName = '/tmp/%f.odt' % ( time.time())
         params = {}
         params['body_text'] = unescape(body_text)
-        renderer = Renderer('agenda.odt', params, tempFileName)
+        renderer = Renderer(odt_file, params, tempFileName)
         renderer.run()
         self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
         self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')

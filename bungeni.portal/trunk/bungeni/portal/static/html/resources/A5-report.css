@@ -74,4 +74,10 @@ dd.Report div.content-right-column
     width:100%;
     line-height:normal;
 }
-
+#searchButtonDiv{
+    background-image: url(search_icon.gif);
+    background-color: White;
+    background-repeat: no-repeat;
+    width:30px;
+    float:right;
+}

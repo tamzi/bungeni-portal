@@ -165,13 +165,7 @@ dl.enableFormTabbing dd {
     border: 1px solid #8cacbb;
 }
 
-#searchButtonDiv{
-    background-image: url(search_icon.gif);
-    background-color: White;
-    background-repeat: no-repeat;
-    width:30px;
-    float:right;
-}
+
 
 input.searchButton {
     margin-bottom: 1px ! important;

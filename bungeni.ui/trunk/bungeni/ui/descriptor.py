@@ -1209,7 +1209,23 @@ class AttachedFileDescriptor(ModelDescriptor):
         dict(name="file_mimetype", label=u"", 
             edit_widget=NoInputWidget,
             add_widget=NoInputWidget,
-            view=False),                              
+            view=False),     
+        dict( name="status", 
+            label=_(u"Status"), 
+             property=schema.Choice(
+                 title=u"Status",
+                 vocabulary="bungeni.vocabulary.workflow",
+                 ),
+            listing_column=workflow_column("status","Workflow status"),
+            add=False,
+            listing=True, 
+            omit=False ),     
+        dict( name="status_date", add=False, edit=False,
+            view=True, listing=True,
+            label=_(u"Status date"),            
+            listing_column=day_column("status_date", 
+                _(u'Status date')),
+                ) ,                                     
     ]
 
 

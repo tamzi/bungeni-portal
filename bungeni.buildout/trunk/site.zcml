@@ -94,6 +94,9 @@
   <!-- Alchemist UI -->
   <include package="alchemist.ui" />
 
+  <!-- Transcripts for sittings -->
+  <!--<include package="bungeni.transcripts"/> -->
+
   <!-- Default skin -->
   <browser:defaultSkin name="bungeni" />
   

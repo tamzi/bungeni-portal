@@ -5,6 +5,25 @@
     i18n_domain="bungeni.models">
 
 
+  <class class=".domain.ParliamentaryItem">
+    <require permission="zope.View"
+             attributes="parliamentary_item_id
+                        parliament_id
+                        owner_id
+                        language
+                        short_name
+                        full_name
+                        body_text
+                        submission_date
+                        status
+                        status_date
+                        note
+                        receive_notification" />
+    <require permission="bungeni.edit.historical"
+            set_attributes="parliament_id
+                            status
+                            status_date" />                         
+  </class>
   
   <class class=".domain.Bill">
     <require permission="zope.View"
@@ -568,5 +587,22 @@
             set_attributes="status_date
                             status" />  
   </class>                            
+  
+  <class class=".domain.EventItem" >
+    <require like_class=".domain.ParliamentaryItem" />     
+    <require permission="bungeni.event.Edit"
+         set_attributes="event_date
+                        parliamentary_item_id
+                        owner_id
+                        language
+                        short_name
+                        full_name
+                        body_text
+                        submission_date
+                        note
+                        receive_notification"/>                            
+  </class>                            
+  
+  
 </configure>
 

@@ -219,4 +219,15 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.AttachedFileWorkflowAdapter" />       
 
+  <!-- Event workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IEventItem"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
+  
+  <adapter
+     for="bungeni.models.interfaces.IEventItem"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.EventWorkflowAdapter" />  
+
 </configure>    

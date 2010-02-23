@@ -57,4 +57,6 @@
   <permission id="bungeni.sitting.ChangeStatus" title="Change Sitting Status" />      
 
   <permission id="bungeni.attachedfile.Deactivate" title="Deactivate a file" /> 
+  <permission id="bungeni.event.Deactivate" title="Deactivate an event" /> 
+  
 </configure>

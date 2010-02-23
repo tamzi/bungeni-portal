@@ -71,5 +71,15 @@
   <grant permission="bungeni.address.Manage" role="bungeni.Owner" />
         
   <grant permission="bungeni.sitting.ChangeStatus" role="bungeni.Clerk"/>           
-  <grant permission="bungeni.sitting.ChangeStatus" role="bungeni.Speaker"/>           
+  <grant permission="bungeni.sitting.ChangeStatus" role="bungeni.Speaker"/>   
+  
+  <!-- event items -->
+  <grant permission="bungeni.event.Deactivate" role="bungeni.Clerk"/>     
+  <grant permission="bungeni.event.Deactivate" role="bungeni.Speaker"/>
+          
+  <!-- file attachments -->
+  <grant permission="bungeni.attachedfile.Deactivate" role="bungeni.Clerk"/>  
+  <grant permission="bungeni.attachedfile.Deactivate" role="bungeni.Speaker"/>
+            
+          
 </configure>

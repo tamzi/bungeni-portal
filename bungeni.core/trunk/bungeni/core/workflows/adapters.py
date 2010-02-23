@@ -14,7 +14,7 @@ import agendaitem
 import committee
 import parliament
 import attachedfile
-
+import event
 
 from bungeni.models import domain
 from bungeni.models.interfaces import IVersion
@@ -55,5 +55,6 @@ GroupWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groups, domain.Group))
 AttachedFileWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(attachedfile, domain.AttachedFile))
-    
-    
+EventWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(event, domain.EventItem))
+ 

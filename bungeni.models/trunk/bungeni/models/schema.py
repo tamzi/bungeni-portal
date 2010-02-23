@@ -913,8 +913,7 @@ event_items = rdb.Table(
    rdb.Column( "item_id", rdb.Integer, 
                 rdb.ForeignKey('parliamentary_items.parliamentary_item_id'),
                 nullable=True ),
-#   rdb.Column( "document_id", rdb.Integer,  rdb.ForeignKey('tabled_documents.tabled_document_id'), nullable=True, ),
-   rdb.Column( "event_date", rdb.Date ),
+   rdb.Column( "event_date", rdb.Date, nullable=False ),
    )
 
 

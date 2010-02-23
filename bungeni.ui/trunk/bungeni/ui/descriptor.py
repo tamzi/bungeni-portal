@@ -1064,7 +1064,7 @@ class GovernmentDescriptor( ModelDescriptor ):
         dict( name="group_id", omit=True ),
         dict( name="short_name", 
                 label=_(u"Name"), 
-                description=_(u"Name of the Head of Government"), 
+                description=_(u"Name"), 
                 listing=True),
         dict( name="full_name", 
                 label=_(u"Number")),       
@@ -1633,8 +1633,80 @@ class QuestionChangeDescriptor( ChangeDescriptor ):
 class EventItemDescriptor( ParliamentaryItemDescriptor ):
     display_name =_(u"Event")
     container_name =_(u"Events")
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
-    fields.extend([
+
+    fields= [
+        dict(name="parliamentary_item_id", omit=True),
+        dict(name="parliament_id", omit=True),
+
+        dict(name="short_name", 
+            label=_(u"Title"), 
+            listing=True, 
+            edit_widget = widgets.LongTextWidget,
+            add_widget = widgets.LongTextWidget,            
+            add=True, 
+            edit=True, 
+            omit=False),            
+        dict(name="full_name", 
+            label=_(u"Summary"), 
+            listing=False, 
+            edit_widget = widgets.LongTextWidget,
+            add_widget = widgets.LongTextWidget,            
+            add=True, 
+            edit=True, 
+            omit=True),
+        dict( name="owner_id",               
+             omit=True),            
+        dict(name="language", 
+             label=_(u"Language"), 
+             listing=False, 
+             add=True, 
+             edit=True, 
+             omit=False,
+             required=True,
+             property=schema.Choice(
+                 title=u"Language",
+                 default=get_default_language(),
+                 vocabulary="language_vocabulary",
+                 ),
+             ),
+        dict( name="body_text", label=_(u"Text"),
+              property = schema.Text( title=u"Text" ),
+              view_widget=HTMLDisplay,
+              edit_widget=RichTextEditor, 
+              add_widget=RichTextEditor,
+              differ=diff.HTMLDiff,
+              ),
+        dict( name="submission_date", 
+            omit=True),        
+        dict( name="status", 
+            label=_(u"Status"), 
+             property=schema.Choice(
+                 title=u"Status",
+                 vocabulary="bungeni.vocabulary.workflow",
+                 ),
+            listing_column=workflow_column("status","Workflow status"),
+            add=False,
+            listing=True, 
+            omit=False ),     
+        dict( name="status_date", add=False, edit=False,
+            view=True, listing=True,
+            label=_(u"Status date"),            
+            listing_column=day_column("status_date", 
+                _(u'Status date')),
+                ) ,                  
+        dict( name="note", 
+            omit=True ),    
+        dict( name="receive_notification", 
+            omit=True ),  
+        dict( name="type", 
+              omit=False,
+              listing = False,
+              edit = False, 
+              add = False, 
+              view = False, ),
+    #    ]                       
+    #fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    #fields.extend([
         dict( name="event_item_id", omit=True ),
         dict( name="item_id", omit=True ),
         dict( name="event_date", 
@@ -1642,8 +1714,9 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
             listing_column=day_column("event_date", _(u"Date")), 
             listing=True, 
             edit_widget=DateWidget, 
-            add_widget=DateWidget ),
-    ])
+            add_widget=DateWidget,
+            required=True ),
+    ]
 
 
 class TabledDocumentDescriptor(ParliamentaryItemDescriptor): 

@@ -62,7 +62,7 @@ class QuestionInStateViewlet( ViewletBase ):
         offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
         data_list = []       
         results = self.query.all()
-        
+        formatter = self.request.locale.dates.getFormatter('date', 'short')         
         for result in results:            
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )  
@@ -74,7 +74,7 @@ class QuestionInStateViewlet( ViewletBase ):
             data['result_item_class'] = 'workflow-state-' + result.status
             data['url'] = '/business/questions/obj-' + str(result.question_id)
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')           
+            data['status_date'] = formatter.format(result.status_date)           
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
             data['to'] = result.ministry.short_name
@@ -114,7 +114,7 @@ class MyQuestionsViewlet( ViewletBase ):
             data['result_item_class'] = 'workflow-state-' + result.status 
             data['url'] = '/business/questions/obj-' + str(result.question_id)
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)       
             data['to'] = result.ministry.short_name                 
@@ -157,7 +157,7 @@ class MyMotionsViewlet( ViewletBase ):
             data['result_item_class'] = 'workflow-state-' + result.status             
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)       
             data['to'] = ''
@@ -187,6 +187,7 @@ class MyGroupsViewlet( ViewletBase ):
         """
         return the data of the query
         """      
+        formatter = self.request.locale.dates.getFormatter('date', 'short') 
         data_list = []
         results = self.query.all()
         parliament_id = self._parent.context.parliament_id
@@ -214,7 +215,7 @@ class MyGroupsViewlet( ViewletBase ):
             else:               
                 data['url'] = '#' 
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = ""
             data['type'] =  _(result.type)      
             data['to'] = u""      
@@ -386,7 +387,7 @@ class MotionInStateViewlet( ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-       
+        formatter = self.request.locale.dates.getFormatter('date', 'short')        
         for result in results:            
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
@@ -400,7 +401,7 @@ class MotionInStateViewlet( ViewletBase ):
                 data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = '/business/motions/obj-' + str(result.motion_id)
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)    
             data['to'] = ""                  
@@ -499,7 +500,7 @@ class BillItemsViewlet( ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-      
+        formatter = self.request.locale.dates.getFormatter('date', 'short')       
         for result in results:            
             data ={}
             data['qid']= ( 'b_' + str(result.bill_id) )                         
@@ -510,7 +511,7 @@ class BillItemsViewlet( ViewletBase ):
             data['url'] = '/business/%ss/obj-%i' %(result.type, 
                             result.parliamentary_item_id)   
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)      
             data['to'] = ""                                         
@@ -576,7 +577,7 @@ class ItemInStageViewlet( ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-       
+        formatter = self.request.locale.dates.getFormatter('date', 'short')        
         for result in results:            
             data ={}
             data['qid']= ( 'i-' + str(result.parliamentary_item_id) )
@@ -590,7 +591,7 @@ class ItemInStageViewlet( ViewletBase ):
             data['url'] = '/business/%ss/obj-%i' %(result.type, 
                             result.parliamentary_item_id)
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
             if type(result) == domain.Question:
@@ -950,7 +951,7 @@ class MinistryItemsViewlet(ViewletBase):
                 domain.Question.response_type.in_(self.response_types)                
                 ))                    
         results = query.all()
-        
+        formatter = self.request.locale.dates.getFormatter('date', 'short')         
         for result in results:            
             data ={}
             data['qid'] = ( 'q_' + str(result.question_id) )  
@@ -964,7 +965,7 @@ class MinistryItemsViewlet(ViewletBase):
                 self._parent.government_id, 
                 ministry.group_id, result.question_id)                
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')            
+            data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)            
             if type(result) == domain.Question:
@@ -1038,7 +1039,7 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
         """    
         data_list = []       
         results = self.query.all()
-        
+        formatter = self.request.locale.dates.getFormatter('date', 'short')         
         for result in results:            
             data ={}
             data['subject'] = result.short_name
@@ -1051,13 +1052,14 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
                 data['url'] = "/calendar/group/sittings/obj-%i/schedule" % result.sitting_id
             data['items'] = ''                
             data['status'] = get_wf_state(result)
-            data['status_date'] = result.status_date.strftime('%Y-%m-%d')
+            data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
             data['type'] =  result.group.type
             data['group'] = u"%s %s" %(result.group.type.capitalize(), 
                 result.group.short_name)
             data['date'] = u"%s %s" % (
                 result.start_date.strftime('%Y-%m-%d %H:%M'), 
+                #formatter.format(
                 result.sitting_type.sitting_type)
             if type(result) == domain.Question:
                 data['to'] = result.ministry.short_name

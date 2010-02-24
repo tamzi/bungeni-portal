@@ -20,16 +20,16 @@
             class="listing grid" tal:condition="results">
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Group</th>
-            <th>Status</th>
+            <th i18n:translate="">Date</th>
+            <th i18n:translate="">Group</th>
+            <th i18n:translate="">Status</th>
           </tr>
         </thead>
         <tbody>
           <tr tal:repeat="result results">
             <td>  <a tal:content="result/date" tal:attributes="href result/url" />  </td>
             <td tal:content="result/group" />
-            <td tal:content="result/status" />
+            <td tal:content="result/status" i18n:translate="" />
           </tr>
         </tbody>           
       </table>

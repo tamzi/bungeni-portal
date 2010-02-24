@@ -30,8 +30,8 @@
         <tbody>
           <tr tal:repeat="result results">
             <td>  <a tal:content="result/subject" tal:attributes="href result/url" />  </td>
-            <td tal:content="result/type" />
-            <td tal:content="result/status" />
+            <td tal:content="result/type" i18n:translate="" />
+            <td tal:content="result/status" i18n:translate="" />
             <td tal:content="result/status_date" />                
           </tr>
         </tbody>           

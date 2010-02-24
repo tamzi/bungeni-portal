@@ -3,7 +3,8 @@
 from ore.yuiwidget.table import BaseDataTableFormatter
 
 from bungeni.ui import container
-
+from bungeni.ui.i18n import _
+from zope.i18n import translate
 from zope.traversing.browser import absoluteURL
 from zope.security import proxy
 from zc.resourcelibrary import need
@@ -47,7 +48,8 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
 
         for field in self.getFields( ):
             key = field.__name__
-            coldef = {'key': key, 'label': field.title, 'formatter': self.context.__name__ }
+            title =translate(_(field.title), target_language=self.request.locale.getLocaleID())
+            coldef = {'key': key, 'label': title, 'formatter': self.context.__name__ }
             if column_model == []:
                 column_model.append(
                     """{label:"%(label)s", key:"sort_%(key)s", 

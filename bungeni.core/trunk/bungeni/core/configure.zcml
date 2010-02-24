@@ -11,7 +11,6 @@
   
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
-  <include package="ore.library" />
   <include package="plone.i18n" />
   
   <include package="plone.transforms" file="meta.zcml" />

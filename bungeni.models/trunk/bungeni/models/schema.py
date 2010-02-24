@@ -839,7 +839,6 @@ bills = rdb.Table(
    rdb.Column( "bill_type_id", rdb.Integer, rdb.ForeignKey('bill_types.bill_type_id'), nullable = False ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),    
    rdb.Column( "identifier",  rdb.Integer),
-   rdb.Column( "summary", rdb.UnicodeText ),   
    rdb.Column( "publication_date", rdb.Date ),
    )
    

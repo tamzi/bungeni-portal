@@ -44,12 +44,14 @@ class WhatsOnBrowserView(BrowserView):
                 end_date.day, 23, 59)               
         self.get_items()                        
         
-    def get_end_date(self):                         
-        return self.end_date.strftime("%A %d %B %Y")
+    def get_end_date(self): 
+        formatter = self.request.locale.dates.getFormatter('date', 'full') 
+        return formatter.format(self.end_date)                        
 
 
     def get_start_date(self):
-        return self.start_date.strftime("%A %d %B %Y")                                
+        formatter = self.request.locale.dates.getFormatter('date', 'full') 
+        return formatter.format(self.start_date)                              
         
     def get_sitting_items(self, sitting):
         s_list = []
@@ -64,6 +66,7 @@ class WhatsOnBrowserView(BrowserView):
         return s_list        
         
     def get_sittings(self):
+        formatter = self.request.locale.dates.getFormatter('date', 'full') 
         session = Session()   
         query = session.query(domain.GroupSitting).filter(
             sql.and_( schema.sittings.c.status != sitting_wf_state[u'draft-agenda'].id ,
@@ -80,7 +83,7 @@ class WhatsOnBrowserView(BrowserView):
         day_list = []
         s_dict = {}
         for sitting in sittings:
-            sday = sitting.start_date.strftime("%A %d %B %Y")
+            sday = formatter.format(sitting.start_date)
             if sday != day:
                 s_list = []
                 day = sday
@@ -133,9 +136,10 @@ class WhatsOnBrowserView(BrowserView):
         day = u''
         day_list = []
         s_dict = {}
+        formatter = self.request.locale.dates.getFormatter('date', 'full') 
         for schedule in self.itemschedules:
             if type(schedule.item) == item_type:
-                sday = schedule.sitting.start_date.strftime("%A %d %B %Y")
+                sday = formatter.format(schedule.sitting.start_date)
                 if sday != day:
                     s_list = []
                     day = sday

@@ -1,8 +1,8 @@
 <dl id="portletArchiveDates" class="portlet inlinePortlet">
   
-  <dt class="portletHeader">
+  <dt class="portletHeader" i18n:domain="bungeni.ui" >
     <span class="portletTopLeft"></span>
-    <span class="tile">Filter by date or parliament</span>
+    <span i18n:translate="" class="tile">Filter by date or parliament</span>
     <span class="portletTopRight"></span>
   </dt>
   

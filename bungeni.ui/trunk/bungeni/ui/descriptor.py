@@ -1284,7 +1284,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                  ),
              ),
         dict( name="body_text", label=_(u"Text"),
-              property = schema.Text( title=u"Text" ),
+              #property = schema.Text( title=u"Text" ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor,
@@ -1507,6 +1507,11 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Bill")
     container_name = _(u"Bills")
     fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    for field in fields:
+        if field['name'] == 'body_text':
+            field['label'] = _(u"Statement of Purpose")
+            field['property'] = schema.Text(title=_(u"Statement of Purpose"))
+                 
     fields.extend([
         dict( name="bill_id", omit=True ),
         dict( name="bill_type_id", property = schema.Choice(
@@ -1524,12 +1529,12 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                     ), 
              listing = False,),
 
-        dict( name="summary", 
-                label=_(u"Statements of Purpose"), 
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,),
+        #dict( name="summary", 
+        #        label=_(u"Statements of Purpose"), 
+        #        view_widget=HTMLDisplay,
+        #        edit_widget=RichTextEditor, 
+        #        add_widget=RichTextEditor,
+        #      differ=diff.HTMLDiff,),
         dict( name="identifier", label=_(u"Identifer"),
                 add=False ),
         dict( name="publication_date", 

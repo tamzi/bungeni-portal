@@ -16,7 +16,6 @@ from zope.app.publisher.browser import queryDefaultViewName
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
-from ore.svn.interfaces import ISubversionNode
 
 from alchemist.traversal.managed import ManagedContainerDescriptor
 
@@ -234,12 +233,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 'name' : context.title,
                 'url' : url,
                 })
-        elif ILocation.providedBy(context) and \
-            ISubversionNode.providedBy(context):
-            path.append({
-                'name' : context.__name__,
-                'url' : url,
-            })
+
 
         return path
         

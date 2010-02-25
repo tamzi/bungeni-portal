@@ -13,6 +13,7 @@ from zope.interface.common import idatetime
 from zope.app.form.browser.widget import UnicodeDisplayWidget, DisplayWidget
 from zope.app.form.browser.textwidgets import TextAreaWidget, FileWidget, TextWidget 
 from zope.app.form.browser.itemswidgets import  RadioWidget
+from zope.i18n import translate
 
 from zc.resourcelibrary import need
 from bungeni.core.i18n import _
@@ -349,7 +350,11 @@ class SelectDateWidget( SimpleInputWidget):
         if (type(self._data) == datetime.date) or (type(self._data) == datetime.datetime):
             pagedate = self._data    
         calendar = self.request.locale.dates.calendars['gregorian']
-    
+        month = _(u"Choose Month")
+        year = _(u"Enter Year")
+        submit = _("OK")
+        cancel = _(u"Cancel")
+        invalidYear = _(u"Please enter a valid year")            
         months_short = self.jstr(calendar.getMonthAbbreviations())
         months_long = self.jstr(calendar.getMonthNames()) 
         w_day_1char = self.jstr([dn[:1] for dn in calendar.getDayAbbreviations()]) 
@@ -370,6 +375,11 @@ class SelectDateWidget( SimpleInputWidget):
                     'w_day_short' : w_day_short,
                     'w_day_medium' : w_day_medium,
                     'w_day_long' : w_day_long,
+                    'month' : translate(month, context=self.request),
+                    'year' : translate(year, context=self.request),
+                    'submit' : translate(submit, context=self.request),
+                    'cancel' : translate(cancel, context=self.request),
+                    'invalidYear' : translate(invalidYear, context=self.request)                    
                      }
 
     def _days(self):

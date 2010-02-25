@@ -714,6 +714,8 @@ attached_file_changes = make_changes_table( attached_files, metadata )
 attached_file_versions = make_versions_table( attached_files, metadata )
 
 
+registrySequence = rdb.Sequence('registry_number_sequence', metadata)
+
 parliamentary_items = rdb.Table(
     "parliamentary_items",
     metadata,
@@ -732,7 +734,8 @@ parliamentary_items = rdb.Table(
     rdb.Column( "submission_date", rdb.Date ),
     # Workflow State
     rdb.Column( "status", rdb.Unicode(48) ),
-    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),   
+    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),  
+    rdb.Column( "registry_number", rdb.Integer), 
     # the reviewer may add a recommendation note
     rdb.Column( "note", rdb.UnicodeText),
     # Receive  Notifications -> triggers notification on workflow change

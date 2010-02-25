@@ -48,7 +48,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
 
         for field in self.getFields( ):
             key = field.__name__
-            title =translate(_(field.title), target_language=self.request.locale.getLocaleID())
+            title =translate(_(field.title), context=self.request)
             coldef = {'key': key, 'label': title, 'formatter': self.context.__name__ }
             if column_model == []:
                 column_model.append(

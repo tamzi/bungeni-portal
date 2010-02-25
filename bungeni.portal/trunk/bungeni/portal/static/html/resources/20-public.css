@@ -73,7 +73,7 @@ h3, h4, h5, h6 {
     border-bottom: 1px #ccc solid;
 }
 .documentContent p a:visited {
-    color: Purple;
+    color: #436976;
     background-color: transparent;
 }
 .documentContent p a:active {
@@ -88,7 +88,7 @@ h3, h4, h5, h6 {
     border-bottom: 1px #cccccc solid;
 }
 .documentContent li a:visited {
-    color: Purple;
+    color: #436976;
 }
 .documentContent li a:active {
     color: Red;
@@ -98,7 +98,7 @@ h3, h4, h5, h6 {
     border-bottom: 1px #cccccc solid;
 }
 .documentContent dd a:visited {
-    color: Purple;
+    color: #436976;
     background-color: transparent;
 }
 .documentContent dd a:active {

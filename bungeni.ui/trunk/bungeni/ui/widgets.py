@@ -339,12 +339,23 @@ class SelectDateWidget( SimpleInputWidget):
             self.maxDate = (datetime.date.today() + 
                     datetime.timedelta(self.maxYearDelta*365))                    
 
+    def jstr(self, alist):
+        return u'["' + u'", "'.join(alist) + u'"]'
+
     def get_js(self):
         pagedate = datetime.date.today()
         if self.maxDate < pagedate:
             pagedate = self.maxDate
         if (type(self._data) == datetime.date) or (type(self._data) == datetime.datetime):
-            pagedate = self._data             
+            pagedate = self._data    
+        calendar = self.request.locale.dates.calendars['gregorian']
+    
+        months_short = self.jstr(calendar.getMonthAbbreviations())
+        months_long = self.jstr(calendar.getMonthNames()) 
+        w_day_1char = self.jstr([dn[:1] for dn in calendar.getDayAbbreviations()]) 
+        w_day_short = self.jstr([dn[:2] for dn in calendar.getDayAbbreviations()]) 
+        w_day_medium = self.jstr(calendar.getDayAbbreviations())
+        w_day_long =  self.jstr(calendar.getDayNames())                   
         return self.js_template % {'name' : self.field_name,
                     'sel_day': self._day_name,
                     'sel_month' : self._month_name,
@@ -352,7 +363,14 @@ class SelectDateWidget( SimpleInputWidget):
                     'txt_date' : self.date_name,
                     'mindate' : self.minDate.strftime("%m/%d/%Y"),
                     'maxdate' : self.maxDate.strftime("%m/%d/%Y"), 
-                    'pagedate' : pagedate.strftime('%m/%Y') }
+                    'pagedate' : pagedate.strftime('%m/%Y'),
+                    'months_short' : months_short,
+                    'months_long' : months_long,
+                    'w_day_1char' : w_day_1char,
+                    'w_day_short' : w_day_short,
+                    'w_day_medium' : w_day_medium,
+                    'w_day_long' : w_day_long,
+                     }
 
     def _days(self):
         dl = []

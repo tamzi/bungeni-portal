@@ -23,6 +23,14 @@
                     maxdate:"%(maxdate)s",
                     pagedate: "%(pagedate)s",
                     navigator: navConfig} );
+                    
+            oCalendar.cfg.setProperty("MONTHS_SHORT",   %(months_short)s );
+            oCalendar.cfg.setProperty("MONTHS_LONG",    %(months_long)s );
+            oCalendar.cfg.setProperty("WEEKDAYS_1CHAR", %(w_day_1char)s );
+            oCalendar.cfg.setProperty("WEEKDAYS_SHORT", %(w_day_short)s );
+            oCalendar.cfg.setProperty("WEEKDAYS_MEDIUM",%(w_day_medium)s );
+            oCalendar.cfg.setProperty("WEEKDAYS_LONG",  %(w_day_long)s );
+
 			oCalendar.render();
 			// Subscribe to the Calendar instance's "select" event to 
 			// update the month, day, year form fields when the user

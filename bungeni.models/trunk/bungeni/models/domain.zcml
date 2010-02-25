@@ -17,11 +17,13 @@
                         submission_date
                         status
                         status_date
+                        registry_number
                         note
                         receive_notification" />
     <require permission="bungeni.edit.historical"
             set_attributes="parliament_id
                             status
+                            registry_number
                             status_date" />                         
   </class>
   
@@ -39,6 +41,7 @@
                         full_name
                         publication_date
                         receive_notification
+                        registry_number
                         owner_id
                         parliament_id" />
     <require permission="bungeni.bill.Edit"       
@@ -59,6 +62,7 @@
                             status
                             status_date
                             identifier
+                            registry_number
                             publication_date" /> 
 
              
@@ -80,6 +84,7 @@
                         question_type
                         question_number
                         receive_notification
+                        registry_number
                         parliament_id
                         owner_id" />
     <require permission="bungeni.question.Edit"       
@@ -109,6 +114,7 @@
                             approval_date
                             sitting_time  
                             question_number                          
+                            registry_number
                             ministry_submit_date" />            
                          
   </class>             
@@ -128,6 +134,7 @@
                         motion_number
                         approval_date
                         public
+                        registry_number
                         seconder_id
                         entered_by_id
                         party_id
@@ -158,6 +165,7 @@
                             motion_number
                             approval_date
                             entered_by_id
+                            registry_number
                             notice_date" />               
              
   </class>             
@@ -219,6 +227,7 @@
                         receive_notification
                         group_id
                         approval_date
+                        registry_number
                         " />
     <require permission="bungeni.agendaitem.Edit"       
             attributes="note" />                 
@@ -240,6 +249,7 @@
             set_attributes="parliament_id
                             submission_date
                             approval_date
+                            registry_number
                             status
                             status_date" />               
              
@@ -254,6 +264,7 @@
                         full_name
                         body_text
                         status    
+                        registry_number
                         status_date                    
                         receive_notification
                         approval_date
@@ -279,6 +290,7 @@
             set_attributes="parliament_id
                             submission_date
                             approval_date
+                            registry_number
                             status
                             status_date" />               
              

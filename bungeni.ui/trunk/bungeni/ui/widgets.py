@@ -395,7 +395,7 @@ class SelectDateWidget( SimpleInputWidget):
         i=0
         months = []
         for month in  calendar.getMonthNames():       
-            i++
+            i = i+1
             months.append({'num' :  "%02d" % i, 'name': month})          
         return months
         

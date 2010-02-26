@@ -62,7 +62,7 @@ Cleanup
   >>> session.flush()
   >>> session.commit()
   >>> session.close()\n"
-"POT-Creation-Date: Mon Feb 15 14:13:01 2010\n"
+"POT-Creation-Date: Fri Feb 26 10:59:56 2010\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -71,217 +71,163 @@ Cleanup
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
 
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:106
-msgid "Metadata"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:114
-msgid "History"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:12
-msgid "Add, Remove, Delete actions for a Container"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:129
-msgid "Add Directory"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:169
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:177
-msgid "Add File"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:17
-msgid "Alternative Views of the Object (RSS, ICAL, etc)"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:194
-msgid "Edit"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:202
-msgid "Download"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:58
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:137
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:185
-msgid "Contents"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:7
-msgid "Contextual Action Views of the Object"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:76
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:146
-msgid "RSS"
-msgstr ""
-
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:85
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:155
-msgid "ICal"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/app.py:100
-msgid "Questions"
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/app.py:102
-msgid "View questions issued by the current parliament."
-msgstr ""
-
-#: src/bungeni.core/bungeni/core/app.py:106
+#: src/bungeni.core/bungeni/core/app.py:103
 msgid "Motions"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:108
+#: src/bungeni.core/bungeni/core/app.py:105
 msgid "View motions issued by the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:113
+#: src/bungeni.core/bungeni/core/app.py:110
 msgid "Tabled documents"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:115
+#: src/bungeni.core/bungeni/core/app.py:112
 msgid "View the tabled documents of the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:119
+#: src/bungeni.core/bungeni/core/app.py:116
 msgid "Agenda items"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:121
+#: src/bungeni.core/bungeni/core/app.py:118
 msgid "View the agenda items of the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:131
+#: src/bungeni.core/bungeni/core/app.py:128
 msgid "Sittings"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:132
+#: src/bungeni.core/bungeni/core/app.py:129
 msgid "View the sittings of the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:137
+#: src/bungeni.core/bungeni/core/app.py:134
 msgid "Parliamentary publications"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:139
+#: src/bungeni.core/bungeni/core/app.py:136
 msgid "View Agenda and Minutes reports of the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:146
+#: src/bungeni.core/bungeni/core/app.py:143
 msgid "Current"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:147
+#: src/bungeni.core/bungeni/core/app.py:144
 msgid "View current parliament members (MPs)."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:151
+#: src/bungeni.core/bungeni/core/app.py:148
 msgid "Political groups"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:152
+#: src/bungeni.core/bungeni/core/app.py:149
 msgid "View current political groups."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:156
+#: src/bungeni.core/bungeni/core/app.py:153
 msgid "Browse"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:157
+#: src/bungeni.core/bungeni/core/app.py:154
 msgid "Current and historical records."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:161
+#: src/bungeni.core/bungeni/core/app.py:158
 msgid "Documents"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:162
+#: src/bungeni.core/bungeni/core/app.py:159
 msgid "Visit the digital document repository."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:224
+#: src/bungeni.core/bungeni/core/app.py:221
 msgid "Content"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:225
+#: src/bungeni.core/bungeni/core/app.py:222
 msgid "browse the content"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:229
-#: eggs/ore.library-0.5.1dev-py2.5.egg/ore/library/browser/configure.zcml:67
+#: src/bungeni.core/bungeni/core/app.py:226
 msgid "Settings"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:230
+#: src/bungeni.core/bungeni/core/app.py:227
 msgid "settings"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:59
+#: src/bungeni.core/bungeni/core/app.py:56
 msgid "Business"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:60
+#: src/bungeni.core/bungeni/core/app.py:57
 msgid "Daily operations of the parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:64
+#: src/bungeni.core/bungeni/core/app.py:61
 msgid "Members"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:65
+#: src/bungeni.core/bungeni/core/app.py:62
 msgid "Records on members of parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:69
+#: src/bungeni.core/bungeni/core/app.py:66
 msgid "Archive"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:70
+#: src/bungeni.core/bungeni/core/app.py:67
 msgid "Parliament records and documents."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:74
+#: src/bungeni.core/bungeni/core/app.py:71
 msgid "Administration"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:75
+#: src/bungeni.core/bungeni/core/app.py:72
 msgid "Administer bungeni settings."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:82
+#: src/bungeni.core/bungeni/core/app.py:79
 msgid "What's on"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:83
+#: src/bungeni.core/bungeni/core/app.py:80
 msgid "Current parliamentary activity."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:88
+#: src/bungeni.core/bungeni/core/app.py:85
 msgid "Committees"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:90
+#: src/bungeni.core/bungeni/core/app.py:87
 msgid "View committees created by the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:94
+#: src/bungeni.core/bungeni/core/app.py:91
 msgid "Bills"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/app.py:96
+#: src/bungeni.core/bungeni/core/app.py:93
 msgid "View bills issued by the current parliament."
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/audit.py:133
+#: src/bungeni.core/bungeni/core/app.py:97
+msgid "Questions"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/app.py:99
+msgid "View questions issued by the current parliament."
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/audit.py:131
 msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
 msgstr ""
 
-#: src/bungeni.core/bungeni/core/audit.py:173
+#: src/bungeni.core/bungeni/core/audit.py:171
 msgid "No IRequest in interaction"
 msgstr ""
 
@@ -596,7 +542,11 @@ msgid "Change Sitting Status"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:59
-msgid "Permission to generate report"
+msgid "Deactivate a file"
+msgstr ""
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:60
+msgid "Deactivate an event"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8

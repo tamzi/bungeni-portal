@@ -110,7 +110,7 @@ def setSubmissionDate(info, context):
         instance.submission_date = datetime.date.today()    
     versions =  bungeni.core.interfaces.IVersioned(instance)
     versions.create('New version created upon submission to clerks office')
-    if instance.registry_muber == None:    
+    if instance.registry_number == None:    
         dbutils.setRegistryNumber(instance)
     
 def setApprovalDate(info, context):
@@ -125,7 +125,7 @@ def setApprovalDate(info, context):
         dbutils.setQuestionSerialNumber(instance)
     elif type(instance) == domain.Motion:
         dbutils.setMotionSerialNumber(instance)       
-    if instance.registry_muber == None:    
+    if instance.registry_number == None:    
         dbutils.setRegistryNumber(instance)                 
 
 def setMinistrySubmissionDate(info, context):

@@ -184,7 +184,7 @@
                 <span tal:condition="view/display_minutes">
                     <span tal:condition="scheduled/discussion/body_text | nothing">
                         <h3>Minutes</h3>
-                            <p tal:replace="structure scheduled/discussion/body_text"/>
+                            <p><span tal:replace="structure scheduled/discussion/body_text"/></p>
                     </span>
                 </span>
     </tal:loop>          

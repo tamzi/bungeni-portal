@@ -391,20 +391,12 @@ class SelectDateWidget( SimpleInputWidget):
 
     def _months(self):
         """ return a dict of month values and names"""
-        months = [
-            { 'num' : '01' , 'name' : _(u'Jan')},
-            { 'num' : '02' , 'name' : _(u'Feb')},
-            { 'num' : '03' , 'name' : _(u'Mar')},
-            { 'num' : '04' , 'name' : _(u'Apr')},
-            { 'num' : '05' , 'name' : _(u'May')},
-            { 'num' : '06' , 'name' : _(u'Jun')},
-            { 'num' : '07' , 'name' : _(u'Jul')},
-            { 'num' : '08' , 'name' : _(u'Aug')},
-            { 'num' : '09' , 'name' : _(u'Sep')},
-            { 'num' : '10' , 'name' : _(u'Oct')},
-            { 'num' : '11' , 'name' : _(u'Nov')},
-            { 'num' : '12' , 'name' : _(u'Dec')}
-            ]
+        calendar = self.request.locale.dates.calendars['gregorian']
+        i=0
+        months = []
+        for month in  calendar.getMonthNames():       
+            i++
+            months.append({'num' :  "%02d" % i, 'name': month})          
         return months
         
     @property    

@@ -50,8 +50,8 @@ def removeQuestionFromItemSchedule(question_id):
         results[0].active = False
     
 def setRegistryNumber(item):
-    session.Session()
-    connection = session.connectiton(domain.ParliamentaryItem)    
+    session = Session()
+    connection = session.connection(domain.ParliamentaryItem)    
     sequence = rdb.Sequence('registry_number_sequence')
     item.registry_number = connection.execute(sequence)    
     

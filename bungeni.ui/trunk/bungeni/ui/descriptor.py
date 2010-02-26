@@ -1924,20 +1924,20 @@ class AttendanceTypeDescriptor( ModelDescriptor ):
 
 
 class ConsignatoryDescriptor( ModelDescriptor ):
-    display_name = _(u"Consignatory")
-    container_name = _(u"Consignatories")
+    display_name = _(u"Cosignatory")
+    container_name = _(u"Cosignatories")
     
     fields = [
         dict(name="bill_id", omit = True),
         dict( name="user_id",
               property=schema.Choice( 
-                title=_(u"Consignatory"), 
+                title=_(u"Cosignatory"), 
                 source=DatabaseSource(domain.User,  
                     title_field='fullname', 
                     token_field='user_id', 
                     value_field = 'user_id')),
               listing_column=member_fk_column("user_id", 
-                _(u'Consignatory')), 
+                _(u'Cosignatory')), 
             listing=True, 
             ),  
     ]

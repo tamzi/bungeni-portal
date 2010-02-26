@@ -675,7 +675,8 @@ class SelectDateTimeWidget(SelectDateWidget):
             return (d.day, d.month, d.year, d.hour, d.minute)
         else:
             try:
-                return (value.day, value.month, value.year, value.hour, value.minute)
+                return (value.day, value.month, value.year, 
+                    value.hour, value.minute)
             except:                
                 return ( '0', '0', '0', '0', '0')
                 
@@ -692,7 +693,8 @@ class SelectDateTimeWidget(SelectDateWidget):
         else:
             try:    
                 time_zone = self.time_zone                          
-                return datetime.datetime(year=int(year), month=int(month), day=int(day), hour=int(hour), minute=int(minute),) #tzinfo=time_zone)
+                return datetime.datetime(year=int(year), month=int(month), 
+                    day=int(day), hour=int(hour), minute=int(minute),) 
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date and time"), e)
                             

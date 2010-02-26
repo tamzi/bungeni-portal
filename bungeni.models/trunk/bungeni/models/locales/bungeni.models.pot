@@ -14,7 +14,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Development/Unknown\n"
-"POT-Creation-Date: Mon Feb 15 15:18:50 2010\n"
+"POT-Creation-Date: Fri Feb 26 11:01:24 2010\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -23,156 +23,96 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: zope/app/locales/extract.py\n"
 
-#: src/bungeni.models/bungeni/models/interfaces.py:207
+#: src/bungeni.models/bungeni/models/interfaces.py:210
 msgid "Speaker's Office Email"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:209
+#: src/bungeni.models/bungeni/models/interfaces.py:212
 msgid "Speaker's Office Notification"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:210
+#: src/bungeni.models/bungeni/models/interfaces.py:213
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:215
+#: src/bungeni.models/bungeni/models/interfaces.py:218
 msgid "Clerk's Office Notification"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:216
+#: src/bungeni.models/bungeni/models/interfaces.py:219
 msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:221
+#: src/bungeni.models/bungeni/models/interfaces.py:224
 msgid "Clerks's Office Email"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:224
+#: src/bungeni.models/bungeni/models/interfaces.py:227
 msgid "Administrator's Email"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:225
+#: src/bungeni.models/bungeni/models/interfaces.py:228
 msgid "Allow Question Submission"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:226
+#: src/bungeni.models/bungeni/models/interfaces.py:229
 msgid "Days to Defer Question"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:227
+#: src/bungeni.models/bungeni/models/interfaces.py:230
 msgid "Time after which admissible questions are automatically deferred"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:229
+#: src/bungeni.models/bungeni/models/interfaces.py:232
 msgid "Days to Notify Ministry of Pending Response"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:230
+#: src/bungeni.models/bungeni/models/interfaces.py:233
 msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:234
+#: src/bungeni.models/bungeni/models/interfaces.py:237
 msgid "Days before question scheduled"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:235
+#: src/bungeni.models/bungeni/models/interfaces.py:238
 msgid "Days before bill scheduled"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:236
+#: src/bungeni.models/bungeni/models/interfaces.py:239
 msgid "Max Questions Per Sitting"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:237
+#: src/bungeni.models/bungeni/models/interfaces.py:240
 msgid "Max Questions Per Sitting Per MP"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:242
+#: src/bungeni.models/bungeni/models/interfaces.py:245
 msgid "Email Notifications Enabled?"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:248
+#: src/bungeni.models/bungeni/models/interfaces.py:251
 msgid "Name of the Assignment"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:249
+#: src/bungeni.models/bungeni/models/interfaces.py:252
 msgid "Start Date of the Assignment"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:250
+#: src/bungeni.models/bungeni/models/interfaces.py:253
 msgid "End Date of the Assignment"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:251
+#: src/bungeni.models/bungeni/models/interfaces.py:254
 msgid "Assignment Type"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:252
+#: src/bungeni.models/bungeni/models/interfaces.py:255
 msgid "Status"
 msgstr ""
 
-#: src/bungeni.models/bungeni/models/interfaces.py:253
+#: src/bungeni.models/bungeni/models/interfaces.py:256
 msgid "Notes"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:107
-msgid "office"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:164
-msgid "parliamentmember"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:171
-msgid "minister"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:177
-msgid "committeemember"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:183
-msgid "partymember"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:189
-msgid "officemember"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:200
-msgid "committeestaff"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:300
-msgid "event"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:305
-msgid "agendaitem"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:324
-msgid "tableddocument"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:71
-msgid "government"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:77
-msgid "parliament"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:83
-msgid "political-party"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:89
-msgid "ministry"
-msgstr ""
-
-#: src/bungeni.models/bungeni/models/orm.py:95
-msgid "committee"
 msgstr ""
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
@@ -518,6 +458,26 @@ msgstr ""
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Delete item scheduling"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:241
+msgid "Permission to generate report"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:243
+msgid "add an attached file"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:244
+msgid "edit an attached file"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:245
+msgid "view an attached file"
+msgstr ""
+
+#: src/bungeni.models/bungeni/models/permissions.zcml:246
+msgid "delete an attached file"
 msgstr ""
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:25

@@ -4,7 +4,7 @@
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        View
+        <span i18n:translate="">View</span>
         <span class="portletTopRight"></span>
     </dt>
 

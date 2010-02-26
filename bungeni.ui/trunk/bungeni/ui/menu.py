@@ -12,6 +12,7 @@ from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.traversing.browser import absoluteURL
 from zope.security import checkPermission
 from z3c.menu.ready2go import item
+from zope.i18n import translate
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
@@ -213,15 +214,18 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context
         self.url = absoluteURL(context, request)
+        self.request = request
         
     @property
     def extra(self):
         info = IWorkflowInfo(self.context, None)
         if info is None:
             return {'id': 'plone-contentmenu-workflow'}
-
         state = info.state().getState()
-        stateTitle = info.workflow().workflow.states[state].title
+        stateTitle = translate(
+            str(info.workflow().workflow.states[state].title), 
+            domain="bungeni.core",
+            context=self.request)
         
         return {'id'         : 'plone-contentmenu-workflow',
                 'class'      : 'state-%s' % state,
@@ -278,9 +282,12 @@ class WorkflowMenu(BrowserMenu):
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,
                      'class': ''}
-            
+                     
+            state_title = translate(str(state_transition.title), 
+                    domain="bungeni.core", 
+                    context=request)
             results.append(
-                dict(title=state_transition.title,
+                dict(title=state_title,
                      description="",
                      action=transition_url,
                      selected=False,

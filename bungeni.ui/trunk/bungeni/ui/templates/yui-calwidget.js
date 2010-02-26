@@ -9,11 +9,11 @@
 			// element of the Overlay.
 			  var navConfig = {
                     strings : {
-                        month: "Choose Month",
-                        year: "Enter Year",
-                        submit: "OK",
-                        cancel: "Cancel",
-                        invalidYear: "Please enter a valid year"
+                        month: "%(month)s" ,
+                        year: "%(year)s",
+                        submit: "%(submit)s",
+                        cancel: "%(cancel)s",
+                        invalidYear: "%(invalidYear)s" 
                     },
                     monthFormat: YAHOO.widget.Calendar.SHORT,
                     initialFocus: "year"

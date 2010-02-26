@@ -360,7 +360,7 @@ class SelectDateWidget( SimpleInputWidget):
         w_day_1char = self.jstr([dn[:1] for dn in calendar.getDayAbbreviations()]) 
         w_day_short = self.jstr([dn[:2] for dn in calendar.getDayAbbreviations()]) 
         w_day_medium = self.jstr(calendar.getDayAbbreviations())
-        w_day_long =  self.jstr(calendar.getDayNames())                   
+        w_day_long =  self.jstr(calendar.getDayNames())  
         return self.js_template % {'name' : self.field_name,
                     'sel_day': self._day_name,
                     'sel_month' : self._month_name,
@@ -375,11 +375,11 @@ class SelectDateWidget( SimpleInputWidget):
                     'w_day_short' : w_day_short,
                     'w_day_medium' : w_day_medium,
                     'w_day_long' : w_day_long,
-                    'month' : translate(month, context=self.request),
-                    'year' : translate(year, context=self.request),
-                    'submit' : translate(submit, context=self.request),
-                    'cancel' : translate(cancel, context=self.request),
-                    'invalidYear' : translate(invalidYear, context=self.request)                    
+                    'month' : translate(str(month), domain='bungeni.ui', context=self.request),
+                    'year' : translate(str(year), domain='bungeni.ui', context=self.request),
+                    'submit' : translate(str(submit), domain='bungeni.ui', context=self.request),
+                    'cancel' : translate(str(cancel), domain='bungeni.ui', context=self.request),
+                    'invalidYear' : translate(str(invalidYear), domain='bungeni.ui', context=self.request)                    
                      }
 
     def _days(self):

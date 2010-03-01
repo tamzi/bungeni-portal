@@ -236,9 +236,9 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(content[u"users"]),
                        (implementedBy(domain.User), ILocation))    
 
-        content[u'categories'] = domain.ItemScheduleCategoryContainer()
-        provideAdapter(location.ContainerLocation(content[u"categories"]),
-                       (implementedBy(domain.ItemScheduleCategory), ILocation))                           
+        content[u'headings'] = domain.HeadingContainer()
+        provideAdapter(location.ContainerLocation(content[u"headings"]),
+                       (implementedBy(domain.Heading), ILocation))                           
 
         content[u"provinces"] = domain.ProvinceContainer()
         provideAdapter(location.ContainerLocation(content[u"provinces"]),

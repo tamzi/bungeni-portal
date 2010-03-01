@@ -615,6 +615,9 @@
                         receive_notification"/>                            
   </class>                            
   
+  <class class=".domain.Heading" >
+    <require like_class=".domain.ParliamentaryItem" />     
+  </class>
   
 </configure>
 

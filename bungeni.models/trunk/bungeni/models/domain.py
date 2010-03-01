@@ -382,6 +382,10 @@ class AttachedFile( Entity ):
 AttachedFileChange = ItemLog.makeLogFactory( "AttachedFileChange")
 AttachedFileVersion = ItemVersions.makeVersionFactory("AttachedFileVersion")
 
+class Heading( ParliamentaryItem ):  
+    """ A heading in a report """
+
+
 class AgendaItem( ParliamentaryItem ):    
     """
     Generic Agenda Item that can be scheduled on a sitting

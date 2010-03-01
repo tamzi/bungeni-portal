@@ -894,7 +894,6 @@ tabled_documents = rdb.Table(
         primary_key=True ),   
     rdb.Column( "link", rdb.String(256)),   
     rdb.Column( "approval_date", rdb.Date,),                     
-#    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
    )
 
 tabled_document_changes = make_changes_table( tabled_documents, metadata )

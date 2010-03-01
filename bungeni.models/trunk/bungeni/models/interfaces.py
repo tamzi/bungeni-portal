@@ -124,6 +124,10 @@ class ICommitteeStaffContainer(IBungeniGroupMembershipContainer):
 class IVersionContainer(IBungeniContainer):
     pass
 
+
+class IHeading( IBungeniContent ):
+    pass
+
 class IEventItem( IBungeniContent ):
     pass
 

@@ -1348,6 +1348,9 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               view = False, ),
         ]                   
 
+
+
+
 class ChangeDescriptor( ModelDescriptor ):
     display_name =_(u"Change")
     container_name =_(u"Changes")
@@ -1437,6 +1440,12 @@ class VersionDescriptor( ModelDescriptor ):
         dict( name="type", 
               omit=True, ),
         ]                   
+
+
+class HeadingDescriptor( ParliamentaryItemDescriptor): 
+    display_name =_(u"Heading")
+    container_name =_(u"Headings")
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )   
 
 
 class AgendaItemDescriptor( ParliamentaryItemDescriptor): 

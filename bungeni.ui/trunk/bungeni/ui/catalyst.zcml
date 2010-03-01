@@ -523,5 +523,12 @@
     ui_module="bungeni.ui.content"
     echo="False"
     />            
-  
+
+   <db:catalyst
+    class="bungeni.models.domain.Heading"
+    descriptor=".descriptor.HeadingDescriptor"
+    interface_module="bungeni.models.interfaces"
+    ui_module="bungeni.ui.content"
+    echo="False"
+    />     
 </configure>

@@ -15,6 +15,7 @@ import committee
 import parliament
 import attachedfile
 import event
+import heading
 
 from bungeni.models import domain
 from bungeni.models.interfaces import IVersion
@@ -57,4 +58,6 @@ AttachedFileWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(attachedfile, domain.AttachedFile))
 EventWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(event, domain.EventItem))
+HeadingWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(heading, domain.Heading))
  

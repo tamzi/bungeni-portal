@@ -551,4 +551,18 @@ class AttachedFileVersionDescriptiveProperties(DescriptiveProperties):
         context = session.merge(removeSecurityProxy(self.context))      
         return u"%s  (%s)" %(context.file_name, context.file_mimetype)
 
-                        
+class HeadingDescriptiveProperties(DescriptiveProperties):                        
+    component.adapts(interfaces.IHeading)   
+    
+    @property
+    def title(self):  
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.short_name
+
+    @property
+    def description(self):            
+        session =Session()
+        context = session.merge(removeSecurityProxy(self.context))      
+        return context.description 
+                            

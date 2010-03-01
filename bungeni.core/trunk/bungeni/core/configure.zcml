@@ -237,6 +237,7 @@
   <adapter factory=".dc.AttachedFileDescriptiveProperties" />   
   <adapter factory=".dc.AttachedFileVersionDescriptiveProperties" />     
   <adapter factory=".dc.EventItemProperties" />    
+  <adapter factory=".dc.HeadingDescriptiveProperties" />
   <adapter
      name="dc"
      for="*"

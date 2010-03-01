@@ -42,5 +42,15 @@
      require_confirmation="true"
      />
 
+  <transition 
+     id="reactivate"
+     title="Re activate"
+     trigger="manual"
+     source="inactive"
+     destination="public"
+     permission="bungeni.heading.Deactivate"
+     require_confirmation="true"
+     />     
+
 
 </workflow>

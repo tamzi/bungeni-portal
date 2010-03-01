@@ -52,5 +52,12 @@
      />         
 
 
+  <browser:viewlet
+     name="bungeni.scheduling.heading"
+     for="bungeni.core.interfaces.ISchedulingContext"
+     manager=".interfaces.ISchedulingManager"
+     class=".schedule.SchedulableHeadingsViewlet"
+     permission="bungeni.itemschedule.Edit"
+     />    
 
 </configure>

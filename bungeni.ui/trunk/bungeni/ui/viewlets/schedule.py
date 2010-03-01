@@ -18,6 +18,7 @@ from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
 from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
+from bungeni.core.workflows.heading import states as heading_wf_state
 from bungeni.models import domain
 from bungeni.models.interfaces import IBungeniApplication, IBungeniGroup, ICommittee
 from bungeni.core.interfaces import ISchedulingContext
@@ -114,6 +115,14 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
             IDCDescriptiveProperties(item))) for
              item in items]]        
+
+class SchedulableHeadingsViewlet(SchedulableItemsViewlet):
+    model = domain.Heading
+    name = _('Headings')
+    view_name="heading"
+    states = (
+        heading_wf_state[u"public"].id,
+        )
 
 class SchedulableBillsViewlet(SchedulableItemsViewlet):
     model = domain.Bill

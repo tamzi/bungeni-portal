@@ -76,6 +76,10 @@
   <!-- event items -->
   <grant permission="bungeni.event.Deactivate" role="bungeni.Clerk"/>     
   <grant permission="bungeni.event.Deactivate" role="bungeni.Speaker"/>
+
+  <!-- headings -->
+  <grant permission="bungeni.heading.Deactivate" role="bungeni.Clerk"/>     
+  <grant permission="bungeni.heading.Deactivate" role="bungeni.Speaker"/>
           
   <!-- file attachments -->
   <grant permission="bungeni.attachedfile.Deactivate" role="bungeni.Clerk"/>  

@@ -51,6 +51,12 @@
   
   <meta:redefinePermission from="bungeni.question.View" to="zope.View" />
   
+  <permission id="bungeni.heading.Add" title="Add heading" />
+  <permission id="bungeni.heading.Edit" title="Edit heading" />
+  <permission id="bungeni.heading.Delete" title="Delete heading" />
+  <permission id="bungeni.heading.View" title="View heading" />
+  <meta:redefinePermission from="bungeni.heading.View" to="zope.View" />     
+  
   <permission id="bungeni.motion.Add" title="Add Motion" />
   <permission id="bungeni.motion.Edit" title="Edit Motion" />
   <permission id="bungeni.motion.Delete" title="Delete Motion" />

@@ -238,6 +238,10 @@ mapper( domain.ParliamentaryItem, schema.parliamentary_items,
                 }
          )
 
+mapper( domain.Heading,
+        inherits=domain.ParliamentaryItem,
+        polymorphic_on=schema.parliamentary_items.c.type,
+        polymorphic_identity='item')
 
 mapper( domain.Question, schema.questions,
         inherits=domain.ParliamentaryItem,

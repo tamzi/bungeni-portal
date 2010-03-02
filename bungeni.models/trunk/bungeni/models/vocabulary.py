@@ -111,6 +111,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
         self.value_field = value_field
                           
     def constructQuery(self, context):
+        import pdb; pdb.set_trace()
         session= Session()
         trusted=removeSecurityProxy(context)
         user_id = getattr(trusted, self.value_field, None)
@@ -127,15 +128,15 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                 query = session.query(MemberOfParliament).filter(
                     sql.and_(MemberOfParliament.group_id ==
                             parliament_id,
-                            MemberOfParliament.active_p ==
-                            True)).order_by(MemberOfParliament.last_name,
+                            MemberOfParliament.active_p == True)
+                    ).order_by(MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
                             MemberOfParliament.middle_name) 
             else:
-                query = session.query(MemberOfParliament).order_by(
-                            MemberOfParliament.last_name,
-                            MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name)
+                query = session.query(domain.User).order_by(
+                            domain.User.last_name,
+                            domain.User.first_name,
+                            domain.User.middle_name)
         return query                                                                                                           
 
     def __call__( self, context=None ):
@@ -196,7 +197,8 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                 query = session.query(MemberOfParliament).order_by(
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name)                 
+                            MemberOfParliament.middle_name).filter(
+                                MemberOfParliament.active_p == True)                                                     
         else:
             if parliament_id:
                 query = session.query(MemberOfParliament).filter(                    
@@ -208,10 +210,10 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                                 MemberOfParliament.first_name,
                                 MemberOfParliament.middle_name)
             else:
-                query = session.query(MemberOfParliament).order_by(
-                            MemberOfParliament.last_name,
-                            MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name)    
+                query = session.query(domain.User).order_by(
+                            domain.User.last_name,
+                            domain.User.first_name,
+                            domain.User.middle_name)          
         return query   
 
 class MemberOfParliamentDelegationSource(MemberOfParliamentSource):

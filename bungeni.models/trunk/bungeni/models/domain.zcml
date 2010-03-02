@@ -265,6 +265,7 @@
                         body_text
                         status    
                         registry_number
+                        tabled_document_number
                         status_date                    
                         receive_notification
                         approval_date
@@ -291,6 +292,7 @@
                             submission_date
                             approval_date
                             registry_number
+                            tabled_document_number
                             status
                             status_date" />               
              

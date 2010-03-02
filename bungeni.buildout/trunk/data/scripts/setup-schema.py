@@ -19,6 +19,7 @@ models.metadata.create_all()
 schema.QuestionSequence.create(db)
 schema.MotionSequence.create(db)
 schema.registrySequence.create(db)
+schema.tabled_documentSequence.create(db)
 
 security.metadata.bind = db
 security.metadata.drop_all() 

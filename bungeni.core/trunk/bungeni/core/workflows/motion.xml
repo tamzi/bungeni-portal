@@ -173,6 +173,26 @@
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                           
   </state>
 
+  <state id="withdrawn_public" title="Withdrawn">  
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                            
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                            
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />   
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                            
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" /> 
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                           
+  </state>
+
+
+
 
   <transition
      id="create"
@@ -472,19 +492,31 @@
      trigger="manual"
      source="submitted
              received
-             complete
-             admissible
-             clarify_mp
-             scheduled
-             deferred
-             postponed
-             debate_adjourned
-             schedule_pending"
+             complete             
+             clarify_mp"
      destination="withdrawn"
      permission="bungeni.motion.Withdraw"
      action="bungeni.core.workflows.motion.actions.withdraw"
      condition=""
      require_confirmation="true"
      />
+
+  <transition
+     id="withdraw_public"
+     title="Withdraw"
+     trigger="manual"
+     source="admissible
+             scheduled
+             deferred
+             postponed
+             debate_adjourned
+             schedule_pending"
+     destination="withdrawn_public"
+     permission="bungeni.motion.Withdraw"
+     action="bungeni.core.workflows.motion.actions.withdraw"
+     condition=""
+     require_confirmation="true"
+     />
+
   
 </workflow>

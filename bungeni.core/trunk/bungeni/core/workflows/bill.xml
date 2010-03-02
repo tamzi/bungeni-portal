@@ -123,7 +123,7 @@
   </state>
   
 
-  <state id="withdrawn" title="Bill Withdrawn">
+  <state id="withdrawn_public" title="Bill Withdrawn">
     <deny permission="bungeni.bill.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />            
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />            
@@ -172,7 +172,7 @@
      id="reintroduce-withdrawn"
      title="Reintroduce"
      trigger="manual"
-     source="withdrawn"
+     source="withdrawn_public"
      destination="draft"
      condition=""
      />
@@ -496,7 +496,7 @@
              second_committee
              report_reading
              third_reading"
-     destination="withdrawn"
+     destination="withdrawn_public"
      permission="bungeni.bill.Withdraw"
      action="bungeni.core.workflows.bill.actions.withdraw"
      require_confirmation="true"

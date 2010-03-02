@@ -145,6 +145,18 @@
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />     
   </state>
+  
+  <state id="withdrawn_public" title="Withdrawn">
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />          
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />     
+  </state>  
 
   <transition 
      id="create"
@@ -586,14 +598,7 @@
      source="submitted
              received
              complete
-             admissible
-             clarify_mp
-             schedule_pending
-             scheduled
-             deferred
-             postponed
-             debate_adjourned
-             schedule_pending"
+             clarify_mp"
      destination="withdrawn"
      permission="bungeni.question.Withdraw"
      action="bungeni.core.workflows.question.actions.withdraw"
@@ -601,5 +606,25 @@
      require_confirmation="true"
      event=""
      />
+
+ <transition 
+     id="withdraw_public"
+     title="Withdraw"
+     trigger="manual"
+     source="admissible
+             schedule_pending
+             scheduled
+             deferred
+             postponed
+             debate_adjourned
+             schedule_pending"
+     destination="withdrawn_public"
+     permission="bungeni.question.Withdraw"
+     action="bungeni.core.workflows.question.actions.withdraw"
+     condition=""
+     require_confirmation="true"
+     event=""
+     />
+
 
 </workflow>  

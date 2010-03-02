@@ -124,7 +124,9 @@ def setApprovalDate(info, context):
     if type(instance) == domain.Question:
         dbutils.setQuestionSerialNumber(instance)
     elif type(instance) == domain.Motion:
-        dbutils.setMotionSerialNumber(instance)       
+        dbutils.setMotionSerialNumber(instance) 
+    elif type(instance) == domain.TabledDocument:
+        dbutils.setTabledDocumentSerialNumber(instance)                       
     if instance.registry_number == None:    
         dbutils.setRegistryNumber(instance)                 
 

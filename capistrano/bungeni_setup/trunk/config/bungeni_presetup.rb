@@ -23,12 +23,6 @@
 set :user_build_root, "#{system_build_root}/cap_builds"
 set :user_install_root, "#{system_build_root}/cap_installs"
 
-#### download URLs for components #####
-### can be set to a http / ftp url or an absolute path to the file on the computer
-set :python_download_url, "/home/undesa/cache/Python-2.5.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
-set :python_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7.tar.gz"
-set :svn_download_url,  "/home/undesa/cache/subversion-1.5.4.tar.gz" #"http://subversion.tigris.org/downloads/subversion-1.5.4.tar.gz"
-set :varnish_download_url, "/home/undesa/cache/varnish-2.0.6.tar.gz" # "http://downloads.sourceforge.net/project/varnish/varnish/2.0.6/varnish-2.0.6.tar.gz?use_mirror=garr"
 
 ##### Component Specific Parameters ##### 
 

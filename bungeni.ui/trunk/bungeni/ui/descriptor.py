@@ -1744,7 +1744,13 @@ class TabledDocumentDescriptor(ParliamentaryItemDescriptor):
     fields = deepcopy( ParliamentaryItemDescriptor.fields )    
     fields.extend([    
         dict( name="tabled_document_id", omit=True ), 
-        dict( name="group_id", omit=True ),         
+        dict( name="group_id", omit=True ),   
+        dict( name="tabled_document_number", 
+            label=_(u"Tabled document Number"),
+            add= False,
+            listing=False,
+            edit=True,
+            view=True,),      
     ])
     
 class TabledDocumentVersionDescriptor( VersionDescriptor ):

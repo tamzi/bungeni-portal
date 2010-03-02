@@ -886,6 +886,8 @@ consignatories = rdb.Table(
 #    rdb.Column( "document_source", rdb.Unicode(256)),
 #    )
 
+tabled_documentSequence = rdb.Sequence('tabled_document_number_sequence', metadata)
+
 tabled_documents = rdb.Table(
     "tabled_documents",
     metadata,
@@ -894,6 +896,7 @@ tabled_documents = rdb.Table(
         primary_key=True ),   
     rdb.Column( "link", rdb.String(256)),   
     rdb.Column( "approval_date", rdb.Date,),                     
+    rdb.Column( "tabled_document_number", rdb.Integer),
    )
 
 tabled_document_changes = make_changes_table( tabled_documents, metadata )

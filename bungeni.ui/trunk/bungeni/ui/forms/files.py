@@ -14,8 +14,8 @@ class LibraryViewlet (viewlet.ViewletBase):
     form_name = _(u"attached files")    
     for_display = True    
     def __init__( self,  context, request, view, manager ):        
-
-        self.context = context.attached_files
+        trusted = removeSecurityProxy(context)
+        self.context = trusted.attached_files
         self.request = request
         self.__parent__= context
         self.manager = manager

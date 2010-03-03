@@ -122,7 +122,7 @@
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IPoliticalParty"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="party_additems"
@@ -138,14 +138,14 @@
 
   <browser:menu
      id="committee_additems"
-     title="The 'Add..' menu - for committees"
+     title="The 'Add...' menu - for committees"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.ICommittee"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="committee_additems"
@@ -208,7 +208,7 @@
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IGovernment"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="government_additems"
@@ -232,7 +232,7 @@
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IMinistry"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="ministry_additems"
@@ -249,14 +249,14 @@
 
   <browser:menu
      id="member_additems"
-     title="The 'Add..' menu - for Group Memberships"
+     title="The 'Add...' menu - for Group Memberships"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IBungeniGroupMembership"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="member_additems"
@@ -265,7 +265,7 @@
   <browser:menuItem
      menu="member_additems"
      for="bungeni.models.interfaces.IBungeniGroupMembership"
-     title="Add title ..."
+     title="Add title..."
      action="./titles/add"
      permission="bungeni.function.Add"     
      order="10"
@@ -274,14 +274,14 @@
 
   <browser:menu
      id="sitting_additems"
-     title="The 'Add..' menu - for Group Sittings"
+     title="The 'Add...' menu - for Group Sittings"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IGroupSitting"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="sitting_additems"
@@ -290,7 +290,7 @@
   <browser:menuItem
      menu="sitting_additems"
      for="bungeni.models.interfaces.IGroupSitting"
-     title="Add Attendance ..."
+     title="Add Attendance..."
      action="./attendance/add"
      permission="bungeni.sittingattendance.Add"     
      order="10"
@@ -309,14 +309,14 @@
                
   <browser:menu
      id="motion_additems"
-     title="The 'Add..' menu - for motion"
+     title="The 'Add...' menu - for motion"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IMotion"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="motion_additems"
@@ -344,14 +344,14 @@
 
   <browser:menu
      id="bill_additems"
-     title="The 'Add..' menu - for bill"
+     title="The 'Add...' menu - for bill"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IBill"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="bill_additems"
@@ -395,7 +395,7 @@
 
   <browser:menu
      id="question_additems"
-     title="The 'Add..' menu - for question"
+     title="The 'Add...' menu - for question"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
@@ -411,7 +411,7 @@
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IQuestion"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="question_additems"
@@ -429,7 +429,7 @@
 
   <browser:menu
      id="tableddocument_additems"
-     title="The 'Add..' menu - for tabled document"
+     title="The 'Add...' menu - for tabled document"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
@@ -445,7 +445,7 @@
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.ITabledDocument"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="tableddocument_additems"
@@ -454,7 +454,7 @@
 
   <browser:menu
      id="agendaitem_additems"
-     title="The 'Add..' menu - for agenda item"
+     title="The 'Add...' menu - for agenda item"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
 
@@ -470,7 +470,7 @@
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IAgendaItem"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="agendaitem_additems"
@@ -478,14 +478,14 @@
      
   <browser:menu
      id="office_additems"
-     title="The 'Add..' menu - for offices"
+     title="The 'Add...' menu - for offices"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IOffice"
-     title="Add ..."
+     title="Add..."
      action="add_content"
      permission="zope.View"
      submenu="office_additems"

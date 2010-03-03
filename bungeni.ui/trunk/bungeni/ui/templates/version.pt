@@ -12,7 +12,7 @@
                    for="form.actions.diff"
                    i18n:domain="bungeni.ui"
                    i18n:translate="">
-              Select a version to compare to the current working copy, or make two selections to compare historic versions.
+              Select a version to compare to the current working copy, or make two selections to compare historic versions
          </label>            
           <div tal:replace="structure view/listing"></div>
           <div id="actionsView">            

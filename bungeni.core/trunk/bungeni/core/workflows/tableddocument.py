@@ -109,11 +109,11 @@ class SendNotificationToMemberUponReceipt(Notification):
     component.adapts(interfaces.ITabledDocumentReceivedEvent)
 
     body = _('notification_email_to_member_upon_receipt_of_tabled_document',
-             default="TabledDocument received.")
+             default="Tabled document received")
     
     @property
     def subject(self):
-        return u'TabledDocument received: %s' % self.context.short_name
+        return u'Tabled document received: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -154,7 +154,7 @@ class SendNotificationToMemberUponReject(Notification):
     component.adapts(interfaces.ITabledDocumentRejectedEvent)
 
     body = _('notification_email_to_member_upon_rejection_of_tabled_document',
-             default="TabledDocument rejected.")
+             default="Tabled document rejected")
 
     @property
     def subject(self):
@@ -175,7 +175,7 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
     component.adapts(interfaces.ITabledDocumentClarifyEvent)
 
     body = _('notification_email_to_member_upon_need_clarification_of_tabled_document',
-             default="Your tabled_document needs to be clarified.")
+             default="Your tabled document needs to be clarified")
 
     @property
     def subject(self):
@@ -190,12 +190,12 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
         return prefs.getClerksOfficeEmail()
 
 class SendNotificationToMemberUponDeferred(Notification):
-    """Issued when a tabled_document was deferred by Clerk's office."""
+    """Issued when a tabled document was deferred by Clerk's office."""
 
     component.adapts(interfaces.ITabledDocumentDeferredEvent)
 
     body = _('notification_email_to_member_upon_defer_of_tabled_document',
-             default="TabledDocument deferred.")
+             default="Tabled document deferred.")
 
     @property
     def subject(self):
@@ -210,13 +210,13 @@ class SendNotificationToMemberUponDeferred(Notification):
         return prefs.getSpeakersOfficeEmail()
 
 class SendNotificationToMemberUponSchedule(Notification):
-    """Issued when a tabled_document was scheduled by Speakers office.
+    """Issued when a tabled document was scheduled by Speakers office.
     Sends a Notice that the tabled_document is scheduled for ... """
 
     component.adapts(interfaces.ITabledDocumentScheduledEvent)
 
     body = _('notification_email_to_member_upon_schedule_of_tabled_document',
-             default="TabledDocument scheduled.")
+             default="Tabled document scheduled.")
 
     @property
     def subject(self):
@@ -237,11 +237,11 @@ class SendNotificationToMemberUponPostponed(Notification):
     component.adapts(interfaces.ITabledDocumentPostponedEvent)
 
     body = _('notification_email_to_member_upon_postpone_of_tabled_document',
-             default="TabledDocument postponed.")
+             default="Tabled document postponed.")
 
     @property
     def subject(self):
-        return u'TabledDocument postponed: %s' % self.context.short_name
+        return u'Tabled document postponed: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -257,7 +257,7 @@ class SendNotificationToMemberUponDebated(Notification):
     component.adapts(interfaces.ITabledDocumentDebatedEvent)
 
     body = _('notification_email_to_member_upon_debate_of_tabled_document',
-             default=u"TabledDocument was debated.")
+             default=u"Tabled document was debated.")
     @property
     def subject(self):
         return u'TabledDocument was debated: %s' % self.context.short_name

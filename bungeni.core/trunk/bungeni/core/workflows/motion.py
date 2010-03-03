@@ -117,7 +117,7 @@ class SendNotificationToMemberUponReceipt(Notification):
     component.adapts(interfaces.IMotionReceivedEvent)
 
     body = _('notification_email_to_member_upon_receipt_of_motion',
-             default="Motion received.")
+             default="Motion received")
     
     @property
     def subject(self):
@@ -141,7 +141,7 @@ class SendNotificationToClerkUponSubmit(Notification):
     component.adapts(interfaces.IMotionSubmittedEvent)
 
     body = _('notification_email_to_clerk_upon_submit_of_motion',
-             default="Motion submitted.")
+             default="Motion submitted")
 
     @property
     def subject(self):
@@ -162,7 +162,7 @@ class SendNotificationToMemberUponReject(Notification):
     component.adapts(interfaces.IMotionRejectedEvent)
 
     body = _('notification_email_to_member_upon_rejection_of_motion',
-             default="Motion rejected.")
+             default="Motion rejected")
 
     @property
     def subject(self):
@@ -183,7 +183,7 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
     component.adapts(interfaces.IMotionClarifyEvent)
 
     body = _('notification_email_to_member_upon_need_clarification_of_motion',
-             default="Your motion needs to be clarified.")
+             default="Your motion needs to be clarified")
 
     @property
     def subject(self):
@@ -203,7 +203,7 @@ class SendNotificationToMemberUponDeferred(Notification):
     component.adapts(interfaces.IMotionDeferredEvent)
 
     body = _('notification_email_to_member_upon_defer_of_motion',
-             default="Motion deferred.")
+             default="Motion deferred")
 
     @property
     def subject(self):
@@ -224,7 +224,7 @@ class SendNotificationToMemberUponSchedule(Notification):
     component.adapts(interfaces.IMotionScheduledEvent)
 
     body = _('notification_email_to_member_upon_schedule_of_motion',
-             default="Motion scheduled.")
+             default="Motion scheduled")
 
     @property
     def subject(self):
@@ -245,7 +245,7 @@ class SendNotificationToMemberUponPostponed(Notification):
     component.adapts(interfaces.IMotionPostponedEvent)
 
     body = _('notification_email_to_member_upon_postpone_of_motion',
-             default="Motion postponed.")
+             default="Motion postponed")
 
     @property
     def subject(self):
@@ -265,7 +265,7 @@ class SendNotificationToMemberUponDebated(Notification):
     component.adapts(interfaces.IMotionDebatedEvent)
 
     body = _('notification_email_to_member_upon_debate_of_motion',
-             default=u"Motion was debated.")
+             default=u"Motion was debated")
     @property
     def subject(self):
         return u'Motion was debated: %s' % self.context.short_name

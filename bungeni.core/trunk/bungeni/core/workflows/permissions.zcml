@@ -38,21 +38,21 @@
   <!-- Address Workflow Permissions -->
   <permission id="bungeni.address.Manage" title="Manage User Adresses" />
   <!-- agendaitem Workflow permissions -->
-  <permission id="bungeni.agendaitem.Submit" title="Submit a agendaitem" />
-  <permission id="bungeni.agendaitem.Recieve" title="Recieve a agendaitem" />
-  <permission id="bungeni.agendaitem.clerk.Review" title="Review a agendaitem" />
-  <permission id="bungeni.agendaitem.speaker.Review"  title="Speaker review a agendaitem" />
-  <permission id="bungeni.agendaitem.Schedule" title="Schedule a agendaitem" />
-  <permission id="bungeni.agendaitem.Debate" title="Mark a agendaitem as debated" />
-  <permission id="bungeni.agendaitem.Withdraw" title="Withdraw a agendaitem" />
+  <permission id="bungeni.agendaitem.Submit" title="Submit an agenda item" />
+  <permission id="bungeni.agendaitem.Recieve" title="Recieve an agenda item" />
+  <permission id="bungeni.agendaitem.clerk.Review" title="Review an agenda item" />
+  <permission id="bungeni.agendaitem.speaker.Review"  title="Speaker review a agenda item" />
+  <permission id="bungeni.agendaitem.Schedule" title="Schedule an agenda item" />
+  <permission id="bungeni.agendaitem.Debate" title="Mark an agenda item as debated" />
+  <permission id="bungeni.agendaitem.Withdraw" title="Withdraw an agenda item" />
   <!-- tableddocument Workflow permissions -->
-  <permission id="bungeni.tableddocument.Submit" title="Submit a tableddocument" />
-  <permission id="bungeni.tableddocument.Recieve" title="Recieve a tableddocument" />
-  <permission id="bungeni.tableddocument.clerk.Review" title="Review a tableddocument" />
-  <permission id="bungeni.tableddocument.speaker.Review"  title="Speaker review a tableddocument" />
-  <permission id="bungeni.tableddocument.Schedule" title="Schedule a tableddocument" />
-  <permission id="bungeni.tableddocument.Debate" title="Mark a tableddocument as debated" />
-  <permission id="bungeni.tableddocument.Withdraw" title="Withdraw a tableddocument" />    
+  <permission id="bungeni.tableddocument.Submit" title="Submit a tabled document" />
+  <permission id="bungeni.tableddocument.Recieve" title="Recieve a tabled document" />
+  <permission id="bungeni.tableddocument.clerk.Review" title="Review a tabled document" />
+  <permission id="bungeni.tableddocument.speaker.Review"  title="Speaker review a tabled document" />
+  <permission id="bungeni.tableddocument.Schedule" title="Schedule a tabled document" />
+  <permission id="bungeni.tableddocument.Debate" title="Mark a tabled document as debated" />
+  <permission id="bungeni.tableddocument.Withdraw" title="Withdraw a tabled document" />    
   
   <permission id="bungeni.sitting.ChangeStatus" title="Change Sitting Status" />      
 

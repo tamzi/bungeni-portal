@@ -18,7 +18,7 @@
     </ul>
 
     <p tal:condition="not: results" i18n:translate="">
-      No items.
+      No items
     </p>
   </div>
   

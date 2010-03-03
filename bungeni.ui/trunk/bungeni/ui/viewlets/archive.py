@@ -21,17 +21,17 @@ class ArchiveDatesForm(form.PageForm):
     class IDateRangeSchema(interface.Interface):
         range_start_date = schema.Date(
             title=_(u"From"),
-            description=_(u"Leave blank or set lower limit."),
+            description=_(u"Leave blank or set lower limit"),
             required=False)
 
         range_end_date = schema.Date(
             title=_(u"To"),
-            description=_(u"Leave blank or set upper limit."),
+            description=_(u"Leave blank or set upper limit"),
             required=False)
 
         parliament = schema.Choice(
             title=_(u"Or select"),
-            description=_(u"Set date range to that of a given particular parliament."),
+            description=_(u"Set date range to that of a given particular parliament"),
             vocabulary="bungeni.vocabulary.Parliaments",
             required=False)
 
@@ -39,7 +39,7 @@ class ArchiveDatesForm(form.PageForm):
     form_fields = form.Fields(IDateRangeSchema, render_context=True)
     form_fields['range_start_date'].custom_widget = DateWidget
     form_fields['range_end_date'].custom_widget = DateWidget
-    form_description = _(u"Filter the archive by date range.")
+    form_description = _(u"Filter the archive by date range")
 
     def is_in_parliament(self, context):
         parent = context
@@ -117,7 +117,7 @@ class ArchiveDatesForm(form.PageForm):
         set_date_range(self.request, start_date, end_date)
         self.request.response.redirect(
             "?portal_status_message=%s" % translate(
-                _(u"Date range set.")))
+                _(u"Date range set")))
 
     @form.action(u"Clear")
     def handle_clear(self, action, data):
@@ -125,7 +125,7 @@ class ArchiveDatesForm(form.PageForm):
         
         self.request.response.redirect(
             "?portal_status_message=%s" % translate(
-                _(u"Date range cleared.")))
+                _(u"Date range cleared")))
         
 class ArchiveDatesViewlet(object):
     """Viewlet to allow users to choose start- and end-dates to frame

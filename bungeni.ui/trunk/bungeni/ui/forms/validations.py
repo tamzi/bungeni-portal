@@ -61,7 +61,7 @@ def validate_start_date_equals_end_date(action, data, context, container):
         end = get_date(data['start_date'])   
         if start != end:
             errors.append( interface.Invalid( 
-                _(u"End date must be equal to start date.") , 
+                _(u"End date must be equal to start date") , 
                 "end_date" ))             
     return errors
 
@@ -441,7 +441,7 @@ def validate_venues(action, data, context, container):
     for booking in  venue.check_venue_bookings( start, end, svenue, sitting):
         errors.append(
             interface.Invalid(
-                _(u'Venue "$venue" already booked in this time slot.',
+                _(u'Venue "$venue" already booked in this time slot',
                   mapping={'venue': booking.short_name}),
                 "venue_id"))
     #session.close()                
@@ -477,7 +477,7 @@ def validate_recurring_sittings(action, data, context, container):
             #session.close()
             return [interface.Interface(
                 _(u"If recurrence is limited by date, it "
-                  "must lie after the starting date."),
+                  "must lie after the starting date"),
                 "repeat_until")]
 
         # verify that dates do not violate group's end date
@@ -486,7 +486,7 @@ def validate_recurring_sittings(action, data, context, container):
             if group.end_date is not None and date > group.end_date:
                 errors.append(interface.Invalid(
                     _(u"One or more events would be scheduled for $F, which is "
-                      "after the scheduling group's end date.",
+                      "after the scheduling group's end date",
                       mapping={'F':datetimedict.fromdate(date)}),
                     "repeat" if repeat else "repeat_until",
                     ))
@@ -531,7 +531,7 @@ def validate_non_overlapping_sitting(action, data, context, container, *fields):
             #session.close() 
             return [interface.Invalid(
                 _(u"One or more events would be scheduled for $F, which "
-                  "overlaps with an existing sitting.",
+                  "overlaps with an existing sitting",
                   mapping={'F':datetimedict.fromdatetime(start)}),
                 *fields)]  
 

@@ -41,7 +41,7 @@ class VersionsView(BrowserView):
 
             @property
             def description(self):
-                return _(u"Currently displaying version ${version}.",
+                return _(u"Currently displaying version ${version}",
                          mapping={'version': self.context.version_id})
             
             def setUpWidgets( self, ignore_request=False):
@@ -131,7 +131,7 @@ class VersionLogView(BaseForm):
     def handle_revert_version( self, action, data):
         selected = getSelected( self.selection_column, self.request )  
         if len(selected) != 1:
-            self.status = _("Select one item to revert to.")
+            self.status = _("Select one item to revert to")
             return                          
         version = self._versions.get( selected[0] )
         message = data['commit_message']
@@ -142,12 +142,12 @@ class VersionLogView(BaseForm):
         label=_("Show Differences"), name="diff",        
         validator=lambda form, action, data: ())
     def handle_diff_version( self, action, data):
-        self.status = _("Displaying differences.")
+        self.status = _("Displaying differences")
 
         selected = getSelected(self.selection_column, self.request)
         
         if len(selected) not in (1, 2):
-            self.status = _("Select one or two items to show differences.")
+            self.status = _("Select one or two items to show differences")
             return
 
         context = removeSecurityProxy(self.context)

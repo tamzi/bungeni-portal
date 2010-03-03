@@ -760,7 +760,7 @@ class DisplayViewlet(BungeniAttributeDisplay):
 
         target = self.get_target()
         if target is None:
-            self.status = _(u"No item has been set.")
+            self.status = _(u"No item has been set")
         else:
             self.context = target
             self.has_data = True

@@ -680,7 +680,7 @@ class DeleteForm(BaseForm, form.PageForm):
             logging.critical(e)
 
             self.status = _(u"Could not delete item due to "
-                            "database integrity error.")
+                            "database integrity error")
 
             return self.render()
 

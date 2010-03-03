@@ -245,7 +245,7 @@ def IsDeceased(User):
             return
         else: 
             raise interface.Invalid(
-                _(u"If a user is deceased he must have the status 'D'"), 
+                _(u"If a user is deceased he must have the status D"), 
                 "date_of_death", 
                 "active_p" )
     if User.active_p == 'D':
@@ -267,7 +267,7 @@ def POBoxOrAddress( obj ):
     """
     if obj.po_box is None and  obj.address is None:
         raise interface.Invalid(
-            _(u"You have to enter either a P.O. Box or a Street Address"), 
+            _(u"You have to enter an Address"), 
             "po_box", 
             "address" )
         
@@ -654,7 +654,7 @@ class ParliamentDescriptor( GroupDescriptor ):
                 listing_column=name_column("full_name", "Name") ),
         dict( name="short_name", 
                 label=_(u"Parliament Identifier"), 
-                description=_(u"Unique identifier of each Parliament (e.g. nth Parliament)"), 
+                description=_(u"Unique identifier of each Parliament (e.g. IX Parliament)"), 
                 listing=True ),                
         dict( name="description", 
               property=schema.Text(title=_(u"Description"), required=False),
@@ -1268,7 +1268,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
         dict( name="owner_id", 
               property = schema.Choice(
                 title=_(u"Moved by"),
-                description=_(u"Select the user who moved the document."),
+                description=_(u"Select the user who moved the document"),
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
                 ),
               listing_column=member_fk_column("owner_id", 
@@ -1334,7 +1334,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
         dict( name="receive_notification", 
                 property = schema.Choice( 
                 title=_(u"Receive notification"),
-                description=_(u"Select this option to receive notifications for this item."),                  
+                description=_(u"Select this option to receive notifications for this item"),                  
                 source=vocabulary.YesNoSource ),
               edit_widget=CustomRadioWidget,  
               add_widget=CustomRadioWidget,                                
@@ -1613,13 +1613,13 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
         dict( name="question_type", 
             listing=False, 
             property=schema.Choice( title=_(u"Question Type"), 
-                        description=_("(O)rdinary or (P)rivate Notice"), 
+                        description=_("Ordinary or Private Notice"), 
                         vocabulary=vocabulary.QuestionType) ,
               ),                                    
         dict( name="response_type",  
             listing=False,
             property=schema.Choice( title=_(u"Response Type"), 
-                      description=_("(O)ral or (W)ritten"), 
+                      description=_("Oral or Written"), 
                       vocabulary=vocabulary.ResponseType),
 
              ),

@@ -267,12 +267,20 @@
      layer=".interfaces.IBusinessSectionLayer"     
      />
   
-      <browser:page
+  <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
      permission="zope.Public"
      name="jsonlisting"
      class=".container.ContainerWFStatesJSONListing"
      layer=".interfaces.IMembersSectionLayer"     
+     />
+     
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.Public"
+     name="jsonlisting"
+     class=".container.ContainerWFStatesJSONListing"
+     layer=".interfaces.IArchiveSectionLayer"     
      />
   
   

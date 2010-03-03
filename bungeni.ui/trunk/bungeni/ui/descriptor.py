@@ -1067,7 +1067,7 @@ class ParliamentSession( ModelDescriptor ):
     schema_invariants = [EndAfterStart]        
     custom_validators = [validations.validate_date_range_within_parent,]
             
-class GovernmentDescriptor( ModelDescriptor ):
+class GovernmentDescriptor( GroupDescriptor ):
     display_name = _(u"Government")
     container_name = _(u"Governments")
     

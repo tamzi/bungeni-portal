@@ -42,21 +42,6 @@ set :python_imaging_download_file, File.basename(python_imaging_download_url)
 set :python_imaging_src_dir, File.basename(python_imaging_download_file, ".tar.gz")
 
 
-#### libneon parameters ####
-set :neon_build_path, "#{user_build_root}/neon"
-set :neon_src_dir, "#{neon_build_path}/src"
-set :neon_runtime, "#{user_install_root}/neon"
-set :neon_svn_source, "http://svn.webdav.org/repos/projects/neon/tags/0.28.3"
-
-#### svn build parameters ####
-set :svn_build_path, "#{user_build_root}/svn"
-set :svn_runtime, "#{user_install_root}/svn"
-set :svn_download_command, get_download_command(svn_download_url)
-set :svn_download_file, File.basename(svn_download_url)
-set :svn_src_dir, File.basename(svn_download_file, ".tar.gz")
-set :svn_neon_config, "#{neon_runtime}/bin/neon-config"
-
-
 
 
 namespace :bungeni_presetup do
@@ -82,9 +67,9 @@ namespace :bungeni_presetup do
 			"libtool" , # for svn
 			"automake" ,  # for svn
 			"autoconf" , # for svn
-			"libaprutil1-dev", # for svn
-			"swig", # for svn
-			"xmlto" # for libneon 
+			#"libaprutil1-dev", # for svn
+			#"swig", # for svn
+			#"xmlto" # for libneon 
 			]
 	install_cmd = "apt-get install " + required_libs * " " 	+ " -y"
 	sudo install_cmd
@@ -115,35 +100,6 @@ namespace :bungeni_presetup do
 	].each {|cmd| run cmd}
     end
 
-    task :build_libneon, :roles=> [:app] do 
-	[
-	"mkdir -p #{neon_build_path}",
-	"mkdir -p #{neon_src_dir}",
-	"mkdir -p #{neon_runtime}",
-	"svn export #{neon_svn_source} #{neon_src_dir} --force",
-	"cd #{neon_src_dir} && ./autogen.sh",
-	"cd #{neon_src_dir} && ./configure --prefix=#{neon_runtime} --with-ssl=openssl", 
-	"cd #{neon_src_dir} && make ",
-	### the output exit 0 in the below line is required to prevent a 
-	### man installation error in neon which causes the capistrano task 
-	### to wrongly fail
-	"cd #{neon_src_dir} && make install ; exit 0"
-	].each {|cmd| run cmd}
-    end
-
-    task :build_svn, :roles=> [:app] do 
-	[
-	"mkdir -p #{svn_build_path}",
-	"rm -rf #{svn_build_path}/*.*",
-	"mkdir -p #{svn_runtime}",
-	"cd #{svn_build_path} && #{svn_download_command}",
- 	"cd #{svn_build_path} && tar xvzf #{svn_download_file}",
-	"cd #{svn_build_path}/#{svn_src_dir} && neon_config=#{svn_neon_config} ./configure --prefix=#{svn_runtime} PYTHON=#{user_python25_runtime}/bin/python",
-	"cd #{svn_build_path}/#{svn_src_dir} && make && make install",
-	"cd #{svn_build_path}/#{svn_src_dir} && make swig-py && make check-swig-py && make install-swig-py",
-	"echo #{svn_runtime}/lib/svn-python > #{user_python25_runtime}/lib/python2.5/site-packages/subversion.pth"
-	].each {|cmd| run cmd}
-    end
 
 
 
@@ -155,7 +111,7 @@ namespace :bungeni_presetup do
     end 
 	
 	
-    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging", "bungeni_presetup:build_libneon", "bungeni_presetup:build_svn" ###, "varnish_presetup:build_varnish"
+    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging"  ###, "varnish_presetup:build_varnish"
 
 
 end

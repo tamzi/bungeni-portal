@@ -55,13 +55,7 @@ namespace :plone_presetup do
 			"bison",  # for postgresql
 			"flex" , # for postgresql
 			"libreadline5-dev" , # for postgresql
-			"zlib1g-dev" , # for postgresql
-			"libtool" , # for svn
-			"automake" ,  # for svn
-			"autoconf" , # for svn
-			"libaprutil1-dev", # for svn
-			"swig", # for svn
-			"xmlto" # for libneon 
+			"zlib1g-dev"  # for postgresql
 			]
 	install_cmd = "apt-get install " + required_libs * " " 	+ " -y"
 	sudo install_cmd

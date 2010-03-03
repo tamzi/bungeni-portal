@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-02-26 14:47+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-03-01 14:53+0300\n"
+"Last-Translator: Bungeni <info@parliaments.info>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -12,193 +12,190 @@ msgstr ""
 #
 #: src/bungeni.core/bungeni/core/app.py:103
 msgid "Motions"
-msgstr "Motions"
+msgstr "motions"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:105
-msgid "View motions issued by the current parliament."
-msgstr "View motions issued by the current parliament."
+msgid "View motions issued by the current parliament"
+msgstr "view motions issued by the current parliament"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:110
 msgid "Tabled documents"
-msgstr "Tabled documents"
+msgstr "tabled documents"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:112
-msgid "View the tabled documents of the current parliament."
-msgstr "View the tabled documents of the current parliament."
+msgid "View the tabled documents of the current parliament"
+msgstr "view the tabled documents of the current parliament"
 
 #: src/bungeni.core/bungeni/core/app.py:116
 msgid "Agenda items"
-msgstr ""
+msgstr "agenda items"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:118
-msgid "View the agenda items of the current parliament."
-msgstr "View the agenda items of the current parliament."
+msgid "View the agenda items of the current parliament"
+msgstr "view the agenda items of the current parliament"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:128
 msgid "Sittings"
-msgstr "Sittings"
+msgstr "sittings"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:129
-msgid "View the sittings of the current parliament."
-msgstr "View the sittings of the current parliament."
+msgid "View the sittings of the current parliament"
+msgstr "view the sittings of the current parliament"
 
 #: src/bungeni.core/bungeni/core/app.py:134
 msgid "Parliamentary publications"
-msgstr ""
+msgstr "parliamentary publications"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:136
-#, fuzzy
-msgid "View Agenda and Minutes reports of the current parliament."
-msgstr "View the agenda items of the current parliament."
+msgid "View Agenda and Minutes reports of the current parliament"
+msgstr "view agenda and minutes reports of the current parliament."
 
 #
 #: src/bungeni.core/bungeni/core/app.py:143
 msgid "Current"
-msgstr "Current"
+msgstr "current"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:144
-msgid "View current parliament members (MPs)."
-msgstr "View current parliament members (MPs)."
+msgid "View current parliament members (MPs)"
+msgstr "view current parliament members (mps)"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:148
 msgid "Political groups"
-msgstr "Political groups"
+msgstr "political groups"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:149
-msgid "View current political groups."
-msgstr "View current political groups."
+msgid "View current political groups"
+msgstr "view current political groups"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:153
 msgid "Browse"
-msgstr "Browse"
+msgstr "browse"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:154
-msgid "Current and historical records."
-msgstr "Current and historical records."
+msgid "Current and historical records"
+msgstr "current and historical records"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:158
 msgid "Documents"
-msgstr "Documents"
+msgstr "documents"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:159
-msgid "Visit the digital document repository."
-msgstr "Visit the digital document repository."
+msgid "Visit the digital document repository"
+msgstr "visit the digital document repository"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:221
-#, fuzzy
 msgid "Content"
-msgstr "Contents"
+msgstr "contents"
 
 #: src/bungeni.core/bungeni/core/app.py:222
 msgid "browse the content"
-msgstr ""
+msgstr "browse the content"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:226
 msgid "Settings"
-msgstr "Settings"
+msgstr "settings"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:227
-#, fuzzy
 msgid "settings"
-msgstr "Settings"
+msgstr "settings"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:56
 msgid "Business"
-msgstr "Business"
+msgstr "business"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:57
-msgid "Daily operations of the parliament."
-msgstr "Daily operations of the parliament."
+msgid "Daily operations of the parliament"
+msgstr "daily operations of the parliament"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:61
 msgid "Members"
-msgstr "Members"
+msgstr "members"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:62
-msgid "Records on members of parliament."
-msgstr "Records on members of parliament."
+msgid "Records on members of parliament"
+msgstr "records on members of parliament"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:66
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:186
 msgid "Archive"
-msgstr "Archive"
+msgstr "archive"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:67
-msgid "Parliament records and documents."
-msgstr "Parliament records and documents."
+msgid "Parliament records and documents"
+msgstr "parliament records and documents"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:71
 msgid "Administration"
-msgstr "Administration"
+msgstr "administration"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:72
-msgid "Administer bungeni settings."
-msgstr "Administer bungeni settings"
+msgid "Administer bungeni settings"
+msgstr "administer bungeni settings"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:79
 msgid "What's on"
-msgstr "What's on"
+msgstr "what's on"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:80
-msgid "Current parliamentary activity."
-msgstr "Current parliamentary activity."
+msgid "Current parliamentary activity"
+msgstr "current parliamentary activity"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:85
 msgid "Committees"
-msgstr "Committees"
+msgstr "committees"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:87
-msgid "View committees created by the current parliament."
-msgstr "View committees created by the current parliament."
+msgid "View committees created by the current parliament"
+msgstr "view committees created by the current parliament"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:91
 msgid "Bills"
-msgstr "Bills"
+msgstr "bills"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:93
-msgid "View bills issued by the current parliament."
-msgstr "View bills issued by the current parliament."
+msgid "View bills issued by the current parliament"
+msgstr "view bills issued by the current parliament"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:97
 msgid "Questions"
-msgstr "Questions"
+msgstr "questions"
 
 #
 #: src/bungeni.core/bungeni/core/app.py:99
-msgid "View questions issued by the current parliament."
-msgstr "View questions issued by the current parliament."
+msgid "View questions issued by the current parliament"
+msgstr "view questions issued by the current parliament"
 
 #
 #: src/bungeni.core/bungeni/core/audit.py:131
@@ -208,31 +205,30 @@ msgstr "%(transition)s : %(comment)s [ transition from %(source)s to %(destinati
 #
 #: src/bungeni.core/bungeni/core/audit.py:171
 msgid "No IRequest in interaction"
-msgstr "No IRequest in interaction"
+msgstr "no irequest in interaction"
 
 #
-#. Default: ""
+#. Default: "flavio"
 #: src/bungeni.core/bungeni/core/dc.py:143
-#, fuzzy
 msgid "Sitting: $group ($start to $end)"
-msgstr "Sitting scheduled for '$group' ($start to $end)."
+msgstr "sitting scheduled for '$group' ($start to $end)"
 
 #
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:152
-msgid "Sitting scheduled for '$group' ($start to $end)."
-msgstr "Sitting scheduled for '$group' ($start to $end)."
+msgid "Sitting scheduled for '$group' ($start to $end)"
+msgstr "sitting scheduled for '$group' ($start to $end)"
 
 #
 #: src/bungeni.core/bungeni/core/dc.py:162
 msgid "Item scheduling"
-msgstr "Item scheduling"
+msgstr "item scheduling"
 
 #
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:169
-msgid "Scheduled for sitting ($start to $end)."
-msgstr "Scheduled for sitting ($start to $end)."
+msgid "Scheduled for sitting ($start to $end)"
+msgstr "scheduled for sitting ($start to $end)"
 
 #
 #. Default: ""
@@ -244,24 +240,24 @@ msgstr "$language translation"
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:183
 msgid "Version $version"
-msgstr "Version $version"
+msgstr "version $version"
 
 #
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:188
-msgid "Last modified $date."
-msgstr "Last modified $date."
+msgid "Last modified $date"
+msgstr "last modified $date"
 
 #
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:326
 msgid "Discussion ($time)"
-msgstr "Discussion ($time)"
+msgstr "discussion ($time)"
 
 #
 #: src/bungeni.core/bungeni/core/dc.py:328
 msgid "Discussion"
-msgstr "Discussion"
+msgstr "discussion"
 
 #
 #: src/bungeni.core/bungeni/core/dc.py:342
@@ -271,7 +267,7 @@ msgstr "("
 #
 #: src/bungeni.core/bungeni/core/schedule.py:127
 msgid "Plenary"
-msgstr "Plenary"
+msgstr "plenary"
 
 #
 #. Default: ""
@@ -282,406 +278,405 @@ msgstr "$x"
 #
 #: src/bungeni.core/bungeni/core/schedule.py:78
 msgid "Unknown principal group"
-msgstr "Unknown principal group"
+msgstr "unknown principal group"
 
 #
-#. Default: "HTML fragment to OpenDocument format"
+#. Default: "html fragment to open document format"
 #: src/bungeni.core/bungeni/core/transformation.py:189
 msgid "title_html_fragment_odf_transform"
-msgstr "title_html_fragment_odf_transform"
+msgstr "html fragment to open document format"
 
 #
 #. Default: ""
 #: src/bungeni.core/bungeni/core/version.py:117
-msgid "Reverted to previous version $version."
-msgstr "Reverted to previous version $version."
+msgid "Reverted to previous version $version"
+msgstr "reverted to previous version $version"
 
 #
-#. Default: "Agenda Item received."
+#. Default: "agenda item received"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:119
 msgid "notification_email_to_member_upon_receipt_of_agenda_item"
-msgstr "Agenda Item received."
+msgstr "agenda item received"
 
 #
-#. Default: "Agenda Item submitted."
+#. Default: "agenda item submitted"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:143
 msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
-msgstr "Agenda Item submitted."
+msgstr "agenda item submitted"
 
 #
-#. Default: "Agenda Item rejected."
+#. Default: "agenda item rejected"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:164
 msgid "notification_email_to_member_upon_rejection_of_agenda_item"
-msgstr "Agenda Item rejected"
+msgstr "agenda item rejected"
 
 #
-#. Default: "Your agenda_item needs to be clarified."
+#. Default: "your agenda item needs to be clarified"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:185
 msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
-msgstr "Your agenda_item needs to be clarified."
+msgstr "your agenda item needs to be clarified"
 
 #
-#. Default: "Agenda Item deferred."
+#. Default: "agenda item deferred"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:205
 msgid "notification_email_to_member_upon_defer_of_agenda_item"
-msgstr "Agenda Item deferred."
+msgstr "agenda item deferred"
 
 #
-#. Default: "Agenda Item scheduled."
+#. Default: "agenda item scheduled"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:226
 msgid "notification_email_to_member_upon_schedule_of_agenda_item"
-msgstr "Agenda Item scheduled."
+msgstr "agenda item scheduled"
 
 #
-#. Default: "Agenda Item postponed."
+#. Default: "agenda item postponed"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:247
 msgid "notification_email_to_member_upon_postpone_of_agenda_item"
-msgstr "Agenda Item postponed."
+msgstr "agenda item postponed"
 
 #
-#. Default: "Agenda Item was debated."
+#. Default: "agenda item was debated"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:267
 msgid "notification_email_to_member_upon_debate_of_agenda_item"
-msgstr "Agenda Item was debated."
+msgstr "agenda item was debated"
 
 #
-#. Default: "Motion received."
+#. Default: "motion received"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:119
 msgid "notification_email_to_member_upon_receipt_of_motion"
-msgstr "Motion received."
+msgstr "motion received"
 
 #
-#. Default: "Motion submitted."
+#. Default: "motion submitted"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:143
 msgid "notification_email_to_clerk_upon_submit_of_motion"
-msgstr "Motion submitted."
+msgstr "motion submitted"
 
 #
-#. Default: "Motion rejected."
+#. Default: "motion rejected"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:164
 msgid "notification_email_to_member_upon_rejection_of_motion"
-msgstr "Motion rejected."
+msgstr "motion rejected"
 
 #
-#. Default: "Your motion needs to be clarified."
+#. Default: "your motion needs to be clarified"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:185
 msgid "notification_email_to_member_upon_need_clarification_of_motion"
-msgstr "Your motion needs to be clarified."
+msgstr "your motion needs to be clarified"
 
 #
-#. Default: "Motion deferred."
+#. Default: "motion deferred"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:205
 msgid "notification_email_to_member_upon_defer_of_motion"
-msgstr "Motion deferred."
+msgstr "motion deferred"
 
 #
-#. Default: "Motion scheduled."
+#. Default: "motion scheduled"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:226
 msgid "notification_email_to_member_upon_schedule_of_motion"
-msgstr "Motion scheduled."
+msgstr "motion scheduled"
 
 #
-#. Default: "Motion postponed."
+#. Default: "motion postponed"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:247
 msgid "notification_email_to_member_upon_postpone_of_motion"
-msgstr "Motion postponed."
+msgstr "motion postponed"
 
 #
-#. Default: "Motion was debated."
+#. Default: "motion was debated"
 #: src/bungeni.core/bungeni/core/workflows/motion.py:267
 msgid "notification_email_to_member_upon_debate_of_motion"
-msgstr "Motion was debated."
+msgstr "motion was debated"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
 msgid "Review a question"
-msgstr "Review a question"
+msgstr "review a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Speaker review a question"
-msgstr "Speaker review a question"
+msgstr "speaker review a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Schedule a question"
-msgstr "Schedule a question"
+msgstr "schedule a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
 msgid "Respond to a question"
-msgstr "Respond to a question"
+msgstr "respond to a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
 msgid "Answer a question"
-msgstr "Answer a question"
+msgstr "answer a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:15
 msgid "Withdraw a question"
-msgstr "Withdraw a question"
+msgstr "withdraw a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
-#, fuzzy
 msgid "Elapse a question"
-msgstr "Answer a question"
+msgstr "answer a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:17
 msgid "Answer a question in writing"
-msgstr "Answer a question in writing"
+msgstr "answer a question in writing"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
 msgid "Submit a Response"
-msgstr "Submit a response"
+msgstr "submit a response"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
 msgid "Complete a Response"
-msgstr "Complete a response"
+msgstr "complete a response"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
 msgid "Submit a motion"
-msgstr "Submit a motion"
+msgstr "submit a motion"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
 msgid "Recieve a motion"
-msgstr "Recieve a motion"
+msgstr "recieve a motion"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
 msgid "Review a motion"
-msgstr "Review a motion"
+msgstr "review a motion"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Speaker review a motion"
-msgstr "Speaker review a motion"
+msgstr "speaker review a motion"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:26
 msgid "Schedule a motion"
-msgstr "Schedule a motion"
+msgstr "schedule a motion"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
 msgid "Mark a motion as debated"
-msgstr "Mark a motion as debated"
+msgstr "mark a motion as debated"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
 msgid "Withdraw a motion"
-msgstr "Withdraw a motion"
+msgstr "withdraw a motion"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
 msgid "Submit a bill"
-msgstr "Submit a bill"
+msgstr "submit a bill"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
 msgid "Schedule a bill"
-msgstr "Schedule a bill"
+msgstr "schedule a bill"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
 msgid "Assign a bill to a committee"
-msgstr "Assign a bill to a committee"
+msgstr "assign a bill to a committee"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:33
 msgid "Reject/Approve a bill"
-msgstr "Reject/Approve a bill"
+msgstr "reject/approve a bill"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Withdraw a bill"
-msgstr "Withdraw a bill"
+msgstr "withdraw a bill"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:35
 msgid "Revert a transition back to an earlier stage"
-msgstr "Revert a transition back to an earlier stage"
+msgstr "revert a transition back to an earlier stage"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:37
 msgid "Manage Bungeni groups"
-msgstr "Manage Bungeni groups"
+msgstr "manage bungeni groups"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:39
 msgid "Manage User Adresses"
-msgstr "Manage User Adresses"
+msgstr "manage user adresses"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Submit a agendaitem"
-msgstr "Submit a agendaitem"
+msgstr "submit a agenda item"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 msgid "Recieve a agendaitem"
-msgstr "Recieve a agendaitem"
+msgstr "recieve a agenda item"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
 msgid "Review a agendaitem"
-msgstr "Review an agenda item"
+msgstr "review an agenda item"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
-msgid "Speaker review a agendaitem"
-msgstr "Speaker review an agenda item"
+msgid "Speaker review a agenda item"
+msgstr "speaker review an agenda item"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:45
-msgid "Schedule a agendaitem"
-msgstr "Schedule an agenda item"
+msgid "Schedule an agenda item"
+msgstr "schedule an agenda item"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
-msgid "Mark a agendaitem as debated"
-msgstr "Mark a agenda item as debated"
+msgid "Mark a agenda item as debated"
+msgstr "mark a agenda item as debated"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:47
-msgid "Withdraw a agendaitem"
-msgstr "Withdraw an agenda item"
+msgid "Withdraw a agenda item"
+msgstr "withdraw an agenda item"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
-msgid "Submit a tableddocument"
-msgstr "Submit a tabled document"
+msgid "Submit a tabled document"
+msgstr "submit a tabled document"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
-msgid "Recieve a tableddocument"
-msgstr "Recieve a tabled document"
+msgid "Recieve a tabled document"
+msgstr "recieve a tabled document"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
-msgid "Review a tableddocument"
-msgstr "Review a tabled document"
+msgid "Review a tabled document"
+msgstr "review a tabled document"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
-msgid "Speaker review a tableddocument"
-msgstr "Speaker review a tabled document"
+msgid "Speaker review a tabled document"
+msgstr "speaker review a tabled document"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:53
-msgid "Schedule a tableddocument"
-msgstr "Schedule a tabled document"
+msgid "Schedule a tabled document"
+msgstr "schedule a tabled document"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
-msgid "Mark a tableddocument as debated"
-msgstr "Mark a tabled document as debated"
+msgid "Mark a tabled document as debated"
+msgstr "mark a tabled document as debated"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:55
-msgid "Withdraw a tableddocument"
-msgstr "Withdraw a tabled document"
+msgid "Withdraw a tabled document"
+msgstr "withdraw a tabled document"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:57
 msgid "Change Sitting Status"
-msgstr "Change sitting status"
+msgstr "change sitting status"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:59
 msgid "Deactivate a file"
-msgstr ""
+msgstr "deactivate a file"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:60
 msgid "Deactivate an event"
-msgstr ""
+msgstr "deactivate an event"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Submit a question"
-msgstr "Submit a question"
+msgstr "submit a question"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
 msgid "Recieve a question"
-msgstr "Recieve a question"
+msgstr "recieve a question"
 
 #
-#. Default: "Question received."
+#. Default: "question received"
 #: src/bungeni.core/bungeni/core/workflows/question.py:240
 msgid "notification_email_to_member_upon_receipt_of_question"
-msgstr "Question received."
+msgstr "question received"
 
 #
-#. Default: "Question submitted."
+#. Default: "question submitted"
 #: src/bungeni.core/bungeni/core/workflows/question.py:264
 msgid "notification_email_to_clerk_upon_submit_of_question"
-msgstr "Question submitted."
+msgstr "question submitted"
 
 #
-#. Default: "Question rejected."
+#. Default: "question rejected"
 #: src/bungeni.core/bungeni/core/workflows/question.py:285
 msgid "notification_email_to_member_upon_rejection_of_question"
-msgstr "Question rejected."
+msgstr "question rejected"
 
 #
-#. Default: "Your question needs to be clarified."
+#. Default: "your question needs to be clarified"
 #: src/bungeni.core/bungeni/core/workflows/question.py:306
 msgid "notification_email_to_member_upon_need_clarification_of_question"
-msgstr "Your question needs to be clarified."
+msgstr "your question needs to be clarified"
 
 #
-#. Default: "Question deferred."
+#. Default: "question deferred"
 #: src/bungeni.core/bungeni/core/workflows/question.py:326
 msgid "notification_email_to_member_upon_defer_of_question"
-msgstr "Question deferred."
+msgstr "question deferred"
 
 #
-#. Default: "Question scheduled."
+#. Default: "question scheduled"
 #: src/bungeni.core/bungeni/core/workflows/question.py:347
 msgid "notification_email_to_member_upon_schedule_of_question"
-msgstr "Question scheduled."
+msgstr "question scheduled"
 
 #
-#. Default: "Question postponed."
+#. Default: "question postponed"
 #: src/bungeni.core/bungeni/core/workflows/question.py:368
 msgid "notification_email_to_member_upon_postpone_of_question"
-msgstr "Question postponed."
+msgstr "question postponed"
 
 #
-#. Default: "Question completed for review at the speakers office."
+#. Default: "question completed for review at the speakers office"
 #: src/bungeni.core/bungeni/core/workflows/question.py:390
 msgid "notification_email_to_member_upon_complete_of_question"
-msgstr "Question completed for review at the speakers office."
+msgstr "question completed for review at the speakers office"
 
 #
-#. Default: "Question assigned to ministry."
+#. Default: "question assigned to ministry"
 #: src/bungeni.core/bungeni/core/workflows/question.py:411
 msgid "notification_email_to_ministry_upon_complete_question"
-msgstr "Question assigned to ministry."
+msgstr "question assigned to ministry"
 
 #
-#. Default: "Question sent to ministry for a written answer."
+#. Default: "question sent to ministry for a written answer"
 #: src/bungeni.core/bungeni/core/workflows/question.py:440
 msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
-msgstr "Question sent to ministry for a written answer."
+msgstr "question sent to ministry for a written answer"
 
 #
-#. Default: "Question answered."
+#. Default: "question answered"
 #: src/bungeni.core/bungeni/core/workflows/question.py:463
 msgid "notification_email_to_member_upon_answer_of_question"
-msgstr "Question answered."
+msgstr "question answered"
 
 #
-#. Default: "Question debated."
+#. Default: "question debated."
 #: src/bungeni.core/bungeni/core/workflows/question.py:487
 msgid "notification_email_to_member_upon_debate_question"
-msgstr "Question debated."
+msgstr "question debated"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/simple.py:12
@@ -705,7 +700,7 @@ msgstr "scheduled"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:233
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:287
 msgid "Submit to Clerk"
-msgstr "Submit to clerk"
+msgstr "submit to clerk"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/simple.py:37
@@ -725,268 +720,256 @@ msgstr "Submit to clerk"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:310
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:320
 msgid "Schedule"
-msgstr "Schedule"
+msgstr "schedule"
 
 #
-#. Default: "TabledDocument received."
+#. Default: "tabled document received"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:111
 msgid "notification_email_to_member_upon_receipt_of_tabled_document"
-msgstr "Tabled Document received."
+msgstr "tabled document received"
 
 #
-#. Default: "TabledDocument submitted."
+#. Default: "tabled document submitted"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:135
 msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
-msgstr "Tabled Document submitted."
+msgstr "tabled document submitted"
 
 #
-#. Default: "TabledDocument rejected."
+#. Default: "tabled document rejected"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:156
 msgid "notification_email_to_member_upon_rejection_of_tabled_document"
-msgstr "Tabled Document rejected."
+msgstr "tabled document rejected"
 
 #
-#. Default: "Your tabled_document needs to be clarified."
+#. Default: "your tabled document needs to be clarified"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:177
 msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
-msgstr "Your tabled_document needs to be clarified."
+msgstr "your tabled document needs to be clarified"
 
 #
-#. Default: "TabledDocument deferred."
+#. Default: "tabled document deferred"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:197
 msgid "notification_email_to_member_upon_defer_of_tabled_document"
-msgstr "Tabled Document deferred."
+msgstr "tabled document deferred"
 
 #
-#. Default: "TabledDocument scheduled."
+#. Default: "tabled document scheduled"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:218
 msgid "notification_email_to_member_upon_schedule_of_tabled_document"
-msgstr "Tabled Document scheduled."
+msgstr "tabled document scheduled"
 
 #
-#. Default: "TabledDocument postponed."
+#. Default: "tabled document postponed"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:239
 msgid "notification_email_to_member_upon_postpone_of_tabled_document"
-msgstr "Tabled Document postponed."
+msgstr "tabled document postponed"
 
 #
-#. Default: "TabledDocument was debated."
+#. Default: "tabled document was debated"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:259
 msgid "notification_email_to_member_upon_debate_of_tabled_document"
-msgstr "Tabled Document was debated."
+msgstr "tabled document was debated"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:10
 msgid "Whole House"
-msgstr ""
+msgstr "whole house"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:103
 msgid "Forward to another Ministry"
-msgstr ""
+msgstr "forward to another ministry"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:105
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:162
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:249
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:306
 msgid "Reject"
-msgstr ""
+msgstr "reject"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:106
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:163
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:250
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:307
 msgid "Receive"
-msgstr ""
+msgstr "receive"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:107
-#, fuzzy
 msgid "Complete Response"
-msgstr "Complete a response"
+msgstr "complete a response"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:11
-#, fuzzy
 msgid "Second Committee"
-msgstr "Committees"
+msgstr "second committee"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:110
-#, fuzzy
 msgid "Redraft Response"
-msgstr "Complete a response"
+msgstr "redraft response"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:112
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:168
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:255
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:312
 msgid "Complete"
-msgstr ""
+msgstr "complete"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:116
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:172
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:259
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:316
 msgid "Postpone"
-msgstr ""
+msgstr "postpone"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:12
 msgid "Third Reading"
-msgstr ""
+msgstr "third Reading"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:122
-#, fuzzy
 msgid "Submit Response"
-msgstr "Submit a response"
+msgstr "submit response"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:127
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:269
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:326
-#, fuzzy
 msgid "Resubmit to Clerk"
-msgstr "Submit to clerk"
+msgstr "resubmit to clerk"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:129
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:216
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:271
 msgid "Received by Clerks Office"
-msgstr ""
+msgstr "received by clerks office"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:13
 msgid "Second Reading"
-msgstr ""
+msgstr "second reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:133
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:220
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:275
 msgid "Needs Clarification by Clerks Office"
-msgstr ""
+msgstr "needs clarification by clerks office"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:134
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:221
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:276
-#, fuzzy
 msgid "Submitted"
-msgstr "Submit to clerk"
+msgstr "submit to clerk"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:14
 msgid "Draft Bill"
-msgstr ""
+msgstr "draft bill"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:15
-#, fuzzy
 msgid "Rejected Bill"
-msgstr "Reject/Approve a bill"
+msgstr "rejected bill"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:156
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:243
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:298
 msgid "Debate"
-msgstr ""
+msgstr "debate"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:16
 msgid "First Reading"
-msgstr ""
+msgstr "first reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:169
-msgid "Readmit elpapsed"
-msgstr ""
+msgid "Readmit elapsed"
+msgstr "readmit elapsed"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:17
-#, fuzzy
 msgid "First Committee"
-msgstr "Committees"
+msgstr "first committee"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:177
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:264
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:321
 msgid "Redraft Rejected"
-msgstr ""
+msgstr "redraft rejected"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:18
 msgid "Report Reading Postponed"
-msgstr ""
+msgstr "report reading postponed"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:182
-#, fuzzy
 msgid "Resubmit to clerk"
-msgstr "Submit to clerk"
+msgstr "resubmit to clerk"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:183
-#, fuzzy
 msgid "Archived"
-msgstr "Archive"
+msgstr "archived"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:184
-#, fuzzy
 msgid "Draft Translation"
-msgstr "$language translation"
+msgstr "draft translation"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:185
-#, fuzzy
 msgid "Create Translation"
-msgstr "$language translation"
+msgstr "create translation"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:187
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:193
 msgid "Draft Minutes"
-msgstr ""
+msgstr "draft minutes"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:188
 msgid "Draft Agenda"
-msgstr ""
+msgstr "draft agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:189
 msgid "Published Minutes"
-msgstr ""
+msgstr "published minutes"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:19
 msgid "Report Reading"
-msgstr ""
+msgstr "report reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:190
 msgid "Published Agenda"
-msgstr ""
+msgstr "published agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:192
 msgid "Finalize Agenda"
-msgstr ""
+msgstr "finalize agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:194
 msgid "Redraft Agenda"
-msgstr ""
+msgstr "redraft agenda"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:195
 msgid "Finalize Minutes"
-msgstr ""
+msgstr "finalize minutes"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:196
 msgid "Redraft Minutes"
-msgstr ""
+msgstr "redraft minutes"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:197
 msgid "Active Group"
-msgstr ""
+msgstr "active group"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:198
 msgid "Group is Dissolved"
-msgstr ""
+msgstr "group is dissolved"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:199
 msgid "Draft - Group not yet Active"
-msgstr ""
+msgstr "draft - group not yet active"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:20
 msgid "First Reading Postponed"
-msgstr ""
+msgstr "first reading postponed"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:200
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:332
@@ -996,7 +979,7 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:347
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:351
 msgid "Deactivate"
-msgstr ""
+msgstr "deactivate"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:202
@@ -1005,78 +988,75 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:334
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:340
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:343
-#, fuzzy
 msgid "Activate"
-msgstr "Archive"
+msgstr "activate"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:204
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:335
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:344
 msgid "Dissolve"
-msgstr ""
+msgstr "dissolve"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:205
 msgid "Internal - visible to bungeni users"
-msgstr ""
+msgstr "internal - visible to bungeni users"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:206
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:346
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:350
 msgid "Public"
-msgstr ""
+msgstr "public"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:207
 msgid "Private"
-msgstr ""
+msgstr "private"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:208
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:211
 msgid "Publish internal"
-msgstr ""
+msgstr "publish internal"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:209
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:213
 msgid "Publish"
-msgstr ""
+msgstr "publish"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:21
 msgid "Bill Published in Gazette"
-msgstr ""
+msgstr "bill published in gazette"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:212
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:214
 msgid "Make private"
-msgstr ""
+msgstr "make private"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:22
 msgid "Bill Withdrawn"
-msgstr ""
+msgstr "bill withdrawn"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:23
-#, fuzzy
 msgid "Schedule Report Reading"
-msgstr "Schedule a motion"
+msgstr "schedule report reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:24
 msgid "Postpone Report Reading"
-msgstr ""
+msgstr "postpone report reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:25
 msgid "Postpone Second Reading and Whole House Committee"
-msgstr ""
+msgstr "postpone second reading and whole house committee"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:256
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:313
 msgid "Readmit Elapsed"
-msgstr ""
+msgstr "readmit elapsed"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:26
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:45
-#, fuzzy
 msgid "Send to Committee"
-msgstr "Committees"
+msgstr "send to committee"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:27
@@ -1127,131 +1107,125 @@ msgstr "Committees"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:322
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:324
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:325
-#, fuzzy
 msgid "Withdraw"
-msgstr "Withdraw a bill"
+msgstr "withdraw"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:28
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:29
-#, fuzzy
 msgid "Schedule Second Reading"
-msgstr "Schedule an agenda item"
+msgstr "schedule second reading"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:31
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:39
-#, fuzzy
 msgid "Schedule Third Reading"
-msgstr "Schedule a question"
+msgstr "schedule third reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:32
 msgid "Resend Second Reading"
-msgstr ""
+msgstr "resend second reading"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:327
-#, fuzzy
 msgid "Active Committee"
-msgstr "Committees"
+msgstr "active committee"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:328
-#, fuzzy
 msgid "Committee is Dissolved"
-msgstr "Committees"
+msgstr "committee is dissolved"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:329
 msgid "Draft - Committee not yet Active"
-msgstr ""
+msgstr "draft - committee not yet active"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:33
 msgid "Reschedule Whole House Committee"
-msgstr ""
+msgstr "reschedule whole house committee"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:336
 msgid "Active Parliament"
-msgstr ""
+msgstr "active parliament"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:337
 msgid "Parliament is Dissolved"
-msgstr ""
+msgstr "parliament is dissolved"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:338
 msgid "Draft - Parliament not yet Active"
-msgstr ""
+msgstr "draft - parliament not yet active"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:345
 msgid "Inactive file obsolete"
-msgstr ""
+msgstr "inactive file obsolete"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:349
 msgid "Inactive event"
-msgstr ""
+msgstr "inactive event"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:36
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:56
 msgid "Postpone Third Reading"
-msgstr ""
+msgstr "postpone third reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:37
 msgid "Recommit to 2nd Committee"
-msgstr ""
+msgstr "recommit to 2nd committee"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:40
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:57
 msgid "Resend to Whole House"
-msgstr ""
+msgstr "resend to whole house"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:41
 msgid "Rejected"
-msgstr ""
+msgstr "rejected"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:42
 msgid "Reschedule First Reading"
-msgstr ""
+msgstr "reschedule first reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:46
 msgid "Schedule Whole House Committee"
-msgstr ""
+msgstr "schedule whole house committee"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:47
 msgid "Reintroduce"
-msgstr ""
+msgstr "reintroduce"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:48
 msgid "Postpone Whole House Committee"
-msgstr ""
+msgstr "postpone whole house committee"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:49
 msgid "Postpone First Reading"
-msgstr ""
+msgstr "postpone first reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:50
 msgid "Reschedule Second Reading"
-msgstr ""
+msgstr "reschedule second reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:51
 msgid "Second Reading Schedule"
-msgstr ""
+msgstr "second reading schedule"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:52
 msgid "Postpone Second Reading"
-msgstr ""
+msgstr "postpone second reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:53
 msgid "Back to First Reading"
-msgstr ""
+msgstr "back to first reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:54
 msgid "Publish in Gazette"
-msgstr ""
+msgstr "publish in gazette"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:58
-#, fuzzy
 msgid "Schedule First Reading"
-msgstr "Schedule a question"
+msgstr "schedule first reading"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:59
@@ -1266,95 +1240,88 @@ msgstr "Schedule a question"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:339
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:348
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:352
-#, fuzzy
 msgid "Create"
-msgstr "Current"
+msgstr "create"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:6
 msgid "Second Reading Postponed"
-msgstr ""
+msgstr "second reading postponed"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:60
 msgid "Reschedule Report Reading"
-msgstr ""
+msgstr "reschedule report reading"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:61
 msgid "Approved"
-msgstr ""
+msgstr "approved"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:62
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:128
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:215
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:270
-#, fuzzy
 msgid "Scheduled"
-msgstr "Schedule"
+msgstr "scheduled"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:63
 msgid "Received by clerk"
-msgstr ""
+msgstr "received by clerk"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:64
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:130
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:217
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:272
-#, fuzzy
 msgid "Schedule pending"
-msgstr "Schedule an agenda item"
+msgstr "schedule pending"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:65
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:131
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:218
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:273
-#, fuzzy
 msgid "Submitted to the Speaker"
-msgstr "Submit to clerk"
+msgstr "submitted to the speaker"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:66
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:132
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:219
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:274
-#, fuzzy
 msgid "Inadmissible"
-msgstr "visible"
+msgstr "inadmissible"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:67
 msgid "Needs clerks clarification"
-msgstr ""
+msgstr "needs clerks clarification"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:68
 msgid "Pending response"
-msgstr ""
+msgstr "pending response"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:69
-#, fuzzy
 msgid "Submitted to clerk"
-msgstr "Submit to clerk"
+msgstr "submitted to clerk"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:7
 msgid "Third Reading Postponed"
-msgstr ""
+msgstr "third reading postponed"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:70
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:135
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:222
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:277
 msgid "Deferred"
-msgstr ""
+msgstr "deferred"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:71
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:136
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:223
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:278
-#, fuzzy
 msgid "Admissible"
-msgstr "visible"
+msgstr "admissible"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:72
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:96
@@ -1362,14 +1329,14 @@ msgstr "visible"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:224
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:279
 msgid "Debated"
-msgstr ""
+msgstr "debated"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:73
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:138
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:225
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:280
 msgid "Draft"
-msgstr ""
+msgstr "draft"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:74
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:83
@@ -1380,46 +1347,45 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:281
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:304
 msgid "Debate adjourned"
-msgstr ""
+msgstr "debate adjourned"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:75
 msgid "Needs MPs clarification"
-msgstr ""
+msgstr "needs mps clarification"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:76
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:141
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:228
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:283
 msgid "Elapsed"
-msgstr ""
+msgstr "elapsed"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:77
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:142
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:229
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:284
 msgid "Postponed"
-msgstr ""
+msgstr "postponed"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:78
 msgid "Response completed"
-msgstr ""
+msgstr "response completed"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:79
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:143
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:230
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:285
-#, fuzzy
 msgid "Withdrawn"
-msgstr "Withdraw a motion"
+msgstr "withdrawn"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:8
 msgid "Whole House Postponed"
-msgstr ""
+msgstr "whole house postponed"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:80
 msgid "Response submitted"
-msgstr ""
+msgstr "response submitted"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:84
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:118
@@ -1430,7 +1396,7 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:289
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:318
 msgid "Approve"
-msgstr ""
+msgstr "approve"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:86
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:113
@@ -1442,7 +1408,7 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:308
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:314
 msgid "Elapse"
-msgstr ""
+msgstr "elapse"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:87
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:104
@@ -1455,7 +1421,7 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:311
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:319
 msgid "Defer"
-msgstr ""
+msgstr "defer"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:88
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:102
@@ -1474,19 +1440,18 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:309
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:315
 msgid "Submit to the Speaker Office"
-msgstr ""
+msgstr "submit to the speaker office"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:89
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:97
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:99
 msgid "Send to Ministry"
-msgstr ""
+msgstr "send to ministry"
 
 #
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:9
-#, fuzzy
 msgid "Approved Bill"
-msgstr "Reject/Approve a bill"
+msgstr "approved a bill"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:90
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:147
@@ -1496,14 +1461,14 @@ msgstr "Reject/Approve a bill"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:288
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:301
 msgid "Make available for scheduling"
-msgstr ""
+msgstr "make available for scheduling"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:92
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:152
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:239
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:294
 msgid "Needs Clarification"
-msgstr ""
+msgstr "needs clarification"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:94
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:124
@@ -1517,5 +1482,5 @@ msgstr ""
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:296
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:323
 msgid "Needs Clarification by MP"
-msgstr ""
+msgstr "needs clarification by mp"
 

@@ -147,7 +147,7 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
         if transition is not None:
             state_transition = wf.getTransitionById(transition)
             self.status = _(
-                u"Confirmation required for workflow transition: '${title}'.",
+                u"Confirmation required for workflow transition: '${title}'",
                 mapping={'title': _(state_transition.title)})
 
         self.setupActions(transition)

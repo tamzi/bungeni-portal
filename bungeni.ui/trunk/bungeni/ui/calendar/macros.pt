@@ -175,7 +175,7 @@
             <tbody tal:condition="not: options/items">
               <tr>
                 <td i18n:translate="">
-                  No items scheduled.
+                  No items scheduled
                 </td>
               </tr>
             </tbody>
@@ -267,7 +267,7 @@
                                         count python: len(record.items)"
                             tal:condition="count">
                         <span i18n:name="count" tal:replace="count">%items</span>
-                        item(s) scheduled.
+                        item(s) scheduled
                       </span>
                     </div>
                   </tal:sitting>
@@ -367,7 +367,7 @@
                                         count python: len(record.items)"
                             tal:condition="count">
                         <span i18n:name="count" tal:replace="count">%items</span>
-                        item(s) scheduled.
+                        item(s) scheduled
                       </span>
                         
                     </div>

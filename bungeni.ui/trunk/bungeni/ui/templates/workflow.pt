@@ -18,7 +18,7 @@
       
       <p tal:condition="not: viewlet/entries"
          i18n:translate="">
-        No history available for this item.
+        No history available for this item
       </p>
       
       <div tal:condition="viewlet/entries"

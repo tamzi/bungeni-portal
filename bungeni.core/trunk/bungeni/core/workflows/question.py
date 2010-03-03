@@ -238,7 +238,7 @@ class SendNotificationToMemberUponReceipt(Notification):
     component.adapts(interfaces.IQuestionReceivedEvent)
 
     body = _('notification_email_to_member_upon_receipt_of_question',
-             default="Question received.")
+             default="Question received")
     
     @property
     def subject(self):
@@ -262,7 +262,7 @@ class SendNotificationToClerkUponSubmit(Notification):
     component.adapts(interfaces.IQuestionSubmittedEvent)
 
     body = _('notification_email_to_clerk_upon_submit_of_question',
-             default="Question submitted.")
+             default="Question submitted")
 
     @property
     def subject(self):
@@ -283,7 +283,7 @@ class SendNotificationToMemberUponReject(Notification):
     component.adapts(interfaces.IQuestionRejectedEvent)
 
     body = _('notification_email_to_member_upon_rejection_of_question',
-             default="Question rejected.")
+             default="Question rejected")
 
     @property
     def subject(self):
@@ -304,7 +304,7 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
     component.adapts(interfaces.IQuestionClarifyEvent)
 
     body = _('notification_email_to_member_upon_need_clarification_of_question',
-             default="Your question needs to be clarified.")
+             default="Your question needs to be clarified")
 
     @property
     def subject(self):
@@ -324,7 +324,7 @@ class SendNotificationToMemberUponDeferred(Notification):
     component.adapts(interfaces.IQuestionDeferredEvent)
 
     body = _('notification_email_to_member_upon_defer_of_question',
-             default="Question deferred.")
+             default="Question deferred")
 
     @property
     def subject(self):
@@ -345,7 +345,7 @@ class SendNotificationToMemberUponSchedule(Notification):
     component.adapts(interfaces.IQuestionScheduledEvent)
 
     body = _('notification_email_to_member_upon_schedule_of_question',
-             default="Question scheduled.")
+             default="Question scheduled")
 
     @property
     def subject(self):
@@ -366,7 +366,7 @@ class SendNotificationToMemberUponPostponed(Notification):
     component.adapts(interfaces.IQuestionPostponedEvent)
 
     body = _('notification_email_to_member_upon_postpone_of_question',
-             default="Question postponed.")
+             default="Question postponed")
 
     @property
     def subject(self):
@@ -388,7 +388,7 @@ class SendNotificationToMemberUponComplete(Notification):
     component.adapts(interfaces.IQuestionCompleteEvent)
 
     body = _('notification_email_to_member_upon_complete_of_question',
-             default="Question completed for review at the speakers office.")
+             default="Question completed for review at the speakers office")
     
     @property
     def subject(self):
@@ -409,7 +409,7 @@ class SendNotificationToMinistryUponComplete(Notification):
     component.adapts(interfaces.IQuestionCompleteEvent)
     
     body = _('notification_email_to_ministry_upon_complete_question',
-             default=u"Question assigned to ministry.")
+             default=u"Question assigned to ministry")
 
     @property
     def subject(self):
@@ -438,7 +438,7 @@ class SendNotificationToMemberUponSentToMinistry(Notification):
     component.adapts(interfaces.IQuestionSentToMinistryEvent)
 
     body = _('notification_email_to_member_upon_sent_to_ministry_of_question',
-             default="Question sent to ministry for a written answer.")
+             default="Question sent to ministry for a written answer")
     
     @property
     def subject(self):
@@ -461,7 +461,7 @@ class SendNotificationToMemberUponAnswer(Notification):
     component.adapts(interfaces.IQuestionAnsweredEvent)
 
     body = _('notification_email_to_member_upon_answer_of_question',
-             default="Question answered.")
+             default="Question answered")
     
     @property
     def subject(self):
@@ -485,7 +485,7 @@ class SendNotificationToMemberUponDebate(Notification):
     component.adapts(interfaces.IQuestionDebatedEvent)
 
     body = _('notification_email_to_member_upon_debate_question',
-             default="Question debated.")
+             default="Question debated")
     
     @property
     def subject(self):

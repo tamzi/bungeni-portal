@@ -117,7 +117,7 @@ class SendNotificationToMemberUponReceipt(Notification):
     component.adapts(interfaces.IAgendaItemReceivedEvent)
 
     body = _('notification_email_to_member_upon_receipt_of_agenda_item',
-             default="Agenda Item received.")
+             default="Agenda Item received")
     
     @property
     def subject(self):
@@ -141,7 +141,7 @@ class SendNotificationToClerkUponSubmit(Notification):
     component.adapts(interfaces.IAgendaItemSubmittedEvent)
 
     body = _('notification_email_to_clerk_upon_submit_of_agenda_item',
-             default="Agenda Item submitted.")
+             default="Agenda Item submitted")
 
     @property
     def subject(self):
@@ -162,7 +162,7 @@ class SendNotificationToMemberUponReject(Notification):
     component.adapts(interfaces.IAgendaItemRejectedEvent)
 
     body = _('notification_email_to_member_upon_rejection_of_agenda_item',
-             default="Agenda Item rejected.")
+             default="Agenda Item rejected")
 
     @property
     def subject(self):
@@ -183,7 +183,7 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
     component.adapts(interfaces.IAgendaItemClarifyEvent)
 
     body = _('notification_email_to_member_upon_need_clarification_of_agenda_item',
-             default="Your agenda_item needs to be clarified.")
+             default="Your agenda_item needs to be clarified")
 
     @property
     def subject(self):
@@ -203,7 +203,7 @@ class SendNotificationToMemberUponDeferred(Notification):
     component.adapts(interfaces.IAgendaItemDeferredEvent)
 
     body = _('notification_email_to_member_upon_defer_of_agenda_item',
-             default="Agenda Item deferred.")
+             default="Agenda Item deferred")
 
     @property
     def subject(self):
@@ -224,7 +224,7 @@ class SendNotificationToMemberUponSchedule(Notification):
     component.adapts(interfaces.IAgendaItemScheduledEvent)
 
     body = _('notification_email_to_member_upon_schedule_of_agenda_item',
-             default="Agenda Item scheduled.")
+             default="Agenda Item scheduled")
 
     @property
     def subject(self):
@@ -245,7 +245,7 @@ class SendNotificationToMemberUponPostponed(Notification):
     component.adapts(interfaces.IAgendaItemPostponedEvent)
 
     body = _('notification_email_to_member_upon_postpone_of_agenda_item',
-             default="Agenda Item postponed.")
+             default="Agenda Item postponed")
 
     @property
     def subject(self):
@@ -265,7 +265,7 @@ class SendNotificationToMemberUponDebated(Notification):
     component.adapts(interfaces.IAgendaItemDebatedEvent)
 
     body = _('notification_email_to_member_upon_debate_of_agenda_item',
-             default=u"Agenda Item was debated.")
+             default=u"Agenda Item was debated")
     @property
     def subject(self):
         return u'Agenda Item was debated: %s' % self.context.short_name

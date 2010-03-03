@@ -34,7 +34,7 @@ class MultiDateTextAreaWidget(TextAreaWidget):
                 dates.append(date.date())
             except (DateTimeError, ValueError, IndexError), v:
                 raise ConversionError(
-                    _("Invalid date: $value.",
+                    _("Invalid date: $value",
                       mapping={'value': token}), v)
 
         return dates

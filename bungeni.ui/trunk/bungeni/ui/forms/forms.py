@@ -353,7 +353,7 @@ class GroupSittingAddForm(AddForm):
     class IRecurringEvents(interface.Interface):
         weekdays = schema.List(
             title=_(u"Weekdays"),
-            description=_(u"Select the days on which the event should occur."),
+            description=_(u"Select the days on which the event should occur"),
             required=False,
             value_type=schema.Choice(
                 vocabulary="bungeni.vocabulary.weekdays"),
@@ -361,26 +361,26 @@ class GroupSittingAddForm(AddForm):
 
         monthly = schema.Choice(
             title=_(u"Monthly"),
-            description=_(u"Select the mode of montly recurrence."),
+            description=_(u"Select the mode of montly recurrence"),
             vocabulary="bungeni.vocabulary.monthly_recurrence",
             required=False)
 
         repeat = schema.Int(
             title=_(u"Repeat"),
             description=_(u"Enter the number of times which the event should be "
-                          "repeated (as an integer)."),
+                          "repeated (as an integer)"),
             required=False)
 
         repeat_until = schema.Date(
             title=_(u"Repeat until date"),
-            description=_(u"Limit recurrence to the specified date."),
+            description=_(u"Limit recurrence to the specified date"),
             required=False)
 
         exceptions = schema.List(
             title=_(u"Exceptions"),
             description=_(u"Events will not be scheduled at dates appearing "
                           "in this field. Separate with comma or newline. Format: "
-                          "YYYY/MM/DD."),
+                          "YYYY/MM/DD"),
             value_type=schema.Date(),
             required=False)
 
@@ -390,7 +390,7 @@ class GroupSittingAddForm(AddForm):
                 if recurring.repeat or recurring.repeat_until:
                     return
                 raise interface.Invalid(
-                    _(u"Must limit recurrence (by number or date)."),
+                    _(u"Must limit recurrence (by number or date)"),
                     "repeat", "repeat_until")
 
     legends = {

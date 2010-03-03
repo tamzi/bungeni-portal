@@ -124,6 +124,145 @@
      factory=".daterange.sitting_filter" /> 
 
 
+  <!-- sorting and filtering -->
+  <adapter
+    for=".domain.PartyMember"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_partymember" /> 
+  <adapter
+    for=".domain.PartyMember"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_partymember" /> 
+  <adapter
+    for=".domain.ParliamentSession"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_parliamentsession" /> 
+  <adapter
+    for=".domain.Motion"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_motion" /> 
+  <adapter
+    for=".domain.Motion"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_motion" /> 
+  <adapter
+    for=".domain.ParliamentaryItem"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_parliamentaryitem" /> 
+  <adapter
+    for=".domain.Question"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_question" /> 
+  <adapter
+    for=".domain.Question"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_question" /> 
+  <adapter
+    for=".domain.CommitteeStaff"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_committeestaff" /> 
+  <adapter
+    for=".domain.CommitteeStaff"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_committeestaff" /> 
+  <adapter
+    for=".domain.CommitteeMember"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_committeemember" /> 
+  <adapter
+    for=".domain.CommitteeMember"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_committeemember" /> 
+  <adapter
+    for=".domain.Government"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_government" /> 
+  <adapter
+    for=".domain.Bill"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_bill" /> 
+  <adapter
+    for=".domain.Bill"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_bill" /> 
+  <adapter
+    for=".domain.GroupMembership"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_groupmembership" /> 
+  <adapter
+    for=".domain.GroupMembership"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_groupmembership" /> 
+  <adapter
+    for=".domain.Constituency"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_constituency" /> 
+  <adapter
+    for=".domain.Committee"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_committee" /> 
+  <adapter
+    for=".domain.MemberOfParliament"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_memberofparliament" /> 
+  <adapter
+    for=".domain.MemberOfParliament"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_memberofparliament" /> 
+  <adapter
+    for=".domain.AgendaItem"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_agendaitem" /> 
+  <adapter
+    for=".domain.EventItem"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_eventitem" /> 
+  <adapter
+    for=".domain.User"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_user" /> 
+  <adapter
+    for=".domain.User"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_user" /> 
+  <adapter
+    for=".domain.OfficeMember"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_officemember" /> 
+  <adapter
+    for=".domain.OfficeMember"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_officemember" /> 
+  <adapter
+    for=".domain.Heading"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_heading" /> 
+  <adapter
+    for=".domain.Parliament"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_parliament" /> 
+  <adapter
+    for=".domain.TabledDocument"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_tableddocument" /> 
+  <adapter
+    for=".domain.Minister"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_minister" /> 
+  <adapter
+    for=".domain.Minister"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_minister" /> 
+  <adapter
+    for=".domain.GroupSittingAttendance"
+    provides=".interfaces.ISortOn"
+    factory=".sortadapt.sort_on_groupsittingattendance" /> 
+  <adapter
+    for=".domain.GroupSittingAttendance"
+    provides=".interfaces.ISortReplace"
+    factory=".sortadapt.sort_replace_groupsittingattendance" /> 
+
+
   <!-- vocabularies -->
 
   <utility

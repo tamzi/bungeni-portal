@@ -2,8 +2,6 @@
 from copy import deepcopy
 from datetime import date
 from zope import schema, interface
-from zope.schema.vocabulary import SimpleVocabulary
-from zope.schema.vocabulary import SimpleTerm
 
 from zc.table import column
 import zope.app.form.browser
@@ -20,6 +18,22 @@ from bungeni.models import vocabulary
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import get_all_languages
 
+from bungeni.core.workflows.question import states as question_wf_state
+from bungeni.core.workflows.motion import states as motion_wf_state
+from bungeni.core.workflows.bill import states as bill_wf_state
+from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
+from bungeni.core.workflows.tableddocument import states as tableddocument_wf_state
+from bungeni.core.workflows.groups import states as group_wf_state
+from bungeni.core.workflows.attachedfile import states as af_wf_state
+from bungeni.core.workflows.address import states as address_wf_state
+from bungeni.core.workflows.event import states as event_wf_state
+from bungeni.core.workflows.groupsitting import states as sitting_wf_state
+from bungeni.core.workflows.heading import states as heading_wf_state
+from bungeni.core.workflows.committee import states as committee_wf_state
+from bungeni.core.workflows.parliament import states as parliament_wf_state
+from bungeni.core.workflows.version import states as version_wf_state
+
+
 #from bungeni.ui.widgets import SelectDateWidget, SelectDateTimeWidget
 from bungeni.ui.widgets import TextDateWidget as DateWidget
 from bungeni.ui.widgets import TextDateTimeWidget as DateTimeWidget
@@ -31,7 +45,6 @@ from bungeni.ui.widgets import ImageDisplayWidget
 from bungeni.ui.widgets import ImageInputWidget
 from bungeni.ui.widgets import SupplementaryQuestionDisplay
 from bungeni.ui.widgets import OneTimeEditWidget
-from bungeni.ui.widgets import FileInputWidget
 from bungeni.ui.widgets import FileEditWidget
 from bungeni.ui.widgets import FileAddWidget
 from bungeni.ui.widgets import FileDisplayWidget
@@ -588,13 +601,6 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     #schema_invariants = [EndAfterStart]
     #custom_validators =[validations.validate_date_range_within_parent,]
                                                            
-class ExtensionMemberDescriptor( ModelDescriptor ):
-    display_name =_(u"Additional member")
-    container_name =_(u"Additional members")
-    custom_validators = [validations.validate_date_range_within_parent,]
-    
-    fields = deepcopy(GroupMembershipDescriptor.fields)
-    custom_validators =[validations.validate_date_range_within_parent,]
 
 class GroupDescriptor( ModelDescriptor ):
 
@@ -638,6 +644,8 @@ class GroupDescriptor( ModelDescriptor ):
 
     schema_invariants = [EndAfterStart]
     custom_validators = [validations.validate_date_range_within_parent,]   
+    public_wfstates = [group_wf_state[u'active'].id, group_wf_state[u'dissolved'].id ]
+
                                                         
 class ParliamentDescriptor( GroupDescriptor ):
     display_name = _(u"Parliament")
@@ -691,6 +699,7 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="type", omit=True),
         ]
     schema_invariants = [EndAfterStart, ElectionAfterStart]
+    public_wfstates = [parliament_wf_state[u'active'].id, parliament_wf_state[u'dissolved'].id ]    
        
 parliamentSource = DatabaseSource(domain.Parliament, 
                     token_field='parliament_id', 
@@ -743,6 +752,7 @@ class CommitteeDescriptor( GroupDescriptor ):
             add_widget=DateWidget ),              
     ])
     schema_invariants = [EndAfterStart,] # DissolutionAfterReinstatement]
+    public_wfstates = [committee_wf_state[u'active'].id, committee_wf_state[u'dissolved'].id ]    
     
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Member")
@@ -850,6 +860,7 @@ class AddressDescriptor ( ModelDescriptor ):
         ]
         
     schema_invariants = [POBoxOrAddress]
+    public_wfstates = [address_wf_state[u'public'].id]    
 
     
 class MemberRoleTitleDescriptor( ModelDescriptor ):
@@ -1228,6 +1239,8 @@ class AttachedFileDescriptor(ModelDescriptor):
                 ) ,                                     
     ]
 
+    public_wfstates = [af_wf_state[u'public'].id]
+
 
 class AttachedFileVersionDescriptor( ModelDescriptor ):
     display_name = _(u"Attached file version")
@@ -1380,7 +1393,7 @@ class ChangeDescriptor( ModelDescriptor ):
         
         
 class VersionDescriptor( ModelDescriptor ):
- fields= [
+    fields= [
         dict(name="parliamentary_item_id", omit=True),
         dict(name="parliament_id", omit=True),
         dict( name="owner_id", 
@@ -1441,12 +1454,13 @@ class VersionDescriptor( ModelDescriptor ):
               omit=True, ),
         ]                   
 
-
+    public_wfstates = [version_wf_state[u'archived'].id]
+    
 class HeadingDescriptor( ParliamentaryItemDescriptor): 
     display_name =_(u"Heading")
     container_name =_(u"Headings")
     fields = deepcopy( ParliamentaryItemDescriptor.fields )   
-
+    public_wfstates = [heading_wf_state[u'public'].id]
 
 class AgendaItemDescriptor( ParliamentaryItemDescriptor): 
     display_name =_(u"Agenda item")
@@ -1456,7 +1470,17 @@ class AgendaItemDescriptor( ParliamentaryItemDescriptor):
         dict( name="agenda_item_id", omit=True ), 
         dict( name="group_id", omit=True ),        
     ])
-
+    public_wfstates = [agendaitem_wf_state[u'admissible'].id,
+                       agendaitem_wf_state[u'schedule_pending'].id,
+                       agendaitem_wf_state[u'scheduled'].id,
+                       agendaitem_wf_state[u'deferred'].id,
+                       agendaitem_wf_state[u'postponed'].id,
+                       agendaitem_wf_state[u'elapsed'].id,
+                       agendaitem_wf_state[u'debated'].id,
+                       agendaitem_wf_state[u'debate_adjourned'].id,
+                       agendaitem_wf_state[u'withdrawn_public'].id,
+                    ]
+    
 class AgendaItemVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Agenda Item version")
     container_name = _(u"Versions")
@@ -1506,6 +1530,18 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
 #              required=False),
               omit=True, ),                
         ])
+
+    public_wfstates = [motion_wf_state[u'admissible'].id,
+                       motion_wf_state[u'schedule_pending'].id,
+                       motion_wf_state[u'scheduled'].id,
+                       motion_wf_state[u'deferred'].id,
+                       motion_wf_state[u'postponed'].id,
+                       motion_wf_state[u'elapsed'].id,
+                       motion_wf_state[u'debated'].id,
+                       motion_wf_state[u'debate_adjourned'].id,
+                       motion_wf_state[u'withdrawn_public'].id,
+                    ]
+
 
 class MotionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Motion version")
@@ -1561,6 +1597,25 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                     _(u"Publication Date")), ),        
 
         ])
+
+    public_wfstates = [bill_wf_state[u"gazetted"].id , 
+                        bill_wf_state[u"first_reading"].id ,        
+                        bill_wf_state[u"first_reading_postponed"].id ,
+                        bill_wf_state[u"first_committee"].id ,                        
+                        bill_wf_state[u"second_reading"].id , 
+                        bill_wf_state[u"second_reading_postponed"].id , 
+                        bill_wf_state[u"whole_house"].id ,
+                        bill_wf_state[u"second_committee"].id ,
+                        bill_wf_state[u"whole_house_postponed"].id ,
+                        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+                        bill_wf_state[u"report_reading"].id , 
+                        bill_wf_state[u"third_reading"].id,
+                        bill_wf_state[u"third_reading_postponed"].id,
+                        bill_wf_state[u'withdrawn_public'].id,
+                        bill_wf_state[u"rejected"].id,
+                        bill_wf_state[u'approved'].id,
+                    ]
+
 
 class BillVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Bill version")
@@ -1638,10 +1693,23 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
             omit=True ),         
         ])
 
+    public_wfstates = [question_wf_state[u'admissible'].id,
+                       question_wf_state[u'schedule_pending'].id,
+                       question_wf_state[u'scheduled'].id,
+                       question_wf_state[u'deferred'].id,
+                       question_wf_state[u'postponed'].id,
+                       question_wf_state[u'elapsed'].id,
+                       question_wf_state[u'debated'].id,
+                       question_wf_state[u'debate_adjourned'].id,
+                       question_wf_state[u'withdrawn_public'].id,
+                    ]
+
+
 class QuestionVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Question version")
     container_name = _(u"Versions")
     fields = deepcopy(VersionDescriptor.fields)
+    
 
 class QuestionChangeDescriptor( ChangeDescriptor ):
     display_name = _(u"Question change")
@@ -1736,7 +1804,7 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
             add_widget=DateWidget,
             required=True ),
     ]
-
+    public_wfstates = [event_wf_state[u'public'].id]
 
 class TabledDocumentDescriptor(ParliamentaryItemDescriptor): 
     display_name =_(u"Tabled document")
@@ -1752,6 +1820,16 @@ class TabledDocumentDescriptor(ParliamentaryItemDescriptor):
             edit=True,
             view=True,),      
     ])
+    public_wfstates = [tableddocument_wf_state[u'admissible'].id,
+                       tableddocument_wf_state[u'schedule_pending'].id,
+                       tableddocument_wf_state[u'scheduled'].id,
+                       tableddocument_wf_state[u'deferred'].id,
+                       tableddocument_wf_state[u'postponed'].id,
+                       tableddocument_wf_state[u'elapsed'].id,
+                       tableddocument_wf_state[u'debated'].id,
+                       tableddocument_wf_state[u'debate_adjourned'].id,
+                       tableddocument_wf_state[u'withdrawn_public'].id,
+                    ]
     
 class TabledDocumentVersionDescriptor( VersionDescriptor ):
     display_name = _(u"Tabled Document version")
@@ -1841,6 +1919,11 @@ class SittingDescriptor( ModelDescriptor ):
                          validations.validate_start_date_equals_end_date,
                          validations.validate_venues,
                          validations.validate_non_overlapping_sitting]
+
+    public_wfstates = [sitting_wf_state[u'published-agenda'].id,
+                       sitting_wf_state[u'draft-minutes'].id,
+                       sitting_wf_state[u'published-minutes'].id,
+                    ]                         
 
 class SittingTypeDescriptor(ModelDescriptor):
     display_name = _(u"Type")

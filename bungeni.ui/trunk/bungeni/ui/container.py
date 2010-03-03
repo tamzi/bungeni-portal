@@ -297,18 +297,19 @@ class ContainerJSONListing( BrowserView ):
         utk = {}
         for k in table.columns.keys():
             utk[table.columns[k].key] = k        
-        # in the domain model you may replace the sort with another column
         if sort_key:
             sort_key = sort_key[5:]
         sort_keys = []
+        # in the domain model you may replace the sort with another column        
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():
+                #XXX another way has to be found here to replace the sort
                 sort_keys = domain_model.sort_replace[sort_key] 
             elif sort_key and ( sort_key in utk.keys() ):
-                sort_keys = [str(table.columns[utk[sort_key]]), ]   
+                sort_keys = [getattr(domain_model,sort_key) ]   
         else:
             if sort_key and ( sort_key in utk.keys() ):
-                sort_keys = [str(table.columns[utk[sort_key]]), ]       
+                sort_keys = [getattr(domain_model,sort_key), ]       
         for sort_key in sort_keys:                    
             if sort_dir == 'desc':
                 columns.append( sql.desc(sort_key) )
@@ -320,10 +321,12 @@ class ContainerJSONListing( BrowserView ):
         if sort_default_dir:
             if sort_default_dir == "desc":
                 sd_dir = sql.desc
+        #XXX another approach has to be taken for the default sorting                 
+        sort_defaults = False                
         if sort_defaults:
             for sort_key in sort_defaults:
                 if sort_key not in sort_keys:
-                    columns.append(sd_dir(sort_key))        
+                    columns.append(sd_dir(getattr(domain_model,sort_key)))        
         return columns
     
     def getOffsets( self ):
@@ -378,7 +381,6 @@ class ContainerJSONListing( BrowserView ):
         domain_model = proxy.removeSecurityProxy( context.domain_model )
         domain_interface = queryModelInterface( domain_model )
         domain_annotation = queryModelDescriptor( domain_interface )
-        
         for n in nodes:
             d = {}
             # field to dictionaries
@@ -417,6 +419,34 @@ class ContainerJSONListing( BrowserView ):
         session.close()                     
         return simplejson.dumps( data )
 
+class ContainerWFStatesJSONListing( ContainerJSONListing ):
 
+    def getBatch( self, start=0, limit=20, order_by=None):
+        context = proxy.removeSecurityProxy( self.context )   
+        domain_model = context.domain_model       
+        domain_interface = queryModelInterface( domain_model )
+        domain_annotation = queryModelDescriptor( domain_interface )        
+        query=get_query(self.context, self.request)   
+        table = orm.class_mapper(domain_model).mapped_table  
+        # fetch the nodes from the container
+        public_wfstates = getattr(domain_annotation,'public_wfstates', None)
+        if public_wfstates:
+            query=query.filter(domain_model.status.in_(public_wfstates))
+        #filter_by = dateFilter( self.request )        
+        #if filter_by:  
+        #    if 'start_date' in table.columns.keys() and 'end_date' in  table.columns.keys():                 
+        #        # apply date range resrictions
+        #        query=query.filter(filter_by)
+        ud_filter = self.getFilter()        
+        if ud_filter != '':  
+            query=query.filter(ud_filter)
+        self.set_size = query.count()            
+        if order_by:
+            query = query.order_by( order_by )  
+        query = query.limit( limit ).offset( start )            
+        nodes = query.all()                                                          
+        batch = self._jsonValues( nodes, self.fields, self.context )
+        return batch
+        
 
 

@@ -21,7 +21,7 @@ public class activateParliamentTest extends SeleneseTestCase {
         selenium.type("password", "admin");
         selenium.click("actions.login");
         selenium.waitForPageToLoad("30000");
-        selenium.click("link=Administration");
+        selenium.click("link=administration");
         selenium.waitForPageToLoad("30000");
         selenium.click("//td[@id='portal-column-one']/div/dl/dd/ul/li/ul/li[1]/div/a/span");
         selenium.waitForPageToLoad("30000");

@@ -164,6 +164,27 @@ mapper ( domain.MemberOfParliament ,
         polymorphic_identity='parliamentmember' 
         )
         
+s_member_of_parliament = rdb.select([schema.user_group_memberships.c.membership_id,
+                    schema.user_group_memberships.c.start_date,
+                    schema.user_group_memberships.c.end_date,
+                    schema.user_group_memberships.c.group_id,
+                    schema.users.c.first_name,
+                    schema.users.c.middle_name,
+                    schema.users.c.last_name,
+                    (schema.users.c.first_name + ' ' +
+                    schema.users.c.last_name).label('user_id'),
+                    schema.constituencies.c.name.label('constituency_id')],
+                    from_obj=[schema.parliament_memberships.join(
+                            schema.constituencies).join(schema.user_group_memberships
+                        ).join(
+                        schema.users, schema.user_group_memberships.c.user_id==
+                              schema.users.c.user_id)]).alias()
+                    
+
+
+mapper(domain.ListMemberOfParliament,s_member_of_parliament)
+
+
    
 mapper( domain.Minister, 
         inherits=domain.GroupMembership,

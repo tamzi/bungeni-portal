@@ -676,9 +676,6 @@ is divided into following sections:
                 =======================
             -->
     <target depends="init" if="have.tests" name="-pre-test-run">
-         <sysproperty key="test.property"
-                   value="blue"
-                   />
         <mkdir dir="${build.test.results.dir}"/>
     </target>
     <target depends="init,compile-test,-pre-test-run" if="have.tests" name="-do-test-run">

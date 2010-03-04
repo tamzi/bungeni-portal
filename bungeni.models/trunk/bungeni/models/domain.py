@@ -232,6 +232,12 @@ class Parliament( Group ):
     tableddocuments = one2many("tableddocuments", "bungeni.models.domain.TabledDocumentContainer", "parliament_id")
     preports = one2many("preports", "bungeni.models.domain.ReportContainer", "group_id")
 
+class ListMemberOfParliament(object):
+    """
+    Listing for the parliament membership
+    """
+
+
 class MemberOfParliament ( GroupMembership ):    
     """
     defined by groupmembership and aditional data
@@ -239,7 +245,7 @@ class MemberOfParliament ( GroupMembership ):
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name'], 'constituency_id':['name']}      
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
-
+    listings_class = ListMemberOfParliament
 
 class PoliticalParty( Group ):
     """ a political party

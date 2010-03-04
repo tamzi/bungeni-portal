@@ -18,7 +18,8 @@ public class CommonFunctions {
     static public Properties getProps() {
        Properties props = null;
         try {
-            String runtimePropsFile = System.getProperty("runtime.props");
+            String runtimePropsFile = System.getProperty("test.props");
+            System.out.println("Runtime Properties File = " + runtimePropsFile);
             props = new Properties();
             props.load(new FileInputStream(new File(runtimePropsFile)));
         } catch (IOException ex) {

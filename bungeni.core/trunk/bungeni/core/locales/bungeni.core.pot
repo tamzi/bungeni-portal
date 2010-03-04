@@ -62,7 +62,7 @@ Cleanup
   >>> session.flush()
   >>> session.commit()
   >>> session.close()\n"
-"POT-Creation-Date: Fri Feb 26 14:47:03 2010\n"
+"POT-Creation-Date: Thu Mar  4 17:11:14 2010\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Zope 3 Developers <zope3-dev@zope.org>\n"
@@ -303,82 +303,82 @@ msgid "Reverted to previous version $version."
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:119
-#. Default: "Agenda Item received."
+#. Default: "Agenda Item received"
 msgid "notification_email_to_member_upon_receipt_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:143
-#. Default: "Agenda Item submitted."
+#. Default: "Agenda Item submitted"
 msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:164
-#. Default: "Agenda Item rejected."
+#. Default: "Agenda Item rejected"
 msgid "notification_email_to_member_upon_rejection_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:185
-#. Default: "Your agenda_item needs to be clarified."
+#. Default: "Your agenda_item needs to be clarified"
 msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:205
-#. Default: "Agenda Item deferred."
+#. Default: "Agenda Item deferred"
 msgid "notification_email_to_member_upon_defer_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:226
-#. Default: "Agenda Item scheduled."
+#. Default: "Agenda Item scheduled"
 msgid "notification_email_to_member_upon_schedule_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:247
-#. Default: "Agenda Item postponed."
+#. Default: "Agenda Item postponed"
 msgid "notification_email_to_member_upon_postpone_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:267
-#. Default: "Agenda Item was debated."
+#. Default: "Agenda Item was debated"
 msgid "notification_email_to_member_upon_debate_of_agenda_item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:119
-#. Default: "Motion received."
+#. Default: "Motion received"
 msgid "notification_email_to_member_upon_receipt_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:143
-#. Default: "Motion submitted."
+#. Default: "Motion submitted"
 msgid "notification_email_to_clerk_upon_submit_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:164
-#. Default: "Motion rejected."
+#. Default: "Motion rejected"
 msgid "notification_email_to_member_upon_rejection_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:185
-#. Default: "Your motion needs to be clarified."
+#. Default: "Your motion needs to be clarified"
 msgid "notification_email_to_member_upon_need_clarification_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:205
-#. Default: "Motion deferred."
+#. Default: "Motion deferred"
 msgid "notification_email_to_member_upon_defer_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:226
-#. Default: "Motion scheduled."
+#. Default: "Motion scheduled"
 msgid "notification_email_to_member_upon_schedule_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:247
-#. Default: "Motion postponed."
+#. Default: "Motion postponed"
 msgid "notification_email_to_member_upon_postpone_of_motion"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/motion.py:267
-#. Default: "Motion was debated."
+#. Default: "Motion was debated"
 msgid "notification_email_to_member_upon_debate_of_motion"
 msgstr ""
 
@@ -483,59 +483,59 @@ msgid "Manage User Adresses"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
-msgid "Submit a agendaitem"
+msgid "Submit an agenda item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
-msgid "Recieve a agendaitem"
+msgid "Recieve an agenda item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
-msgid "Review a agendaitem"
+msgid "Review an agenda item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
-msgid "Speaker review a agendaitem"
+msgid "Speaker review a agenda item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:45
-msgid "Schedule a agendaitem"
+msgid "Schedule an agenda item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
-msgid "Mark a agendaitem as debated"
+msgid "Mark an agenda item as debated"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:47
-msgid "Withdraw a agendaitem"
+msgid "Withdraw an agenda item"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
-msgid "Submit a tableddocument"
+msgid "Submit a tabled document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
-msgid "Recieve a tableddocument"
+msgid "Recieve a tabled document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
-msgid "Review a tableddocument"
+msgid "Review a tabled document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
-msgid "Speaker review a tableddocument"
+msgid "Speaker review a tabled document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:53
-msgid "Schedule a tableddocument"
+msgid "Schedule a tabled document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
-msgid "Mark a tableddocument as debated"
+msgid "Mark a tabled document as debated"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:55
-msgid "Withdraw a tableddocument"
+msgid "Withdraw a tabled document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:57
@@ -550,6 +550,10 @@ msgstr ""
 msgid "Deactivate an event"
 msgstr ""
 
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:61
+msgid "Deactivate a heading"
+msgstr ""
+
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
 msgid "Submit a question"
 msgstr ""
@@ -559,62 +563,62 @@ msgid "Recieve a question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:240
-#. Default: "Question received."
+#. Default: "Question received"
 msgid "notification_email_to_member_upon_receipt_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:264
-#. Default: "Question submitted."
+#. Default: "Question submitted"
 msgid "notification_email_to_clerk_upon_submit_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:285
-#. Default: "Question rejected."
+#. Default: "Question rejected"
 msgid "notification_email_to_member_upon_rejection_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:306
-#. Default: "Your question needs to be clarified."
+#. Default: "Your question needs to be clarified"
 msgid "notification_email_to_member_upon_need_clarification_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:326
-#. Default: "Question deferred."
+#. Default: "Question deferred"
 msgid "notification_email_to_member_upon_defer_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:347
-#. Default: "Question scheduled."
+#. Default: "Question scheduled"
 msgid "notification_email_to_member_upon_schedule_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:368
-#. Default: "Question postponed."
+#. Default: "Question postponed"
 msgid "notification_email_to_member_upon_postpone_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:390
-#. Default: "Question completed for review at the speakers office."
+#. Default: "Question completed for review at the speakers office"
 msgid "notification_email_to_member_upon_complete_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:411
-#. Default: "Question assigned to ministry."
+#. Default: "Question assigned to ministry"
 msgid "notification_email_to_ministry_upon_complete_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:440
-#. Default: "Question sent to ministry for a written answer."
+#. Default: "Question sent to ministry for a written answer"
 msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:463
-#. Default: "Question answered."
+#. Default: "Question answered"
 msgid "notification_email_to_member_upon_answer_of_question"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/question.py:487
-#. Default: "Question debated."
+#. Default: "Question debated"
 msgid "notification_email_to_member_upon_debate_question"
 msgstr ""
 
@@ -658,7 +662,7 @@ msgid "Schedule"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:111
-#. Default: "TabledDocument received."
+#. Default: "Tabled document received"
 msgid "notification_email_to_member_upon_receipt_of_tabled_document"
 msgstr ""
 
@@ -668,32 +672,32 @@ msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:156
-#. Default: "TabledDocument rejected."
+#. Default: "Tabled document rejected"
 msgid "notification_email_to_member_upon_rejection_of_tabled_document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:177
-#. Default: "Your tabled_document needs to be clarified."
+#. Default: "Your tabled document needs to be clarified"
 msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:197
-#. Default: "TabledDocument deferred."
+#. Default: "Tabled document deferred."
 msgid "notification_email_to_member_upon_defer_of_tabled_document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:218
-#. Default: "TabledDocument scheduled."
+#. Default: "Tabled document scheduled."
 msgid "notification_email_to_member_upon_schedule_of_tabled_document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:239
-#. Default: "TabledDocument postponed."
+#. Default: "Tabled document postponed."
 msgid "notification_email_to_member_upon_postpone_of_tabled_document"
 msgstr ""
 
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:259
-#. Default: "TabledDocument was debated."
+#. Default: "Tabled document was debated."
 msgid "notification_email_to_member_upon_debate_of_tabled_document"
 msgstr ""
 

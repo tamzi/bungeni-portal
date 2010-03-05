@@ -23,15 +23,24 @@
      template="templates/app-workspace.pt"
      />
 
+  <browser:page
+     for="bungeni.core.interfaces.ISection"
+     permission="zope.View"
+     name="workspace-view"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     class=".workspace.WorkspaceView"
+     template="templates/app-workspace.pt"
+     />
+
   <!-- Workspace -->
 
   <browser:page
-     name="workspace_archive"     
-     for="bungeni.models.interfaces.IBungeniApplication"
-     layer=".interfaces.IBungeniAuthenticatedSkin"     
-     class=".workspace_archive.WorkspaceArchiveView"     
+     name="workspace_archive"
+     for="bungeni.core.interfaces.ISection"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     class=".workspace_archive.WorkspaceArchiveView"
      permission="zope.View"
-     template="templates/app-workspace-archive.pt"     
+     template="templates/app-workspace-archive.pt"
      />
 
   <!-- Setup Access to Browser Resources on the Application -->
@@ -170,6 +179,14 @@
      name="index"
      class=".calendar.browser.CalendarView"
      layer=".interfaces.IBusinessSectionLayer"     
+    />
+
+  <browser:page
+     for="bungeni.models.interfaces.IGroupSittingContainer"
+     permission="zope.View"
+     name="index"
+     class=".calendar.browser.CalendarView"
+     layer=".interfaces.IWorkspaceSectionLayer"     
     />
 
 

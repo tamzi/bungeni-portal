@@ -38,8 +38,9 @@ def getRoles(context, request):
     # principal and al PrincipalRoleMaps to get all roles 
     ctx = context
     prms = []
-    while ctx:    
-        prms.append(IPrincipalRoleMap(ctx))
+    while ctx:  
+        if component.queryAdapter(ctx, IPrincipalRoleMap):  
+            prms.append(IPrincipalRoleMap(ctx))
         ctx = getattr(ctx,'__parent__', None)                                
     pg = request.principal.groups.keys()
     roles = []
@@ -86,7 +87,7 @@ class WorkspaceView(BrowserView):
                 self.ministry_ids = get_ministry_ids_for_user_in_government(
                     self.user_id, self.government_id)
                 if self.ministry_ids:
-                    interface.alsoProvides(self, interfaces.IMinisterWorkspace)                                        
+                    interface.alsoProvides(self, interfaces.IMinisterWorkspace)
             else:
                 self.government_id = None
                                                

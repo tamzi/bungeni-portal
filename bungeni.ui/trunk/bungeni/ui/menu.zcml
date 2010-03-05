@@ -538,7 +538,7 @@
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
      title="My archive"
-     action="/workspace_archive"
+     action="/workspace/ws-archive"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
      />
@@ -548,7 +548,7 @@
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
      title="Scheduling"
-     action="/calendar"
+     action="/workspace/calendar"
      permission="zope.View"
      />
 

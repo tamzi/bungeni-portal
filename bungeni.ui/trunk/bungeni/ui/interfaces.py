@@ -40,3 +40,5 @@ class IMembersSectionLayer(IDefaultBrowserLayer):
 class IAdminSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the admin section."""
 
+class IWorkspaceSectionLayer(IDefaultBrowserLayer):
+    """Requests for an object within the workspace section."""

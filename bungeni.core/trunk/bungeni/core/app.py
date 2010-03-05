@@ -36,22 +36,27 @@ class BungeniAdmin(SampleContainer):
     implements(model_interfaces.IBungeniAdmin )
     
 class AppSetup(object):
+    
     implements(model_interfaces.IBungeniSetup)
-
-    def __init__( self, context ):
+    
+    def __init__(self, context):
         self.context = context
-        
-    def setUp( self ):
+    
+    def setUp(self):
         
         import index
-        # ensure indexing facilities are setup ( lazy )
-        index.setupFieldDefinitions(index.indexer)        
-
+        # ensure indexing facilities are setup(lazy)
+        index.setupFieldDefinitions(index.indexer)
         
-        sm = site.LocalSiteManager( self.context )
-        self.context.setSiteManager( sm )
-
+        sm = site.LocalSiteManager(self.context)
+        self.context.setSiteManager(sm)
+        
         # top-level sections
+        workspace = self.context["workspace"] = Section(
+            title=_(u"Workspace"),
+            description=_(u"Current parliamentary activity."),
+            default_name=u"workspace-view")
+        
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament."),
@@ -74,6 +79,21 @@ class AppSetup(object):
             default_name=u"content" 
             )
 
+        # workspace section
+        ws_index = workspace["index"] = Section(
+            title=_(u"Workspace"),
+            description=_(u"Current parliamentary activity."),
+            default_name="@@workspace-view")
+        ws_archive = workspace["ws-archive"] = Section(
+            title=_(u"My Archive"),
+            description=_(u"My archive personal items"),
+            default_name="workspace_archive")        
+        ws_calendar = workspace[u"calendar"] = QueryContent(
+            container_getter(get_current_parliament, 'sittings'),
+            title=_(u"Schedule"),
+            description=_(u"View the sittings of the current parliament."))        
+        
+        
         # business section
         whatson = business["whats-on"] = Section(
             title=_(u"What's on"),
@@ -176,23 +196,19 @@ class AppSetup(object):
         documents[u"agendaitems"] = domain.AgendaItemContainer()
         provideAdapter(location.ContainerLocation(agendaitems, documents[u"agendaitems"]),
                        (implementedBy(domain.AgendaItem), ILocation))
-                       
-                       
+        
         documents[u"tableddocuments"] = domain.TabledDocumentContainer()
         provideAdapter(location.ContainerLocation(tableddocuments, documents[u"tableddocuments"]),
-                       (implementedBy(domain.TabledDocument), ILocation))                       
-
-
+                       (implementedBy(domain.TabledDocument), ILocation))
+        
         documents[u"reports"] = domain.ReportContainer()
         provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
-                       (implementedBy(domain.Report), ILocation)) 
-
-
+                       (implementedBy(domain.Report), ILocation))
+        
         records[u"parliaments"] = domain.ParliamentContainer()
         provideAdapter(location.ContainerLocation(records[u"parliaments"]),
                        (implementedBy(domain.Parliament), ILocation))
-                       
-
+        
         records[u"parties"] = domain.PoliticalPartyContainer()
         provideAdapter(location.ContainerLocation(records[u"parties"]),
                        (implementedBy(domain.PoliticalParty), ILocation))

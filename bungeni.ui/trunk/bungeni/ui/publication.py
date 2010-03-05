@@ -8,6 +8,7 @@ import interfaces
 
 mapping = (
     (re.compile(r'^archive(/.*)?$'), interfaces.IArchiveSectionLayer),
+    (re.compile(r'^workspace(/.*)?$'), interfaces.IWorkspaceSectionLayer),    
     #Matches "business/" or "business"    
     (re.compile(r'^business(/)?$'), interfaces.IBusinessWhatsOnSectionLayer),
     #Matches "business/" followed by anything but whats-on

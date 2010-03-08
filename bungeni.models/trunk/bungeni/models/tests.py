@@ -13,6 +13,7 @@ from zope.configuration import xmlconfig
 
 from bungeni.models import metadata, interfaces
 from interfaces import IAssignmentFactory, IContentAssignments, IContextAssignments
+from bungeni.core.workflows import adapters
     
 
 zcml_slug = """

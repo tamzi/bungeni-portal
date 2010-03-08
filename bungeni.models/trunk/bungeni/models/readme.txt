@@ -23,6 +23,7 @@ get some values in those tables as they are needed later on
  >>> country = model.Country()
  >>> country.country_id = 'KE'
  >>> country.country_name = u"Kenya"
+ >>> country.iso_name = u"KENYA" 
  >>> session.add(country)
  >>> session.flush()
  >>> country.country_id
@@ -124,12 +125,12 @@ Let's create some memberships and see what we can do with them.
   
 
 
-  >>> session.add( membership )
+  >>> #session.add( membership )
 
 Check that we can access the membership through the containment object
 
   >>> session.flush()
-  >>> len( list( parliament.users.values() ) )
+  >>> len( list( parliament.parliamentmembers.values() ) )
   3
 
 Government
@@ -311,6 +312,7 @@ Motions
   >>> motion = model.Motion()
   >>> motion.short_name = u"Motion"
   >>> motion.language = 'en'
+  >>> motion.owner = mp_1
   >>> session.add(motion)
   >>> session.flush()  
 
@@ -324,6 +326,7 @@ Note that the questions workflow is tested separated (see workflows/question.txt
   >>> question = model.Question()
   >>> question.short_name = u"question"
   >>> question.language = 'en'
+  >>> question.owner = mp_2
   >>> session.add(question)
   >>> session.flush()
   
@@ -331,18 +334,7 @@ Note that the questions workflow is tested separated (see workflows/question.txt
   2L
   
 
-  
-Responses
----------
-  >>> response = model.Response()
-  >>> response.response_id = question.question_id
-  >>> response.language = 'en'
-  >>> session.add(response)
-  >>> session.flush()
- 
-  
-  >>> response.response_id
-  2L
+
   
 Assignment  
 ++++++++++  
@@ -362,6 +354,7 @@ Bill
   >>> bill.short_name = u"Bill"
   >>> bill.bill_type_id = bt.bill_type_id
   >>> bill.language = 'en'
+  >>> bill.owner = mp_3
   >>> session.add(bill)
   >>> session.flush()  
 

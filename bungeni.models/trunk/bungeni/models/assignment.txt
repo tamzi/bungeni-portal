@@ -24,6 +24,7 @@ To demonstrate let's create some groups and a content object.
   >>> country = domain.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
+  >>> country.iso_name = u"KENYA"   
   >>> session.add(country)
   >>> session.flush()  
   >>> mp_1 = domain.User(u"mp_1", 

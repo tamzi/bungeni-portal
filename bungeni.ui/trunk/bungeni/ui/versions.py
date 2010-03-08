@@ -32,13 +32,13 @@ class VersionsView(BrowserView):
     def __call__(self):
         context = self.context.__parent__.__parent__
         ifaces = filter(IIModelInterface.providedBy, interface.providedBy(context))
-
+        
         class Form(form.DisplayForm):
             template = ViewPageTemplateFile("templates/form.pt")
             form_fields = form.FormFields(*ifaces)
-
+            
             form_name = _(u"View")
-
+            
             @property
             def description(self):
                 return _(u"Currently displaying version ${version}",
@@ -53,10 +53,10 @@ class VersionsView(BrowserView):
                     adapters=self.adapters, for_display=True,
                     ignore_request=ignore_request
                     )
-
+        
         view = Form(self.context, self.request)
-
-        return view()                
+        
+        return view()
 
 class VersionLogView(BaseForm):
     class IVersionEntry(interface.Interface):
@@ -110,7 +110,7 @@ class VersionLogView(BaseForm):
              to make a version             
              assumption is here that if he has the rights on any of the fields
              he may create a version."""  
-        trusted = removeSecurityProxy( self.context)                
+        trusted = removeSecurityProxy(self.context)                
         table = orm.class_mapper(trusted.__class__).mapped_table   
         for column in table.columns:
             try:
@@ -121,7 +121,14 @@ class VersionLogView(BaseForm):
         else:
             return False
 
-            
+    def action_url(self):
+        # this avoids that "POST"ed forms get a "@@index" appended to action URL
+        return ''
+    def action_method(self):
+        # XXX - for forms that only View information, this should return "get"
+        # e.g. business / questions / <q> / versions / Show Differences
+        return 'post'
+    
     @form.action(label=_("New Version"), condition=has_write_permission)
     def handle_new_version( self, action, data ):
         self._versions.create( message = data['commit_message'], manual=True )        

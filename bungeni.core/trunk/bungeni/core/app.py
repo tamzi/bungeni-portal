@@ -55,7 +55,7 @@ class AppSetup(object):
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity."),
-            default_name=u"workspace-view")
+            default_name=u"@@workspace-view")
         
         business = self.context["business"] = Section(
             title=_(u"Business"),
@@ -84,7 +84,7 @@ class AppSetup(object):
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity."),
             default_name="@@workspace-view")
-        ws_archive = workspace["ws-archive"] = Section(
+        ws_archive = workspace["archive"] = Section(
             title=_(u"My Archive"),
             description=_(u"My archive personal items"),
             default_name="workspace_archive")        

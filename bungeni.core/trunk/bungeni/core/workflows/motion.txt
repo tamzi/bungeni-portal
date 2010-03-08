@@ -32,6 +32,22 @@ Content creation
 ----------------
 
   >>> from bungeni.models.testing import add_content
+  
+  >>> country = add_content(
+  ...     domain.Country,
+  ...     country_id='KE',
+  ...     iso_name = u"KENYA",
+  ...     country_name=u"Kenya")
+
+  >>> mp_1 = add_content(
+  ...        domain.User,
+  ...        u"minister 1",
+  ...        first_name=u"a", 
+  ...        last_name=u'ab', 
+  ...        birth_country="KE",
+  ...        email=u"mp1@example.com", 
+  ...        date_of_birth=today,
+  ...        gender='M')  
 
   >>> parliament = add_content(
   ...    domain.Parliament,
@@ -42,6 +58,7 @@ Content creation
   >>> motion = add_content(
   ...     domain.Motion,
   ...     short_name=u"My subject",
+  ...     owner_id = mp_1.user_id,  
   ...     language="en")
 
 Integrity

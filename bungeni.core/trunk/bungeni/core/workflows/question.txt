@@ -73,20 +73,8 @@ Content creation
   ...     domain.Ministry,
   ...     short_name=u"ministry",
   ...     start_date=yesterday,
-  ...     government_id=gov.government_id)
+  ...     parent_group_id=gov.group_id)
  
-  >>> question = add_content(
-  ...     domain.Question,
-  ...     short_name=u"My subject",
-  ...     body_text=u"The question",
-  ...     language="en")
-
-  >>> question.__parent__ = app
-
-  >>> response = add_content(
-  ...     domain.Response,
-  ...     response_id=question.question_id,
-  ...     language = "en")
 
 We need a parliament, government ministry and ministers to whom we can
 send the question notifications.
@@ -94,6 +82,7 @@ send the question notifications.
   >>> country = add_content(
   ...     domain.Country,
   ...     country_id='KE',
+  ...     iso_name = u"KENYA",
   ...     country_name=u"Kenya")
 
   >>> mp_1 = add_content(
@@ -126,6 +115,15 @@ send the question notifications.
   ...        email=u"mp3@example.com", 
   ...        gender='F')      
 
+  >>> question = add_content(
+  ...     domain.Question,
+  ...     short_name=u"My subject",
+  ...     body_text=u"The question",
+  ...     owner_id = mp_1.user_id,
+  ...     language="en")
+
+  >>> question.__parent__ = app
+ 
   >>> from bungeni.models.testing import create_sitting
   >>> sitting = create_sitting(parliament.parliament_id)
 
@@ -145,8 +143,6 @@ Verify that all states are reachable.
   >>> wf = IWorkflow(question)
   >>> verify_workflow(wf)
 
-  >>> wf = IWorkflow(response)
-  >>> verify_workflow(wf)
   
 Questions actions
 -----------------
@@ -260,7 +256,7 @@ Question conditions
   >>> conditions.is_ministry_set(info, question)
   False
 
-  >>> question.ministry_id = ministry.ministry_id
+  >>> question.ministry_id = ministry.group_id
   >>> conditions.is_ministry_set(info, question)
   True
 
@@ -388,39 +384,7 @@ A questions answer was reviewed by Clerk's office.
   To: "John Doe" <john.doe@localhost> ...
   Subject: Question answered: My subject ...
 
-Response actions
-----------------
 
-  >>> from ore.workflow.interfaces import IWorkflowInfo
-  >>> from bungeni.core.workflows.response import actions 
-  >>> info = IWorkflowInfo(response)
-
-"Create". This action assigns the role of "Owner".
-
-  >>> actions.create(info, response)
-
-  >>> from zope.securitypolicy.interfaces import IPrincipalRoleMap
-  >>> tuple(IPrincipalRoleMap(response).getRolesForPrincipal("member"))
-  ((u'bungeni.Owner', PermissionSetting: Allow),)
-
-Before we can continue the response workflow, we need to start a
-participation as ``clerk``.
-  
-  >>> zope.security.management.endInteraction()
-  >>> zope.security.management.newInteraction(create_participation(clerk))
-
-"Submit". We can submit a response only for a question that has a
-transition to the 'responded' state.
-
-  >>> question.status = u"scheduled"
-
-  >>> actions.submit(info, response)
-  >>> question.status
-  u'responded'
-  
-"Complete".
-
-  >>> actions.complete(info, response)
   
 Cleanup
 -------

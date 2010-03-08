@@ -44,6 +44,7 @@ Content creation
   >>> country = add_content(
   ...     domain.Country,
   ...     country_id='KE',
+  ...     iso_name = u"KENYA",  
   ...     country_name=u"Kenya")
  
   >>> mp_1 = add_content(

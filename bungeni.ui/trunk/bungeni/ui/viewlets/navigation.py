@@ -67,7 +67,17 @@ class SecondaryNavigationViewlet(object):
         url = absoluteURL(container, self.request)
         self.items = items = self.get_menu_items(
             container, "%s_navigation" % container.__name__)
-
+        
+        # local scope function, to build contianer item descriptor object
+        def _containerItem(title, selected, name=None):
+            # for cleaner public URLs, use empty string instead of 'index'
+            _url = url 
+            if name is not None:
+                if name=='index': 
+                    name = ''
+                _url = "%s/%s" % (url, name)
+            return {'title': title, 'selected': selected, 'url': _url}
+        
         if IReadContainer.providedBy(container):
             #XXX should be the same in all containers ?          
             container=proxy.removeSecurityProxy(container)
@@ -83,10 +93,7 @@ class SecondaryNavigationViewlet(object):
                     props = IDCDescriptiveProperties(item)
                     title = props.title
                 try:
-                    items.append({
-                        'title': title,
-                        'selected': selected,
-                        'url': "%s/%s" % (url, name)})
+                    items.append(_containerItem(title, selected, name))
                 except:
                     pass
 
@@ -95,11 +102,10 @@ class SecondaryNavigationViewlet(object):
             (container, self.request), name=default_view_name)
 
         if hasattr(default_view, "title"):
-            items.insert(0, {
-                'title': default_view.title,
-                'selected': sameProxiedObjects(container, self.context),
-                'url': url})
-
+            items.insert(0,
+                _containerItem(default_view.title, 
+                    sameProxiedObjects(container, self.context)))
+        
     def get_menu_items(self, container, name):
         #XXX ad hoc fix - todo: write a utility for this navigation structure
         try:    

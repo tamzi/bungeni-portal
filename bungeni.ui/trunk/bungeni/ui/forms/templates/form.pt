@@ -37,12 +37,13 @@
            i18n:translate=""
            tal:content="view/form_description|nothing" />
 
-        <form action="."
+        <form action=""
+              method="post"
               tal:define="kls nocall: view/context_class | python: context.__class__;
                           name python: kls.__name__.lower()"
               tal:attributes="action view/action_url|request/URL;
-                              class string:$name-form"
-              method="post"
+                              class string:$name-form;
+                              method view/action_method|string:post"
               id="alchemist-form"
               enctype="multipart/form-data">
 

@@ -42,7 +42,7 @@ VersionWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(version, IVersion))
 GroupSittingWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groupsitting, domain.GroupSitting))
-AdressWorkflowAdapter = workflow.AdaptedWorkflow(
+AddressWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(address, domain.UserAddress))   
 TabledDocumentWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(tableddocument, domain.TabledDocument))      

@@ -39,46 +39,6 @@ def tearDown( test ):
     placelesssetup.tearDown()
     metadata.drop_all( checkfirst=True )
 
-def file_setup( ):
-    from bungeni.core import files
-    files_store = files.setupStorageDirectory()
-    if files_store.endswith('test'):
-        return
-    
-    def setupStorageDirectory( ):
-        return files_store + '-test'
-    files.setupStorageDirectory = setupStorageDirectory
-    
-def file_tests( ):
-    file_setup()
-    def _setUp( test ):
-        setUp( test )
-        from bungeni.core import files
-        files.setup()
-        
-        ztapi.provideUtility( IVersionedFileRepository, component=files.FileRepository )
-
-        ztapi.provideAdapter( IBungeniContent,
-                              IDirectoryLocation,
-                              files.headlocation )
-
-        ztapi.provideAdapter( IBungeniContent,
-                              IFilePathChooser,
-                              files.DefaultPathChooser )
-
-    def _tearDown( test ):
-        from bungeni.core import files
-        files.FileRepository.context.clear()
-        dir = files.setupStorageDirectory()
-        shutil.rmtree( dir )
-        tearDown( test )        
-
-    return doctestunit.DocFileSuite(
-        os.path.join(os.path.pardir, 'files.txt'),
-        setUp = _setUp,
-        tearDown = _tearDown,
-        optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-        )
 
 def test_suite():
     from bungeni.core.app import BungeniApp
@@ -130,7 +90,6 @@ def test_suite():
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
         test_suites.append(test_suite)
 
-    test_suites.append(file_tests())
 
     return unittest.TestSuite( test_suites )
 

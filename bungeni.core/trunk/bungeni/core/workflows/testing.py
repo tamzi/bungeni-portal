@@ -81,14 +81,6 @@ def setup_adapters():
         ore.workflow.workflow.WorkflowInfo,
         (domain.Motion,))
 
-    zope.component.provideAdapter(
-        bungeni.core.workflows.adapters.ResponseWorkflowAdapter,
-        (domain.Response,))
-
-    zope.component.provideAdapter(
-        ore.workflow.workflow.WorkflowInfo,
-        (domain.Response,))
-
     zope.component.provideHandler(
         bungeni.core.workflows.events.workflowTransitionEventDispatcher)
 
@@ -106,7 +98,7 @@ def setup_adapters():
         (domain.GroupSitting,))
         
     zope.component.provideAdapter(
-        bungeni.core.workflows.adapters.UserAddressWorkflowAdapter,
+        bungeni.core.workflows.adapters.AddressWorkflowAdapter,
         (domain.UserAddress,))
 
     zope.component.provideAdapter(

@@ -42,17 +42,17 @@ otherwise bungeni.models.schema.make_changes_table will fail
   ...        bungeni.core.interfaces.IAuditable)
   
   >>> mapper(User, users_table)
-  <sqlalchemy.orm.mapper.Mapper object at ...
+  <Mapper at ... User>
   
   >>> users_changes = make_changes_table(users_table, metadata)
   
-  >>> class UserChanges(object):
+  >>> class UserChange(object):
   ...     pass
   
-  >>> mapper(UserChanges, users_changes)
-  <sqlalchemy.orm.mapper.Mapper object at  ...
+  >>> mapper(UserChange, users_changes)
+  <Mapper at ... UserChange>
 
-  >>> UserAuditor = audit.UserAuditor = audit.AuditorFactory(users_changes)
+  >>> UserAuditor = audit.UserAuditor = audit.AuditorFactory(users_changes,UserChange)
 
 
 test setup is creating a sqlite db:
@@ -78,16 +78,16 @@ create an instance of the class:
   
 check that our changes table acts as expected
 
-  >>> len(list(session.query(UserChanges)))
+  >>> len(list(session.query(UserChange)))
   0
 
-  >>> change = UserChanges()
+  >>> change = UserChange()
   >>> change.user_id = 1
   >>> session.add(change)
   >>> session.flush()
   
 
-  >>> len(list(session.query(UserChanges)))
+  >>> len(list(session.query(UserChange)))
   1
   
 
@@ -126,7 +126,7 @@ broadcast an event:
   
 check the audit table: 
 
-  >>> len(list(session.query(UserChanges)))
+  >>> len(list(session.query(UserChange)))
   2
 
 broadcast an event:
@@ -136,7 +136,7 @@ broadcast an event:
 
 check the audit table: 
 
-  >>> len(list(session.query(UserChanges)))
+  >>> len(list(session.query(UserChange)))
   3
 
 Clean up:

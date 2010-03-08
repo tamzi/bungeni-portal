@@ -41,8 +41,8 @@ def _getQuestionsApprovedBefore(date, status):
     """
     session = Session()
     qfilter=sql.and_(
-                (domain.Question.c.approval_date < date ),
-                (domain.Question.c.status == status)
+                (domain.Question.approval_date < date ),
+                (domain.Question.status == status)
                 )
     query = session.query(domain.Question).filter(qfilter)   
     return query.all()

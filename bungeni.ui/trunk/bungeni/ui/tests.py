@@ -12,6 +12,7 @@ from zope.testing import doctest, doctestunit
 from zope.app.testing import placelesssetup
 from zope.configuration import xmlconfig
 from bungeni.models import metadata
+from bungeni.core.workflows import adapters
 
 import forms.test_dates
 
@@ -52,9 +53,7 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
-    doctests = ('queries/sqlstatements.txt',
-                'queries/validations.txt',
-                'forms/readme.txt')
+    doctests = ('forms/readme.txt',)
 
     docfiles = ("bungeni.ui.calendar.utils",
                 "bungeni.ui.forms.forms")

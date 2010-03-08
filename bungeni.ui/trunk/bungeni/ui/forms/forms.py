@@ -4,14 +4,11 @@
 import copy
 import datetime
 
-from zope import component
 from zope.event import notify
 from zope.formlib import form, namedtemplate
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope import schema, interface
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.app.form.browser import MultiCheckBoxWidget
-from zope.traversing.browser import absoluteURL
 from zope.security.proxy import removeSecurityProxy
 import zope.security.management
 
@@ -22,20 +19,13 @@ from ore.alchemist import Session
 from alchemist.ui import generic
 
 from bungeni.models import domain
-from bungeni.models import interfaces
-from bungeni.core import globalsettings as prefs
 from bungeni.core.i18n import _
-from bungeni.ui.queries import statements as sqlstatements
-from bungeni.ui.queries import utils as sqlutils
-from bungeni.ui.forms.workflow import createVersion
 from bungeni.ui.forms import validations
 from bungeni.ui.forms.common import ReorderForm
 from bungeni.ui.forms.common import PageForm
 from bungeni.ui.forms.common import AddForm
 from bungeni.ui.forms.common import EditForm
 from bungeni.ui.forms.common import DeleteForm
-from bungeni.ui.widgets import TextDateWidget as DateWidget
-from bungeni.ui.widgets import MultiDateTextAreaWidget
 
 
 FormTemplate = namedtemplate.NamedTemplateImplementation(

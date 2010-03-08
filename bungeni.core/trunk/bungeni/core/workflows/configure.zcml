@@ -116,11 +116,11 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.GroupSittingWorkflowAdapter" />     
 
-  <!-- user adresses -->
+  <!-- user addresses -->
   <adapter
      for="bungeni.models.interfaces.IUserAddress"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.AdressWorkflowAdapter" />          
+     factory=".adapters.AddressWorkflowAdapter" />          
 
   <!-- bill workflow -->
   

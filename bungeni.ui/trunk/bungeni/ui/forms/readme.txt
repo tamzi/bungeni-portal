@@ -98,18 +98,18 @@ Add a second government
    >>> session.add( gov2 )
    >>> session.flush()       
 
-   >>> utils.check_date_in_interval( gov2.government_id, yesterday, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov2.group_id, yesterday, sql.checkMyGovernmentInterval)
    
-   >>> utils.check_date_in_interval( gov.government_id, yesterday, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov.group_id, yesterday, sql.checkMyGovernmentInterval)
    
-   >>> utils.check_date_in_interval( gov.government_id, today, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov.group_id, today, sql.checkMyGovernmentInterval)
 
-   >>> utils.check_date_in_interval( gov2.government_id, dayat, sql.checkMyGovernmentInterval)      
+   >>> utils.check_date_in_interval( gov2.group_id, dayat, sql.checkMyGovernmentInterval)      
 
-   >>> utils.check_date_in_interval( gov.government_id, dayat, sql.checkMyGovernmentInterval)
+   >>> utils.check_date_in_interval( gov.group_id, dayat, sql.checkMyGovernmentInterval)
    'gov_2'
 
-   >>> utils.check_date_in_interval( gov2.government_id, today, sql.checkMyGovernmentInterval)   
+   >>> utils.check_date_in_interval( gov2.group_id, today, sql.checkMyGovernmentInterval)   
    'gov_1'
 
 

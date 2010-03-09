@@ -25,8 +25,8 @@ from bungeni.models.queries import get_current_parliament
 from bungeni.models.queries import container_getter
 from bungeni.core import interfaces
 
-def setUpSubscriber(object, event):
-    initializer = model_interfaces.IBungeniSetup(object)
+def setUpSubscriber(obj, event):
+    initializer = model_interfaces.IBungeniSetup(obj)
     initializer.setUp()
 
 class BungeniApp(Application):
@@ -34,7 +34,7 @@ class BungeniApp(Application):
 
 class BungeniAdmin(SampleContainer):
     implements(model_interfaces.IBungeniAdmin )
-    
+
 class AppSetup(object):
     
     implements(model_interfaces.IBungeniSetup)
@@ -85,7 +85,7 @@ class AppSetup(object):
             description=_(u"Current parliamentary activity."),
             default_name="@@workspace-view")
         ws_archive = workspace["archive"] = Section(
-            title=_(u"My Archive"),
+            title=_(u"My archive"),
             description=_(u"My archive personal items"),
             default_name="workspace_archive")        
         ws_calendar = workspace[u"calendar"] = QueryContent(

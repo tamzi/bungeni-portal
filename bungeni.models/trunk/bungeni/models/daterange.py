@@ -11,89 +11,89 @@ def between(column):
             sql.bindparam("end_date") == None),
         )
 
-def bill_filter(): 
+def bill_filter(domain_model): 
     return sql.or_(
-    between(domain.Bill.submission_date),
-    between(domain.Bill.publication_date)
+    between(domain_model.submission_date),
+    between(domain_model.publication_date)
     )
 
-def motion_filter():
+def motion_filter(domain_model):
     return sql.or_(
-    between(domain.Motion.submission_date),
-    between(domain.Motion.notice_date),
-    between(domain.Motion.approval_date),
+    between(domain_model.submission_date),
+    between(domain_model.notice_date),
+    between(domain_model.approval_date),
     )
 
-def question_filter():
+def question_filter(domain_model):
     return sql.or_(
-    between(domain.Question.submission_date),
-    between(domain.Question.ministry_submit_date),
-    between(domain.Question.approval_date),
+    between(domain_model.submission_date),
+    between(domain_model.ministry_submit_date),
+    between(domain_model.approval_date),
     )
 
-def group_filter():
+def group_filter(domain_model):
     return sql.or_(
-    domain.Group.start_date.between(
+    domain_model.start_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
-    domain.Group.end_date.between(
+    domain_model.end_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
     sql.between(sql.bindparam("start_date"), 
-                domain.Group.start_date, domain.Group.end_date),
+                domain_model.start_date, domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain.Group.start_date, domain.Group.end_date),                
+                domain_model.start_date, domain_model.end_date),                
     sql.and_(
-        domain.Group.start_date <= sql.bindparam("end_date"),
-        domain.Group.end_date == None),
+        domain_model.start_date <= sql.bindparam("end_date"),
+        domain_model.end_date == None),
     )    
             
     
-def group_membership_filter():
+def group_membership_filter(domain_model):
     return sql.or_(
-    domain.GroupMembership.start_date.between(
+    domain_model.start_date.between(
             sql.bindparam("start_date"), sql.bindparam("end_date")),
-    domain.GroupMembership.end_date.between(
+    domain_model.end_date.between(
             sql.bindparam("start_date"), sql.bindparam("end_date")),
     sql.between(sql.bindparam("start_date"), 
-                domain.GroupMembership.start_date, 
-                domain.GroupMembership.end_date),
+                domain_model.start_date, 
+                domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain.GroupMembership.start_date, 
-                domain.GroupMembership.end_date),            
+                domain_model.start_date, 
+                domain_model.end_date),            
     sql.and_(
-        domain.GroupMembership.start_date <= sql.bindparam("end_date"),
-        domain.GroupMembership.end_date == None),
+        domain_model.start_date <= sql.bindparam("end_date"),
+        domain_model.end_date == None),
     )     
     
     
-def session_filter():
+def session_filter(domain_model):
     return sql.or_(
-    domain.ParliamentSession.start_date.between(
+    domain_model.start_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
-    domain.ParliamentSession.end_date.between(
+    domain_model.ParliamentSession.end_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
     sql.between(sql.bindparam("start_date"), 
-                domain.ParliamentSession.start_date, domain.ParliamentSession.end_date),
+                domain_model.start_date, domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain.ParliamentSession.start_date, domain.ParliamentSession.end_date),                
+                domain_model.start_date, domain_model.end_date),                
     sql.and_(
-        domain.ParliamentSession.start_date <= sql.bindparam("end_date"),
-        domain.ParliamentSession.end_date == None),
+        domain_model.start_date <= sql.bindparam("end_date"),
+        domain_model.end_date == None),
     )       
     
     
-def sitting_filter():
+def sitting_filter(domain_model):
     return sql.or_(
-    domain.GroupSitting.start_date.between(
+    domain_model.start_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
-    domain.GroupSitting.end_date.between(
+    domain_model.end_date.between(
                 sql.bindparam("start_date"), sql.bindparam("end_date")),
     sql.between(sql.bindparam("start_date"), 
-                domain.GroupSitting.start_date, domain.GroupSitting.end_date),
+                domain_model.start_date, domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain.GroupSitting.start_date, domain.GroupSitting.end_date),                
+                domain_model.start_date, domain_model.end_date),                
     sql.and_(
-        domain.GroupSitting.start_date <= sql.bindparam("end_date"),
-        domain.GroupSitting.end_date == None),
+        domain_model.start_date <= sql.bindparam("end_date"),
+        domain_model.end_date == None),
     )           
     
     

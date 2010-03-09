@@ -253,12 +253,15 @@ class PoliticalParty( Group ):
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
     
 
+class ListPartyMember(object):
+    pass
+
 class PartyMember( GroupMembership ):
     """ 
     Member of a political party, defined by its group membership 
     """
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )   
-    
+    listings_class = ListPartyMember
 
 
 class Government( Group ):

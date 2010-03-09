@@ -6,6 +6,7 @@ import simplejson
 import sqlalchemy.sql.expression as sql
 from sqlalchemy import types, orm
 
+
 from zope import interface
 from zope import component
 from zope.security import proxy
@@ -25,6 +26,7 @@ from bungeni.models.interfaces import ICommitteeContainer
 from bungeni.models.interfaces import IMemberOfParliamentContainer
 from bungeni.models.interfaces import ICommitteeMemberContainer
 from bungeni.models.interfaces import ICommitteeStaffContainer
+from bungeni.models.interfaces import ISortOn
 from bungeni.ui.utils import getDisplayDate
 from bungeni.ui.utils import getFilter
 from bungeni.ui.cookies import get_date_range
@@ -60,7 +62,7 @@ def secured_iterator(permission, query, parent):
         if checkPermission(u"zope.View", proxied):
             yield item
 
-def get_query(context, request):
+def get_query(context, request, query=None, domain_model=None):
     """Prepare query.
 
     If the model has start- and end-dates, constrain the query to
@@ -70,7 +72,8 @@ def get_query(context, request):
     unproxied = proxy.removeSecurityProxy(context)
     model = unproxied.domain_model
     session = Session()
-    query = unproxied._query
+    if not query:
+        query = unproxied._query
     if (IBusinessSectionLayer.providedBy(request) and
         ICommitteeContainer.providedBy(context)) or (
         IMembersSectionLayer.providedBy(request) and
@@ -90,8 +93,10 @@ def get_query(context, request):
             start_date = datetime.date(1900,1,1)
         if end_date is None:
             end_date = datetime.date(2100,1,1)  
+        if domain_model:
+            model=domain_model            
         if date_range_filter is not None:
-            query = query.filter(date_range_filter()).params(
+            query = query.filter(date_range_filter(model)).params(
                 start_date=start_date, end_date=end_date)
 
     return query
@@ -215,7 +220,7 @@ class ContainerJSONListing( BrowserView ):
         str_filter = ''
         domain_model = proxy.removeSecurityProxy( 
                         self.context.domain_model )
-        table = orm.class_mapper(domain_model).mapped_table
+        table = orm.class_mapper(self.domain_model).mapped_table
         utk = {}
         for k in table.columns.keys():
             utk[table.columns[k].key] = k
@@ -293,7 +298,7 @@ class ContainerJSONListing( BrowserView ):
         default_sort = None
         sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
         domain_model = proxy.removeSecurityProxy( self.context.domain_model )
-        table = orm.class_mapper(domain_model).mapped_table
+        table = orm.class_mapper(self.domain_model).mapped_table
         utk = {}
         for k in table.columns.keys():
             utk[table.columns[k].key] = k        
@@ -303,30 +308,28 @@ class ContainerJSONListing( BrowserView ):
         # in the domain model you may replace the sort with another column        
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():
-                #XXX another way has to be found here to replace the sort
-                sort_keys = domain_model.sort_replace[sort_key] 
+                sort_keys = domain_model.sort_replace[sort_key]
             elif sort_key and ( sort_key in utk.keys() ):
-                sort_keys = [getattr(domain_model,sort_key) ]   
+                 sort_keys = [str(table.columns[utk[sort_key]]), ]
         else:
             if sort_key and ( sort_key in utk.keys() ):
-                sort_keys = [getattr(domain_model,sort_key), ]       
+                 sort_keys = [str(table.columns[utk[sort_key]]), ]      
         for sort_key in sort_keys:                    
             if sort_dir == 'desc':
                 columns.append( sql.desc(sort_key) )
             else:
                 columns.append( sort_key )                     
+
         sort_defaults = getattr(domain_model,'sort_on',None)
         sort_default_dir = getattr(domain_model,'sort_dir',None)
         sd_dir = sql.asc
         if sort_default_dir:
             if sort_default_dir == "desc":
                 sd_dir = sql.desc
-        #XXX another approach has to be taken for the default sorting                 
-        sort_defaults = False                
         if sort_defaults:
             for sort_key in sort_defaults:
                 if sort_key not in sort_keys:
-                    columns.append(sd_dir(getattr(domain_model,sort_key)))        
+                    columns.append(sd_dir(sort_key))
         return columns
     
     def getOffsets( self ):
@@ -349,7 +352,8 @@ class ContainerJSONListing( BrowserView ):
         self.set_size = len(nodes)    
         return nodes[start : start + limit]
 
-    def getBatch( self, start=0, limit=20, order_by=None):
+    def getBatch( self, start=0, limit=20):
+        order_by = self.getSort()
         context = proxy.removeSecurityProxy( self.context )    
         query=get_query(self.context, self.request)     
         # fetch the nodes from the container
@@ -403,12 +407,15 @@ class ContainerJSONListing( BrowserView ):
         return values
         
     def __call__( self ):
+        context = proxy.removeSecurityProxy( self.context )   
+        self.domain_model = context.domain_model       
+        self.domain_interface = queryModelInterface( self.domain_model )
+        self.domain_annotation = queryModelDescriptor( self.domain_interface )     
         session = Session()
         self.set_size = 0
         self.fields = list( getFields( self.context )  )
         start, limit = self.getOffsets( )
-        sort_clause = self.getSort()
-        batch = self.getBatch( start, limit, sort_clause )
+        batch = self.getBatch( start, limit)
         # use the query instead        
         data = dict( length=self.set_size,
                      start=start,
@@ -421,28 +428,60 @@ class ContainerJSONListing( BrowserView ):
 
 class ContainerWFStatesJSONListing( ContainerJSONListing ):
 
-    def getBatch( self, start=0, limit=20, order_by=None):
-        context = proxy.removeSecurityProxy( self.context )   
-        domain_model = context.domain_model       
-        domain_interface = queryModelInterface( domain_model )
-        domain_annotation = queryModelDescriptor( domain_interface )        
-        query=get_query(self.context, self.request)   
-        table = orm.class_mapper(domain_model).mapped_table  
+    def _jsonValues( self, nodes, fields, context):
+        """
+        filter values from the nodes to respresent in json, currently
+        that means some footwork around, probably better as another
+        set of adapters.
+        """
+        values = []
+        for n in nodes:
+            d = {}
+            # field to dictionaries
+            for field in fields:
+                f = field.__name__
+                d[ f ] = v = field.query( n )    
+                if isinstance( v, datetime.datetime ):
+                    d[f] = v.strftime('%F %I:%M %p')
+                elif isinstance( v, datetime.date ):
+                    d[f] = v.strftime('%F')
+                d['object_id'] =   stringKey(n)                
+            values.append( d )
+        return values
+
+
+    def getBatch( self, start=0, limit=20, order_by=None):    
+        context = proxy.removeSecurityProxy( self.context )            
+        mapper = orm.class_mapper(self.domain_model) 
+        listing_class = getattr(self.domain_model, 'listings_class', None)           
+        context_parent = proxy.removeSecurityProxy(context.__parent__)        
+        try:
+            p_mapper = orm.class_mapper(context_parent.__class__)
+            pk = p_mapper.primary_key_from_instance(context_parent)[0]              
+        except orm.exc.UnmappedClassError: 
+            pk = None           
+        
+        if listing_class and pk:
+            self.domain_model = listing_class
+            session = Session()
+            modifier = getattr(listing_class,context.constraints.fk) == pk
+            ss_query = context.subset_query
+            l_query = session.query(listing_class).filter(modifier)
+        else:
+            l_query=None            
+        query=get_query(self.context, self.request,l_query,self.domain_model)   
         # fetch the nodes from the container
-        public_wfstates = getattr(domain_annotation,'public_wfstates', None)
+        public_wfstates = getattr(self.domain_annotation,'public_wfstates', None)
         if public_wfstates:
-            query=query.filter(domain_model.status.in_(public_wfstates))
-        #filter_by = dateFilter( self.request )        
-        #if filter_by:  
-        #    if 'start_date' in table.columns.keys() and 'end_date' in  table.columns.keys():                 
-        #        # apply date range resrictions
-        #        query=query.filter(filter_by)
+            query=query.filter(self.domain_model.status.in_(public_wfstates))
         ud_filter = self.getFilter()        
         if ud_filter != '':  
             query=query.filter(ud_filter)
-        self.set_size = query.count()            
+        self.set_size = query.count()       
+        order_by = self.getSort()     
         if order_by:
             query = query.order_by( order_by )  
+        #import pdb; pdb.set_trace()    
         query = query.limit( limit ).offset( start )            
         nodes = query.all()                                                          
         batch = self._jsonValues( nodes, self.fields, self.context )

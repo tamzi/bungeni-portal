@@ -28,7 +28,7 @@ def add_roles(principal, prms, roles):
             elif role[1] == Deny:
                 if role[0] in roles:
                     roles.remove(role[0])
-    return roles                
+    return roles
 
 
 def getRoles(context, request):
@@ -41,14 +41,14 @@ def getRoles(context, request):
     while ctx:  
         if component.queryAdapter(ctx, IPrincipalRoleMap):  
             prms.append(IPrincipalRoleMap(ctx))
-        ctx = getattr(ctx,'__parent__', None)                                
+        ctx = getattr(ctx,'__parent__', None)
     pg = request.principal.groups.keys()
     roles = []
     prms.reverse()
     for pn in pg:
-        roles = add_roles(pn,prms,roles)         
+        roles = add_roles(pn, prms, roles)
     pn = request.principal.id
-    roles = add_roles(pn,prms,roles)  
+    roles = add_roles(pn, prms, roles)
     return roles
 
 role_interface_mapping = {
@@ -57,7 +57,7 @@ role_interface_mapping = {
     u'bungeni.MP': interfaces.IMPWorkspace,
     u'bungeni.Speaker': interfaces.ISpeakerWorkspace,
     u'bungeni.Clerk': interfaces.IClerkWorkspace
-    }
+}
 
 class WorkspaceView(BrowserView):
     interface.implements(IViewView)
@@ -78,7 +78,7 @@ class WorkspaceView(BrowserView):
             self.user_group_ids = get_group_ids_for_user_in_parliament(
                     self.user_id, parliament_id)
             governments = session.query(domain.Government).filter(
-                sql.and_(                
+                sql.and_(
                     domain.Government.parent_group_id == parliament.group_id,
                     domain.Government.status == 'active')
                     ).all()
@@ -90,19 +90,17 @@ class WorkspaceView(BrowserView):
                     interface.alsoProvides(self, interfaces.IMinisterWorkspace)
             else:
                 self.government_id = None
-                                               
+        
         roles = getRoles(self.context, self.request)
-
+        
         for role_id in roles:
             iface = role_interface_mapping.get(role_id)
             if iface is not None:
                 interface.alsoProvides(self, iface)
-
-                
+    
     def __call__(self):
         session = Session()
-        call = super(WorkspaceView, self).__call__()    
+        call = super(WorkspaceView, self).__call__()
         session.close()
-        return call                
-                
-                
+        return call
+

@@ -168,17 +168,19 @@ s_member_of_parliament = rdb.select([schema.user_group_memberships.c.membership_
                     schema.user_group_memberships.c.start_date,
                     schema.user_group_memberships.c.end_date,
                     schema.user_group_memberships.c.group_id,
+                    schema.parliament_memberships.c.elected_nominated,
                     schema.users.c.first_name,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
                     schema.users.c.last_name).label('user_id'),
-                    schema.constituencies.c.name.label('constituency_id')],
+                    schema.constituencies.c.name.label('constituency_id'),
+                    schema.constituencies.c.name.label('name')],
                     from_obj=[schema.parliament_memberships.join(
                             schema.constituencies).join(schema.user_group_memberships
                         ).join(
                         schema.users, schema.user_group_memberships.c.user_id==
-                              schema.users.c.user_id)]).alias()
+                              schema.users.c.user_id)]).alias('list_member_of_parliament')
                     
 
 
@@ -197,6 +199,25 @@ mapper( domain.CommitteeMember,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='committeemember',                
         )  
+
+s_partymember = rdb.select([schema.user_group_memberships.c.membership_id,
+                    schema.user_group_memberships.c.start_date,
+                    schema.user_group_memberships.c.end_date,
+                    schema.user_group_memberships.c.group_id,
+                    schema.users.c.first_name,
+                    schema.users.c.middle_name,
+                    schema.users.c.last_name,
+                    (schema.users.c.first_name + ' ' +
+                    schema.users.c.last_name).label('user_id'),],
+                    whereclause = 
+                    schema.user_group_memberships.c.membership_type ==
+                    'partymember',
+                    from_obj=[schema.user_group_memberships.join(
+                        schema.users, schema.user_group_memberships.c.user_id==
+                              schema.users.c.user_id)],                              
+                              ).alias('list_partymember')
+
+mapper(domain.ListPartyMember,s_partymember)
                 
 mapper( domain.PartyMember, 
         inherits=domain.GroupMembership,

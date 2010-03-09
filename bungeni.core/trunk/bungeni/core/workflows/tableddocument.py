@@ -133,11 +133,11 @@ class SendNotificationToClerkUponSubmit(Notification):
     component.adapts(interfaces.ITabledDocumentSubmittedEvent)
 
     body = _('notification_email_to_clerk_upon_submit_of_tabled_document',
-             default="TabledDocument submitted.")
+             default="Tabled document submitted")
 
     @property
     def subject(self):
-        return u'TabledDocument submitted: %s' % self.context.short_name
+        return u'Tabled document submitted: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -158,7 +158,7 @@ class SendNotificationToMemberUponReject(Notification):
 
     @property
     def subject(self):
-        return u'TabledDocument rejected: %s' % self.context.short_name
+        return u'Tabled document rejected: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -179,7 +179,7 @@ class SendNotificationToMemberUponNeedsClarification(Notification):
 
     @property
     def subject(self):
-        return u'TabledDocument needs clarification: %s' % self.context.short_name
+        return u'Tabled document needs clarification: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -195,11 +195,11 @@ class SendNotificationToMemberUponDeferred(Notification):
     component.adapts(interfaces.ITabledDocumentDeferredEvent)
 
     body = _('notification_email_to_member_upon_defer_of_tabled_document',
-             default="Tabled document deferred.")
+             default="Tabled document deferred")
 
     @property
     def subject(self):
-        return u'TabledDocument deferred: %s' % self.context.short_name
+        return u'Tabled document deferred: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -216,11 +216,11 @@ class SendNotificationToMemberUponSchedule(Notification):
     component.adapts(interfaces.ITabledDocumentScheduledEvent)
 
     body = _('notification_email_to_member_upon_schedule_of_tabled_document',
-             default="Tabled document scheduled.")
+             default="Tabled document scheduled")
 
     @property
     def subject(self):
-        return u'TabledDocument scheduled: %s' % self.context.short_name
+        return u'Tabled document scheduled: %s' % self.context.short_name
 
     @property
     def condition(self):
@@ -237,7 +237,7 @@ class SendNotificationToMemberUponPostponed(Notification):
     component.adapts(interfaces.ITabledDocumentPostponedEvent)
 
     body = _('notification_email_to_member_upon_postpone_of_tabled_document',
-             default="Tabled document postponed.")
+             default="Tabled document postponed")
 
     @property
     def subject(self):
@@ -252,15 +252,15 @@ class SendNotificationToMemberUponPostponed(Notification):
         return prefs.getClerksOfficeEmail()
 
 class SendNotificationToMemberUponDebated(Notification):
-    """Issued when a tabled_document was debated."""
+    """Issued when a tabled_document was debated"""
 
     component.adapts(interfaces.ITabledDocumentDebatedEvent)
 
     body = _('notification_email_to_member_upon_debate_of_tabled_document',
-             default=u"Tabled document was debated.")
+             default=u"Tabled document was debated")
     @property
     def subject(self):
-        return u'TabledDocument was debated: %s' % self.context.short_name
+        return u'Tabled document was debated: %s' % self.context.short_name
 
     @property
     def condition(self):

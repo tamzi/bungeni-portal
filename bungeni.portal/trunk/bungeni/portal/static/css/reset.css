@@ -2,6 +2,7 @@
 * {margin: 0; padding: 0; vertical-align: baseline; }
 html {
   height: 100%;
+  min-height: 100%;
 }
 
 .section-bungeni-archive #portletArchiveDates select {
@@ -128,8 +129,7 @@ div#portal-globalnav {
   background: #e6e6e6;
 }
 
-#portal-column-content #whats-on-overview .whats-on-viewlet dd.formPanel ul ul li ul li a{
-  background: white !important;
+#portal-column-content #whats-on-overview .whats-on-viewlet dd.formPanel ul ul li ul li a{  background: white !important;
 }
 
 /*Navigation styles - workspace*/
@@ -226,6 +226,10 @@ div#portal-globalnav {
   height: 1.45em;    
 }
 
+.section-bungeni-workspace div#portal-globalnav ul.level0 li#portaltab- a {
+  background-color: #D4E2EF;
+}
+
 .template-workspace div#portal-globalnav ul.level1 {
   background-color: #d4e2ef;  
 }
@@ -243,7 +247,8 @@ div#portal-globalnav {
   border-top: 1px solid #a4bed7;
   border-bottom: 0px;
   float:right;
-  padding:0 1em;
+  padding:0 0em;
+  line-height: 0.7em;
 }
 
 
@@ -744,7 +749,7 @@ dl.section-front-page {
 
 #portal-column-one {
   width: 0em;
-  min-width: 5em;
+  min-width: 2em;
   max-width: 22em;
   padding-top: 3em;
 }  
@@ -752,7 +757,7 @@ dl.section-front-page {
 
 #portal-column-two {
   width: 0em;
-  min-width: 5em;
+  min-width: 2em;
   max-width: 22em;
   padding-top: 3em;
 }  
@@ -781,7 +786,7 @@ dl.section-front-page {
     
 
 #portal-column-content {
-  max-width:1px;
+  max-width: 20em;
   padding: 0 10 0 0;
 }
 
@@ -953,7 +958,7 @@ li.lastFormTab a {
 }
 
 .yui-skin-sam .yui-dt th, .yui-skin-sam .yui-dt th a {
-  min-width: 1em;
+  /*min-width: 1em;*/
 }
 
 tr.yui-dt-last th {
@@ -967,7 +972,7 @@ white-space: normal;
 }
 
 input.searchButton {
-  margin-left: 5px;
+  /*margin-left: 5px;*/
 }
 
 input.inputLabelActive {

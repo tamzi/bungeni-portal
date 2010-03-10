@@ -460,13 +460,15 @@ class ContainerWFStatesJSONListing( ContainerJSONListing ):
             pk = p_mapper.primary_key_from_instance(context_parent)[0]              
         except orm.exc.UnmappedClassError: 
             pk = None           
-        
+                           
         if listing_class and pk:
-            self.domain_model = listing_class
             session = Session()
             modifier = getattr(listing_class,context.constraints.fk) == pk
-            ss_query = context.subset_query
             l_query = session.query(listing_class).filter(modifier)
+        elif listing_class:
+            session = Session()        
+            self.domain_model = listing_class
+            l_query = session.query(listing_class)         
         else:
             l_query=None            
         query=get_query(self.context, self.request,l_query,self.domain_model)   

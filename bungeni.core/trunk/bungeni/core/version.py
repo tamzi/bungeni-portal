@@ -114,7 +114,7 @@ class Versioned(container.PartialContainer):
         if wf_status:
             context.status = wf_status
                         
-        msg = _(u"Reverted to previous version $version.",
+        msg = _(u"Reverted to previous version $version",
                 mapping={'version': version.version_id})
 
         event.notify(

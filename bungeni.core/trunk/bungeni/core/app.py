@@ -54,27 +54,27 @@ class AppSetup(object):
         # top-level sections
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
-            description=_(u"Current parliamentary activity."),
+            description=_(u"Current parliamentary activity"),
             default_name=u"workspace-view")
         
         business = self.context["business"] = Section(
             title=_(u"Business"),
-            description=_(u"Daily operations of the parliament."),
+            description=_(u"Daily operations of the parliament"),
             default_name=u"whats-on")
 
         members = self.context["members"] = Section(
             title=_(u"Members"),
-            description=_(u"Records on members of parliament."),
+            description=_(u"Records on members of parliament"),
             default_name=u"current")
 
         archive = self.context["archive"] = Section(
             title=_(u"Archive"),
-            description=_(u"Parliament records and documents."),
+            description=_(u"Parliament records and documents"),
             default_name=u"browse")
 
         admin = self.context["admin"] = Section(
             title=_(u"Administration"),
-            description=_(u"Administer bungeni settings."),
+            description=_(u"Administer bungeni settings"),
             marker=model_interfaces.IBungeniAdmin,
             default_name=u"content" 
             )
@@ -82,7 +82,7 @@ class AppSetup(object):
         # workspace section
         ws_index = workspace["index"] = Section(
             title=_(u"Workspace"),
-            description=_(u"Current parliamentary activity."),
+            description=_(u"Current parliamentary activity"),
             default_name="workspace-view")
         ws_archive = workspace["archive"] = Section(
             title=_(u"My archive"),
@@ -97,45 +97,45 @@ class AppSetup(object):
         # business section
         whatson = business["whats-on"] = Section(
             title=_(u"What's on"),
-            description=_(u"Current parliamentary activity."),
+            description=_(u"Current parliamentary activity"),
             default_name="whats-on")
 
         committees = business[u"committees"] = QueryContent(
             container_getter(get_current_parliament, 'committees'),
             title=_(u"Committees"),
             marker=interfaces.ICommitteeAddContext,
-            description=_(u"View committees created by the current parliament."))
+            description=_(u"View committees created by the current parliament"))
 
         bills = business[u"bills"] = QueryContent(
             container_getter(get_current_parliament, 'bills'),
             title=_(u"Bills"),
             marker=interfaces.IBillAddContext,
-            description=_(u"View bills issued by the current parliament."))
+            description=_(u"View bills issued by the current parliament"))
 
         questions = business[u"questions"] = QueryContent(
             container_getter(get_current_parliament, 'questions'),
             title=_(u"Questions"),
             marker=interfaces.IQuestionAddContext,
-            description=_(u"View questions issued by the current parliament."))
+            description=_(u"View questions issued by the current parliament"))
 
         motions = business[u"motions"] = QueryContent(
             container_getter(get_current_parliament, 'motions'),
             title=_(u"Motions"),
             marker=interfaces.IMotionAddContext,
-            description=_(u"View motions issued by the current parliament."))
+            description=_(u"View motions issued by the current parliament"))
 
 
         tableddocuments = business[u"tableddocuments"] = QueryContent(
             container_getter(get_current_parliament, 'tableddocuments'),
             title=_(u"Tabled documents"),
             marker=interfaces.ITabledDocumentAddContext,
-            description=_(u"View the tabled documents of the current parliament."))     
+            description=_(u"View the tabled documents of the current parliament"))     
 
         agendaitems = business[u"agendaitems"] = QueryContent(
             container_getter(get_current_parliament, 'agendaitems'),
             title=_(u"Agenda items"),
             marker=interfaces.IAgendaItemAddContext,
-            description=_(u"View the agenda items of the current parliament."))                       
+            description=_(u"View the agenda items of the current parliament"))                       
 
        # sessions = business[u"sessions"] = QueryContent(
        #     container_getter(get_current_parliament, 'sessions'),
@@ -146,14 +146,14 @@ class AppSetup(object):
         sittings = business[u"sittings"] = QueryContent(
             container_getter(get_current_parliament, 'sittings'),
             title=_(u"Sittings"),
-            description=_(u"View the sittings of the current parliament."))
+            description=_(u"View the sittings of the current parliament"))
             
         #Parliamentary reports
         preports =  business[u"preports"] = QueryContent(
             container_getter(get_current_parliament, 'preports'),
             title=_(u"Parliamentary publications"),
             marker=interfaces.IReportAddContext,
-            description=_(u"View Agenda and Minutes reports of the current parliament."))    
+            description=_(u"View Agenda and Minutes reports of the current parliament"))    
             
             
 
@@ -161,22 +161,22 @@ class AppSetup(object):
         current = members[u"current"] = QueryContent(
             container_getter(get_current_parliament, 'parliamentmembers'),
             title=_(u"Current"),
-            description=_(u"View current parliament members (MPs)."))
+            description=_(u"View current parliament members (MPs)"))
 
         political_groups = members[u"political-groups"] = QueryContent(
             container_getter(get_current_parliament, 'politicalparties'),
             title=_(u"Political groups"),
-            description=_(u"View current political groups."))
+            description=_(u"View current political groups"))
 
         # archive
         records = archive[u"browse"] = Section(
             title=_(u"Browse"),
-            description=_(u"Current and historical records."),
+            description=_(u"Current and historical records"),
             default_name="browse-archive")
 
         documents = archive["documents"] = Section(
             title=_(u"Documents"),
-            description=_(u"Visit the digital document repository."),
+            description=_(u"Visit the digital document repository"),
             default_name="browse-archive")
 
 

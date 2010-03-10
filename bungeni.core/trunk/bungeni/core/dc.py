@@ -149,7 +149,7 @@ class SittingDescriptiveProperties(DescriptiveProperties):
     def description(self):
         session =Session()
         context = session.merge(removeSecurityProxy(self.context))          
-        return _(u"Sitting scheduled for '$group' ($start to $end).",
+        return _(u"Sitting scheduled for '$group' ($start to $end)",
                  mapping={'group': context.group.short_name,
                           'start': context.start_date.strftime('%Y-%m-%d %H:%M'),
                           'end': context.end_date.strftime('%H:%M')})
@@ -166,7 +166,7 @@ class ItemScheduleDescriptiveProperties(DescriptiveProperties):
         session =Session()
         context = session.merge(removeSecurityProxy(self.context))  
         sitting = context.sitting                             
-        return _(u"Scheduled for sitting ($start to $end).",
+        return _(u"Scheduled for sitting ($start to $end)",
                  mapping={'start': sitting.start_date,
                           'end': sitting.end_date})
 
@@ -185,7 +185,7 @@ class VersionDescriptiveProperties(DescriptiveProperties):
             
     @property
     def description(self):
-        return _(u"Last modified $date.",
+        return _(u"Last modified $date",
                  mapping={'date': self.context.change.date})
                  
 class GroupDescriptiveProperties(DescriptiveProperties):

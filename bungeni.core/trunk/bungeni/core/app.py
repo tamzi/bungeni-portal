@@ -84,7 +84,7 @@ class AppSetup(object):
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity"),
             default_name="workspace-view")
-        ws_archive = workspace["archive"] = Section(
+        ws_archive = workspace["my-archive"] = Section(
             title=_(u"My archive"),
             description=_(u"My archive personal items"),
             default_name="workspace_archive")        

@@ -538,7 +538,7 @@
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
      title="My archive"
-     action="/workspace/archive"
+     action="/workspace/my-archive"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
      />

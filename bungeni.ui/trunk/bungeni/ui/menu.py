@@ -176,7 +176,7 @@ class TranslateMenu(BrowserMenu):
             if selected:
                 action_url = url + '/versions/obj-%d/edit' % translation_id
             else:
-                action_url = url + '/@@translate?language=%s' % name
+                action_url = url + '/translate?language=%s' % name
 
             extra = {'id': 'translation-action-%s' % name,
                      'separator': None,
@@ -273,11 +273,11 @@ class WorkflowMenu(BrowserMenu):
             if url == site_url2:
                 transition_url = site_url2 + \
                              '/archive/browse/parliaments/obj-' + str(parliament_id) + \
-                             '/@@change_workflow_state?' + \
+                             '/change_workflow_state?' + \
                              'transition=%s&next_url=...' % tid
             else:
                 transition_url = url + \
-                             '/@@change_workflow_state?'\
+                             '/change_workflow_state?'\
                              'transition=%s&next_url=...' % tid
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,

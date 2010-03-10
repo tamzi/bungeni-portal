@@ -43,6 +43,6 @@ class LanguageViewlet(object):
             'flag': url+languages[language]['flag'],
             'name': languages[language]['name'],
             'selected': language == selected,
-            'url': "%s/@@change-language?name=%s" % (url, language),
+            'url': "%s/change-language?name=%s" % (url, language),
             } for language in translations]
 

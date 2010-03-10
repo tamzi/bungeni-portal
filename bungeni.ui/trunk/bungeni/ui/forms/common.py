@@ -352,7 +352,7 @@ class AddForm(BaseForm, ui.AddForm):
         name = self.context.domain_model.__name__        
         if not self._next_url:        
             self._next_url = absoluteURL(ob, self.request ) + \
-                             "/@@edit?portal_status_message=%s Added" % name
+                             "/edit?portal_status_message=%s Added" % name
 
     @form.action(_(u"Save and add another"), condition=form.haveInputWidgets)
     def handle_add_and_another(self, action, data ):
@@ -364,7 +364,7 @@ class AddForm(BaseForm, ui.AddForm):
 
         if not self._next_url:
             self._next_url = absoluteURL(self.context, self.request) + \
-                             '/@@add?portal_status_message=%s Added' % name
+                             '/add?portal_status_message=%s Added' % name
                               
 
 class EditForm(BaseForm, ui.EditForm):

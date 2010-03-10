@@ -301,7 +301,7 @@ class GroupSittingScheduleView(BrowserView):
                 timestamp = float(timestamp)
             except:
                 raise TypeError(
-                    "Timestamp must be floating-point (got %s)." % timestamp)
+                    "Timestamp must be floating-point (got %s)" % timestamp)
             date = utils.datetimedict.fromtimestamp(timestamp)
 
         if is_ajax_request(self.request):
@@ -518,7 +518,7 @@ class ReportingView(form.PageForm):
                     )
         date = schema.Date(
             title=_(u"Date"),
-            description=_(u"Choose a starting date for this report."),
+            description=_(u"Choose a starting date for this report"),
             required=True)
         
         #time_span = schema.Choice(
@@ -724,7 +724,7 @@ class ReportingView(form.PageForm):
 
         if parliament is None:
             errors.append(interface.Invalid(
-                _(u"A parliament must be active in the period."),
+                _(u"A parliament must be active in the period"),
                 "date"))
         #elif session is None:
         #    errors.append(interface.Invalid(
@@ -1087,7 +1087,7 @@ class ReportingView(form.PageForm):
         return file.data
 
     def generate(self, date, time_span):
-        raise NotImplementedError("Must be implemented by subclass.")
+        raise NotImplementedError("Must be implemented by subclass")
     
     '''def get_sittings(self, start_date, time_span):
         end_date = self.get_end_date(start_date, time_span)
@@ -1101,16 +1101,16 @@ class ReportingView(form.PageForm):
         elif time_span is TIME_SPAN.weekly:
             return start_date + timedelta(weeks=1)
         
-        raise RuntimeError("Unknown time span: %s." % time_span)
+        raise RuntimeError("Unknown time span: %s" % time_span)
 
 
 
 class AgendaReportingView(ReportingView):
-    """Agenda report."""
+    """Agenda report"""
     
     form_name = _(u"Agenda")
     report_name = _(u"ORDER OF THE DAY")
-    form_description = _(u"This form generates the agenda report.")
+    form_description = _(u"This form generates the agenda report")
     odf_filename = "agenda.odt"
     display_minutes = False
     main_result_template = ViewPageTemplateFile('main_reports.pt')
@@ -1175,7 +1175,7 @@ class AgendaReportingView(ReportingView):
             
 class VotesAndProceedingsReportingView(AgendaReportingView):
     form_name = _(u"Votes and proceedings")
-    form_description = _(u"This form generates the “votes and proceedings” report.")
+    form_description = _(u"This form generates the “votes and proceedings” report")
     report_name = _(u"VOTES AND PROCEEDINGS")
     display_minutes = True
     

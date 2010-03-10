@@ -30,6 +30,7 @@ import zope.securitypolicy.interfaces
 import re
 import os
 import htmlentitydefs
+from appy.pod.renderer import Renderer
 from tempfile import NamedTemporaryFile
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
@@ -203,11 +204,8 @@ class CalendarView(BrowserView):
 
     interface.implements(IViewView, IStructuralView)
 
-    template = ViewPageTemplateFile("main.pt")
-    ajax = ViewPageTemplateFile("ajax.pt")
+    template = ViewPageTemplateFile("dhtmlxcalendar.pt")
     
-    _macros = ViewPageTemplateFile("macros.pt")
-
     short_name = u"Calendar"
     
     def __init__(self, context, request):
@@ -219,105 +217,19 @@ class CalendarView(BrowserView):
         interface.alsoProvides(self.context, IDCDescriptiveProperties)
         self.__parent__ = context
 
-    def __call__(self, timestamp=None):
-        session = Session()
-        if timestamp is None:
-            # start the week on the first weekday (e.g. Monday)
-            date = utils.datetimedict.fromdate(datetime.date.today())
-        else:
-            try:
-                timestamp = float(timestamp)
-            except:
-                raise TypeError(
-                    "Timestamp must be floating-point (got %s)." % timestamp)
-            date = utils.datetimedict.fromtimestamp(timestamp)
-
-        if is_ajax_request(self.request):
-            rendered = self.render(date, template=self.ajax)
-        rendered = self.render(date)
-        session.close()
-        return rendered
-
+    def __call__(self, timestamp=None):     
+        return self.render()
+        
     def publishTraverse(self, request, name):
         traverser = component.getMultiAdapter(
             (self.context, request), IPublishTraverse)
         return traverser.publishTraverse(request, name)
 
-    def getTitle(self):
-        group = self.context.get_group()
-        if group is None:
-            return u"N/A"
-        else:
-            if group.type == 'parliament':
-                gtype = u'Plenary'
-            else:
-                gtype = group.type.capitalize()
-                                
-            return gtype + ': ' + group.short_name + ' - ' + group.full_name            
-    
-    def reorder_field(self):
-        if self.context.status == "draft-agenda":
-            return 'planned_order'
-        elif self.context.status == "draft-minutes": 
-            return 'real_order'            
-        else:
-            return None
             
-    def render(self, date, template=None):
+    def render(self, template=None):
         if template is None:
             template = self.template
-
-        group = self.context.get_group()
-        if group is None:
-            return template(
-                display=None,
-                status=_(u"Calendar is not available because "
-                         "the scheduling group ($label) is inactive.",
-                         mapping={'label': translate(self.context.label).lower()}
-                         )
-                )
-
-        calendar_url = self.request.getURL()
-        date = date - timedelta(days=date.weekday())
-        today = utils.datetimedict.fromdate(datetime.date.today())
-        days = tuple(date + timedelta(days=d) for d in range(7))
-
-        sittings = self.context.get_sittings(
-            start_date=date,
-            end_date=days[-1],
-            )
-
-        s_month = days[0].strftime( '%B %Y')
-        e_month = days[6].strftime('%B %Y')
-        if s_month == e_month:
-            c_title = s_month
-        else:
-            c_title = s_month  + u' - ' + e_month                  
-
-
-        return template(
-            display="weekly",
-            title=c_title,
-            days=[{
-                'formatted': datetime.datetime.strftime(day, '%A %d'),
-                'id': datetime.datetime.strftime(day, '%Y-%m-%d'),
-                'today': day == today,
-                'url': "%s/%d" % (calendar_url, day.totimestamp()),
-                } for day in days],
-            hours=range(6,21),
-            week_no=date.isocalendar()[1],
-            links={
-                'previous': "%s?timestamp=%s" % (
-                    calendar_url, (date - timedelta(days=7)).totimestamp()),
-                'next': "%s?timestamp=%s" % (
-                    calendar_url, (date + timedelta(days=7)).totimestamp()),
-                },
-            sittings_map = create_sittings_map(sittings, self.request),
-            )
-
-    @property
-    def macros(self):
-        return self._macros.macros
+        return template()
 
 class CommitteeCalendarView(CalendarView):
     """Calendar-view for a committee."""
@@ -338,7 +250,7 @@ class DailyCalendarView(CalendarView):
         date = removeSecurityProxy(self.context.date)
 
         sittings = self.context.get_sittings()
-
+        import pdb; pdb.set_trace()
         return template(
             display="daily",
 #            title=_(u"$B $Y", mapping=date),
@@ -362,7 +274,7 @@ class DailyCalendarView(CalendarView):
             sittings_map = create_sittings_map(sittings, self.request),
             )
 
-class GroupSittingScheduleView(CalendarView):
+class GroupSittingScheduleView(BrowserView):
     """Group-sitting scheduling view.
 
     This view presents a sitting and provides a user interface to
@@ -370,10 +282,42 @@ class GroupSittingScheduleView(CalendarView):
     """
 
     interface.implementsOnly(IViewView)
-    
-    def __init__(self, context, request):
-        BrowserView.__init__(self, context, request)
 
+    template = ViewPageTemplateFile("main.pt")
+    ajax = ViewPageTemplateFile("ajax.pt")
+    
+    _macros = ViewPageTemplateFile("macros.pt")
+    def __init__(self, context, request):
+        super(GroupSittingScheduleView, self).__init__(context, request)
+        self.__parent__ = context
+
+    def __call__(self, timestamp=None):
+        session = Session()
+        if timestamp is None:
+            # start the week on the first weekday (e.g. Monday)
+            date = utils.datetimedict.fromdate(datetime.date.today())
+        else:
+            try:
+                timestamp = float(timestamp)
+            except:
+                raise TypeError(
+                    "Timestamp must be floating-point (got %s)." % timestamp)
+            date = utils.datetimedict.fromtimestamp(timestamp)
+
+        if is_ajax_request(self.request):
+            rendered = self.render(date, template=self.ajax)
+        rendered = self.render(date)
+        session.close()
+        return rendered
+        
+    def reorder_field(self):
+        if self.context.status == "draft-agenda":
+            return 'planned_order'
+        elif self.context.status == "draft-minutes": 
+            return 'real_order'            
+        else:
+            return None    
+            
     def render(self, date, template=None):
         #need('yui-editor')
         need('yui-rte')
@@ -430,6 +374,10 @@ class GroupSittingScheduleView(CalendarView):
             new_category_url="%s/admin/content/categories/add?next_url=..." % site_url,
             status=self.context.status,
             )
+            
+    @property
+    def macros(self):
+        return self._macros.macros
 
 class SittingCalendarView(CalendarView):
     """Sitting calendar view."""
@@ -996,8 +944,62 @@ class ReportingView(form.PageForm):
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)    
         
-    @form.action(_(u"Download ODT"))
-    def handle_odt(self, action, data):
+    
+      
+                  
+        
+    @form.action(_(u"Download ODT"))   
+    def handle_odt(self, action, data):    
+        def unescape(text):
+            '''Removes HTML or XML character references 
+                 entities from a text string.
+                keep &amp;, &gt;, &lt; in the source code.
+                from Fredrik Lundh
+                http://effbot.org/zone/re-sub.htm#unescape-html'''
+            def fixup(m):
+                text = m.group(0)
+                if text[:2] == "&#":
+                # character reference
+                    try:
+                        if text[:3] == "&#x":
+                            return unichr(int(text[3:-1], 16))
+                        else:
+                            return unichr(int(text[2:-1]))
+                    except ValueError:
+                        pass
+                else:
+                # named entity
+                    try:
+                        text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
+                    except KeyError:
+                        pass
+                return text # leave as is
+            return re.sub("&#?\w+;", fixup, text)   
+            
+        self.process_form(data)
+        body_text = self.result_template()
+        
+        odt_file = os.path.dirname(__file__) + '/agenda.odt'
+        #appy.Renderer expects a file name of a file that does not exist.
+        tempFileName = '/tmp/%f.odt' % ( time.time())
+        params = {}
+        params['body_text'] = unescape(body_text)
+        renderer = Renderer(odt_file, params, tempFileName)
+        #import pdb; pdb.set_trace()
+        renderer.run()
+        self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
+        if self.display_minutes == True:
+            self.request.response.setHeader('Content-disposition', 'inline;filename="votes_and_proceedings.odt"')
+        else:
+            self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
+        f = open(tempFileName, 'rb')
+        doc = f.read()
+        f.close()      
+        os.remove(tempFileName)    
+        return doc  
+     
+    @form.action(_(u"Download PDF"))   
+    def handle_pdf(self, action, data):   
         def unescape(text):
             '''Removes HTML or XML character references 
                  entities from a text string.
@@ -1023,26 +1025,28 @@ class ReportingView(form.PageForm):
                         pass
                 return text # leave as is
             return re.sub("&#?\w+;", fixup, text)
-            
-        from appy.pod.renderer import Renderer
         self.process_form(data)
         body_text = self.result_template()
-        
-        #appy.Renderer expects a file name of a file that does not exist.
         odt_file = os.path.dirname(__file__) + '/agenda.odt'
-        tempFileName = '/tmp/%f.odt' % ( time.time())
+        #appy.Renderer expects a file name of a file that does not exist.
+        tempFileName = '/tmp/%f.pdf' % ( time.time())
         params = {}
         params['body_text'] = unescape(body_text)
-        renderer = Renderer(odt_file, params, tempFileName)
+        
+        #uses system open office and python uno to generate pdf
+        #TO DO : fix this to use user python
+        renderer = Renderer(odt_file, params, tempFileName, pythonWithUnoPath="/usr/bin/python2.5")
         renderer.run()
-        self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
-        self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
+        self.request.response.setHeader('Content-type', 'application/pdf')
+        if self.display_minutes == True:
+            self.request.response.setHeader('Content-disposition', 'inline;filename="votes_and_proceedings.pdf"')
+        else:
+            self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
         f = open(tempFileName, 'rb')
         doc = f.read()
         f.close()      
         os.remove(tempFileName)    
-        return doc  
-        
+        return doc     
         
     #@form.action(_(u"Create and Store"))
     def handle_create_and_store(self, action, data):
@@ -1183,7 +1187,55 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
 
         return file
 
-
+class DhtmlxCalendarSittings(BrowserView):
+    interface.implements(IViewView, IStructuralView)
+    template = ViewPageTemplateFile('dhtmlxcalendarxml.pt')
+    def __init__(self, context, request):
+        super(DhtmlxCalendarSittings, self).__init__(
+            ISchedulingContext(context), request)
+        self.context.__name__ = self.__name__
+        interface.alsoProvides(self.context, ILocation)
+        interface.alsoProvides(self.context, IDCDescriptiveProperties)
+        self.__parent__ = context
+        
+    def __call__(self):
+        '''date = utils.datetimedict.fromdate(datetime.date.today())
+        date = date - timedelta(days=date.weekday())
+        days = tuple(date + timedelta(days=d) for d in range(7))
+        sittings = self.context.get_sittings(
+            start_date=date,
+            end_date=days[-1],
+            )'''
+        try:
+            date = self.request.get('from')
+            dateobj = datetime.datetime(*time.strptime(date, "%Y-%m-%d")[0:5])
+            start_date = utils.datetimedict.fromdate(dateobj)
+        except:
+            start_date = None
+            
+        try:    
+            date = self.request.get('to')
+            dateobj = datetime.datetime(*time.strptime(date, "%Y-%m-%d")[0:5])
+            end_date = utils.datetimedict.fromdate(dateobj)
+        except:
+            end_date = None
+        
+        if start_date is None:
+            start_date = utils.datetimedict.fromdate(datetime.date.today())
+            days = tuple(start_date + timedelta(days=d) for d in range(7))
+            end_date = days[-1]
+        elif end_date is None:
+            start_date = utils.datetimedict.fromdate(datetime.date.today())
+            days = tuple(start_date + timedelta(days=d) for d in range(7))
+            end_date = days[-1]  
+        sittings = self.context.get_sittings(
+            start_date,
+            end_date,
+            )
+        self.request.response.setHeader('Content-type', 'text/xml')
+        self.sittings = sittings
+        return super(DhtmlxCalendarSittings, self).__call__() 
+        
 class SaveView(AgendaReportingView):
     def __call__(self):
         body_text = self.request.form['body_text']

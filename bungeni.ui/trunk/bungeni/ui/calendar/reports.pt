@@ -28,14 +28,12 @@
                     <span tal:condition="view/motion">
                         <h1 tal:condition="scheduled/category  | nothing"
                             tal:attributes="name scheduled/category_id"
-                            tal:content="scheduled/category/short_name"/> 
+                            tal:replace="scheduled/category/short_name"/> 
                          <span tal:condition="scheduled/category  | nothing"><hr/></span>
                          <h2>
-                            <span tal:replace="python:scheduled.item.type.capitalize()" />
-                            <span tal:condition="view/motion_number"> : <span tal:replace="scheduled/item/motion_number" />
-                            </span>
-                            <span tal:condition="view/motion_title"> - <span tal:replace="scheduled/item/short_name" />
-                            </span>
+                            <span tal:replace="python:scheduled.item.type.capitalize()" /> <span tal:condition="view/motion_number" tal:replace="scheduled/item/motion_number" />
+                            <span tal:condition="view/motion_title" tal:replace="scheduled/item/short_name" />
+                            
                          </h2>
                          <span tal:condition="view/motion_owner">
                             <h3>
@@ -135,7 +133,7 @@
                                 </span>
                                 <span tal:condition="view/question_response">
                                     <h4 tal:condition="scheduled/item/response_text | nothing">Response</h4>
-                                    <p tal:replace="structure scheduled/item/response" 
+                                    <p tal:replace="structure scheduled/item/response_text" 
                                        tal:condition="scheduled/item/response_text | nothing"/>
                                 </span>
                      </span>

@@ -191,13 +191,17 @@ class GroupSitting( Entity ):
 class SittingType(object):
     """ Type of sitting
     morning/afternoon/... """    
+
+class ListGroupSittingAttendance(object):
+    pass
     
 class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name',]}  
-    
+    sort_replace = {'member_id': ['last_name', 'first_name',]}  
+    listings_class = ListGroupSittingAttendance   
+        
 class AttendanceType( object ):
     """
     lookup for attendance type
@@ -216,6 +220,8 @@ class ItemGroupItemAssignment( GroupItemAssignment ):
 
 #############
 
+class ListParliament(object):
+    pass
     
 class Parliament( Group ):
     """ a parliament
@@ -235,6 +241,8 @@ class Parliament( Group ):
     agendaitems = one2many("agendaitems", "bungeni.models.domain.AgendaItemContainer", "group_id")
     tableddocuments = one2many("tableddocuments", "bungeni.models.domain.TabledDocumentContainer", "parliament_id")
     preports = one2many("preports", "bungeni.models.domain.ReportContainer", "group_id")
+    listings_class = ListParliament
+
 
 class ListMemberOfParliament(object):
     """
@@ -285,12 +293,19 @@ class Ministry( Group ):
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "ministry_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "ministry_id")    
          
+class ListMinister(object):
+    pass
     
 class Minister( GroupMembership ):
     """ A Minister
     defined by its user_group_membership in a ministry (group)
     """    
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
+    listings_class = ListMinister    
+
+
+class ListCommittee(object):
+    pass
     
 class Committee( Group ):
     """ a parliamentary committee of MPs
@@ -301,7 +316,7 @@ class Committee( Group ):
     sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")           
     sort_replace = {'committee_type_id': ['committee_type',]}  
     assigneditems = one2many("assigneditems", "bungeni.models.domain.ItemGroupItemAssignmentContainer", "group_id")               
-    
+    listings_class = ListCommittee        
 
 class ListCommitteeMember(object):
     pass
@@ -322,12 +337,13 @@ class Office( Group ):
     clerks office etc. internal only"""
     officemembers = one2many("officemembers", "bungeni.models.domain.OfficeMemberContainer", "group_id") 
 
-
+class ListOfficeMember(object):
+    pass
         
 class OfficeMember( GroupMembership ):
     """ clerks, .... """        
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
-            
+    listings_class = ListOfficeMember           
 
    
 #class Debate( Entity ):
@@ -401,10 +417,17 @@ class AttachedFile( Entity ):
 AttachedFileChange = ItemLog.makeLogFactory( "AttachedFileChange")
 AttachedFileVersion = ItemVersions.makeVersionFactory("AttachedFileVersion")
 
+
+class ListHeading(object):
+    pass
+
 class Heading( ParliamentaryItem ):  
     """ A heading in a report """
-
-
+    listings_class = ListHeading    
+          
+class ListAgendaItem(object):
+    pass
+    
 class AgendaItem( ParliamentaryItem ):    
     """
     Generic Agenda Item that can be scheduled on a sitting
@@ -414,6 +437,8 @@ class AgendaItem( ParliamentaryItem ):
         "versions",
         "bungeni.models.domain.AgendaItemVersionContainer",
         "content_id")    
+    listings_class = ListAgendaItem          
+        
 AgendaItemChange = ItemLog.makeLogFactory( "AgendaItemChange")
 AgendaItemVersion = ItemVersions.makeVersionFactory("AgendaItemVersion")
 
@@ -631,6 +656,9 @@ class ItemScheduleCategory(Entity):
 class ScheduledItemDiscussion(Entity):
     """A discussion on a scheduled item."""
 
+class ListTabledDocument(object):
+    pass
+
 class TabledDocument(ParliamentaryItem):
     """
     Tabled documents:
@@ -654,6 +682,8 @@ class TabledDocument(ParliamentaryItem):
         "versions",
         "bungeni.models.domain.TabledDocumentVersionContainer",
         "content_id")        
+    listings_class = ListTabledDocument   
+
     
 TabledDocumentChange = ItemLog.makeLogFactory( "TabledDocumentChange")
 TabledDocumentVersion = ItemVersions.makeVersionFactory("TabledDocumentVersion")
@@ -664,6 +694,9 @@ class DocumentSource( object ):
     """
     Document source for a tabled document
     """
+
+class ListEventItem(object):
+    pass
 
 class EventItem( ParliamentaryItem ):
     """
@@ -686,6 +719,7 @@ class EventItem( ParliamentaryItem ):
 
     All these "events" they may be listed together, in that case the "workflow" once should be ... e.g. in bold.
     """    
+    listings_class = ListEventItem    
 
 class HoliDay( object ):
     """

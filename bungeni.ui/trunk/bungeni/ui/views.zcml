@@ -159,13 +159,27 @@
      class=".calendar.browser.DailyCalendarView"
      />
 
-  <browser:page
+   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="calendar"
      class=".calendar.browser.CalendarView"
     />
-
+    <!--
+    <browser:page
+     for="bungeni.models.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="calendar"
+     class=".calendar.browser.DhtmlxCalendarScheduleView"
+    /> -->
+    
+    <browser:page
+     for="*"
+     permission="zope.Public"
+     name="dhtmlxcalendar"
+     class=".calendar.browser.DhtmlxCalendarSittings"
+     template="calendar/dhtmlxcalendarxml.pt"
+    />
   <browser:page
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"

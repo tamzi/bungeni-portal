@@ -81,7 +81,7 @@ class AppSetup(object):
 
         # workspace section
         ws_index = workspace["index"] = Section(
-            title=_(u"Workspace"),
+            title=_(u"Parliamentary items"),
             description=_(u"Current parliamentary activity"),
             default_name="workspace-view")
         ws_archive = workspace["my-archive"] = Section(
@@ -90,7 +90,7 @@ class AppSetup(object):
             default_name="workspace_archive")        
         ws_calendar = workspace[u"calendar"] = QueryContent(
             container_getter(get_current_parliament, 'sittings'),
-            title=_(u"Schedule"),
+            title=_(u"Scheduling"),
             description=_(u"View the sittings of the current parliament."))        
         
         

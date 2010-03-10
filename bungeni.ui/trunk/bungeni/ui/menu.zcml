@@ -529,7 +529,7 @@
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
      title="Parliamentary items"
-     action=""
+     action="/workspace/"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
      />
@@ -1215,7 +1215,7 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      action="/"
      title="Workspace"
-     permission="zope.View"     
+     permission="zope.View"
      />
 
   <browser:menuItem
@@ -1224,7 +1224,7 @@
      layer=".interfaces.IBungeniSkin"
      action="/"
      title="Home"
-     permission="zope.Public"     
+     permission="zope.Public"
      />
 
    <browser:menuItem

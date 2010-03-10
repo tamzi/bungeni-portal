@@ -23,7 +23,8 @@
   <match path="regex:^/(business|members|archive|admin)/?"
          class="bungeni" />
   <match path="/calendar/"  class="load-calendar-navigation" />
-  <match path="/workspace_archive/"  class="load-workspace_archive-navigation" />      
+  <match path="/workspace"  class="load-workspace-navigation" />
+  <match path="/workspace-archive"  class="load-workspace-navigation" />        
   <match path="regex:.*/audit-log$"
  	 class="bungeni-header" />
   <match path="regex:.*/(emptypage)$"
@@ -170,8 +171,9 @@
     <append content="#kss-spinner"
             theme="#portal-columns" />    
   </rule>
+
   
-  <rule class="load-workspace_archive-navigation">
+  <rule class="load-workspace-navigation">
     <!-- site actions -->
     <replace href="/plone/"
              content="#portal-siteactions"
@@ -180,16 +182,13 @@
     <replace href="/plone/"
              content="#portal-searchbox"
              theme="#portal-searchbox" />
-    <drop content="#portal-personaltools"/>    
     <append href="/plone/"
             content="#portal-globalnav > li:not(:first-child)"
             theme="children:#portal-globalnav > ul" />
-    <replace href="/bungeni/workspace_archive"
-             content="ul#portal-personaltools li.navigation"
-             theme="children:#portal-globalnav ul.level1" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
-             pyarg-link_id="#user-workspace-id"/>            
     <drop content="#portal-globalnav"/>
+    
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
+             pyarg-link_id="#user-workspace-id"/>                
     <replace content="#portal-column-one"
              theme="#portal-column-one"/>    
     <append content="children:#portal-column-content"
@@ -320,7 +319,7 @@
     <drop content="#portal-globalnav > li:first-child"/>
     <append content="#portal-globalnav > li"
              theme="children:#portal-globalnav > ul" />
-    <append content="ul#portal-personaltools li.navigation"
+    <prepend content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1"
             if-content=".navigation" />    
     <append href="/plone"

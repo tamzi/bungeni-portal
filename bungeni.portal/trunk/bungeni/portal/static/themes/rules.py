@@ -5,6 +5,7 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
     """
     Add the private and public folders from the member workspace.
     """
+    
     link_val= None
     host_url = urlsplit(log.theme_url)
     workspace_links_content = theme('.level1')
@@ -65,9 +66,9 @@ def add_section_links(content, theme, resource_fetcher, log):
     link_val= None
     host_url = urlsplit(log.theme_url)
     link_items = str(theme("ul.level0 li.selected")).split("</li>")
-    if "Workspace" not in link_items[0] and "Workspace" not in link_items[1] and not content('.section-membership'):
+    if "workspace" not in link_items[0] and "workspace" not in link_items[1] and not content('.section-membership'):
         theme('body').addClass('template-portal')        
-    elif (("Workspace" in link_items[0] or  "Workspace" in link_items[1])) and (not content('.section-membership') and not theme('.template-member-space')):
+    elif (("workspace" in link_items[0] or  "workspace" in link_items[1])) and (not content('.section-membership') and not theme('.template-member-space')):
         theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
         theme('#portal-logo img').attr('width', '803px')
         theme('#portal-logo img').attr('height', '60px')
@@ -151,7 +152,7 @@ def image_links(content, theme, resource_fetcher, log):
         link_id = str(link_id[1]).split('">')[0]
         link_node = content('#region-content')
         new_value = link_value.replace('./'+to_replace, 
-                                        str(link_id)+'/file-image/image'
+                                        str(link_id)+'/file-image/image')
         link_node.replaceWith(new_value)
 
 def drop_tabLinks(content, theme, resource_fetcher, log):
@@ -172,8 +173,8 @@ def rewrite_links(content, theme, resource_fetcher, log):
     Remove the first root folder entry if necessary.
     """
 
-    repeating_link_values = ['business', 'calendar', 'workspace_archive']
-    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin', 'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"', '/business/whats-on/business': '/business' }
+    repeating_link_values = ['business', 'calendar', 'archive', 'workspace/my-archive']
+    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin', 'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"', '/business/whats-on/business': '/business', '/workspace/admin': '/admin', '/workspace/business': '/business', '/workspace/my-archive/business': '/business', '/workspace/my-archive/browse': '/archive/browse', '/workspace/my-archive/workspace': '/workspace'}
     content_items = [['.level1','class', 'ul'],['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
@@ -206,7 +207,6 @@ def rewrite_links(content, theme, resource_fetcher, log):
             if link_value in (unicode(content_value)):
                 new_content = content_value.replace(link_value, strip_link_values[link_value])
                 content_node.replaceWith('<'+content_item[2]  + ' ' + content_item[1] +'="' + str(content_item[0])[1:] +'">' + new_content + '</' + content_item[2] + '>')
-
 
 
 def drop_contentActions(content, theme, resource_fetcher, log):

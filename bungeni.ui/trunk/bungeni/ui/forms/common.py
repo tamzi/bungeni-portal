@@ -549,7 +549,7 @@ class TranslateForm(AddForm):
             try:
                 widget.vocabulary.getTermByToken(language)
             except LookupError:
-                raise BadRequest("No such language token: '%s'." % language)
+                raise BadRequest("No such language token: '%s'" % language)
 
             # if the term exists in the vocabulary, set the value on
             # the widget
@@ -567,7 +567,7 @@ class TranslateForm(AddForm):
         
         language = get_language_by_name(data['language'])['name']
         versions = IVersioned(self.context)
-        version = versions.create("'%s' translation added." % language)
+        version = versions.create("'%s' translation added" % language)
 
         # reset workflow state
         version.status = None
@@ -617,7 +617,7 @@ class ReorderForm(BaseForm, form.PageForm):
             form=self, adapters=self.adapters, ignore_request=ignore_request)
 
     def save_ordering(self, ordering):
-        raise NotImplementedError("Must be defined by subclass.")
+        raise NotImplementedError("Must be defined by subclass")
     
     @form.action(_(u"Save"))
     def handle_save(self, action, data):

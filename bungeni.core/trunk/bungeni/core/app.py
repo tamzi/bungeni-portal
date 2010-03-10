@@ -213,9 +213,9 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(records[u"parties"]),
                        (implementedBy(domain.PoliticalParty), ILocation))
 
-        #records[u"constituencies"] = domain.ConstituencyContainer()
-        #provideAdapter(location.ContainerLocation(records[u"constituencies"]),
-        #               (implementedBy(domain.Constituency), ILocation))
+        records[u"constituencies"] = domain.ConstituencyContainer()
+        provideAdapter(location.ContainerLocation(records[u"constituencies"]),
+                       (implementedBy(domain.Constituency), ILocation))
                                                                      
         
         records[u"committees"] = domain.CommitteeContainer()

@@ -55,7 +55,7 @@ class AppSetup(object):
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity."),
-            default_name=u"@@workspace-view")
+            default_name=u"workspace-view")
         
         business = self.context["business"] = Section(
             title=_(u"Business"),
@@ -83,7 +83,7 @@ class AppSetup(object):
         ws_index = workspace["index"] = Section(
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity."),
-            default_name="@@workspace-view")
+            default_name="workspace-view")
         ws_archive = workspace["archive"] = Section(
             title=_(u"My archive"),
             description=_(u"My archive personal items"),
@@ -98,7 +98,7 @@ class AppSetup(object):
         whatson = business["whats-on"] = Section(
             title=_(u"What's on"),
             description=_(u"Current parliamentary activity."),
-            default_name="@@whats-on")
+            default_name="whats-on")
 
         committees = business[u"committees"] = QueryContent(
             container_getter(get_current_parliament, 'committees'),
@@ -172,12 +172,12 @@ class AppSetup(object):
         records = archive[u"browse"] = Section(
             title=_(u"Browse"),
             description=_(u"Current and historical records."),
-            default_name="@@browse-archive")
+            default_name="browse-archive")
 
         documents = archive["documents"] = Section(
             title=_(u"Documents"),
             description=_(u"Visit the digital document repository."),
-            default_name="@@browse-archive")
+            default_name="browse-archive")
 
 
         # archive/records
@@ -236,7 +236,7 @@ class AppSetup(object):
         content = admin["content"] = Section(
             title=_(u"Content"),
             description=_(u"browse the content"),
-            default_name="@@browse-archive")
+            default_name="browse-archive")
 
         settings = admin["settings"] = Section(
             title=_(u"Settings"),

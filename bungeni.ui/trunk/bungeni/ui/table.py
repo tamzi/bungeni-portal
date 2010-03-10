@@ -35,7 +35,7 @@ class TableFormatter(batching.Formatter):
 class ContextDataTableFormatter(BaseDataTableFormatter):
     script = ViewTextTemplateFile("templates/datatable.pt")
     
-    data_view ="/@@jsonlisting"
+    data_view ="/jsonlisting"
     prefix = "listing"
     
     def getFields( self ):        

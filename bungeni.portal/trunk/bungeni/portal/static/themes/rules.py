@@ -142,12 +142,16 @@ def image_links(content, theme, resource_fetcher, log):
     Use absolute links to the members profile image.
     """
     link_value  = str(content('#region-content').html())
-    if '@@file-image/image' in link_value:    
+    to_replace = 'file-image/image'
+    if to_replace in link_value:    
+        if '@@file-image/image' in link_value:
+            to_replace = '@@file-image/image'
         link_id= content('#portal-breadcrumbs a:last-child')
         link_id = str(link_id).split('href="')
         link_id = str(link_id[1]).split('">')[0]
         link_node = content('#region-content')
-        new_value = link_value.replace('./@@file-image/image', str(link_id) +'/@@file-image/image')
+        new_value = link_value.replace('./'+to_replace, 
+                                        str(link_id)+'/file-image/image'
         link_node.replaceWith(new_value)
 
 def drop_tabLinks(content, theme, resource_fetcher, log):

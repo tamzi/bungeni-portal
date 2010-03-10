@@ -416,7 +416,6 @@ class ContainerJSONListing( BrowserView ):
         self.fields = list( getFields( self.context )  )
         start, limit = self.getOffsets( )
         batch = self.getBatch( start, limit)
-        # use the query instead        
         data = dict( length=self.set_size,
                      start=start,
                      recordsReturned=len(batch),
@@ -460,17 +459,14 @@ class ContainerWFStatesJSONListing( ContainerJSONListing ):
             pk = p_mapper.primary_key_from_instance(context_parent)[0]              
         except orm.exc.UnmappedClassError: 
             pk = None           
-                           
-        if listing_class and pk:
-            session = Session()
-            modifier = getattr(listing_class,context.constraints.fk) == pk
-            l_query = session.query(listing_class).filter(modifier)
-        elif listing_class:
+        l_query=None
+        if listing_class:
             session = Session()        
             self.domain_model = listing_class
-            l_query = session.query(listing_class)         
-        else:
-            l_query=None            
+            l_query = session.query(listing_class)                             
+        if listing_class and pk:
+            modifier = getattr(listing_class,context.constraints.fk) == pk
+            l_query = l_query.filter(modifier)                                             
         query=get_query(self.context, self.request,l_query,self.domain_model)   
         # fetch the nodes from the container
         public_wfstates = getattr(self.domain_annotation,'public_wfstates', None)
@@ -483,7 +479,6 @@ class ContainerWFStatesJSONListing( ContainerJSONListing ):
         order_by = self.getSort()     
         if order_by:
             query = query.order_by( order_by )  
-        #import pdb; pdb.set_trace()    
         query = query.limit( limit ).offset( start )            
         nodes = query.all()                                                          
         batch = self._jsonValues( nodes, self.fields, self.context )

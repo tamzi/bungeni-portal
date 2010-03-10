@@ -12,7 +12,16 @@
      directory="js"
      layer="ploned.ui.interfaces.IPlonedSkin"
      />
-
+    <browser:resourceDirectory
+     name="codebase"
+     directory="js/dhtmlxScheduler/codebase"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     />
+     <browser:resourceDirectory
+     name="imgs"
+     directory="js/dhtmlxScheduler/codebase/imgs"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     />
   <browser:viewlet
      name="bungeni-plugins"
      for="*"
@@ -185,6 +194,31 @@
      layer="ploned.ui.interfaces.IPlonedSkin"
      weight="25"
      />     
-     
-
+  <browser:viewlet
+     name="dhtmlx-calendar"
+     for="*"
+     class=".js.DhtmlxCalendar"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="25"
+     />   
+     <!--<browser:viewlet
+     name="dhtmlx-calendar-init"
+     for="*"
+     class=".js.DhtmlxCalendarInit"
+     manager="ploned.ui.interfaces.IJavaScriptManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="25"
+     /> -->
+    <browser:resource 
+        name="dhtmlxscheduler.css" 
+        file="js/dhtmlxScheduler/codebase/dhtmlxscheduler.css" />
+   <!-- <browser:resource 
+        name="dhtmlxscheduler.js" 
+        file="js/dhtmlxScheduler/codebase/dhtmlxscheduler_debug.js" />
+    <browser:resource 
+        name="dhtmlxcalendarinit.js" 
+        file="js/dhtmlxcalendarinit.js" /> -->
 </configure>

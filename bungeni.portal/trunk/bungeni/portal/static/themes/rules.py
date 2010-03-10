@@ -17,8 +17,8 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             member_workspace_content_id = content('#user-workspace-id').val()
         if member_workspace_content_id is not None:
             link_val = host_url[0] + '://' +  host_url[1]+ "/" + member_workspace_content_id
-            workspace_links_content.append("<li class='navigation'><a href='#'>Private folder</a></li>")
-            workspace_links_content.append("<li class='navigation'><a href='#'>Web pages</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='#'>private folder</a></li>")
+            workspace_links_content.append("<li class='navigation'><a href='#'>web pages</a></li>")
     else:
         #we are on the membership page and there are 3 sets of users
         #anonymous, logged-in, owner
@@ -27,7 +27,7 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
-            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">Member Web Pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
+            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">member web pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">portal</a></li></ul>')
             theme('body').addClass('template-member-space')                    
         elif content('#portal-personaltools li a#user-name span').html() in content('#portal-breadcrumbs').html():
             #owner of the web pages and private folder
@@ -36,11 +36,11 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('height', '60px')
             theme('#portal-globalnav ul.level1 li:first-child').removeClass('selected')
             if content('.template-private_folder'):
-                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>Private folder</a></li>")
-                theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>Web pages</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>private folder</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>web pages</a></li>")
             elif content('.template-web_pages'):
-                theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>Private folder</a></li>")
-                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>Web pages</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>private folder</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>web pages</a></li>")
             #remove the membership breadcrumb link and username href attribute
             content('#portal-breadcrumbs span:nth-child(4)').remove()
             content('#portal-breadcrumbs a:nth-child(5)').removeAttr('href')
@@ -54,7 +54,7 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo_member-space.png')
             content('.level1').remove()
             theme('.level1').remove()
-            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">Member Web Pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">Portal</a></li></ul>')
+            theme('.level0').replaceWith('<ul class="level0"><li id="portaltab-member-profiles" class="selected" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + str(content('#portal-breadcrumbs span:nth-child(7) a').attr('href')) +'/web_pages' +'">member web pages</a></li><li id="portaltab-portal" class="plain" x-a-marker-attribute-for-deliverance="1"><a title="" href="' + host_url[0] + '://' +  host_url[1]+'/">portal</a></li></ul>')
             theme('body').addClass('template-member-space')
 
             
@@ -238,7 +238,7 @@ def documentActions_links(content, theme, resource_fetcher, log):
     """Fix the 'documentActions' for the business, members, archive and
     calendar folders.
     """
-    link_values = ['business', 'calendar', 'members', 'archive', 'workspace_acrhiv']
+    link_values = ['business', 'calendar', 'members', 'archive', 'workspace']
 
     for link_value in link_values:
         content_value = theme('.documentActions').html()

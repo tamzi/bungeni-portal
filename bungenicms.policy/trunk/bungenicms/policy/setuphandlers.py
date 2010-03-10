@@ -73,8 +73,8 @@ def setup_members_folder(context):
     pt['Large Plone Folder'].global_allow = old_global_allow
     
     # set default properties
-    members.setTitle("Membership")
-    members.setDescription("Membership")
+    members.setTitle("membership")
+    members.setDescription("membership")
     members._getWorkflowTool().doActionFor(members, 'publish' '')
     members.setExcludeFromNav(True)    
     members.reindexObject()
@@ -85,7 +85,7 @@ def setup_members_folder(context):
         addPy('index_html')
         index_html = getattr(members, 'index_html')
         index_html.write(member_indexhtml)
-        index_html.ZPythonScript_setTitle('Member Listing')    
+        index_html.ZPythonScript_setTitle('member listing')    
 
     # set members folder
     pm = portal['portal_membership']
@@ -103,7 +103,6 @@ def setup_application_folders(context):
     members            /members
     archive            /archive
     calendar           /calendar
-    workspace archive  /workspace-archive    
     ----------------------------------------------
 
     Thereafter we create second-level folders for any applications that will be accessed at this level:
@@ -120,18 +119,17 @@ def setup_application_folders(context):
     portal = context.getSite()
 
     items = (
-        ('business', u'Business', u'Business'),
-        ('members', u'Members', u'Members of Parliament'),
-        ('archive', u'Archive', u'Archive'),
-        ('calendar', u'Calendar', u'Calendar'),
-        ('workspace_archive', u'Archive', u'Archive'))        
+        ('business', u'business', u'business'),
+        ('members', u'members', u'members of parliament'),
+        ('archive', u'archive', u'archive'),
+        ('calendar', u'calendar', u'calendar'))
 
     for name, title, description in items:
         if name not in portal.objectIds():
             obj = portal[portal.invokeFactory("Folder", id=name)]
             obj.setTitle(title)
             obj.setDescription(description)
-            if name == 'calendar' or name =='workspace_archive':
+            if name == 'calendar':
                 obj.setExcludeFromNav(True)
             obj.reindexObject()
             wftool = getToolByName(portal, 'portal_workflow')

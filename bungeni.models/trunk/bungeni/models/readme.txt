@@ -130,7 +130,7 @@ Let's create some memberships and see what we can do with them.
 Check that we can access the membership through the containment object
 
   >>> session.flush()
-  >>> len( list( parliament.parliamentmembers.values() ) )
+  >>> len( list( parliament.members ) )
   3
 
 Government

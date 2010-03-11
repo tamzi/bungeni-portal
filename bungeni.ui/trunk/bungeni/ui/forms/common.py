@@ -407,7 +407,7 @@ class EditForm(BaseForm, ui.EditForm):
         if self.is_translation:
             language = get_language_by_name(self.context.head.language)['name']
             return _(u"edit_translation_help",
-                     default=u'The original $language version is shown on the left.',
+                     default=u'The original $language version is shown on the left',
                      mapping={'language': language})
             
     def validate(self, action, data):    
@@ -515,7 +515,7 @@ class TranslateForm(AddForm):
                 
         return _(
             u"translate_item_help",
-            default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation.',
+            default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation',
             mapping={'title': translate(props.title, context=self.request),
                      'language': language})
 

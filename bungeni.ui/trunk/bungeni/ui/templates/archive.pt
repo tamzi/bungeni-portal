@@ -5,7 +5,7 @@
   <div metal:fill-slot="body" i18n:domain="bungeni.ui">
     <h1 i18n:translate="">Archive</h1>
     <p i18n:translate="" class="documentDescription">
-      Access to current and historical records.
+      Access to current and historical records
     </p>
   </div>
 </html>

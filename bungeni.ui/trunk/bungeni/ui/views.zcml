@@ -12,17 +12,14 @@
      permission="zope.Public"
      name="index"
      template="templates/app-index.pt"
-     />
-
+  />
   <browser:page
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      name="index"
      layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".workspace.WorkspaceView"
-     template="templates/app-workspace.pt"
-     />
-
+     class=".container.ContainerRootRedirect"
+  />
   <browser:page
      for="bungeni.core.interfaces.ISection"
      permission="zope.View"
@@ -30,7 +27,7 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace.WorkspaceView"
      template="templates/app-workspace.pt"
-     />
+  />
 
   <!-- Workspace -->
 
@@ -41,7 +38,7 @@
      class=".workspace_archive.WorkspaceArchiveView"
      permission="zope.View"
      template="templates/app-workspace-archive.pt"
-     />
+  />
 
   <!-- Setup Access to Browser Resources on the Application -->
   

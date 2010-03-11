@@ -37,15 +37,16 @@ class RedirectToCurrent(BrowserView):
         #fname = self.traverse_subpath[0]     
         qstr =  self.request['QUERY_STRING']
         if 'date' not in self.request.form:
-            qstr = qstr + '&date=' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d')
+            qstr = "%s&date=%s" % (qstr,
+                    datetime.date.strftime(datetime.date.today(),'%Y-%m-%d'))
         url = rooturl + '/parliament/'
         if len(self.traverse_subpath) >= 1:
             # we have a traversal to redirect to
             if self.traverse_subpath[0] == 'parliament':
-                url = rooturl + '/parliament/obj-' + str(self.currParliament) + '/' + '/'.join(self.traverse_subpath[1:]) +'?' + qstr
-        return response.redirect( url )   
-        
-                
-
-
+                url = "%s/parliament/obj-%s/%s?%s" % (
+                        rooturl,  
+                        self.currParliament,  
+                        '/'.join(self.traverse_subpath[1:]),
+                        qstr)
+        return response.redirect(url)
 

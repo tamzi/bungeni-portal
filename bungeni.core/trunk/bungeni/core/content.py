@@ -16,7 +16,7 @@ class Section(OrderedContainer):
 
     Note that items are not persisted.
     """
-
+    
     interface.implements(ISection, IDCDescriptiveProperties, IBrowserPublisher)
     
     def __init__(self, title=None, description=None, default_name=None, marker=None):
@@ -24,37 +24,43 @@ class Section(OrderedContainer):
         self.title = title
         self.description = description
         self.default_name = default_name
-        
         if marker is not None:
             interface.alsoProvides(self, marker)
-
+    # XXX section.title is duplicated in ZCML menuItem definitions
+    # Section should be modified to just get its title from the associated
+    # view descriptor (via default_name)
+    
     def __getitem__(self, key):
         item = super(Section, self).__getitem__(key)
         if IQueryContent.providedBy(item):
             obj = item.query(self)
             obj.__name__ = item.__name__
-
             obj.__parent__ = DublinCoreDescriptivePropertiesProxy(
                 NavigationProxy(obj.__parent__, item.__parent__),
                 title=self.title, description=self.description)
-
             return obj
         return item
-
+    
     def __setitem__(self, key, value):
         super(Section, self).__setitem__(key, value)
         value.__parent__ = self
         value.__name__ = key
-
+    
     def browserDefault(self, request):
         default_name = self.default_name
         if default_name is None:
             default_name = getDefaultViewName(self, request)
         return self, (default_name,)
-
-    def publishTraverse(self, request, nm):
+    
+    # XXX all methods should indicate what the expected input parameter 
+    # types and return value types should be e.g. by adopting a 
+    # python3-style type annotations as a doc string, 
+    # as indicated in the SAMPLE docstring here:
+    def publishTraverse(self, request, name):
+        """ (request:IRequest, name:str) -> IView
+        """
         traverser = ItemTraverser(self, request)
-        return traverser.publishTraverse(request, nm)
+        return traverser.publishTraverse(request, name)
 
 class QueryContent(object):
     interface.implements(IQueryContent, IDCDescriptiveProperties)
@@ -68,3 +74,4 @@ class QueryContent(object):
         self.query = query
         self.title = title
         self.description = description
+

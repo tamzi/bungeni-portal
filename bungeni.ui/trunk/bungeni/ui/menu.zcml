@@ -2,8 +2,8 @@
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:z3c="http://namespaces.zope.org/z3c"
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
-    i18n_domain="bungeni.ui">	   
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="bungeni.ui">
 
 
   <!-- menus -->
@@ -1209,6 +1209,11 @@
 
   <!-- primary navigation (top-level sections) -->
   
+  <!-- Note: when authenticated, Home [/] is actually Workspace. It would be 
+  better to have the workspace action be [/workspace/] as opposed to be the same
+  as for not-authenticated Home BUT giving it a different action value will 
+  cause the Home menuItem to be displayed even when the user *is* authenticated.
+  -->
   <browser:menuItem
      menu="site_actions"
      for="*"
@@ -1216,8 +1221,7 @@
      action="/"
      title="Workspace"
      permission="zope.View"
-     />
-
+  />
   <browser:menuItem
      menu="site_actions"
      for="*"
@@ -1225,8 +1229,8 @@
      action="/"
      title="Home"
      permission="zope.Public"
-     />
-
+  />
+  
    <browser:menuItem
      menu="site_actions"
      for="*"

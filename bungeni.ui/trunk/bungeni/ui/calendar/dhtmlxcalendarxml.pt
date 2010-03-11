@@ -1,0 +1,10 @@
+<data>
+<tal:loop tal:repeat="s python:view.sittings.values()">
+<event tal:attributes="id python:s.sitting_id">
+<start_date><span tal:replace="structure python: '&lt;![CDATA[' + s.start_date.strftime('%Y-%m-%d %H:%M') + ']]&gt;'"/></start_date>
+<end_date><span tal:replace="structure python: '&lt;![CDATA[' + s.end_date.strftime('%Y-%m-%d %H:%M') + ']]&gt;'"/></end_date>
+<text><span tal:replace="structure python: '&lt;![CDATA[' + s.sitting_type.sitting_type + ']]&gt;'"/></text>
+<details><span tal:replace="structure python: '&lt;![CDATA[' + s.status + ']]&gt;'"/></details>
+</event>
+</tal:loop>
+</data>

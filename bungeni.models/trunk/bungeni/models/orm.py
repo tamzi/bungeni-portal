@@ -822,8 +822,9 @@ mapper( domain.ConstituencyDetail, schema.constituency_details,
 mapper( domain.CommitteeType, schema.committee_type )   
 mapper( domain.SittingType, schema.sitting_type )     
 
-#XXX fix me
 s_sittingattendance  = rdb.select([schema.sitting_attendance.c.sitting_id,
+                    schema.sitting_attendance.c.attendance_id.label('_attendance_id'),
+                    schema.sitting_attendance.c.member_id.label('_member_id'),
                     schema.attendance_type.c.attendance_type.label('attendance_id'),
                     (schema.users.c.first_name + ' ' +
                     schema.users.c.last_name).label('member_id'),
@@ -831,12 +832,10 @@ s_sittingattendance  = rdb.select([schema.sitting_attendance.c.sitting_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,                    
                     ],
-                    from_obj=[schema.attendance_type.join(
+                    from_obj=[
                         schema.sitting_attendance.join(
-                        schema.users),
-                        schema.attendance_type.c.attendance_id ==
-                        schema.sitting_attendance.c.attendance_id
-                        )],                              
+                        schema.attendance_type).join(schema.users)
+                        ],                              
                               ).alias('list_sittingattendance')
 
 mapper( domain.ListGroupSittingAttendance, s_sittingattendance)

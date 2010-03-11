@@ -336,7 +336,7 @@ class GroupSittingAddForm(AddForm):
     Cleanup.
 
       >>> session.flush()  
-      >>> #session.close() 
+      >>> session.close() 
 
     """
     
@@ -451,9 +451,8 @@ class GroupSittingAddForm(AddForm):
                 form.applyChanges(ob, self.form_fields, data, {})
                 ob.group_id = group_id
                 
-                session.save(ob)
+                session.add(ob)
                 notify(ObjectCreatedEvent(ob))
 
                 objs.append(ob)
-        #session.close()
         return objs

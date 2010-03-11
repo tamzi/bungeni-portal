@@ -48,7 +48,7 @@ class WorkspaceArchiveView(WorkspaceView):
                 self.ministry_ids = get_ministry_ids_for_user_in_government(
                     self.user_id, self.government_id)
                 if self.ministry_ids:
-                    interface.alsoProvides(self, interfaces.IMinisterWorkspace)                                        
+                    interface.alsoProvides(self, interfaces.IMinisterWorkspace)
             else:
                 self.government_id = None
                                                        

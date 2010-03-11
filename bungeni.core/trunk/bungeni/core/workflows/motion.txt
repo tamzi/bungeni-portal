@@ -147,13 +147,13 @@ Conditions
 
   >>> actions.complete(info, motion)
   >>> len(versions)
-  4
+  5
 
 "Approve".
 
   >>> actions.approve(info, motion)
   >>> len(versions)
-  5
+  6
 
 "Reject".
 
@@ -163,13 +163,13 @@ Conditions
 
   >>> actions.require_amendment(info, motion)
   >>> len(versions)
-  6
+  7
 
 "MP clarify".
 
   >>> actions.mp_clarify(info, motion)
   >>> len(versions)
-  7
+  8
 
 "Schedule".
 

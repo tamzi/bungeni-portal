@@ -222,9 +222,6 @@ class AppSetup(object):
         provideAdapter(location.ContainerLocation(committees, records[u"committees"]),
                        (implementedBy(domain.Committee), ILocation))
 
-        records[u"governments"] = domain.GovernmentContainer()
-        provideAdapter(location.ContainerLocation(records[u"governments"]),
-                       (implementedBy(domain.Government), ILocation))
         #records[u"mps"] = domain.MemberOfParliamentContainer()
         #provideAdapter(location.ContainerLocation(records[u"mps"]),
         #               (implementedBy(domain.MemberOfParliament), ILocation))                       

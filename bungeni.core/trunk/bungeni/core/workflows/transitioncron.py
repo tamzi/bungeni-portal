@@ -29,6 +29,7 @@ from ore.alchemist.interfaces import IDatabaseEngine
 import ore.workflow.workflow
 import bungeni.core.interfaces
 import bungeni.core.workflows.question
+import bungeni.core.workflows.adapters
 from bungeni import core as model
 
 #import pdb
@@ -56,7 +57,8 @@ def _deferAdmissibleQuestionsBefore(date):
     status = u"admissible"
     admissibleQuestions = _getQuestionsApprovedBefore(date, status)
     for question in admissibleQuestions:
-        IWorkflowInfo(question).fireTransition('defer')   
+        IWorkflowInfo(question).fireTransitionToward(u'deferred', 
+                check_security=False)   
     
     
     

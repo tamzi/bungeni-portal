@@ -187,13 +187,13 @@ ministry id, taken from this question).
 
   >>> actions.complete(info, question)
   >>> len(versions)
-  4
+  5
 
 "Approve".
 
   >>> actions.approve(info, question)
   >>> len(versions)
-  5
+  6
 
   >>> question.approval_date == today
   True
@@ -206,19 +206,19 @@ ministry id, taken from this question).
 
   >>> actions.require_amendment(info, question)
   >>> len(versions)
-  6
+  7
 
 "Complete clarify".
 
   >>> actions.complete_clarify(info, question)
   >>> len(versions)
-  7
+  8
 
 "MP clarify".
 
   >>> actions.mp_clarify(info, question)
   >>> len(versions)
-  8
+  9
 
 "Send to ministry".
 
@@ -309,8 +309,10 @@ is dispatched.
   >>> question.receive_notification = True
   >>> notification.SendNotificationToMemberUponReceipt(ObjectEvent(question))
   From: clerks.office@parliament.go.tld
-  To: "John Doe" <john.doe@localhost>...
-  Subject: Question received: My subject...
+  To: "John Doe" <john.doe@localhost> 
+  ...
+  Subject: Question received: My subject
+  ...
   
 Send notification to Clerk's office upon submit.
 
@@ -324,16 +326,18 @@ to the Speaker's Office for reviewing and to make it “admissible”.
 
   >>> notification.SendNotificationToMemberUponComplete(ObjectEvent(question))
   From: clerks.office@parliament.go.tld
-  To: "John Doe" <john.doe@localhost> ...
-  Question completed for review at the speakers office.
+  To: "John Doe" <john.doe@localhost> 
+  ...
+  Question completed for review at the speakers office...
 
 At the same time the question is also forwarded to the ministry.
 
   >>> question.ministry_id = ministry.group_id
   >>> notification.SendNotificationToMinistryUponComplete(ObjectEvent(question))  
   From: clerks.office@parliament.go.tld
-  To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> ...
-  Question assigned to ministry.
+  To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> 
+  ...
+  Question assigned to ministry...
   
 A question was rejected by the speakers office.
 

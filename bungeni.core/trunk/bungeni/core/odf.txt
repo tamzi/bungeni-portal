@@ -49,4 +49,4 @@ The document has been updated. Verify contents:
 Verify file-size:
   
   >>> os.path.getsize(archive.name)
-  8339L
+  8350L

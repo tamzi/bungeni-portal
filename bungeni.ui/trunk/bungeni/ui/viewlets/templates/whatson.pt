@@ -6,7 +6,7 @@
   <div id="whats-on-overview" >
     <h1> <a href="/business" i18n:translate="">What's on</a></h1>
     <p i18n:translate="" class="documentDescription">
-      An overview of the daily operations of the parliament.
+      An overview of the daily operations of the parliament
     </p>
     <br/>
 

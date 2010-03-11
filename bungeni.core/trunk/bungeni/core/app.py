@@ -91,7 +91,7 @@ class AppSetup(object):
         ws_calendar = workspace[u"calendar"] = QueryContent(
             container_getter(get_current_parliament, 'sittings'),
             title=_(u"Scheduling"),
-            description=_(u"View the sittings of the current parliament."))        
+            description=_(u"View the sittings of the current parliament"))        
         
         
         # business section

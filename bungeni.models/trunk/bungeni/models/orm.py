@@ -1,18 +1,16 @@
 
 import sqlalchemy as rdb
-from sqlalchemy.orm import mapper, relation, column_property, deferred, backref
+from sqlalchemy.orm import mapper, relation, column_property, backref
 
 import schema
 import domain
 
-from i18n import _
 
 # Users
 # general representation of a person
 mapper( domain.User, schema.users,  
         properties={
             'user_addresses': relation( domain.UserAddress ),
-                     
        }        
        )
 
@@ -132,6 +130,7 @@ s_committee = rdb.select([schema.groups.c.group_id,
                     schema.groups.c.parent_group_id,
                     schema.groups.c.short_name,
                     schema.groups.c.status,
+                    schema.committee_type.c.committee_type_id.label('_fk_committee_type_id'),
                     schema.committee_type.c.committee_type.label('committee_type_id'),
                     schema.committee_type.c.committee_type,
                     schema.groups.c.full_name],
@@ -233,7 +232,9 @@ s_member_of_parliament = rdb.select([schema.user_group_memberships.c.membership_
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
                     schema.users.c.last_name).label('user_id'),
+                    schema.users.c.user_id.label('_fk_user_id'),
                     schema.constituencies.c.name.label('constituency_id'),
+                    schema.parliament_memberships.c.constituency_id.label('_fk_constituency_id'),
                     schema.constituencies.c.name.label('name')],
                     from_obj=[schema.parliament_memberships.join(
                             schema.constituencies).join(schema.user_group_memberships
@@ -253,7 +254,8 @@ s_minister = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('user_id'),],
+                    schema.users.c.last_name).label('user_id'),
+                    schema.users.c.user_id.label('_fk_user_id'),],
                     whereclause = 
                     schema.user_group_memberships.c.membership_type ==
                     'minister',
@@ -278,7 +280,8 @@ s_committeemember = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('user_id'),],
+                    schema.users.c.last_name).label('user_id'),
+                    schema.users.c.user_id.label('_fk_user_id'),],
                     whereclause = 
                     schema.user_group_memberships.c.membership_type ==
                     'committeemember',
@@ -303,7 +306,8 @@ s_partymember = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('user_id'),],
+                    schema.users.c.last_name).label('user_id'),
+                    schema.users.c.user_id.label('_fk_user_id'),],                    
                     whereclause = 
                     schema.user_group_memberships.c.membership_type ==
                     'partymember',
@@ -328,7 +332,8 @@ s_officemember = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('user_id'),],
+                    schema.users.c.last_name).label('user_id'),
+                    schema.users.c.user_id.label('_fk_user_id'),],                    
                     whereclause = 
                     schema.user_group_memberships.c.membership_type ==
                     'officemember',
@@ -360,7 +365,8 @@ s_committeestaff = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('user_id'),],
+                    schema.users.c.last_name).label('user_id'),
+                    schema.users.c.user_id.label('_fk_user_id'),],                    
                     whereclause = 
                     schema.user_group_memberships.c.membership_type ==
                     'committeestaff',
@@ -426,6 +432,7 @@ s_heading = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
                     schema.users.c.last_name).label('owner_id'),
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id')
                     ],
                     whereclause = 
                     schema.parliamentary_items.c.type ==
@@ -456,7 +463,9 @@ s_question = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
                     schema.users.c.last_name).label('owner_id'),
-                    schema.groups.c.full_name.label('ministry_id'),                    
+                    schema.groups.c.full_name.label('ministry_id'),     
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id'),
+                    schema.questions.c.ministry_id.label('_fk_ministry_id'),                                                      
                     ],
                     whereclause = 
                     schema.parliamentary_items.c.type ==
@@ -512,8 +521,9 @@ s_motion = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.users.c.first_name,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id'),
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('owner_id'),],
+                    schema.users.c.last_name).label('owner_id'),],                                       
                     whereclause = 
                     schema.parliamentary_items.c.type ==
                     'motion',
@@ -562,7 +572,8 @@ s_bill= rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('owner_id'),],
+                    schema.users.c.last_name).label('owner_id'),
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id'),],                    
                     whereclause = 
                     schema.parliamentary_items.c.type ==
                     'bill',
@@ -611,7 +622,8 @@ s_event = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('owner_id'),],
+                    schema.users.c.last_name).label('owner_id'),
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id'),],                    
                     whereclause = 
                     schema.parliamentary_items.c.type ==
                     'event',
@@ -643,7 +655,8 @@ s_agendaitem = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('owner_id'),],
+                    schema.users.c.last_name).label('owner_id'),
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id'),],                    
                     whereclause = 
                     schema.parliamentary_items.c.type ==
                     'agendaitem',
@@ -695,7 +708,8 @@ s_tableddocument = rdb.select([schema.parliamentary_items.c.parliamentary_item_i
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
                     (schema.users.c.first_name + ' ' +
-                    schema.users.c.last_name).label('owner_id'),],
+                    schema.users.c.last_name).label('owner_id'),
+                    schema.parliamentary_items.c.owner_id.label('_fk_owner_id'),],                    
                     whereclause = 
                     schema.parliamentary_items.c.type ==
                     'tableddocument',
@@ -714,6 +728,7 @@ mapper( domain.TabledDocument, schema.tabled_documents,
              'changes':relation( domain.TabledDocumentChange, backref='origin',
              cascade="all, delete-orphan", passive_deletes=False),
              } )
+             
 mapper( domain.TabledDocumentChange, schema.tabled_document_changes )
 mapper( domain.TabledDocumentVersion, schema.tabled_document_versions,
         properties= {'change':relation( domain.TabledDocumentChange, uselist=False),
@@ -791,6 +806,8 @@ s_constituency = rdb.select([schema.constituencies.c.constituency_id,
                     schema.constituencies.c.end_date,
                     schema.provinces.c.province,
                     schema.regions.c.region,
+                    schema.constituencies.c.province_id.label('_fk_province_id'),
+                    schema.constituencies.c.region_id.label('_fk_region_id'),                    
                     schema.provinces.c.province.label('province_id'),
                     schema.regions.c.region.label('region_id'),],
                     from_obj=[schema.constituencies.outerjoin(
@@ -823,8 +840,8 @@ mapper( domain.CommitteeType, schema.committee_type )
 mapper( domain.SittingType, schema.sitting_type )     
 
 s_sittingattendance  = rdb.select([schema.sitting_attendance.c.sitting_id,
-                    schema.sitting_attendance.c.attendance_id.label('_attendance_id'),
-                    schema.sitting_attendance.c.member_id.label('_member_id'),
+                    schema.sitting_attendance.c.attendance_id.label('_fk_attendance_id'),
+                    schema.sitting_attendance.c.member_id.label('_fk_member_id'),
                     schema.attendance_type.c.attendance_type.label('attendance_id'),
                     (schema.users.c.first_name + ' ' +
                     schema.users.c.last_name).label('member_id'),

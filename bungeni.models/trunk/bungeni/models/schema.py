@@ -41,7 +41,7 @@ def make_versions_table( table, metadata, secondarytable=None ):
     some version metadata information will be stored.
     
     A secondary table may be defined if the object mapped to this 
-    table consists of a join betwee two tables   
+    table consists of a join between two tables   
     """
     
     table_name = table.name
@@ -60,9 +60,6 @@ def make_versions_table( table, metadata, secondarytable=None ):
     columns.extend( [ c.copy() for c in table.columns if not c.primary_key ] )
     if secondarytable:
         columns.extend( [ c.copy() for c in secondarytable.columns if not c.primary_key ] )        
-    #primary = [ c.copy() for c in table.columns if c.primary_key ][0]
-    #primary.primary_key = False
-    #columns.insert( 2, primary )
     
     versions_table = rdb.Table(
             versions_name,
@@ -139,26 +136,6 @@ parliament_memberships = rdb.Table(
 
    )   
 
-# staff assigned to a group ( committee clerks, researchers, ...)
-
-#staff_groupmember = rdb.Table(
-#    "staff_groupmember",
-#    metadata,
-#    rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), primary_key=True ),
-#    # other stuff to be added here to describe staffs role etc for the group
-#    )
-
-
-
-#reporters = rdb.Table(
-#   "reporters",
-#   metadata,
-#   rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id'), primary_key=True ),
-#   rdb.Column( "initials", rdb.Unicode(4), nullable=False ),
-#   rdb.Column( "experience", rdb.Unicode(1), default=u'N'),
-#   rdb.Column( "typing_speed", rdb.Integer ),
-#   rdb.Column( "status", rdb.Unicode(1), default=u'A' ),
-#   )
 
 
 #########################
@@ -523,17 +500,6 @@ attendance_type = rdb.Table(
    rdb.Column ("attendance_type", rdb.Unicode(40), nullable=False ),
    )
 
-# debates? is this replaced by item_discussions?
-
-#debates = rdb.Table(
-#    "debates",
-#    metadata,
-#    rdb.Column( "debate_id", rdb.Integer, primary_key=True ),
-#    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
-#    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
-#    rdb.Column( "body_text", rdb.UnicodeText),
-#    )
-
 
 # venues for sittings:
 
@@ -590,7 +556,6 @@ item_votes = rdb.Table(
             rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
             nullable=False ),
    rdb.Column( "date", rdb.Date ),
-#   rdb.Column( "division_p",  rdb.Boolean ), # isn't a division implied by the vote?
    rdb.Column( "affirmative_votes", rdb.Integer),
    rdb.Column( "negative_votes", rdb.Integer ),
    rdb.Column( "remarks", rdb.UnicodeText  ),   
@@ -1000,6 +965,14 @@ def reset_database(  ):
     for m in mdset:
         m.drop_all( checkfirst=True )
         m.create_all( checkfirst=True )
+
+
+
+#for table_name in metadata.tables.keys():
+#    print metadata.tables[table_name].name
+    
+
+
 
 if __name__ == '__main__':    
     import sys

@@ -82,7 +82,7 @@ namespace :bungeni_presetup do
 	"mkdir -p #{user_python25_runtime}",
 	"cd #{user_python_build_path} && #{python_download_command}",
  	"cd #{user_python_build_path} && tar xvzf #{python_download_file}",
-	"cd #{user_python_build_path}/#{python_src_dir} && CPPFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib/ssl ./configure --prefix=#{user_python25_runtime}",
+	"cd #{user_python_build_path}/#{python_src_dir} && CPPFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib/ssl ./configure --prefix=#{user_python25_runtime} USE=sqlite",
 	"cd #{user_python_build_path}/#{python_src_dir} && CPPFLAGS=-I/usr/include/openssl LDFLAGS=-L/usr/lib/ssl make",
 	"cd #{user_python_build_path}/#{python_src_dir} && make install"
 	].each {|cmd| run cmd}

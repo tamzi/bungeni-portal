@@ -66,13 +66,14 @@ def add_section_links(content, theme, resource_fetcher, log):
     link_val= None
     host_url = urlsplit(log.theme_url)
     link_items = str(theme("ul.level0 li.selected")).split("</li>")
-    if "workspace" not in link_items[0] and "workspace" not in link_items[1] and not content('.section-membership'):
-        theme('body').addClass('template-portal')        
-    elif (("workspace" in link_items[0] or  "workspace" in link_items[1])) and (not content('.section-membership') and not theme('.template-member-space')):
-        theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
-        theme('#portal-logo img').attr('width', '803px')
-        theme('#portal-logo img').attr('height', '60px')
-        theme('body').addClass('template-workspace')
+    if len(link_items) > 1:
+        if "workspace" not in link_items[0] and "workspace" not in link_items[1] and not content('.section-membership'):
+            theme('body').addClass('template-portal')        
+        elif (("workspace" in link_items[0] or  "workspace" in link_items[1])) and (not content('.section-membership') and not theme('.template-member-space')):
+            theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
+            theme('#portal-logo img').attr('width', '803px')
+            theme('#portal-logo img').attr('height', '60px')
+            theme('body').addClass('template-workspace')
 
 def add_member_workspace_styles(content, theme, resource_fetcher, log):
     """

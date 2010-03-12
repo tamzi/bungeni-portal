@@ -250,7 +250,6 @@ class DailyCalendarView(CalendarView):
         date = removeSecurityProxy(self.context.date)
 
         sittings = self.context.get_sittings()
-        import pdb; pdb.set_trace()
         return template(
             display="daily",
 #            title=_(u"$B $Y", mapping=date),

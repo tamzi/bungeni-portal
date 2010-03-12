@@ -67,6 +67,7 @@ namespace :bungeni_presetup do
 			"libtool" , # for svn
 			"automake" ,  # for svn
 			"autoconf" , # for svn
+			"libsqlite3-dev" #for python unit tests
 			#"libaprutil1-dev", # for svn
 			#"swig", # for svn
 			#"xmlto" # for libneon 

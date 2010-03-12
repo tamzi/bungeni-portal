@@ -639,10 +639,6 @@ div#portal-globalnav ul.level0 li#portaltab-index_html {
   display: inline;
 }
 
-.template-front-page div#portal-globalnav ul.level0 li#portaltab-:first-child {
-  display:none;
-}
-
 
 .template-portal #portal-breadcrumbs {
   margin-top: 1.5em;

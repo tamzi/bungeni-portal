@@ -26,7 +26,7 @@ from bungeni.models.interfaces import ICommitteeContainer
 from bungeni.models.interfaces import IMemberOfParliamentContainer
 from bungeni.models.interfaces import ICommitteeMemberContainer
 from bungeni.models.interfaces import ICommitteeStaffContainer
-from bungeni.models.interfaces import ISortOn
+
 from bungeni.ui.utils import getDisplayDate
 from bungeni.ui.utils import getFilter
 from bungeni.ui.cookies import get_date_range
@@ -363,7 +363,8 @@ class ContainerJSONListing( BrowserView ):
         # fetch the nodes from the container
         filter_by = dateFilter( self.request )
         if filter_by:  
-            if 'start_date' in  context._class.c and 'end_date' in  context._class.c :                 
+            if ('start_date' in  context._class.c 
+                and 'end_date' in  context._class.c):                 
                 # apply date range resrictions
                 query=query.filter(filter_by)
         #query = query.limit( limit ).offset( start )
@@ -469,11 +470,20 @@ class ContainerWFStatesJSONListing( ContainerJSONListing ):
             self.domain_model = listing_class
             l_query = session.query(listing_class)                             
         if listing_class and pk:
-            modifier = getattr(listing_class,context.constraints.fk) == pk
+            # if we substituted a foreign key in our listing class with 
+            # clear text we have to adjust our modifier accordingly
+            # '_fk_' + field name is the convention
+            if hasattr(listing_class,'_fk_' + 
+                    context.constraints.fk):
+                modifier = getattr(listing_class,'_fk_' + 
+                    context.constraints.fk) == pk            
+            else:
+                modifier = getattr(listing_class,context.constraints.fk) == pk
             l_query = l_query.filter(modifier)                                             
         query=get_query(self.context, self.request,l_query,self.domain_model)   
         # fetch the nodes from the container
-        public_wfstates = getattr(self.domain_annotation,'public_wfstates', None)
+        public_wfstates = getattr(self.domain_annotation,'public_wfstates', 
+                None)
         if public_wfstates:
             query=query.filter(self.domain_model.status.in_(public_wfstates))
         ud_filter = self.getFilter()        

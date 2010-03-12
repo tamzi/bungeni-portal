@@ -143,7 +143,7 @@ div#portal-globalnav {
 
 /*Navigation styles - workspace*/
 .template-workspace div#portal-globalnav ul.level0 {
-  height: 1.6em;
+  height: 1.85em;
   line-height: normal;
   list-style-image: none;
   list-style-position: outside;
@@ -255,7 +255,6 @@ div#portal-globalnav {
   background-color: #d4e2ef;
   border-top: 1px solid #a4bed7;
   border-bottom: 0px;
-  float:right;
   padding:0 0em;
   line-height: 0.7em;
 }
@@ -369,7 +368,7 @@ div#portal-globalnav {
   margin-left: 0em;
   white-space: nowrap;
   width: 100%;
-  height:1.5em;
+  height:1.55em;
   border-bottom: 1px solid #fb9c14;
 }
 
@@ -423,13 +422,14 @@ div#portal-globalnav {
   border-right: 1px solid #f8ba61;
   border-bottom: 0px solid #f8ba61;
   font-weight:normal;
+  height: 17px;
 }
 
 .template-portal div#portal-globalnav ul.level0 li#portaltab- a {
   background-color: #ffffff;
   font-weight: normal;
-  height: 1.35em;
-  border-top: 0.5px solid #f8ba61;
+  height: 1.40em;
+  border-top: 1.5px solid #f8ba61;
   border-left: 1px solid #f8ba61;
   border-right: 1px solid #f8ba61;
   border-bottom: 0px solid #f8ba61;   
@@ -791,7 +791,6 @@ dl.section-front-page {
     
 
 #portal-column-content {
-  max-width: 20em;
   padding: 0 10 0 0;
 }
 

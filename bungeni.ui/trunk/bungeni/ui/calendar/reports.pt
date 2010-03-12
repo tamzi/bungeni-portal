@@ -2,12 +2,12 @@
 <!-- CSS file - bungeni.portal/bungeni/portal/static/html/resources/A5-report.css --> 
 
 <!-- Main Title -->
-<h1 class="report_mainTitle">
+<h1 class="reportmaintitle">
     <span tal:replace="view/group/short_name"/> Parliament 
 </h1>
 
 
-<h1 class="report_title">      
+<h1 class="reportdoctype">      
     <span tal:replace="view/doc_type"/>
 </h1>
         
@@ -15,7 +15,7 @@
 <tal:loop tal:repeat="item view/sitting_items">
     <br style="line-height:200%"/>
         <!-- Sitting Title -->
-        <h2 class="report_date"> 
+        <h2 class="reportdate"> 
             <span tal:replace="item/sitting_type/sitting_type"/> Sitting : 
             <span tal:replace="python:item.start_date.strftime('%H:%M')" /> to 
             <span tal:replace="python:item.end_date.strftime('%H:%M')" />, 
@@ -28,15 +28,15 @@
                     <span tal:condition="view/motion">
                         <h1 tal:condition="scheduled/category  | nothing"
                             tal:attributes="name scheduled/category_id"
-                            tal:replace="scheduled/category/short_name"/> 
+                            tal:replace="scheduled/category/short_name" class="reportheading"/> 
                          <span tal:condition="scheduled/category  | nothing"><hr/></span>
-                         <h2>
+                         <h2 class="reporttitle">
                             <span tal:replace="python:scheduled.item.type.capitalize()" /> <span tal:condition="view/motion_number" tal:replace="scheduled/item/motion_number" />
                             <span tal:condition="view/motion_title" tal:replace="scheduled/item/short_name" />
                             
                          </h2>
                          <span tal:condition="view/motion_owner">
-                            <h3>
+                            <h3 class="reportmover">
                                 <span tal:condition="scheduled/item/owner/first_name | nothing">
                                     Moved by 
                                     <span tal:replace="scheduled/item/owner/first_name" /> 
@@ -61,16 +61,16 @@
                     <span tal:condition="view/bill">
                         <h1 tal:condition="scheduled/category  | nothing"
                             tal:attributes="name scheduled/category_id"
-                            tal:content="scheduled/category/short_name"/> 
+                            tal:content="scheduled/category/short_name" class="reportheading"/> 
                         <span tal:condition="scheduled/category  | nothing"><hr/></span>
                         <span tal:condition="view/bill_title">
-                            <h2> 
+                            <h2 class="reporttitle"> 
                                 <span tal:replace="python:scheduled.item.type.capitalize()" /> : 
                                 <span tal:replace="scheduled/item/short_name" tal:condition="scheduled/item/short_name | nothing"/>
                             </h2>
                         </span>
                         <span tal:condition="scheduled/item/owner/first_name | nothing">
-                            <h3> Moved by 
+                            <h3 class="reportmover"> Moved by 
                                 <span tal:replace="scheduled/item/owner/first_name" /> 
                                 <span tal:replace="scheduled/item/owner/last_name" 
                                       tal:condition="scheduled/item/owner/last_name | nothing" /> 
@@ -109,9 +109,9 @@
                     <span tal:condition="view/question">
                         <h1 tal:condition="scheduled/category  | nothing"
                             tal:attributes="name scheduled/category_id"
-                            tal:content="scheduled/category/short_name"/> 
+                            tal:content="scheduled/category/short_name" class="reportheading"/> 
                         <span tal:condition="scheduled/category  | nothing"><hr/></span>
-                        <h2>
+                        <h2 class="reporttitle">
                             <span tal:replace="python:scheduled.item.type.capitalize()" />
                             <span tal:condition="view/question_number"> : <span tal:replace="scheduled/item/question_number"/>
                     </span>
@@ -120,7 +120,7 @@
                                     </span>
                                 </h2>
                                 <span tal:condition="view/question_owner">
-                                    <h3> Moved by <span tal:replace="scheduled/item/owner/first_name" /> 
+                                    <h3 class="reportmover"> Moved by <span tal:replace="scheduled/item/owner/first_name" /> 
                                         <span tal:replace="scheduled/item/owner/last_name" />  
                                         <span tal:condition="scheduled/item/ministry | nothing"> to 
                                             <span tal:replace="scheduled/item/ministry/full_name"/>
@@ -143,9 +143,9 @@
                     <span tal:condition="view/agenda">
                           <h1 tal:condition="scheduled/category  | nothing"
                               tal:attributes="name scheduled/category_id"
-                              tal:content="scheduled/category/short_name"/> 
+                              tal:content="scheduled/category/short_name" class="reportheading"/> 
                           <span tal:condition="scheduled/category  | nothing"><hr/></span>  
-                          <h2> Agenda Item : <span tal:replace="scheduled/item/short_name" /></h2>
+                          <h2 class="reporttitle"> Agenda Item : <span tal:replace="scheduled/item/short_name" /></h2>
                           <span tal:condition="scheduled/item/owner/first_name | nothing">
                                 <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
                                     <span tal:replace="scheduled/item/owner/last_name" 
@@ -160,9 +160,9 @@
                     <span tal:condition="view/tabled_document">
                         <h1 tal:condition="scheduled/category  | nothing"
                             tal:attributes="name scheduled/category_id"
-                            tal:content="scheduled/category/short_name"/> 
+                            tal:content="scheduled/category/short_name" class="reportheading"/> 
                         <span tal:condition="scheduled/category  | nothing"><hr/></span>
-                        <h2> Tabled Document
+                        <h2 class="reporttitle"> Tabled Document
                             <span tal:condition="view/tabled_document_number"> : 
                                 <span tal:replace="scheduled/item/tabled_document_id"/>
                             </span>
@@ -171,7 +171,7 @@
                             </span>
                         </h2>
                         <span tal:condition="view/tabled_document_owner">
-                            <h3> Moved by <span tal:replace="scheduled/item/owner/first_name" /> 
+                            <h3 class="reportmover"> Moved by <span tal:replace="scheduled/item/owner/first_name" /> 
                                 <span tal:replace="scheduled/item/owner/last_name" />  
                             </h3>
                         </span>

@@ -5,6 +5,10 @@ html {
   min-height: 100%;
 }
 
+body {
+  height: 100%;
+}
+
 .section-bungeni-archive #portletArchiveDates select {
   width: 150px;
 }
@@ -37,21 +41,26 @@ html {
 }
 
 .template-portal #visual-table-wrapper,
-.template-member-space #visual-table-wrapper {
+.template-member-space #visual-table-wrapper,
+.template-workspace #visual-table-wrapper {  
   margin-top:0;  
   margin:0px auto !important;
   margin-bottom:0;  
   padding:0;
   text-align:left;
-  width:1054px !important;
   height: 100%;
   margin: 0px;
   margin-left: 0px;
   margin-right: 0px;
   margin-top: 0px;
   margin-bottom: 0px;  
-
 }
+
+.template-portal #visual-table-wrapper,
+.template-member-space #visual-table-wrapper {
+  width:1054px !important;
+}
+
 
 #main-body-table {
   height: 100%;

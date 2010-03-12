@@ -1,4 +1,7 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
+"""$Id:$
+"""
+
 import datetime
 
 import sqlalchemy.sql.expression as sql
@@ -28,11 +31,9 @@ from bungeni.ui.utils import get_wf_state
 from bungeni.ui.i18n import _
 
 
-
-
-
 class ViewletBase(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')
+
 
 class UserIdViewlet(viewlet.ViewletBase):
     """ display the users
@@ -51,132 +52,41 @@ class UserIdViewlet(viewlet.ViewletBase):
         
     render = ViewPageTemplateFile ('../forms/templates/user_id.pt')        
     
-class QuestionInStateViewlet( ViewletBase ):
-    name = state = None
 
-    list_id = "_questions"    
+class QuestionInStateViewlet(ViewletBase):
+    name = state = None
+    list_id = "_questions"
     def getData(self):
-        """
-        return the data of the query
+        """return the data of the query
         """    
-        offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
-        data_list = []       
-        results = self.query.all()
-        formatter = self.request.locale.dates.getFormatter('date', 'short')         
-        for result in results:            
-            data ={}
-            data['qid']= ( 'q_' + str(result.question_id) )  
-            if result.question_number:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name
+        #offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
+        date_formatter = self.request.locale.dates.getFormatter('date', 'short')
+        def _q_data_item(q):
+            item = {}
+            item['qid']= 'q_%s' % q.question_id
+            if q.question_number:                       
+                item['subject'] = u'Q %s %s' % (q.question_number, q.short_name)
             else:
-                data['subject'] = result.short_name
-            data['title'] = result.short_name
-            data['result_item_class'] = 'workflow-state-' + result.status
-            data['url'] = '/business/questions/obj-' + str(result.question_id)
-            data['status'] = get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)           
-            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  _(result.type)
-            data['to'] = result.ministry.short_name
-            data_list.append(data)            
-        return data_list
-    
+                item['subject'] = q.short_name
+            item['title'] = q.short_name
+            item['result_item_class'] = 'workflow-state-%s' % q.status
+            item['url'] = '/business/questions/obj-%s' % q.question_id
+            item['status'] = get_wf_state(q)
+            item['status_date'] = date_formatter.format(q.status_date)
+            item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
+            item['type'] = _(q.type)
+            item['to'] = q.ministry.short_name
+            return item
+        return [ _q_data_item(question) for question in self.query.all() ]
     
     def update(self):
-        """
-        refresh the query
+        """refresh the query
         """
         session = Session()
         qfilter = ( domain.Question.status == self.state )
-        
         questions = session.query(domain.Question).filter(qfilter)
         self.query = questions        
 
-class MyQuestionsViewlet( ViewletBase ):
-    name = _(u"My Questions")
-    list_id = "my_questions"    
-    def getData(self):
-        """
-        return the data of the query
-        """    
-        offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
-        data_list = []       
-        results = self.query.all()
-        
-        for result in results:            
-            data ={}
-            data['qid']= ( 'q_' + str(result.question_id) )  
-            if result.question_number:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name 
-            else:
-                data['subject'] = result.short_name 
-            data['title'] = result.short_name + ' (' + result.status + ')'
-            data['result_item_class'] = 'workflow-state-' + result.status 
-            data['url'] = '/business/questions/obj-' + str(result.question_id)
-            data['status'] = get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
-            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  _(result.type)       
-            data['to'] = result.ministry.short_name                 
-            data_list.append(data)            
-        return data_list
-    
-    
-    def update(self):
-        """
-        refresh the query
-        """
-        session = Session()
-        try:
-            user_id = self._parent.user_id    
-        except:
-            user_id = None     
-        qfilter = ( domain.Question.owner_id == user_id )
-        
-        questions = session.query(domain.Question).filter(qfilter).order_by(domain.Question.question_id.desc())
-        self.query = questions        
-            
-class MyMotionsViewlet( ViewletBase ):
-    name = _("My Motions")
-    list_id = "my_motions"    
-    def getData(self):
-        """
-        return the data of the query
-        """      
-        data_list = []
-        results = self.query.all()
-       
-        for result in results:            
-            data ={}
-            data['qid']= ( 'm_' + str(result.motion_id) )  
-            if result.motion_number:                       
-                data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name 
-            else:
-                data['subject'] =  result.short_name 
-            data['title'] = result.short_name  + ' (' + result.status + ')'
-            data['result_item_class'] = 'workflow-state-' + result.status             
-            data['url'] = '/business/motions/obj-' + str(result.motion_id)
-            data['status'] = get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
-            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  _(result.type)       
-            data['to'] = ''
-            data_list.append(data)            
-        return data_list
-    
-    
-    def update(self):
-        """
-        refresh the query
-        """
-        session = Session()
-        try:
-            user_id = self._parent.user_id    
-        except:
-            user_id = None     
-        qfilter = ( domain.Motion.owner_id == user_id )        
-        motions = session.query(domain.Motion).filter(qfilter)
-        self.query = motions        
 
 class MyGroupsViewlet( ViewletBase ):
     name = _("My Groups")
@@ -208,7 +118,7 @@ class MyGroupsViewlet( ViewletBase ):
                     result.parent_group.group_principal_id + 
                     '/' + result.group_principal_id)
             elif type(result) == domain.PoliticalParty:   
-                data['url'] = url + '/politicalparties/obj-' + str(result.group_id)                                                  
+                data['url'] = url + '/politicalparties/obj-' + str(result.group_id)
             elif type(result) == domain.Ministry:   
                 data['url'] = url + ('/governments/obj-%s/ministries/obj-%s' % (
                         str(government_id), str(result.group_id) ))                                      
@@ -224,8 +134,7 @@ class MyGroupsViewlet( ViewletBase ):
     
     
     def update(self):
-        """
-        refresh the query
+        """refresh the query
         """
         session = Session()
         user_id = self._parent.user_id    
@@ -237,32 +146,10 @@ class MyGroupsViewlet( ViewletBase ):
         self.query = groups            
 
 
-
-class DraftQuestionViewlet( QuestionInStateViewlet ):
-    """
-    display the draft questions
-    """    
-    name = question_wf_state[u"draft"].title
-    state = question_wf_state[u"draft"].id
-    list_id = "draft_questions"
-
-    def update(self):
-        """
-        refresh the query
-        """
-        super(DraftQuestionViewlet, self).update()
-        session = Session()
-        try:
-            user_id = self._parent.user_id    
-        except:
-            user_id = None     
-        qfilter = ( domain.Question.owner_id == user_id )        
-        self.query = self.query.filter(qfilter).order_by(domain.Question.question_id.desc())  
-
 class SubmittedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the submitted questions
-    """    
+    """
     name = question_wf_state[u"submitted"].title
     state =  question_wf_state[u"submitted"].id   
     list_id = "submitted_questions"  
@@ -305,24 +192,6 @@ class InadmissibleQuestionViewlet( QuestionInStateViewlet ):
     state = question_wf_state[u"inadmissible"].id
     list_id = "inadmissible_questions"
   
-class ClarifyMPQuestionViewlet( QuestionInStateViewlet ):
-    """
-    display the admissible questions
-    """    
-    name = question_wf_state[u"clarify_mp"].title
-    state = question_wf_state[u"clarify_mp"].id
-    list_id = "clarify_mp_questions"  
-    
-    def update(self):
-        super(ClarifyMPQuestionViewlet, self).update()
-        session = Session()
-        try:
-            user_id = self._parent.user_id    
-        except:
-            user_id = None     
-        qfilter = ( domain.Question.owner_id == user_id )        
-        self.query = self.query.filter(qfilter).order_by(domain.Question.question_id.desc())
- 
 
 class ClarifyClerkQuestionViewlet( QuestionInStateViewlet ):
     """
@@ -708,7 +577,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         bill_wf_state[u"second_reading_postponed"].id , 
         bill_wf_state[u"whole_house_postponed"].id ,
         bill_wf_state[u"whole_house"].id ,
-        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+        bill_wf_state[u"report_reading_postponed"].id ,
         bill_wf_state[u"report_reading"].id , 
         bill_wf_state[u"third_reading"].id,
         bill_wf_state[u"third_reading_postponed"].id                                
@@ -756,19 +625,6 @@ class MPItemSuccessEndViewlet(ItemInStageViewlet):
         motion_wf_state[u"inadmissible"].id        
         ]
     list_id = "items-sucess"     
-
-class MPItemFailedEndViewlet(ItemInStageViewlet):
-    """ Items in end status that did not recieve an answer """
-    name = _("Items that failed to be tabled")
-    states = [
-        question_wf_state[u"elapsed"].id,
-        question_wf_state[u"withdrawn"].id,
-        question_wf_state[u"inadmissible"].id,        
-        motion_wf_state[u"withdrawn"].id,
-        motion_wf_state[u"elapsed"].id,
-        motion_wf_state[u"inadmissible"].id
-        ]
-    list_id = "items-failed"     
 
 class AllItemArchiveViewlet(AllItemsInStageViewlet):
     types = ['motion',

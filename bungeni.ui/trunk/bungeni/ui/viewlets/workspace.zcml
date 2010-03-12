@@ -83,56 +83,6 @@
      weight="20"
      />    
 
-   <!--browser:viewlet
-     name="bungeni.workspace.mp-item-failed"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.MPItemFailedEndViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="50"
-     /-->       
-  
-  <!--browser:viewlet
-     name="bungeni.workspace.questions-mp-clarify"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.ClarifyMPQuestionViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="10"
-     /-->  
-
-  <!--browser:viewlet
-     name="bungeni.workspace.my-questions"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.MyQuestionsViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="40"
-     /-->   
-     
-  <!--browser:viewlet
-     name="bungeni.workspace.my-draft-questions"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.DraftQuestionViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="30"
-     /--> 
-          
-
-  <!--browser:viewlet
-     name="bungeni.workspace.my-motions"
-     for="*"
-     manager=".interfaces.IWorkspaceManager"
-     class=".workspace.MyMotionsViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"
-     permission="zope.View"
-     weight="70"
-     /-->   
 
   <browser:viewlet
      name="bungeni.workspace.my-groups"

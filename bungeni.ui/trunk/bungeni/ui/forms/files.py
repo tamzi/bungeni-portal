@@ -5,9 +5,9 @@
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.security.proxy import removeSecurityProxy
-from zope.traversing.browser import absoluteURL
 
 from bungeni.ui.i18n import _
+from bungeni.ui.utils import absoluteURL
 
 class LibraryViewlet (viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/attached-files.pt')  

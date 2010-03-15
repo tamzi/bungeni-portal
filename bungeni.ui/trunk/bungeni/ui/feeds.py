@@ -3,10 +3,9 @@
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
-from zope.traversing.browser import absoluteURL 
 
 from bungeni.ui.queries import statements, utils
-
+from bungeni.ui.utils import absoluteURL
 
 class BungeniRSSEventView(BrowserView):   
     __call__ = ViewPageTemplateFile('templates/rss-event-view.pt') 
@@ -32,7 +31,7 @@ class BungeniRSSEventView(BrowserView):
         """link	
         The URL to the HTML website corresponding to the channel.
         """
-        return absoluteURL( self.context, self.request )                    
+        return absoluteURL(self.context, self.request)
         
     # items of a channel:
     
@@ -54,7 +53,7 @@ class BungeniRSSEventView(BrowserView):
         
         bill_id = self.context.bill_id
         results = utils.execute_sql(statements.sql_bill_timeline, item_id=bill_id)        
-        path = absoluteURL( self.context, self.request ) 
+        path = absoluteURL(self.context, self.request)
         rlist = []
         for result in results:
             rlist.append({'title': result.atype, 'description': result.title, 'date': result.adate.isoformat()})

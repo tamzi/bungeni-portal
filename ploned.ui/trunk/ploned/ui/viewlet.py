@@ -4,8 +4,9 @@ $Id:
 """
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.app.publisher.browser.menu import getMenu
-from zope.traversing.browser import absoluteURL
+from bungeni.ui.utils import absoluteURL
 from ploned.ui.interfaces import IStructuralView
+
 
 class StructureAwareViewlet(object):
     def __init__(self, context, request, view, manager):

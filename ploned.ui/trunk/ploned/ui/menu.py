@@ -21,10 +21,11 @@ from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
 from zope.app.publisher.browser.menu import BrowserMenu, getMenu
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
-from zope.traversing.browser import absoluteURL
 from zope.app.pagetemplate import ViewPageTemplateFile
 
+from bungeni.ui.utils import absoluteURL
 from ploned.ui.interfaces import IViewView
+
 
 def is_selected(item, action, request_url):
     normalized_action = action.lstrip('.').lstrip('@@')

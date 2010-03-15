@@ -23,6 +23,7 @@ from bungeni.core.content import QueryContent
 from bungeni.core.i18n import _
 from bungeni.models.queries import get_current_parliament
 from bungeni.models.queries import container_getter
+from bungeni.models.utils import get_user
 from bungeni.core import interfaces
 
 def setUpSubscriber(obj, event):
@@ -91,8 +92,57 @@ class AppSetup(object):
         ws_calendar = workspace[u"calendar"] = QueryContent(
             container_getter(get_current_parliament, 'sittings'),
             title=_(u"Scheduling"),
-            description=_(u"View the sittings of the current parliament"))        
+            description=_(u"View the sittings of the current parliament"))
         
+        # for all the following, we want to keep title=None so that 
+        # no menu item for the entry will be displayed
+        ws_questions = workspace["questions"] = QueryContent(
+            container_getter(get_current_parliament, 'questions'),
+            #title=_(u"Questions"), 
+            description=_(u"Questions"))
+        ws_motions = workspace["motions"] = QueryContent(
+            container_getter(get_current_parliament, 'motions'),
+            #title=_(u"Motions"),
+            description=_(u"Motions"))
+        ws_committees = workspace["committees"] = QueryContent(
+            container_getter(get_current_parliament, 'committees'),
+            #title=_(u"Committees"), # title=None to not show up in menu
+            description=_(u"Committees"))
+        ws_tableddocuments = workspace["tableddocuments"] = QueryContent(
+            container_getter(get_current_parliament, 'tableddocuments'),
+            #title=_(u"Tabled documents"),
+            description=_(u"Tabled documents"))
+        ws_bills = workspace["bills"] = QueryContent(
+            container_getter(get_current_parliament, 'bills'),
+            #title=_(u"Bills"),
+            description=_(u"Bills"))
+        ws_agendaitems = workspace["agendaitems"] = QueryContent(
+            container_getter(get_current_parliament, 'agendaitems'),
+            #title=_(u"Agenda items"),
+            description=_(u" items"))
+        
+        # for all the following, we want to keep title=None so that 
+        # no menu item for the entry will be displayed
+        wsmya_questions = ws_archive["questions"] = QueryContent(
+            container_getter(get_user, 'questions'),
+            #title=_(u"Questions"), 
+            description=_(u"Questions"))
+        wsmya_motions = ws_archive["motions"] = QueryContent(
+            container_getter(get_user, 'motions'),
+            #title=_(u"Motions"),
+            description=_(u"Motions"))
+        wsmya_tableddocuments = ws_archive["tableddocuments"] = QueryContent(
+            container_getter(get_user, 'tableddocuments'),
+            #title=_(u"Tabled documents"),
+            description=_(u"Tabled documents"))
+        wsmya_bills = ws_archive["bills"] = QueryContent(
+            container_getter(get_user, 'bills'),
+            #title=_(u"Bills"),
+            description=_(u"Bills"))
+        wsmya_agendaitems = ws_archive["agendaitems"] = QueryContent(
+            container_getter(get_user, 'agendaitems'),
+            #title=_(u"Agenda items"),
+            description=_(u" items"))
         
         # business section
         whatson = business["whats-on"] = Section(

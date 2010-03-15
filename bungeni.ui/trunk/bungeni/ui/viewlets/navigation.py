@@ -10,7 +10,6 @@ from zope.viewlet import viewlet
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.interfaces.browser import IBrowserMenu
-from zope.traversing.browser import absoluteURL
 from zope.app.publisher.browser import queryDefaultViewName
 
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
@@ -25,6 +24,7 @@ from ploned.ui.interfaces import IStructuralView
 
 from bungeni.core.interfaces import ISection
 from bungeni.core import location
+from bungeni.ui.utils import absoluteURL, indexNames
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -70,13 +70,16 @@ class SecondaryNavigationViewlet(object):
         
         # local scope function, to build contianer item descriptor object
         def _containerItem(title, selected, name=None):
-            # for cleaner public URLs, use empty string instead of 'index'
-            _url = url 
+            if name in indexNames:
+                name = ''
+            
             if name is not None:
-                if name=='index': 
-                    name = ''
                 _url = "%s/%s" % (url, name)
-            return {'title': title, 'selected': selected, 'url': _url}
+            else:
+                _irl = url
+            return {'title': title,
+                    'selected': selected, 
+                    'url': _url}
         
         if IReadContainer.providedBy(container):
             #XXX should be the same in all containers ?          

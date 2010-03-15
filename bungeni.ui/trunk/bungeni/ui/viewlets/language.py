@@ -20,8 +20,10 @@ from bungeni.core.translation import get_available_translations
 from bungeni.core.app import BungeniApp
 from bungeni.core import location
 
+from bungeni.ui.utils import absoluteURL
+
 import datetime
-from zope.traversing.browser import absoluteURL 
+
 
 class LanguageViewlet(object):
     """Language selection viewlet."""

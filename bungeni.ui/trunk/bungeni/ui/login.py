@@ -4,9 +4,9 @@ from zope.formlib import form
 
 from zope.app.component.hooks import getSite
 from zope.publisher.browser import BrowserView
-from zope.traversing.browser import absoluteURL
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 
+from bungeni.ui.utils import absoluteURL
 from alchemist.ui.core import BaseForm
 from bungeni.core.i18n import _
 
@@ -32,5 +32,5 @@ class Login( BaseForm ):
 class Logout( BrowserView ):
     def __call__( self ):
         self.request.response.expireCookie( "wc.cookiecredentials" )
-        site_url = absoluteURL( getSite(), self.request )
+        site_url = absoluteURL(getSite(), self.request)
         self.request.response.redirect( site_url )

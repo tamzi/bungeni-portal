@@ -63,7 +63,7 @@ class Entity( object ):
 # query gets sorted by sort_name
 #
                 
-class User( Entity ):
+class User(Entity):
     """Domain Object For A User.
     General representation of a person
     """
@@ -102,6 +102,16 @@ class User( Entity ):
     delegations = one2many( "delegations", "bungeni.models.domain.UserDelegationContainer", "user_id" )   
     _password = property(getPassword, setPassword)                
 
+    bills = one2many("bills", "bungeni.models.domain.BillContainer", "owner_id")
+    questions = one2many("questions", 
+        "bungeni.models.domain.QuestionContainer", "owner_id")
+    motions = one2many("motions", 
+        "bungeni.models.domain.MotionContainer", "owner_id")
+    agendaitems = one2many("agendaitems", 
+        "bungeni.models.domain.AgendaItemContainer", "owner_id")
+    tableddocuments = one2many("tableddocuments", 
+        "bungeni.models.domain.TabledDocumentContainer", "owner_id")
+    
 class UserDelegation(Entity):
     """ Delgate rights to act on behalf of a user 
     to another user """

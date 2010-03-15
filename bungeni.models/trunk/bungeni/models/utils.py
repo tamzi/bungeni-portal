@@ -8,7 +8,7 @@ import sqlalchemy as rdb
 from sqlalchemy.orm import eagerload, lazyload
 import domain, schema
 
-def getUserId( ):
+def getUserId():
     interaction = getInteraction()
     for participation in interaction.participations:
         if IRequest.providedBy(participation):
@@ -21,15 +21,18 @@ def get_db_user_id():
     if user is not None:
         return user.user_id
 
-def get_user():
+def get_user(context=None):
     """ get the logged in user 
+    Note: context is not used, but accommodated for as a dummy optional input 
+    parameter to allow usage of this utility in e.g.
+    bungeni.core.apps.py: container_getter(get_user, 'questions')
     """
     userId = getUserId()
     session = Session()
     query = session.query(domain.User).filter(
                     domain.User.login == userId)
     results = query.all()
-    #session.close                 
+    #session.close
     if len(results) == 1:
         return results[0]
 

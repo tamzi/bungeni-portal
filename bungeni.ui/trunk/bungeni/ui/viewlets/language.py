@@ -9,6 +9,8 @@ from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
+from zope.publisher.browser import BrowserView
+
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
@@ -29,22 +31,37 @@ class LanguageViewlet(object):
     """Language selection viewlet."""
 
     render = ViewPageTemplateFile("templates/language.pt")
-    showFlags = True
+    showFlags = False
     available = True
     
     def update(self):
         translations = get_available_translations(self.context)
         languages = get_all_languages()
-        selected = "en"
+        selected = self.request.locale.getLocaleID()
         url = absoluteURL(getSite(), self.request)
 
         # self.available = len(translations) > 0
         
         self.languages = [{
             'code': language,
-            'flag': url+languages[language]['flag'],
+            'flag': url+languages[language].get('flag',''),
             'name': languages[language]['name'],
             'selected': language == selected,
-            'url': "%s/change-language?name=%s" % (url, language),
-            } for language in translations]
+            'url': "%s/change-language?lang=%s" % (url, language),
+            } for language in languages]
+            
+class ChangeLanguage(BrowserView):  
+
+    def __call__(self):
+        """set the I18N_LANGUAGES cookie and redirect back to referrer"""
+        response = self.request.response
+        lang = self.request.get('lang', None)
+        if lang:
+            response.setCookie('I18N_LANGUAGES', lang, path='/')
+        else:
+            response.expireCookie('I18N_LANGUAGES', path='/')                        
+        url =  self.request.get('HTTP_REFERER','..')
+        return response.redirect(url)
+
+              
 

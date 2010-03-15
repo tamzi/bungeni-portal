@@ -166,13 +166,12 @@ class VersionLogView(BaseForm):
                 t = source
                 source = target
                 target = t            
-        except:
+        except IndexError:
             target = context
-                                      
         view = z3c.schemadiff.browser.DiffView(source, target, self.request)
-
         self.extra = view(
             *filter(IIModelInterface.providedBy, interface.providedBy(context)))
+
 
     def setUpWidgets( self, ignore_request=False):
         # setup widgets in data entry mode not bound to context

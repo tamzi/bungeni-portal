@@ -1578,13 +1578,6 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                     required=False,
                     ), 
              listing = False,),
-
-        #dict( name="summary", 
-        #        label=_(u"Statements of Purpose"), 
-        #        view_widget=HTMLDisplay,
-        #        edit_widget=RichTextEditor, 
-        #        add_widget=RichTextEditor,
-        #      differ=diff.HTMLDiff,),
         dict( name="identifier", label=_(u"Identifer"),
                 add=False ),
         dict( name="publication_date", 

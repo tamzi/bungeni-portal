@@ -99,8 +99,9 @@
      action="add_content"
      permission="zope.View"
      submenu="context_additems"
-     />
-
+     layer=".interfaces.IAddParliamentaryContentLayer" 
+  />
+  
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="*"
@@ -159,7 +160,7 @@
      action="./committeemembers/add"
      permission="bungeni.committeemember.Add"
      order="10"     
-     />     
+     />
 
   <browser:menuItem
      menu="committee_additems"
@@ -541,8 +542,7 @@
      action="/workspace/my-archive"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
-     />
-  
+  />
   
   <browser:menuItem
      menu="workspace_navigation"
@@ -550,7 +550,18 @@
      title="Scheduling"
      action="/workspace/calendar"
      permission="zope.View"
-     />
+  />
+  <!--
+  <browser:menuItem
+     menu="workspace_navigation"
+     for="bungeni.models.interfaces.IBungeniApplication"
+     title="My questions"
+     action="/workspace/questions"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     permission="zope.View"
+  />
+  -->
+
 
 
   <browser:subMenuItem
@@ -821,28 +832,7 @@
      order="100"
      />
 
-
-
-  <!--browser:menuItem
-     menu="context_additems"
-     for="bungeni.models.domain.Parliament"
-     title="Add comittee"
-     action="./committees/add"
-     permission="bungeni.committee.Add"
-     order="100"
-     />
-
-  <browser:menuItem
-     menu="context_additems"
-     for="bungeni.models.domain.Parliament"
-     title="Add government"
-     action="./governments/add"
-     permission="bungeni.parliament.Add"
-     order="100"
-     /-->
-     
-
-
+  
   <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.ItemScheduleCategoryContainer"
@@ -1162,7 +1152,7 @@
      menu="context_additems"
      for="*"
      title="Bill"
-     action="/business/bills/add"
+     action="bills/add"
      permission="bungeni.bill.Add"
      />
 
@@ -1170,7 +1160,7 @@
      menu="context_additems"
      for="*"
      title="Motion"
-     action="/business/motions/add"
+     action="motions/add"
      permission="bungeni.motion.Add"
      />
 
@@ -1178,7 +1168,7 @@
      menu="context_additems"
      for="*"
      title="Question"
-     action="/business/questions/add"
+     action="questions/add"
      permission="bungeni.question.Add"
      />
 
@@ -1187,7 +1177,7 @@
      menu="context_additems"
      for="*"
      title="Agenda item"
-     action="/business/agendaitems/add"
+     action="agendaitems/add"
      permission="bungeni.agendaitem.Add"
      />
      
@@ -1195,7 +1185,7 @@
      menu="context_additems"
      for="*"
      title="Tabled document"
-     action="/business/tableddocuments/add"
+     action="tableddocuments/add"
      permission="bungeni.tableddocument.Add"
      />     
 

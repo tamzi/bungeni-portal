@@ -5,12 +5,13 @@ from ore.yuiwidget.table import BaseDataTableFormatter
 from bungeni.ui import container
 from bungeni.ui.i18n import _
 from zope.i18n import translate
-from zope.traversing.browser import absoluteURL
 from zope.security import proxy
 from zc.resourcelibrary import need
 from zc.table import batching
 
 from z3c.pt.texttemplate import ViewTextTemplateFile
+
+from bungeni.ui.utils import absoluteURL
 
 class TableFormatter(batching.Formatter):
     """The out-of-box table formatter does not let us specify a custom
@@ -77,7 +78,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
         config['columns'], config['fields'] = self.getFieldColumns()
         config['data_url'] = self.getDataSourceURL()
         config['table_id'] = self.prefix
-        config['link_url'] = absoluteURL( self.context, self.request ) 
+        config['link_url'] = absoluteURL(self.context, self.request)
         config['context_name'] = self.context.__name__
         return config
 

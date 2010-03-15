@@ -6,6 +6,7 @@ from types import StringTypes, ListType
 
 from ore.workflow import interfaces
 
+
 def get_wf_state(item):
     # return human readable workflow title
     wf = interfaces.IWorkflow(item) 
@@ -14,9 +15,9 @@ def get_wf_state(item):
     return wf.workflow.states[wf_state].title    
     
 
-
 def is_ajax_request(request):
     return request.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+
 
 def urljoin(base, action):
     if action is None:
@@ -28,8 +29,28 @@ def urljoin(base, action):
 
     return "/".join((base, action.lstrip('./')))
 
-def makeList( itemIds ):
 
+# XXX tmp hack -- business/whats-on -- because the "index" of the business 
+# section is actually called "whats-on", we also check and remove that
+# TODO rename business/whats-on to business/index
+indexNames = ("index", "index.html", "@@index.html", "whats-on")
+def absoluteURL(context, request):
+    """
+    For cleaner public URLs, we ensure to use an empty string instead of 'index'.
+    
+    Throughout bungeni and ploned packages, this function should ALWAYS be
+    used instead of zope.traversing.browser.absoluteURL.
+    """
+    import logging; log = logging.getLogger('bungeni.ui.utils');
+    from zope.traversing import browser
+    url = browser.absoluteURL(context, request).split("/")
+    while url[-1] in indexNames:
+        log.warning(" POPPING: %s -> %s" % ('/'.join(url), url[-1]))
+        url.pop()
+    return '/'.join(url)
+
+
+def makeList(itemIds):
     if type(itemIds) == ListType:
         return itemIds            
     elif type(itemIds) in StringTypes:
@@ -38,13 +59,14 @@ def makeList( itemIds ):
     else:
          raise TypeError( _("Form values must be of type string or list"))
 
+
 def get_date( date):
     if type(date) == datetime.datetime:
         return date.date()
     elif type(date) == datetime.date:
         return date
     else:
-        raise TypeError (_("date must be of type datetime or date"))                
+        raise TypeError (_("date must be of type datetime or date"))
 
 
 def getDisplayDate(request):   
@@ -79,6 +101,7 @@ def getDisplayDate(request):
         displayDate=None
     return displayDate
 
+
 def getFilter(displayDate):                   
     if displayDate:
         filter_by = """
@@ -88,4 +111,6 @@ def getFilter(displayDate):
         """ % ({ 'displayDate' : displayDate})        
     else:
         filter_by = ""            
-    return filter_by    
+    return filter_by
+
+

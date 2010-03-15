@@ -5,7 +5,6 @@ from zope import component
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.dublincore.interfaces import IDCDescriptiveProperties
-from zope.traversing.browser import absoluteURL
 from zope.location.interfaces import ILocation
 from zope.viewlet import viewlet
 from zc.resourcelibrary import need
@@ -30,6 +29,7 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.workflow.interfaces import IWorkflow
 
 from bungeni.ui.i18n import _
+from bungeni.ui.utils import absoluteURL
 from bungeni.ui.calendar.utils import datetimedict
 
 class SchedulablesViewlet(viewlet.ViewletBase):

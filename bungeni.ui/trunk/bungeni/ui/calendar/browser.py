@@ -21,7 +21,6 @@ from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.traversing.browser import absoluteURL
 from zope.app.component.hooks import getSite
 from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
@@ -46,6 +45,7 @@ from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
 from bungeni.ui.utils import is_ajax_request
 from bungeni.ui.utils import get_wf_state
+from bungeni.ui.utils import absoluteURL
 from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped

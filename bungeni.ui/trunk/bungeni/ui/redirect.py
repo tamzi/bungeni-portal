@@ -1,11 +1,11 @@
 import datetime
 
 from zope.publisher.browser import BrowserView
-from zope.traversing.browser import absoluteURL
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
 import bungeni.core.globalsettings as prefs
+from bungeni.ui.utils import absoluteURL
 
 class RedirectToCurrent(BrowserView):
     """Redirect to current.
@@ -30,7 +30,7 @@ class RedirectToCurrent(BrowserView):
         """redirect to container"""
         #context = proxy.removeSecurityProxy( self.context )        
         response = self.request.response
-        rooturl = absoluteURL( self.context, self.request )
+        rooturl = absoluteURL(self.context, self.request)
         #response.setHeader('Content-Type', 'application/octect-stream')
         #if len(self.traverse_subpath) != 1:
         #    return

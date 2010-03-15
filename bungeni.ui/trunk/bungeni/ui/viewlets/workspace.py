@@ -70,7 +70,7 @@ class QuestionInStateViewlet(ViewletBase):
                 item['subject'] = q.short_name
             item['title'] = q.short_name
             item['result_item_class'] = 'workflow-state-%s' % q.status
-            item['url'] = '/business/questions/obj-%s' % q.question_id
+            item['url'] = 'questions/obj-%s' % q.question_id
             item['status'] = get_wf_state(q)
             item['status_date'] = date_formatter.format(q.status_date)
             item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
@@ -97,13 +97,13 @@ class MyGroupsViewlet( ViewletBase ):
         """
         return the data of the query
         """      
-        formatter = self.request.locale.dates.getFormatter('date', 'short') 
+        formatter = self.request.locale.dates.getFormatter('date', 'short')
         data_list = []
         results = self.query.all()
         parliament_id = self._parent.context.parliament_id
         government_id = self._parent.government_id
-        for result in results:            
-            data ={}
+        for result in results:
+            data = {}
             data['qid']= ( 'g_' + str(result.group_id) )              
             data['subject'] = result.short_name
             data['title'] = result.short_name  + ' (' + result.type + ')'
@@ -117,19 +117,19 @@ class MyGroupsViewlet( ViewletBase ):
                 data['url'] = ('/groups/' + 
                     result.parent_group.group_principal_id + 
                     '/' + result.group_principal_id)
-            elif type(result) == domain.PoliticalParty:   
+            elif type(result) == domain.PoliticalParty:
                 data['url'] = url + '/politicalparties/obj-' + str(result.group_id)
-            elif type(result) == domain.Ministry:   
+            elif type(result) == domain.Ministry:
                 data['url'] = url + ('/governments/obj-%s/ministries/obj-%s' % (
-                        str(government_id), str(result.group_id) ))                                      
-            else:               
-                data['url'] = '#' 
+                        str(government_id), str(result.group_id) ))
+            else:
+                data['url'] = '#'
             data['status'] = get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
+            data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
-            data['type'] =  _(result.type)      
-            data['to'] = u""      
-            data_list.append(data)            
+            data['type'] =  _(result.type)
+            data['to'] = u""
+            data_list.append(data)
         return data_list
     
     
@@ -268,7 +268,7 @@ class MotionInStateViewlet( ViewletBase ):
                     datetime.date.strftime(result.approval_date, '%Y-%m-%d'))
             else:         
                 data['result_item_class'] = 'workflow-state-' + result.status       
-            data['url'] = '/business/motions/obj-' + str(result.motion_id)
+            data['url'] = 'motions/obj-' + str(result.motion_id)
             data['status'] = get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
@@ -375,15 +375,13 @@ class BillItemsViewlet( ViewletBase ):
             data['qid']= ( 'b_' + str(result.bill_id) )                         
             data['subject'] = result.short_name
             data['title'] = result.short_name
-            data['result_item_class'] = ('workflow-state-' + 
-                result.status )
-            data['url'] = '/business/%ss/obj-%i' %(result.type, 
-                            result.parliamentary_item_id)   
+            data['result_item_class'] = ('workflow-state-' + result.status )
+            data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
             data['status'] = get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  _(result.type)      
-            data['to'] = ""                                         
+            data['type'] =  _(result.type)
+            data['to'] = ""
             data_list.append(data)            
         return data_list
     
@@ -441,24 +439,22 @@ class ItemInStageViewlet( ViewletBase ):
 
 
     def getData(self):
+        """return the data of the query
         """
-        return the data of the query
-        """      
         data_list = []
         results = self.query.all()
-        formatter = self.request.locale.dates.getFormatter('date', 'short')        
-        for result in results:            
-            data ={}
+        formatter = self.request.locale.dates.getFormatter('date', 'short')
+        for result in results:
+            data = {}
             data['qid']= ( 'i-' + str(result.parliamentary_item_id) )
             if type(result) == domain.AgendaItem:
                 g = u' ' + result.group.type + u' ' + result.group.short_name
             else:
-                g = u''                                         
+                g = u''
             data['subject'] = result.short_name
-            data['title'] = result.short_name      
-            data['result_item_class'] = 'workflow-state-' + result.status       
-            data['url'] = '/business/%ss/obj-%i' %(result.type, 
-                            result.parliamentary_item_id)
+            data['title'] = result.short_name
+            data['result_item_class'] = 'workflow-state-' + result.status
+            data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
             data['status'] = get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
@@ -809,9 +805,9 @@ class MinistryItemsViewlet(ViewletBase):
         results = query.all()
         formatter = self.request.locale.dates.getFormatter('date', 'short')         
         for result in results:            
-            data ={}
+            data = {}
             data['qid'] = ( 'q_' + str(result.question_id) )  
-            if result.question_number:                       
+            if result.question_number:
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name + ' (' + result.status + ')'
             else:
                 data['subject'] = result.short_name + ' (' + result.status + ')'
@@ -901,11 +897,11 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
             data['subject'] = result.short_name
             if ICommittee.providedBy(result.group):
                 #http://localhost:8081/business/committees/obj-194/calendar/group/sittings/obj-5012/schedule
-                data['url'] = "/business/committees/obj-%i/calendar/group/sittings/obj-%i/schedule" % (
+                data['url'] = 'committees/obj-%i/calendar/group/sittings/obj-%i/schedule' % (
                     result.group.group_id, result.sitting_id)
             else:
                 #http://localhost:8081/calendar/group/sittings/obj-5011/schedule            
-                data['url'] = "/calendar/group/sittings/obj-%i/schedule" % result.sitting_id
+                data['url'] = 'calendar/obj-%i/schedule' % result.sitting_id
             data['items'] = ''                
             data['status'] = get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)

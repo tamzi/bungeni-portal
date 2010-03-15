@@ -11,7 +11,6 @@ from zope.formlib import form
 from zope.security.proxy import removeSecurityProxy
 from zope.security import canWrite
 from zope.security.interfaces import ForbiddenAttribute
-from zope.traversing.browser import absoluteURL
 
 from sqlalchemy import orm
 
@@ -25,6 +24,8 @@ from alchemist.ui.core import BaseForm, getSelected
 from zc.table import  column
 
 import z3c.schemadiff.browser
+
+from bungeni.ui.utils import absoluteURL
 
 class VersionsView(BrowserView):
     """To-Do: Find out why this class isn't hooked up."""

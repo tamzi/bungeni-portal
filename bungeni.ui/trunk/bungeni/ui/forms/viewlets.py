@@ -7,7 +7,6 @@ from zope.viewlet import viewlet, manager
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 from zope.formlib.namedtemplate import NamedTemplate
-from zope.traversing.browser import absoluteURL 
 from zope.formlib import form
 from zope.security.proxy import removeSecurityProxy
 
@@ -33,6 +32,7 @@ from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
 from bungeni.ui.utils import getDisplayDate, get_wf_state
+from bungeni.ui.utils import absoluteURL
 
 from fields import BungeniAttributeDisplay
 from interfaces import ISubFormViewletManager
@@ -647,7 +647,7 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         """       
         bill_id = self.context.bill_id
         self.results = utils.execute_sql(statements.sql_bill_timeline, item_id=bill_id)
-        path = absoluteURL( self.context, self.request ) 
+        path = absoluteURL(self.context, self.request)
         self.addurl = '%s/event/add' %( path )
     
     

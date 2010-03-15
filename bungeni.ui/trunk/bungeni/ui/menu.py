@@ -9,7 +9,6 @@ from zope.app.publisher.browser.menu import BrowserMenu
 from zope.app.publisher.browser.menu import BrowserMenuItem
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
-from zope.traversing.browser import absoluteURL
 from zope.security import checkPermission
 from z3c.menu.ready2go import item
 from zope.i18n import translate
@@ -27,6 +26,7 @@ from bungeni.core import schedule
 from bungeni.core.globalsettings import getCurrentParliamentId
 
 from bungeni.ui.i18n import  _
+from bungeni.ui.utils import absoluteURL
 from bungeni.ui.utils import urljoin
 from bungeni.ui import interfaces
 
@@ -36,15 +36,15 @@ from bungeni.ui import interfaces
 def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
     items = menu.getMenuItems(context, request)
-
+    
     site_url = absoluteURL(getSite(), request)
     url = absoluteURL(context, request)
-
+    
     for item in items:
         item['url'] = urljoin(url, item['action'])
         item['id'] = item['title'].lower().replace(' ', '-')
         item['icon'] = urljoin(site_url, item['icon'])
-
+    
     return items
 
 class GlobalMenuItem( item.GlobalMenuItem ):
@@ -157,8 +157,9 @@ class TranslateMenu(BrowserMenu):
 
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
-
+        
         url = absoluteURL(context, request)
+        
         language = get_language(context)
         available = get_available_translations(context)
 

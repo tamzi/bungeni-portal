@@ -14,7 +14,6 @@ from zope.formlib import form
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.formlib.namedtemplate import NamedTemplate
-from zope.traversing.browser import absoluteURL
 from zope.container.contained import ObjectRemovedEvent
 from zope.app.pagetemplate import ViewPageTemplateFile
 from sqlalchemy import orm
@@ -29,7 +28,6 @@ from alchemist.ui.core import setUpFields
 from alchemist.ui.core import unique_columns
 from zope.app.form.interfaces import IDisplayWidget
 
-
 try:
     from sqlalchemy.exceptions import IntegrityError
 except ImportError:
@@ -43,6 +41,7 @@ from bungeni.core.i18n import _
 from bungeni.models.interfaces import IVersion
 from ploned.ui.interfaces import IViewView
 
+from bungeni.ui.utils import absoluteURL
 from bungeni.ui.forms.fields import filterFields
 import re
 import htmlentitydefs

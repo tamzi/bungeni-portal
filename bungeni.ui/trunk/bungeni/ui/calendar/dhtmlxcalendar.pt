@@ -12,7 +12,9 @@
             function init() {
                 scheduler.config.xml_date="%Y-%m-%d %H:%i";
                 scheduler.config.show_loading=true;
-                scheduler.config.first_hour=8;
+                scheduler.config.scroll_hour=8;
+                scheduler.config.details_on_create=true;
+                scheduler.config.details_on_dblclick=true; 
                 scheduler.locale.labels.agenda_tab = "Upcoming";
                 scheduler.init('scheduler_here', null, "month");
                 scheduler.setLoadMode("month");

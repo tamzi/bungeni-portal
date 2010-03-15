@@ -2,15 +2,15 @@
     $(document).ready(function(){  
         $("#groupsitting-form #actionsView").before('<div id="options" style="display:block"></div>');
         $("#form\\.bill_options\\.0").parents(".widget-multicheckboxwidget").appendTo("#options").css('display', 'inline-block');
-        $("#form\\.bill_options\\.0").parents(".widget-multicheckboxwidget").hide();
+        $("#form\\.bill_options\\.0").attr('disabled', false);
         $("#form\\.agenda_options\\.0").parents(".widget-multicheckboxwidget").appendTo("#options").css('display', 'inline-block');
-        $("#form\\.agenda_options\\.0").parents(".widget-multicheckboxwidget").hide();
+        $("#form\\.agenda_options\\.0").attr('disabled', false);
         $("#form\\.motion_options\\.0").parents(".widget-multicheckboxwidget").appendTo("#options").css('display', 'inline-block');
-        $("#form\\.motion_options\\.0").parents(".widget-multicheckboxwidget").hide();
+        $("#form\\.motion_options\\.0").attr('disabled', false);
         $("#form\\.question_options\\.0").parents(".widget-multicheckboxwidget").appendTo("#options").css('display', 'inline-block');
-        $("#form\\.question_options\\.0").parents(".widget-multicheckboxwidget").hide();
+        $("#form\\.question_options\\.0").attr('disabled', false);
         $("#form\\.tabled_document_options\\.0").parents(".widget-multicheckboxwidget").appendTo("#options").css('display', 'inline-block');
-        $("#form\\.tabled_document_options\\.0").parents(".widget-multicheckboxwidget").hide();
+        $("#form\\.tabled_document_options\\.0").attr('disabled', false);
         $("#options span").css('padding','0 0 0 0');
         $("#form\\.bill_options\\.0").attr('checked', true);
         $("#form\\.bill_options\\.1").attr('checked', true);
@@ -42,51 +42,53 @@
         $("input#form\\.item_types\\.0").change(function () {
             if ($("#form\\.item_types\\.0").is(":checked"))
             {
-                $("#form\\.bill_options\\.0").parents(".widget-multicheckboxwidget").show();
+                $('input[name="form.bill_options"]').attr('disabled', false);
+               //alert( $('input[name="form.bill_options"]').val() );
             }
             else
             {
-                $("#form\\.bill_options\\.0").parents(".widget-multicheckboxwidget").hide();
+                 $('input[name="form.bill_options"]').attr('disabled', true);
+                //alert( $('input[name="form.bill_options"]').val() );
             }
         });
         $("input#form\\.item_types\\.1").change(function () {
             if ($("#form\\.item_types\\.1").is(":checked"))
             {
-                $("#form\\.agenda_options\\.0").parents(".widget-multicheckboxwidget").show();
+                $('input[name="form.agenda_options"]').attr('disabled', false);
             }
             else
             {
-                $("#form\\.agenda_options\\.0").parents(".widget-multicheckboxwidget").hide();
+                $('input[name="form.agenda_options"]').attr('disabled', true);
             }
         });
         $("input#form\\.item_types\\.2").change(function () {
             if ($("#form\\.item_types\\.2").is(":checked"))
             {
-                $("#form\\.motion_options\\.0").parents(".widget-multicheckboxwidget").show();
+                $('input[name="form.motion_options"]').attr('disabled', false);
             }
             else
             {
-                $("#form\\.motion_options\\.0").parents(".widget-multicheckboxwidget").hide();
+                $('input[name="form.motion_options"]').attr('disabled', true);
             }
         });
         $("input#form\\.item_types\\.3").change(function () {
             if ($("#form\\.item_types\\.3").is(":checked"))
             {
-                $("#form\\.question_options\\.0").parents(".widget-multicheckboxwidget").show();
+                $('input[name="form.question_options"]').attr('disabled', false);
             }
             else
             {
-                $("#form\\.question_options\\.0").parents(".widget-multicheckboxwidget").hide();
+                $('input[name="form.question_options"]').attr('disabled', true);
             }
         });
         $("input#form\\.item_types\\.4").change(function () {
             if ($("#form\\.item_types\\.4").is(":checked"))
             {
-                $("#form\\.tabled_document_options\\.0").parents(".widget-multicheckboxwidget").show();
+                $('input[name="form.tabled_document_options"]').attr('disabled', false);
             }
             else
             {
-                $("#form\\.tabled_document_options\\.0").parents(".widget-multicheckboxwidget").hide();
+                $('input[name="form.tabled_document_options"]').attr('disabled', true);
             }
         });
         $("#form\\.doc_type").change(function() {

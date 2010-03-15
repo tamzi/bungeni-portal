@@ -9,4 +9,10 @@
      />
 
 
+  <!-- Cookie based language negotiation like linguaplone-->
+  <adapter
+      factory="bungeni.core.translation.BrowserFormLanguages"
+      />
+
+
 </configure>

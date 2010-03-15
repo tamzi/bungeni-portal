@@ -17,6 +17,13 @@ def getUserId( ):
 def get_db_user_id():
     """ get the (numerical) user_id for the logged in user    
     """
+    user = get_user()
+    if user is not None:
+        return user.user_id
+
+def get_user():
+    """ get the logged in user 
+    """
     userId = getUserId()
     session = Session()
     query = session.query(domain.User).filter(
@@ -24,8 +31,7 @@ def get_db_user_id():
     results = query.all()
     #session.close                 
     if len(results) == 1:
-        return results[0].user_id                    
-
+        return results[0]
 
 def get_all_group_ids_in_parliament(parliament_id):
     """ get all groups (group_ids) in a parliament

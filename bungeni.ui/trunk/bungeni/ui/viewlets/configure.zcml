@@ -88,5 +88,23 @@
      view="bungeni.ui.calendar.browser.GroupSittingScheduleView"
      class=".schedule.SchedulablesViewlet"
      />  
+
+<!-- Languages -->
+     
+   <browser:page
+     for="*"
+     permission="zope.Public"
+     name="change-language"
+     class=".language.ChangeLanguage"
+     />    
+
+  <browser:viewlet
+     name="bungeni.content.languages"
+     for="*"
+     permission="zope.Public"     
+     manager="ploned.ui.interfaces.IAboveContentManager"
+     class=".language.LanguageViewlet"
+     />       
+     
   
 </configure>

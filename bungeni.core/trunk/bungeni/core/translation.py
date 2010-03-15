@@ -13,6 +13,18 @@ from zope.interface import implements
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
+from zope.publisher.browser import BrowserLanguages
+
+class BrowserFormLanguages(BrowserLanguages):
+
+    def getPreferredLanguages(self):
+        langs = super(BrowserFormLanguages, self).getPreferredLanguages()
+        form_lang = self.request.getCookies().get("I18N_LANGUAGES")
+        if form_lang is not None:
+            langs.insert(0, form_lang)
+        return langs
+
+
 class LanguageVocabulary(object):
     implements(IVocabularyFactory)
 
@@ -51,15 +63,18 @@ def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
 
 def get_available_translations(context):
     context = removeSecurityProxy(context)
-    assert IVersionable.providedBy(context)
+    #assert IVersionable.providedBy(context)
     
-    model = context.versions.domain_model
+    
+    if IVersionable.providedBy(context):
+        model = context.versions.domain_model
+        session = Session()
+        query = session.query(model).filter(context.versions.subset_query).\
+                distinct().values('language', 'version_id')
 
-    session = Session()
-    query = session.query(model).filter(context.versions.subset_query).\
-            distinct().values('language', 'version_id')
-
-    return dict(query)
+        return dict(query)
+    else:
+        return {'language':'', 'version_id':''}       
 
 def is_translation(context):
     return IVersion.providedBy(context) and \

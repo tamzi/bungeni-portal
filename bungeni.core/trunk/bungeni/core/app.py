@@ -52,11 +52,14 @@ class AppSetup(object):
         sm = site.LocalSiteManager(self.context)
         self.context.setSiteManager(sm)
         
+        # !+ where is the view name for the app root (slash) set?
+        # NOTE: when logged in "/" is redirected to "/workspace/"
+        
         # top-level sections
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity"),
-            default_name=u"workspace-view")
+            default_name=u"workspace-index")
         
         business = self.context["business"] = Section(
             title=_(u"Business"),
@@ -79,16 +82,16 @@ class AppSetup(object):
             marker=model_interfaces.IBungeniAdmin,
             default_name=u"content" 
             )
-
+        
         # workspace section
         ws_index = workspace["index"] = Section(
             title=_(u"Parliamentary items"),
             description=_(u"Current parliamentary activity"),
-            default_name="workspace-view")
+            default_name="workspace-index")
         ws_archive = workspace["my-archive"] = Section(
             title=_(u"My archive"),
             description=_(u"My archive personal items"),
-            default_name="workspace_archive")        
+            default_name="workspace-archive")
         ws_calendar = workspace[u"calendar"] = QueryContent(
             container_getter(get_current_parliament, 'sittings'),
             title=_(u"Scheduling"),
@@ -98,7 +101,7 @@ class AppSetup(object):
         # no menu item for the entry will be displayed
         ws_questions = workspace["questions"] = QueryContent(
             container_getter(get_current_parliament, 'questions'),
-            #title=_(u"Questions"), 
+            #title=_(u"Questions"),
             description=_(u"Questions"))
         ws_motions = workspace["motions"] = QueryContent(
             container_getter(get_current_parliament, 'motions'),
@@ -125,7 +128,7 @@ class AppSetup(object):
         # no menu item for the entry will be displayed
         wsmya_questions = ws_archive["questions"] = QueryContent(
             container_getter(get_user, 'questions'),
-            #title=_(u"Questions"), 
+            #title=_(u"Questions"),
             description=_(u"Questions"))
         wsmya_motions = ws_archive["motions"] = QueryContent(
             container_getter(get_user, 'motions'),
@@ -185,7 +188,7 @@ class AppSetup(object):
             container_getter(get_current_parliament, 'agendaitems'),
             title=_(u"Agenda items"),
             marker=interfaces.IAgendaItemAddContext,
-            description=_(u"View the agenda items of the current parliament"))                       
+            description=_(u"View the agenda items of the current parliament"))
 
        # sessions = business[u"sessions"] = QueryContent(
        #     container_getter(get_current_parliament, 'sessions'),
@@ -203,10 +206,9 @@ class AppSetup(object):
             container_getter(get_current_parliament, 'preports'),
             title=_(u"Parliamentary publications"),
             marker=interfaces.IReportAddContext,
-            description=_(u"View Agenda and Minutes reports of the current parliament"))    
-            
-            
-
+            description=_(u"View Agenda and Minutes reports of the current parliament"))
+        
+        
         # members section
         current = members[u"current"] = QueryContent(
             container_getter(get_current_parliament, 'parliamentmembers'),
@@ -274,12 +276,12 @@ class AppSetup(object):
 
         #records[u"mps"] = domain.MemberOfParliamentContainer()
         #provideAdapter(location.ContainerLocation(records[u"mps"]),
-        #               (implementedBy(domain.MemberOfParliament), ILocation))                       
-
+        #               (implementedBy(domain.MemberOfParliament), ILocation))
+        
         ##########
         # Admin User Interface
         # Administration section
-
+        
         content = admin["content"] = Section(
             title=_(u"Content"),
             description=_(u"browse the content"),

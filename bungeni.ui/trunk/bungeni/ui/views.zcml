@@ -4,42 +4,55 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"                  
     i18n_domain="bungeni.ui">                     
 
+<!-- Naming convention for Page Views / Templates / Class Handlers:
+  
+- PageView.name is the same as template file name, without the extension.
+- The "index" view is always postfixed with "-index".
+- The name of all children of a section always start with the same base 
+  (as a prefix) as for the "index" view of the containing section.
+- View name words are separated with a "-" (not an underscore or a dot).
 
+-->
+  
   <!-- Application UI -->
   
+  <!-- app-index -:- the names of these two IBungeniApplication views 
+       should be "app-index" -->
   <browser:page
+     name="index"
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
-     name="index"
      template="templates/app-index.pt"
   />
   <browser:page
+     name="index"
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
-     name="index"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".container.ContainerRootRedirect"
   />
-  <browser:page
-     for="bungeni.core.interfaces.ISection"
-     permission="zope.View"
-     name="workspace-view"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".workspace.WorkspaceView"
-     template="templates/app-workspace.pt"
-  />
-
+  
   <!-- Workspace -->
 
   <browser:page
-     name="workspace_archive"
+     name="workspace-index"
+     for="bungeni.core.interfaces.ISection"
+     permission="zope.View"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
+     class=".workspace.WorkspaceView"
+     template="templates/workspace-index.pt"
+  />
+  <browser:page
+     name="workspace-archive"
      for="bungeni.core.interfaces.ISection"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace_archive.WorkspaceArchiveView"
      permission="zope.View"
-     template="templates/app-workspace-archive.pt"
+     template="templates/workspace-archive.pt"
   />
-
+  
+  
+  
   <!-- Setup Access to Browser Resources on the Application -->
   
   <browser:page

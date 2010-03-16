@@ -1,4 +1,5 @@
 import zope.securitypolicy.interfaces
+from bungeni.models.utils import get_principal_id
 from bungeni.core.workflows import utils
 from bungeni.core.workflows import dbutils
 
@@ -13,7 +14,7 @@ class conditions:
 class actions:
     @staticmethod
     def create(info, context):
-        user_id = utils.getUserId()
+        user_id = get_principal_id()
         if user_id:
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
                 ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 

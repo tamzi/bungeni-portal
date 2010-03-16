@@ -9,6 +9,7 @@ from bungeni.core.i18n import _
 from bungeni.models import domain
 from ore.alchemist import Session
 
+from bungeni.models.utils import get_principal_id
 import bungeni.core.workflows.utils as utils
 import zope.securitypolicy.interfaces
 
@@ -46,14 +47,14 @@ class actions:
         deny right to add supplementary questions.
         """
         utils.setQuestionDefaults(info, context)
-        user_id = utils.getUserId()
+        user_id = get_principal_id()
         if user_id:
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
                 ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
         owner_id = utils.getOwnerId( context )
         if owner_id and (owner_id != user_id):
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
-                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)                            
+                ).assignRoleToPrincipal(u'bungeni.Owner', owner_id)
 
     @staticmethod
     def makePrivate(info,context):

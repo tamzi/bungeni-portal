@@ -48,7 +48,7 @@ class UserIdViewlet(viewlet.ViewletBase):
         self.manager = manager
         
     def update(self):
-        self.principal_id = utils.getUserId()
+        self.principal_id = utils.get_principal_id()
         
     render = ViewPageTemplateFile ('../forms/templates/user_id.pt')        
     

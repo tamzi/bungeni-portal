@@ -79,11 +79,6 @@ def unset_group_local_role(context):
     IPrincipalRoleMap(ctx).unsetRoleForPrincipal(
             role, group.group_principal_id)
 
-def getUserId( ):
-    interaction = getInteraction()
-    for participation in interaction.participations:
-        if IRequest.providedBy(participation):
-            return participation.principal.id
 
 def getOwnerId( context ):
     if context:

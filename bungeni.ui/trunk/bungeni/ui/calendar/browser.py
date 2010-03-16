@@ -56,7 +56,7 @@ from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
 from bungeni.models import vocabulary
 from bungeni.models import domain
-from bungeni.models.utils import getUserId
+from bungeni.models.utils import get_principal_id
 from bungeni.models.interfaces import IGroupSitting
 from bungeni.server.interfaces import ISettings
 
@@ -922,7 +922,7 @@ class ReportingView(form.PageForm):
         report.note = self.note
         report.report_type = self.doc_type                    
         report.body_text = body_text
-        report.user_id = getUserId()
+        report.user_id = get_principal_id()
         report.group_id = self.group.group_id
         session.add(report)
         for sitting in self.sitting_items:
@@ -1248,7 +1248,7 @@ class SaveView(AgendaReportingView):
         report.note = self.request.form['note']                                
         report.report_type = self.request.form['report_type']                    
         report.body_text = body_text
-        report.user_id = getUserId()
+        report.user_id = get_principal_id()
         report.group_id = self.context.group_id
         session.add(report)
         
@@ -1379,7 +1379,7 @@ class StoreReportView(HTMLPreviewPage):
         else:
             report.report_type = 'agenda'                    
         report.body_text = body_text
-        report.user_id = getUserId()
+        report.user_id = get_principal_id()
         report.group_id = self.group.group_id
         session.add(report)
         for sitting in self.sitting_items:

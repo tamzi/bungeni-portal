@@ -959,6 +959,21 @@ transcripts = rdb.Table(
    rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id')),   
    )
 
+translations = rdb.Table(
+   "translations",
+   metadata,
+   rdb.Column( "object_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "object_type", rdb.String(50), primary_key=True),
+   rdb.Column( "lang", rdb.String(5), primary_key=True),   
+   rdb.Column( "field_name", rdb.String(50), primary_key=True), 
+   rdb.Column( "field_text", rdb.UnicodeText),      
+   )
+
+translation_lookup_index = rdb.Index('translation_lookup_index',
+    translations.c.object_id,
+    translations.c.object_type,
+    translations.c.lang)    
+
 def reset_database(  ):
     import util
     mdset = util.cli_setup()

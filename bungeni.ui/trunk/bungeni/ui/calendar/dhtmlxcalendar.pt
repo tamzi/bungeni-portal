@@ -23,7 +23,7 @@
                 scheduler.config.readonly = true;
                 
                 scheduler.attachEvent("onClick", function (event_id, native_event_object){
-                    parent.location = "/business/sittings/index/group/sittings/obj-"+event_id;
+                    parent.location = "/business/sittings/index/group/sittings/obj-"+event_id+"/schedule";
                 
                 
                 });

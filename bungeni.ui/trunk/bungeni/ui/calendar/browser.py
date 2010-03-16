@@ -988,9 +988,9 @@ class ReportingView(form.PageForm):
         renderer.run()
         self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
         if self.display_minutes == True:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="votes_and_proceedings.odt"')
+            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.odt"')
         else:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
+            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.odt"')
         f = open(tempFileName, 'rb')
         doc = f.read()
         f.close()      
@@ -1038,9 +1038,9 @@ class ReportingView(form.PageForm):
         renderer.run()
         self.request.response.setHeader('Content-type', 'application/pdf')
         if self.display_minutes == True:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="votes_and_proceedings.pdf"')
+            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.pdf"')
         else:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="agenda.odt"')
+            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.odt"')
         f = open(tempFileName, 'rb')
         doc = f.read()
         f.close()      

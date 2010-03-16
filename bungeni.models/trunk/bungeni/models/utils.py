@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
+from zope import component
+from zope.securitypolicy.interfaces import IPrincipalRoleMap
+from zope.securitypolicy.settings import Allow, Deny
 from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 from ore.alchemist import Session
@@ -46,7 +49,42 @@ def get_db_user_id():
     if db_user is not None:
         return db_user.user_id
 
-    
+
+def get_roles(context):
+    #return [role_id for role_id, role in \
+    #        component.getUtilitiesFor(IRole, context)]
+    # eeks we have to loop through all groups of the
+    # principal and all PrincipalRoleMaps to get all roles
+    #
+    prms = []
+    def _build_principal_role_maps(ctx):
+        if ctx is not None:
+            if component.queryAdapter(ctx, IPrincipalRoleMap):  
+                prms.append(IPrincipalRoleMap(ctx))
+            _build_principal_role_maps(getattr(ctx,'__parent__', None))
+    _build_principal_role_maps(context)
+    prms.reverse()
+    #
+    def add_roles(principal, prms, roles):
+        for prm in prms:
+            l_roles = prm.getRolesForPrincipal(principal)
+            for role in l_roles:
+                if role[1] == Allow:
+                    if not(role[0] in roles):
+                        roles.append(role[0])
+                elif role[1] == Deny:
+                    if role[0] in roles:
+                        roles.remove(role[0])
+        return roles
+    principal = get_principal()
+    pg = principal.groups.keys()
+    roles = []
+    for pn in pg:
+        roles = add_roles(pn, prms, roles)
+    pn = principal.id
+    roles = add_roles(pn, prms, roles)
+    return roles
+
 
 def get_all_group_ids_in_parliament(parliament_id):
     """ get all groups (group_ids) in a parliament
@@ -77,15 +115,15 @@ def get_ministry_ids_for_user_in_government(user_id, government_id):
         ],
         whereclause =
             rdb.and_(
-            schema.user_group_memberships.c.user_id == user_id,
-            schema.groups.c.parent_group_id == government_id,
-            schema.groups.c.status == 'active',
-            schema.user_group_memberships.c.active_p == True))                                    
+            schema.user_group_memberships.c.user_id==user_id,
+            schema.groups.c.parent_group_id==government_id,
+            schema.groups.c.status=='active',
+            schema.user_group_memberships.c.active_p==True))
     ministry_ids = []
     for group_id in connection.execute(ministries):
         ministry_ids.append(group_id[0])
-    #session.close        
-    return ministry_ids    
+    #session.close
+    return ministry_ids
 
 def get_offices_held_for_user_in_parliament(user_id, parliament_id):
     """ get the Offices (functions/titles) held by a user in a parliament """

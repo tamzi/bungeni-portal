@@ -11,11 +11,12 @@ import sqlalchemy.sql.expression as sql
 
 from bungeni.models import domain
 from bungeni.models.utils import get_db_user_id
+from bungeni.models.utils import get_roles
 from bungeni.models.utils import get_group_ids_for_user_in_parliament 
 from bungeni.models.utils import get_ministry_ids_for_user_in_government
 from bungeni.core.globalsettings import getCurrentParliamentId
 
-from workspace import add_roles, getRoles, role_interface_mapping, WorkspaceView
+from workspace import role_interface_mapping, WorkspaceView
 
 import interfaces
 
@@ -53,7 +54,7 @@ class WorkspaceArchiveView(WorkspaceView):
                 self.government_id = None
                                                        
 
-        roles = getRoles(self.context, self.request)
+        roles = get_roles(self.context)
 
         for role_id in roles:
             iface = role_interface_mapping.get(role_id)

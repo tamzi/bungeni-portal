@@ -49,6 +49,21 @@ def get_db_user_id():
     if db_user is not None:
         return db_user.user_id
 
+def get_container_by_role(context):
+    roles = get_roles(context)
+    # all other roles:
+    #   "zope.Manager", "bungeni.Admin", "bungeni.MP", "bungeni.Owner", 
+    #   "bungeni.Minister", "bungeni.Everybody", "bungeni.Anybody"
+    # get the limited (user only) view, so may be ignored
+    vis_level = 0
+    for role_id in roles:
+        if role_id in ("bungeni.Clerk", "bungeni.Speaker"):
+            vis_level += 1
+    if vis_level>0:
+        from bungeni.models.queries import get_current_parliament
+        return get_current_parliament(context)
+    else:
+        return get_db_user(context)
 
 def get_roles(context):
     #return [role_id for role_id, role in \

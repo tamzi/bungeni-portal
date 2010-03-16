@@ -8,7 +8,7 @@
     class="visualInline">
 
         <tal:block condition="view/subcontext">
-          <span tal:repeat="item view/subcontext" tal:omit-tag="">          
+          <span tal:repeat="item view/subcontext" tal:omit-tag="">
           <li tal:attributes="class python:item.selected==item.url and 'navigation selected' or 'navigation'">
             <a tal:attributes="href item/url"
                tal:content="item/title" />

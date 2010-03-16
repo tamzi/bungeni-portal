@@ -80,7 +80,7 @@ def unset_group_local_role(context):
             role, group.group_principal_id)
 
 
-def getOwnerId( context ):
+def getOwnerId(context):
     if context:
         owner_id = getattr(context, 'owner_id', None)
         return dbutils.get_user_login(owner_id)
@@ -151,7 +151,7 @@ def getQuestionSubmissionAllowed(info, context):
     return prefs.getQuestionSubmissionAllowed()
 
 
-def setBillSubmissionDate( info, context ):
+def setBillSubmissionDate(info, context):
     instance = removeSecurityProxy(context)
     if instance.submission_date == None:
         instance.submission_date = datetime.date.today()
@@ -161,14 +161,14 @@ def setBillPublicationDate( info, context ):
     if instance.publication_date == None:
         instance.publication_date = datetime.date.today()
 
-def setAgendaItemHistory( info, context ):
+def setAgendaItemHistory(info, context):
     pass
     
-def setTabledDocumentHistory( info, context ):
+def setTabledDocumentHistory(info, context):
     pass    
 
 
-def setParliamentId( info, context):
+def setParliamentId(info, context):
     instance = removeSecurityProxy(context)
     if not instance.parliament_id:
         parliamentId = prefs.getCurrentParliamentId()
@@ -193,26 +193,26 @@ def schedule_sitting_items(info, context):
         if interfaces.IQuestion.providedBy(item):
             try:
                 IWorkflowInfo(item).fireTransitionToward('scheduled', 
-                                check_security=False)                                            
+                        check_security=False)                                            
             except NoTransitionAvailableError:
                 pass
         elif interfaces.IMotion.providedBy(item):
             try:
                 IWorkflowInfo(item).fireTransitionToward('scheduled', 
-                                check_security=False)                                            
+                        check_security=False)                                            
             except NoTransitionAvailableError:
                 pass
         elif interfaces.IAgendaItem.providedBy(item):
             try:
                 IWorkflowInfo(item).fireTransitionToward('scheduled', 
-                                check_security=False)                                            
+                        check_security=False)                                            
             except NoTransitionAvailableError:
                 pass        
         elif interfaces.ITabledDocument.providedBy(item):
             try:
                 IWorkflowInfo(item).fireTransitionToward('scheduled', 
-                                check_security=False)                                            
+                        check_security=False)                                            
             except NoTransitionAvailableError:
                 pass
 
-    
+

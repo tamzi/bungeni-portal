@@ -113,9 +113,6 @@
       </div>
     </div>
 
-    <div>
-      <a href="" tal:attributes="href python:here['id'] + '/generateOdt'">Generate ODT version</a>
-    </div>
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>

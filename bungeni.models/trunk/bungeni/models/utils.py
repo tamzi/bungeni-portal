@@ -8,33 +8,45 @@ import sqlalchemy as rdb
 from sqlalchemy.orm import eagerload, lazyload
 import domain, schema
 
-def getUserId():
+
+def get_principal():
+    """ () -> either(IPrincipal, None)
+    """
     interaction = getInteraction()
     for participation in interaction.participations:
         if IRequest.providedBy(participation):
-            return participation.principal.id
-
-def get_db_user_id():
-    """ get the (numerical) user_id for the logged in user    
+            return participation.principal
+    
+def get_principal_id():
+    """ () -> either(str, None)
     """
-    user = get_user()
-    if user is not None:
-        return user.user_id
+    principal = get_principal()
+    if principal is not None:
+        return principal.id
 
-def get_user(context=None):
+
+def get_db_user(context=None):
     """ get the logged in user 
     Note: context is not used, but accommodated for as a dummy optional input 
     parameter to allow usage of this utility in e.g.
-    bungeni.core.apps.py: container_getter(get_user, 'questions')
+    bungeni.core.apps.py: container_getter(get_db_user, 'questions')
     """
-    userId = getUserId()
+    principal_id = get_principal_id()
     session = Session()
-    query = session.query(domain.User).filter(
-                    domain.User.login == userId)
+    query = session.query(domain.User).filter(domain.User.login==principal_id)
     results = query.all()
     #session.close
-    if len(results) == 1:
+    if len(results)==1:
         return results[0]
+
+def get_db_user_id():
+    """ get the (numerical) user_id for the currently logged in user
+    """
+    db_user = get_db_user()
+    if db_user is not None:
+        return db_user.user_id
+
+    
 
 def get_all_group_ids_in_parliament(parliament_id):
     """ get all groups (group_ids) in a parliament

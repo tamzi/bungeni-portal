@@ -14,12 +14,13 @@ from sqlalchemy import create_engine
 models.metadata.bind = db = create_engine('postgres://localhost/bungeni')
 models.metadata.drop_all()
 models.metadata.create_all()
-# the unbound sequences wont get created so we have to
+# the unbound sequences and indexes wont get created so we have to
 # create them maunually
 schema.QuestionSequence.create(db)
 schema.MotionSequence.create(db)
 schema.registrySequence.create(db)
 schema.tabled_documentSequence.create(db)
+schema.translation_lookup_index.create(db)
 
 security.metadata.bind = db
 security.metadata.drop_all() 

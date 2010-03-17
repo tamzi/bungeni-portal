@@ -614,9 +614,7 @@ class ConstituencyDetail( object ):
 class MemberTitle( object ):
     """ Titles for members in groups"""
     pass
-    
-class Keyword( object ):
-    """ Keywords for groups """
+
     
 class MemberRoleTitle( Entity ):
     """
@@ -655,11 +653,6 @@ class ItemSchedule(Entity):
         s_discussion.__parent__ = self
         return s_discussion
 
-class ItemScheduleCategory(Entity):
-    """ category of a scheduled item used to
-    get the 'headings' when producing the agenda/ minutes
-    for a sitting """
-    
 
 class ScheduledItemDiscussion(Entity):
     """A discussion on a scheduled item."""

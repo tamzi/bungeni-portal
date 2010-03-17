@@ -14,7 +14,6 @@ mapper( domain.User, schema.users,
        }        
        )
 
-mapper (domain.Keyword, schema.keywords)
 
 # Groups
 
@@ -769,14 +768,12 @@ mapper(domain.ItemSchedule, schema.items_schedule,
                domain.ScheduledItemDiscussion,
                uselist=False,
                cascade='all, delete-orphan'),
-           'category': relation( domain.ItemScheduleCategory, uselist=False),    
            'sitting' : relation( domain.GroupSitting, uselist=False),     
            }
        ) 
 
 mapper(domain.ScheduledItemDiscussion, schema.item_discussion)
 
-mapper( domain.ItemScheduleCategory , schema.item_schedule_category)
 
 # items scheduled for a sitting
 # expressed as a join between item and schedule

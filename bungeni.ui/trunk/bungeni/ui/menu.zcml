@@ -832,15 +832,7 @@
      order="100"
      />
 
-  
-  <browser:menuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.domain.ItemScheduleCategoryContainer"
-     title="Add Category..."
-     action="./add"
-     permission="bungeni.itemschedulecategory.Add"
-     order="100"
-     />
+
 
   <browser:menuItem
      menu="plone_contentmenu"

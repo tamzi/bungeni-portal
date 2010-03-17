@@ -5,9 +5,8 @@
     <ul id="portal-languageselector"
         tal:condition="python:available">
         <tal:language repeat="lang languages">
-        <li tal:define="code lang/code;
-                        selected lang/selected"
-            tal:attributes="class python: selected and 'currentLanguage' or '';">
+        <li tal:define="code lang/code;"
+            tal:attributes="class lang/css_class">
                 <a href=""
                    tal:define="flag lang/flag|nothing;
                                name lang/name"
@@ -20,8 +19,7 @@
                              alt=""
                              tal:attributes="src flag;
                                              title python: name;
-                                             alt python: name;
-                                             class python: selected and 'currentItem' or '';" />
+                                             alt python: name;" />
                     </tal:flag>
                     <tal:nonflag condition="python:not showFlags or not flag"
                                  replace="name">language name</tal:nonflag>

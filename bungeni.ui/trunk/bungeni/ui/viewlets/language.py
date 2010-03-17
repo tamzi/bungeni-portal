@@ -35,18 +35,29 @@ class LanguageViewlet(object):
     available = True
     
     def update(self):
+        def css_class(language):
+            css_attr = None
+            if language == selected:
+                css_attr = 'selected'
+            if language in translations:
+                if css_attr:
+                    css_attr = css_attr + ' available'
+                else:                    
+                    css_attr = 'available'
+            return css_attr                    
         translations = get_available_translations(self.context)
+        if hasattr(self.context,'language'):
+            translations[self.context.language] = None            
         languages = get_all_languages()
         selected = self.request.locale.getLocaleID()
         url = absoluteURL(getSite(), self.request)
 
-        # self.available = len(translations) > 0
-        
+        # self.available = len(translations) > 0        
         self.languages = [{
             'code': language,
             'flag': url+languages[language].get('flag',''),
             'name': languages[language]['name'],
-            'selected': language == selected,
+            'css_class': css_class(language),
             'url': "%s/change-language?lang=%s" % (url, language),
             } for language in languages]
             

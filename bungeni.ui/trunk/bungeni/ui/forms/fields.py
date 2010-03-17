@@ -3,6 +3,8 @@
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.security.proxy import removeSecurityProxy, ProxyFactory
 from zope import security
+from zope.formlib import form
+from zope.i18n import translate
 
 from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.interfaces import IAlchemistContainer
@@ -13,6 +15,8 @@ from alchemist.ui.viewlet import DisplayFormViewlet
 
 from bungeni.ui.forms.workflow import bindTransitions
 from bungeni.core.i18n import _
+from bungeni.core.translation import get_translation_for, get_all_languages
+from copy import copy
 
 def filterFields(context, form_fields):
     omit_names = []
@@ -44,7 +48,9 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     template = ViewPageTemplateFile('templates/display_form.pt')
     form_name = _(u"General")    
     has_data = True
+    adapters = None
 
+    
     def get_note(self):
         """ return Notes if supplied by context"""
         if getattr(self.context, 'note', False):
@@ -59,9 +65,32 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
                 self, transitions, None, interfaces.IWorkflow( self.context)))
 
     def setUpWidgets(self, ignore_request=False):
+        languages = get_all_languages()
         self.form_fields = filterFields(self.context, self.form_fields)
-        super(BungeniAttributeDisplay, 
-                self).setUpWidgets(ignore_request=ignore_request)
+        lang = self.request.locale.getLocaleID()  
+        try:   
+            translation = get_translation_for(self.context, lang)         
+        except:
+            translation = None
+        if (not translation) and (self.context.language != lang):
+            supported_lang = languages.get(lang)
+            if supported_lang:
+                langname = supported_lang.get('native',None)
+                if langname == None:
+                    langname = supported_lang.get('name')
+                self.status = translate(
+                    _(u'This content is not yet translated into $language', 
+                        mapping={'language': langname}),
+                    domain="bungeni.ui",
+                    context=self.request)                                        
+        context = copy(removeSecurityProxy(self.context))        
+        for field_translation in translation:
+            setattr(context, field_translation.field_name, 
+                    field_translation.field_text)
+        self.widgets = form.setUpEditWidgets(
+            self.form_fields, self.prefix, context, self.request,
+            adapters=self.adapters, ignore_request=ignore_request)                    
+     
 
     def update( self ):
         self.setupActions()

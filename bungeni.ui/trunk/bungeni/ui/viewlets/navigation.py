@@ -160,6 +160,7 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
         self.portal_tabs = []
         seen = set()
         menu = component.getUtility(IBrowserMenu, "site_actions")
+
         for item in menu.getMenuItems(self.context, self.request):
             if item['action'] in seen:
                 continue

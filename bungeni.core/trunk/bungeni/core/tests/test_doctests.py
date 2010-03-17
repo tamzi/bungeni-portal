@@ -1,5 +1,5 @@
 """
-$Id: $
+$Id$
 """
 
 from zope import interface

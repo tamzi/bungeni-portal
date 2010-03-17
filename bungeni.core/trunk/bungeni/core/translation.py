@@ -1,19 +1,24 @@
 from zope import component
 from zope.security.proxy import removeSecurityProxy
 
-from ore.alchemist import Session
-from plone.i18n.locales.interfaces import ILanguageAvailability
-
-from bungeni.core.interfaces import IVersionable
-from bungeni.models.interfaces import IVersion
-from bungeni.core.i18n import _
-
 from zope.app.schema.vocabulary import IVocabularyFactory
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 from zope.publisher.browser import BrowserLanguages
+
+from sqlalchemy import orm, sql
+
+from ore.alchemist import Session
+from plone.i18n.locales.interfaces import ILanguageAvailability
+
+from bungeni.core.interfaces import IVersionable
+from bungeni.models.interfaces import IVersion
+from bungeni.models import domain
+from bungeni.core.i18n import _
+
+
 
 class BrowserFormLanguages(BrowserLanguages):
 
@@ -61,20 +66,53 @@ def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
 
     return languages
 
-def get_available_translations(context):
-    context = removeSecurityProxy(context)
-    #assert IVersionable.providedBy(context)
+def get_translation_for(context, lang):
+    trusted = removeSecurityProxy(context)
     
-    
-    if IVersionable.providedBy(context):
-        model = context.versions.domain_model
+    class_name = trusted.__class__.__name__
+    try:
+        mapper = orm.object_mapper(trusted)            
+        pk = getattr(trusted, mapper.primary_key[0].name)    
         session = Session()
-        query = session.query(model).filter(context.versions.subset_query).\
-                distinct().values('language', 'version_id')
+        query = session.query(domain.ObjectTranslation).filter(
+            sql.and_(
+                domain.ObjectTranslation.object_id == pk,
+                domain.ObjectTranslation.object_type == class_name,
+                domain.ObjectTranslation.lang == lang)
+                )
+        return query.all()    
+    except:
+        return None              
 
+def get_available_translations(context):
+    get_translation_for(context, 'fr')
+    trusted = removeSecurityProxy(context)
+    
+    class_name = trusted.__class__.__name__
+    try:
+        mapper = orm.object_mapper(trusted)            
+        pk = getattr(trusted, mapper.primary_key[0].name)
+        
+        session = Session()
+        query = session.query(domain.ObjectTranslation).filter(
+            sql.and_(
+                domain.ObjectTranslation.object_id == pk,
+                domain.ObjectTranslation.object_type == class_name)
+                ).distinct().values('lang','object_id')
+            
         return dict(query)
-    else:
-        return {'language':'', 'version_id':''}       
+    except:
+        return None        
+    
+    #assert IVersionable.providedBy(context)        
+    #if IVersionable.providedBy(context):
+    #    model = context.versions.domain_model
+    #    session = Session()
+    #    query = session.query(model).filter(context.versions.subset_query).\
+    #            distinct().values('language', 'version_id')
+    #    return dict(query)
+    #else:
+    #    return {'language':'', 'version_id':''}       
 
 def is_translation(context):
     return IVersion.providedBy(context) and \

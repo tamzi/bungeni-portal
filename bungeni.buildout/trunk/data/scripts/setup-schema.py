@@ -20,7 +20,7 @@ schema.QuestionSequence.create(db)
 schema.MotionSequence.create(db)
 schema.registrySequence.create(db)
 schema.tabled_documentSequence.create(db)
-schema.translation_lookup_index.create(db)
+#schema.translation_lookup_index.create(db)
 
 security.metadata.bind = db
 security.metadata.drop_all() 

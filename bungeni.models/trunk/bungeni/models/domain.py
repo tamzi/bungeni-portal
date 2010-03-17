@@ -144,10 +144,8 @@ class Group( Entity ):
                 )
             )
         if query.count() == 0:
-            #session.close                    
             return False
         else:
-            #session.close                
             return True            
 
                     
@@ -456,7 +454,8 @@ class ListQuestion(object):
     pass
     
 class Question( ParliamentaryItem ):
-    #supplementaryquestions = one2many("supplementaryquestions", "bungeni.models.domain.QuestionContainer", "supplement_parent_id")
+    #supplementaryquestions = one2many("supplementaryquestions", 
+    #"bungeni.models.domain.QuestionContainer", "supplement_parent_id")
     versions = one2many(
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
@@ -469,7 +468,6 @@ class Question( ParliamentaryItem ):
         if self.supplement_parent_id:
             session = Session()
             parent = session.query(Question).get(self.supplement_parent_id)   
-            #session.close                        
             return parent.short_name
 
             
@@ -761,4 +759,7 @@ class SittingReport(Report):
 
 class Report4Sitting(Report):
     """ display reports for s sitting"""
+
+class ObjectTranslation(object):
+    """ get the translations for an Object"""
         

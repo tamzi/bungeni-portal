@@ -10,7 +10,6 @@ Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 # $Id$
 
 
-
 from os import path
 
 from zope.interface import implements

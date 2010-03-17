@@ -18,7 +18,7 @@ two additional change events.
 
 this module setups the indexing machinery for searches
 
-$Id: $
+$Id$
 """
 
 from zope import interface, schema

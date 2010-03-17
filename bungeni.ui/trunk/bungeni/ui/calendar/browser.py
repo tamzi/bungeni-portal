@@ -452,7 +452,7 @@ def questionOptions(context):
              'Number', 
              'Text', 
              'Owner',
-             'Response',
+             #'Response',
              'Type',
             )
     return SimpleVocabulary.fromValues(items)
@@ -843,7 +843,7 @@ class ReportingView(form.PageForm):
                 self.question_number = False
                 self.question_text = False
                 self.question_owner = False
-                self.question_response = False
+                #self.question_response = False
                 self.question_type = False
                 for option in self.question_options:
                     if option == 'Title':
@@ -854,8 +854,8 @@ class ReportingView(form.PageForm):
                         self.question_text = True
                     elif option == 'Owner':
                         self.question_owner = True
-                    elif option == 'Response':
-                        self.question_response = True
+                    #elif option == 'Response':
+                    #    self.question_response = True
                     elif option == 'Type':
                         self.question_type = True
                 self.question = True    
@@ -983,6 +983,10 @@ class ReportingView(form.PageForm):
         tempFileName = '/tmp/%f.odt' % ( time.time())
         params = {}
         params['body_text'] = unescape(body_text)
+        '''import codecs
+        f = codecs.open("output.txt", "w", "utf-8")
+        f.write(params['body_text'])
+        f.close()'''
         renderer = Renderer(odt_file, params, tempFileName)
         #import pdb; pdb.set_trace()
         renderer.run()

@@ -61,7 +61,6 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        #prm = IPrincipalRoleMap(self.context)        
         session =Session()
         context = session.merge(removeSecurityProxy(self.context))
         if context.question_number is None:

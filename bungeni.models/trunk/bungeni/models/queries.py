@@ -1,13 +1,27 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+'''
+bungeni - http://www.bungeni.org/
+Parliamentary and Legislative Information System
+Copyright (C) 2010 UN/DESA - http://www.un.org/esa/desa/
+Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+'''
+# $URL$
+# $Id$
+
+
 from ore.alchemist import Session
 from bungeni.models import domain
 from bungeni.models import schema
 from sqlalchemy import desc
 from sqlalchemy import sql
 
-def container_getter(getter, name):
+def container_getter(getter, name, query_modifier=None):
     def func(context):
         obj = getter(context)
-        return getattr(obj, name)
+        c = getattr(obj, name)
+        c.setQueryModifier(sql.and_(c.getQueryModifier(), query_modifier))
+        return c
     func.__name__ = "get_%s_container" % name
     return func
 
@@ -15,8 +29,8 @@ def get_current_parliament(context):
     session = Session()
     parliament = session.query(domain.Parliament).order_by(
         desc(domain.Parliament.election_date)).first()
-    #session.close()            
-    return parliament    
+    #session.close()
+    return parliament
 
 
 def get_parliament_by_date_range(context, start_date, end_date):

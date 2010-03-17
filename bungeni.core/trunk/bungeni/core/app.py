@@ -1,6 +1,15 @@
-"""
-$Id: $
-"""
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+'''
+bungeni - http://www.bungeni.org/
+Parliamentary and Legislative Information System
+Copyright (C) 2010 UN/DESA - http://www.un.org/esa/desa/
+Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+'''
+# $URL$
+# $Id$
+
+
 
 from os import path
 
@@ -17,6 +26,7 @@ from ore.wsgiapp.app import Application
 from bungeni.models import domain
 from bungeni.models import interfaces as model_interfaces
 
+from bungeni.core import interfaces
 from bungeni.core import location
 from bungeni.core.content import Section
 from bungeni.core.content import QueryContent
@@ -24,7 +34,8 @@ from bungeni.core.i18n import _
 from bungeni.models.queries import get_current_parliament
 from bungeni.models.queries import container_getter
 from bungeni.models.utils import get_container_by_role
-from bungeni.core import interfaces
+
+from sqlalchemy import sql
 
 def setUpSubscriber(obj, event):
     initializer = model_interfaces.IBungeniSetup(obj)
@@ -97,53 +108,67 @@ class AppSetup(object):
             title=_(u"Scheduling"),
             description=_(u"View the sittings of the current parliament"))
         
-        # for all the following, we want to keep title=None so that 
-        # no menu item for the entry will be displayed
+        # Note: for all the following QueryContent "sections", we want to keep 
+        # title=None so that no menu item for the entry will be displayed
+        
+        # Parliamentary Item states that imply being archived: 
+        ARCHIVED = ("debated", "withdrawn", "response_complete", "elapsed")
+        
+        # workspace/ -> non-ARCHIVED parliamentary items
         ws_questions = workspace["questions"] = QueryContent(
-            container_getter(get_container_by_role, 'questions'),
+            container_getter(get_container_by_role, 'questions',
+                query_modifier=sql.not_(domain.Question.status.in_(ARCHIVED))),
             #title=_(u"Questions"),
             description=_(u"Questions"))
         ws_motions = workspace["motions"] = QueryContent(
-            container_getter(get_container_by_role, 'motions'),
+            container_getter(get_container_by_role, 'motions',
+                query_modifier=sql.not_(domain.Motion.status.in_(ARCHIVED))),
             #title=_(u"Motions"),
             description=_(u"Motions"))
+        ws_tableddocuments = workspace["tableddocuments"] = QueryContent(
+            container_getter(get_container_by_role, 'tableddocuments',
+                query_modifier=sql.not_(domain.TabledDocument.status.in_(ARCHIVED))),
+            #title=_(u"Tabled documents"),
+            description=_(u"Tabled documents"))
+        ws_bills = workspace["bills"] = QueryContent(
+            container_getter(get_container_by_role, 'bills',
+                query_modifier=sql.not_(domain.Bill.status.in_(ARCHIVED))),
+            #title=_(u"Bills"),
+            description=_(u"Bills"))
+        ws_agendaitems = workspace["agendaitems"] = QueryContent(
+            container_getter(get_container_by_role, 'agendaitems',
+                query_modifier=sql.not_(domain.AgendaItem.status.in_(ARCHIVED))),
+            #title=_(u"Agenda items"),
+            description=_(u" items"))
         ws_committees = workspace["committees"] = QueryContent(
             container_getter(get_container_by_role, 'committees'),
             #title=_(u"Committees"), # title=None to not show up in menu
             description=_(u"Committees"))
-        ws_tableddocuments = workspace["tableddocuments"] = QueryContent(
-            container_getter(get_container_by_role, 'tableddocuments'),
-            #title=_(u"Tabled documents"),
-            description=_(u"Tabled documents"))
-        ws_bills = workspace["bills"] = QueryContent(
-            container_getter(get_container_by_role, 'bills'),
-            #title=_(u"Bills"),
-            description=_(u"Bills"))
-        ws_agendaitems = workspace["agendaitems"] = QueryContent(
-            container_getter(get_container_by_role, 'agendaitems'),
-            #title=_(u"Agenda items"),
-            description=_(u" items"))
         
-        # for all the following, we want to keep title=None so that 
-        # no menu item for the entry will be displayed
+        # workspace/my-archive/ -> ARCHIVED parliamentary items
         wsmya_questions = ws_archive["questions"] = QueryContent(
-            container_getter(get_container_by_role, 'questions'),
+            container_getter(get_container_by_role, 'questions',
+                query_modifier=domain.Question.status.in_(ARCHIVED)),
             #title=_(u"Questions"),
             description=_(u"Questions"))
         wsmya_motions = ws_archive["motions"] = QueryContent(
-            container_getter(get_container_by_role, 'motions'),
+            container_getter(get_container_by_role, 'motions',
+                query_modifier=domain.Motion.status.in_(ARCHIVED)),
             #title=_(u"Motions"),
             description=_(u"Motions"))
         wsmya_tableddocuments = ws_archive["tableddocuments"] = QueryContent(
-            container_getter(get_container_by_role, 'tableddocuments'),
+            container_getter(get_container_by_role, 'tableddocuments',
+                query_modifier=domain.TabledDocument.status.in_(ARCHIVED)),
             #title=_(u"Tabled documents"),
             description=_(u"Tabled documents"))
         wsmya_bills = ws_archive["bills"] = QueryContent(
-            container_getter(get_container_by_role, 'bills'),
+            container_getter(get_container_by_role, 'bills',
+                query_modifier=domain.Bill.status.in_(ARCHIVED)),
             #title=_(u"Bills"),
             description=_(u"Bills"))
         wsmya_agendaitems = ws_archive["agendaitems"] = QueryContent(
-            container_getter(get_container_by_role, 'agendaitems'),
+            container_getter(get_container_by_role, 'agendaitems',
+                query_modifier=domain.AgendaItem.status.in_(ARCHIVED)),
             #title=_(u"Agenda items"),
             description=_(u" items"))
         

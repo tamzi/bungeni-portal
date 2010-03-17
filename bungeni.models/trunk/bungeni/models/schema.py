@@ -962,10 +962,14 @@ transcripts = rdb.Table(
 translations = rdb.Table(
    "translations",
    metadata,
-   rdb.Column( "object_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "object_type", rdb.String(50), primary_key=True),
-   rdb.Column( "lang", rdb.String(5), primary_key=True),   
-   rdb.Column( "field_name", rdb.String(50), primary_key=True), 
+   rdb.Column( "object_id", rdb.Integer, 
+        primary_key=True, nullable=False),
+   rdb.Column( "object_type", rdb.String(50), 
+        primary_key=True, nullable=False),
+   rdb.Column( "lang", rdb.String(5), 
+        primary_key=True, nullable=False),   
+   rdb.Column( "field_name", rdb.String(50), 
+        primary_key=True, nullable=False), 
    rdb.Column( "field_text", rdb.UnicodeText),      
    )
 

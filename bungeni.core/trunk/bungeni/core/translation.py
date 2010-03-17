@@ -102,7 +102,7 @@ def get_available_translations(context):
             
         return dict(query)
     except:
-        return None        
+        return {}        
     
     #assert IVersionable.providedBy(context)        
     #if IVersionable.providedBy(context):

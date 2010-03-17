@@ -131,11 +131,12 @@
                                     <p tal:replace="structure scheduled/item/body_text"
                                        tal:condition="scheduled/item/body_text | nothing"/>
                                 </span>
-                                <span tal:condition="view/question_response">
+                                
+                                <!-- <span tal:condition="view/question_response">
                                     <h4 tal:condition="scheduled/item/response_text | nothing">Response</h4>
                                     <p tal:replace="structure scheduled/item/response_text" 
                                        tal:condition="scheduled/item/response_text | nothing"/>
-                                </span>
+                                </span> -->
                      </span>
                 </span>
                     

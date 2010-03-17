@@ -1235,8 +1235,12 @@ class DhtmlxCalendarSittings(BrowserView):
             start_date,
             end_date,
             )
+        self.sittings = []        
+        for sitting in sittings.values():
+            if checkPermission("zope.View", sitting):                          
+                self.sittings.append(sitting)
         self.request.response.setHeader('Content-type', 'text/xml')
-        self.sittings = sittings
+
         return super(DhtmlxCalendarSittings, self).__call__() 
         
 class SaveView(AgendaReportingView):

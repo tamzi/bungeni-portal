@@ -42,8 +42,6 @@ Parliaments = ObjectSource(
         ob.start_date and ob.start_date.strftime("%Y/%m/%d") or "?",
         ob.end_date and ob.end_date.strftime("%Y/%m/%d") or "?"))
 
-ItemScheduleCategories = DatabaseSource(
-    domain.ItemScheduleCategory, 'category_id', 'category_id', 'short_name')
 
 SittingTypes = DatabaseSource(
     domain.SittingType, 'sitting_type', 'sitting_type_id',

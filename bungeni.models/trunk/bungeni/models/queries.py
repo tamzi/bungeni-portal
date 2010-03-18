@@ -9,7 +9,6 @@ Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 # $URL$
 # $Id$
 
-
 from ore.alchemist import Session
 from bungeni.models import domain
 from bungeni.models import schema
@@ -19,7 +18,12 @@ from sqlalchemy import sql
 def container_getter(getter, name, query_modifier=None):
     def func(context):
         obj = getter(context)
-        c = getattr(obj, name)
+        try: 
+            c = getattr(obj, name)
+        except AttributeError:
+            # the container we need is not there, data may be missing in the db
+            from zope.publisher.interfaces import NotFound
+            raise NotFound(context, name)
         c.setQueryModifier(sql.and_(c.getQueryModifier(), query_modifier))
         return c
     func.__name__ = "get_%s_container" % name

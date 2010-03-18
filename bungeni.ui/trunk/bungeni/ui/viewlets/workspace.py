@@ -58,7 +58,7 @@ class QuestionInStateViewlet(ViewletBase):
     list_id = "_questions"
     def getData(self):
         """return the data of the query
-        """    
+        """
         #offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
         date_formatter = self.request.locale.dates.getFormatter('date', 'short')
         def _q_data_item(q):
@@ -792,41 +792,36 @@ class MinistryItemsViewlet(ViewletBase):
     ]
     response_types = ['O','W']
     
-    
     def _getItems(self, ministry):
-        data_list = []   
         session = Session()
-        query = session.query(domain.Question).filter(
-            sql.and_(
+        date_formatter = self.request.locale.dates.getFormatter('date', 'short')
+        def _q_data_item(q):
+            item = {}
+            item['qid']= 'q_%s' % q.question_id
+            if q.question_number:                       
+                item['subject'] = u'Q %s %s (%s)' % (
+                                    q.question_number, q.short_name, q.status)
+            else:
+                item['subject'] = u'%s (%s)' % (q.short_name, q.status)
+            item['title'] = u'%s (%s)' % (q.short_name, q.status)
+            item['result_item_class'] = 'workflow-state-%s' % q.status
+            item['url'] = 'questions/obj-%s' % q.question_id
+            item['status'] = get_wf_state(q)
+            item['status_date'] = date_formatter.format(q.status_date)
+            item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
+            item['type'] = _(q.type)
+            if type(q)==domain.Question:
+                item['to'] = q.ministry.short_name
+            else:
+                data['to']= u""
+            return item
+        # prepare query for this ministry's questions
+        mq_query = session.query(domain.Question).filter(sql.and_(
                 domain.Question.ministry_id == ministry.group_id,
                 domain.Question.status.in_(self.states),
-                domain.Question.response_type.in_(self.response_types)                
-                ))                    
-        results = query.all()
-        formatter = self.request.locale.dates.getFormatter('date', 'short')         
-        for result in results:            
-            data = {}
-            data['qid'] = ( 'q_' + str(result.question_id) )  
-            if result.question_number:
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.short_name + ' (' + result.status + ')'
-            else:
-                data['subject'] = result.short_name + ' (' + result.status + ')'
-            data['title'] = result.short_name + ' (' + result.status + ')'
-            data['result_item_class'] = 'workflow-state-' + result.status 
-            data['url'] = '/archive/browse/governments/obj-%i/ministries/obj-%i/questions/obj-%i' %(
-                self._parent.government_id, 
-                ministry.group_id, result.question_id)                
-            data['status'] = get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
-            data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  _(result.type)            
-            if type(result) == domain.Question:
-                data['to'] = result.ministry.short_name
-            else:
-                data['to']= u""            
-            data_list.append(data)            
-        return data_list        
-         
+                domain.Question.response_type.in_(self.response_types)
+                ))
+        return [ _q_data_item(question) for question in mq_query.all() ]
            
     def getData(self):
         """ template calls this to get the data of the query setup in update()

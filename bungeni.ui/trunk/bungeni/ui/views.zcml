@@ -10,7 +10,8 @@
 - The "index" view is always postfixed with "-index".
 - The name of all children of a section always start with the same base 
   (as a prefix) as for the "index" view of the containing section.
-- View name words are separated with a "-" (not an underscore or a dot).
+- The word separator in names for Views or Template Files is the "-" character,
+  i.e. not underscore or dot.
 
 -->
   

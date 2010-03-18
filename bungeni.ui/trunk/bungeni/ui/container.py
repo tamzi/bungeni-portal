@@ -41,7 +41,7 @@ def dateFilter( request ):
         filter_by = getFilter( displayDate )
     else:
         filter_by = ''          
-    return filter_by            
+    return filter_by
   
     
 def getFields( context ):

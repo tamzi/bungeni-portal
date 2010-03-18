@@ -253,7 +253,7 @@ def validate_group_membership_dates(action, data, context, container):
             overlaps = r.group.short_name                                                                             
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
-                "start_date" ))                    
+                "start_date", "user_id" ))                    
     if data['end_date']:    
         for r in utils.validate_membership_in_interval(group_membership, 
                     domain.GroupMembership, 
@@ -262,14 +262,14 @@ def validate_group_membership_dates(action, data, context, container):
             overlaps = r.group.short_name                      
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
-                "end_date" ))                                
+                "end_date", "user_id" ))                                
     for r in utils.validate_open_membership(group_membership, 
                 domain.GroupMembership, 
                 user_id, group_id):
         overlaps = r.group.short_name      
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
-                    "end_date" )) 
+                    "end_date", "user_id" )) 
     return errors
                  
 

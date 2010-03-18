@@ -56,7 +56,7 @@ namespace :bungeni_tasks do
 
     desc "full buildout"
     task :buildout_full, :roles=> :app do
-      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout_gandi.cfg -v"
+      run "cd #{buildout_dir} && PYTHON=#{user_python} ./bin/buildout -t 3600 -c buildout.cfg -v"
     end
 
     desc "full buildout local"

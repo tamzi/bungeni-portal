@@ -181,6 +181,8 @@ def workflow_column(name, title, default=u""):
 #  Constraints / Invariants
 #  
 
+
+
 def ElectionAfterStart(obj):
     """ Start Date must be after Election Date"""        
     if obj.election_date >= obj.start_date:
@@ -463,7 +465,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         
     schema_invariants = [EndAfterStart, ActiveAndSubstituted,
         SubstitudedEndDate, InactiveNoEndDate]
-    custom_validators = [validations.validate_date_range_within_parent,]                                                       
+    custom_validators = [validations.validate_date_range_within_parent, 
+        validations.validate_group_membership_dates]                                                       
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of parliament")
@@ -518,7 +521,8 @@ class MpDescriptor ( ModelDescriptor ):
     ])
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
-    custom_validators = [validations.validate_date_range_within_parent,]
+    custom_validators = [validations.validate_date_range_within_parent,
+        validations.validate_group_membership_dates]
                                                                
 class PartyMemberDescriptor( ModelDescriptor ):
     """membership of a user in a party"""

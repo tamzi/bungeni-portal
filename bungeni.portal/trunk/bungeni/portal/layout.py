@@ -2,9 +2,11 @@ import os
 
 try:
     from plone.maintemplate import Layout
+    print "USING: plone.maintemplate.Layout ..."
 except ImportError:
     from chameleon.html.template import DynamicHTMLFile as Layout
-
+    print "USING: chameleon.html.template.DynamicHTMLFile as Layout ..."
+    
 from zope import interface
 from zope import component
 from zope.app.component.hooks import getSite

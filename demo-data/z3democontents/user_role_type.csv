@@ -1,25 +1,25 @@
-01,"parliamentmember","Speaker",True,20
-02,"parliamentmember","President",True,40
-03,"parliamentmember","Attorney General",True,30
-04,"parliamentmember","Member",False,10
-05,"minister","Minister",True,10
-06,"minister","Deputy Minister",False,20
-07,"minister","Secretary",True,30
-08,"minister","Under Secretary",False,40
-09,"minister","Assistant Minister",False,50
-10,"partymember","Speaker",True,20
-11,"partymember","Deputy Speaker",False,30
-12,"partymember","Chief Whip, Floor Leader",True,40
-13,"partymember","Deputy Leader",False,50
-14,"partymember","Spokesperson",True,60
-15,"partymember","Secretary",False,70
-16,"partymember","Member",False,10
-17,"committeemember","Chairperson",True,20
-18,"committeestaff","Committee Clerk",False,10
-19,"committeemember","Deputy Chairperson",False,30
-20,"committeestaff","Deputy Committee Clerk",False,20
-21,"committeemember","Member",False,10
-22,"committeemember","Secretary",False,40
-23,"committeestaff","Researcher",False,50
-24,"extensionmember","Additional Member",False,10
-25,"officemember","Office Member",False,10
+1,"parliamentmember","Speaker",TRUE,20,"en"
+2,"parliamentmember","President",TRUE,40,"en"
+3,"parliamentmember","Attorney General",TRUE,30,"en"
+4,"parliamentmember","Member",FALSE,10,"en"
+5,"minister","Minister",TRUE,10,"en"
+6,"minister","Deputy Minister",FALSE,20,"en"
+7,"minister","Secretary",TRUE,30,"en"
+8,"minister","Under Secretary",FALSE,40,"en"
+9,"minister","Assistant Minister",FALSE,50,"en"
+10,"partymember","Speaker",TRUE,20,"en"
+11,"partymember","Deputy Speaker",FALSE,30,"en"
+12,"partymember","Chief Whip, Floor Leader",TRUE,40,"en"
+13,"partymember","Deputy Leader",FALSE,50,"en"
+14,"partymember","Spokesperson",TRUE,60,"en"
+15,"partymember","Secretary",FALSE,70,"en"
+16,"partymember","Member",FALSE,10,"en"
+17,"committeemember","Chairperson",TRUE,20,"en"
+18,"committeestaff","Committee Clerk",FALSE,10,"en"
+19,"committeemember","Deputy Chairperson",FALSE,30,"en"
+20,"committeestaff","Deputy Committee Clerk",FALSE,20,"en"
+21,"committeemember","Member",FALSE,10,"en"
+22,"committeemember","Secretary",FALSE,40,"en"
+23,"committeestaff","Researcher",FALSE,50,"en"
+24,"extensionmember","Additional Member",FALSE,10,"en"
+25,"officemember","Office Member",FALSE,10,"en"

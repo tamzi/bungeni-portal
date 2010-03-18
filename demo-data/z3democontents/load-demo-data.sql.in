@@ -11,16 +11,16 @@ copy public.provinces from '%(directory)s/data/demodata/provinces.csv' csv ;
 
 copy public.regions from '%(directory)s/data/demodata/regions.csv' csv ;
 
-copy public.constituencies (constituency_id, name, province_id, region_id, start_date) 
+copy public.constituencies (constituency_id, name, province_id, region_id, start_date, language) 
 from '%(directory)s/data/demodata/constituencies.csv' csv ;
 
 copy public.constituency_details (constituency_id, voters, "date", population) from
 '%(directory)s/data/demodata/constituency_details.csv' csv ;
 
-copy public.address_types ( address_type_id, address_type_name)
+copy public.address_types ( address_type_id, address_type_name, language)
 from '%(directory)s/data/demodata/address_types.csv' csv ;
 
-copy public.venues ( venue_id, short_name) 
+copy public.venues ( venue_id, short_name, language) 
 from '%(directory)s/data/demodata/venues.csv' csv ;
 
 
@@ -36,7 +36,7 @@ copy public.user_role_types
 from '%(directory)s/data/demodata/user_role_type.csv' csv;
 
 copy public.users ( user_id, first_name, middle_name, last_name, date_of_birth, date_of_death, 
-email, birth_country, gender, national_id, active_p) 
+email, birth_country, gender, national_id, active_p, language) 
 from  '%(directory)s/data/demodata/users.csv' csv ;
 
 update public.users set active_p = 'D' where date_of_death is not null;
@@ -46,7 +46,7 @@ update public.users set titles = 'Mr.' where gender = 'M';
 update public.users set middle_name = '' where middle_name is null;
 
 copy public.groups ( group_id, short_name, full_name, description, 
-    status, start_date, end_date, type, parent_group_id)
+    status, start_date, end_date, type, parent_group_id, language)
 from '%(directory)s/data/demodata/groups.csv'  
 csv;
 
@@ -58,7 +58,7 @@ with delimiter ';' csv;
 from '%(directory)s/data/demodata/parliament_membership_type.csv' csv;
 */
 
-copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date, notes)
+copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date, notes, language)
 from '%(directory)s/data/demodata/parliament_group_members.csv'
 csv;
 
@@ -68,7 +68,7 @@ csv ;
 
 update public.parliament_memberships set elected_nominated ='N' where constituency_id = 0; 
 
-copy public.sessions (session_id, parliament_id, short_name, full_name, start_date, end_date)
+copy public.sessions (session_id, parliament_id, short_name, full_name, start_date, end_date, language)
 from '%(directory)s/data/demodata/sessions.csv'
 csv ;
 
@@ -77,7 +77,7 @@ csv ;
 update public.sessions set short_name = full_name;*/
 
 
-copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date)
+copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date, language)
 from '%(directory)s/data/demodata/partymembers.csv'
 csv;
 
@@ -96,16 +96,16 @@ csv;
 
 SELECT setval('user_group_memberships_membership_id_seq', 2000);
 
-copy public.user_group_memberships ( group_id, user_id , start_date, end_date)
+copy public.user_group_memberships ( group_id, user_id , start_date, end_date, language)
 from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
 
-copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes, membership_type)
+copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes, membership_type, language)
 from '%(directory)s/data/demodata/ministers.csv'
 csv;
 
-copy public.sitting_type (sitting_type_id, sitting_type, start_time, end_time)
+copy public.sitting_type (sitting_type_id, sitting_type, start_time, end_time, language)
 from '%(directory)s/data/demodata/sitting_type.csv'
 csv;
 
@@ -113,14 +113,14 @@ copy public.bill_types (bill_type_id, bill_type_name)
 from '%(directory)s/data/demodata/bill_types.csv'
 csv;
 
-copy public.group_sittings (sitting_id, group_id,  sitting_type_id, start_date, end_date)
+copy public.group_sittings (sitting_id, group_id,  sitting_type_id, start_date, end_date, language)
 from '%(directory)s/data/demodata/sittings.csv'
 csv;
 
 
-UPDATE public.group_sittings SET status = 'draft-agenda';
+UPDATE public.group_sittings SET status = 'published-agenda';
 
-copy public.attendance_type( attendance_id, attendance_type)
+copy public.attendance_type( attendance_id, attendance_type, language)
 from '%(directory)s/data/demodata/attendance_type.csv'
 csv;
 

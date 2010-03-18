@@ -89,7 +89,7 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
                     field_translation.field_text)
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, context, self.request,
-            adapters=self.adapters, ignore_request=ignore_request)                    
+            adapters=self.adapters, for_display=True, ignore_request=ignore_request)                    
      
 
     def update( self ):

@@ -829,16 +829,10 @@ class MinistryItemsViewlet(ViewletBase):
          
            
     def getData(self):
-        """
-        return the data of the query
+        """ template calls this to get the data of the query setup in update()
         """    
-        data_list = []       
-        results = self.query.all()
-        
-        for result in results:            
-            data_list= data_list + self._getItems(result)  
-        return data_list
-    
+        return [ item for ministry in self.query.all() 
+                 for item in self._getItems(ministry) ]
     
     def update(self):
         """

@@ -85,13 +85,14 @@ copy public.parliamentary_items (parliamentary_item_id, parliament_id, owner_id,
 from '%(directory)s/data/demodata/custom/bill_parliamentary_items.csv' csv;
 
 
-copy public.bills ( bill_id, bill_type_id, ministry_id, identifier, summary, publication_date ) 
+copy public.bills ( bill_id, bill_type_id, ministry_id, identifier, publication_date ) 
 from '%(directory)s/data/demodata/custom/bills.csv'
 csv ; 
 
 copy  public.bill_changes (change_id, content_id, "action", date, description, notes, user_id) 
 FROM '%(directory)s/data/demodata/custom/bill_changes.csv' csv;
 
+/*
 copy public.bill_versions(version_id, content_id, change_id, manual, bill_type_id, ministry_id, 
        identifier, summary, publication_date, parliament_id, owner_id, 
        "language", short_name, full_name, body_text, submission_date, 
@@ -100,7 +101,7 @@ from '%(directory)s/data/demodata/custom/bill_versions.csv' csv;
 
 copy public.zope_role_permission_map(role_id, permission_id, setting, object_type, object_id) 
 from '%(directory)s/data/demodata/custom/bill_role_permission_map.csv' csv;
-
+*/
 
 /** motion data ***/
 

@@ -230,4 +230,15 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.EventWorkflowAdapter" />  
 
+  <!-- Heading workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IHeading"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
+  
+  <adapter
+     for="bungeni.models.interfaces.IHeading"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.HeadingWorkflowAdapter" />      
+
 </configure>    

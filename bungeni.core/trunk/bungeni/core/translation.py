@@ -67,8 +67,9 @@ def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
     return languages
 
 def get_translation_for(context, lang):
-    trusted = removeSecurityProxy(context)
-    
+    """ get the translation for context in 
+    language lang"""
+    trusted = removeSecurityProxy(context)    
     class_name = trusted.__class__.__name__
     try:
         mapper = orm.object_mapper(trusted)            
@@ -85,7 +86,9 @@ def get_translation_for(context, lang):
         return None              
 
 def get_available_translations(context):
-    get_translation_for(context, 'fr')
+    """ returns a dictionary of all
+    available translations (key) and the object_id
+    of the object (value)"""
     trusted = removeSecurityProxy(context)
     
     class_name = trusted.__class__.__name__
@@ -104,16 +107,6 @@ def get_available_translations(context):
     except:
         return {}        
     
-    #assert IVersionable.providedBy(context)        
-    #if IVersionable.providedBy(context):
-    #    model = context.versions.domain_model
-    #    session = Session()
-    #    query = session.query(model).filter(context.versions.subset_query).\
-    #            distinct().values('language', 'version_id')
-    #    return dict(query)
-    #else:
-    #    return {'language':'', 'version_id':''}       
-
 def is_translation(context):
     return IVersion.providedBy(context) and \
            context.status in (u"draft-translation",)

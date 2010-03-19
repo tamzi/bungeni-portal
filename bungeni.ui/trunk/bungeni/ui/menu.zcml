@@ -72,11 +72,17 @@
      class="ploned.ui.menu.PloneBrowserMenu"
      />
 
-  <!--browser:menu
+  <browser:menu
      id="context_translate"
      title="The 'Translate' menu - allows the user to translate content"
      class=".menu.TranslateMenu"
-     /-->
+     />
+     
+  <adapter
+    for="bungeni.core.interfaces.IVersionable *"
+    name="plone.contentmenu.translation"
+    factory=".menu.TranslationSubMenuItem"
+    provides="ploned.ui.interfaces.IContentMenuItem" />     
 
   <browser:menu
      id="context_actions"

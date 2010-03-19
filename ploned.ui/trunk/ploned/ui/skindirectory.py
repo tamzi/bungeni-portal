@@ -4,7 +4,7 @@ a skin resource directory walks through a stack of layers to find a named resour
 
 also adds in support for plone's dtml css files 
 
-$Id: $
+$Id$
 """
 from zope import interface, component
 

@@ -1,7 +1,7 @@
 """
 Group Item Assignment Infrastructure
 
-$Id: $
+$Id$
 """
 
 from zope import interface

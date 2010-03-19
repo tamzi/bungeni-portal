@@ -6,7 +6,7 @@
 
 '''Workspace wiewlets
 
-$Id: ws.py 6260 2010-03-19 07:57:10Z mario.ruggier $
+$Id$
 '''
 
 import datetime

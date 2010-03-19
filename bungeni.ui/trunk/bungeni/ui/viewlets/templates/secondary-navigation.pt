@@ -1,6 +1,9 @@
-<li class="navigation"
-    tal:repeat="item view/items"
-    tal:attributes="class python: default + (item['selected'] and ' selected' or '')">
-  <a tal:attributes="href item/url" i18n:domain="bungeni.core"
-     i18n:translate="" tal:content="item/title" />
+<li class="navigation" 
+    tal:attributes="class python: default + (item['selected'] and ' selected' or '')"
+    tal:repeat="item view/items">
+        <a tal:attributes="href item/url" 
+            i18n:domain="bungeni.core"
+            i18n:translate="" 
+            tal:content="item/title" 
+        />
 </li>

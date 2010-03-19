@@ -24,7 +24,7 @@ from ploned.ui.interfaces import IStructuralView
 
 from bungeni.core.interfaces import ISection
 from bungeni.core import location
-from bungeni.ui.utils import absoluteURL, indexNames
+from bungeni.ui.utils import absoluteURL, indexNames, same_path_names
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -44,89 +44,42 @@ class SecondaryNavigationViewlet(object):
         context = self.context
         view = self.__parent__.__parent__
         chain = get_parent_chain(context)
-        
         length = len(chain)
         if length < 2:
             container = None
         else:
             container = chain[-2]
             assert container.__name__ is not None
-
             if not IReadContainer.providedBy(container):
                 container = None
-
+        # menu items
         if container is None:
             self.items = self.get_menu_items(chain[-1], self.default_menu)
             return
-
+        else:
+            self.items = items = self.get_menu_items(
+                    container, "%s_navigation" % container.__name__)
+        # add container items
         if length > 2:
             context = chain[-3]
         else:
             context = None
-            
-        url = absoluteURL(container, self.request)
-        self.items = items = self.get_menu_items(
-            container, "%s_navigation" % container.__name__)
-        
-        # local scope function, to build contianer item descriptor object
-        def _containerItem(title, selected, name=None):
-            if name in indexNames:
-                name = ''
-            
-            if name is not None:
-                _url = "%s/%s" % (url, name)
-            else:
-                _irl = url
-            return {'title': title,
-                    'selected': selected, 
-                    'url': _url}
-        
-        if IReadContainer.providedBy(container):
-            #XXX should be the same in all containers ?          
-            container=proxy.removeSecurityProxy(container)
-            for name, item in container.items():
-                if context is None:
-                    selected = False
-                else:
-                    selected = context.__name__ == name
-                item = proxy.removeSecurityProxy(item)
-                if IDCDescriptiveProperties.providedBy(item):
-                    title = item.title
-                else:
-                    props = IDCDescriptiveProperties(item)
-                    title = props.title
-                try:
-                    items.append(_containerItem(title, selected, name))
-                except:
-                    pass
-
-        default_view_name = queryDefaultViewName(container, self.request)
-        default_view = component.queryMultiAdapter(
-            (container, self.request), name=default_view_name)
-
-        if hasattr(default_view, "title"):
-            items.insert(0,
-                _containerItem(default_view.title, 
-                    sameProxiedObjects(container, self.context)))
+        self.add_container_menu_items(context, container)
         
     def get_menu_items(self, container, name):
         #XXX ad hoc fix - todo: write a utility for this navigation structure
-        try:    
+        try:
             menu = component.getUtility(IBrowserMenu, name=name)        
             items = menu.getMenuItems(container, self.request)
         except:
             return
-            
         local_url = absoluteURL(container, self.request)
         site_url = absoluteURL(getSite(), self.request)
         request_url = self.request.getURL()
-
         default_view_name = queryDefaultViewName(container, self.request)
         selection = None
-        
         for item in sorted(items, key=lambda item: item['action'], reverse=True):
             action = item['action']
-
             if default_view_name == action.lstrip('@@'):
                 url = local_url
                 if selection is None:
@@ -135,17 +88,51 @@ class SecondaryNavigationViewlet(object):
                 url = make_absolute(action, local_url, site_url)
                 if selection is None:
                     selected = is_selected(item, action, request_url)
-
             item['url'] = url
             item['selected'] = selected and u'selected' or u''
-
             if selected:
                 # self is marker
                 selection = self
                 selected = False
-                
         return items
 
+    def add_container_menu_items(self, context, container):
+        # build item descriptor object
+        def _containerItem(title, selected, name=None):
+            if name in indexNames:
+                name = ''
+            if name is not None:
+                _url = "%s/%s" % (url, name)
+            else:
+                _irl = url
+            return {'title': title, 'selected': selected, 'url': _url}
+        url = absoluteURL(container, self.request)
+        if IReadContainer.providedBy(container):
+            #XXX should be the same in all containers ?          
+            container=proxy.removeSecurityProxy(container)
+            for name, item in container.items():
+                if context is None:
+                    selected = False
+                else:
+                    selected = same_path_names(context.__name__, name)
+                item = proxy.removeSecurityProxy(item)
+                if IDCDescriptiveProperties.providedBy(item):
+                    title = item.title
+                else:
+                    props = IDCDescriptiveProperties(item)
+                    title = props.title
+                # only items with valid title
+                if title is not None:
+                    self.items.append(_containerItem(title, selected, name))
+        default_view_name = queryDefaultViewName(container, self.request)
+        default_view = component.queryMultiAdapter(
+            (container, self.request), name=default_view_name)
+        if hasattr(default_view, "title") and default_view.title is not None:
+            self.items.insert(0,
+                _containerItem(default_view.title, 
+                    sameProxiedObjects(container, self.context)))
+
+    
 class GlobalSectionsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile( 'templates/sections.pt' )
     selected_portal_tab = None

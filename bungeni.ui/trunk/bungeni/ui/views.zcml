@@ -47,7 +47,7 @@
      name="workspace-archive"
      for="bungeni.core.interfaces.ISection"
      layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".workspace_archive.WorkspaceArchiveView"
+     class=".workspace.WorkspaceArchiveView"
      permission="zope.View"
      template="templates/workspace-index.pt"
   />

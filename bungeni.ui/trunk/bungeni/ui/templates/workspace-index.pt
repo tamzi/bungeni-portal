@@ -3,9 +3,14 @@
       metal:use-macro="context/@@standard_macros/page">
 
   <div metal:fill-slot="body">
-    <h1>Bungeni Workspace</h1>
-
-    <div tal:replace="structure provider:bungeni.workspace" />
+    <h1 i18n:translate="" tal:content="view/page_title">
+        the tal:content attr value could also be written as either of:
+            "python:view.page_title"
+            "string:${view/page_title}"
+    </h1>
+    
+    <div tal:replace="structure python:view.provide()" />
+    
   </div>
 
 </html>

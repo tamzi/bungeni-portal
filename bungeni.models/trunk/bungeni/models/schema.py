@@ -210,7 +210,7 @@ groups = rdb.Table(
     rdb.Column( "short_name", rdb.Unicode(256), nullable=False ),
     rdb.Column( "full_name", rdb.Unicode(256) ),   
     rdb.Column( "description", rdb.UnicodeText ),
-    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
+    rdb.Column( "status", rdb.Unicode(32) ), # workflow for groups
     rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),   
     rdb.Column( "start_date", rdb.Date, nullable=False ),
     rdb.Column( "end_date", rdb.Date ),  #
@@ -716,9 +716,9 @@ questions = rdb.Table(
    rdb.Column( "question_number", rdb.Integer),
    rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question
    rdb.Column( "ministry_submit_date", rdb.Date, ), 
-   rdb.Column( "question_type", rdb.Unicode(1), 
+   rdb.Column( "question_type", rdb.String(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
-   rdb.Column( "response_type", rdb.Unicode(1), 
+   rdb.Column( "response_type", rdb.String(1), 
                 rdb.CheckConstraint("response_type in ('O', 'W')"), default=u"O" ), # (O)ral (W)ritten
    # if this is a supplementary question, this is the original/previous question
    rdb.Column( "supplement_parent_id", rdb.Integer, rdb.ForeignKey('questions.question_id')  ),

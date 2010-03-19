@@ -360,14 +360,12 @@ class UserNotMPSource(SpecializedSource):
         session= Session()    
         trusted=removeSecurityProxy(context)
         parliament_id = self._get_parliament_id(trusted)
-        #connection = session.connection(domain.Parliament)
         mp_user_ids = sql.select([schema.user_group_memberships.c.user_id], 
             schema.user_group_memberships.c.group_id == parliament_id)
         query = session.query(domain.User).filter( sql.and_(
             sql.not_(domain.User.user_id.in_( mp_user_ids)),
             domain.User.active_p == 'A')).order_by(
                 domain.User.last_name, domain.User.first_name)
-        #session.close()                            
         return query                       
 
     def __call__( self, context=None ):
@@ -584,7 +582,6 @@ class MotionPartySource(SpecializedSource):
         else:
             query = session.query(domain.PoliticalParty).filter(                    
                         domain.PoliticalParty.parent_group_id == parliament_id)
-        #session.close()                                    
         return query                        
         
 

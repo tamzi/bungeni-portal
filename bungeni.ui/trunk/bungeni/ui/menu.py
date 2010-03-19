@@ -157,7 +157,6 @@ class TranslateMenu(BrowserMenu):
 
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
-        
         url = absoluteURL(context, request)
         
         language = get_language(context)
@@ -174,10 +173,7 @@ class TranslateMenu(BrowserMenu):
             translation_id = available.get(name)
             selected = translation_id is not None
 
-            if selected:
-                action_url = url + '/versions/obj-%d/edit' % translation_id
-            else:
-                action_url = url + '/translate?language=%s' % name
+            action_url = url + '/translate?language=%s' % name
 
             extra = {'id': 'translation-action-%s' % name,
                      'separator': None,

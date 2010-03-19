@@ -567,7 +567,6 @@ class TranslateForm(AddForm):
         
         translation = get_translation_for(self.context, language)                                           
         context = copy(removeSecurityProxy(self.context))  
-        import pdb; pdb.set_trace()      
         for field_translation in translation:
             setattr(context, field_translation.field_name, 
                     field_translation.field_text)

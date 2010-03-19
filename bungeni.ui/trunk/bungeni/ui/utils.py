@@ -6,6 +6,11 @@ from types import StringTypes, ListType
 
 from ore.workflow import interfaces
 
+import os
+
+def pathjoin(basefilepath, filepath):
+    return os.path.join(os.path.dirname(basefilepath), filepath)
+
 
 def get_wf_state(item):
     # return human readable workflow title

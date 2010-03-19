@@ -19,7 +19,6 @@ from zope.viewlet import viewlet
 
 from ore.alchemist import Session
 
-
 from bungeni.core.workflows.question import states as question_wf_state 
 from bungeni.core.workflows.motion import states as motion_wf_state 
 from bungeni.core.workflows.bill import states as bill_wf_state 
@@ -34,6 +33,32 @@ from bungeni.models.interfaces import ICommittee
 from bungeni.ui.utils import get_wf_state
 
 from bungeni.ui.i18n import _
+
+
+""" XXX: NON-ZCML-ViewletManager
+
+import zope.viewlet
+from bungeni.ui.viewlets import interfaces
+from bungeni.ui.utils import pathjoin
+
+# Workspace Viewlet Managers 
+
+WorkspaceViewletManager = zope.viewlet.manager.ViewletManager(
+    'bungeni.workspace',
+    interfaces.IWorkspaceManager,
+    template=pathjoin(__file__, "templates/workspace.pt"),
+    bases=(zope.viewlet.manager.WeightOrderedViewletManager,) )
+#permission="zope.View"
+#wsvm = WorkspaceViewletManager(context, request, self)
+
+WorkspaceArchiveViewletManager = zope.viewlet.manager.ViewletManager(
+    'bungeni.workspace-archive',
+    interfaces.IWorkspaceArchiveManager,
+    template=pathjoin(__file__, "templates/workspace_archive.pt"),
+    bases=(zope.viewlet.manager.WeightOrderedViewletManager,) )
+#permission="zope.View"
+#wsavm = WorkspaceArchiveViewletManager(context, request, self)
+"""
 
 
 class ViewletBase(viewlet.ViewletBase):

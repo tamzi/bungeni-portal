@@ -1,5 +1,5 @@
 """
-$Id: $
+$Id$
 """
 import datetime
 from zope import interface

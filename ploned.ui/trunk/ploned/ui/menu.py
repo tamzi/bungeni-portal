@@ -1,5 +1,5 @@
 """
-$Id: $
+$Id$
 
 replacement of the default menu implementation for our global tabs, since
 we ran into issues on traversability checks done when we're doing site relative

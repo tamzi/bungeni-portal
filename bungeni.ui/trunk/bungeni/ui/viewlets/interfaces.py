@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""$Id:$
+"""$Id$
 """
 
 from zope.viewlet.interfaces import IViewlet

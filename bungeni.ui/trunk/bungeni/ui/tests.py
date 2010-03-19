@@ -1,6 +1,6 @@
 # encoding: utf-8
 """
-$Id: $
+$Id$
 """
 
 from zope import interface

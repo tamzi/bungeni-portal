@@ -27,6 +27,7 @@ role_interface_mapping = {
 class WorkspaceView(BrowserView):
     interface.implements(IViewView)
     ministry_ids = []
+    page_title = u"Bungeni Workspace"
     
     def __init__(self, context, request):
         super(WorkspaceView, self).__init__(context, request)
@@ -62,6 +63,31 @@ class WorkspaceView(BrowserView):
             iface = role_interface_mapping.get(role_id)
             if iface is not None:
                 interface.alsoProvides(self, iface)
+    
+    
+    provider_name = "bungeni.workspace"
+    
+    def provide(self):
+        """ () -> str
+        
+        To give view templates the ability to call on a view-defined provider, 
+        without having to hard-wire the provider name in the template itself
+        i.e. this is to be able to replace template calls such as:
+            <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
+        with:
+            <div tal:replace="structure python:view.provide() />
+        The provider_name attribute is factored out so that it is trivial 
+        for view subclasses to specify a provider name.
+        """
+        from zope.component import getMultiAdapter
+        from zope.viewlet.interfaces import IViewletManager
+        provider = getMultiAdapter(
+                            (self.context, self.request, self),
+                            IViewletManager,
+                            name=self.provider_name)
+        provider.update()
+        return provider.render()
+    
     
     def __call__(self):
         session = Session()

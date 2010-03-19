@@ -24,6 +24,8 @@ import interfaces
 class WorkspaceArchiveView(WorkspaceView):
     interface.implements(IViewView)
     ministry_ids = []
+    provider_name = "bungeni.workspace-archive"
+    page_title = u"Bungeni Workspace Archive"
     
     def __init__(self, context, request):
         super(WorkspaceView, self).__init__(context, request)

@@ -49,7 +49,7 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace_archive.WorkspaceArchiveView"
      permission="zope.View"
-     template="templates/workspace-archive.pt"
+     template="templates/workspace-index.pt"
   />
   
   

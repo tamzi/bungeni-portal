@@ -53,7 +53,17 @@ def absoluteURL(context, request):
         log.warning(" POPPING: %s -> %s" % ('/'.join(url), url[-1]))
         url.pop()
     return '/'.join(url)
-
+def same_path_names(base_path_name, path_name):
+    """ (base_path_name, path_name) -> bool
+    
+    Checks if the two url path names are "equivalent" -- considering teh case 
+    for "" as base_path_name implying that we should be at an "index" URL node.
+    """
+    if base_path_name!=path_name:
+        if base_path_name=="": # empty string -> index
+            if path_name in indexNames:
+                return True
+    return base_path_name==path_name
 
 def makeList(itemIds):
     if type(itemIds) == ListType:

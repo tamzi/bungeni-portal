@@ -1,6 +1,6 @@
 import logging
 import transaction
-
+from copy import copy
 from zope.publisher.interfaces import BadRequest
 from zope import component
 from zope import interface
@@ -16,7 +16,7 @@ from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.container.contained import ObjectRemovedEvent
 from zope.app.pagetemplate import ViewPageTemplateFile
-from sqlalchemy import orm
+import sqlalchemy as rdb
 from ore.alchemist import Session
 from alchemist.catalyst import ui
 from alchemist.ui.core import null_validator
@@ -36,9 +36,11 @@ except ImportError:
 from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import is_translation
+from bungeni.core.translation import get_translation_for
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 from bungeni.models.interfaces import IVersion
+from bungeni.models import domain
 from ploned.ui.interfaces import IViewView
 
 from bungeni.ui.utils import absoluteURL
@@ -240,7 +242,7 @@ class AddForm(BaseForm, ui.AddForm):
         domain_model = removeSecurityProxy( self.getDomainModel() )
         
         # find unique columns in data model.. TODO do this statically
-        mapper = orm.class_mapper( domain_model  )
+        mapper = rdb.orm.class_mapper( domain_model  )
         ucols = list( unique_columns( mapper ) )
 
         # query out any existing values with the same unique values,        
@@ -493,10 +495,37 @@ class TranslateForm(AddForm):
 
     When a translation is saved, a new version is created.
     """
+    @property
+    def is_translation(self):
+        return True
+
+    @property
+    def side_by_side(self):
+        return True
+
+
 
     def __init__(self, *args):
         super(TranslateForm, self).__init__(*args)
         self.language = self.request.get('language', get_default_language())
+        
+    def translatable_field_names(self):
+        trusted = removeSecurityProxy(self.context)
+        table = rdb.orm.object_mapper(trusted).mapped_table
+        names = ['language',]
+        for column in table.columns:
+            if type(column.type) in [rdb.Unicode, rdb.UnicodeText]:
+                names.append(column.name)
+        return names
+
+    def set_untranslatable_fields_for_display(self):
+        md = queryModelDescriptor(self.context.__class__)
+        for field in self.form_fields:
+            if field.__name__ not in self.translatable_field_names():
+                field.for_display = True
+                field.custom_widget = md.get(field.__name__).view_widget
+                
+        
         
     @property
     def form_name(self):
@@ -529,30 +558,64 @@ class TranslateForm(AddForm):
     def domain_model(self):
         return type(removeSecurityProxy(self.context))
 
-    def setUpAdapters(self, context):
-        interfaces = set(field.interface for field in self.form_fields)
-        self.adapters = {}
-        for iface in interfaces:
-            self.adapters[iface] = context
 
     def setUpWidgets(self, ignore_request=False):
-        self.setUpAdapters(self.context)
-        self.widgets = form.setUpEditWidgets(
-            self.form_fields, self.prefix, self.context, self.request,
-            adapters=self.adapters, ignore_request=ignore_request)
-
+        self.set_untranslatable_fields_for_display()
+        
+        #get the translation if available
         language = self.request.get('language')
+        
+        translation = get_translation_for(self.context, language)                                           
+        context = copy(removeSecurityProxy(self.context))  
+        import pdb; pdb.set_trace()      
+        for field_translation in translation:
+            setattr(context, field_translation.field_name, 
+                    field_translation.field_text)
+        self.widgets = form.setUpEditWidgets(
+            self.form_fields, self.prefix, context, self.request,
+            adapters=self.adapters, ignore_request=ignore_request)         
+
         if language is not None:
             widget = self.widgets['language']
 
             try:
                 widget.vocabulary.getTermByToken(language)
+                self.language = language                
             except LookupError:
                 raise BadRequest("No such language token: '%s'" % language)
 
             # if the term exists in the vocabulary, set the value on
             # the widget
             widget.setRenderedValue(language)
+        # for translations, add a ``render_original`` method to each
+        # widget, which will render the display widget bound to the
+        # original (HEAD) document
+        head = self.context
+        form_fields = setUpFields(self.context.__class__, "view")
+        for widget in self.widgets:
+            form_field = form_fields.get(widget.context.__name__)
+            if form_field is None:
+                form_field = form.Field(widget.context)
+
+            # bind field to head document
+            field = form_field.field.bind(head)
+
+            # create custom widget or instantiate widget using
+            # component lookup
+            if form_field.custom_widget is not None:
+                display_widget = form_field.custom_widget(
+                    field, self.request)
+            else:
+                display_widget = component.getMultiAdapter(
+                    (field, self.request), IDisplayWidget)
+            
+            display_widget.setRenderedValue(field.get(head))
+
+            # attach widget as ``render_original``
+            widget.render_original = display_widget
+
+
+            
 
     @form.action(_(u"Save translation"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data ):
@@ -565,23 +628,50 @@ class TranslateForm(AddForm):
         url = absoluteURL(self.context, self.request)
         
         language = get_language_by_name(data['language'])['name']
-        versions = IVersioned(self.context)
-        version = versions.create("'%s' translation added" % language)
+
+        
+        session = Session()
+        trusted = removeSecurityProxy(self.context)
+        mapper = rdb.orm.object_mapper(trusted)            
+        pk = getattr(trusted, mapper.primary_key[0].name) 
+        
+        current_translation = get_translation_for(self.context, data['language'])
+        if current_translation:
+            for translation in current_translation:
+                session.delete(translation)
+                
+        
+        for form_field in data.keys():
+            if form_field == 'language':
+                continue
+            translation = domain.ObjectTranslation()
+            translation.object_id = pk
+            translation.object_type = trusted.__class__.__name__
+            translation.field_name = form_field
+            translation.lang = data['language']
+            translation.field_text = data[form_field]             
+            session.add(translation)
+        session.flush()  
+        session.commit()                  
+        session.close()
+        
+        #versions = IVersioned(self.context)
+        #version = versions.create("'%s' translation added" % language)
 
         # reset workflow state
-        version.status = None
-        IWorkflowInfo(version).fireTransition("create-translation")
+        #version.status = None
+        #IWorkflowInfo(version).fireTransition("create-translation")
         # redefine form context and proceed with edit action
-        self.setUpAdapters(version)
-        handle_edit_action(self, action, data)
+        #self.setUpAdapters(version)
+        #handle_edit_action(self, action, data)
 
         # commit version such that it gets a version id
-        transaction.commit()
+        #transaction.commit()
         
-        if not self._next_url:
-            self._next_url = ( \
-                '%s/versions/%s' % (url, stringKey(version)) + \
-                '?portal_status_message=Translation added')
+        #if not self._next_url:
+        #    self._next_url = ( \
+        #        '%s/versions/%s' % (url, stringKey(version)) + \
+        #        '?portal_status_message=Translation added')
 
         self._finished_add = True
         

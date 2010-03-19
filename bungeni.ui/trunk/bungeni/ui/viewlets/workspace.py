@@ -1,6 +1,13 @@
 # -*- coding: utf-8 -*-
-"""$Id:$
-"""
+# bungeni - http://www.bungeni.org/
+# Parliamentary and Legislative Information System
+# Copyright (C) 2010 UN/DESA - http://www.un.org/esa/desa/
+# Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+
+'''Workspace wiewlets
+
+$Id: ws.py 6260 2010-03-19 07:57:10Z mario.ruggier $
+'''
 
 import datetime
 
@@ -21,10 +28,8 @@ from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.models import utils
-import bungeni.models.schema as schema
 import bungeni.models.domain as domain
 from bungeni.models.interfaces import ICommittee
-import bungeni.core.globalsettings as prefs
 
 from bungeni.ui.utils import get_wf_state
 
@@ -137,8 +142,8 @@ class MyGroupsViewlet( ViewletBase ):
         """refresh the query
         """
         session = Session()
-        user_id = self._parent.user_id    
-        parliament_id = self._parent.context.parliament_id
+        #user_id = self._parent.user_id    
+        #parliament_id = self._parent.context.parliament_id
         group_ids = self._parent.user_group_ids
         gfilter = sql.and_(domain.Group.group_id.in_(group_ids),
                             domain.Group.status == 'active')
@@ -391,18 +396,19 @@ class BillItemsViewlet( ViewletBase ):
         refresh the query
         """
         session = Session()
-        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"gazetted"].id , 
-                                                                                bill_wf_state[u"first_reading"].id ,        
-                                                                                bill_wf_state[u"first_reading_postponed"].id ,
-                                                                                bill_wf_state[u"second_reading"].id , 
-                                                                                bill_wf_state[u"second_reading_postponed"].id , 
-                                                                                bill_wf_state[u"whole_house_postponed"].id ,
-                                                                                bill_wf_state[u"house_pending"].id ,
-                                                                                bill_wf_state[u"report_reading_postponed"].id ,                                                                                
-                                                                                bill_wf_state[u"report_reading"].id , 
-                                                                                bill_wf_state[u"third_reading"].id,
-                                                                                bill_wf_state[u"third_reading_postponed"].id ]
-                                                                                ))
+        bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [
+            bill_wf_state[u"gazetted"].id,
+            bill_wf_state[u"first_reading"].id ,
+            bill_wf_state[u"first_reading_postponed"].id,
+            bill_wf_state[u"second_reading"].id,
+            bill_wf_state[u"second_reading_postponed"].id,
+            bill_wf_state[u"whole_house_postponed"].id,
+            bill_wf_state[u"house_pending"].id,
+            bill_wf_state[u"report_reading_postponed"].id,
+            bill_wf_state[u"report_reading"].id,
+            bill_wf_state[u"third_reading"].id,
+            bill_wf_state[u"third_reading_postponed"].id
+        ] ))
         self.query = bills            
 
 class DraftBillViewlet(BillItemsViewlet):
@@ -450,7 +456,7 @@ class ItemInStageViewlet( ViewletBase ):
             if type(result) == domain.AgendaItem:
                 g = u' ' + result.group.type + u' ' + result.group.short_name
             else:
-                g = u''
+                g = u'' # !+ g?
             data['subject'] = result.short_name
             data['title'] = result.short_name
             data['result_item_class'] = 'workflow-state-' + result.status
@@ -719,7 +725,7 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         bill_wf_state[u"second_reading_postponed"].id , 
         bill_wf_state[u"whole_house_postponed"].id ,
         bill_wf_state[u"whole_house"].id ,
-        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+        bill_wf_state[u"report_reading_postponed"].id ,
         bill_wf_state[u"report_reading"].id , 
         bill_wf_state[u"third_reading"].id,
         bill_wf_state[u"third_reading_postponed"].id                            
@@ -813,7 +819,7 @@ class MinistryItemsViewlet(ViewletBase):
             if type(q)==domain.Question:
                 item['to'] = q.ministry.short_name
             else:
-                data['to']= u""
+                item['to']= u""
             return item
         # prepare query for this ministry's questions
         mq_query = session.query(domain.Question).filter(sql.and_(

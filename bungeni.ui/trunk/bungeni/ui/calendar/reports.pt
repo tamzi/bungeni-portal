@@ -104,7 +104,6 @@
                         </span>
                                 
                         <span tal:condition="view/bill_text">
-                            <h3>Bill Text</h3>
                             <p class="reporttext" tal:content="structure scheduled/item/body_text"/>
                         </span>
                         <span tal:condition="view/display_minutes">
@@ -165,7 +164,7 @@
                           <span tal:condition="scheduled/category  | nothing"><hr/></span>  
                           <h2 class="reporttitle"> Agenda Item : <span tal:replace="scheduled/item/short_name" /></h2>
                           <span tal:condition="scheduled/item/owner/first_name | nothing">
-                                <h3> From <span tal:replace="scheduled/item/owner/first_name" /> 
+                                <h3 class="reportmover"> From <span tal:replace="scheduled/item/owner/first_name" /> 
                                     <span tal:replace="scheduled/item/owner/last_name" 
                                           tal:condition="scheduled/item/owner/last_name | nothing" /> 
                                 </h3>

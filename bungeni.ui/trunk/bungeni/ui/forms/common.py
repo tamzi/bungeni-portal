@@ -492,12 +492,8 @@ class EditForm(BaseForm, ui.EditForm):
 
 class TranslateForm(AddForm):
     """Custom translate-form for Bungeni content.
-
-    When a translation is saved, a new version is created.
     """
-    @property
-    def is_translation(self):
-        return True
+    is_translation = False
 
     @property
     def side_by_side(self):
@@ -540,12 +536,20 @@ class TranslateForm(AddForm):
         language = get_language_by_name(self.language)['name']
         props = IDCDescriptiveProperties.providedBy(self.context) \
                 and self.context or IDCDescriptiveProperties(self.context)
-                
-        return _(
-            u"translate_item_help",
-            default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation',
-            mapping={'title': translate(props.title, context=self.request),
-                     'language': language})
+        if self.is_translation:   
+            return _(u"edit_translation_legend",
+             default=u'Editing $language translation of "$title"',
+             mapping={'title': translate(props.title, context=self.request),
+                      'language': language}) 
+        else:    
+            return _(
+                u"translate_item_help",
+                default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation',
+                mapping={'title': translate(props.title, context=self.request),
+                         'language': language})
+
+
+
 
     @property
     def title(self):
@@ -565,7 +569,11 @@ class TranslateForm(AddForm):
         #get the translation if available
         language = self.request.get('language')
         
-        translation = get_translation_for(self.context, language)                                           
+        translation = get_translation_for(self.context, language)     
+        if translation:
+            self.is_translation = True
+        else:
+            self.is_translation = False                                                  
         context = copy(removeSecurityProxy(self.context))  
         for field_translation in translation:
             setattr(context, field_translation.field_name, 
@@ -576,7 +584,6 @@ class TranslateForm(AddForm):
 
         if language is not None:
             widget = self.widgets['language']
-
             try:
                 widget.vocabulary.getTermByToken(language)
                 self.language = language                

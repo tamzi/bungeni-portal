@@ -1,6 +1,5 @@
-# bungeni - http://www.bungeni.org/
-# Parliamentary and Legislative Information System
-# Copyright (C) 2010 UN/DESA - http://www.un.org/esa/desa/
+# Bungeni Parliamentary Information System - http://www.bungeni.org/
+# Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 
 '''Auditing of Changes for Domain Objects

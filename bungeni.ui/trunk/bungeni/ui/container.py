@@ -27,18 +27,17 @@ from bungeni.models.interfaces import IMemberOfParliamentContainer
 from bungeni.models.interfaces import ICommitteeMemberContainer
 from bungeni.models.interfaces import ICommitteeStaffContainer
 
-from bungeni.ui.utils import getDisplayDate
-from bungeni.ui.utils import getFilter
+import bungeni.ui.utils as ui_utils
 from bungeni.ui.cookies import get_date_range
 from bungeni.ui.interfaces import IBusinessSectionLayer, IMembersSectionLayer
 from ploned.ui.interfaces import IViewView
 
-def dateFilter( request ):
+def dateFilter(request):
     filter_by = ''
-    displayDate = getDisplayDate(request)
+    displayDate = ui_utils.date.getDisplayDate(request)
     
     if displayDate:
-        filter_by = getFilter( displayDate )
+        filter_by = ui_utils.date.getFilter(displayDate)
     else:
         filter_by = ''          
     return filter_by

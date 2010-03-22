@@ -10,8 +10,7 @@ from zc.resourcelibrary import need
 from zc.table import batching
 
 from z3c.pt.texttemplate import ViewTextTemplateFile
-
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 
 class TableFormatter(batching.Formatter):
     """The out-of-box table formatter does not let us specify a custom
@@ -78,7 +77,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
         config['columns'], config['fields'] = self.getFieldColumns()
         config['data_url'] = self.getDataSourceURL()
         config['table_id'] = self.prefix
-        config['link_url'] = absoluteURL(self.context, self.request)
+        config['link_url'] = ui_utils.url.absoluteURL(self.context, self.request)
         config['context_name'] = self.context.__name__
         return config
 

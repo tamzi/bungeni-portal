@@ -167,7 +167,7 @@ class FileDisplayWidget(DisplayWidget):
 
 class ImageDisplayWidget(DisplayWidget):
     def __call__(self):
-        #from bungeni.ui.utils import absoluteURL
+        #from bungeni.ui.utils.url import absoluteURL
         #url = absoluteURL( self.__parent__.context, self.request )
         #return '<img src="' + url + '/file-image/%s" />' % self.context.__name__
         return '<img src="./file-image/%s" />' % self.context.__name__

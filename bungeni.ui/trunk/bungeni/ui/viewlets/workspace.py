@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-# bungeni - http://www.bungeni.org/
-# Parliamentary and Legislative Information System
-# Copyright (C) 2010 UN/DESA - http://www.un.org/esa/desa/
+# Bungeni Parliamentary Information System - http://www.bungeni.org/
+# Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 
 '''Workspace wiewlets
@@ -26,12 +25,11 @@ from bungeni.core.workflows.tableddocument import states as tableddocument_wf_st
 from bungeni.core.workflows.agendaitem import states as agendaitem_wf_state
 from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
-from bungeni.models import utils
+import bungeni.models.utils  as model_utils
 import bungeni.models.domain as domain
 from bungeni.models.interfaces import ICommittee
 
-from bungeni.ui.utils import get_wf_state
-
+import bungeni.ui.utils as ui_utils
 from bungeni.ui.i18n import _
 
 
@@ -39,14 +37,13 @@ from bungeni.ui.i18n import _
 
 import zope.viewlet
 from bungeni.ui.viewlets import interfaces
-from bungeni.ui.utils import pathjoin
 
 # Workspace Viewlet Managers 
 
 WorkspaceViewletManager = zope.viewlet.manager.ViewletManager(
     'bungeni.workspace',
     interfaces.IWorkspaceManager,
-    template=pathjoin(__file__, "templates/workspace.pt"),
+    template=ui_utils.misc.pathjoin(__file__, "templates/workspace.pt"),
     bases=(zope.viewlet.manager.WeightOrderedViewletManager,) )
 #permission="zope.View"
 #wsvm = WorkspaceViewletManager(context, request, self)
@@ -54,7 +51,7 @@ WorkspaceViewletManager = zope.viewlet.manager.ViewletManager(
 WorkspaceArchiveViewletManager = zope.viewlet.manager.ViewletManager(
     'bungeni.workspace-archive',
     interfaces.IWorkspaceArchiveManager,
-    template=pathjoin(__file__, "templates/workspace_archive.pt"),
+    template=ui_utils.misc.pathjoin(__file__, "templates/workspace_archive.pt"),
     bases=(zope.viewlet.manager.WeightOrderedViewletManager,) )
 #permission="zope.View"
 #wsavm = WorkspaceArchiveViewletManager(context, request, self)
@@ -78,7 +75,7 @@ class UserIdViewlet(viewlet.ViewletBase):
         self.manager = manager
         
     def update(self):
-        self.principal_id = utils.get_principal_id()
+        self.principal_id = model_utils.get_principal_id()
         
     render = ViewPageTemplateFile ('../forms/templates/user_id.pt')        
     
@@ -101,7 +98,7 @@ class QuestionInStateViewlet(ViewletBase):
             item['title'] = q.short_name
             item['result_item_class'] = 'workflow-state-%s' % q.status
             item['url'] = 'questions/obj-%s' % q.question_id
-            item['status'] = get_wf_state(q)
+            item['status'] = ui_utils.misc.get_wf_state(q)
             item['status_date'] = date_formatter.format(q.status_date)
             item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
             item['type'] = _(q.type)
@@ -154,7 +151,7 @@ class MyGroupsViewlet( ViewletBase ):
                         str(government_id), str(result.group_id) ))
             else:
                 data['url'] = '#'
-            data['status'] = get_wf_state(result)
+            data['status'] = ui_utils.misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
             data['type'] =  _(result.type)
@@ -299,7 +296,7 @@ class MotionInStateViewlet( ViewletBase ):
             else:         
                 data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = 'motions/obj-' + str(result.motion_id)
-            data['status'] = get_wf_state(result)
+            data['status'] = ui_utils.misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)    
@@ -407,7 +404,7 @@ class BillItemsViewlet( ViewletBase ):
             data['title'] = result.short_name
             data['result_item_class'] = ('workflow-state-' + result.status )
             data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
-            data['status'] = get_wf_state(result)
+            data['status'] = ui_utils.misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
@@ -486,7 +483,7 @@ class ItemInStageViewlet( ViewletBase ):
             data['title'] = result.short_name
             data['result_item_class'] = 'workflow-state-' + result.status
             data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
-            data['status'] = get_wf_state(result)
+            data['status'] = ui_utils.misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
@@ -837,7 +834,7 @@ class MinistryItemsViewlet(ViewletBase):
             item['title'] = u'%s (%s)' % (q.short_name, q.status)
             item['result_item_class'] = 'workflow-state-%s' % q.status
             item['url'] = 'questions/obj-%s' % q.question_id
-            item['status'] = get_wf_state(q)
+            item['status'] = ui_utils.misc.get_wf_state(q)
             item['status_date'] = date_formatter.format(q.status_date)
             item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
             item['type'] = _(q.type)
@@ -923,7 +920,7 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
                 #http://localhost:8081/calendar/group/sittings/obj-5011/schedule            
                 data['url'] = 'calendar/obj-%i/schedule' % result.sitting_id
             data['items'] = ''                
-            data['status'] = get_wf_state(result)
+            data['status'] = ui_utils.misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
             data['type'] =  result.group.type

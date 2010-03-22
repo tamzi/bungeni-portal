@@ -53,7 +53,7 @@ from bungeni.ui import constraints
 from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
 from bungeni.ui import diff
-from bungeni.ui.utils import get_wf_state
+import bungeni.ui.utils as ui_utils
 
 
 ###
@@ -174,7 +174,7 @@ def group_name_column(name, title, default=u""):
 
 def workflow_column(name, title, default=u""):
     def getter( item, formatter ):
-        return get_wf_state(item)    
+        return ui_utils.misc.get_wf_state(item)    
     return column.GetterColumn( title, getter ) 
         
 ####

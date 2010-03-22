@@ -25,7 +25,7 @@ from bungeni.core import audit
 from bungeni.ui.forms.common import BaseForm
 from bungeni.ui.table import TableFormatter
 from bungeni.ui.menu import get_actions
-import bungeni.ui.utils
+from bungeni.ui.utils import misc
 
 from i18n import _
 
@@ -204,7 +204,7 @@ class WorkflowView(BrowserView):
 
     def get_wf_state(self):
         # return human readable, and localized, workflow title
-        return _(bungeni.ui.utils.get_wf_state(removeSecurityProxy(self.context)))
+        return _(misc.get_wf_state(removeSecurityProxy(self.context)))
     
     def __call__(self):
         #session = Session()

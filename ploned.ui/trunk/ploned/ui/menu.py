@@ -23,7 +23,7 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 from ploned.ui.interfaces import IViewView
 
 
@@ -87,8 +87,8 @@ class PloneBrowserMenu(BrowserMenu):
                   for item in result]
         result.sort()
 
-        local_url = absoluteURL(object, request)
-        site_url = absoluteURL(getSite(), request)
+        local_url = ui_utils.url.absoluteURL(object, request)
+        site_url = ui_utils.url.absoluteURL(getSite(), request)
         request_url = request.getURL()
 
         items = []

@@ -43,9 +43,8 @@ from zope.publisher.http import DirectResult
 from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
-from bungeni.ui.utils import is_ajax_request
-from bungeni.ui.utils import get_wf_state
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils.url import absoluteURL
 from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
@@ -169,7 +168,7 @@ def create_sittings_map(sittings, request):
             sitting.end_date.hour,
             sitting.end_date.minute)
         
-        status = get_wf_state(sitting)
+        status = ui_utils.misc.get_wf_state(sitting)
                
         proxied = ProxyFactory(sitting)
         
@@ -303,7 +302,7 @@ class GroupSittingScheduleView(BrowserView):
                     "Timestamp must be floating-point (got %s)" % timestamp)
             date = utils.datetimedict.fromtimestamp(timestamp)
 
-        if is_ajax_request(self.request):
+        if ui_utils.misc.is_ajax_request(self.request):
             rendered = self.render(date, template=self.ajax)
         rendered = self.render(date)
         session.close()

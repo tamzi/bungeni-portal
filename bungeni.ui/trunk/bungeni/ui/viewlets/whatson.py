@@ -14,7 +14,7 @@ from bungeni.models import domain, schema
 from bungeni.core.globalsettings import getCurrentParliamentId
 from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
-from bungeni.ui.utils import get_wf_state
+import bungeni.ui.utils as ui_utils
 from bungeni.ui.cookies import get_date_range
 
 class WhatsOnBrowserView(BrowserView):
@@ -58,7 +58,7 @@ class WhatsOnBrowserView(BrowserView):
         for schedule in sitting.item_schedule:
             s_list.append({
                     'name': schedule.item.short_name,
-                    'status' : get_wf_state(schedule.item),
+                    'status' : ui_utils.misc.get_wf_state(schedule.item),
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
                         str(schedule.item.parliamentary_item_id)),               
                     'item_type' : schedule.item.type,
@@ -148,7 +148,7 @@ class WhatsOnBrowserView(BrowserView):
                     s_dict = {}                    
                 s_list.append({
                     'name': schedule.item.short_name,
-                    'status' : get_wf_state(schedule.item),
+                    'status' : ui_utils.misc.get_wf_state(schedule.item),
                     'url' : ('/business/' + schedule.item.type + 's/obj-' + 
                         str(schedule.item.parliamentary_item_id)),  
                     'group_type': schedule.sitting.group.type,

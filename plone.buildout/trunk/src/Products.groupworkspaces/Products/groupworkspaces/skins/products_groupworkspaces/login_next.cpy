@@ -12,7 +12,10 @@
 from Products.CMFPlone import PloneMessageFactory as _
 from DateTime import DateTime
 import ZTUtils
+import uuid
 
+print uuid.NAMESPACE_DNS
+import pdb; pdb.set_trace()
 REQUEST = context.REQUEST
 
 util = context.plone_utils

@@ -2,7 +2,6 @@ from Acquisition import aq_inner
 
 from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 class GroupWorkspacesView(BrowserView):  
        

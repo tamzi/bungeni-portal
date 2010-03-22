@@ -1,22 +1,13 @@
-from zope.interface import implements
+from zope.app.component.hooks import getSite
+from Products.Five import BrowserView
 from Acquisition import aq_inner
 
 from Products.CMFCore.utils import getToolByName
-from Products.Five import BrowserView
-
-from Products.groupworkspaces.interfaces import IMembershipView
-
 from zope.app.component.hooks import getSite
 import string
 
 
 class MembershipView(BrowserView):
-    """
-    Browser view for membership listing.
-    """
-    implements(IMembershipView)
-    def __init__(self,context, request):
-        super(MembershipView, self).__init(context, request)
     
     def member_folders(self):
         portal_catalog = getToolByName(getSite(), 'portal_catalog')

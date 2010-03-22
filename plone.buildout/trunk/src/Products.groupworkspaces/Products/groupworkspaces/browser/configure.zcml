@@ -7,7 +7,7 @@
      for="*"
      name="membership-view"
      class=".membership.MembershipView"
-     layer="..interfaces.IThemeSpecific"
+     template="../skins/products_groupworkspaces/membership_view.pt"
      permission="zope2.View"
      />
 

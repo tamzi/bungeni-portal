@@ -20,7 +20,12 @@
   <five:implements
       class="Products.ATContentTypes.interface.folder.IATFolder"
       interface=".interfaces.IGroupWorkspacesView"
-      />    
+      />
+
+  <five:implements
+      class="Products.ATContentTypes.interface.folder.IATFolder"
+      interface=".interfaces.IMembershipView"
+      />   
       
   <five:traversable class="Products.ATContentTypes.interface.folder.IATFolder" />     
    
@@ -43,6 +48,5 @@
   <class class="Products.ATContentTypes.interface.folder.IATFolder">
     <allow interface=".interfaces.IGroupWorkspacesView" />
   </class>
-  
-</configure>
 
+</configure>

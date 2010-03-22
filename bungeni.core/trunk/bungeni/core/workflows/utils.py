@@ -54,6 +54,8 @@ def _get_group_local_role(group):
             return "bungeni.Speaker"
         elif group.office_type == "C":
             return "bungeni.Clerk"
+        elif group.office_type == "T":
+            return "bungeni.Translator"            
         else: 
             raise NotImplementedError 
     else:

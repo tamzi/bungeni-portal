@@ -1674,7 +1674,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
             label=_(u"Approval Date"), 
             view_permission = "bungeni.edit.historical", 
             edit_permission = "bungeni.edit.historical", 
-            add = True,
+            add = False,
             listing=False,
             edit_widget=DateWidget, 
             add_widget=DateWidget),

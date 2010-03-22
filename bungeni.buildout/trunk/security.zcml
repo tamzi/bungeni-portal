@@ -172,4 +172,6 @@ should be defined by workflow not static here ! -->
   
   <grant permission="bungeni.attachedfile.Add" role="bungeni.Owner" />
   
+  <grant permission="bungeni.translation.Add" role="bungeni.Translator" />
+  
 </configure>

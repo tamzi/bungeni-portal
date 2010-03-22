@@ -252,4 +252,6 @@
   <permission id="bungeni.attachedfile.Delete" title="delete an attached file" />  
   <meta:redefinePermission from="bungeni.attachedfile.View" to="zope.View" />
    
+  <permission id="bungeni.translation.Add" title="add translation" />   
+   
 </configure>

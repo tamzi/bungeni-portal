@@ -77,6 +77,36 @@ namespace :bungeni_presetup do
 	sudo install_cmd
     end
 
+    desc "Installs the OS prequisites for Bungeni"
+    task :essentials_gandi, :roles=> [:app] do
+	required_libs = [
+			"wget",
+			"build-essential", # for building from source
+			"libjpeg62-dev", # for python
+			"libfreetype6-dev", # for python
+			"libbz2-dev", # for python bz2 processing
+			"libxslt1-dev", # for python lxml
+			"libxml2-dev", # for python lxml
+			"libpng12-dev", # for python
+			"openssl", # for python
+			"libssl-dev", # for python
+			"bison",  # for postgresql
+			"flex" , # for postgresql
+			"libreadline5-dev" , # for postgresql
+			"zlib1g-dev" , # for postgresql
+			"libtool" , # for svn
+			"automake" ,  # for svn
+			"autoconf" , # for svn
+			"libsqlite3-dev", #for python unit tests
+			"uuid-dev" # for ubuntu 9.04 xapian
+			#"libaprutil1-dev", # for svn
+			#"swig", # for svn
+			#"xmlto" # for libneon 
+			]
+	install_cmd = "apt-get install " + required_libs * " " 	+ " -y"
+	sudo install_cmd
+    end
+
     task :build_python, :roles=> [:app] do
 	[
 	"mkdir -p #{user_python_build_path}",
@@ -112,8 +142,12 @@ namespace :bungeni_presetup do
 	run "echo 'Installing all bungeni prerequisites'"
     end 
 	
-	
-    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging"  ###, "varnish_presetup:build_varnish"
+    desc "the build task for prerequisites on the gandi platform"
+    task :build_all_gandi, :roles=> [:app] do
+	run "echo 'Installing gandi pre-requisities'"
+    end	
 
+    after "bungeni_presetup:build_all", "bungeni_presetup:essentials", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging"  ###, "varnish_presetup:build_varnish"
+    after "bungeni_presetup:build_all_gandi", "bungeni_presetup:essentials_gandi", "bungeni_presetup:build_python", "bungeni_presetup:build_imaging"
 
 end

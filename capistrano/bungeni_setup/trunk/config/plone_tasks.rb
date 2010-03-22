@@ -32,23 +32,23 @@ namespace :plone_tasks do
 
     desc "full buildout"
     task :buildout_full, :roles=> :app do
-      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -t 3600"
+      run "cd #{plone_buildout_dir} && PATH=#{buildout_dir}/parts/postgresql/bin:$PATH PYTHON=#{user24_python} ./bin/buildout -t 3600"
     end
 
     desc "full buildout"
     task :buildout_full_local, :roles=> :app do
-      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -t 3600 -c #{plone_local_buildout_config_file} -v"
+      run "cd #{plone_buildout_dir} &&  PATH=#{buildout_dir}/parts/postgresql/bin:$PATH PYTHON=#{user24_python} ./bin/buildout -t 3600 -c #{plone_local_buildout_config_file} -v"
     end
 
     desc "optimisitic builout"
     task :buildout_opt, :roles=> :app do
-      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -N"
+      run "cd #{plone_buildout_dir} && PATH=#{buildout_dir}/parts/postgresql/bin:$PATH PYTHON=#{user24_python} ./bin/buildout -N"
     end
 
     
     desc "optimisitic builout local"
     task :buildout_opt_local, :roles=> :app do
-      run "cd #{plone_buildout_dir} && PYTHON=#{user24_python} ./bin/buildout -N -c #{plone_local_buildout_config_file} -v"
+      run "cd #{plone_buildout_dir} && PATH=#{buildout_dir}/parts/postgresql/bin:$PATH PYTHON=#{user24_python} ./bin/buildout -N -c #{plone_local_buildout_config_file} -v"
     end
 
     desc "add plone 0 user"

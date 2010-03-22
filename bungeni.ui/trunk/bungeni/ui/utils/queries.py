@@ -1,4 +1,14 @@
-# encoding: utf-8
+# Bungeni Parliamentary Information System - http://www.bungeni.org/
+# Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
+# Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+'''Query-related utilities for the UI
+
+usage: 
+from bungeni.ui.utils import queries
+
+$Id$
+'''
+
 import datetime
 from zope import interface
 from zope.schema.interfaces import IContextSourceBinder
@@ -15,63 +25,17 @@ import bungeni.models.schema as db_schema
 from sqlalchemy import sql
 
 
+# !+ COMBINE ui.utils.{queries, statements} WITH models.{queries, utils}
+
+
 def execute_sql(sql_statement, **kwargs):
+    """Evaluates sql_statement for parameter values specified in kwargs
+    and executes it
+    """
     session = Session()
     connection = session.connection(domain.Parliament)
     query = connection.execute(sql.text(sql_statement), **kwargs)
     return query
-     
-     
-def get_user_id( name ):
-    session = Session()
-    userq = session.query(domain.User).filter(db_schema.users.c.login == name )
-    results = userq.all()
-    if results:
-        user_id = results[0].user_id
-    else:
-        user_id = None
-    return user_id      
-
-
-def check_with_sql( sql_statement, **check_dict):
-    """
-    Run SQL with variables in the dict
-    """
-    query = execute_sql(sql_statement, **check_dict)
-    result = query.fetchone()
-    if result is None:
-        return result
-    else:
-        return result[0]            
-
-def check_date_in_interval( pp_key, checkDate, sql_statement):
-    """
-    Check if the checkDate is inside one of its 'peers'
-    the passed sql statement must follow the restrictions:
-    date: is the date to check (must be present!)
-    parent_key: is usually the parents primary key (can be omitted to check all)
-    """
-    if (type(checkDate) is datetime.datetime or type(checkDate) is datetime.date):
-        checkDict = { 'date': checkDate, 'parent_key': pp_key }
-        return check_with_sql( sql_statement, **checkDict)
-    else:
-        raise TypeError        
-
-
-def check_start_end_dates_in_interval( pp_key, data, sql_statement):
-    """ 
-    Check if start and end dates are not overlapping with a prior or later peer
-    """
-    errors =[]    
-    overlaps = check_date_in_interval(pp_key, data['start_date'], sql_statement)
-    if overlaps is not None:
-        errors.append( interface.Invalid(_("The start date overlaps with (%s)" % overlaps), "start_date" ))
-    if data['end_date'] is not None:        
-        overlaps = check_date_in_interval(pp_key, data['end_date'], sql_statement)
-        if overlaps is not None:
-            errors.append( interface.Invalid(_("The end date overlaps with (%s)" % overlaps), "end_date" )) 
-    return errors 
-
 
 def validate_date_in_interval(obj, domain_model, date):
     session = Session()
@@ -108,7 +72,6 @@ def validate_open_interval(obj, domain_model):
            for result in results:     
                 yield result
 
-
 def validate_membership_in_interval(obj, domain_model, date, user_id, group_id=None):
     """ validates the start end for a user in a group or over
     all groups if group_id is not given    
@@ -132,8 +95,7 @@ def validate_membership_in_interval(obj, domain_model, date, user_id, group_id=N
         else:
            for result in results:     
                 yield result    
-    
-    
+
 def validate_open_membership(obj, domain_model, user_id, group_id=None):
     session = Session()
     query = session.query(domain_model).filter(
@@ -157,6 +119,59 @@ def validate_open_membership(obj, domain_model, user_id, group_id=None):
 
 
 
+
+''' UNUSED
+
+# !+ mv to models.utils
+def get_user_id(name):
+    session = Session()
+    userq = session.query(domain.User).filter(db_schema.users.c.login == name )
+    results = userq.all()
+    if results:
+        user_id = results[0].user_id
+    else:
+        user_id = None
+    return user_id
+
+def check_with_sql(sql_statement, **check_dict):
+    """
+    Run SQL with variables in the dict
+    """
+    query = execute_sql(sql_statement, **check_dict)
+    result = query.fetchone()
+    if result is None:
+        return result
+    else:
+        return result[0]
+
+
+def check_date_in_interval( pp_key, checkDate, sql_statement):
+    """
+    Check if the checkDate is inside one of its 'peers'
+    the passed sql statement must follow the restrictions:
+    date: is the date to check (must be present!)
+    parent_key: is usually the parents primary key (can be omitted to check all)
+    """
+    if (type(checkDate) is datetime.datetime or type(checkDate) is datetime.date):
+        checkDict = { 'date': checkDate, 'parent_key': pp_key }
+        return check_with_sql(sql_statement, **checkDict)
+    else:
+        raise TypeError        
+
+
+def check_start_end_dates_in_interval( pp_key, data, sql_statement):
+    """ 
+    Check if start and end dates are not overlapping with a prior or later peer
+    """
+    errors =[]    
+    overlaps = check_date_in_interval(pp_key, data['start_date'], sql_statement)
+    if overlaps is not None:
+        errors.append( interface.Invalid(_("The start date overlaps with (%s)" % overlaps), "start_date" ))
+    if data['end_date'] is not None:        
+        overlaps = check_date_in_interval(pp_key, data['end_date'], sql_statement)
+        if overlaps is not None:
+            errors.append( interface.Invalid(_("The end date overlaps with (%s)" % overlaps), "end_date" )) 
+    return errors 
 
 
 class SQLQuerySource ( object ):
@@ -242,6 +257,7 @@ class SQLQuerySource ( object ):
                     ))
                     
         return vocabulary.SimpleVocabulary( terms )
-        
+ 
+/UNUSED'''
 
 

@@ -12,6 +12,7 @@
   <role id="bungeni.Minister" title="Minister" />
   <role id="bungeni.Clerk" title="Clerks Office" />
   <role id="bungeni.Speaker" title="Speaker Office" />    
+  <role id="bungeni.Translator" title="Translators  Office" />      
   <role id="bungeni.Everybody" title="All authenticated users" />
   <role id="bungeni.Anybody" title="Bungeni Visitor"/>
 

@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+'''BEGIN UNUSED
+
 sql_addMinister = """
     SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS fullname, 
         "users"."user_id", 
@@ -157,7 +159,7 @@ sql_AddMemberOfParliament = """
     ORDER BY "users"."last_name"  
     """
                             
-sql_add_members ='''
+sql_add_members ="""
     SELECT  "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS user_name, 
         "users"."user_id", 
         "group_sittings"."sitting_id" 
@@ -174,9 +176,9 @@ sql_add_members ='''
         WHERE sitting_id = :primary_key )                                           
         )
     ORDER BY "users"."last_name"                    
-    '''
+    """
                     
-sql_addMemberTitle = '''
+sql_addMemberTitle = """
     SELECT "user_role_types"."sort_order" || ' - ' ||  "user_role_types"."user_role_name" AS "ordered_title", 
         "user_role_types"."user_role_type_id"
     FROM "public"."user_role_types", 
@@ -184,7 +186,7 @@ sql_addMemberTitle = '''
     WHERE ( "user_role_types"."user_type" = "user_group_memberships"."membership_type" ) 
         AND ( ( "user_group_memberships"."membership_id" = :primary_key ) ) 
     ORDER BY "user_role_types"."sort_order" ASC
-                       '''
+                       """
 
 sql_select_question_ministry_add = """
     SELECT "groups"."short_name", 
@@ -205,12 +207,12 @@ sql_select_question_ministry_add = """
 # return only current member
 # Members should not be editable (exchanged) once they were added
 
-sql_edit_members = '''
+sql_edit_members = """
     SELECT DISTINCT "users"."titles" || ' ' ||  "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" AS user_name, 
     "users"."user_id" 
     FROM  "public"."users" 
     WHERE  "users"."user_id" = :member_id                                                                  
-                    '''            
+                    """            
 
 
 sql_editSubstitution = """
@@ -234,7 +236,7 @@ sql_editSubstitution = """
     ORDER BY "last_name" ASC
         """
                         
-sql_EditMemberTitle = '''
+sql_EditMemberTitle = """
     SELECT "user_role_types"."sort_order" || ' - ' ||  "user_role_types"."user_role_name" AS "ordered_title", 
         "user_role_types"."user_role_type_id"
     FROM "public"."user_role_types", 
@@ -242,7 +244,7 @@ sql_EditMemberTitle = '''
     WHERE ( "user_role_types"."user_type" = "user_group_memberships"."membership_type" ) 
         AND ( ( "user_group_memberships"."membership_id" = :primary_key ) ) 
     ORDER BY "user_role_types"."sort_order" ASC
-       '''
+       """
                           
 sql_select_question_ministry_edit = """
     SELECT "groups"."short_name", 
@@ -261,6 +263,9 @@ sql_select_question_ministry_edit = """
              )
     ORDER BY short_name
     """
+
+END UNUSED'''
+
 
 
 # timeline for a bill

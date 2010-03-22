@@ -1,4 +1,8 @@
-# encoding: utf-8
+# -*- coding: utf-8 -*-
+'''Navigation elements of the UI
+
+$Id$
+'''
 
 from zope import component
 from zope.location.interfaces import ILocation
@@ -20,9 +24,7 @@ from alchemist.traversal.managed import ManagedContainerDescriptor
 
 from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
-from ploned.ui.interfaces import IStructuralView
 
-from bungeni.core.interfaces import ISection
 from bungeni.core import location
 from bungeni.ui.utils import absoluteURL, indexNames, same_path_names
 
@@ -42,7 +44,7 @@ class SecondaryNavigationViewlet(object):
     
     def update(self):
         context = self.context
-        view = self.__parent__.__parent__
+        #view = self.__parent__.__parent__
         chain = get_parent_chain(context)
         length = len(chain)
         if length < 2:
@@ -57,7 +59,7 @@ class SecondaryNavigationViewlet(object):
             self.items = self.get_menu_items(chain[-1], self.default_menu)
             return
         else:
-            self.items = items = self.get_menu_items(
+            self.items = self.get_menu_items(
                     container, "%s_navigation" % container.__name__)
         # add container items
         if length > 2:
@@ -104,7 +106,7 @@ class SecondaryNavigationViewlet(object):
             if name is not None:
                 _url = "%s/%s" % (url, name)
             else:
-                _irl = url
+                _url = url
             return {'title': title, 'selected': selected, 'url': _url}
         url = absoluteURL(container, self.request)
         if IReadContainer.providedBy(container):
@@ -401,7 +403,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         return items
 
     def expand_containers(self, items, containers, url, chain=(), context=None):
-        seen_context = False
+        #seen_context = False
         current = False
         
         for key, container in containers:
@@ -426,7 +428,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             selected = len(chain) == 0 and current
 
             if current:
-                seen_context = True
+                #seen_context = True
                 nodes = self.expand(chain)
             else:
                 nodes = ()

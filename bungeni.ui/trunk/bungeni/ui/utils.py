@@ -1,4 +1,7 @@
-# encoding: utf-8
+'''Various utilities for the UI
+
+$Id$
+'''
 
 import datetime
 from bungeni.ui.i18n import _
@@ -8,21 +11,29 @@ from ore.workflow import interfaces
 
 import os
 
+
+# file system 
+
 def pathjoin(basefilepath, filepath):
     return os.path.join(os.path.dirname(basefilepath), filepath)
 
 
-def get_wf_state(item):
+# workflow 
+
+def get_wf_state(context):
     # return human readable workflow title
-    wf = interfaces.IWorkflow(item) 
-    wf_state = interfaces.IWorkflowState(
-        item).getState()
-    return wf.workflow.states[wf_state].title    
+    wf = interfaces.IWorkflow(context)
+    wf_state = interfaces.IWorkflowState(context).getState()
+    return wf.workflow.states[wf_state].title
+
     
+# request 
 
 def is_ajax_request(request):
     return request.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
+
+# url 
 
 def urljoin(base, action):
     if action is None:
@@ -34,11 +45,11 @@ def urljoin(base, action):
 
     return "/".join((base, action.lstrip('./')))
 
-
 # XXX tmp hack -- business/whats-on -- because the "index" of the business 
 # section is actually called "whats-on", we also check and remove that
 # TODO rename business/whats-on to business/index
 indexNames = ("index", "index.html", "@@index.html", "whats-on")
+
 def absoluteURL(context, request):
     """
     For cleaner public URLs, we ensure to use an empty string instead of 'index'.
@@ -53,10 +64,11 @@ def absoluteURL(context, request):
         log.warning(" POPPING: %s -> %s" % ('/'.join(url), url[-1]))
         url.pop()
     return '/'.join(url)
+
 def same_path_names(base_path_name, path_name):
     """ (base_path_name, path_name) -> bool
     
-    Checks if the two url path names are "equivalent" -- considering teh case 
+    Checks if the two url path names are "equivalent" -- considering the case 
     for "" as base_path_name implying that we should be at an "index" URL node.
     """
     if base_path_name!=path_name:
@@ -64,6 +76,9 @@ def same_path_names(base_path_name, path_name):
             if path_name in indexNames:
                 return True
     return base_path_name==path_name
+
+
+# misc
 
 def makeList(itemIds):
     if type(itemIds) == ListType:
@@ -75,6 +90,8 @@ def makeList(itemIds):
          raise TypeError( _("Form values must be of type string or list"))
 
 
+# date
+
 def get_date( date):
     if type(date) == datetime.datetime:
         return date.date()
@@ -82,7 +99,6 @@ def get_date( date):
         return date
     else:
         raise TypeError (_("date must be of type datetime or date"))
-
 
 def getDisplayDate(request):   
     """
@@ -116,7 +132,6 @@ def getDisplayDate(request):
         displayDate=None
     return displayDate
 
-
 def getFilter(displayDate):                   
     if displayDate:
         filter_by = """
@@ -128,4 +143,5 @@ def getFilter(displayDate):
         filter_by = ""            
     return filter_by
 
+#
 

@@ -7,7 +7,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.security.proxy import removeSecurityProxy
 
 from bungeni.ui.i18n import _
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 
 class LibraryViewlet (viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/attached-files.pt')  
@@ -30,7 +30,8 @@ class VersionLibraryViewlet(LibraryViewlet):
     def results(self):
         rl = []
         rd = {}
-        url = absoluteURL(self.__parent__.__parent__.__parent__, self.request)
+        url = ui_utils.url.absoluteURL(
+                    self.__parent__.__parent__.__parent__, self.request)
         for result in self.context:
             rd["file_title"] = result.file_title
             rd["url"] =  url + "/files/obj-%i/versions/obj-%i" % (result.content_id,

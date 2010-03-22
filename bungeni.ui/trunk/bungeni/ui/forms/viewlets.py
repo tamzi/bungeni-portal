@@ -31,8 +31,7 @@ from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.queries import statements, utils
-from bungeni.ui.utils import getDisplayDate, get_wf_state
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 
 from fields import BungeniAttributeDisplay
 from interfaces import ISubFormViewletManager
@@ -544,7 +543,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
         self.query = None
         md = queryModelDescriptor(domain.Response)          
         self.form_fields=md.fields
-        self.add_url = '%s/responses/add' % absoluteURL(
+        self.add_url = '%s/responses/add' % ui_utils.url.absoluteURL(
             self.context, self.request)
         
     def handle_response_add_action(self, action, data):
@@ -647,7 +646,7 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         """       
         bill_id = self.context.bill_id
         self.results = utils.execute_sql(statements.sql_bill_timeline, item_id=bill_id)
-        path = absoluteURL(self.context, self.request)
+        path = ui_utils.url.absoluteURL(self.context, self.request)
         self.addurl = '%s/event/add' %( path )
     
     
@@ -728,7 +727,7 @@ class MemberItemsViewlet( viewlet.ViewletBase ):
                 result.parliamentary_item_id)
             yield {'type': result.type, 
                 'short_name': result.short_name,
-                'status': get_wf_state(result),
+                'status': ui_utils.misc.get_wf_state(result),
                 'submission_date' : result.submission_date.strftime('%Y-%m-%d'), 
                 'url': url }
 
@@ -812,7 +811,7 @@ class SchedulingMinutesViewlet(DisplayViewlet):
         self.context.discussion = target
 
     def get_add_url(self):
-        return '%s/discussions/add' % absoluteURL(
+        return '%s/discussions/add' % ui_utils.url.absoluteURL(
             self.context, self.request)
             
             
@@ -833,7 +832,7 @@ class SessionCalendarViewlet( viewlet.ViewletBase ):
         #session.close()
         
     def _getDisplayDate(self, request):
-        display_date = getDisplayDate(self.request)                    
+        display_date = ui_utils.misc.getDisplayDate(self.request)                    
         session = self.context
         if display_date:
             if session.end_date:

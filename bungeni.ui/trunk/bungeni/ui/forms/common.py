@@ -43,7 +43,7 @@ from bungeni.models.interfaces import IVersion
 from bungeni.models import domain
 from ploned.ui.interfaces import IViewView
 
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 from bungeni.ui.forms.fields import filterFields
 import re
 import htmlentitydefs
@@ -330,7 +330,7 @@ class AddForm(BaseForm, ui.AddForm):
         ob = self.createAndAdd(data)        
         name = self.context.domain_model.__name__
         if not self._next_url:
-            self._next_url = absoluteURL(
+            self._next_url = ui_utils.url.absoluteURL(
                 ob, self.request) + \
                 '?portal_status_message=%s added' % name
         
@@ -339,7 +339,7 @@ class AddForm(BaseForm, ui.AddForm):
         """Cancelling redirects to the listing."""
         session = Session()
         if not self._next_url:        
-            self._next_url = absoluteURL(self.__parent__, self.request)
+            self._next_url = ui_utils.url.absoluteURL(self.__parent__, self.request)
         self.request.response.redirect(self._next_url)            
         session.close()
         
@@ -352,7 +352,7 @@ class AddForm(BaseForm, ui.AddForm):
         ob = self.createAndAdd( data )
         name = self.context.domain_model.__name__        
         if not self._next_url:        
-            self._next_url = absoluteURL(ob, self.request ) + \
+            self._next_url = ui_utils.url.absoluteURL(ob, self.request ) + \
                              "/edit?portal_status_message=%s Added" % name
 
     @form.action(_(u"Save and add another"), condition=form.haveInputWidgets)
@@ -364,7 +364,7 @@ class AddForm(BaseForm, ui.AddForm):
         name = self.context.domain_model.__name__
 
         if not self._next_url:
-            self._next_url = absoluteURL(self.context, self.request) + \
+            self._next_url = ui_utils.url.absoluteURL(self.context, self.request) + \
                              '/add?portal_status_message=%s Added' % name
                               
 
@@ -472,7 +472,7 @@ class EditForm(BaseForm, ui.EditForm):
                 data[key] = unescape(data[key])
     	form.applyChanges(self.context, self.form_fields, data)
         if not self._next_url:
-            self._next_url = absoluteURL(
+            self._next_url = ui_utils.url.absoluteURL(
                 self.context, self.request) + \
                 '?portal_status_message= Saved'   
         self.request.response.redirect(self._next_url)
@@ -485,7 +485,7 @@ class EditForm(BaseForm, ui.EditForm):
                 data[key] = unescape(data[key])
         session = Session()
         if not self._next_url:
-            self._next_url = absoluteURL(
+            self._next_url = ui_utils.url.absoluteURL(
                 self.context, self.request) 
         self.request.response.redirect(self._next_url)
         session.close()
@@ -631,7 +631,7 @@ class TranslateForm(AddForm):
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
             
-        url = absoluteURL(self.context, self.request)
+        url = ui_utils.url.absoluteURL(self.context, self.request)
         
         language = get_language_by_name(data['language'])['name']
 
@@ -785,7 +785,7 @@ class DeleteForm(BaseForm, form.PageForm):
 
         next_url = self.nextURL()
         if next_url is None:
-            next_url = absoluteURL(container, self.request) + \
+            next_url = ui_utils.url.absoluteURL(container, self.request) + \
                        '/?portal_status_message=%d items deleted' % count
 
         self.request.response.redirect(next_url)

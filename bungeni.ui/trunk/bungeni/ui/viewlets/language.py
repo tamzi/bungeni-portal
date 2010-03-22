@@ -16,13 +16,12 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.wsgiapp.interfaces import IApplication
 from alchemist.traversal.managed import ManagedContainerDescriptor
 
-from bungeni.ui.utils import getDisplayDate
 from bungeni.core.translation import get_all_languages
 from bungeni.core.translation import get_available_translations
 from bungeni.core.app import BungeniApp
 from bungeni.core import location
 
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 
 import datetime
 
@@ -58,7 +57,7 @@ class LanguageViewlet(object):
             translations[self.context.language] = None            
         languages = get_all_languages()
         selected = self.request.locale.getLocaleID()
-        url = absoluteURL(getSite(), self.request)
+        url = ui_utils.url.absoluteURL(getSite(), self.request)
 
         # self.available = len(translations) > 0        
         self.languages = [{

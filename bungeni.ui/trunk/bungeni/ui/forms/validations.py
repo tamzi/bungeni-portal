@@ -22,7 +22,7 @@ from bungeni.models import queries
 from bungeni.ui.queries.utils import validate_date_in_interval
 from bungeni.ui.queries.utils import validate_open_interval
 from bungeni.ui.queries import utils
-from bungeni.ui.utils import get_date
+from bungeni.ui.utils.date import get_date
 from bungeni.ui.calendar.utils import generate_dates
 from bungeni.ui.calendar.utils import datetimedict
 

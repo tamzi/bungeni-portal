@@ -25,7 +25,7 @@ from zc.table import  column
 
 import z3c.schemadiff.browser
 
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 
 class VersionsView(BrowserView):
     """To-Do: Find out why this class isn't hooked up."""
@@ -99,7 +99,7 @@ class VersionLogView(BaseForm):
             columns = self.columns)
 
         # the column getter methods expect an ``url`` attribute
-        formatter.url = absoluteURL(self.context, self.request)
+        formatter.url = ui_utils.url.absoluteURL(self.context, self.request)
 
         # update and render
         formatter.updateBatching()

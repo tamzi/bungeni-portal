@@ -26,8 +26,7 @@ from bungeni.core import schedule
 from bungeni.core.globalsettings import getCurrentParliamentId
 
 from bungeni.ui.i18n import  _
-from bungeni.ui.utils import absoluteURL
-from bungeni.ui.utils import urljoin
+import bungeni.ui.utils as ui_utils
 from bungeni.ui import interfaces
 
 #Following added inorder to fix issue 319. needs review
@@ -37,13 +36,13 @@ def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
     items = menu.getMenuItems(context, request)
     
-    site_url = absoluteURL(getSite(), request)
-    url = absoluteURL(context, request)
+    site_url = ui_utils.url.absoluteURL(getSite(), request)
+    url = ui_utils.url.absoluteURL(context, request)
     
     for item in items:
-        item['url'] = urljoin(url, item['action'])
+        item['url'] = ui_utils.url.urljoin(url, item['action'])
         item['id'] = item['title'].lower().replace(' ', '-')
-        item['icon'] = urljoin(site_url, item['icon'])
+        item['icon'] = ui_utils.url.urljoin(site_url, item['icon'])
     
     return items
 
@@ -144,7 +143,7 @@ class TranslationSubMenuItem(BrowserSubMenuItem):
 
     @property
     def action(self):
-        url = absoluteURL(self.context, self.request)
+        url = ui_utils.url.absoluteURL(self.context, self.request)
         return "%s/translate" % url
     
     def selected(self):
@@ -157,7 +156,7 @@ class TranslateMenu(BrowserMenu):
 
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
-        url = absoluteURL(context, request)
+        url = ui_utils.url.absoluteURL(context, request)
         
         language = get_language(context)
         available = get_available_translations(context)
@@ -210,7 +209,7 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
     def __init__(self, context, request):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context
-        self.url = absoluteURL(context, request)
+        self.url = ui_utils.url.absoluteURL(context, request)
         self.request = request
         
     @property
@@ -258,8 +257,8 @@ class WorkflowMenu(BrowserMenu):
 
         parliament_id = getCurrentParliamentId()
         
-        url = absoluteURL(context, request)
-        site_url2 = absoluteURL(getSite(), request)
+        url = ui_utils.url.absoluteURL(context, request)
+        site_url2 = ui_utils.url.absoluteURL(getSite(), request)
         results = []
         for transition in transitions:
             tid = transition
@@ -307,7 +306,7 @@ class CalendarSubMenuItem(BrowserSubMenuItem):
     def __init__(self, context, request):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context
-        self.url = absoluteURL(context, request)
+        self.url = ui_utils.url.absoluteURL(context, request)
         
     @property
     def extra(self):
@@ -375,7 +374,7 @@ class CalendarMenu(BrowserMenu):
             if group.group_id == group_id:
                 continue
             
-            url = absoluteURL(context, request)
+            url = ui_utils.url.absoluteURL(context, request)
 
             extra = {'id': 'calendar-link-%s' % group.group_id,
                      'separator': None,

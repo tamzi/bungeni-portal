@@ -29,7 +29,7 @@ from ore.alchemist.model import queryModelDescriptor
 from ore.workflow.interfaces import IWorkflow
 
 from bungeni.ui.i18n import _
-from bungeni.ui.utils import absoluteURL
+import bungeni.ui.utils as ui_utils
 from bungeni.ui.calendar.utils import datetimedict
 
 class SchedulablesViewlet(viewlet.ViewletBase):
@@ -111,7 +111,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,
             'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",
-            'url': absoluteURL(item, self.request)} for item, properties in \
+            'url': ui_utils.url.absoluteURL(item, self.request)
+            } for item, properties in \
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
             IDCDescriptiveProperties(item))) for
              item in items]]        
@@ -232,7 +233,8 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
             'state': _(IWorkflow(item).workflow.states[item.status].title),
             'id': item.parliamentary_item_id,
             'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",            
-            'url': absoluteURL(item, self.request)} for item, properties in \
+            'url': ui_utils.url.absoluteURL(item, self.request)
+            } for item, properties in \
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
             IDCDescriptiveProperties(item))) for
              item in items]]

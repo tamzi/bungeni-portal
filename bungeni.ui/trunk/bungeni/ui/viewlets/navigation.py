@@ -26,7 +26,7 @@ from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
 
 from bungeni.core import location
-from bungeni.ui.utils import absoluteURL, indexNames, same_path_names
+import bungeni.ui.utils as ui_utils
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -75,8 +75,8 @@ class SecondaryNavigationViewlet(object):
             items = menu.getMenuItems(container, self.request)
         except:
             return
-        local_url = absoluteURL(container, self.request)
-        site_url = absoluteURL(getSite(), self.request)
+        local_url = ui_utils.url.absoluteURL(container, self.request)
+        site_url = ui_utils.url.absoluteURL(getSite(), self.request)
         request_url = self.request.getURL()
         default_view_name = queryDefaultViewName(container, self.request)
         selection = None
@@ -101,14 +101,14 @@ class SecondaryNavigationViewlet(object):
     def add_container_menu_items(self, context, container):
         # build item descriptor object
         def _containerItem(title, selected, name=None):
-            if name in indexNames:
+            if name in ui_utils.url.indexNames:
                 name = ''
             if name is not None:
                 _url = "%s/%s" % (url, name)
             else:
                 _url = url
             return {'title': title, 'selected': selected, 'url': _url}
-        url = absoluteURL(container, self.request)
+        url = ui_utils.url.absoluteURL(container, self.request)
         if IReadContainer.providedBy(container):
             #XXX should be the same in all containers ?          
             container=proxy.removeSecurityProxy(container)
@@ -116,7 +116,7 @@ class SecondaryNavigationViewlet(object):
                 if context is None:
                     selected = False
                 else:
-                    selected = same_path_names(context.__name__, name)
+                    selected = ui_utils.url.same_path_names(context.__name__, name)
                 item = proxy.removeSecurityProxy(item)
                 if IDCDescriptiveProperties.providedBy(item):
                     title = item.title
@@ -140,7 +140,7 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
     selected_portal_tab = None
     
     def update(self):
-        base_url = absoluteURL(getSite(), self.request)
+        base_url = ui_utils.url.absoluteURL(getSite(), self.request)
         item_url = self.request.getURL()
 
         assert item_url.startswith(base_url)
@@ -175,7 +175,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         self.__parent__= view
         self.manager = manager
         self.path = []
-        self.site_url = absoluteURL(getSite(), self.request)
+        self.site_url = ui_utils.url.absoluteURL(getSite(), self.request)
         self.user_name = ''
 
     def _get_path(self, context):
@@ -192,7 +192,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
             path.extend(
                 self._get_path(context.__parent__))
 
-        url = absoluteURL(context, self.request)
+        url = ui_utils.url.absoluteURL(context, self.request)
         
         if  IAlchemistContent.providedBy(context):
             if IDCDescriptiveProperties.providedBy(context):
@@ -307,7 +307,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             items.extend(self.expand(chain))
 
         elif IAlchemistContent.providedBy(context):
-            url = absoluteURL(context, self.request)
+            url = ui_utils.url.absoluteURL(context, self.request)
             if IDCDescriptiveProperties.providedBy(context):
                 title = context.title
             else:
@@ -345,7 +345,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             # 'current' node.
             parent = context.__parent__
             assert parent is not None
-            url = absoluteURL(parent, self.request)
+            url = ui_utils.url.absoluteURL(parent, self.request)
 
             # append managed containers as child nodes
             kls = type(proxy.removeSecurityProxy(parent))
@@ -369,7 +369,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             self.expand_containers(items, containers, url, chain, context)
 
         elif ILocation.providedBy(context):
-            url = absoluteURL(context, self.request)
+            url = ui_utils.url.absoluteURL(context, self.request)
             #props = IDCDescriptiveProperties.providedBy(context) and \
             #    context or IDCDescriptiveProperties(context)
             if IDCDescriptiveProperties.providedBy(context):

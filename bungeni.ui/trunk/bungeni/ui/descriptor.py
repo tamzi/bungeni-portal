@@ -2437,7 +2437,7 @@ class DocumentSourceDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="document_source_id", omit=True ),
-        dict( name="document_source", label=_(u"Document Souce") ),
+        dict( name="document_source", label=_(u"Document Source") ),
     ] 
     
 

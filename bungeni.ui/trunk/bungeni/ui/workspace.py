@@ -2,10 +2,10 @@
 # Copyright (C) 2010 Africa i-Parliaments Action Plan - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 
-'''Workspace Views
+"""Workspace Views
 
 $Id$
-'''
+"""
 
 from zope import interface
 from zope.publisher.browser import BrowserView
@@ -28,7 +28,9 @@ class BungeniBrowserView(BrowserView):
     interface.implements(IViewView)
     
     page_title = u" :BungeniBrowserView.page_title: "
-    provider_name = None # str, to be set by subclass
+    provider_name = None # str, to be set by subclass, to specify the 
+    # ViewletManager.name for the viewlet manager that is providing the 
+    # viewlets for this view
     
     def provide(self):
         """ () -> str

@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
-'''Navigation elements of the UI
+# Bungeni Parliamentary Information System - http://www.bungeni.org/
+# Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
+# Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+
+"""Navigation elements of the UI
 
 $Id$
-'''
+"""
 
 from zope import component
 from zope.location.interfaces import ILocation
@@ -26,7 +30,7 @@ from ploned.ui.menu import make_absolute
 from ploned.ui.menu import is_selected
 
 from bungeni.core import location
-import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils import url as ui_url
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -75,14 +79,14 @@ class SecondaryNavigationViewlet(object):
             items = menu.getMenuItems(container, self.request)
         except:
             return
-        local_url = ui_utils.url.absoluteURL(container, self.request)
-        site_url = ui_utils.url.absoluteURL(getSite(), self.request)
+        local_url = ui_url.absoluteURL(container, self.request)
+        site_url = ui_url.absoluteURL(getSite(), self.request)
         request_url = self.request.getURL()
         default_view_name = queryDefaultViewName(container, self.request)
         selection = None
         for item in sorted(items, key=lambda item: item['action'], reverse=True):
             action = item['action']
-            if default_view_name == action.lstrip('@@'):
+            if default_view_name==action.lstrip('@@'):
                 url = local_url
                 if selection is None:
                     selected = sameProxiedObjects(container, self.context)
@@ -101,14 +105,14 @@ class SecondaryNavigationViewlet(object):
     def add_container_menu_items(self, context, container):
         # build item descriptor object
         def _containerItem(title, selected, name=None):
-            if name in ui_utils.url.indexNames:
+            if name in ui_url.indexNames:
                 name = ''
             if name is not None:
                 _url = "%s/%s" % (url, name)
             else:
                 _url = url
             return {'title': title, 'selected': selected, 'url': _url}
-        url = ui_utils.url.absoluteURL(container, self.request)
+        url = ui_url.absoluteURL(container, self.request)
         if IReadContainer.providedBy(container):
             #XXX should be the same in all containers ?          
             container=proxy.removeSecurityProxy(container)
@@ -116,7 +120,7 @@ class SecondaryNavigationViewlet(object):
                 if context is None:
                     selected = False
                 else:
-                    selected = ui_utils.url.same_path_names(context.__name__, name)
+                    selected = ui_url.same_path_names(context.__name__, name)
                 item = proxy.removeSecurityProxy(item)
                 if IDCDescriptiveProperties.providedBy(item):
                     title = item.title
@@ -136,11 +140,11 @@ class SecondaryNavigationViewlet(object):
 
     
 class GlobalSectionsViewlet(viewlet.ViewletBase):
-    render = ViewPageTemplateFile( 'templates/sections.pt' )
+    render = ViewPageTemplateFile('templates/sections.pt')
     selected_portal_tab = None
     
     def update(self):
-        base_url = ui_utils.url.absoluteURL(getSite(), self.request)
+        base_url = ui_url.absoluteURL(getSite(), self.request)
         item_url = self.request.getURL()
 
         assert item_url.startswith(base_url)
@@ -149,7 +153,8 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
         self.portal_tabs = []
         seen = set()
         menu = component.getUtility(IBrowserMenu, "site_actions")
-
+        def _action_is_on_path(action):
+            return path.startswith("/".join(action.split("/")[0:-1]))
         for item in menu.getMenuItems(self.context, self.request):
             if item['action'] in seen:
                 continue
@@ -158,15 +163,16 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
             item['id'] = item['action'].strip('/')
             item['name'] = item['title']
             self.portal_tabs.append(item)
-            if path.startswith(item['action']):
+            # take the last url-path matching action as selected_portal_tab
+            if _action_is_on_path(item['action']):
                 self.selected_portal_tab = item['id']
         
 class BreadCrumbsViewlet(viewlet.ViewletBase):
     """Breadcrumbs.
     
     Render the breadcrumbs to show a user his current location.
+    
     """
-
     render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )        
 
     def __init__( self,  context, request, view, manager ):        
@@ -175,7 +181,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         self.__parent__= view
         self.manager = manager
         self.path = []
-        self.site_url = ui_utils.url.absoluteURL(getSite(), self.request)
+        self.site_url = ui_url.absoluteURL(getSite(), self.request)
         self.user_name = ''
 
     def _get_path(self, context):
@@ -192,7 +198,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
             path.extend(
                 self._get_path(context.__parent__))
 
-        url = ui_utils.url.absoluteURL(context, self.request)
+        url = ui_url.absoluteURL(context, self.request)
         
         if  IAlchemistContent.providedBy(context):
             if IDCDescriptiveProperties.providedBy(context):
@@ -307,7 +313,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             items.extend(self.expand(chain))
 
         elif IAlchemistContent.providedBy(context):
-            url = ui_utils.url.absoluteURL(context, self.request)
+            url = ui_url.absoluteURL(context, self.request)
             if IDCDescriptiveProperties.providedBy(context):
                 title = context.title
             else:
@@ -345,7 +351,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             # 'current' node.
             parent = context.__parent__
             assert parent is not None
-            url = ui_utils.url.absoluteURL(parent, self.request)
+            url = ui_url.absoluteURL(parent, self.request)
 
             # append managed containers as child nodes
             kls = type(proxy.removeSecurityProxy(parent))
@@ -369,7 +375,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             self.expand_containers(items, containers, url, chain, context)
 
         elif ILocation.providedBy(context):
-            url = ui_utils.url.absoluteURL(context, self.request)
+            url = ui_url.absoluteURL(context, self.request)
             #props = IDCDescriptiveProperties.providedBy(context) and \
             #    context or IDCDescriptiveProperties(context)
             if IDCDescriptiveProperties.providedBy(context):

@@ -10,7 +10,7 @@ from zope.app.publisher.browser.menu import BrowserMenuItem
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.security import checkPermission
-from z3c.menu.ready2go import item
+import z3c.menu.ready2go.item
 from zope.i18n import translate
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
@@ -26,7 +26,7 @@ from bungeni.core import schedule
 from bungeni.core.globalsettings import getCurrentParliamentId
 
 from bungeni.ui.i18n import  _
-import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils import url as ui_url
 from bungeni.ui import interfaces
 
 #Following added inorder to fix issue 319. needs review
@@ -36,58 +36,57 @@ def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
     items = menu.getMenuItems(context, request)
     
-    site_url = ui_utils.url.absoluteURL(getSite(), request)
-    url = ui_utils.url.absoluteURL(context, request)
+    site_url = ui_url.absoluteURL(getSite(), request)
+    url = ui_url.absoluteURL(context, request)
     
     for item in items:
-        item['url'] = ui_utils.url.urljoin(url, item['action'])
+        item['url'] = ui_url.urljoin(url, item['action'])
         item['id'] = item['title'].lower().replace(' ', '-')
-        item['icon'] = ui_utils.url.urljoin(site_url, item['icon'])
-    
+        item['icon'] = ui_url.urljoin(site_url, item['icon'])
     return items
 
-class GlobalMenuItem( item.GlobalMenuItem ):
+class GlobalMenuItem(z3c.menu.ready2go.item.GlobalMenuItem):
     pass
     
-class LoginAction( GlobalMenuItem ):
+class LoginAction(GlobalMenuItem):
     
     @property
-    def available( self ):
-        available = IUnauthenticatedPrincipal.providedBy( self.request.principal )
+    def available(self):
+        available = IUnauthenticatedPrincipal.providedBy(self.request.principal)
         return available
 
-class LogoutAction( GlobalMenuItem ):
+class LogoutAction(GlobalMenuItem):
     
     @property
-    def available( self ):
-        authenticated = not IUnauthenticatedPrincipal.providedBy( self.request.principal )
+    def available(self):
+        authenticated = not IUnauthenticatedPrincipal.providedBy(self.request.principal)
         return authenticated
         
-class DashboardAction( GlobalMenuItem ):
+class DashboardAction(GlobalMenuItem):
 
     @property
     def id(self):
         return "user-id"
     
     @property
-    def title( self ):
+    def title(self):
         return self.request.principal.id
         
     @property
-    def available( self ):
-        authenticated = not IUnauthenticatedPrincipal.providedBy( self.request.principal )
-        return  authenticated 
+    def available(self):
+        authenticated = not IUnauthenticatedPrincipal.providedBy(self.request.principal)
+        return authenticated
 
-class AdminAction( GlobalMenuItem ):
+class AdminAction(GlobalMenuItem):
     
-    def getURLContext( self ):
+    def getURLContext(self):
         site = getSite()
         return site['admin']
 
     #@property
-    #def available( self ):
+    #def available(self):
     #    context = self.getURLContext()
-    #    return getInteraction().checkPermission( 'zope.ManageSite', context )  
+    #    return getInteraction().checkPermission('zope.ManageSite', context)  
         
 class TaskMenu(BrowserMenu):
     def getMenuItems(self, object, request):
@@ -96,7 +95,7 @@ class TaskMenu(BrowserMenu):
                 component.getAdapters((object, request), spec)]
     
 # 
-# class TaskMenu( managr.MenuManager ):
+# class TaskMenu(managr.MenuManager):
 #     
 #     def update(self):
 #         """See zope.contentprovider.interfaces.IContentProvider"""
@@ -114,7 +113,7 @@ class TaskMenu(BrowserMenu):
 #             self.viewlets.append(viewlet)
 #         self._updateViewlets()
 # 
-#     def _getViewlets( self ):
+#     def _getViewlets(self):
 #         interaction = getInteraction()
 #         # Find all content providers for the region
 #         viewlets = component.getAdapters(
@@ -143,7 +142,7 @@ class TranslationSubMenuItem(BrowserSubMenuItem):
 
     @property
     def action(self):
-        url = ui_utils.url.absoluteURL(self.context, self.request)
+        url = ui_url.absoluteURL(self.context, self.request)
         return "%s/translate" % url
     
     def selected(self):
@@ -156,7 +155,7 @@ class TranslateMenu(BrowserMenu):
 
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
-        url = ui_utils.url.absoluteURL(context, request)
+        url = ui_url.absoluteURL(context, request)
         
         language = get_language(context)
         available = get_available_translations(context)
@@ -209,7 +208,7 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
     def __init__(self, context, request):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context
-        self.url = ui_utils.url.absoluteURL(context, request)
+        self.url = ui_url.absoluteURL(context, request)
         self.request = request
         
     @property
@@ -251,14 +250,14 @@ class WorkflowMenu(BrowserMenu):
         if wf is None:
             return ()        
         state = IWorkflowInfo(context).state().getState()
-        wf_info = IWorkflowInfo( context )
+        wf_info = IWorkflowInfo(context)
         transitions = wf_info.getManualTransitionIds()
         
 
         parliament_id = getCurrentParliamentId()
         
-        url = ui_utils.url.absoluteURL(context, request)
-        site_url2 = ui_utils.url.absoluteURL(getSite(), request)
+        url = ui_url.absoluteURL(context, request)
+        site_url2 = ui_url.absoluteURL(getSite(), request)
         results = []
         for transition in transitions:
             tid = transition
@@ -306,7 +305,7 @@ class CalendarSubMenuItem(BrowserSubMenuItem):
     def __init__(self, context, request):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context
-        self.url = ui_utils.url.absoluteURL(context, request)
+        self.url = ui_url.absoluteURL(context, request)
         
     @property
     def extra(self):
@@ -374,7 +373,7 @@ class CalendarMenu(BrowserMenu):
             if group.group_id == group_id:
                 continue
             
-            url = ui_utils.url.absoluteURL(context, request)
+            url = ui_url.absoluteURL(context, request)
 
             extra = {'id': 'calendar-link-%s' % group.group_id,
                      'separator': None,

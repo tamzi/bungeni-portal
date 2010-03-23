@@ -1,14 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
 # Bungeni Parliamentary Information System - http://www.bungeni.org/
 # Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 
-'''The Bungeni Application 
+"""The Bungeni Application 
 
 $Id$
-'''
+"""
 
 
 from os import path
@@ -64,38 +63,31 @@ class AppSetup(object):
         self.context.setSiteManager(sm)
         
         # !+ where is the view name for the app root (slash) set?
-        # NOTE: when logged in "/" is redirected to "/workspace/"
+        
+        # CONVENTION: the action of each site top-section is made to point 
+        # directly the primary sub-section (the INDEX) that it contains.
+        # EXCEPTION: the "/" when logged in "/" is redirected to "/workspace/"
         
         # top-level sections
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
-            description=_(u"Current parliamentary activity"),
-            default_name=u"workspace-index")
-        
+            description=_(u"Current parliamentary activity"))
         business = self.context["business"] = Section(
             title=_(u"Business"),
-            description=_(u"Daily operations of the parliament"),
-            default_name=u"whats-on")
-
+            description=_(u"Daily operations of the parliament"))
         members = self.context["members"] = Section(
             title=_(u"Members"),
-            description=_(u"Records on members of parliament"),
-            default_name=u"current")
-
+            description=_(u"Records on members of parliament"))
         archive = self.context["archive"] = Section(
             title=_(u"Archive"),
-            description=_(u"Parliament records and documents"),
-            default_name=u"browse")
-
+            description=_(u"Parliament records and documents"))
         admin = self.context["admin"] = Section(
             title=_(u"Administration"),
             description=_(u"Administer bungeni settings"),
-            marker=model_interfaces.IBungeniAdmin,
-            default_name=u"content" 
-            )
+            marker=model_interfaces.IBungeniAdmin)
         
         # workspace section
-        ws_index = workspace["index"] = Section(
+        ws_index = workspace["pi"] = Section(
             title=_(u"Parliamentary items"),
             description=_(u"Current parliamentary activity"),
             default_name="workspace-index")
@@ -111,36 +103,36 @@ class AppSetup(object):
         # Note: for all the following QueryContent "sections", we want to keep 
         # title=None so that no menu item for the entry will be displayed
         
-        # Parliamentary Item states that imply being archived: 
+        # Parliamentary Item states that imply being archived:
         ARCHIVED = ("debated", "withdrawn", "response_complete", "elapsed")
         
         # workspace/ -> non-ARCHIVED parliamentary items
-        ws_questions = workspace["questions"] = QueryContent(
+        ws_questions = ws_index["questions"] = QueryContent(
             container_getter(get_container_by_role, 'questions',
                 query_modifier=sql.not_(domain.Question.status.in_(ARCHIVED))),
             #title=_(u"Questions"),
             description=_(u"Questions"))
-        ws_motions = workspace["motions"] = QueryContent(
+        ws_motions = ws_index["motions"] = QueryContent(
             container_getter(get_container_by_role, 'motions',
                 query_modifier=sql.not_(domain.Motion.status.in_(ARCHIVED))),
             #title=_(u"Motions"),
             description=_(u"Motions"))
-        ws_tableddocuments = workspace["tableddocuments"] = QueryContent(
+        ws_tableddocuments = ws_index["tableddocuments"] = QueryContent(
             container_getter(get_container_by_role, 'tableddocuments',
                 query_modifier=sql.not_(domain.TabledDocument.status.in_(ARCHIVED))),
             #title=_(u"Tabled documents"),
             description=_(u"Tabled documents"))
-        ws_bills = workspace["bills"] = QueryContent(
+        ws_bills = ws_index["bills"] = QueryContent(
             container_getter(get_container_by_role, 'bills',
                 query_modifier=sql.not_(domain.Bill.status.in_(ARCHIVED))),
             #title=_(u"Bills"),
             description=_(u"Bills"))
-        ws_agendaitems = workspace["agendaitems"] = QueryContent(
+        ws_agendaitems = ws_index["agendaitems"] = QueryContent(
             container_getter(get_container_by_role, 'agendaitems',
                 query_modifier=sql.not_(domain.AgendaItem.status.in_(ARCHIVED))),
             #title=_(u"Agenda items"),
             description=_(u" items"))
-        ws_committees = workspace["committees"] = QueryContent(
+        ws_committees = ws_index["committees"] = QueryContent(
             container_getter(get_container_by_role, 'committees'),
             #title=_(u"Committees"), # title=None to not show up in menu
             description=_(u"Committees"))
@@ -170,7 +162,7 @@ class AppSetup(object):
             container_getter(get_container_by_role, 'agendaitems',
                 query_modifier=domain.AgendaItem.status.in_(ARCHIVED)),
             #title=_(u"Agenda items"),
-            description=_(u" items"))
+            description=_(u"items"))
         
         # business section
         whatson = business["whats-on"] = Section(

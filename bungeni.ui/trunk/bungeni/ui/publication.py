@@ -8,9 +8,8 @@ import interfaces
 
 mapping = (
     (re.compile(r'^archive(/.*)?$'), interfaces.IArchiveSectionLayer),
-    # Matches "workspace/" followed by anything other than my-archive, also 
-    # avoiding to match the view name itself i.e. "workspace_archive"
-    (re.compile(r'^workspace(?!_archive)(?!/my-archive).*$'), interfaces.IAddParliamentaryContentLayer),
+    # Matches "workspace/" followed by anything other than my-archive
+    (re.compile(r'^workspace(?!/my-archive).*$'), interfaces.IAddParliamentaryContentLayer),
     (re.compile(r'^workspace(/.*)?$'), interfaces.IWorkspaceSectionLayer),
     # Matches "business/" or "business"
     (re.compile(r'^business(/)?$'), interfaces.IBusinessWhatsOnSectionLayer),

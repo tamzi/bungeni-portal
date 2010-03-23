@@ -1,13 +1,14 @@
 # Bungeni Parliamentary Information System - http://www.bungeni.org/
 # Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
-'''Date utilities for the UI
+
+"""Date utilities for the UI
 
 usage: 
 from bungeni.ui.utils import date
 
 $Id: utils.py 6292 2010-03-22 12:33:25Z mario.ruggier $
-'''
+"""
 
 import datetime
 from bungeni.ui.i18n import _

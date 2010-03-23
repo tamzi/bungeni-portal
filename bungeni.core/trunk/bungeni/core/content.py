@@ -12,11 +12,11 @@ from interfaces import ISection
 from interfaces import IQueryContent
 
 class Section(OrderedContainer):
-    """Represents a site section, e.g. 'Business'.
-
-    Note that items are not persisted.
-    """
+    """A site section, e.g. 'Business'.
     
+    Note that items are not persisted.
+    
+    """
     interface.implements(ISection, IDCDescriptiveProperties, IBrowserPublisher)
     
     def __init__(self, title=None, description=None, default_name=None, marker=None):
@@ -26,7 +26,7 @@ class Section(OrderedContainer):
         self.default_name = default_name
         if marker is not None:
             interface.alsoProvides(self, marker)
-    # XXX section.title is duplicated in ZCML menuItem definitions
+    # !+ section.title is duplicated in ZCML menuItem definitions
     # Section should be modified to just get its title from the associated
     # view descriptor (via default_name)
     
@@ -47,12 +47,15 @@ class Section(OrderedContainer):
         value.__name__ = key
     
     def browserDefault(self, request):
+        """See zope.container.traversal.ContainerTraverser.
+            -> context, (view_uri,)
+        """
         default_name = self.default_name
         if default_name is None:
             default_name = getDefaultViewName(self, request)
         return self, (default_name,)
     
-    # XXX all methods should indicate what the expected input parameter 
+    # !+ all methods should indicate what the expected input parameter 
     # types and return value types should be e.g. by adopting a 
     # python3-style type annotations as a doc string, 
     # as indicated in the SAMPLE docstring here:

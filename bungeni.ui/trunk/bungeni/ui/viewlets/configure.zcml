@@ -16,8 +16,7 @@
      class=".navigation.BreadCrumbsViewlet"
      permission="zope.Public"
      weight="60"
-     />     
-
+  />
   <browser:viewlet
      name="bungeni.navigation.globalsections"
      for="*"
@@ -25,7 +24,9 @@
      class=".navigation.GlobalSectionsViewlet"
      permission="zope.Public"
      weight="40"
-     />     
+  /><!--
+    IPortalHeaderManager ViewletManager defined in ploned/ui/viewlet.zcml
+  -->
 
   <browser:viewlet
      name="bungeni.navigation.navtree"

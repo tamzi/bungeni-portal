@@ -5,15 +5,15 @@ from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
 
 import bungeni.core.globalsettings as prefs
-import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils import url as ui_url
 
 class RedirectToCurrent(BrowserView):
     """Redirect to current.
     
     Goto a url like current/parliamentmembers or current/committees
     and you will be redirected to the apropriate container
-    """
     
+    """
     implements(IPublishTraverse)
     
     def __init__(self, context, request):
@@ -30,7 +30,7 @@ class RedirectToCurrent(BrowserView):
         """redirect to container"""
         #context = proxy.removeSecurityProxy( self.context )        
         response = self.request.response
-        rooturl = ui_utils.url.absoluteURL(self.context, self.request)
+        rooturl = ui_url.absoluteURL(self.context, self.request)
         #response.setHeader('Content-Type', 'application/octect-stream')
         #if len(self.traverse_subpath) != 1:
         #    return

@@ -10,7 +10,7 @@ from zc.resourcelibrary import need
 from zc.table import batching
 
 from z3c.pt.texttemplate import ViewTextTemplateFile
-import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils import url as ui_url
 
 class TableFormatter(batching.Formatter):
     """The out-of-box table formatter does not let us specify a custom
@@ -69,18 +69,17 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
             field_model.append(
                 '{key:"%s"}'%( key )               
                 )
-        return ','.join( column_model ), ','.join( field_model )
-
-
-    def getDataTableConfig( self ):
+        return ','.join(column_model), ','.join(field_model)
+    
+    def getDataTableConfig(self):
         config = {}
         config['columns'], config['fields'] = self.getFieldColumns()
         config['data_url'] = self.getDataSourceURL()
         config['table_id'] = self.prefix
-        config['link_url'] = ui_utils.url.absoluteURL(self.context, self.request)
+        config['link_url'] = ui_url.absoluteURL(self.context, self.request)
         config['context_name'] = self.context.__name__
         return config
-
+    
     def __call__(self):
         need('yui-datatable')
         need('yui-paginator')
@@ -92,7 +91,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
             self.renderContents(),
             self.script(**self.getDataTableConfig()))
 
-class AjaxContainerListing( container.ContainerListing ):
+class AjaxContainerListing(container.ContainerListing):
     formatter_factory = ContextDataTableFormatter
 
     @property

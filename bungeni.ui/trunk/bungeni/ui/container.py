@@ -171,10 +171,12 @@ class ContainerListing(container.ContainerListing):
             
         return name
 
+
 class ContainerRootRedirect(BrowserView):
     def __call__(self):
-        self.request.response.redirect("workspace/")
-    
+        self.request.response.redirect("workspace/pi")
+
+
 class ContainerJSONTableHeaders( BrowserView ):
 
     def __call__( self ):

@@ -1,13 +1,17 @@
 # Bungeni Parliamentary Information System - http://www.bungeni.org/
 # Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
-'''URL path/name utilities for the UI
+
+"""URL path/name utilities for the UI
 
 recommended usage:
-from bungeni.ui.utils import url
+from bungeni.ui.utils import url as ui_url
 
 $Id$
-'''
+"""
+
+__all__ = ["urljoin", "indexNames", "absoluteURL", "same_path_names"]
+
 
 def urljoin(base, action):
     if action is None:
@@ -16,13 +20,9 @@ def urljoin(base, action):
         return action
     if action.startswith('/'):
         raise NotImplementedError(action)
-
     return "/".join((base, action.lstrip('./')))
 
-# XXX tmp hack -- business/whats-on -- because the "index" of the business 
-# section is actually called "whats-on", we also check and remove that
-# TODO rename business/whats-on to business/index
-indexNames = ("index", "index.html", "@@index.html", "whats-on")
+indexNames = ("index", "index.html", "@@index.html")
 
 def absoluteURL(context, request):
     """
@@ -30,6 +30,7 @@ def absoluteURL(context, request):
     
     Throughout bungeni and ploned packages, this function should ALWAYS be
     used instead of zope.traversing.browser.absoluteURL.
+    
     """
     import logging; log = logging.getLogger('bungeni.ui.utils');
     from zope.traversing import browser
@@ -44,6 +45,7 @@ def same_path_names(base_path_name, path_name):
     
     Checks if the two url path names are "equivalent" -- considering the case 
     for "" as base_path_name implying that we should be at an "index" URL node.
+    
     """
     if base_path_name!=path_name:
         if base_path_name=="": # empty string -> index

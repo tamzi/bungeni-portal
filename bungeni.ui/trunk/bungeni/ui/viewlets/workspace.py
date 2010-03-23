@@ -797,7 +797,7 @@ class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ):
         tableddocument_wf_state[u"schedule_pending"].id,  
         tableddocument_wf_state[u"scheduled"].id,                  
         tableddocument_wf_state[u"postponed"].id,  
-        tableddocument_wf_state[u"debate_adjourned"].id,                                                                      
+        tableddocument_wf_state[u"debate_adjourned"].id,
     ]
     list_id = "items-pending-schedule"
 
@@ -881,7 +881,7 @@ class OralMinistryQuestionsViewlet(MinistryItemsViewlet):
         question_wf_state[u"schedule_pending"].id,          
     ]
     response_types = ['O']
-    
+
 class WrittenMinistryQuestionsViewlet(MinistryItemsViewlet):
     list_id = "ministry-written-questions"
     name = _("written questions")
@@ -891,7 +891,7 @@ class WrittenMinistryQuestionsViewlet(MinistryItemsViewlet):
     ]
     response_types = ['W']
 
-        
+
 class DraftSittingsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')
     

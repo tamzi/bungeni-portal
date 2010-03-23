@@ -591,7 +591,7 @@
      menu="schedule_additems"
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add Sitting..."
-     action="./group/sittings/add?next_url=..."
+     action="./add?next_url=..."
      permission="bungeni.sitting.Add"     
      order="100"
      />
@@ -599,7 +599,7 @@
      menu="schedule_additems"
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add Agenda item..."
-     action="./group/agendaitems/add?next_url=..."
+     action="./add?next_url=..."
      permission="bungeni.agendaitem.Add"
      />
 

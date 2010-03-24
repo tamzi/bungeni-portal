@@ -42,6 +42,15 @@ class LanguageVocabulary(object):
 
 language_vocabulary_factory = LanguageVocabulary()
 
+class CurrentLanguageVocabulary(LanguageVocabulary):
+    def __call__(self, context):
+        language = get_language(context)
+        languages = get_all_languages(filter=[language])
+        items = [(l, languages[l].get('name', l)) for l in languages]
+        items = [SimpleTerm(i[0], i[0], i[1]) for i in items]
+        return SimpleVocabulary(items)
+
+
 def get_language_by_name(name):
     return dict(get_all_languages())[name]
 

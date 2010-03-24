@@ -37,6 +37,7 @@ from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import is_translation
 from bungeni.core.translation import get_translation_for
+from bungeni.core.translation import CurrentLanguageVocabulary
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 from bungeni.models.interfaces import IVersion
@@ -585,8 +586,9 @@ class TranslateForm(AddForm):
         if language is not None:
             widget = self.widgets['language']
             try:
+                self.language = language                                
+                widget.vocabulary = CurrentLanguageVocabulary().__call__(self)
                 widget.vocabulary.getTermByToken(language)
-                self.language = language                
             except LookupError:
                 raise BadRequest("No such language token: '%s'" % language)
 

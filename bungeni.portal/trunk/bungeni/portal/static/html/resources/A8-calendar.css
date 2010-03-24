@@ -1,0 +1,11 @@
+.contentActions {
+    z-index: 10050; !important;
+}
+.dhx_cal_prev_button{
+    right:240px;!important;
+    left:auto;  !important;
+}
+.dhx_cal_next_button{
+    right:10px; !important;
+    left:auto;  !important;
+}

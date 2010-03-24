@@ -1002,19 +1002,6 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
             ),]  
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))     
     fields.extend([
-        dict(name="language", 
-             label=_(u"Language"), 
-             listing=False, 
-             add=True, 
-             edit=True, 
-             omit=False,
-             required=True,
-             property=schema.Choice(
-                 title=u"Language",
-                 default=get_default_language(),
-                 vocabulary="language_vocabulary",
-                 ),
-             ),    
             dict( name="notes", 
               label=_(u"Notes"), 
               view_widget=HTMLDisplay,
@@ -1080,19 +1067,6 @@ class OfficeMemberDescriptor( ModelDescriptor ):
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     fields.extend([
-        dict(name="language", 
-             label=_(u"Language"), 
-             listing=False, 
-             add=True, 
-             edit=True, 
-             omit=False,
-             required=True,
-             property=schema.Choice(
-                 title=u"Language",
-                 default=get_default_language(),
-                 vocabulary="language_vocabulary",
-                 ),
-             ),    
             dict( name="notes", 
               label=_(u"Notes"), 
               view_widget=HTMLDisplay,
@@ -1131,20 +1105,7 @@ class MinisterDescriptor( ModelDescriptor ):
             ),]  
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
-    fields.extend([
-        dict(name="language", 
-             label=_(u"Language"), 
-             listing=False, 
-             add=True, 
-             edit=True, 
-             omit=False,
-             required=True,
-             property=schema.Choice(
-                 title=u"Language",
-                 default=get_default_language(),
-                 vocabulary="language_vocabulary",
-                 ),
-             ),    
+    fields.extend([  
             dict( name="notes", 
               label=_(u"Notes"), 
               view_widget=HTMLDisplay,

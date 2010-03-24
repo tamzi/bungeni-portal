@@ -1,15 +1,12 @@
 # encoding: utf-8
 # TODO - Cleanup!!!!
 
-import re
-import os
 import time
 import datetime
 import tempfile
 timedelta = datetime.timedelta
 
 import operator
-import htmlentitydefs
 
 from sqlalchemy.orm import eagerload
 import sqlalchemy.sql.expression as sql
@@ -29,16 +26,16 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 from zope.security import checkPermission
 import zope.securitypolicy.interfaces
-from appy.pod.renderer import Renderer
-#from tempfile import NamedTemporaryFile
+
+from tempfile import NamedTemporaryFile
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
-#from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleTerm
 from zope.app.file.file import File
 from zope.datetime import rfc1123_date
 from zope.app.form.browser import MultiCheckBoxWidget as _MultiCheckBoxWidget
-#from zope.publisher.interfaces.http import IResult, IHTTPRequest
-#from zope.publisher.http import DirectResult
+from zope.publisher.interfaces.http import IResult, IHTTPRequest
+from zope.publisher.http import DirectResult
 
 from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
@@ -49,7 +46,7 @@ from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
-#from bungeni.core.schedule import PlenarySchedulingContext
+from bungeni.core.schedule import PlenarySchedulingContext
 from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
@@ -116,8 +113,8 @@ def get_sitting_items(sitting, request, include_actions=False):
             'status': item.status,
             'type': item.type.capitalize,            
             'state_title': state_title,
-            'category_id': scheduling.category_id,
-            'category': scheduling.category,
+            #'category_id': scheduling.category_id,
+            #'category': scheduling.category,
             'discussion': discussion,
             'delete_url': "%s/delete" % absoluteURL(scheduling, request),
             'url': absoluteURL(item, request)}
@@ -326,7 +323,7 @@ class GroupSittingScheduleView(BrowserView):
             template = self.template
 
         container = self.context.__parent__
-        #schedule_url = self.request.getURL()
+        schedule_url = self.request.getURL()
         container_url = absoluteURL(container, self.request)
         
         # determine position in container
@@ -342,10 +339,10 @@ class GroupSittingScheduleView(BrowserView):
             links['next'] = "%s/%s/%s" % (
                 container_url, keys[pos+1], self.__name__)
 
-        #start_date = utils.datetimedict.fromdatetime(self.context.start_date)
-        #end_date = utils.datetimedict.fromdatetime(self.context.end_date)
+        start_date = utils.datetimedict.fromdatetime(self.context.start_date)
+        end_date = utils.datetimedict.fromdatetime(self.context.end_date)
         
-        #session = Session()
+        session = Session()
         sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
 
         site_url = absoluteURL(getSite(), self.request)
@@ -368,7 +365,7 @@ class GroupSittingScheduleView(BrowserView):
             actions=get_sitting_actions(self.context, self.request),
             items=get_sitting_items(
                 self.context, self.request, include_actions=True),
-            categories=vocabulary.ItemScheduleCategories(self.context),
+            #categories=vocabulary.ItemScheduleCategories(self.context),
             new_category_url="%s/admin/content/categories/add?next_url=..." % site_url,
             status=self.context.status,
             )
@@ -518,16 +515,7 @@ class ReportingView(form.PageForm):
             title=_(u"Date"),
             description=_(u"Choose a starting date for this report"),
             required=True)
-        
-        #time_span = schema.Choice(
-        #    title=_(u"Time span"),
-        #    description=_("The time span is used to define the reporting interval "
-        #                  "and will provide a name for the report."),
-        #    vocabulary=SimpleVocabulary((
-        #        SimpleTerm(TIME_SPAN.daily, "daily", TIME_SPAN.daily),
-        #        SimpleTerm(TIME_SPAN.weekly, "weekly", TIME_SPAN.weekly),)),
-        #    required=True)
-        
+            
         item_types = schema.List(title=u'Items to include',
                    required=False,
                    value_type=schema.Choice(
@@ -577,24 +565,6 @@ class ReportingView(form.PageForm):
     odf_filename = None
         
     class IReportingForm2(interface.Interface):
-        '''doc_type = schema.Choice(
-                    title = _(u"Document Type"),
-                    description = _(u"Type of document to be produced"),
-                    values= ['Order of the day',
-                             'Proceedings of the day',
-                             'Weekly Business',
-                             'Questions of the week'],
-                    required=True
-                    )'''
-        
-        #time_span = schema.Choice(
-        #    title=_(u"Time span"),
-        #    description=_("The time span is used to define the reporting interval "
-        #                  "and will provide a name for the report."),
-        #    vocabulary=SimpleVocabulary((
-        #        SimpleTerm(TIME_SPAN.daily, "daily", TIME_SPAN.daily),
-        #        SimpleTerm(TIME_SPAN.weekly, "weekly", TIME_SPAN.weekly),)),
-        #    required=True)
         
         item_types = schema.List(title=u'Items to include',
                    required=False,
@@ -626,13 +596,7 @@ class ReportingView(form.PageForm):
                                 required=False,
                                 description=u'Optional note regarding this report'
                         )
-        '''draft = schema.Choice(
-                    title = _(u"Include draft sittings"),
-                    description = _(u"Whether or not to include sittings still in draft"),
-                    values= ['Yes',
-                             'No'],
-                    required=True
-                    )'''
+                        
     template = namedtemplate.NamedTemplate('alchemist.form')
     form_fields2 = form.Fields(IReportingForm2)
     form_fields2['item_types'].custom_widget = horizontalMultiCheckBoxWidget
@@ -642,19 +606,10 @@ class ReportingView(form.PageForm):
     form_fields2['question_options'].custom_widget = verticalMultiCheckBoxWidget
     form_fields2['tabled_document_options'].custom_widget = verticalMultiCheckBoxWidget
     
-    
-    def get_odf_document(self):
-        assert self.odf_filename is not None
-        settings = component.getUtility(ISettings)
-        filename = "%s/%s" % (settings['templates'], self.odf_filename)
-        return OpenDocument(filename)
-
+   
     def setUpWidgets(self, ignore_request=False):
         if IGroupSitting.providedBy(self.context):        
             class context:
-                #date = self.date or datetime.date.today()
-                #time_span = TIME_SPAN.daily
-                #doc_type = 'Order of the day'
                 item_types = 'Bills'
                 bill_options = 'Title'
                 agenda_options = 'Title'
@@ -662,7 +617,6 @@ class ReportingView(form.PageForm):
                 motion_options = 'Title'
                 tabled_document_options = 'Title'
                 note = None
-                #draft = 'No'
             self.adapters = {
                     self.IReportingForm2: context
                 }
@@ -718,7 +672,7 @@ class ReportingView(form.PageForm):
         end_date = self.get_end_date(start_date, time_span)
 
         parliament = get_parliament_by_date_range(self, start_date, end_date)
-        #session = get_session_by_date_range(self, start_date, end_date)
+        session = get_session_by_date_range(self, start_date, end_date)
 
         if parliament is None:
             errors.append(interface.Invalid(
@@ -908,196 +862,7 @@ class ReportingView(form.PageForm):
         self.body_text = self.result_template()
         #import pdb; pdb.set_trace()
         return self.main_result_template()
-    
-    @form.action(_(u"Publish"))
-    def handle_save(self, action, data):                
-        self.process_form(data)
-        body_text = self.result_template()
-        session = Session()
-        report = domain.Report()
-        report.start_date = self.start_date                      
-        report.end_date = self.end_date                        
-        report.created_date = datetime.datetime.now()   
-        report.note = self.note
-        report.report_type = self.doc_type                    
-        report.body_text = body_text
-        report.user_id = get_principal_id()
-        report.group_id = self.group.group_id
-        session.add(report)
-        for sitting in self.sitting_items:
-            sr = domain.SittingReport()
-            sr.report = report
-            sr.sitting = sitting
-            session.add(sr)
-        session.flush()
-        
-        rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
-        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
-        
-        if IGroupSitting.providedBy(self.context):        
-            back_link =  './schedule'
-        elif ISchedulingContext.providedBy(self.context):
-            back_link = './' 
-        else:   
-            raise NotImplementedError
-        self.request.response.redirect(back_link)    
-        
-    
-      
-                  
-        
-    @form.action(_(u"Download ODT"))   
-    def handle_odt(self, action, data):    
-        def unescape(text):
-            '''Removes HTML or XML character references 
-                 entities from a text string.
-                keep &amp;, &gt;, &lt; in the source code.
-                from Fredrik Lundh
-                http://effbot.org/zone/re-sub.htm#unescape-html'''
-            def fixup(m):
-                text = m.group(0)
-                if text[:2] == "&#":
-                # character reference
-                    try:
-                        if text[:3] == "&#x":
-                            return unichr(int(text[3:-1], 16))
-                        else:
-                            return unichr(int(text[2:-1]))
-                    except ValueError:
-                        pass
-                else:
-                # named entity
-                    try:
-                        text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
-                    except KeyError:
-                        pass
-                return text # leave as is
-            return re.sub("&#?\w+;", fixup, text)   
-            
-        self.process_form(data)
-        body_text = self.result_template()
-        
-        odt_file = os.path.dirname(__file__) + '/agenda.odt'
-        #appy.Renderer expects a file name of a file that does not exist.
-        tempFileName = '/tmp/%f.odt' % ( time.time())
-        params = {}
-        params['body_text'] = unescape(body_text)
-        '''import codecs
-        f = codecs.open("output.txt", "w", "utf-8")
-        f.write(params['body_text'])
-        f.close()'''
-        renderer = Renderer(odt_file, params, tempFileName)
-        #import pdb; pdb.set_trace()
-        renderer.run()
-        self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
-        if self.display_minutes == True:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.odt"')
-        else:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.odt"')
-        f = open(tempFileName, 'rb')
-        doc = f.read()
-        f.close()      
-        os.remove(tempFileName)    
-        return doc  
-     
-    @form.action(_(u"Download PDF"))   
-    def handle_pdf(self, action, data):   
-        def unescape(text):
-            '''Removes HTML or XML character references 
-                 entities from a text string.
-                keep &amp;, &gt;, &lt; in the source code.
-                from Fredrik Lundh
-                http://effbot.org/zone/re-sub.htm#unescape-html'''
-            def fixup(m):
-                text = m.group(0)
-                if text[:2] == "&#":
-                # character reference
-                    try:
-                        if text[:3] == "&#x":
-                            return unichr(int(text[3:-1], 16))
-                        else:
-                            return unichr(int(text[2:-1]))
-                    except ValueError:
-                        pass
-                else:
-                # named entity
-                    try:
-                        text = unichr(htmlentitydefs.name2codepoint[text[1:-1]])
-                    except KeyError:
-                        pass
-                return text # leave as is
-            return re.sub("&#?\w+;", fixup, text)
-        self.process_form(data)
-        body_text = self.result_template()
-        odt_file = os.path.dirname(__file__) + '/agenda.odt'
-        #appy.Renderer expects a file name of a file that does not exist.
-        tempFileName = '/tmp/%f.pdf' % ( time.time())
-        params = {}
-        params['body_text'] = unescape(body_text)
-        
-        #uses system open office and python uno to generate pdf
-        #TO DO : fix this to use user python
-        renderer = Renderer(odt_file, params, tempFileName, pythonWithUnoPath="/usr/bin/python2.5")
-        renderer.run()
-        self.request.response.setHeader('Content-type', 'application/pdf')
-        if self.display_minutes == True:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.pdf"')
-        else:
-            self.request.response.setHeader('Content-disposition', 'inline;filename="'+self.doc_type+"_"+self.start_date.strftime('%Y-%m-%d')+'.odt"')
-        f = open(tempFileName, 'rb')
-        doc = f.read()
-        f.close()      
-        os.remove(tempFileName)    
-        return doc     
-        
-    #@form.action(_(u"Create and Store"))
-    def handle_create_and_store(self, action, data):
-        next_url = ('save-report?date=' + data['date'].strftime('%Y-%m-%d') + 
-            '&time_span=' + data['time_span'] + '&display_minutes=' +
-            str(self.display_minutes))
-        self.request.response.redirect(next_url)    
 
-    #@form.action(_(u"Download"))
-    def handle_download(self, action, data):
-        return self.download_preview(
-            data['date'], TIME_SPAN.daily, 'attachment')
-            
-    '''
-    def html_preview(self, data):
-        file = self.generate(data)
-        self.request.response.setHeader('Content-Type', file.contentType)
-        self.request.response.setHeader('Content-Length', file.getSize())
-        self.request.response.setHeader(
-            'Content-Disposition', '%s; filename="%s"' % (
-                disposition, file.filename))
-        self.request.response.setHeader('Last-Modified', rfc1123_date(time.time()))
-        self.request.response.setHeader(
-            'Cache-Control', 'no-cache, must-revalidate');
-        self.request.response.setHeader('Pragma', 'no-cache')
-        return file.data
-    '''
-        
-    def download_preview(self, date, time_span, disposition):
-        file = self.generate(date, time_span)
-        self.request.response.setHeader('Content-Type', file.contentType)
-        self.request.response.setHeader('Content-Length', file.getSize())
-        self.request.response.setHeader(
-            'Content-Disposition', '%s; filename="%s"' % (
-                disposition, file.filename))
-        self.request.response.setHeader('Last-Modified', rfc1123_date(time.time()))
-        self.request.response.setHeader(
-            'Cache-Control', 'no-cache, must-revalidate');
-        self.request.response.setHeader('Pragma', 'no-cache')
-        return file.data
-
-    def generate(self, date, time_span):
-        raise NotImplementedError("Must be implemented by subclass")
-    
-    '''def get_sittings(self, start_date, time_span):
-        end_date = self.get_end_date(start_date, time_span)
-        container = self.scheduling_context.get_sittings(
-            start_date=start_date, end_date=end_date)
-        return container.values()'''
 
     def get_end_date(self, start_date, time_span):
         if time_span is TIME_SPAN.daily:
@@ -1119,36 +884,7 @@ class AgendaReportingView(ReportingView):
     display_minutes = False
     main_result_template = ViewPageTemplateFile('main_reports.pt')
     result_template = ViewPageTemplateFile('reports.pt')
-    def get_archive(self, date, time_span):
-        end_date = self.get_end_date(date, time_span)
-        
-        parliament = get_parliament_by_date_range(self, date, end_date)
-        session = get_session_by_date_range(self, date, end_date)
-
-        options = {
-            'title': self.report_name,
-            'date': _(u"$x", mapping=utils.datetimedict.fromdate(date)),
-            'parliament': parliament,
-            'session': session,
-            'country': u"Republic of Kenya".upper(),
-            'assembly': u"National Assembly".upper(),
-         #   'sittings': self.get_sittings(date, time_span),
-            'display_minutes': self.display_minutes,
-            }
-
-        document = self.get_odf_document()
-        archive = tempfile.NamedTemporaryFile(suffix=".odt")
-        document.process("content.xml", self, **options)
-        document.save(archive.name)
-
-        return archive
-    def generate(self, date, time_span):
-        archive = self.get_archive(date, time_span)
-        file = File(archive, "application/vnd.oasis.opendocument.text")
-        file.filename = "agenda-%s-%s-%s-%s.odt" % (
-            str(time_span).lower(), date.year, date.month, date.day)
-        
-        return file
+    
     
     def get_sittings_items(self, start, end):
             """ return the sittings with scheduled items for 
@@ -1182,14 +918,6 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
     form_description = _(u"This form generates the “votes and proceedings” report")
     report_name = _(u"VOTES AND PROCEEDINGS")
     display_minutes = True
-    
-    def generate(self, date, time_span):
-        archive = self.get_archive(date, time_span)
-        file = File(archive, "application/vnd.oasis.opendocument.text")
-        file.filename = "votes-and-proceedings-%s-%s-%s-%s.odt" % (
-            str(time_span).lower(), date.year, date.month, date.day)
-
-        return file
 
 class DhtmlxCalendarSittings(BrowserView):
     interface.implements(IViewView, IStructuralView)
@@ -1259,7 +987,9 @@ class SaveView(AgendaReportingView):
         report.body_text = body_text
         report.user_id = get_principal_id()
         report.group_id = self.context.group_id
+        report.language = "en"
         session.add(report)
+        
         
         if self.request.form['single']=="False":
             self.sitting_items = self.get_sittings_items(start_date, end_date)
@@ -1279,75 +1009,19 @@ class SaveView(AgendaReportingView):
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
         rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )        
         
+        
         if IGroupSitting.providedBy(self.context):        
             back_link =  './schedule'
         elif ISchedulingContext.providedBy(self.context):
             back_link = './'  
         else:   
-            raise NotImplementedError
+            raise NotImplementedError                                                                     
         self.request.response.redirect(back_link) 
-
-
-class HTMLPreviewPage(ReportingView):
-    """ preview Agenda and votes and proceedings as simple HTML """
-    template = ViewPageTemplateFile('reports.pt')        
-        
-    def get_sittings_items(self, start, end):
-        """ return the sittings with scheduled items for 
-        the given daterange"""    
-        session = Session()
-        query = session.query(domain.GroupSitting).filter(
-            sql.and_(
-            domain.GroupSitting.start_date.between(start,end),
-            domain.GroupSitting.group_id == self.context.group_id)
-            ).order_by(domain.GroupSitting.start_date
-            ).options(
-                eagerload('sitting_type'),
-                eagerload('item_schedule'), 
-                eagerload('item_schedule.item'),
-                eagerload('item_schedule.discussion'),
-                eagerload('item_schedule.category'))
-        items = query.all()
-        #items.sort(key=operator.attrgetter('start_date'))
-        for item in items:
-            if self.display_minutes:
-                item.item_schedule.sort(key=operator.attrgetter('real_order'))
-            else:
-                item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
-            item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
-            #s = get_session_by_date_range(self, item.start_date, item.end_date)  
-        return items
-    
-    def update(self):
-        date = datetime.datetime.strptime(self.request.form['date'],
-                '%Y-%m-%d').date()
-        time_span = self.request.form['time_span']
-        if time_span == TIME_SPAN.daily:
-            time_span = TIME_SPAN.daily
-        elif time_span == TIME_SPAN.weekly:
-            time_span = TIME_SPAN.weekly                
-        end = self.get_end_date(date, time_span)
-        self.sitting_items = self.get_sittings_items(date, end)
-        self.display_minutes = (self.request.form['display_minutes'] == "True")
-        if self.display_minutes:
-            self.title = _(u"Votes and Proceedings")
-        else:
-            self.title = _(u"Order of the day")
-        try:
-            self.group = self.context.get_group()
-        except:
-            session = Session()
-            self.group = session.query(domain.Group).get(self.context.group_id)
-        if IGroupSitting.providedBy(self.context):        
-            self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
-        elif ISchedulingContext.providedBy(self.context):
-            self.back_link = absoluteURL(self.context, self.request)  
-        else:
-            raise NotImplementedError
+                                            
                     
-class StoreReportView(HTMLPreviewPage):
-    template = ViewPageTemplateFile('save-reports.pt')
-    
+class StoreReportView(BrowserView):
+    template = ViewPageTemplateFile('save-reports.pt')  
+          
     def __call__(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()
@@ -1364,7 +1038,7 @@ class StoreReportView(HTMLPreviewPage):
             if self.display_minutes:
                 if sitting.status in ["published-minutes"]:
                     sitting_items.append(sitting)
-            else:
+            else:                
                 if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes"]:
                     sitting_items.append(sitting)
         if len(sitting_items) == 0:
@@ -1372,10 +1046,10 @@ class StoreReportView(HTMLPreviewPage):
             if referer:
                 referer=referer.split('?')[0]
             else:
-                referer = ""
+                referer = ""                
             self.request.response.redirect(referer + "?portal_status_message=No data found")
-            return
-        self.sitting_items = sitting_items
+            return                     
+        self.sitting_items = sitting_items                   
         session = Session()
         report = domain.Report()
         report.start_date = date                      
@@ -1395,15 +1069,15 @@ class StoreReportView(HTMLPreviewPage):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
-        
+
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
         rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
         
         if IGroupSitting.providedBy(self.context):        
             back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
-            back_link = absoluteURL(self.context, self.request)
-        else:
-            raise NotImplementedError
+            back_link = absoluteURL(self.context, self.request)  
+        else:   
+            raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)
         session.close()

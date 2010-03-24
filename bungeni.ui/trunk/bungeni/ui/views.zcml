@@ -136,14 +136,14 @@
      permission="zope.View"
      class=".calendar.browser.SaveView"
      />
-     
+    <!-- 
     <browser:page
      name="preview.html"
      for="zope.location.interfaces.ILocation"
      permission="zope.View"
      class=".calendar.browser.HTMLPreviewPage"
      />
-
+    -->
     <browser:page
      name="save-report"
      for="zope.location.interfaces.ILocation"
@@ -183,6 +183,19 @@
      name="calendar"
      class=".calendar.browser.DhtmlxCalendarScheduleView"
     /> -->
+    <browser:page
+     for="*"
+     permission="zope.Public"
+     name="odt"
+     class=".reports.DownloadODT"
+    />
+    
+    <browser:page
+     for="*"
+     permission="zope.Public"
+     name="pdf"
+     class=".reports.DownloadPDF"
+    />
     
     <browser:page
      for="*"

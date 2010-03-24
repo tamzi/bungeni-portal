@@ -59,13 +59,12 @@ class LanguageViewlet(object):
         selected = self.request.locale.getLocaleID()
         url = ui_utils.url.absoluteURL(getSite(), self.request)
 
-        # self.available = len(translations) > 0        
         self.languages = [{
             'code': language,
             'flag': url+languages[language].get('flag',''),
             'name': language_name(languages[language]),
             'css_class': css_class(language),
-            'url': "%s/change-language?lang=%s" % (url, language),
+            'url': "%s/change-language?language=%s" % (url, language),
             } for language in languages]
             
 class ChangeLanguage(BrowserView):  
@@ -73,7 +72,7 @@ class ChangeLanguage(BrowserView):
     def __call__(self):
         """set the I18N_LANGUAGES cookie and redirect back to referrer"""
         response = self.request.response
-        lang = self.request.get('lang', None)
+        lang = self.request.get('language', None)
         if lang:
             response.setCookie('I18N_LANGUAGES', lang, path='/')
         else:

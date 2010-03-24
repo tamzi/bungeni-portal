@@ -82,6 +82,7 @@
     for="bungeni.core.interfaces.IVersionable *"
     name="plone.contentmenu.translation"
     factory=".menu.TranslationSubMenuItem"
+    permission="bungeni.translation.Add"    
     provides="ploned.ui.interfaces.IContentMenuItem" />     
 
   <browser:menu

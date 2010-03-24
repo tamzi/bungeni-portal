@@ -27,15 +27,14 @@ from zope.security.proxy import ProxyFactory
 from zope.security import checkPermission
 import zope.securitypolicy.interfaces
 
-from tempfile import NamedTemporaryFile
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
-from zope.schema.vocabulary import SimpleTerm
+#from zope.schema.vocabulary import SimpleTerm
 from zope.app.file.file import File
 from zope.datetime import rfc1123_date
 from zope.app.form.browser import MultiCheckBoxWidget as _MultiCheckBoxWidget
-from zope.publisher.interfaces.http import IResult, IHTTPRequest
-from zope.publisher.http import DirectResult
+#from zope.publisher.interfaces.http import IResult, IHTTPRequest
+#from zope.publisher.http import DirectResult
 
 from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
@@ -46,7 +45,7 @@ from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
-from bungeni.core.schedule import PlenarySchedulingContext
+#from bungeni.core.schedule import PlenarySchedulingContext
 from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
@@ -323,7 +322,7 @@ class GroupSittingScheduleView(BrowserView):
             template = self.template
 
         container = self.context.__parent__
-        schedule_url = self.request.getURL()
+        #schedule_url = self.request.getURL()
         container_url = absoluteURL(container, self.request)
         
         # determine position in container
@@ -339,10 +338,10 @@ class GroupSittingScheduleView(BrowserView):
             links['next'] = "%s/%s/%s" % (
                 container_url, keys[pos+1], self.__name__)
 
-        start_date = utils.datetimedict.fromdatetime(self.context.start_date)
-        end_date = utils.datetimedict.fromdatetime(self.context.end_date)
+        #start_date = utils.datetimedict.fromdatetime(self.context.start_date)
+        #end_date = utils.datetimedict.fromdatetime(self.context.end_date)
         
-        session = Session()
+        #session = Session()
         sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
 
         site_url = absoluteURL(getSite(), self.request)

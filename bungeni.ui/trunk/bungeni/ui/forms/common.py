@@ -225,7 +225,7 @@ class AddForm(BaseForm, ui.AddForm):
     
     def validate(self, action, data):    
         errors = super(AddForm, self).validate(action, data)
-
+        errors = errors.append(self.validateUnique(action, data))
         descriptor = queryModelDescriptor(self.domain_model)
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, None, self.context)
@@ -235,11 +235,8 @@ class AddForm(BaseForm, ui.AddForm):
     def validateUnique(self, action, data):
         """Validate unique.
         
-        Since this class always adds a single object, we can safely
-        return an empty list of errors.
         """
-        
-        errors = self.validate(action, data)
+        errors = []
         domain_model = removeSecurityProxy( self.getDomainModel() )
         
         # find unique columns in data model.. TODO do this statically

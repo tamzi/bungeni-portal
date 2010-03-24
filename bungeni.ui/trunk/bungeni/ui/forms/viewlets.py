@@ -30,7 +30,7 @@ from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 
 from bungeni.ui.table import AjaxContainerListing
 from bungeni.ui.utils import queries, statements, url as ui_url, misc
-
+from bungeni.ui.utils import date
 
 from fields import BungeniAttributeDisplay
 from interfaces import ISubFormViewletManager
@@ -832,7 +832,7 @@ class SessionCalendarViewlet( viewlet.ViewletBase ):
         #session.close()
         
     def _getDisplayDate(self, request):
-        display_date = misc.getDisplayDate(self.request)                    
+        display_date = date.getDisplayDate(self.request)                    
         session = self.context
         if display_date:
             if session.end_date:

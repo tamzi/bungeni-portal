@@ -34,23 +34,15 @@ def getDisplayDate(request):
     DisplayDate = request.get('date', None)
     if not DisplayDate:
         if request.has_key('display_date'):
-            DisplayDate = request['display_date']
-#    else:
-#        if request.has_key('display_date'):
-#            if DisplayDate != request['display_date']:         
-#                request.response.setCookie('display_date', DisplayDate, path='/')               
-#        else:
-#            request.response.setCookie('display_date', DisplayDate, path='/' )          
+            DisplayDate = request['display_date']     
     displayDate = None
     if DisplayDate:
         try:
             y, m, d = (int(x) for x in DisplayDate.split('-'))
             displayDate = datetime.date(y,m,d)
         except:
-            #displayDate = datetime.date.today()              
             displayDate = None
     else:
-        #displayDate = datetime.date.today() 
         displayDate=None
     return displayDate
 

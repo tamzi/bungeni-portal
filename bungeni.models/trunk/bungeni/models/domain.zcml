@@ -310,14 +310,15 @@
                        end_date
                        type 
                        office_type                      
-                       " />              
+                       " />   
+    <require permission= "bungeni.office.ChangeType" 
+        set_attributes="office_type" />                                   
     <require permission="bungeni.office.Edit"
              set_attributes="short_name
                        full_name
                        description                       
                        start_date
-                       end_date
-                       office_type" />             
+                       end_date" />             
     <require permission="bungeni.edit.historical"
             attributes="parent_group_id" />
     <require permission="bungeni.edit.historical"

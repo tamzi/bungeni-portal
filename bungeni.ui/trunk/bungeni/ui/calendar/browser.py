@@ -1,12 +1,15 @@
 # encoding: utf-8
 # TODO - Cleanup!!!!
 
+import re
+import os
 import time
 import datetime
 import tempfile
 timedelta = datetime.timedelta
 
 import operator
+import htmlentitydefs
 
 from sqlalchemy.orm import eagerload
 import sqlalchemy.sql.expression as sql
@@ -26,19 +29,16 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 from zope.security import checkPermission
 import zope.securitypolicy.interfaces
-import re
-import os
-import htmlentitydefs
 from appy.pod.renderer import Renderer
-from tempfile import NamedTemporaryFile
+#from tempfile import NamedTemporaryFile
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
-from zope.schema.vocabulary import SimpleTerm
+#from zope.schema.vocabulary import SimpleTerm
 from zope.app.file.file import File
 from zope.datetime import rfc1123_date
 from zope.app.form.browser import MultiCheckBoxWidget as _MultiCheckBoxWidget
-from zope.publisher.interfaces.http import IResult, IHTTPRequest
-from zope.publisher.http import DirectResult
+#from zope.publisher.interfaces.http import IResult, IHTTPRequest
+#from zope.publisher.http import DirectResult
 
 from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
@@ -49,7 +49,7 @@ from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
-from bungeni.core.schedule import PlenarySchedulingContext
+#from bungeni.core.schedule import PlenarySchedulingContext
 from bungeni.core.odf import OpenDocument
 from bungeni.models.queries import get_parliament_by_date_range
 from bungeni.models.queries import get_session_by_date_range
@@ -326,7 +326,7 @@ class GroupSittingScheduleView(BrowserView):
             template = self.template
 
         container = self.context.__parent__
-        schedule_url = self.request.getURL()
+        #schedule_url = self.request.getURL()
         container_url = absoluteURL(container, self.request)
         
         # determine position in container
@@ -342,10 +342,10 @@ class GroupSittingScheduleView(BrowserView):
             links['next'] = "%s/%s/%s" % (
                 container_url, keys[pos+1], self.__name__)
 
-        start_date = utils.datetimedict.fromdatetime(self.context.start_date)
-        end_date = utils.datetimedict.fromdatetime(self.context.end_date)
+        #start_date = utils.datetimedict.fromdatetime(self.context.start_date)
+        #end_date = utils.datetimedict.fromdatetime(self.context.end_date)
         
-        session = Session()
+        #session = Session()
         sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
 
         site_url = absoluteURL(getSite(), self.request)
@@ -718,7 +718,7 @@ class ReportingView(form.PageForm):
         end_date = self.get_end_date(start_date, time_span)
 
         parliament = get_parliament_by_date_range(self, start_date, end_date)
-        session = get_session_by_date_range(self, start_date, end_date)
+        #session = get_session_by_date_range(self, start_date, end_date)
 
         if parliament is None:
             errors.append(interface.Invalid(
@@ -939,7 +939,7 @@ class ReportingView(form.PageForm):
         elif ISchedulingContext.providedBy(self.context):
             back_link = './' 
         else:   
-            raise NotImplementedError                                                                     
+            raise NotImplementedError
         self.request.response.redirect(back_link)    
         
     
@@ -1062,6 +1062,7 @@ class ReportingView(form.PageForm):
         return self.download_preview(
             data['date'], TIME_SPAN.daily, 'attachment')
             
+    '''
     def html_preview(self, data):
         file = self.generate(data)
         self.request.response.setHeader('Content-Type', file.contentType)
@@ -1074,6 +1075,7 @@ class ReportingView(form.PageForm):
             'Cache-Control', 'no-cache, must-revalidate');
         self.request.response.setHeader('Pragma', 'no-cache')
         return file.data
+    '''
         
     def download_preview(self, date, time_span, disposition):
         file = self.generate(date, time_span)
@@ -1259,7 +1261,6 @@ class SaveView(AgendaReportingView):
         report.group_id = self.context.group_id
         session.add(report)
         
-        
         if self.request.form['single']=="False":
             self.sitting_items = self.get_sittings_items(start_date, end_date)
         else:
@@ -1278,13 +1279,12 @@ class SaveView(AgendaReportingView):
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
         rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )        
         
-        
         if IGroupSitting.providedBy(self.context):        
             back_link =  './schedule'
         elif ISchedulingContext.providedBy(self.context):
             back_link = './'  
         else:   
-            raise NotImplementedError                                                                     
+            raise NotImplementedError
         self.request.response.redirect(back_link) 
 
 
@@ -1311,13 +1311,13 @@ class HTMLPreviewPage(ReportingView):
         #items.sort(key=operator.attrgetter('start_date'))
         for item in items:
             if self.display_minutes:
-                item.item_schedule.sort(key=operator.attrgetter('real_order'))                              
+                item.item_schedule.sort(key=operator.attrgetter('real_order'))
             else:
                 item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
             item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
             #s = get_session_by_date_range(self, item.start_date, item.end_date)  
         return items
-                          
+    
     def update(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()
@@ -1333,7 +1333,7 @@ class HTMLPreviewPage(ReportingView):
             self.title = _(u"Votes and Proceedings")
         else:
             self.title = _(u"Order of the day")
-        try:              
+        try:
             self.group = self.context.get_group()
         except:
             session = Session()
@@ -1342,12 +1342,12 @@ class HTMLPreviewPage(ReportingView):
             self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
             self.back_link = absoluteURL(self.context, self.request)  
-        else:   
-            raise NotImplementedError                                               
+        else:
+            raise NotImplementedError
                     
 class StoreReportView(HTMLPreviewPage):
-    template = ViewPageTemplateFile('save-reports.pt')  
-          
+    template = ViewPageTemplateFile('save-reports.pt')
+    
     def __call__(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()
@@ -1364,7 +1364,7 @@ class StoreReportView(HTMLPreviewPage):
             if self.display_minutes:
                 if sitting.status in ["published-minutes"]:
                     sitting_items.append(sitting)
-            else:                
+            else:
                 if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes"]:
                     sitting_items.append(sitting)
         if len(sitting_items) == 0:
@@ -1372,10 +1372,10 @@ class StoreReportView(HTMLPreviewPage):
             if referer:
                 referer=referer.split('?')[0]
             else:
-                referer = ""                
+                referer = ""
             self.request.response.redirect(referer + "?portal_status_message=No data found")
-            return                     
-        self.sitting_items = sitting_items                   
+            return
+        self.sitting_items = sitting_items
         session = Session()
         report = domain.Report()
         report.start_date = date                      
@@ -1395,15 +1395,15 @@ class StoreReportView(HTMLPreviewPage):
             sr.sitting = sitting
             session.add(sr)
         session.flush()
-
+        
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
         rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
         
         if IGroupSitting.providedBy(self.context):        
             back_link = absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
-            back_link = absoluteURL(self.context, self.request)  
-        else:   
-            raise NotImplementedError                                                                     
+            back_link = absoluteURL(self.context, self.request)
+        else:
+            raise NotImplementedError
         self.request.response.redirect(back_link)
         session.close()

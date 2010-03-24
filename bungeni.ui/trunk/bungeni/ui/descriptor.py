@@ -1118,49 +1118,7 @@ class MinisterDescriptor( ModelDescriptor ):
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]
     
-class ParliamentSession( ModelDescriptor ):
-    display_name = _(u"Parliamentary session")
-    container_name = _(u"Parliamentary sessions")
-    
-    fields = deepcopy( GroupDescriptor.fields )
-    fields.extend([
-        dict( name="session_id", omit=True ),
-        dict( name="start_date", 
-                label=_(u"Start Date"), 
-                listing_column=day_column("start_date", 
-                    _(u'Start Date')), 
-            edit_widget=DateWidget, 
-            add_widget=DateWidget),
-        dict( name="end_date", 
-            label=_(u"End Date"), 
-            listing_column=day_column('end_date', 
-                _(u'End Date')),
-            edit_widget=DateWidget, 
-            add_widget=DateWidget), 
-        dict(name="language", 
-             label=_(u"Language"), 
-             listing=False, 
-             add=True, 
-             edit=True, 
-             omit=False,
-             required=True,
-             property=schema.Choice(
-                 title=u"Language",
-                 default=get_default_language(),
-                 vocabulary="language_vocabulary",
-                 ),
-             ),                           
-        dict( name="notes", 
-              property=schema.Text(title=_(u"Notes"), 
-                required=False ),
-              view_widget=HTMLDisplay,
-              edit_widget=RichTextEditor,
-              add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,)
-        ])
-        
-    schema_invariants = [EndAfterStart]        
-    custom_validators = [validations.validate_date_range_within_parent,]
+
             
 class GovernmentDescriptor( GroupDescriptor ):
     display_name = _(u"Government")
@@ -2079,6 +2037,19 @@ class SessionDescriptor( ModelDescriptor ):
                 _(u'End Date')),
             edit_widget=DateWidget, 
             add_widget=DateWidget),
+        dict(name="language", 
+             label=_(u"Language"), 
+             listing=False, 
+             add=True, 
+             edit=True, 
+             omit=False,
+             required=True,
+             property=schema.Choice(
+                 title=u"Language",
+                 default=get_default_language(),
+                 vocabulary="language_vocabulary",
+                 ),
+             ),                       
         dict( name="notes", label=_(u"Notes"), required=False)
         ]
     schema_invariants = [EndAfterStart]

@@ -1,4 +1,12 @@
-# encoding: utf-8
+# Bungeni Parliamentary Information System - http://www.bungeni.org/
+# Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
+# Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+
+"""Form Schemas for Domain Objects
+
+$Id$
+"""
+
 from copy import deepcopy
 from datetime import date
 from zope import schema, interface
@@ -1035,19 +1043,21 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
     schema_invariants = [EndAfterStart]
     
 
-class OfficeDescriptor( GroupDescriptor ):
+class OfficeDescriptor(GroupDescriptor):
     display_name = _(u"Office")
     container_name = _(u"Offices")
     custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )    
-    fields.extend([
+    fields.insert(0,
         dict(name="office_type", listing=False,
-            property = schema.Choice( title= _(u"Type"),
+            property = schema.Choice(
+                title = _(u"Type"),
                 description = _(u"Type of Office"),
-                source = vocabulary.OfficeType),
-                )
-        ])                
+                source = vocabulary.OfficeType
+            )
+        )
+    )
     
     
 class OfficeMemberDescriptor( ModelDescriptor ):    

@@ -230,14 +230,16 @@ class AddForm(BaseForm, ui.AddForm):
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, None, self.context)
         return errors
-        
-        
+    
     def validateUnique(self, action, data):
         """Validate unique.
         
+        Since this class always adds a single object, we can safely
+        return an empty list of errors.
+        
         """
         errors = []
-        domain_model = removeSecurityProxy( self.getDomainModel() )
+        domain_model = removeSecurityProxy(self.getDomainModel())
         
         # find unique columns in data model.. TODO do this statically
         mapper = rdb.orm.class_mapper( domain_model  )
@@ -755,7 +757,7 @@ class DeleteForm(BaseForm, form.PageForm):
     
     def delete_subobjects(self):
         return 0
-
+    
     @form.action(_(u"Delete"), condition=_can_delete_item)
     def handle_delete(self, action, data):
         count = self.delete_subobjects()
@@ -780,11 +782,17 @@ class DeleteForm(BaseForm, form.PageForm):
 
         notify(ObjectRemovedEvent(
             self.context, oldParent=container, oldName=self.context.__name__))
-
-
+        
         next_url = self.nextURL()
+        
         if next_url is None:
             next_url = ui_utils.url.absoluteURL(container, self.request) + \
                        '/?portal_status_message=%d items deleted' % count
 
         self.request.response.redirect(next_url)
+        # +! deletion succeeds but is consistently giving the following error:
+        # InvalidRequestError: Can't attach instance <User at 0xc8358cc>; 
+        # another instance with key (<class 'bungeni.models.domain.User'>, (581,)) 
+        # is already present in this session.
+        # <class 'sqlalchemy.exc.InvalidRequestError'>:
+

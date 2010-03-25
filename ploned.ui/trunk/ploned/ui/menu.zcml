@@ -7,7 +7,7 @@
      id="site_actions"
      title="Actions"
      class=".menu.PloneBrowserMenu"
-     />
+  />
 
   <browser:menu
      id="plone_contentmenu"

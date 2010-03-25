@@ -6,7 +6,6 @@ from zope import component
 from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
-from zope.app.publisher.browser.menu import BrowserMenuItem
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.security import checkPermission
@@ -15,7 +14,6 @@ from zope.i18n import translate
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
-from bungeni.models import queries
 from bungeni.models.utils import get_db_user_id
 from bungeni.models.interfaces import IBungeniApplication
 
@@ -87,13 +85,8 @@ class AdminAction(GlobalMenuItem):
     #def available(self):
     #    context = self.getURLContext()
     #    return getInteraction().checkPermission('zope.ManageSite', context)  
-        
-class TaskMenu(BrowserMenu):
-    def getMenuItems(self, object, request):
-        spec = self.getMenuItemType()
-        return [item for name, item in \
-                component.getAdapters((object, request), spec)]
-    
+
+
 # 
 # class TaskMenu(managr.MenuManager):
 #     
@@ -249,7 +242,7 @@ class WorkflowMenu(BrowserMenu):
         wf = IWorkflow(context, None)
         if wf is None:
             return ()        
-        state = IWorkflowInfo(context).state().getState()
+        #state = IWorkflowInfo(context).state().getState()
         wf_info = IWorkflowInfo(context)
         transitions = wf_info.getManualTransitionIds()
         
@@ -352,7 +345,7 @@ class CalendarMenu(BrowserMenu):
                 if ((committee.end_date is None or committee.end_date >= today) and 
                    (committee.start_date is None or committee.start_date <= today) and
                    (committee.status == "active")):
-                    contexts.append(schedule.CommitteeSchedulingContext(committee))                                
+                    contexts.append(schedule.CommitteeSchedulingContext(committee))
 
         contexts.append(schedule.PlenarySchedulingContext(app))
 

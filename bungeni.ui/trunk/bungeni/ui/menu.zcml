@@ -1169,7 +1169,7 @@
      title="Question"
      action="questions/add"
      permission="bungeni.question.Add"
-     />
+  /><!-- this is the one appearing in /workspace/pi -->
 
 
   <browser:menuItem
@@ -1577,38 +1577,6 @@
      viewName=""
      weight="30"
      /-->
-
-   <!-- task actions -->
-
-   <browser:menu
-      id="task_actions"
-      title="Tasks"
-      class=".menu.TaskMenu"
-      />
-   
-   <browser:menuItem
-      menu="task_actions"
-      for="*"
-      action="/motions/add"
-      title="Create Motion"
-      permission="bungeni.motion.Add"            
-      />
-   
-   <browser:menuItem
-      menu="task_actions"
-      for="*"
-      action="/questions/add"
-      title="Create Question"
-      permission="bungeni.question.Add"            
-      />
-   
-   <browser:menuItem
-      menu="task_actions"
-      for="*"
-      action="/bills/add"
-      title="Create Bill"
-      permission="bungeni.bill.Add"      
-      />
 
 </configure>
 

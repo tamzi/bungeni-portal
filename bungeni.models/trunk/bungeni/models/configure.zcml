@@ -124,11 +124,6 @@
      factory=".daterange.sitting_filter" /> 
 
 
-  <!-- vocabularies -->
 
-  <utility
-     name="bungeni.vocabulary.Parliaments"
-     provides="zope.schema.interfaces.IVocabularyFactory"
-     component=".vocabulary.Parliaments" />
 
 </configure>

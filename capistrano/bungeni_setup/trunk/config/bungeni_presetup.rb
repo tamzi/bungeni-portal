@@ -50,6 +50,8 @@ namespace :bungeni_presetup do
     task :essentials, :roles=> [:app] do
 	required_libs = [
 			"wget",
+			"zip",
+			"unzip",
 			"build-essential", # for building from source
 			"linux-headers-`uname -r`", # for building from source
 			"libjpeg62-dev", # for python
@@ -81,6 +83,8 @@ namespace :bungeni_presetup do
     task :essentials_gandi, :roles=> [:app] do
 	required_libs = [
 			"wget",
+			"zip",
+			"unzip",
 			"build-essential", # for building from source
 			"libjpeg62-dev", # for python
 			"libfreetype6-dev", # for python

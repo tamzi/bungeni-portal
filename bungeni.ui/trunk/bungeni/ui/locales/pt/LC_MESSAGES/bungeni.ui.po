@@ -2434,3 +2434,13 @@ msgstr "perguntas por escrito"
 #: bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:3
 msgid "you_are_here"
 msgstr "você está aqui:"
+
+msgid "active"
+msgstr "ativo"
+
+msgid "deceased"
+msgstr "falecido"
+
+msgid "inactive"
+msgstr "inativo"
+

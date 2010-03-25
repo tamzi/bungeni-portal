@@ -137,5 +137,11 @@
             name="Tabled Document Options"
             provides="zope.schema.interfaces.IVocabularyFactory"
             />  
+
+
+  <utility
+     name="bungeni.vocabulary.Parliaments"
+     provides="zope.schema.interfaces.IVocabularyFactory"
+     component=".vocabulary.Parliaments" />
             
 </configure>

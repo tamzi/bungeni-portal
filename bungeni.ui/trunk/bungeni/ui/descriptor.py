@@ -21,7 +21,6 @@ from ore.alchemist.vocabulary import DatabaseSource
 from alchemist.ui import widgets
 
 from bungeni.models import domain
-from bungeni.models import vocabulary
 
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import get_all_languages
@@ -62,7 +61,7 @@ from bungeni.ui.forms import validations
 from bungeni.ui.i18n import _
 from bungeni.ui import diff
 import bungeni.ui.utils as ui_utils
-
+from bungeni.ui import vocabulary
 
 ###
 # Listing Columns 
@@ -311,12 +310,16 @@ class UserDescriptor( ModelDescriptor ):
                 add=False, 
                 view=False),
         dict( name="titles", 
-              label=_(u"Salutation"), 
+            property = schema.TextLine(
+              title=_(u"Salutation"), 
                 description=_(u"e.g. Mr. Mrs, Prof. etc."),
-                required=True),
-        dict( name="first_name", label=_(u"First Name")),
-        dict( name="middle_name", label=_(u"Middle Name")),        
-        dict( name="last_name", label=_(u"Last Name")), 
+                required=True)),
+        dict( name="first_name", 
+            property = schema.TextLine(title=_(u"First Name"))),
+        dict( name="middle_name", 
+            property = schema.TextLine(title=_(u"Middle Name"))),        
+        dict( name="last_name", 
+            property = schema.TextLine(title=_(u"Last Name"))), 
         dict( name="email",
               property = schema.TextLine( title =_(u"Email"), 
                           description=_(u"Email address"),
@@ -324,8 +327,9 @@ class UserDescriptor( ModelDescriptor ):
                           required=True
                           ),
              ),                                                                                
-        dict( name="login", label=_(u"Login"), 
-            add=True, edit=False, view=True, required=True),
+        dict( name="login", 
+                property = schema.TextLine(title=_(u"Login"), required=True),
+            add=True, edit=False, view=True),
         dict( name="password", omit = True),
         dict( name="_password",
                 property = schema.TextLine(     
@@ -333,7 +337,8 @@ class UserDescriptor( ModelDescriptor ):
                     required=True),
             add=True, view=False, edit=False,
             required=True ),                        
-        dict( name="national_id", label=_(u"National Id")),
+        dict( name="national_id", 
+            property = schema.TextLine(title=_(u"National Id"))),
         dict( name="gender", 
               property = schema.Choice( 
               title=_(u"Gender"), 
@@ -341,7 +346,8 @@ class UserDescriptor( ModelDescriptor ):
               edit_widget=CustomRadioWidget,
               add_widget=CustomRadioWidget, ),
         dict( name="date_of_birth", 
-              label=_(u"Date of Birth"), 
+              property = schema.Date(  
+              title=_(u"Date of Birth")), 
               edit_widget=DateWidget, 
               add_widget=DateWidget),
         dict( name="birth_country", 

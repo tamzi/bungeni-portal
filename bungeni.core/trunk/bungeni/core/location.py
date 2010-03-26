@@ -8,18 +8,20 @@ from bungeni.core.interfaces import IQueryContent
 
 from ore.alchemist.container import stringKey
 
+
 def location_wrapped(context, location):
     """Provides location information to ``context`` based on the
-    existing ``location`` tree using a location proxy."""
+    existing ``location`` tree using a location proxy.
+    """
+    return component.getMultiAdapter((context, location), ILocation)
 
-    return component.getMultiAdapter(
-        (context, location), ILocation)
 
 @interface.implementer(ILocation)
 @component.adapter(interface.Interface, ILocation)
 def get_location_from_parent(context, location):
     return component.getMultiAdapter(
         (context, location.__parent__), ILocation)
+
 
 class ContainerLocation(object):
     interface.implements(IContainerLocation)
@@ -39,3 +41,4 @@ class ContainerLocation(object):
             if key in container:
                 return LocationProxy(context, container, key)
         raise LocationError(key)
+

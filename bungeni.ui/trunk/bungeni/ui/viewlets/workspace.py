@@ -119,16 +119,19 @@ class MyGroupsViewlet( ViewletBase ):
     name = _("My Groups")
     list_id = "my_groups"    
     render = ViewPageTemplateFile ('templates/workspace_group_viewlet.pt')
-        
+    
     def getData(self):
-        """
-        return the data of the query
+        """Return the data of the query
         """      
         formatter = self.request.locale.dates.getFormatter('date', 'short')
         data_list = []
         results = self.query.all()
-        parliament_id = self._parent.context.parliament_id
-        government_id = self._parent.government_id
+        
+        assert self._parent==self.__parent__, "TEMPORARY check, "\
+            "after change of all self._parent calls to self.__parent__"
+        
+        parliament_id = self.__parent__.context.parliament_id
+        government_id = self.__parent__.government_id
         for result in results:
             data = {}
             data['qid']= ( 'g_' + str(result.group_id) )              
@@ -164,9 +167,9 @@ class MyGroupsViewlet( ViewletBase ):
         """refresh the query
         """
         session = Session()
-        #user_id = self._parent.user_id    
-        #parliament_id = self._parent.context.parliament_id
-        group_ids = self._parent.user_group_ids
+        #user_id = self.__parent__.user_id    
+        #parliament_id = self.__parent__.context.parliament_id
+        group_ids = self.__parent__.user_group_ids
         gfilter = sql.and_(domain.Group.group_id.in_(group_ids),
                             domain.Group.status == 'active')
         groups = session.query(domain.Group).filter(gfilter)
@@ -500,7 +503,7 @@ class ItemInStageViewlet( ViewletBase ):
         """
         session = Session()
         try:
-            user_id = self._parent.user_id    
+            user_id = self.__parent__.user_id    
         except:
             user_id = None     
         qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
@@ -863,7 +866,7 @@ class MinistryItemsViewlet(ViewletBase):
         """
         session = Session()   
         try:
-            ministry_ids = self._parent.ministry_ids
+            ministry_ids = self.__parent__.ministry_ids
         except:
             ministry_ids = []                        
         qfilter = domain.Ministry.group_id.in_(ministry_ids)        

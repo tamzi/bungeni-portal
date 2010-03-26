@@ -18,9 +18,11 @@ from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
 from ore.alchemist import Session
 import sqlalchemy as rdb
+from sqlalchemy import sql
 from sqlalchemy.orm import eagerload, lazyload
 import domain, schema
 
+# !+ move "contextual" utils to ui.utils.contextual
 
 def get_principal():
     """ () -> either(IPrincipal, None)
@@ -52,35 +54,71 @@ def get_db_user(context=None):
     if len(results)==1:
         return results[0]
 
-def get_db_user_id():
+def get_db_user_id(context=None):
     """ get the (numerical) user_id for the currently logged in user
     """
-    db_user = get_db_user()
+    db_user = get_db_user(context)
     if db_user is not None:
         return db_user.user_id
 
+# contextual
+def get_current_parliament(context):
+    from bungeni.core import globalsettings
+    return globalsettings.get_current_parliament()
+
+def container_getter(getter, name, query_modifier=None):
+    def func(context):
+        obj = getter(context)
+        try: 
+            c = getattr(obj, name)
+        except AttributeError:
+            # the container we need is not there, data may be missing in the db
+            from zope.publisher.interfaces import NotFound
+            raise NotFound(context, name)
+        c.setQueryModifier(sql.and_(c.getQueryModifier(), query_modifier))
+        return c
+    func.__name__ = "get_%s_container" % name
+    return func
+
 def get_container_by_role(context):
+    """Determine container based on the contextual principal's roles
+    
+    parliament-level access:
+        "bungeni.Clerk", "bungeni.Speaker"
+    ministry(ies)-level access:
+        "bungeni.Minister"
+    owner-level (user) access:
+        "zope.Manager", "bungeni.Admin", "bungeni.MP", "bungeni.Owner", 
+        "bungeni.Everybody", "bungeni.Anybody"
+    
+    """
+    access_level = {'owner':True, 'ministry':False, 'parliament':False}
     roles = get_roles(context)
-    # all other roles:
-    #   "zope.Manager", "bungeni.Admin", "bungeni.MP", "bungeni.Owner", 
-    #   "bungeni.Minister", "bungeni.Everybody", "bungeni.Anybody"
-    # get the limited (user only) view, so may be ignored
-    vis_level = 0
     for role_id in roles:
         if role_id in ("bungeni.Clerk", "bungeni.Speaker"):
-            vis_level += 1
-    if vis_level>0:
-        from bungeni.models.queries import get_current_parliament
+            access_level['parliament'] = True
+        if role_id in ("bungeni.Minister",):
+            access_level['ministry'] = True
+    # get highest-privileged container
+    from zope.security.proxy import removeSecurityProxy
+    if access_level['parliament']:
         return get_current_parliament(context)
+    elif access_level['ministry']:
+        # bungeni.Minister -> build list of user's ministries
+        # multi-ministry container
+        return removeSecurityProxy(get_current_parliament(context)) # !+
     else:
-        return get_db_user(context)
+        return removeSecurityProxy(get_db_user(context)) # !+
 
 def get_roles(context):
-    #return [role_id for role_id, role in \
-    #        component.getUtilitiesFor(IRole, context)]
-    # eeks we have to loop through all groups of the
-    # principal and all PrincipalRoleMaps to get all roles
-    #
+    """Get contextual principal's roles
+    
+    return [ role_id for role_id, role 
+             in component.getUtilitiesFor(IRole, context) ]
+    eeks we have to loop through all groups of the principal and all 
+    PrincipalRoleMaps to get all roles
+    
+    """
     prms = []
     def _build_principal_role_maps(ctx):
         if ctx is not None:
@@ -92,10 +130,10 @@ def get_roles(context):
     #
     def add_roles(principal, prms, roles):
         for prm in prms:
-            l_roles = prm.getRolesForPrincipal(principal)
+            l_roles = prm.getRolesForPrincipal(principal) # -> generator
             for role in l_roles:
                 if role[1] == Allow:
-                    if not(role[0] in roles):
+                    if not role[0] in roles:
                         roles.append(role[0])
                 elif role[1] == Deny:
                     if role[0] in roles:
@@ -103,14 +141,24 @@ def get_roles(context):
         return roles
     principal = get_principal()
     pg = principal.groups.keys()
+    # ensure that the actual principal.id is included
+    if not principal.id in pg:
+        pg.append(principal.id)
     roles = []
-    for pn in pg:
-        roles = add_roles(pn, prms, roles)
-    pn = principal.id
-    roles = add_roles(pn, prms, roles)
+    for principal_id in pg:
+        roles = add_roles(principal_id, prms, roles)
     return roles
 
-
+def get_current_parliament_governments(parliament=None):
+    if parliament is None: 
+        parliament = get_current_parliament()
+    import sqlalchemy.sql.expression as sql
+    session = Session()
+    governments = session.query(domain.Government).filter(
+            sql.and_(domain.Government.parent_group_id==parliament.group_id,
+                     domain.Government.status=='active')).all()
+    return governments
+    
 def get_all_group_ids_in_parliament(parliament_id):
     """ get all groups (group_ids) in a parliament
     including the sub (e.g. ministries) groups """

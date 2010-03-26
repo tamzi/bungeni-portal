@@ -12,14 +12,13 @@ from zope.publisher.browser import BrowserView
 from ploned.ui.interfaces import IViewView
 
 from ore.alchemist import Session
-import sqlalchemy.sql.expression as sql
 
-from bungeni.models import domain
 from bungeni.models.utils import get_db_user_id
 from bungeni.models.utils import get_roles
 from bungeni.models.utils import get_group_ids_for_user_in_parliament 
 from bungeni.models.utils import get_ministry_ids_for_user_in_government
-from bungeni.core.globalsettings import get_current_parliament
+from bungeni.models.utils import get_current_parliament
+from bungeni.models.utils import get_current_parliament_governments
 
 from bungeni.ui import interfaces
 
@@ -75,7 +74,7 @@ class WorkspaceView(BungeniBrowserView):
     
     def __init__(self, context, request):
         super(WorkspaceView, self).__init__(context, request)
-        parliament = get_current_parliament()
+        parliament = get_current_parliament(context)
         if parliament:
             self.context = parliament
             self.context.__parent__ = context
@@ -88,7 +87,9 @@ class WorkspaceView(BungeniBrowserView):
                     get_current_parliament_governments(parliament)[0].group_id
                 self.ministry_ids = get_ministry_ids_for_user_in_government(
                     self.user_id, self.government_id)
-            except:
+            except (Exception,):
+                # !+ log.debug(e)
+                import sys; print "WorkspaceView: %s" % sys.exc_info()[1]
                 pass
             if self.ministry_ids:
                     interface.alsoProvides(self, interfaces.IMinisterWorkspace)

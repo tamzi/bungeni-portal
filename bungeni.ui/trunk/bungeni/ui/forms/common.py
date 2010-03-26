@@ -521,7 +521,10 @@ class TranslateForm(AddForm):
                 field.for_display = True
                 field.custom_widget = md.get(field.__name__).view_widget
                 
-        
+    def validate(self, action, data):   
+        return (
+            form.getWidgetsData(self.widgets, self.prefix, data) 
+            )        
         
     @property
     def form_name(self):

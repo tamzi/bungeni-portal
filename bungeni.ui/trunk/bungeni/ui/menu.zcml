@@ -79,7 +79,7 @@
      />
      
   <adapter
-    for="bungeni.core.interfaces.IVersionable *"
+    for="bungeni.models.interfaces.ITranslatable *"
     name="plone.contentmenu.translation"
     factory=".menu.TranslationSubMenuItem"
     permission="bungeni.translation.Add"    

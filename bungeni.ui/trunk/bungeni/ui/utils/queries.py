@@ -19,13 +19,15 @@ from ore.alchemist import Session
 from ore.alchemist.container import valueKey
 from ore.alchemist.container import stringKey
 
-import bungeni.models.domain as domain
-from bungeni.ui.i18n import _
-import bungeni.models.schema as db_schema
+from bungeni.models import domain
+from bungeni.models import schema
+from sqlalchemy import desc
 from sqlalchemy import sql
+from bungeni.ui.i18n import _
 
 
 # !+ COMBINE ui.utils.{queries, statements} WITH models.{queries, utils}
+# !+ MOVE some models.utils to core.globals
 
 
 def execute_sql(sql_statement, **kwargs):
@@ -118,6 +120,45 @@ def validate_open_membership(obj, domain_model, user_id, group_id=None):
                 yield result
 
 
+def get_parliament_by_date_range(context, start_date, end_date):
+    session = Session()
+    parliament = session.query(domain.Parliament).filter(
+        (domain.Parliament.start_date < start_date) & \
+        ((domain.Parliament.end_date == None) | \
+         (domain.Parliament.end_date > end_date))).\
+        order_by(desc(domain.Parliament.election_date)).first()
+    #session.close()            
+    return parliament         
+
+def get_session_by_date_range(context, start_date, end_date):
+    session = Session()
+    ps = session.query(domain.ParliamentSession).filter(
+        (domain.ParliamentSession.start_date < start_date) & \
+        ((domain.ParliamentSession.end_date == None) | \
+         (domain.ParliamentSession.end_date > end_date))).first()
+    #session.close()            
+    return ps 
+
+
+def get_sittings_between(sittings, start, end):
+    modifier = sittings.getQueryModifier()
+    sittings.setQueryModifier(
+        sql.and_(
+            modifier,
+            sql.or_( 
+                sql.between(schema.sittings.c.start_date, start, end), 
+                sql.between(schema.sittings.c.end_date, start, end),
+                sql.between(start, schema.sittings.c.start_date, 
+                            schema.sittings.c.end_date),
+                sql.between(end, schema.sittings.c.start_date, 
+                            schema.sittings.c.end_date)
+                ),
+            ))
+
+    query = sittings._query
+    sittings.setQueryModifier(modifier)
+    return query
+
 
 
 ''' UNUSED
@@ -125,7 +166,7 @@ def validate_open_membership(obj, domain_model, user_id, group_id=None):
 # !+ mv to models.utils
 def get_user_id(name):
     session = Session()
-    userq = session.query(domain.User).filter(db_schema.users.c.login == name )
+    userq = session.query(domain.User).filter(schema.users.c.login == name )
     results = userq.all()
     if results:
         user_id = results[0].user_id

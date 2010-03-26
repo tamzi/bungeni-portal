@@ -39,16 +39,13 @@ from zope.app.form.browser import MultiCheckBoxWidget as _MultiCheckBoxWidget
 from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
-import bungeni.ui.utils as ui_utils
-from bungeni.ui.utils.url import absoluteURL
+from bungeni.ui.utils import misc, url as ui_url, queries
 from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
 #from bungeni.core.schedule import PlenarySchedulingContext
 from bungeni.core.odf import OpenDocument
-from bungeni.models.queries import get_parliament_by_date_range
-from bungeni.models.queries import get_session_by_date_range
 from bungeni.models import vocabulary
 from bungeni.models import domain
 from bungeni.models.utils import get_principal_id
@@ -115,8 +112,8 @@ def get_sitting_items(sitting, request, include_actions=False):
             #'category_id': scheduling.category_id,
             #'category': scheduling.category,
             'discussion': discussion,
-            'delete_url': "%s/delete" % absoluteURL(scheduling, request),
-            'url': absoluteURL(item, request)}
+            'delete_url': "%s/delete" % ui_url.absoluteURL(scheduling, request),
+            'url': ui_url.absoluteURL(item, request)}
         
         if include_actions:
             record['actions'] = get_scheduling_actions(scheduling, request)
@@ -164,14 +161,14 @@ def create_sittings_map(sittings, request):
             sitting.end_date.hour,
             sitting.end_date.minute)
         
-        status = ui_utils.misc.get_wf_state(sitting)
+        status = misc.get_wf_state(sitting)
                
         proxied = ProxyFactory(sitting)
         
         if checkPermission(u"bungeni.agendaitem.Schedule", proxied):
-            link = "%s/schedule" % absoluteURL(sitting, request)
+            link = "%s/schedule" % ui_url.absoluteURL(sitting, request)
         else:
-            link = absoluteURL(sitting, request)
+            link = ui_url.absoluteURL(sitting, request)
         
         if checkPermission("zope.View", proxied):                          
             mapping[day, hour] = {
@@ -241,7 +238,7 @@ class DailyCalendarView(CalendarView):
         if template is None:
             template = self.template
 
-        calendar_url = absoluteURL(self.context.__parent__, self.request)
+        calendar_url = ui_url.absoluteURL(self.context.__parent__, self.request)
         date = removeSecurityProxy(self.context.date)
 
         sittings = self.context.get_sittings()
@@ -298,7 +295,7 @@ class GroupSittingScheduleView(BrowserView):
                     "Timestamp must be floating-point (got %s)" % timestamp)
             date = utils.datetimedict.fromtimestamp(timestamp)
 
-        if ui_utils.misc.is_ajax_request(self.request):
+        if misc.is_ajax_request(self.request):
             rendered = self.render(date, template=self.ajax)
         rendered = self.render(date)
         session.close()
@@ -323,7 +320,7 @@ class GroupSittingScheduleView(BrowserView):
 
         container = self.context.__parent__
         #schedule_url = self.request.getURL()
-        container_url = absoluteURL(container, self.request)
+        container_url = ui_url.absoluteURL(container, self.request)
         
         # determine position in container
         key = stringKey(self.context)
@@ -344,7 +341,7 @@ class GroupSittingScheduleView(BrowserView):
         #session = Session()
         sitting_type_dc = IDCDescriptiveProperties(self.context.sitting_type)
 
-        site_url = absoluteURL(getSite(), self.request)
+        site_url = ui_url.absoluteURL(getSite(), self.request)
 
         return template(
             display="sitting",
@@ -670,8 +667,8 @@ class ReportingView(form.PageForm):
             start_date = self.date
         end_date = self.get_end_date(start_date, time_span)
 
-        parliament = get_parliament_by_date_range(self, start_date, end_date)
-        session = get_session_by_date_range(self, start_date, end_date)
+        parliament = queries.get_parliament_by_date_range(self, start_date, end_date)
+        session = queries.get_session_by_date_range(self, start_date, end_date)
 
         if parliament is None:
             errors.append(interface.Invalid(
@@ -838,18 +835,18 @@ class ReportingView(form.PageForm):
                         sitting_items.append(sitting)
             self.sitting_items = sitting_items
         if self.display_minutes:
-            self.link = absoluteURL(self.context, self.request)+'/votes-and-proceedings'
+            self.link = ui_url.absoluteURL(self.context, self.request)+'/votes-and-proceedings'
         else :
-            self.link = absoluteURL(self.context, self.request)+'/agenda'
+            self.link = ui_url.absoluteURL(self.context, self.request)+'/agenda'
         try:              
             self.group = self.context.get_group()
         except:
             session = Session()
             self.group = session.query(domain.Group).get(self.context.group_id)
         if IGroupSitting.providedBy(self.context):        
-            self.back_link = absoluteURL(self.context, self.request)  + '/schedule'
+            self.back_link = ui_url.absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
-            self.back_link = absoluteURL(self.context, self.request)  
+            self.back_link = ui_url.absoluteURL(self.context, self.request)  
             
     
         
@@ -857,7 +854,7 @@ class ReportingView(form.PageForm):
     def handle_preview(self, action, data):                
         self.process_form(data)
         #import pdb; pdb.set_trace()
-        self.save_link = absoluteURL(self.context, self.request)+"/save_report"
+        self.save_link = ui_url.absoluteURL(self.context, self.request)+"/save_report"
         self.body_text = self.result_template()
         #import pdb; pdb.set_trace()
         return self.main_result_template()
@@ -908,7 +905,7 @@ class AgendaReportingView(ReportingView):
                 else:
                     item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
                     item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
-                    #s = get_session_by_date_range(self, item.start_date, item.end_date)  
+                    #s = queries.get_session_by_date_range(self, item.start_date, item.end_date)  
                 
             return items
             
@@ -1073,9 +1070,9 @@ class StoreReportView(BrowserView):
         rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
         
         if IGroupSitting.providedBy(self.context):        
-            back_link = absoluteURL(self.context, self.request)  + '/schedule'
+            back_link = ui_url.absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
-            back_link = absoluteURL(self.context, self.request)  
+            back_link = ui_url.absoluteURL(self.context, self.request)  
         else:   
             raise NotImplementedError                                                                     
         self.request.response.redirect(back_link)

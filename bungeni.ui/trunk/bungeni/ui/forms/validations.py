@@ -18,8 +18,7 @@ from bungeni.models import interfaces
 from bungeni.models import schema
 from bungeni.models import venue
 from bungeni.models import domain
-from bungeni.models import queries
-from bungeni.ui.utils import queries as ui_queries, date as ui_date
+from bungeni.ui.utils import queries, date as ui_date
 from bungeni.ui.calendar.utils import generate_dates
 from bungeni.ui.calendar.utils import datetimedict
 
@@ -119,7 +118,7 @@ def validate_party_membership(action, data, context, container):
         user_id = data['user_id']
     session = Session()                
     if data['start_date']:
-        for r in ui_queries.validate_membership_in_interval(party_member, 
+        for r in queries.validate_membership_in_interval(party_member, 
                     AllPartyMemberships, 
                     data['start_date'],
                     user_id):  
@@ -128,7 +127,7 @@ def validate_party_membership(action, data, context, container):
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "start_date" ))                    
     if data['end_date']:    
-        for r in ui_queries.validate_membership_in_interval(party_member, 
+        for r in queries.validate_membership_in_interval(party_member, 
                     AllPartyMemberships, 
                     data['end_date'],
                     user_id):    
@@ -136,7 +135,7 @@ def validate_party_membership(action, data, context, container):
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "end_date" ))                                
-    for r in ui_queries.validate_open_membership(party_member, AllPartyMemberships, user_id):
+    for r in queries.validate_open_membership(party_member, AllPartyMemberships, user_id):
         overlaps = r.short_name      
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
@@ -151,7 +150,7 @@ def validate_parliament_dates(action, data, context, container):
         parliament = context
     else:
         parliament = None
-    results = ui_queries.validate_date_in_interval(parliament, 
+    results = queries.validate_date_in_interval(parliament, 
                 domain.Parliament, 
                 data['start_date'])
     for result in results:
@@ -159,7 +158,7 @@ def validate_parliament_dates(action, data, context, container):
         errors.append(interface.Invalid(
             _("The start date overlaps with (%s)") % overlaps, "start_date"))
     if data['end_date']:
-        results = ui_queries.validate_date_in_interval(parliament, 
+        results = queries.validate_date_in_interval(parliament, 
                     domain.Parliament, 
                     data['start_date'])           
         for result in results:
@@ -167,7 +166,7 @@ def validate_parliament_dates(action, data, context, container):
             errors.append(interface.Invalid(
                 _("The end date overlaps with (%s)") % overlaps, "end_date"))
             
-    results = ui_queries.validate_date_in_interval(parliament, domain.Parliament, data['election_date'])
+    results = queries.validate_date_in_interval(parliament, domain.Parliament, data['election_date'])
     for result in results:
         overlaps = result.short_name
         errors.append(interface.Invalid(
@@ -177,7 +176,7 @@ def validate_parliament_dates(action, data, context, container):
             )
 
     if parliament is None:
-        results = ui_queries.validate_open_interval(parliament, domain.Parliament)
+        results = queries.validate_open_interval(parliament, domain.Parliament)
         for result in results:
             overlaps = result.short_name
             errors.append(interface.Invalid(
@@ -204,7 +203,7 @@ def validate_government_dates(action, data, context, container):
             _("Start date must start after the swearing in of the parliament (%s)") 
             % container.__parent__.start_date , 
             "start_date") )   
-    results = ui_queries.validate_date_in_interval(government, 
+    results = queries.validate_date_in_interval(government, 
                     domain.Government, 
                     data['start_date'])
     for result in results:
@@ -213,7 +212,7 @@ def validate_government_dates(action, data, context, container):
             _("The start date overlaps with (%s)") % overlaps, 
             "start_date"))
     if data['end_date']:
-        results = ui_queries.validate_date_in_interval(government, 
+        results = queries.validate_date_in_interval(government, 
                     domain.Government, 
                     data['start_date'])            
         for result in results:
@@ -223,7 +222,7 @@ def validate_government_dates(action, data, context, container):
                 "end_date"))
 
     if government is None:
-        results = ui_queries.validate_open_interval(government, domain.Government)
+        results = queries.validate_open_interval(government, domain.Government)
         for result in results:
             overlaps = result.short_name
             errors.append(interface.Invalid(
@@ -243,7 +242,7 @@ def validate_group_membership_dates(action, data, context, container):
     user_id = data['user_id']           
     session = Session()
     if data['start_date']:
-        for r in ui_queries.validate_membership_in_interval(group_membership, 
+        for r in queries.validate_membership_in_interval(group_membership, 
                     domain.GroupMembership, 
                     data['start_date'],
                     user_id, group_id):  
@@ -252,7 +251,7 @@ def validate_group_membership_dates(action, data, context, container):
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "start_date", "user_id" ))                    
     if data['end_date']:    
-        for r in ui_queries.validate_membership_in_interval(group_membership, 
+        for r in queries.validate_membership_in_interval(group_membership, 
                     domain.GroupMembership, 
                     data['end_date'],
                     user_id, group_id):    
@@ -260,7 +259,7 @@ def validate_group_membership_dates(action, data, context, container):
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "end_date", "user_id" ))                                
-    for r in ui_queries.validate_open_membership(group_membership, 
+    for r in queries.validate_open_membership(group_membership, 
                 domain.GroupMembership, 
                 user_id, group_id):
         overlaps = r.group.short_name      

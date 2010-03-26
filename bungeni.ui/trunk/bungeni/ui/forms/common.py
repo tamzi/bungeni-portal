@@ -225,7 +225,7 @@ class AddForm(BaseForm, ui.AddForm):
     
     def validate(self, action, data):    
         errors = super(AddForm, self).validate(action, data)
-        errors = errors.append(self.validateUnique(action, data))
+        errors += self.validateUnique(action, data)
         descriptor = queryModelDescriptor(self.domain_model)
         for validator in getattr(descriptor, "custom_validators", ()):
             errors += validator(action, data, None, self.context)

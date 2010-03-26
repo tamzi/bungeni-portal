@@ -46,7 +46,7 @@ from bungeni.core.location import location_wrapped
 from bungeni.core.interfaces import ISchedulingContext
 #from bungeni.core.schedule import PlenarySchedulingContext
 from bungeni.core.odf import OpenDocument
-from bungeni.models import vocabulary
+from bungeni.ui import vocabulary
 from bungeni.models import domain
 from bungeni.models.utils import get_principal_id
 from bungeni.models.interfaces import IGroupSitting

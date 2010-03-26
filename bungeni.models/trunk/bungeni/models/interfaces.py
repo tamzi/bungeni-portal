@@ -361,4 +361,7 @@ class IProvince(interface.Interface):
 class IRegion(interface.Interface):
     pass    
 
+class ITranslatable(interface.Interface):
+    """ Marker Interface if an object is translatable """
+    
                 

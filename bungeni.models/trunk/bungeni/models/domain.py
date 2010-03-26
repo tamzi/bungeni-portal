@@ -68,7 +68,7 @@ class User(Entity):
     General representation of a person
     """
     
-    interface.implements( interfaces.IBungeniUser  )
+    interface.implements( interfaces.IBungeniUser, interfaces.ITranslatable )
     
     def __init__( self,  login=None, **kw ):
         if login:
@@ -130,7 +130,7 @@ class UserDelegation(Entity):
 class Group( Entity ):
     """ an abstract collection of users
     """
-    interface.implements( interfaces.IBungeniGroup )
+    interface.implements( interfaces.IBungeniGroup, interfaces.ITranslatable )
 
     #users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
@@ -154,7 +154,7 @@ class GroupMembership( Entity ):
     """ a user's membership in a group- abstract
     basis for ministers, committeemembers, etc
     """
-    interface.implements( interfaces.IBungeniGroupMembership )
+    interface.implements( interfaces.IBungeniGroupMembership, interfaces.ITranslatable )
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name']}  
     
@@ -214,6 +214,7 @@ class AttendanceType( object ):
     """
     lookup for attendance type
     """    
+    interface.implements( interfaces.ITranslatable )    
     
 class GroupItemAssignment( object ):
     """ the assignment of a parliamentary content object to a group
@@ -221,7 +222,8 @@ class GroupItemAssignment( object ):
 
 class GroupGroupItemAssignment( GroupItemAssignment):
     """ assign a group to an item """
-
+    interface.implements( interfaces.ITranslatable )    
+    
 class ItemGroupItemAssignment( GroupItemAssignment ):
     """ assign an item to a group """
 
@@ -363,7 +365,8 @@ class AddressType( object ):
     """
     Address Types
     """
-
+    interface.implements( interfaces.ITranslatable )    
+    
 class UserAddress( Entity ):    
     """
     addresses of a user
@@ -401,7 +404,7 @@ class ItemVotes( object ):
 class ParliamentaryItem( Entity ):
     """
     """
-    interface.implements( interfaces.IBungeniContent, )
+    interface.implements( interfaces.IBungeniContent, interfaces.ITranslatable )
     #     interfaces.IHeadFileAttachments )
     sort_replace = {'owner_id': ['last_name', 'first_name']}  
     files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "item_id")        
@@ -432,7 +435,8 @@ class ListHeading(object):
 class Heading( ParliamentaryItem ):  
     """ A heading in a report """
     listings_class = ListHeading    
-          
+    interface.implements( interfaces.ITranslatable )    
+              
 class ListAgendaItem(object):
     pass
     
@@ -579,7 +583,8 @@ class Constituency( Entity ):
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "constituency_id")      
     listings_class = ListConstituency
-    
+    interface.implements( interfaces.ITranslatable )    
+        
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
 
@@ -588,13 +593,15 @@ class Region( Entity ):
     Region of the constituency
     """
     constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "region_id" ) 
-    
+    interface.implements( interfaces.ITranslatable )    
+        
 class Province( Entity ):
     """
     Province of the Constituency
     """
     constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "province_id" )
-    
+    interface.implements( interfaces.ITranslatable )    
+        
 class Country( object ):
     """
     Country of Birth
@@ -613,7 +620,7 @@ class ConstituencyDetail( object ):
     
 class MemberTitle( object ):
     """ Titles for members in groups"""
-    pass
+    interface.implements( interfaces.ITranslatable )
 
     
 class MemberRoleTitle( Entity ):
@@ -656,7 +663,8 @@ class ItemSchedule(Entity):
 
 class ScheduledItemDiscussion(Entity):
     """A discussion on a scheduled item."""
-
+    interface.implements( interfaces.ITranslatable )    
+    
 class ListTabledDocument(object):
     pass
 
@@ -746,12 +754,13 @@ class Venue( object ):
             
 class Report( object ):
     """ agendas and minutes """            
-
+    interface.implements( interfaces.ITranslatable )    
+    
 class SittingReport(Report):
     """ which reports are created for this sitting"""
 
 class Report4Sitting(Report):
-    """ display reports for s sitting"""
+    """ display reports for a sitting"""
 
 class ObjectTranslation(object):
     """ get the translations for an Object"""

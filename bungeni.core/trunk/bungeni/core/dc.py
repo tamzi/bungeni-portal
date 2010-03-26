@@ -10,7 +10,6 @@ from ore.alchemist.model import queryModelDescriptor
 
 from bungeni.models import interfaces
 from bungeni.models import domain
-from bungeni.models import vocabulary
 from bungeni.core.translation import is_translation
 from bungeni.core.translation import get_language_by_name
 from bungeni.core.i18n import _
@@ -335,10 +334,9 @@ class SittingTypeDescriptiveProperties(DescriptiveProperties):
 
     @property
     def title(self):
-        term = vocabulary.SittingTypes(self.context).getTermByToken(
-            self.context.sitting_type)
+        return self.context.sitting_type
 
-        return _(term.title.split('(')[0].strip())
+        
     @property
     def description(self):            
         return u""

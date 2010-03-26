@@ -77,4 +77,4 @@ class QueryContent(object):
         self.query = query
         self.title = title
         self.description = description
-
+     

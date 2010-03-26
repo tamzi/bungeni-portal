@@ -30,8 +30,8 @@ from bungeni.core import location
 from bungeni.core.content import Section
 from bungeni.core.content import QueryContent
 from bungeni.core.i18n import _
-from bungeni.models.queries import get_current_parliament
-from bungeni.models.queries import container_getter
+from bungeni.models.utils import get_current_parliament
+from bungeni.models.utils import container_getter
 from bungeni.models.utils import get_container_by_role
 
 from sqlalchemy import sql
@@ -69,6 +69,7 @@ class AppSetup(object):
         # EXCEPTION: the "/" when logged in "/" is redirected to "/workspace/"
         
         # top-level sections
+
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
             description=_(u"Current parliamentary activity"))

@@ -23,30 +23,35 @@ from bungeni.models.settings import GlobalSettingFactory
 
 app = BungeniApp()                
 
+# !+ rename to globals.py
+# !+ move the "global common" utils in models.utils to here
+# !+ switch to bungeni naming standard (underscore-spearated words)
 
-def getCurrentParliamentId(date = None):
-    """
-    returns the current parliament_id for a given date
-    or for the current if the date is not given
+
+def get_current_parliament(date=None):
+    """Return the parliament for a given date (or the current for no date)
     """
     def getFilter(date):
         return sql.or_(
             sql.between(date, schema.groups.c.start_date, schema.groups.c.end_date),
-            sql.and_( schema.groups.c.start_date <= date, schema.groups.c.end_date == None)
+            sql.and_(schema.groups.c.start_date<=date, schema.groups.c.end_date==None)
             )
-    
     if not date:
         date = datetime.date.today()
-    session = Session() 
+    session = Session()
     query = session.query(domain.Parliament).filter(getFilter(date))   
-    result = None
     try:
-        result = query.one()
+        return query.one()
     except:
-        pass #XXX raise( _(u"inconsistent data: none or more than one parliament found for this date"))       
-    if result:        
-        return result.parliament_id
-        
+        pass #XXX raise(_(u"inconsistent data: none or more than one parliament found for this date"))
+
+def getCurrentParliamentId(date=None):
+    """Return the parliament_id for a given date (or the current for no date)
+    """
+    try:
+        return get_current_parliament(date).parliament_id
+    except:
+        pass
 
     
 def getSpeakersOfficeEmail():

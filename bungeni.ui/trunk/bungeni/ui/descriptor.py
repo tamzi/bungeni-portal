@@ -839,10 +839,6 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='default_chairperson', 
             label=_(u"Default chairperson"),
             omit=True),
-        dict( name='dissolution_date', 
-            property=schema.Date(title=_(u"Dissolution date"), required=False),
-            edit_widget=DateWidget, 
-            add_widget=DateWidget ),
         dict( name='reinstatement_date', 
             property=schema.Date(title=_(u"Reinstatement Date"), required=False),
             edit_widget=DateWidget, 
@@ -1319,14 +1315,14 @@ class AttachedFileDescriptor(ModelDescriptor):
             edit=True, 
             omit=False),
         dict( name="file_description",
-              property = schema.Text( title=_(u"Description")),
+              property = schema.Text( title=_(u"Description"), required=False),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
               ),                  
         dict(name="file_data", 
-            property=schema.TextLine(title=_(u"File"),required=True),
+            property=schema.Bytes(title=_(u"File"),required=True),
             description=_(u"Upload a file"),        
             edit_widget=FileEditWidget,
             add_widget=FileAddWidget,
@@ -1677,7 +1673,8 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
     for field in fields:
         if field['name'] == 'body_text':
             field['label'] = _(u"Statement of Purpose")
-            field['property'] = schema.Text(title=_(u"Statement of Purpose"))
+            field['property'] = schema.Text(title=_(u"Statement of Purpose"),
+                required=False)
                  
     fields.extend([
         dict( name="bill_id", omit=True ),
@@ -1854,8 +1851,15 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
             add=True, 
             edit=True, 
             omit=True),
-        dict( name="owner_id",               
-             omit=True),            
+        dict( name="owner_id", 
+              property = schema.Choice(
+                title=_(u"Entered by"),
+                source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
+                ),
+              listing_column=member_fk_column("owner_id", 
+                    _(u'Name')),              
+              listing = False 
+            ),                
         dict(name="language", 
              label=_(u"Language"), 
              listing=False, 
@@ -1870,7 +1874,7 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
                  ),
              ),
         dict( name="body_text", label=_(u"Text"),
-              property = schema.Text( title=_(u"Text") ),
+              property = schema.Text( title=_(u"Text"), required=False ),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor,
@@ -1910,7 +1914,7 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
         dict( name="event_item_id", omit=True ),
         dict( name="item_id", omit=True ),
         dict( name="event_date", 
-            property=schema.TextLine(title=_(u"Date"), required=True), 
+            property=schema.Date(title=_(u"Date"), required=True), 
             listing_column=day_column("event_date", _(u"Date")), 
             listing=True, 
             edit_widget=DateWidget, 
@@ -1955,37 +1959,7 @@ class TabledDocumentChangeDescriptor( ChangeDescriptor ):
     fields = deepcopy(ChangeDescriptor.fields)
     
 
-class MotionAmendmentDescriptor( ModelDescriptor ):
-    display_name = _(u"Motion amendment")
-    container_name = _(u"Motion amendments")
-    
-    fields = [
-        dict( name="amendment_id", omit=True ),
-        dict( name="motion_id", omit=True ),
-        dict( name="amended_id", omit=True ),
-        dict( name="title", 
-                label=_(u"Subject"), 
-                listing=True,
-                edit_widget = widgets.LongTextWidget),
-        dict( name="body_text", 
-                label=_(u"Motion Amendment Text"),
-                property = schema.Text( title=_(u"Motion Amendment") ),
-                view_widget=HTMLDisplay,
-                edit_widget=RichTextEditor, 
-                add_widget=RichTextEditor,
-              differ=diff.HTMLDiff,
-              ),
-        dict( name="submission_date", 
-                label=_(u"Submission Date"),  
-                edit_widget=DateWidget, 
-                add_widget=DateWidget),
-        dict( name="vote_date", 
-                label=_(u"Vote Date"),  
-                edit_widget=DateWidget, 
-                add_widget=DateWidget),
-        dict( name="accepted_p",  label=_(u"Accepted")),           
-        ]
-        
+
 class SittingDescriptor( ModelDescriptor ):
     display_name = _(u"Sitting")
     container_name = _(u"Sittings")

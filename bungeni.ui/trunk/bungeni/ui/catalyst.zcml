@@ -399,14 +399,7 @@
      echo="False"
     />   
 
-    
- <db:catalyst
-     class="bungeni.models.domain.MotionAmendment"
-     descriptor=".descriptor.MotionAmendmentDescriptor"
-     interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"
-     echo="False"
-    />    
+   
 
  <!--db:catalyst
      class="bungeni.models.domain.Debate"

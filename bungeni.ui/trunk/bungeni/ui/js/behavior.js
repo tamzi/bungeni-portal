@@ -21,7 +21,8 @@
       $("#items-for-scheduling-question tbody tr").bungeniDragAndDropScheduling();
       $("#items-for-scheduling-agendaitem tbody tr").bungeniDragAndDropScheduling();
       $("#items-for-scheduling-tableddocument tbody tr").bungeniDragAndDropScheduling();
-                              
+      $("#items-for-scheduling-heading tbody tr").bungeniDragAndDropScheduling();
+                                    
       // set up calendar ajax
       $('#weekly-calendar').bungeniCalendarInteractivity(true);
       $('#daily-calendar').bungeniCalendarInteractivity(false);

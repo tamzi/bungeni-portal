@@ -384,6 +384,16 @@
      />       
 
   <browser:menuItem
+     menu="motion_additems"
+     for="bungeni.models.interfaces.IMotion"
+     title="Add event..."
+     action="./event/add"
+     permission="bungeni.event.Add"     
+     order="10"
+     />       
+               
+
+  <browser:menuItem
      menu="bill_additems"
      for="bungeni.models.interfaces.IBill"
      title="Add file..."
@@ -415,6 +425,16 @@
      permission="bungeni.attachedfile.Add"     
      order="10"
      />        
+
+  <browser:menuItem
+     menu="question_additems"
+     for="bungeni.models.interfaces.IQuestion"
+     title="Add event..."
+     action="./event/add"
+     permission="bungeni.event.Add"     
+     order="10"
+     />       
+
 
   <browser:subMenuItem
      menu="plone_contentmenu"
@@ -449,6 +469,23 @@
      permission="bungeni.attachedfile.Add"     
      order="10"
      />   
+
+  <browser:menuItem
+     menu="tableddocument_additems"
+     for="bungeni.models.interfaces.ITabledDocument"
+     title="Add event..."
+     action="./event/add"
+     permission="bungeni.event.Add"     
+     order="10"
+     />      
+  <browser:menuItem
+     menu="tableddocument_additems"
+     for="bungeni.models.interfaces.ITabledDocument"
+     title="Add cosignatory..."
+     action="./consignatory/add"
+     permission="bungeni.consignatory.Add"     
+     order="10"
+     />     
 
   <browser:subMenuItem
      menu="plone_contentmenu"
@@ -888,6 +925,29 @@
      permission="bungeni.question.Add"
      order="100"
      />
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.MotionContainer"
+     title="Add Motion..."
+     action="./add"
+     permission="bungeni.motion.Add"
+     order="100"
+     />
+     
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.BillContainer"
+     title="Add Bill..."
+     action="./add"
+     permission="bungeni.bill.Add"
+     order="100"
+     />
+
+
+
+
 
   <browser:menuItem
      menu="plone_contentmenu"

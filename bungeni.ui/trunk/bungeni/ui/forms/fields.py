@@ -72,7 +72,8 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
             translation = get_translation_for(self.context, lang)         
         except:
             translation = []
-        if (not translation) and (self.context.language != lang):
+        if (not translation) and (getattr(self.context, 'language', None) and
+                (getattr(self.context, 'language', None) != lang)):
             supported_lang = languages.get(lang)
             if supported_lang:
                 langname = supported_lang.get('native',None)

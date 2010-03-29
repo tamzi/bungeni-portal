@@ -123,11 +123,11 @@
                         </div>
                   
                      </div>
-                     <a rel="category"
+                     <!--a rel="category"
                      style="display: none"
                      tal:condition="item/category"
                      tal:attributes="name item/category_id"
-                     tal:content="item/category/short_name" />
+                     tal:content="item/category/short_name" /-->
                      <p tal:define="id repeat/item/number" tal:attributes="id string:discussion_$id">
                         <span tal:replace="structure body_text" />
                     </p>

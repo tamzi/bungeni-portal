@@ -479,7 +479,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
              #required=True,
              view=False),
         dict( name="substitution_type", 
-                property=schema.Text(title=_(u"Type of Substitution"), required=False),
+                property=schema.TextLine(title=_(u"Type of Substitution"), required=False),
                 add = False ),
         dict( name="replaced_id", 
                 property=schema.Choice( 
@@ -1241,6 +1241,19 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
                 edit_widget=RichTextEditor,
                 add_widget=RichTextEditor,
               differ=diff.HTMLDiff,),
+        dict(name="language", 
+             label=_(u"Language"), 
+             listing=False, 
+             add=True, 
+             edit=True, 
+             omit=False,
+             required=True,
+             property=schema.Choice(
+                 title=_(u"Language"),
+                 default=get_default_language(),
+                 vocabulary="language_vocabulary",
+                 ),
+             ),                    
     ]
 
 
@@ -1261,7 +1274,7 @@ class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
                         _(u'Item')),            
             listing=True,
         ),
-        dict(name="group_id", omit=True),
+        dict(name="group_id", omit=True),                       
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields )) 
     
@@ -1282,7 +1295,7 @@ class GroupGroupItemAssignmentDescriptor( ModelDescriptor ):
                         "group_id", 
                         _(u'Group')),            
             listing=True,                
-        ), 
+        ),           
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields ))      
 

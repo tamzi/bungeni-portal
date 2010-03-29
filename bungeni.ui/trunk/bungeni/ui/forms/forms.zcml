@@ -106,7 +106,6 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      for="bungeni.models.interfaces.IQuestion"
      class=".common.EditForm"
      permission="bungeni.response.Edit"
-     layer="bungeni.ui.interfaces.IArchiveSectionLayer"
      />
 
 

@@ -106,7 +106,9 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             'description': properties.description,
 #            'date': _(u"$F", mapping={"F":
 #                      datetimedict.fromdatetime(item.changes[-1].date)}),
-            'date':item.changes[-1].date,
+            #'date':item.changes[-1].date,
+            # not every item has a auditlog (headings) use last status change instead.
+            'date':item.status_date,
 #
             'state': IWorkflow(item).workflow.states[item.status].title,
             'id': item.parliamentary_item_id,

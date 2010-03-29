@@ -755,18 +755,6 @@ motions = rdb.Table(
 motion_changes = make_changes_table( motions, metadata )
 motion_versions = make_versions_table( motions, metadata, parliamentary_items )
 
-motion_amendments = rdb.Table(
-   "motion_amendments",
-   metadata,
-   rdb.Column( "amendment_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('motions.motion_id')  ),
-   rdb.Column( "amended_id", rdb.Integer,  ),
-   rdb.Column( "body_text", rdb.UnicodeText ),  
-   rdb.Column( "submission_date", rdb.Date ),    
-   rdb.Column( "accepted_p", rdb.Boolean ),
-   rdb.Column( "title", rdb.Unicode(256) ), 
-   rdb.Column( "vote_date", rdb.Date ),   
-   )
 
 
 bill_types = rdb.Table(

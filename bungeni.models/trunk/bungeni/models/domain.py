@@ -460,6 +460,7 @@ class ListQuestion(object):
 class Question( ParliamentaryItem ):
     #supplementaryquestions = one2many("supplementaryquestions", 
     #"bungeni.models.domain.QuestionContainer", "supplement_parent_id")
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )    
     versions = one2many(
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",
@@ -486,7 +487,7 @@ class ListMotion(object):
 
 class Motion( ParliamentaryItem ):  
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
-
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
     versions = one2many(
         "versions",
         "bungeni.models.domain.MotionVersionContainer",
@@ -679,6 +680,8 @@ class TabledDocument(ParliamentaryItem):
 
     It must be possible to schedule a tabled document for a sitting.
     """ 
+    consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")    
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )    
     versions = one2many(
         "versions",
         "bungeni.models.domain.TabledDocumentVersionContainer",

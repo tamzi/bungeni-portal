@@ -585,7 +585,7 @@ item_discussion = rdb.Table(
     rdb.Column( "schedule_id", rdb.Integer, rdb.ForeignKey('items_schedule.schedule_id'), primary_key=True),
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "sitting_time", rdb.Time( timezone=False ) ),
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "language", rdb.String(5), nullable=False, default="en"),    
     )
     
 reports = rdb.Table(

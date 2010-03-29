@@ -417,7 +417,7 @@
             <option tal:repeat="tocItem tocList"
                     tal:attributes="value tocItem/item/getURL;
                                     selected python:tocItem['currentItem'] and 'selected' or nothing">
-                <span tal:replace="python:tocItem['numbering'][:-1]" tal:condition="python:here.getNavType() == 'yes'"/><!--:-->
+                <span tal:replace="python:tocItem['numbering'][:-1]" tal:condition="python:here.getNavType() == 'yes'"/>
                 <span tal:replace="tocItem/item/Title"/>
             </option>
         </select>

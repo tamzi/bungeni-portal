@@ -351,7 +351,7 @@ class GroupSittingAddForm(AddForm):
 
         monthly = schema.Choice(
             title=_(u"Monthly"),
-            description=_(u"Select the mode of montly recurrence"),
+            description=_(u"Select the mode of monthly recurrence"),
             vocabulary="bungeni.vocabulary.monthly_recurrence",
             required=False)
 

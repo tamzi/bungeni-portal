@@ -558,8 +558,6 @@ class HeadingDescriptiveProperties(DescriptiveProperties):
         return context.short_name
 
     @property
-    def description(self):            
-        session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
-        return context.description 
+    def description(self):                 
+        return ""
                             

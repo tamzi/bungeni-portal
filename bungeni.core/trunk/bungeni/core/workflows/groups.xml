@@ -18,7 +18,6 @@
     <deny permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />   
     <grant permission="bungeni.office.ChangeType" role="bungeni.Clerk" /> 
-    
   </state>
 
   <state id="active" title="Active Group">

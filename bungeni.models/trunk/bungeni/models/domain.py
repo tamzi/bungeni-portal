@@ -485,7 +485,6 @@ class ListMotion(object):
 
 
 class Motion( ParliamentaryItem ):  
-    motionamendment = one2many("motionamendment", "bungeni.models.domain.MotionAmendmentContainer", "motion_id")
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
 
     versions = one2many(
@@ -500,13 +499,6 @@ class Motion( ParliamentaryItem ):
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
 
-class MotionAmendment( Entity ):
-    """
-    Amendment to a Motion
-    """
-    @property
-    def short_name( self ):
-        return ( self.title )     
 
 class BillType(object):
     """

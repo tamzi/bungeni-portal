@@ -785,7 +785,6 @@ mapper( domain.Consignatory, schema.consignatories,
                       'user': relation(domain.User, uselist=False)})
 #mapper( domain.Debate, schema.debates )
 
-mapper( domain.MotionAmendment, schema.motion_amendments)
 
 mapper( domain.BillType, schema.bill_types )        
 #mapper( domain.DocumentSource, schema.document_sources )

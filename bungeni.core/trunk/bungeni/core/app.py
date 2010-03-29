@@ -72,7 +72,7 @@ class AppSetup(object):
 
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
-            description=_(u"Current parliamentary activity"))
+            description=_(u"Current parliamentary activity"))        
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament"))

@@ -219,10 +219,11 @@ class AttendanceType( object ):
 class GroupItemAssignment( object ):
     """ the assignment of a parliamentary content object to a group
     """
-
+    interface.implements( interfaces.ITranslatable )    
+    
 class GroupGroupItemAssignment( GroupItemAssignment):
     """ assign a group to an item """
-    interface.implements( interfaces.ITranslatable )    
+
     
 class ItemGroupItemAssignment( GroupItemAssignment ):
     """ assign an item to a group """

@@ -1257,7 +1257,7 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
     ]
 
 
-class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
+class ItemGroupItemAssignmentDescriptor( GroupItemAssignmentDescriptor ):
     display_name =_(u"Assigned bill")
     container_name =_(u"Assigned bills")
     fields= [
@@ -1278,7 +1278,7 @@ class ItemGroupItemAssignmentDescriptor( ModelDescriptor ):
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields )) 
     
-class GroupGroupItemAssignmentDescriptor( ModelDescriptor ):
+class GroupGroupItemAssignmentDescriptor( GroupItemAssignmentDescriptor ):
     display_name =_(u"Assigned group")
     container_name =_(u"Assigned groups")
     fields= [

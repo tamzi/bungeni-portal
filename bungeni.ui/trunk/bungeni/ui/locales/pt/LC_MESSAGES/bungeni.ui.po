@@ -636,15 +636,15 @@ msgid "Date the data was submitted from the Constituency"
 msgstr "data os dados foram apresentados a partir do círculo eleitoral"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:690
-msgid "Date the of the dissolution"
+msgid "Date of the dissolution"
 msgstr "a data da dissolução"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:676
-msgid "Date the of the election"
+msgid "Date of the election"
 msgstr "a data da eleição"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:682
-msgid "Date the of the swearing in"
+msgid "Date of the swearing in"
 msgstr "a data da tomada de posse"
 
 #. Default: ""
@@ -945,8 +945,8 @@ msgid "ISO Code of the  country"
 msgstr "código iso do país"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:1588
-msgid "Identifer"
-msgstr "identifer"
+msgid "Identifier"
+msgstr "identificador"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:1516
 msgid "Identifier"
@@ -1669,8 +1669,8 @@ msgid "Select the days on which the event should occur"
 msgstr "selecione o dia em que o evento deve ocorrer"
 
 #: bungeni.ui/bungeni/ui/forms/forms.py:354
-msgid "Select the mode of montly recurrence"
-msgstr "seleccionar o modo de recorrência montly"
+msgid "Select the mode of monthly recurrence"
+msgstr "seleccionar o modo de recorrência mensal"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:1284
 msgid "Select the user who moved the document"
@@ -2434,13 +2434,3 @@ msgstr "perguntas por escrito"
 #: bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:3
 msgid "you_are_here"
 msgstr "você está aqui:"
-
-msgid "active"
-msgstr "ativo"
-
-msgid "deceased"
-msgstr "falecido"
-
-msgid "inactive"
-msgstr "inativo"
-

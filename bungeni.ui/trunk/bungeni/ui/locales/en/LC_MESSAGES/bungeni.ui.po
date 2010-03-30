@@ -636,16 +636,16 @@ msgid "Date the data was submitted from the Constituency"
 msgstr "date the data was submitted from the constituency"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:690
-msgid "Date the of the dissolution"
-msgstr "date the of the dissolution"
+msgid "Date of the dissolution"
+msgstr "date of the dissolution"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:676
-msgid "Date the of the election"
-msgstr "date the of the election"
+msgid "Date of the election"
+msgstr "date of the election"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:682
-msgid "Date the of the swearing in"
-msgstr "date the of the swearing in"
+msgid "Date of the swearing in"
+msgstr "date of the swearing in"
 
 #. Default: ""
 #: bungeni.ui/bungeni/ui/vocabulary.py:48
@@ -945,8 +945,8 @@ msgid "ISO Code of the  country"
 msgstr "iso code of the  country"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:1588
-msgid "Identifer"
-msgstr "identifer"
+msgid "identifier"
+msgstr "identifier"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:1516
 msgid "Identifier"
@@ -1669,8 +1669,8 @@ msgid "Select the days on which the event should occur"
 msgstr "select the days on which the event should occur"
 
 #: bungeni.ui/bungeni/ui/forms/forms.py:354
-msgid "Select the mode of montly recurrence"
-msgstr "select the mode of montly recurrence"
+msgid "Select the mode of monthly recurrence"
+msgstr "select the mode of monthly recurrence"
 
 #: bungeni.ui/bungeni/ui/descriptor.py:1284
 msgid "Select the user who moved the document"

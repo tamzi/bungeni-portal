@@ -374,6 +374,25 @@
      order="10"
      />  
 
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.domain.EventItem"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.event.Delete"           
+     />     
+     
+ <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IHeading"
+     title="Delete"
+     action="delete"
+     permission="bungeni.heading.Delete"
+     order="100"
+     />     
+
   <browser:menuItem
      menu="bill_additems"
      for="bungeni.models.interfaces.IBill"
@@ -658,6 +677,16 @@
      permission="bungeni.sitting.Add"
      order="100"
      />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IGroupSitting"
+     title="Delete Sitting"
+     action="./delete"
+     icon="++resource++ui-images/icon_delete.gif"
+     permission="bungeni.sitting.Delete"
+     />
+
      
   <browser:menuItem
      menu="plone_contentmenu"
@@ -875,7 +904,14 @@
      permission="bungeni.consignatory.Add"
      order="100"
      />
-
+ <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IConsignatory"
+     title="Delete"
+     action="./delete"
+     permission="bungeni.consignatory.Delete"
+     order="100"
+     />     
 
 
   <browser:menuItem
@@ -907,6 +943,16 @@
      permission="bungeni.session.Add"
      order="100"
      />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IParliamentSession"
+     title="Delete Session"
+     action="./delete"
+     icon="++resource++ui-images/icon_delete.gif"
+     permission="bungeni.session.Delete"
+     />
+
 
   <browser:menuItem
      menu="plone_contentmenu"
@@ -1452,6 +1498,7 @@
      order="10"
      permission="bungeni.parliament.Edit"           
      />
+     
   <browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IOffice"
@@ -1530,6 +1577,25 @@
      order="10"
      permission="bungeni.ministry.Edit"           
      />                    
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IGovernment"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.government.Delete"           
+     />
+
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IMinistry"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.ministry.Delete"           
+     />    
+
      
 
   <browser:menuItem

@@ -164,7 +164,9 @@ class MemberOfParliament( object ):
 member_of_parliament = rdb.join( schema.user_group_memberships, 
                     schema.users,
                     schema.user_group_memberships.c.user_id == 
-                    schema.users.c.user_id)    
+                    schema.users.c.user_id).join( schema.parliaments,
+                       schema.user_group_memberships.c.group_id ==
+                       schema.parliaments.c.parliament_id) 
 
 mapper(MemberOfParliament, member_of_parliament)
         
@@ -239,7 +241,7 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
         session= Session()
         trusted=removeSecurityProxy(context)
         user_id = getattr(trusted, self.value_field, None)
-        parliament_id = self._get_parliament_id(trusted)        
+        parliament_id = self._get_parliament_id(trusted)     
         if user_id:
             if parliament_id:
                 query = session.query( MemberOfParliament
@@ -262,7 +264,7 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
                             MemberOfParliament.middle_name).filter(
-                                MemberOfParliament.active_p == True)                                                     
+                                MemberOfParliament.active_p == True)                                           
         else:
             if parliament_id:
                 query = session.query(MemberOfParliament).filter(                    
@@ -689,23 +691,19 @@ class QuerySource( object ):
     def constructQuery( self, context ):
         session = Session()
         trusted=removeSecurityProxy(context)
-        #pdb.set_trace() 
         if self.filter_value:       
             query = session.query( self.domain_model ).filter(
                 self.domain_model.c[self.filter_field] == 
                 trusted.__dict__[self.filter_value] )
         else:
-            #pfk = valueKey( context.__parent__.__parent__.__name__ )[0]
             pfk = self.getValueKey(context)
             query = session.query( self.domain_model )
-            #pdb.set_trace()
             query = query.filter(self.domain_model.c[self.filter_field] == pfk )
             
         query = query.distinct()
         if self.order_by_field:
             query = query.order_by(self.domain_model.c[self.order_by_field])
             
-        #session.close()                        
         return query
         
     def __call__( self, context=None ):

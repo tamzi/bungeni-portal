@@ -793,9 +793,4 @@ class DeleteForm(BaseForm, form.PageForm):
                        '/?portal_status_message=%d items deleted' % count
 
         self.request.response.redirect(next_url)
-        # +! deletion succeeds but is consistently giving the following error:
-        # InvalidRequestError: Can't attach instance <User at 0xc8358cc>; 
-        # another instance with key (<class 'bungeni.models.domain.User'>, (581,)) 
-        # is already present in this session.
-        # <class 'sqlalchemy.exc.InvalidRequestError'>:
 

@@ -60,7 +60,10 @@ class SecondaryNavigationViewlet(object):
                 container = None
         # menu items
         if container is None:
-            self.items = self.get_menu_items(chain[-1], self.default_menu)
+            if length > 0:
+                self.items = self.get_menu_items(chain[-1], self.default_menu)
+            else:
+                self.items = None                
             return
         else:
             self.items = self.get_menu_items(
@@ -194,6 +197,8 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         path = []
 
         context = proxy.removeSecurityProxy( context )
+        if context is None:
+            return path
         if context.__parent__ is not None:
             path.extend(
                 self._get_path(context.__parent__))

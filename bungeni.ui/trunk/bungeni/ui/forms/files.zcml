@@ -62,5 +62,14 @@
      weight="50"
      />  
 
+  <browser:viewlet
+     name="bungeni.viewlet.event-files"
+     manager=".interfaces.ISubFormViewletManager"                              
+     class=".files.LibraryViewlet"
+     for="bungeni.models.interfaces.IEventItem"
+     permission="zope.View"
+     weight="50"
+     />       
+
 
 </configure>    

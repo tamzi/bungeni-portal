@@ -679,7 +679,7 @@ class GroupDescriptor( ModelDescriptor ):
                 listing_column=name_column("full_name", 
                     _(u'Full Name'))),
         dict( name="short_name", 
-                property=schema.TextLine(title=_(U"Acronym"), required=False),
+                property=schema.TextLine(title=_(U"Acronym"), required=True),
                 listing=True,
                 listing_column=name_column("short_name", 
                     _(u'Name'))),
@@ -966,20 +966,7 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name='role_title_id', omit=True),
-        dict( name='membership_id', omit=True),
-        dict(name="language", 
-             label=_(u"Language"), 
-             listing=False, 
-             add=True, 
-             edit=True, 
-             omit=False,
-             required=True,
-             property=schema.Choice(
-                 title=_(u"Language"),
-                 default=get_default_language(),
-                 vocabulary="language_vocabulary",
-                 ),
-             ),        
+        dict( name='membership_id', omit=True),    
         dict( name='title_name_id', label=_(u"Title"),
                 property=schema.Choice(title=_(u"Title"), 
                   source=vocabulary.MemberTitleSource('title_name_id'),
@@ -1270,7 +1257,7 @@ class ItemGroupItemAssignmentDescriptor( GroupItemAssignmentDescriptor ):
                     value_field ='parliamentary_item_id' ),  
                 ),            
               listing_column = item_name_column( 
-                        "object_id", 
+                        "parliamentary_item_id", 
                         _(u'Item')),            
             listing=True,
         ),
@@ -1975,7 +1962,7 @@ class SessionDescriptor( ModelDescriptor ):
             property=schema.TextLine(title=_(u"Short Name"), required=True),
             listing=True ),
         dict( name="full_name", 
-            property=schema.TextLine(title=_(u"Full Name"), required=False)),
+            property=schema.TextLine(title=_(u"Full Name"), required=True)),
         dict( name="start_date", 
             property=schema.Date(title=_(u"Start Date"),required=True), 
             listing=True, 
@@ -2095,16 +2082,13 @@ class ConsignatoryDescriptor( ModelDescriptor ):
         dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Cosignatory"), 
-                source=DatabaseSource(domain.User,  
-                    title_field='fullname', 
-                    token_field='user_id', 
-                    value_field = 'user_id')),
+                source=vocabulary.MemberOfParliamentDelegationSource('user_id'),
+                required=True),
               listing_column=member_fk_column("user_id", 
                 _(u'Cosignatory')), 
             listing=True, 
             ),  
     ]
-
 
        
 

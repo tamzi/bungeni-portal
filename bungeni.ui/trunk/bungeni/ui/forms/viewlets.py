@@ -76,43 +76,15 @@ class UserIdViewlet(viewlet.ViewletBase):
     def update(self):
         session = Session()
         trusted = removeSecurityProxy(self.context)    
-        self.principal_id = trusted.user.login    
-        #session.close()
+        session.merge(trusted)
+        try:        
+            self.principal_id = trusted.user.login    
+        except:
+            pass            
         
     render = ViewPageTemplateFile ('templates/user_id.pt')  
 
 
-class ResponseQuestionViewlet(viewlet.ViewletBase):    
-    """
-    Display the question when adding/editing a response
-    """
-    def __init__( self,  context, request, view, manager ):        
-
-        self.context = context
-        self.request = request
-        self.__parent__= context
-        self.manager = manager
-        self.query = None
-        self.subject = ''
-        self.question_text = ''
-    
-    def update(self):
-        if self.context.__class__ == domain.Response:
-            #edit response
-            question_id = self.context.response_id
-            session = Session()            
-            question = session.query(domain.Question).get(question_id)
-            #session.close()
-            return question
-            #self.subject = self.context.__parent__.__parent__.subject
-            #self.question_text = self.context.__parent__.__parent__.question_text
-        else:
-            # add a response
-            if self.context.__parent__.__class__ == domain.Question:
-                self.subject = self.context.__parent__.subject
-                self.question_text = self.context.__parent__.question_text
-        #session.close()
-    render = ViewPageTemplateFile ('templates/question.pt')  
     
     
 class AttributesEditViewlet(ui.core.DynamicFields, ui.viewlet.EditFormViewlet):

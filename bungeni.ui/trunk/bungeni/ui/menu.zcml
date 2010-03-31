@@ -333,7 +333,7 @@
   <browser:menuItem
      menu="motion_additems"
      for="bungeni.models.interfaces.IMotion"
-     title="Add consignatory..."
+     title="Add cosignatory..."
      action="./consignatory/add"
      permission="bungeni.consignatory.Add"     
      order="10"
@@ -451,10 +451,17 @@
      title="Add event..."
      action="./event/add"
      permission="bungeni.event.Add"     
-     order="10"
+     order="20"
      />       
 
-
+  <browser:menuItem
+     menu="question_additems"
+     for="bungeni.models.interfaces.IQuestion"
+     title="Add cosignatory..."
+     action="./consignatory/add"
+     permission="bungeni.consignatory.Add"     
+     order="30"
+     />    
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IQuestion"

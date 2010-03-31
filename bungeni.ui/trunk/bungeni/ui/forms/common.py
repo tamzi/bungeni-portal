@@ -763,29 +763,32 @@ class DeleteForm(BaseForm, form.PageForm):
     
     @form.action(_(u"Delete"), condition=_can_delete_item)
     def handle_delete(self, action, data):
-        count = self.delete_subobjects()
-
+        count = self.delete_subobjects()        
         container = self.context.__parent__
-        del container[self.context.__name__]
+        trusted = removeSecurityProxy(self.context)
+        session = Session()
+        session.delete(trusted)
         count += 1
 
         try:
-            transaction.commit()
+            session.commit()
         except IntegrityError, e:
             # this should not happen in production; it's a critical
             # error, because the transaction might have failed in the
             # second phase of the commit
-            transaction.abort()
+            session.rollback()
             logging.critical(e)
 
             self.status = _(u"Could not delete item due to "
                             "database integrity error")
 
             return self.render()
-
+        session.close()
         notify(ObjectRemovedEvent(
             self.context, oldParent=container, oldName=self.context.__name__))
-        
+        # we have to switch our context here otherwise the deleted object will
+        # be merged into the session again and reappear magically     
+        self.context = container
         next_url = self.nextURL()
         
         if next_url is None:

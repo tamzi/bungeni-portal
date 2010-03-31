@@ -10,7 +10,7 @@
 
 $Id$
 '''
-
+log = __import__("logging").getLogger("bungeni.models.utils")
 from zope import component
 from zope.securitypolicy.interfaces import IPrincipalRoleMap
 from zope.securitypolicy.settings import Allow, Deny
@@ -84,31 +84,41 @@ def get_container_by_role(context):
     """Determine container based on the contextual principal's roles
     
     parliament-level access:
-        "bungeni.Clerk", "bungeni.Speaker"
+        "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
     ministry(ies)-level access:
         "bungeni.Minister"
     owner-level (user) access:
-        "zope.Manager", "bungeni.Admin", "bungeni.MP", "bungeni.Owner", 
+        "zope.Manager", "bungeni.Admin", , "bungeni.Owner", 
         "bungeni.Everybody", "bungeni.Anybody"
     
     """
     access_level = {'owner':True, 'ministry':False, 'parliament':False}
-    roles = get_roles(context)
+    
+    # For sub-containers of Section instances, the context being passed is the 
+    # Section instance itself -- but this is not the correct context to 
+    # determine the user's roles in. Thus, workaround for this is to fallback
+    # to the current parliament object if context passed is NOT a domain object.
+    if not domain.object_hierarchy_type(context):
+        log.debug("context %s for get_roles() is NOT a domain object, " 
+            "falling back to current parliament as context" % context)
+        roles = get_roles(get_current_parliament(None))
+    else:
+        roles = get_roles(context)
+    
     for role_id in roles:
-        if role_id in ("bungeni.Clerk", "bungeni.Speaker"):
+        if role_id in ("bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"):
             access_level['parliament'] = True
         if role_id in ("bungeni.Minister",):
             access_level['ministry'] = True
+    
     # get highest-privileged container
-    from zope.security.proxy import removeSecurityProxy
     if access_level['parliament']:
         return get_current_parliament(context)
     elif access_level['ministry']:
-        # bungeni.Minister -> build list of user's ministries
         # multi-ministry container
-        return removeSecurityProxy(get_current_parliament(context)) # !+
+        return get_current_parliament(context)
     else:
-        return removeSecurityProxy(get_db_user(context)) # !+
+        return get_db_user(context)
 
 def get_roles(context):
     """Get contextual principal's roles
@@ -127,7 +137,7 @@ def get_roles(context):
             _build_principal_role_maps(getattr(ctx,'__parent__', None))
     _build_principal_role_maps(context)
     prms.reverse()
-    #
+    
     def add_roles(principal, prms, roles):
         for prm in prms:
             l_roles = prm.getRolesForPrincipal(principal) # -> generator
@@ -139,15 +149,20 @@ def get_roles(context):
                     if role[0] in roles:
                         roles.remove(role[0])
         return roles
+    
     principal = get_principal()
+    log.debug("get_roles: principal id %s" % principal.id)
     pg = principal.groups.keys()
     # ensure that the actual principal.id is included
     if not principal.id in pg:
         pg.append(principal.id)
+    log.debug("get_roles: principal groups %s" % pg)
     roles = []
     for principal_id in pg:
         roles = add_roles(principal_id, prms, roles)
+    log.debug("get_roles: principal roles %s" % roles)
     return roles
+
 
 def get_current_parliament_governments(parliament=None):
     if parliament is None: 

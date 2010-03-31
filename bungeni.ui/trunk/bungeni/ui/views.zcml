@@ -204,6 +204,14 @@
      class=".calendar.browser.DhtmlxCalendarSittings"
      template="calendar/dhtmlxcalendarxml.pt"
     />
+    
+    <browser:page
+     for="*"
+     permission="zope.Public"
+     name="dhtmlxcalendaredit"
+     class=".calendar.browser.DhtmlxCalendarSittingsEdit"
+    />
+    
   <browser:page
      for="bungeni.models.interfaces.ICommittee"
      permission="zope.View"

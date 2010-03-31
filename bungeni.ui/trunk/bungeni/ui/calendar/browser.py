@@ -26,7 +26,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.proxy import ProxyFactory
 from zope.security import checkPermission
 import zope.securitypolicy.interfaces
-
+from bungeni.core.translation import get_all_languages
 from zope.publisher.interfaces import IPublishTraverse
 from zope.schema.vocabulary import SimpleVocabulary
 #from zope.schema.vocabulary import SimpleTerm
@@ -221,6 +221,29 @@ class CalendarView(BrowserView):
     def render(self, template=None):
         if template is None:
             template = self.template
+        if checkPermission(u"bungeni.sitting.Add", self.context):
+            self.edit = True
+        else:
+            self.edit = False
+        session = Session()
+        venues = session.query(domain.Venue).all()
+        languages = get_all_languages()
+        sitting_types = session.query(domain.SittingType).all()
+        session.close()    
+        s = '<div class="dhx_cal_ltext" style="height:80px;">' 
+        s += 'Sitting Type<select>'
+        for sitting_type in sitting_types:
+		    s += '<option value="'+str(sitting_type.sitting_type_id)+'">'+sitting_type.sitting_type+'</option>'	      
+        s += '</select><br/>'
+        s += 'Venue<select>'
+        for venue in venues:
+            s += '<option value="'+str(venue.venue_id)+'">'+venue.short_name+'</option>'
+        s += '</select><br/>'
+        s += 'Language<select>'
+        for lang in languages:
+            s += '<option value="'+lang+'">'+lang+'</option>'    
+        s += '</select><br/></div>'    
+        self.sitting_details_form = s        
         return template()
 
 class CommitteeCalendarView(CalendarView):
@@ -915,7 +938,52 @@ class VotesAndProceedingsReportingView(AgendaReportingView):
     report_name = _(u"VOTES AND PROCEEDINGS")
     display_minutes = True
 
+class DhtmlxCalendarSittingsEdit(BrowserView):
+    '''Add, edit or delete sitting from calendar'''
+    def __init__(self, context, request):
+        super(DhtmlxCalendarSittingsEdit, self).__init__(
+            ISchedulingContext(context), request)
+        self.context.__name__ = self.__name__
+        interface.alsoProvides(self.context, ILocation)
+        interface.alsoProvides(self.context, IDCDescriptiveProperties)
+        self.__parent__ = context
+    def __call__(self):
+        ids = self.request.form['ids']
+        action = self.request.form[ids+"_!nativeeditor_status"]
+        session = Session()
+        sitting = domain.GroupSitting()
+        if action == "inserted":
+            sitting.start_date = self.request.form[ids+"_start_date"]
+            sitting.end_date = self.request.form[ids+"_end_date"]
+            #sitting.type = self.request.form[ids+"_text"]
+            sitting.sitting_type_id = self.request.form[ids+"_type"]
+            sitting.status = 'draft-agenda'
+            sitting.language = self.request.form[ids+"_language"]
+            sitting.venue_id = self.request.form[ids+"_venue"]
+            sitting.group_id = self.context.group_id
+            session.add(sitting)
+            session.commit()
+        elif action == "updated":
+            print "UPDATED!!!!!!!!!!!!!"
+            sitting = session.query(domain.GroupSitting).get(ids)
+            sitting.start_date = self.request.form[ids+"_start_date"]
+            sitting.end_date = self.request.form[ids+"_end_date"]
+            sitting.sitting_type_id = self.request.form[ids+"_type"]
+            sitting.status = 'draft-agenda'
+            sitting.language = self.request.form[ids+"_language"]
+            sitting.venue_id = self.request.form[ids+"_venue"]
+            sitting.group_id = self.context.group_id
+            session.update(sitting)
+            session.commit()
+        elif action == "deleted":
+            sitting = session.query(domain.GroupSitting).get(ids)
+            session.delete(sitting)
+            session.commit()
+        self.request.response.setHeader('Content-type', 'text/xml')
+        return '<data><action type="'+action+'" sid="'+str(ids)+'" tid="'+str(sitting.sitting_id)+'" /></data>'
+        
 class DhtmlxCalendarSittings(BrowserView):
+    
     interface.implements(IViewView, IStructuralView)
     template = ViewPageTemplateFile('dhtmlxcalendarxml.pt')
     def __init__(self, context, request):
@@ -960,13 +1028,19 @@ class DhtmlxCalendarSittings(BrowserView):
             start_date,
             end_date,
             )
-        self.sittings = []        
+        self.sittings = []   
         for sitting in sittings.values():
-            if checkPermission("zope.View", sitting):                          
-                self.sittings.append(sitting)
+            if checkPermission("zope.View", sitting):  
+                trusted = removeSecurityProxy(sitting)                 
+                self.sittings.append(trusted)
+        #import pdb; pdb.set_trace()
         self.request.response.setHeader('Content-type', 'text/xml')
-
-        return super(DhtmlxCalendarSittings, self).__call__() 
+        return self.render()
+        #return super(DhtmlxCalendarSittings, self).__call__() 
+        
+    def render(self, template = None):
+        return self.template()
+        
         
 class SaveView(AgendaReportingView):
     def __call__(self):

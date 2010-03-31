@@ -3,7 +3,9 @@
 <event tal:attributes="id python:s.sitting_id">
 <start_date><span tal:replace="structure python: '&lt;![CDATA[' + s.start_date.strftime('%Y-%m-%d %H:%M') + ']]&gt;'"/></start_date>
 <end_date><span tal:replace="structure python: '&lt;![CDATA[' + s.end_date.strftime('%Y-%m-%d %H:%M') + ']]&gt;'"/></end_date>
+<type><span tal:replace="structure python: '&lt;![CDATA[' + s.sitting_type.sitting_type + ']]&gt;'"/></type>
 <text><span tal:replace="structure python: '&lt;![CDATA[' + s.sitting_type.sitting_type + ']]&gt;'"/></text>
+<venue><span tal:replace="structure python: '&lt;![CDATA[' + str(s.venue.venue_id) + ']]&gt;'"/></venue>
 <details><span tal:replace="structure python: '&lt;![CDATA[' + s.status + ']]&gt;'"/></details>
 </event>
 </tal:loop>

@@ -215,11 +215,17 @@ class AttendanceType( object ):
     lookup for attendance type
     """    
     interface.implements( interfaces.ITranslatable )    
+
+class ListGroupItemAssignment(object):
+    pass
+
     
 class GroupItemAssignment( object ):
     """ the assignment of a parliamentary content object to a group
     """
     interface.implements( interfaces.ITranslatable )    
+    listings_class = ListGroupItemAssignment   
+
     
 class GroupGroupItemAssignment( GroupItemAssignment):
     """ assign a group to an item """
@@ -462,6 +468,7 @@ class Question( ParliamentaryItem ):
     #supplementaryquestions = one2many("supplementaryquestions", 
     #"bungeni.models.domain.QuestionContainer", "supplement_parent_id")
     event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )    
+    consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")    
     versions = one2many(
         "versions",
         "bungeni.models.domain.QuestionVersionContainer",

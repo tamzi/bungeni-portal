@@ -457,6 +457,7 @@ s_question = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.parliamentary_items.c.status_date,
                     schema.parliamentary_items.c.parliament_id,
                     schema.questions.c.approval_date,
+                    schema.questions.c.ministry_submit_date,
                     schema.questions.c.question_number,
                     schema.users.c.first_name,
                     schema.users.c.middle_name,
@@ -518,6 +519,7 @@ s_motion = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.parliamentary_items.c.parliament_id,
                     schema.motions.c.approval_date,
                     schema.motions.c.motion_number,
+                    schema.motions.c.notice_date,
                     schema.users.c.first_name,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
@@ -618,6 +620,7 @@ s_event = rdb.select([schema.parliamentary_items.c.parliamentary_item_id,
                     schema.parliamentary_items.c.status_date,
                     schema.parliamentary_items.c.parliament_id,
                     schema.event_items.c.event_date,
+                    schema.event_items.c.item_id,
                     schema.users.c.first_name,
                     schema.users.c.middle_name,
                     schema.users.c.last_name,
@@ -879,6 +882,26 @@ mapper( domain.MemberRoleTitle, schema.role_titles.join(schema.addresses),
 
 mapper( domain.AddressType, schema.address_types )
 mapper( domain.UserAddress, schema.addresses)
+
+
+s_group_item_assignments = rdb.select([schema.group_item_assignments.c.assignment_id,
+                    schema.group_item_assignments.c.group_id.label('_fk_group_id'),
+                    schema.group_item_assignments.c.item_id.label('_fk_item_id'),
+                    schema.groups.c.short_name.label('item_id'),
+                    (schema.groups.c.short_name + ' - ' +
+                    schema.groups.c.full_name).label('group_id'),   
+                    schema.group_item_assignments.c.start_date,
+                    schema.group_item_assignments.c.end_date,
+                    schema.group_item_assignments.c.due_date,                 
+                    ],
+                    from_obj=[
+                        schema.groups.join(
+                        schema.group_item_assignments).join(schema.parliamentary_items)
+                        ],                              
+                              ).alias('list_group_item_assignments')
+
+
+mapper(domain.ListGroupItemAssignment, s_group_item_assignments);
 
 mapper(domain.GroupItemAssignment, schema.group_item_assignments,
         properties={             

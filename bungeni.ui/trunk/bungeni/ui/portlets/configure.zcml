@@ -24,38 +24,18 @@
      class=".staticbungeninavigation.StaticViewletBungeniNavigation"
      /-->  
 
- <browser:viewlet
-     name="bungeni.content-actions-portlet"
-     for="*"
-     layer="..interfaces.IMembersSectionLayer" 
-     permission="zope.View"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     template="templates/portlet-contentactions.pt"
-     class="ploned.ui.viewlet.ContentViewsViewlet"   
-     weight="5"  
-     />       
+  <browser:viewlet
+    name="bungeni.content-actions-portlet"
+    for="*"
+    layer="..interfaces.IBungeniAuthenticatedSkin"
+    permission="zope.View"
+    manager="ploned.ui.interfaces.ILeftColumnManager"
+    template="templates/portlet-contentactions.pt"
+    class="ploned.ui.viewlet.ContentViewsViewlet"     
+    weight="5"       
+  />        
 
- <browser:viewlet
-     name="bungeni.content-actions-portlet"
-     for="*"
-     layer="..interfaces.IBusinessSectionLayer" 
-     permission="zope.View"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     template="templates/portlet-contentactions.pt"
-     class="ploned.ui.viewlet.ContentViewsViewlet"     
-     weight="5"       
-     />   
- <browser:viewlet
-     name="bungeni.content-actions-portlet"
-     for="*"
-     layer="..interfaces.IAdminSectionLayer" 
-     permission="zope.View"
-     manager="ploned.ui.interfaces.ILeftColumnManager"
-     template="templates/portlet-contentactions.pt"
-     class="ploned.ui.viewlet.ContentViewsViewlet"     
-     weight="5"       
-     />        
-     
+          
  <browser:viewlet
      name="bungeni.empty-portlet"
      for="*"

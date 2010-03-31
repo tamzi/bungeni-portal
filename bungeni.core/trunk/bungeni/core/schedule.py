@@ -1,3 +1,4 @@
+log = __import__("logging").getLogger("bungeni.core.schedule")
 import datetime
 import time
 
@@ -58,7 +59,8 @@ class SchedulingContextTraverser(SimpleComponentTraverser):
 
             obj = method()
             assert ILocation.providedBy(obj)
-
+        log.debug("SchedulingContextTraverser.publishTraverse: " \
+            "self=%s context=%s name=%s obj=%s" % (self, self.context, name, obj))
         return ProxyFactory(LocationProxy(
             removeSecurityProxy(obj), container=self.context, name=name))
 

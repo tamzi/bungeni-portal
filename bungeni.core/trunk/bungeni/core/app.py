@@ -8,7 +8,7 @@
 
 $Id$
 """
-
+log = __import__("logging").getLogger("bungeni.core.app")
 
 from os import path
 
@@ -35,6 +35,7 @@ from bungeni.models.utils import container_getter
 from bungeni.models.utils import get_container_by_role
 
 from sqlalchemy import sql
+
 
 def setUpSubscriber(obj, event):
     initializer = model_interfaces.IBungeniSetup(obj)
@@ -66,13 +67,12 @@ class AppSetup(object):
         
         # CONVENTION: the action of each site top-section is made to point 
         # directly the primary sub-section (the INDEX) that it contains.
-        # EXCEPTION: the "/" when logged in "/" is redirected to "/workspace/"
+        # EXCEPTION: the "/", when logged in, is redirected to "/workspace/pi"
         
         # top-level sections
-
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
-            description=_(u"Current parliamentary activity"))        
+            description=_(u"Current parliamentary activity"))
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament"))

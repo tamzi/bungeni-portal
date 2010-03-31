@@ -609,11 +609,17 @@ class BillSource(SpecializedSource):
         session= Session()
         trusted=removeSecurityProxy(context)
         parliament_id = self._get_parliament_id(context)
-        query = session.query(domain.Bill).filter(
-            sql.and_(
-            sql.not_(domain.Bill.status.in_(
-                ['draft','withdrawn','approved','rejected'])),
-            domain.Bill.parliament_id == parliament_id))
+        bill_id = getattr(context, self.value_field, None) 
+        if bill_id:
+            query = session.query(domain.Bill).filter(
+                domain.Bill.parliamentary_item_id ==
+                bill_id)
+        else:                
+            query = session.query(domain.Bill).filter(
+                sql.and_(
+                sql.not_(domain.Bill.status.in_(
+                    ['draft','withdrawn','approved','rejected'])),
+                domain.Bill.parliament_id == parliament_id))
         return query                
                 
 class CommitteeSource(SpecializedSource):  

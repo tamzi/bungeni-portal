@@ -1,3 +1,4 @@
+log = __import__("logging").getLogger("bungeni.ui.content")
 from zope import interface
 from zope.container.ordered import OrderedContainer
 from zope.container.traversal import ItemTraverser
@@ -19,7 +20,25 @@ class Section(OrderedContainer):
     """
     interface.implements(ISection, IDCDescriptiveProperties, IBrowserPublisher)
     
-    def __init__(self, title=None, description=None, default_name=None, marker=None):
+    # NOTE: __parent__ here is turned into a property for debug/monitoring 
+    # purpose -- Section.__parent__ is being set multiple times but, once set, 
+    # always to the same value
+    def _get_parent(self):
+        return self._parent
+    def _set_parent(self, obj):
+        if self._parent is not None:
+
+            assert self._parent is obj, \
+                "Section parent should not be changed! %s -> %s" % (self._parent, obj)
+            log.warn("IGNORING reset of Section.__parent__ to same value: %s" % (obj))
+            return
+        self._parent = obj
+    __parent__ = property(_get_parent, _set_parent)
+    
+    
+    def __init__(self, title=None, description=None, default_name=None, 
+            marker=None):
+        self._parent = None
         super(Section, self).__init__()
         self.title = title
         self.description = description
@@ -29,6 +48,7 @@ class Section(OrderedContainer):
     # !+ section.title is duplicated in ZCML menuItem definitions
     # Section should be modified to just get its title from the associated
     # view descriptor (via default_name)
+    
     
     def __getitem__(self, key):
         item = super(Section, self).__getitem__(key)
@@ -62,6 +82,8 @@ class Section(OrderedContainer):
     def publishTraverse(self, request, name):
         """ (request:IRequest, name:str) -> IView
         """
+        log.debug("Section.publishTraverse: name=%s __parent__=%s context=%s" % (
+            name, self.__parent__, getattr(self, "context", "UNDEFINED")))
         traverser = ItemTraverser(self, request)
         return traverser.publishTraverse(request, name)
 

@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+log = __import__("logging").getLogger("bungeni.ui.container")
 import datetime
 import zc.table
 import simplejson
@@ -174,7 +175,8 @@ class ContainerListing(container.ContainerListing):
 
 class ContainerRootRedirect(BrowserView):
     def __call__(self):
-        self.request.response.redirect("workspace/pi")
+        log.warn("ContainerRootRedirect %s -> /workspace/pi"%self.request.getURL())
+        self.request.response.redirect("/workspace/pi")
 
 
 class ContainerJSONTableHeaders( BrowserView ):

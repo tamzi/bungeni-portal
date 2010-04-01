@@ -40,6 +40,13 @@
      for="bungeni.core.interfaces.ISection"
      permission="zope.View"
      layer=".interfaces.IBungeniAuthenticatedSkin"
+     class=".container.ContainerRootRedirect"
+  />
+  <browser:page
+     name="workspace-pi"
+     for="bungeni.core.interfaces.ISection"
+     permission="zope.View"
+     layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace.WorkspaceView"
      template="templates/workspace-index.pt"
   />
@@ -50,7 +57,7 @@
      class=".workspace.WorkspaceArchiveView"
      permission="zope.View"
      template="templates/workspace-index.pt"
-  />
+  /><!-- !+ rename workspace-index.pt -->
   
   
   
@@ -232,7 +239,7 @@
      permission="zope.View"
      name="index"
      class=".calendar.browser.CalendarView"
-     layer=".interfaces.IWorkspaceSectionLayer"     
+     layer=".interfaces.IWorkspaceSectionLayer"
     />
 
 

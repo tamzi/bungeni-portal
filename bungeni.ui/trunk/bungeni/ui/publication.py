@@ -1,3 +1,4 @@
+log = __import__("logging").getLogger("bungeni.ui.publication")
 from zope import interface
 from zope import component
 from zope.app.publication.interfaces import IBeforeTraverseEvent

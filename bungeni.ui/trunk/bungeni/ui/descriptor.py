@@ -997,7 +997,8 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     
            
     schema_invariants = [EndAfterStart, POBoxOrAddress]     
-    custom_validators = [validations.validate_date_range_within_parent]
+    custom_validators = [validations.validate_date_range_within_parent,
+            validations.validate_member_titles]
         
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Staff")
@@ -2259,7 +2260,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
                 required=True), 
                 listing=True ),                
         dict( name="voters", 
-                property=schema.TextLine(title=_(u"Voters"), 
+                property=schema.Int(title=_(u"Voters"), 
                 description=_(u"Number of Voters registered in this Constituency"),
                 required=True), 
                 listing=True ),

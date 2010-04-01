@@ -2,6 +2,8 @@ from zope import interface
 from zope import component
 from zope.app.publication.interfaces import IBeforeTraverseEvent
 
+from ore.alchemist import Session
+
 import re
 import interfaces
 
@@ -38,3 +40,16 @@ def apply_request_layers_by_url(event):
         if condition.match(path) is not None:
             #print "MATCHES!"
             interface.alsoProvides(request, layer)
+
+
+@component.adapter(IEndRequestEvent)
+def on_end_request(event):
+    """Subscriber to catch end of request processing, and dispatch cleanup 
+    tasks as needed. 
+    """
+    log.info("IEndRequestEvent: %s" % event.object)
+    session = Session()
+    log.debug("IEndRequestEvent: closing sqlalchemy session: %s" % session)
+    session.close()
+
+

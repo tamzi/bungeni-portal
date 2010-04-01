@@ -50,7 +50,6 @@ def get_db_user(context=None):
     session = Session()
     query = session.query(domain.User).filter(domain.User.login==principal_id)
     results = query.all()
-    #session.close
     if len(results)==1:
         return results[0]
 
@@ -188,15 +187,27 @@ def get_all_group_ids_in_parliament(parliament_id):
         group_ids.append(result.group_id)
         for group in result.contained_groups:
             group_ids.append(group.group_id)
-    #session.close              
     return group_ids
     
     
-def get_ministry_ids_for_user_in_government(user_id, government_id):
-    """ get the ministries where user_id is a active member """
+def get_ministries_for_user_in_government(user_id, government_id):
+    """Get the ministries where user_id is a active member."""
     session = Session()
+    query = session.query(domain.Ministry).join(domain.Minister).filter(
+        rdb.and_(
+            schema.user_group_memberships.c.user_id==user_id,
+            schema.groups.c.parent_group_id==government_id,
+            schema.groups.c.status=='active',
+            schema.user_group_memberships.c.active_p==True))
+    return query.all()
+def get_ministry_ids_for_user_in_government(user_id, government_id):
+    """Get the ministry ids where user_id is a active member."""
+    return [ ministry.group_id for ministry in 
+             get_ministries_for_user_in_government(user_id, government_id) ]
+    '''
+    # alternative approach to get ministry_ids: 
     connection = session.connection(domain.Group)
-    ministries = rdb.select([schema.groups.c.group_id],
+    ministries_ids_query = rdb.select([schema.groups.c.group_id],
         from_obj=[
         rdb.join(schema.groups, schema.user_group_memberships,
         schema.groups.c.group_id == schema.user_group_memberships.c.group_id),
@@ -207,11 +218,12 @@ def get_ministry_ids_for_user_in_government(user_id, government_id):
             schema.groups.c.parent_group_id==government_id,
             schema.groups.c.status=='active',
             schema.user_group_memberships.c.active_p==True))
-    ministry_ids = []
-    for group_id in connection.execute(ministries):
-        ministry_ids.append(group_id[0])
-    #session.close
-    return ministry_ids
+    session = Session()
+    connection = session.connection(domain.Group)
+    return [ group_id[0] for group_id in 
+             connection.execute(ministries_ids_query) ]
+    '''
+
 
 def get_offices_held_for_user_in_parliament(user_id, parliament_id):
     """ get the Offices (functions/titles) held by a user in a parliament """
@@ -245,8 +257,7 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
                         schema.role_titles.c.start_date, 
                         schema.role_titles.c.end_date]                                     
             )
-    o_held = connection.execute(offices_held) 
-    #session.close              
+    o_held = connection.execute(offices_held)
     return o_held            
     
 def get_group_ids_for_user_in_parliament(user_id, parliament_id):
@@ -262,7 +273,6 @@ def get_group_ids_for_user_in_parliament(user_id, parliament_id):
     my_group_ids = []
     for group_id in connection.execute(my_groups):
         my_group_ids.append(group_id[0])
-    ##session.close
     return my_group_ids
                                     
 def get_parliament_for_group_id(group_id):
@@ -270,7 +280,6 @@ def get_parliament_for_group_id(group_id):
         return None
     session = Session()
     group = session.query(domain.Group).get(group_id)
-    #session.close    
     if group.type == 'parliament':
         return group
     else:

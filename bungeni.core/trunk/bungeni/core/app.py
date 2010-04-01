@@ -72,7 +72,8 @@ class AppSetup(object):
         # top-level sections
         workspace = self.context["workspace"] = Section(
             title=_(u"Workspace"),
-            description=_(u"Current parliamentary activity"))
+            description=_(u"Current parliamentary activity"),
+            default_name="workspace-index")
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament"))
@@ -91,7 +92,7 @@ class AppSetup(object):
         ws_index = workspace["pi"] = Section(
             title=_(u"Parliamentary items"),
             description=_(u"Current parliamentary activity"),
-            default_name="workspace-index")
+            default_name="workspace-pi")
         ws_archive = workspace["my-archive"] = Section(
             title=_(u"My archive"),
             description=_(u"My archive personal items"),

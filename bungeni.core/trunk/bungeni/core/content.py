@@ -1,4 +1,4 @@
-log = __import__("logging").getLogger("bungeni.ui.content")
+log = __import__("logging").getLogger("bungeni.core.content")
 from zope import interface
 from zope.container.ordered import OrderedContainer
 from zope.container.traversal import ItemTraverser
@@ -26,11 +26,12 @@ class Section(OrderedContainer):
     def _get_parent(self):
         return self._parent
     def _set_parent(self, obj):
-        if self._parent is not None:
-
+        if self._parent is not None and obj is not None:
+            # __parent__ is nullified when deleting a Section from parent container
             assert self._parent is obj, \
-                "Section parent should not be changed! %s -> %s" % (self._parent, obj)
-            log.warn("IGNORING reset of Section.__parent__ to same value: %s" % (obj))
+                "Section parent may not be changed! %s -> %s" % (self._parent, obj)
+            log.warn(" [Section:%s] IGNORING reset of __parent__ to same " \
+                "value: %s" % (self.title, obj))
             return
         self._parent = obj
     __parent__ = property(_get_parent, _set_parent)

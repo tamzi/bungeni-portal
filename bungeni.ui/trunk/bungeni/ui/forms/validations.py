@@ -528,6 +528,12 @@ def validate_non_overlapping_sitting(action, data, context, container, *fields):
 
     return []
 
+def validate_group_item_assignement(action, data, context, container):
+    """ An item can be assigned to a group only once at a time """
+    #TODO
+    return []
+
+
 def generate_recurring_sitting_dates(start_date, repeat, repeat_until,
                                      weekdays, monthly, exceptions):
     if repeat_until is not None:

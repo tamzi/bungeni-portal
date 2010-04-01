@@ -68,6 +68,10 @@
      />
 
   <subscriber handler=".publication.apply_request_layers_by_url" />
+  <subscriber 
+    handler=".publication.on_end_request" 
+    trusted="True"
+  />
   
   <!-- Marginalia Settings for bungeni types -->
 

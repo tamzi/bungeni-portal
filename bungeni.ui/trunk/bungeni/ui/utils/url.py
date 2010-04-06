@@ -53,3 +53,12 @@ def same_path_names(base_path_name, path_name):
                 return True
     return base_path_name==path_name
 
+
+def get_menu_item_descriptor(title, selected, url, name=None):
+    if name in indexNames:
+        name = ''
+    if name is not None:
+        url = "%s/%s" % (url, name)
+    return {'title':title, 'selected':selected, 'url':url}
+
+

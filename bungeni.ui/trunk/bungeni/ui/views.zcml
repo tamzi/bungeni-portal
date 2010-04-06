@@ -47,7 +47,7 @@
      for="bungeni.core.interfaces.ISection"
      permission="zope.View"
      layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".workspace.WorkspaceView"
+     class=".workspace.WorkspacePIView"
      template="templates/workspace-index.pt"
   />
   <browser:page

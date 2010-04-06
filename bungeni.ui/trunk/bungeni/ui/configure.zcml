@@ -67,7 +67,10 @@
      name="index"
      />
 
-  <subscriber handler=".publication.apply_request_layers_by_url" />
+  <subscriber 
+    handler=".publication.on_before_traverse" 
+    trusted="True"
+  />
   <subscriber 
     handler=".publication.on_end_request" 
     trusted="True"

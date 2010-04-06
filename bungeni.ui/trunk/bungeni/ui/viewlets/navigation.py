@@ -7,6 +7,7 @@
 
 $Id$
 """
+log = __import__("logging").getLogger("bungeni.ui.viewlets.navigation")
 
 from zope import component
 from zope.location.interfaces import ILocation
@@ -31,6 +32,7 @@ from ploned.ui.menu import is_selected
 
 from bungeni.core import location
 from bungeni.ui.utils import url as ui_url
+from bungeni.ui import interfaces
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -106,16 +108,24 @@ class SecondaryNavigationViewlet(object):
         return items
 
     def add_container_menu_items(self, context, container):
-        # build item descriptor object
-        def _containerItem(title, selected, name=None):
-            if name in ui_url.indexNames:
-                name = ''
-            if name is not None:
-                _url = "%s/%s" % (url, name)
-            else:
-                _url = url
-            return {'title': title, 'selected': selected, 'url': _url}
-        url = ui_url.absoluteURL(container, self.request)
+        request = self.request
+        
+        # add a menu item for each user workspace
+        if interfaces.IWorkspaceSectionLayer.providedBy(request):
+            base_url_path = "/workspace"
+            workspaces = request._layer_data.get("workspaces")
+            log.info("%s got user workspaces..." % self)
+            for workspace in workspaces:
+                log.info("appending menu item for user workspace: %s" % workspace)
+                continue # !+ tmp, to non-disruptively checkin
+                self.items.append(ui_url.get_menu_item_descriptor(
+                    workspace.full_name, 
+                    False, 
+                    base_url_path,
+                    "obj-%s" % workspace.group_id ))
+        
+        url = ui_url.absoluteURL(container, request)
+        
         if IReadContainer.providedBy(container):
             #XXX should be the same in all containers ?          
             container=proxy.removeSecurityProxy(container)
@@ -132,14 +142,16 @@ class SecondaryNavigationViewlet(object):
                     title = props.title
                 # only items with valid title
                 if title is not None:
-                    self.items.append(_containerItem(title, selected, name))
+                    self.items.append(ui_url.get_menu_item_descriptor(
+                                                title, selected, url, name))
         default_view_name = queryDefaultViewName(container, self.request)
         default_view = component.queryMultiAdapter(
             (container, self.request), name=default_view_name)
         if hasattr(default_view, "title") and default_view.title is not None:
-            self.items.insert(0,
-                _containerItem(default_view.title, 
-                    sameProxiedObjects(container, self.context)))
+            self.items.insert(0, ui_url.get_menu_item_descriptor(
+                    default_view.title, 
+                    sameProxiedObjects(container, self.context), 
+                    url))
 
     
 class GlobalSectionsViewlet(viewlet.ViewletBase):
@@ -147,18 +159,31 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
     selected_portal_tab = None
     
     def update(self):
-        base_url = ui_url.absoluteURL(getSite(), self.request)
-        item_url = self.request.getURL()
-
+        context, request = self.context, self.request 
+        base_url = ui_url.absoluteURL(getSite(), request)
+        item_url = request.getURL()
+        
         assert item_url.startswith(base_url)
         path = item_url[len(base_url):]
-
+        
         self.portal_tabs = []
         seen = set()
         menu = component.getUtility(IBrowserMenu, "site_actions")
         def _action_is_on_path(action):
             return path.startswith("/".join(action.split("/")[0:-1]))
-        for item in menu.getMenuItems(self.context, self.request):
+        """A menu item looks like this:
+        {
+            'extra': {'hideChildren': True, 'id': u''}, 
+            'submenu': None, 
+            'description': u'', 
+            'title': u'Workspace', 
+            'url': u'http://localhost:8081/', 
+            'selected': u'selected', 
+            'action': u'/', 
+            'icon': None
+        }
+        """
+        for item in menu.getMenuItems(context, request):
             if item['action'] in seen:
                 continue
             seen.add(item['action'])

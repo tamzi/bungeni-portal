@@ -104,21 +104,7 @@ def name_column( name, title, default=""):
         if len(value) > size:
             return "%s..."%value[:size]
         return value
-    return _column( name, title, renderer, default)
-    
-def vocab_column( name, title, vocabulary_source ):
-    def getter( item, formatter ):
-        value = getattr( item, name)
-        if not value:
-            return ''
-        formatter_key = "vocabulary_%s"%name
-        vocabulary = getattr( formatter, formatter_key, None)
-        if vocabulary is None:
-            vocabulary = vocabulary_source()
-            setattr( formatter, formatter_key, vocabulary)
-        term = vocabulary.getTerm( value )
-        return term.title or term.token
-    return column.GetterColumn( title, getter )
+    return _column( name, title, renderer, default)    
         
 def member_fk_column( name, title, default=""):
     def getter( item, formatter ):
@@ -182,6 +168,41 @@ def group_name_column(name, title, default=u""):
 def workflow_column(name, title, default=u""):
     def getter( item, formatter ):
         return ui_utils.misc.get_wf_state(item)    
+    return column.GetterColumn( title, getter ) 
+
+def constituency_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.constituency.name   
+    return column.GetterColumn( title, getter ) 
+
+def committee_type_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.committee_type.committee_type
+    return column.GetterColumn( title, getter ) 
+
+def ministry_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.ministry.short_name
+    return column.GetterColumn( title, getter ) 
+
+def sitting_type_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.sitting_type.sitting_type
+    return column.GetterColumn( title, getter ) 
+
+def attendance_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.attendance_type.attendance_type
+    return column.GetterColumn( title, getter ) 
+
+def province_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.province.province
+    return column.GetterColumn( title, getter ) 
+
+def region_column( name, title, default=u""):
+    def getter( item, formatter ):
+        return item.region.region
     return column.GetterColumn( title, getter ) 
         
 ####
@@ -551,10 +572,7 @@ class MpDescriptor ( ModelDescriptor ):
             property=schema.Choice( 
                 title=_(u"Constituency"), 
                 source=constituencySource,),
-            listing_column=vocab_column( 
-                "constituency_id" , 
-                _(u'Constituency'), 
-                constituencySource, ),
+            listing_column=constituency_column("constituency_id","Constituency"),
             listing=True),               
         dict( name="leave_reason", 
             property=schema.Text(title=_("Leave Reason"),required=False)),
@@ -817,9 +835,8 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name = 'committee_type_id',
                 property=schema.Choice( title=_(u"Type of committee"), 
                     source=typeSource),
-                listing_column=vocab_column( "committee_type_id" , 
-                    _(u"Type"), 
-                    typeSource, ), 
+                listing_column=committee_type_column("committee_type_id" , 
+                    _(u"Type"),), 
                     listing=True,
             
             ),
@@ -1756,11 +1773,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
                 property = schema.Choice(title=_(u"Ministry"), 
                  source=vocabulary.MinistrySource("ministry_id"),
                  required=True),
-                listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
-                DatabaseSource(domain.Ministry,
-                                title_field='full_name', 
-                                token_field='group_id', 
-                                value_field = 'group_id' )),
+                listing_column=ministry_column( "ministry_id" , _(u'Ministry')),                
                 listing=True,                 
             ),
         dict( name="approval_date", 
@@ -1904,9 +1917,8 @@ class SittingDescriptor( ModelDescriptor ):
                  ),
              ),        
         dict( name="sitting_type_id", 
-              listing_column = vocab_column( "sitting_type_id", 
-                _(u"Sitting Type"), 
-                vocabulary.SittingTypeOnly ),
+              listing_column = sitting_type_column( "sitting_type_id", 
+                _(u"Sitting Type")),
               property = schema.Choice( 
                     title=_(u"Sitting Type"), 
                     source=vocabulary.SittingTypes,
@@ -2043,10 +2055,9 @@ class AttendanceDescriptor( ModelDescriptor ):
                     title=_(u"Attendance"), 
                     source=attendanceVocab, 
                     required=True),
-                listing_column = vocab_column(
+                listing_column = attendance_column(
                     "attendance_id", 
-                    _(u'Attendance'), 
-                    attendanceVocab )),            
+                    _(u'Attendance') )),            
         ]
         
 class AttendanceTypeDescriptor( ModelDescriptor ):        
@@ -2130,9 +2141,8 @@ class ConstituencyDescriptor( ModelDescriptor ):
                 title=_(u"Province"), 
                 source=provinceSource,            
                 required=True ),
-            listing_column = vocab_column("province_id", 
-                _(u"Province"), 
-                provinceSource ), 
+            listing_column = province_column("province_id", 
+                _(u"Province")), 
             listing=True,
             ),
         dict( name="region_id", 
@@ -2141,9 +2151,8 @@ class ConstituencyDescriptor( ModelDescriptor ):
                 title=_(u"Region"), 
                 source=regionSource,              
                 required=True ),
-             listing_column = vocab_column("region_id", 
-                _(u"Region"), 
-                regionSource), 
+             listing_column = region_column("region_id", 
+                _(u"Region")), 
             listing=True,
             ),
         dict( name="start_date", 

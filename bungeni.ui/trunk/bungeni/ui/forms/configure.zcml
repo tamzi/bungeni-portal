@@ -440,6 +440,8 @@
      weight="40"
      />   
 
+
+
   
   <browser:viewlet
      name="bungeni.viewlet.minister-titles"
@@ -478,6 +480,25 @@
      permission="bungeni.question.View"
      weight="5"
      /-->      
+
+  
+  <browser:viewlet
+     name="bungeni.viewlet.question-timeline"
+     manager=".interfaces.ISubFormViewletManager"
+     class=".viewlets.QuestionTimeLineViewlet"
+     for="bungeni.models.interfaces.IQuestion"
+     permission="zope.View"
+     weight="20"
+     />  
+  <browser:viewlet
+     name="bungeni.viewlet.tableddocument-timeline"
+     manager=".interfaces.ISubFormViewletManager"
+     class=".viewlets.TableddocumentTimeLineViewlet"
+     for="bungeni.models.interfaces.ITabledDocument"
+     permission="zope.View"
+     weight="20"
+     />  
+
   
   <browser:viewlet
      name="bungeni.viewlet.committees"
@@ -608,6 +629,16 @@
      weight="10"
      />    
   
+  <browser:viewlet
+     name="bungeni.viewlet.motion-timeline"
+     manager=".interfaces.ISubFormViewletManager"
+     class=".viewlets.MotionTimeLineViewlet"
+     for="bungeni.models.interfaces.IMotion"
+     permission="zope.View"
+     weight="20"
+     />  
+
+
   
   <!--browser:page
      name="event-rss.xml"

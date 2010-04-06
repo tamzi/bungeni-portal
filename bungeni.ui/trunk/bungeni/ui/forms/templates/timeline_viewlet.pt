@@ -1,8 +1,11 @@
-<dt id="fieldsetlegend-bill-timeline" i18n:translate="">
+<dt id="fieldsetlegend-bill-timeline" i18n:translate=""
+    tal:attributes="id string:fieldsetlegend-${view/view_id}"
+    tal:content="view/view_name">
   Bill timeline
 </dt>
 
-<dd id="fieldset-bill-timeline">
+<dd id="fieldset-bill-timeline"
+    tal:attributes="id string:fieldset-${view/view_id}">
   <table class="listing">
     <thead>
       <tr>

@@ -588,15 +588,18 @@ class OfficesHeldViewlet( viewlet.ViewletBase ):
     render = ViewPageTemplateFile ('templates/offices_held_viewlet.pt')    
 
         
-class BillTimeLineViewlet( viewlet.ViewletBase ):
+class TimeLineViewlet( viewlet.ViewletBase ):
     """
     tracker/timeline view:
 
     Chronological changes are aggregated from : bill workflow, bill
     audit, bill scheduling and bill event records. 
     """
+    sql_timeline = ""
     add_action = form.Actions( form.Action(_(u'add event'), success='handle_event_add_action'), )
-    for_display = True    
+    for_display = True   
+    view_name = "Timeline" 
+    view_id ="unknown-timeline"
     # sqlalchemy give me a rough time sorting a union, with hand coded sql it is much easier.
  
                 
@@ -615,14 +618,34 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         """
         refresh the query
         """       
-        bill_id = self.context.bill_id
+        item_id = self.context.parliamentary_item_id
         self.results = queries.execute_sql(
-                            statements.sql_bill_timeline, item_id=bill_id)
+                            self.sql_timeline, item_id=item_id)
         path = ui_url.absoluteURL(self.context, self.request)
         self.addurl = '%s/event/add' %( path )
     
     
-    render = ViewPageTemplateFile ('templates/bill_timeline_viewlet.pt')    
+    render = ViewPageTemplateFile ('templates/timeline_viewlet.pt')    
+
+class BillTimeLineViewlet(TimeLineViewlet):
+    sql_timeline = statements.sql_bill_timeline
+    view_name = _("Bill timeline") 
+    view_id ="bill-timeline"
+
+class MotionTimeLineViewlet(TimeLineViewlet):
+    sql_timeline = statements.sql_motion_timeline
+    view_name = _("Motion timeline") 
+    view_id ="motion-timeline"
+    
+class QuestionTimeLineViewlet(TimeLineViewlet):
+    sql_timeline = statements.sql_question_timeline
+    view_name = _("Question timeline") 
+    view_id ="question-timeline"
+
+class TableddocumentTimeLineViewlet(TimeLineViewlet):
+    sql_timeline = statements.sql_tableddocument_timeline
+    view_name = _("Tabled document timeline") 
+    view_id ="tableddocument-timeline"
 
 class MemberItemsViewlet( viewlet.ViewletBase ):
     """ A tab with bills, motions etc for an MP

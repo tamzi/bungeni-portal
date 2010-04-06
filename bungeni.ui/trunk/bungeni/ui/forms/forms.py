@@ -140,44 +140,20 @@ class ItemScheduleReorderForm(PageForm):
             setattr(container[ordering[i]], field, i+1)
             
         index = ordering.index(name)
-        category = self.context.category
-
-        swap_category_with = None
 
         if mode == 'up' and index > 0:
             # if this item has a category assigned, and there's an
             # item after it, swap categories with it
-            if category and index < len(ordering)-1:
-                next = container[ordering[index+1]]
-                next.category_id = self.context.category_id
-                self.context.category_id = None
-            # else we exchange planned order with the item immediately
-            # before us;
-            elif category:
-                self.context.category_id = None                
+            if  index < len(ordering)-1:
+                next = container[ordering[index+1]]           
             prev = container[ordering[index-1]]
             order = getattr(self.context, field)
             setattr(self.context, field, getattr(prev, field))
             setattr(prev, field, order)
-            swap_category_with = prev
 
         if mode == 'down' and index < len(ordering) - 1:            
             next = container[ordering[index+1]]
-            # if next item has a category, swap, reset and skip
-            # reordering
-            if next.category_id is not None:
-                self.context.category_id = next.category_id
-                next.category_id = None
-            else:
-                order = getattr(self.context, field)
-                setattr(self.context, field, getattr(next, field))
-                setattr(next, field, order)
-                swap_category_with = next
-
-        if swap_category_with is not None:
-            category_id = self.context.category_id
-            self.context.category_id = swap_category_with.category_id
-            swap_category_with.category_id = category_id
+ 
 
 class ItemScheduleDeleteForm(DeleteForm):
     def get_subobjects(self):
@@ -209,13 +185,6 @@ class ItemScheduleDeleteForm(DeleteForm):
         for i in range(len(container) * 2):
             reorder_form.handle_move.success({'mode': 'down', 'field': field})
         container.subset_query = subset_query
-        if self.context.category:
-            results = container._query.filter(
-                sql.operators.lt(
-                    container.domain_model.planned_order,
-                    self.context.planned_order))[:-1]
-            if results:
-                results[0].category_id = self.context.category_id
 
         count = 0
         session = Session()

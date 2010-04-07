@@ -48,7 +48,10 @@
      provides=".interfaces.IDateRangeFilter"
      factory=".daterange.question_filter" />
 
-
+  <adapter
+     for=".domain.TabledDocument"
+     provides=".interfaces.IDateRangeFilter"
+     factory=".daterange.tableddocument_filter" />
   <!--adapter
      for=".domain.Group"
      provides=".interfaces.IDateRangeFilter"

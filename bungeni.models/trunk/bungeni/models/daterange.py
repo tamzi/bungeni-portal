@@ -31,6 +31,13 @@ def question_filter(domain_model):
     between(domain_model.approval_date),
     )
 
+def tableddocument_filter(domain_model):
+    return sql.or_(
+    between(domain_model.submission_date),
+    between(domain_model.approval_date),
+    )
+
+
 def group_filter(domain_model):
     return sql.or_(
     domain_model.start_date.between(

@@ -1,3 +1,17 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+# bungeni - http://www.bungeni.org/
+# Parliamentary and Legislative Information System
+# Copyright (C) 2010 UN/DESA - http://www.un.org/esa/desa/
+# Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+
+'''Utilities to translate content
+
+$Id$
+'''
+from copy import copy
+
 from zope import component
 from zope.security.proxy import removeSecurityProxy
 
@@ -5,6 +19,8 @@ from zope.app.schema.vocabulary import IVocabularyFactory
 from zope.interface import implements
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+from zope.security.management import getInteraction
+from zope.publisher.interfaces import IRequest    
 
 from zope.publisher.browser import BrowserLanguages
 
@@ -94,6 +110,25 @@ def get_translation_for(context, lang):
     except:
         return None              
 
+def translate_obj(context):
+    """ translate a content object (context) into
+    the language defined in the request
+    -> copy of the object translated into language of the request
+    """
+
+    trusted = removeSecurityProxy(context) 
+    interaction = getInteraction()
+    for participation in interaction.participations:
+        if IRequest.providedBy(participation):
+            request = participation       
+    lang = request.locale.getLocaleID()  
+    translation = get_translation_for(context, lang)  
+    obj = copy(trusted)        
+    for field_translation in translation:
+        setattr(obj, field_translation.field_name, 
+                    field_translation.field_text)  
+    return obj                         
+
 def get_available_translations(context):
     """ returns a dictionary of all
     available translations (key) and the object_id
@@ -119,3 +154,4 @@ def get_available_translations(context):
 def is_translation(context):
     return IVersion.providedBy(context) and \
            context.status in (u"draft-translation",)
+                      

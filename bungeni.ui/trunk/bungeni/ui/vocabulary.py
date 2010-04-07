@@ -20,7 +20,7 @@ from zope.i18n import translate
 from i18n import _
 
 import datetime
-
+from bungeni.core.translation import translate_obj
 from bungeni.ui.calendar.utils import first_nth_weekday_of_month
 from bungeni.ui.calendar.utils import nth_day_of_month
 from bungeni.ui.calendar.utils import nth_day_of_week
@@ -70,9 +70,6 @@ class MonthlyRecurrenceVocabulary(object):
 MonthlyRecurrenceVocabularyFactory = MonthlyRecurrenceVocabulary()
 
 
-
-PoliticalParties  = ObjectSource( domain.PoliticalParty, 'full_name', "id")
-ParliamentSessions = ObjectSource( domain.ParliamentSession, 'short_name', 'session_id')
 QuestionType = vocabulary.SimpleVocabulary( [
     vocabulary.SimpleTerm('O', _(u"Ordinary"), _(u"Ordinary")), 
     vocabulary.SimpleTerm('P', _(u"Private Notice"), _(u"Private Notice"))] )
@@ -159,7 +156,7 @@ class SpecializedSource( object ):
         return vocabulary.SimpleVocabulary( terms )
 
 class MemberOfParliament( object ):
-    """ Member of Parliament = user join group membership"""
+    """ Member of Parliament = user join group membership join parliament"""
     
 member_of_parliament = rdb.join( schema.user_group_memberships, 
                     schema.users,
@@ -355,23 +352,25 @@ class MinistrySource(SpecializedSource):
         trusted=removeSecurityProxy(context)        
         ministry_id = getattr(trusted, self.value_field, None)
         for ob in results:
+            obj = translate_obj(ob)
             terms.append( 
                 vocabulary.SimpleTerm( 
-                    value = getattr( ob, 'group_id'), 
-                    token = getattr( ob, 'group_id'),
-                    title = "%s - %s" % (getattr( ob, 'short_name') ,
-                            getattr( ob, 'full_name'))
+                    value = getattr( obj, 'group_id'), 
+                    token = getattr( obj, 'group_id'),
+                    title = "%s - %s" % (getattr( obj, 'short_name') ,
+                            getattr( obj, 'full_name'))
                     ))
         if ministry_id:
             if query.filter(domain.Group.group_id == ministry_id).count() == 0:
                 session = Session()            
                 ob = session.query(domain.Group).get(ministry_id)
+                obj = translate_obj(ob)                
                 terms.append( 
                     vocabulary.SimpleTerm( 
-                        value = getattr( ob, 'group_id'), 
-                        token = getattr( ob, 'group_id'),
-                        title = "%s - %s" % (getattr( ob, 'short_name') ,
-                                getattr( ob, 'full_name'))
+                        value = getattr( obj, 'group_id'), 
+                        token = getattr( obj, 'group_id'),
+                        title = "%s - %s" % (getattr( obj, 'short_name') ,
+                                getattr( obj, 'full_name'))
                         ))
                             
         return vocabulary.SimpleVocabulary( terms )                

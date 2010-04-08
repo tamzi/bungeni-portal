@@ -96,9 +96,9 @@ def get_translation_for(context, lang):
     language lang"""
     trusted = removeSecurityProxy(context)    
     class_name = trusted.__class__.__name__
-    try:
-        mapper = orm.object_mapper(trusted)            
-        pk = getattr(trusted, mapper.primary_key[0].name)    
+    mapper = orm.object_mapper(trusted)            
+    pk = getattr(trusted, mapper.primary_key[0].name) 
+    if type(pk) == int:
         session = Session()
         query = session.query(domain.ObjectTranslation).filter(
             sql.and_(
@@ -107,8 +107,8 @@ def get_translation_for(context, lang):
                 domain.ObjectTranslation.lang == lang)
                 )
         return query.all()    
-    except:
-        return None              
+    else:
+        return []                      
 
 def translate_obj(context):
     """ translate a content object (context) into

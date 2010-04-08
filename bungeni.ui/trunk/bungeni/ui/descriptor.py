@@ -11,12 +11,14 @@ from copy import deepcopy
 from datetime import date
 from zope import schema, interface
 
-from zc.table import column
+from zope.security.management import getInteraction
+from zope.publisher.interfaces import IRequest 
 import zope.app.form.browser
+from zope.i18n import translate
+from zc.table import column
 
 from ore.alchemist import Session
 from ore.alchemist.model import ModelDescriptor
-from ore.alchemist.vocabulary import DatabaseSource
 
 from alchemist.ui import widgets
 
@@ -24,7 +26,6 @@ from bungeni.models import domain
 
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import get_all_languages
-
 from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
@@ -39,7 +40,7 @@ from bungeni.core.workflows.heading import states as heading_wf_state
 from bungeni.core.workflows.committee import states as committee_wf_state
 from bungeni.core.workflows.parliament import states as parliament_wf_state
 from bungeni.core.workflows.version import states as version_wf_state
-
+from bungeni.core.translation import translate_obj
 
 #from bungeni.ui.widgets import SelectDateWidget, SelectDateTimeWidget
 from bungeni.ui.widgets import TextDateWidget as DateWidget
@@ -106,25 +107,22 @@ def name_column( name, title, default=""):
         return value
     return _column( name, title, renderer, default)    
         
-def member_fk_column( name, title, default=""):
-    def getter( item, formatter ):
-        value = getattr( item, name)
-        if not value:
-            return default
-        session = Session()
-        member = session.query( domain.User ).get( value )
-        return u"%s %s"%(member.first_name, member.last_name)
-    return column.GetterColumn( title, getter )
 
-def lookup_fk_column(name, title, domain_model, field, default=""):
+def user_name_column(name, title, attr, default=u""):
     def getter( item, formatter ):
-        value = getattr(item, name)
-        if not value:
-            return default
-        session = Session()
-        member = session.query(domain_model).get(value)
-        return  getattr(member,field)
-    return column.GetterColumn(title, getter)
+        if attr:
+            user = getattr(item, attr, None)
+            if user:
+                return u"%s %s"%(user.first_name, user.last_name)
+        else:
+            return u"%s %s"%(item.first_name, item.last_name)                            
+    return column.GetterColumn( title, getter )     
+
+
+def member_title_column(name, title, default=u""):
+    def getter( item, formatter ):
+        return item.title_name.user_role_name
+    return column.GetterColumn( title, getter )     
 
 def current_titles_in_group_column(name, title, default=u""):
     def getter(item, formatter):
@@ -138,14 +136,15 @@ def current_titles_in_group_column(name, title, default=u""):
             if title.start_date <= today:
                 if title.end_date:
                     if title.end_date >= today:
-                        title_list.append(title.title_name.user_role_name) 
+                        obj = translate_obj(title.title_name)                        
+                        title_list.append(obj.user_role_name) 
                 else:
-                    title_list.append(title.title_name.user_role_name)    
+                    obj = translate_obj(title.title_name)                                        
+                    title_list.append(obj.user_role_name)    
         return ", ".join(title_list)                                                            
     return column.GetterColumn(title, getter)     
      
 def inActiveDead_Column( name, title, default):
-    #[(_(u"active"),'A'),(_(u"inactive"), 'I'),(_(u"deceased"), 'D')]
     aid = { 'A': _(u"active"),
         'I': _(u"inactive"),
         'D': _(u"deceased")}    
@@ -161,48 +160,65 @@ def item_name_column(name, title, default=u""):
 def group_name_column(name, title, default=u""):
     def getter( item, formatter ):        
         session = Session()
-        return u"%s %s"%(item.group.type, item.group.short_name)    
+        obj = translate_obj(item)
+        #TODO: translate group.type
+        return u"%s %s"%(item.group.type, obj.group.short_name)    
     return column.GetterColumn( title, getter )
 
 
 def workflow_column(name, title, default=u""):
     def getter( item, formatter ):
-        return ui_utils.misc.get_wf_state(item)    
+        state_title =  ui_utils.misc.get_wf_state(item) 
+        interaction = getInteraction()
+        for participation in interaction.participations:
+            if IRequest.providedBy(participation):
+                request = participation          
+        return translate(
+            str(state_title), 
+            domain="bungeni.core",
+            context=request)                  
     return column.GetterColumn( title, getter ) 
 
 def constituency_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.constituency.name   
+        obj = translate_obj(item.constituency)
+        return obj.name   
     return column.GetterColumn( title, getter ) 
 
 def committee_type_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.committee_type.committee_type
+        obj = translate_obj(item.committee_type)
+        return obj.committee_type
     return column.GetterColumn( title, getter ) 
 
 def ministry_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.ministry.short_name
+        obj = translate_obj(item.ministry)        
+        return obj.short_name
     return column.GetterColumn( title, getter ) 
 
 def sitting_type_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.sitting_type.sitting_type
+        obj = translate_obj(item.sitting_type)    
+        return obj.sitting_type
     return column.GetterColumn( title, getter ) 
 
 def attendance_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.attendance_type.attendance_type
+        obj = translate_obj(item.attendance_type)
+        return obj.attendance_type
     return column.GetterColumn( title, getter ) 
 
 def province_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.province.province
+        obj = translate_obj(item.province)        
+        return obj.province
     return column.GetterColumn( title, getter ) 
 
 def region_column( name, title, default=u""):
     def getter( item, formatter ):
-        return item.region.region
+        obj = translate_obj(item.region)    
+        return obj.region
     return column.GetterColumn( title, getter ) 
         
 ####
@@ -325,7 +341,7 @@ class UserDescriptor( ModelDescriptor ):
     fields = [
         dict( name="user_id", 
                 label="Name",
-                listing_column=member_fk_column("user_id", _(u'Name')), 
+                listing_column=user_name_column("user_id", _(u'Name'), None),
                 listing=True, 
                 edit=False, 
                 add=False, 
@@ -374,7 +390,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="birth_country", 
               property = schema.Choice( 
               title=_(u"Country of Birth"), 
-            source=DatabaseSource(domain.Country, 
+            source=vocabulary.DatabaseSource(domain.Country, 
                     token_field='country_id', 
                     title_field='country_name',
                     value_field='country_id' ),                                        
@@ -383,7 +399,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="birth_nationality", 
               property = schema.Choice( 
                 title=_(u"Nationality at Birth"), 
-                source=DatabaseSource(domain.Country, 
+                source=vocabulary.DatabaseSource(domain.Country, 
                     token_field='country_id', 
                     title_field='country_name',
                     value_field='country_id' ),                                        
@@ -392,7 +408,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="current_nationality", 
               property = schema.Choice( 
                 title=_(u"Current Nationality"), 
-                source=DatabaseSource(domain.Country, 
+                source=vocabulary.DatabaseSource(domain.Country, 
                 token_field='country_id', 
                 title_field='country_name',
                 value_field='country_id' ),                                        
@@ -459,12 +475,12 @@ class UserDelegationDescriptor( ModelDescriptor ):
         dict( name="delegation_id",
               property=schema.Choice( 
                 title=_(u"User"), 
-                source=DatabaseSource(domain.User,  
+                source=vocabulary.DatabaseSource(domain.User,  
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("delegation_id", 
-                    _(u'User')), 
+                listing_column=user_name_column("delegation_id", 
+                    _(u'User'), 'user'), 
               listing=True,
             ),     
 ]                        
@@ -546,13 +562,13 @@ class MpDescriptor ( ModelDescriptor ):
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
+                listing_column=user_name_column("user_id", 
+                    _(u'Name'),'user'), 
               listing=True,
             ),]  
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))    
-    constituencySource=DatabaseSource(domain.Constituency,  
+    constituencySource=vocabulary.DatabaseSource(domain.Constituency,  
                     token_field='constituency_id', 
                     title_field='name', 
                     value_field='constituency_id')
@@ -601,8 +617,8 @@ class PartyMemberDescriptor( ModelDescriptor ):
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
+                listing_column=user_name_column("user_id", 
+                    _(u'Name'),'user'), 
               listing=True,
             ),]  
     
@@ -627,7 +643,7 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     display_name = _(u"Party membership")
     container_name = _(u"Party memberships")
     
-    partySource=DatabaseSource(domain.PoliticalParty,  
+    partySource=vocabulary.DatabaseSource(domain.PoliticalParty,  
                     token_field='party_id', 
                     title_field='short_name', 
                     value_field='party_id')
@@ -815,7 +831,7 @@ class ParliamentDescriptor( GroupDescriptor ):
     schema_invariants = [EndAfterStart, ElectionAfterStart]
     public_wfstates = [parliament_wf_state[u'active'].id, parliament_wf_state[u'dissolved'].id ]    
        
-parliamentSource = DatabaseSource(domain.Parliament, 
+parliamentSource = vocabulary.DatabaseSource(domain.Parliament, 
                     token_field='parliament_id', 
                     title_field='short_name', 
                     value_field='parliament_id')
@@ -826,7 +842,7 @@ class CommitteeDescriptor( GroupDescriptor ):
     custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy( GroupDescriptor.fields )
-    typeSource = DatabaseSource(domain.CommitteeType, 
+    typeSource = vocabulary.DatabaseSource(domain.CommitteeType, 
                     token_field='committee_type_id', 
                     title_field='committee_type', 
                     value_field='committee_type_id')
@@ -874,8 +890,8 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
+                listing_column=user_name_column("user_id", 
+                    _(u'Name'),'user'), 
               listing=True,
             ),]  
     
@@ -915,7 +931,7 @@ class AddressDescriptor ( ModelDescriptor ):
         dict( name="address_type_id", 
             property = schema.Choice(
             title =_(u"Address Type"),
-            source=DatabaseSource(domain.AddressType, 
+            source=vocabulary.DatabaseSource(domain.AddressType, 
                 title_field='address_type_name',
                 token_field='address_type_id',
                 value_field='address_type_id'),)
@@ -932,7 +948,7 @@ class AddressDescriptor ( ModelDescriptor ):
         dict( name="zipcode", label=_(u"Zip Code") ),
         dict( name="country",  
                 property = schema.Choice( title=_(u"Country"), 
-                source=DatabaseSource(domain.Country, 
+                source=vocabulary.DatabaseSource(domain.Country, 
                      title_field='country_name',
                      token_field='country_id', 
                      value_field='country_id' ),                                        
@@ -988,11 +1004,9 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
                 property=schema.Choice(title=_(u"Title"), 
                   source=vocabulary.MemberTitleSource('title_name_id'),
                   ),
-                  listing_column = lookup_fk_column( 
+                  listing_column = member_title_column( 
                         "title_name_id", 
-                        _(u'Title'), 
-                        domain.MemberTitle, 
-                        'user_role_name' ),
+                        _(u'Title')),
                   listing=True,
               ),
         dict( name="start_date", 
@@ -1027,8 +1041,8 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
+                listing_column=user_name_column("user_id", 
+                    _(u'Name'),'user'), 
               listing=True,
             ),]  
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))     
@@ -1093,8 +1107,8 @@ class OfficeMemberDescriptor( ModelDescriptor ):
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
+                listing_column=user_name_column("user_id", 
+                    _(u'Name'),'user'), 
               listing=True,
             ),]  
     
@@ -1132,8 +1146,8 @@ class MinisterDescriptor( ModelDescriptor ):
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
-                listing_column=member_fk_column("user_id", 
-                    _(u'Name')), 
+                listing_column=user_name_column("user_id", 
+                    _(u'Name'),'user'), 
               listing=True,
             ),]  
     
@@ -1418,8 +1432,8 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                 description=_(u"Select the user who moved the document"),
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
                 ),
-              listing_column=member_fk_column("owner_id", 
-                    _(u'Name')),              
+              listing_column=user_name_column("owner_id", 
+                    _(u'Name'), 'owner'),              
               listing = True 
             ),            
         dict(name="language", 
@@ -1698,7 +1712,7 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
         dict( name="bill_id", omit=True ),
         dict( name="bill_type_id", property = schema.Choice(
                 title =_(u"Bill Type"),
-                source=DatabaseSource(domain.BillType, 
+                source=vocabulary.DatabaseSource(domain.BillType, 
                     title_field='bill_type_name',
                     token_field='bill_type_id',
                     value_field='bill_type_id'),
@@ -1921,7 +1935,10 @@ class SittingDescriptor( ModelDescriptor ):
                 _(u"Sitting Type")),
               property = schema.Choice( 
                     title=_(u"Sitting Type"), 
-                    source=vocabulary.SittingTypes,
+                    source=vocabulary.SittingTypes(
+                        title_field='sitting_type',
+                        token_field='sitting_type_id',
+                        value_field='sitting_type_id'),
                     required=True),
                     listing=True ),
         dict( name="start_date", 
@@ -1941,7 +1958,7 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="venue_id",
               property=schema.Choice( 
                 title=_(u"Venue"), 
-                source=DatabaseSource(domain.Venue,  
+                source=vocabulary.DatabaseSource(domain.Venue,  
                     title_field='short_name', 
                     token_field='venue_id', 
                     value_field = 'venue_id'),
@@ -2033,7 +2050,7 @@ class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting attendance")
     container_name =_(u"Sitting attendances")
     
-    attendanceVocab = DatabaseSource(
+    attendanceVocab = vocabulary.DatabaseSource(
         domain.AttendanceType, 
                     token_field='attendance_id', 
                     title_field='attendance_type', 
@@ -2047,8 +2064,8 @@ class AttendanceDescriptor( ModelDescriptor ):
                     title_field='fullname', 
                     token_field='user_id', 
                     value_field = 'member_id')), 
-              listing_column=member_fk_column("member_id", 
-                _(u'Name') ) 
+              listing_column=user_name_column("member_id", 
+                _(u'Name'), 'user' ) 
               ),
         dict( name="attendance_id", listing=True, 
                 property = schema.Choice( 
@@ -2096,8 +2113,8 @@ class ConsignatoryDescriptor( ModelDescriptor ):
                 title=_(u"Cosignatory"), 
                 source=vocabulary.MemberOfParliamentDelegationSource('user_id'),
                 required=True),
-              listing_column=member_fk_column("user_id", 
-                _(u'Cosignatory')), 
+              listing_column=user_name_column("user_id", 
+                _(u'Cosignatory'), 'owner'), 
             listing=True, 
             ),  
     ]
@@ -2108,11 +2125,11 @@ class ConstituencyDescriptor( ModelDescriptor ):
     display_name = _(u"Constituency")
     container_name = _(u"Constituencies")
 
-    provinceSource=DatabaseSource(domain.Province,
+    provinceSource=vocabulary.DatabaseSource(domain.Province,
                     token_field='province_id', 
                     title_field='province', 
                     value_field='province_id')
-    regionSource=DatabaseSource(domain.Region,
+    regionSource=vocabulary.DatabaseSource(domain.Region,
                     token_field='region_id', 
                     title_field='region', 
                     value_field='region_id')
@@ -2326,7 +2343,7 @@ class ItemScheduleDescriptor(ModelDescriptor):
         dict( name="item_id", 
               property = schema.Choice(
                   title=_(u"Item"),
-                  source=DatabaseSource(
+                  source=vocabulary.DatabaseSource(
                       domain.ParliamentaryItem,
                       token_field='parliamentary_item_id',
                       value_field = 'parliamentary_item_id',

@@ -1,9 +1,9 @@
 scheduler.locale={
 	date:{
-		month_full:["Januari", "Februari", "Marchi", "Aprili", "Mai", "Juni", "Julai", "Agosti", "Septemba", "Octoba", "Novemba", "Desemba"],
+		month_full:["Januari", "Februari", "Machi", "Aprili", "Mai", "Juni", "Julai", "Agosti", "Septemba", "Oktoba", "Novemba", "Desemba"],
 		month_short:["Jan", "Feb", "Mar", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Des"],
 		day_full:["Juma Tatu", "Juma Nne", "Juma Tano", "Alhamisi", "Ijumaa", "Juma Mosi", "Juma Pili"],
-    	day_short:["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"]
+    	day_short:["Juma2", "Juma3", "Juma4", "Juma5", "Alh", "Iju", "Juma1"]
     },
     labels:{
     	dhx_cal_today_button:"Leo",
@@ -11,27 +11,27 @@ scheduler.locale={
     	week_tab:"Juma",
     	month_tab:"Mwezi",
     	new_event:"Kikao Kipya",
-		icon_save:"Enregistrer",
-		icon_cancel:"Annuler",
-		icon_details:"Détails",
-		icon_edit:"Modifier",
-		icon_delete:"Effacer",
-		confirm_closing:"",//Vos modifications seront perdus, êtes-vous sûr ? 
-		confirm_deleting:"L'événement sera effacé sans appel, êtes-vous sûr ?",
-		section_description:"Description",
-		section_time:"Période de temps",
+		icon_save:"Hifadhi",
+		icon_cancel:"Tengua",
+		icon_details:"Maelezo",
+		icon_edit:"Hariri",
+		icon_delete:"Futa",
+		confirm_closing:"Una hakika kuwa unataka kufunga",
+		confirm_deleting:"una hakika kuwa unataka kufuta",
+		section_description:"Maelezo",
+		section_time:"Kipindi cha wakati",
 		
-		confirm_recurring:"Voulez-vous éditer toute une série d'évènements répétés?",
-		section_recurring:"Répéter l'évènement",
-		button_recurring:"Désactivé",
-		button_recurring_open:"Activé",
+		confirm_recurring:"Una hakika kuwa unataka tukio liwe linarudiwa",
+		section_recurring:"Rudia tukio",
+		button_recurring:"Rudia",
+		button_recurring_open:"Tukio linarudiwa",
 		
 		/*agenda view extension*/
-		agenda_tab:"Jour",
-		date:"Date",
-		description:"Description",
+		agenda_tab:"Siku",
+		date:"Tarehe",
+		description:"Maelezo",
 		
 		/*year view extension*/
-		year_tab:"Ans"
+		year_tab:"Mwaka"
 	}
 }

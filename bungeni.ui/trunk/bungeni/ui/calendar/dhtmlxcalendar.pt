@@ -8,13 +8,28 @@
       <script type="text/javascript" src="dhtmlxschedulerinit.js"        
             tal:attributes="src context/++resource++dhtmlxcalendarinit.js"></script> -->
       <tal:block metal:fill-slot="header">
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'fr'" src="locale_fr.js"        
+            tal:attributes="src context/++resource++locale_fr.js">
+        </script>
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'es'" src="locale_es.js"        
+            tal:attributes="src context/++resource++locale_es.js">
+        </script>
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'it'" src="locale_it.js"        
+            tal:attributes="src context/++resource++locale_it.js">
+        </script>
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'sw'" src="locale_sw.js"        
+            tal:attributes="src context/++resource++locale_sw.js">
+        </script>
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'pt'" src="locale_pt.js"        
+            tal:attributes="src context/++resource++locale_pt.js">
+        </script>
         <script type="text/javascript">
             function init() {
                 scheduler.config.xml_date="%Y-%m-%d %H:%i";
                 scheduler.config.show_loading=true;
                 scheduler.config.scroll_hour=8;
                 scheduler.config.details_on_create=true;
-                scheduler.config.details_on_dblclick=false; 
+                scheduler.config.details_on_dblclick=true; 
                 scheduler.config.icons_select=["icon_details","icon_delete"]
                 scheduler.locale.labels.agenda_tab = "Upcoming";
                 scheduler.init('scheduler_here', null, "week");
@@ -34,7 +49,7 @@
 		            get_value:function(node,ev){
 		                ev.type = node.childNodes[1].value;
 			            var w = node.childNodes[1].selectedIndex;
-			            ev.text =  node.childNodes[1].options[w].text;
+			            ev.text =  node.childNodes[1].options[w].text + ev.status;
 			            ev.venue = node.childNodes[4].value;
 			            ev.language = node.childNodes[7].value;
 			            return node.childNodes[1].value;
@@ -77,8 +92,9 @@
             }
             window.onload = cannotEdit;
         </script>
+        
       </tal:block>
-      <div metal:fill-slot="body" i18n:domain="bungeni" style='width:100%; height:500px;'>
+      <div metal:fill-slot="body" i18n:domain="bungeni" style='width:100%; height:500px; position:relative; top:25px;'>
           <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:100%;'>
 		        <div class="dhx_cal_navline">
 			        <div class="dhx_cal_prev_button">&nbsp;</div>

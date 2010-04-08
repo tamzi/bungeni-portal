@@ -230,6 +230,9 @@ class CalendarView(BrowserView):
         languages = get_all_languages()
         sitting_types = session.query(domain.SittingType).all()
         session.close()    
+        self.display_language = 'en'
+        if self.request.get('I18N_LANGUAGES'):
+            self.display_language = self.request.get('I18N_LANGUAGES')
         s = '<div class="dhx_cal_ltext" style="height:80px;">' 
         s += 'Sitting Type<select>'
         for sitting_type in sitting_types:
@@ -952,15 +955,22 @@ class DhtmlxCalendarSittingsEdit(BrowserView):
         action = self.request.form[ids+"_!nativeeditor_status"]
         session = Session()
         sitting = domain.GroupSitting()
+        trusted = removeSecurityProxy(self.context)
+        sitting.group_id = trusted.group_id
+        print "GROUP ID => ", sitting.group_id
         if action == "inserted":
             sitting.start_date = self.request.form[ids+"_start_date"]
             sitting.end_date = self.request.form[ids+"_end_date"]
             #sitting.type = self.request.form[ids+"_text"]
             sitting.sitting_type_id = self.request.form[ids+"_type"]
             sitting.status = 'draft-agenda'
-            sitting.language = self.request.form[ids+"_language"]
-            sitting.venue_id = self.request.form[ids+"_venue"]
-            sitting.group_id = self.context.group_id
+            if ids+"_type" in self.request.form.keys():
+                sitting.sitting_type_id = self.request.form[ids+"_type"]
+            if ids+"_language" in self.request.form.keys():
+                sitting.language = self.request.form[ids+"_language"]
+            if ids+"_venue" in self.request.form.keys():
+                sitting.venue_id = self.request.form[ids+"_venue"]
+            
             session.add(sitting)
             session.commit()
         elif action == "updated":
@@ -968,11 +978,13 @@ class DhtmlxCalendarSittingsEdit(BrowserView):
             sitting = session.query(domain.GroupSitting).get(ids)
             sitting.start_date = self.request.form[ids+"_start_date"]
             sitting.end_date = self.request.form[ids+"_end_date"]
-            sitting.sitting_type_id = self.request.form[ids+"_type"]
-            sitting.status = 'draft-agenda'
-            sitting.language = self.request.form[ids+"_language"]
-            sitting.venue_id = self.request.form[ids+"_venue"]
-            sitting.group_id = self.context.group_id
+            if ids+"_type" in self.request.form.keys():
+                sitting.sitting_type_id = self.request.form[ids+"_type"]
+            if ids+"_language" in self.request.form.keys():
+                sitting.language = self.request.form[ids+"_language"]
+            if ids+"_venue" in self.request.form.keys():
+                sitting.venue_id = self.request.form[ids+"_venue"]
+            
             session.update(sitting)
             session.commit()
         elif action == "deleted":

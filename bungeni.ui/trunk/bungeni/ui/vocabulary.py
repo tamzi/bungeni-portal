@@ -5,7 +5,10 @@ from zope.schema import vocabulary
 from zope.security.proxy import removeSecurityProxy
 from zope.security import checkPermission
 
-from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
+import ore.alchemist.vocabulary 
+
+from ore.alchemist import Session
+
 from ore.alchemist.container import valueKey
 
 from sqlalchemy.orm import mapper,  column_property 
@@ -98,26 +101,34 @@ YesNoSource = vocabulary.SimpleVocabulary( [
     vocabulary.SimpleTerm(True, _(u"Yes"), _(u"Yes")), 
     vocabulary.SimpleTerm(False, _(u"No"), _(u"No"))] )
 
-Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
-Parliaments = ObjectSource(
+
+class DatabaseSource(ore.alchemist.vocabulary.DatabaseSource):
+
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()
+        
+        terms = []
+        title_field = self.title_field or self.token_field
+        title_getter = self.title_getter or (lambda ob: getattr(ob, title_field))
+        for ob in results:
+            obj = translate_obj(ob)
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( obj, self.value_field), 
+                    token = getattr( obj, self.token_field),
+                    title = title_getter(obj),
+                    ))
+                    
+        return vocabulary.SimpleVocabulary( terms )
+
+ParliamentSource = DatabaseSource(
     domain.Parliament, 'short_name', 'parliament_id',
     title_getter=lambda ob: "%s (%s-%s)" % (
         ob.full_name,
         ob.start_date and ob.start_date.strftime("%Y/%m/%d") or "?",
         ob.end_date and ob.end_date.strftime("%Y/%m/%d") or "?"))
-
-
-SittingTypes = DatabaseSource(
-    domain.SittingType, 'sitting_type', 'sitting_type_id',
-    title_getter=lambda ob: "%s (%s-%s)" % (
-        ob.sitting_type.capitalize(), ob.start_time, ob.end_time))
-
-SittingTypeOnly = DatabaseSource(
-    domain.SittingType, 
-    title_field='sitting_type',
-    token_field='sitting_type_id',
-    value_field='sitting_type_id')
-
+                
 
 class SpecializedSource( object ):
     interface.implements( IContextSourceBinder )
@@ -146,14 +157,57 @@ class SpecializedSource( object ):
         terms = []
         title_field = self.title_field or self.token_field
         for ob in results:
+            obj = translate_obj(ob)
             terms.append( 
                 vocabulary.SimpleTerm( 
-                    value = getattr( ob, self.value_field), 
-                    token = getattr( ob, self.token_field),
-                    title = getattr( ob, title_field) ,
+                    value = getattr( obj, self.value_field), 
+                    token = getattr( obj, self.token_field),
+                    title = getattr( obj, title_field) ,
                     ))
                     
         return vocabulary.SimpleVocabulary( terms )
+
+
+
+
+class SittingTypes(SpecializedSource):
+    #domain.SittingType, 'sitting_type', 'sitting_type_id',
+    #title_getter=lambda ob: "%s (%s-%s)" % (
+    #    ob.sitting_type.capitalize(), ob.start_time, ob.end_time))
+
+    def constructQuery(self, context):
+        session= Session()
+        return session.query(domain.SittingType)        
+
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()
+        
+        terms = []
+        title_field = self.title_field or self.token_field
+        for ob in results:
+            obj = translate_obj(ob)
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = obj.sitting_type_id, 
+                    token = obj.sitting_type,
+                    title = "%s (%s-%s)" % (
+                        obj.sitting_type, 
+                        obj.start_time, 
+                        obj.end_time),
+                    ))
+                    
+        return vocabulary.SimpleVocabulary( terms )
+                
+        
+#XXX
+#SittingTypeOnly = DatabaseSource(
+#    domain.SittingType, 
+#    title_field='sitting_type',
+#    token_field='sitting_type_id',
+#    value_field='sitting_type_id')
+
+
 
 class MemberOfParliament( object ):
     """ Member of Parliament = user join group membership join parliament"""
@@ -401,11 +455,12 @@ class MemberTitleSource(SpecializedSource):
         results = query.all()        
         terms = []
         for ob in results:
+            obj = translate_obj(ob)
             terms.append( 
                 vocabulary.SimpleTerm( 
-                    value = getattr( ob, 'user_role_type_id'), 
-                    token = getattr( ob, 'user_role_type_id'),
-                    title = getattr( ob, 'user_role_name'),
+                    value = getattr( obj, 'user_role_type_id'), 
+                    token = getattr( obj, 'user_role_type_id'),
+                    title = getattr( obj, 'user_role_name'),
                     ))
         return vocabulary.SimpleVocabulary( terms )  
 

@@ -329,8 +329,7 @@ def validate_member_titles(action, data, context, container):
     else:
         roletitle = None        
     date = datetime.date.today()        
-    
-    if data['start_date']:
+    if  data.get( 'start_date', None):
         date = data['start_date']
         q = get_q_user(date)
         results = q.all()    
@@ -349,7 +348,7 @@ def validate_member_titles(action, data, context, container):
                     _(u"This persons allready has the title %s") % 
                     overlaps, 
                     "start_date" )) 
-    if data['end_date']:
+    if data.get('end_date',None):
         date = data['end_date']
         q = get_q_user(date)
         results = q.all()   
@@ -368,7 +367,7 @@ def validate_member_titles(action, data, context, container):
                     _(u"This persons allready has the title %s") % 
                     overlaps, 
                     "end_date" ))                                              
-    if data['start_date']:
+    if data.get('start_date',None):
         date = data['start_date']
         q = get_q_unique(date)
         results = q.all()    
@@ -388,7 +387,7 @@ def validate_member_titles(action, data, context, container):
                     overlaps, 
                     "start_date" ))                                      
             
-    if data['end_date']:
+    if data.get('end_date',None):
         date = data['end_date']
         q = get_q_unique(date)
         results = q.all()   

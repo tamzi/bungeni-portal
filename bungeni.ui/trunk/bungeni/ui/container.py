@@ -28,6 +28,8 @@ from bungeni.models.interfaces import IMemberOfParliamentContainer
 from bungeni.models.interfaces import ICommitteeMemberContainer
 from bungeni.models.interfaces import ICommitteeStaffContainer
 
+from bungeni.core.translation import translate_obj
+
 import bungeni.ui.utils as ui_utils
 from bungeni.ui.cookies import get_date_range
 from bungeni.ui.interfaces import IBusinessSectionLayer, IMembersSectionLayer
@@ -376,8 +378,11 @@ class ContainerJSONListing( BrowserView ):
             query=query.filter(ud_filter)
         if order_by:
             query = query.order_by( order_by )  
-        nodes = self._get_secured_batch(query, start, limit)                                                  
-        batch = self._jsonValues( nodes, self.fields, self.context )
+        nodes = self._get_secured_batch(query, start, limit)   
+        t_nodes = []
+        for node in nodes:
+            t_nodes.append(translate_obj(node))                                               
+        batch = self._jsonValues( t_nodes, self.fields, self.context )
         return batch
 
 

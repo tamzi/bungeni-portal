@@ -147,8 +147,8 @@
 
 
   <utility
-     name="bungeni.vocabulary.Parliaments"
+     name="bungeni.vocabulary.ParliamentSource"
      provides="zope.schema.interfaces.IVocabularyFactory"
-     component=".vocabulary.Parliaments" />
+     component=".vocabulary.ParliamentSource" />
             
 </configure>

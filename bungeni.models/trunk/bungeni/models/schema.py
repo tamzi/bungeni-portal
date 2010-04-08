@@ -228,7 +228,7 @@ offices = rdb.Table(
    #Speakers office or Clerks office, the members of members of
    #this group will get local roles in the parliament accordingly
    rdb.Column( "office_type", rdb.String(1),  
-                rdb.CheckConstraint("office_type in ('S','C', 'T')"),
+                rdb.CheckConstraint("office_type in ('S','C', 'T','L','R')"),
                 nullable=False ),
    )
         

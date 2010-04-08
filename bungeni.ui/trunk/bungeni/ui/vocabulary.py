@@ -94,9 +94,12 @@ ISResponse = vocabulary.SimpleVocabulary([
     vocabulary.SimpleTerm('I', _(u"initial"), _(u"initial")),
     vocabulary.SimpleTerm('S', _(u"subsequent"), _(u"subsequent")),])
 OfficeType = vocabulary.SimpleVocabulary( [
-    vocabulary.SimpleTerm('S', _(u"Speakers Office"), _(u"Speakers Office")), 
+    vocabulary.SimpleTerm('S', _(u"House Business Office"), _(u"House Business Office")), 
     vocabulary.SimpleTerm('C', _(u"Clerks Office"), _(u"Clerks Office")), 
-    vocabulary.SimpleTerm('T', _(u"Translators Office"), _(u"Translators Office")), ] )
+    vocabulary.SimpleTerm('T', _(u"Translators Office"), _(u"Translators Office")), 
+    vocabulary.SimpleTerm('L', _(u"Library Office"), _(u"Library Office")),     
+    vocabulary.SimpleTerm('R', _(u"Researcher Office"), _(u"Researcher Office")),     
+    ] )
 YesNoSource = vocabulary.SimpleVocabulary( [
     vocabulary.SimpleTerm(True, _(u"Yes"), _(u"Yes")), 
     vocabulary.SimpleTerm(False, _(u"No"), _(u"No"))] )

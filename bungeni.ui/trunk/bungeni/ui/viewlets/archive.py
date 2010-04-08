@@ -32,7 +32,7 @@ class ArchiveDatesForm(form.PageForm):
         parliament = schema.Choice(
             title=_(u"Or select"),
             description=_(u"Set date range to that of a given particular parliament"),
-            vocabulary="bungeni.vocabulary.Parliaments",
+            vocabulary="bungeni.vocabulary.ParliamentSource",
             required=False)
 
     template = NamedTemplate('alchemist.subform')
@@ -89,7 +89,7 @@ class ArchiveDatesForm(form.PageForm):
         self.widgets['range_end_date'].set_max_date(end)   
         
         
-    @form.action(u"Filter")
+    @form.action(_(u"Filter"))
     def handle_filter(self, action, data):
         start_date = data.get('range_start_date')
         end_date = data.get('range_end_date')
@@ -119,7 +119,7 @@ class ArchiveDatesForm(form.PageForm):
             "?portal_status_message=%s" % translate(
                 _(u"Date range set")))
 
-    @form.action(u"Clear")
+    @form.action(_(u"Clear"))
     def handle_clear(self, action, data):
         unset_date_range(self.request)
         

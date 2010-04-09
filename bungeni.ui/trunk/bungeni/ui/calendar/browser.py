@@ -1,6 +1,10 @@
 # encoding: utf-8
 # TODO - Cleanup!!!!
 
+log = __import__("logging").getLogger("bungeni.ui.calendar")
+log.setLevel(10) # debug
+
+
 import time
 import datetime
 import tempfile
@@ -39,7 +43,7 @@ from zope.app.form.browser import MultiCheckBoxWidget as _MultiCheckBoxWidget
 from bungeni.ui.widgets import SelectDateWidget
 from bungeni.ui.calendar import utils
 from bungeni.ui.i18n import _
-from bungeni.ui.utils import misc, url as ui_url, queries
+from bungeni.ui.utils import misc, url as ui_url, queries, debug
 from bungeni.ui.menu import get_actions
 from bungeni.ui.forms.common import set_widget_errors
 from bungeni.core.location import location_wrapped
@@ -201,6 +205,7 @@ class CalendarView(BrowserView):
     short_name = u"Calendar"
     
     def __init__(self, context, request):
+        log.debug("CalendarView.__init__: %s" % (context))
         super(CalendarView, self).__init__(
             ISchedulingContext(context), request)
         self.context.__name__ = self.__name__
@@ -208,7 +213,9 @@ class CalendarView(BrowserView):
         interface.alsoProvides(self.context, ILocation)
         interface.alsoProvides(self.context, IDCDescriptiveProperties)
         self.__parent__ = context
-
+        log.debug(debug.interfaces(self))
+        log.debug(debug.location_stack(self))
+        
     def __call__(self, timestamp=None):     
         return self.render()
         
@@ -1160,6 +1167,6 @@ class StoreReportView(BrowserView):
         elif ISchedulingContext.providedBy(self.context):
             back_link = ui_url.absoluteURL(self.context, self.request)  
         else:   
-            raise NotImplementedError                                                                     
+            raise NotImplementedError
         self.request.response.redirect(back_link)
         session.close()

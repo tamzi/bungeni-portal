@@ -776,7 +776,7 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="short_name", 
                 property=schema.TextLine(title=_(u"Parliament Identifier"), 
                 description=_(u"Unique identifier of each Parliament (e.g. IX Parliament)"), 
-                required=False),
+                required=True),
                 listing=True ),  
         dict(name="language", 
              label=_(u"Language"), 

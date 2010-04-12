@@ -2,8 +2,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: Mon Apr 12 12:55:49 2010\n"
-"PO-Revision-Date: 2010-04-12 13:02+0300\n"
+"POT-Creation-Date: Mon Apr 12 18:30:45 2010\n"
+"PO-Revision-Date: 2010-04-12 18:31+0300\n"
 "Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -906,6 +906,7 @@ msgstr "email address"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:368
 #: src/bungeni.ui/bungeni/ui/login.py:20
 #: src/bungeni.ui/bungeni/ui/login.py:22
+#: src/bungeni.ui/bungeni/ui/menu.py:58
 msgid "Login"
 msgstr "login"
 
@@ -1355,78 +1356,78 @@ msgid "add_item_legend"
 msgstr "add $name"
 
 #. Default: "Adding $name"
-#: src/bungeni.ui/bungeni/ui/forms/common.py:311
+#: src/bungeni.ui/bungeni/ui/forms/common.py:312
 msgid "add_item_title"
 msgstr "adding $name"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:325
-#: src/bungeni.ui/bungeni/ui/forms/common.py:467
+#: src/bungeni.ui/bungeni/ui/forms/common.py:326
+#: src/bungeni.ui/bungeni/ui/forms/common.py:468
 msgid "Save and view"
 msgstr "save and view"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:337
-#: src/bungeni.ui/bungeni/ui/forms/common.py:480
+#: src/bungeni.ui/bungeni/ui/forms/common.py:338
+#: src/bungeni.ui/bungeni/ui/forms/common.py:481
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:97
 #: src/bungeni.ui/bungeni/ui/widgets.py:357
 msgid "Cancel"
 msgstr "cancel"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:346
-#: src/bungeni.ui/bungeni/ui/forms/common.py:458
-#: src/bungeni.ui/bungeni/ui/forms/common.py:721
+#: src/bungeni.ui/bungeni/ui/forms/common.py:347
+#: src/bungeni.ui/bungeni/ui/forms/common.py:459
+#: src/bungeni.ui/bungeni/ui/forms/common.py:722
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:88
 msgid "Save"
 msgstr "save"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:358
+#: src/bungeni.ui/bungeni/ui/forms/common.py:359
 msgid "Save and add another"
 msgstr "save and add another"
 
 #. Default: "Editing $language translation of \"$title\""
-#: src/bungeni.ui/bungeni/ui/forms/common.py:392
-#: src/bungeni.ui/bungeni/ui/forms/common.py:543
+#: src/bungeni.ui/bungeni/ui/forms/common.py:393
+#: src/bungeni.ui/bungeni/ui/forms/common.py:544
 msgid "edit_translation_legend"
 msgstr "editing $language translation of \\"
 
 #. Default: "Editing \"$title\" (version $version)"
-#: src/bungeni.ui/bungeni/ui/forms/common.py:398
+#: src/bungeni.ui/bungeni/ui/forms/common.py:399
 msgid "edit_version_legend"
 msgstr "editing \\"
 
 #. Default: "Editing \"$title\""
-#: src/bungeni.ui/bungeni/ui/forms/common.py:403
+#: src/bungeni.ui/bungeni/ui/forms/common.py:404
 msgid "edit_item_legend"
 msgstr "editing \\"
 
 #. Default: "The original $language version is shown on the left"
-#: src/bungeni.ui/bungeni/ui/forms/common.py:410
+#: src/bungeni.ui/bungeni/ui/forms/common.py:411
 msgid "edit_translation_help"
 msgstr "the original $language version is shown on the left"
 
 #. Default: "Add $language translation"
-#: src/bungeni.ui/bungeni/ui/forms/common.py:533
+#: src/bungeni.ui/bungeni/ui/forms/common.py:534
 msgid "translate_item_legend"
 msgstr "add $language translation"
 
 #. Default: "The document \"$title\" has not yet been translated into $language. Use this form to add the translation"
-#: src/bungeni.ui/bungeni/ui/forms/common.py:548
+#: src/bungeni.ui/bungeni/ui/forms/common.py:549
 msgid "translate_item_help"
 msgstr "the document \\"
 
 #. Default: "Adding $language translation"
-#: src/bungeni.ui/bungeni/ui/forms/common.py:561
+#: src/bungeni.ui/bungeni/ui/forms/common.py:562
 msgid "translate_item_title"
 msgstr "adding $language translation"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:630
+#: src/bungeni.ui/bungeni/ui/forms/common.py:631
 msgid "Save translation"
 msgstr "save translation"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:703
+#: src/bungeni.ui/bungeni/ui/forms/common.py:704
 msgid "Item reordering"
 msgstr "item reordering"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:764
+#: src/bungeni.ui/bungeni/ui/forms/common.py:765
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:102
 #: src/bungeni.ui/bungeni/ui/menu.zcml:378
 #: src/bungeni.ui/bungeni/ui/menu.zcml:387
@@ -1448,7 +1449,7 @@ msgstr "item reordering"
 msgid "Delete"
 msgstr "delete"
 
-#: src/bungeni.ui/bungeni/ui/forms/common.py:782
+#: src/bungeni.ui/bungeni/ui/forms/common.py:783
 msgid "Could not delete item due to database integrity error"
 msgstr "could not delete item due to database integrity error"
 
@@ -1761,19 +1762,24 @@ msgid "You are now logged in"
 msgstr "you are now logged in"
 
 #. Default: "Language:"
-#: src/bungeni.ui/bungeni/ui/menu.py:118
+#: src/bungeni.ui/bungeni/ui/menu.py:126
 msgid "label_translate"
 msgstr "language:"
 
 #. Default: "State:"
-#: src/bungeni.ui/bungeni/ui/menu.py:186
+#: src/bungeni.ui/bungeni/ui/menu.py:194
 msgid "label_state"
 msgstr "state:"
 
 #. Default: "Calendar:"
-#: src/bungeni.ui/bungeni/ui/menu.py:290
+#: src/bungeni.ui/bungeni/ui/menu.py:298
 msgid "label_calendar_context"
 msgstr "calendar:"
+
+#: src/bungeni.ui/bungeni/ui/menu.py:69
+#, fuzzy
+msgid "Logout"
+msgstr "logo"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1000
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1034
@@ -2529,6 +2535,11 @@ msgstr "filter by date or parliament"
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:3
 msgid "you_are_here"
 msgstr "you are here:"
+
+#. Default: "Home"
+#: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:4
+msgid "tabs_home"
+msgstr "home"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/questions.pt:20
 msgid "No items"

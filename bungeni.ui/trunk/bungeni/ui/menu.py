@@ -53,12 +53,20 @@ class LoginAction(GlobalMenuItem):
         available = IUnauthenticatedPrincipal.providedBy(self.request.principal)
         return available
 
+    @property
+    def title(self):        
+        return _("Login")             
+
 class LogoutAction(GlobalMenuItem):
     
     @property
     def available(self):
         authenticated = not IUnauthenticatedPrincipal.providedBy(self.request.principal)
         return authenticated
+        
+    @property
+    def title(self):        
+        return _("Logout")      
         
 class DashboardAction(GlobalMenuItem):
 

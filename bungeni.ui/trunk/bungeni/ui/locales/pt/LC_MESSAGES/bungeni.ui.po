@@ -1874,6 +1874,9 @@ msgstr "adicionar ..."
 msgid "Workspace"
 msgstr "workspace"
 
+msgid "tabs_home"
+msgstr "início"
+
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1334
 msgid "Home"
 msgstr "início"
@@ -2796,6 +2799,9 @@ msgstr "confirmação de transição o fluxo de trabalho: &#39;${title}&#39;"
 msgid "Workflow history"
 msgstr "histórico do fluxo"
 
+msgid "Logout"
+msgstr "fazer logoff"
+
 #~ msgid "Tasks"
 #~ msgstr "tarefas"
 #~ msgid "Create Motion"
@@ -2848,4 +2854,3 @@ msgstr "histórico do fluxo"
 #~ msgstr "minhas perguntas"
 #~ msgid "roll call identifier"
 #~ msgstr "identificador de chamada"
-

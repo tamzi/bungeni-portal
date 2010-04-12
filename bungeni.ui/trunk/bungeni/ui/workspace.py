@@ -110,24 +110,27 @@ def prepare_user_workspaces(event):
     )
     #LD['app'] = app
     
-    parliament = get_current_parliament(None)
-    roles = get_roles(parliament)
-    log.debug("roles: %s" % roles)
-    
-    # "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
-    for role_id in roles:
-        if role_id in ("bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"):
-            log.debug("adding parliament workspace %s (for role %s)" % (
-                                                        parliament, role_id))
-            LD.workspaces.append(parliament)
+
     
     # "bungeni.Minister"
     # need to check for ministry groups to which the principal belongs, and 
     # for each such ministry assign a ministry workspace
-    LD.user_id = get_db_user_id()
-    LD.user_group_ids = get_group_ids_for_user_in_parliament(
-                                        LD.user_id, parliament.group_id)
+    LD.user_id = get_db_user_id()   
     try:
+        parliament = get_current_parliament(None)
+        assert (paliament is not None)
+        roles = get_roles(parliament)
+        log.debug("roles: %s" % roles)
+        
+        # "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
+        for role_id in roles:
+            if role_id in ("bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"):
+                log.debug("adding parliament workspace %s (for role %s)" % (
+                                                            parliament, role_id))
+                LD.workspaces.append(parliament)    
+    
+        LD.user_group_ids = get_group_ids_for_user_in_parliament(
+                                        LD.user_id, parliament.group_id)
         LD.government_id = get_current_parliament_governments(
                                                 parliament)[0].group_id
         ministries = get_ministries_for_user_in_government(
@@ -144,8 +147,8 @@ def prepare_user_workspaces(event):
         log.debug("prepare_user_workspaces: %s: %s" % (name, exc))
 
     # ensure unique workspaces, preserving the order
-    LD.workspaces = [ workspace for workspace in LD.workspaces
-                      if workspace in set(LD.workspaces) ]
+    #LD.workspaces = [ workspace for workspace in LD.workspaces
+    #                  if workspace in set(LD.workspaces) ]
 
 #
 

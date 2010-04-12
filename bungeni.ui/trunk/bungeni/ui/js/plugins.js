@@ -688,7 +688,11 @@
     paginator: new YAHOO.widget.Paginator({
       rowsPerPage: 25,
           template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE,
-          rowsPerPageOptions: [10,25,50,100]
+          rowsPerPageOptions: [10,25,50,100],
+          firstPageLinkLabel : "<<", 
+          lastPageLinkLabel : ">>", 
+          previousPageLinkLabel : "<", 
+          nextPageLinkLabel : ">"
           //,pageLinks: 5
           }),
     initialRequest : 'start=0&limit=25',

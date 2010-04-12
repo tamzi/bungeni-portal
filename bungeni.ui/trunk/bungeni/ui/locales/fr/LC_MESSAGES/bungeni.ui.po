@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:55:49 2010\n"
-"PO-Revision-Date: 2010-04-12 15:27+0300\n"
+"PO-Revision-Date: 2010-04-12 15:52+0300\n"
 "Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2678,21 +2678,19 @@ msgstr "premier $day de chaque mois"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:77
 msgid "Ordinary"
-msgstr ""
+msgstr "ordinaire"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:78
-#, fuzzy
 msgid "Private Notice"
-msgstr "ordinaire ou avis privées "
+msgstr "avis privées"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:80
 msgid "Oral"
-msgstr ""
+msgstr "oral"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:81
-#, fuzzy
 msgid "Written"
-msgstr "orale ou écrite"
+msgstr "écrite"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:83
 msgid "Male"

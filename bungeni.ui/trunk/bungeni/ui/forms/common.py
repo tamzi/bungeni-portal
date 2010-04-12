@@ -304,12 +304,13 @@ class AddForm(BaseForm, ui.AddForm):
     @property
     def form_name(self):
         return _(u"add_item_legend", default=u"Add $name",
-                 mapping={'name': self.type_name.lower()})
+                 mapping={'name': translate(self.type_name.lower(), context=self.request)})
+
 
     @property
     def title(self):
         return _(u"add_item_title", default=u"Adding $name",
-                 mapping={'name': self.type_name.lower()})
+                 mapping={'name': translate(self.type_name.lower(), context=self.request)})
 
     def finishConstruction(self, ob):
         """Adapt the custom fields to the object."""

@@ -1,10 +1,10 @@
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: YEAR-MO-DA HO:MI +ZONE\n"
-"PO-Revision-Date: 2010-03-23 15:47+0300\n"
-"Last-Translator: peter <kamero@parliaments.info>\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2010-04-12 12:58+0300\n"
+"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -15,1105 +15,1384 @@ msgstr ""
 "Preferred-Encodings: utf-8 latin1\n"
 "Language-Name: English\n"
 
-#. Default: ""
-#: bungeni.core/bungeni/core/dc.py:180
-msgid "$language translation"
-msgstr "$language tafsiri"
+#: src/bungeni.core/bungeni/core/app.py:102
+#, fuzzy
+msgid "Scheduling"
+msgstr "ratibu"
 
-#. Default: ""
-#: bungeni.core/bungeni/core/schedule.py:172
-msgid "$x"
-msgstr "$x"
+#: src/bungeni.core/bungeni/core/app.py:103
+#: src/bungeni.core/bungeni/core/app.py:221
+#, fuzzy
+msgid "View the sittings of the current parliament"
+msgstr "tazama miongozo ya bunge la sasa"
 
-#: bungeni.core/bungeni/core/audit.py:131
-msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
-msgstr "%(transition)s: %(comment)s [mpito kutoka %(source)s kwa %(destination)s]"
+#: src/bungeni.core/bungeni/core/app.py:116
+#: src/bungeni.core/bungeni/core/app.py:147
+#: src/bungeni.core/bungeni/core/app.py:189
+msgid "Questions"
+msgstr "maswali"
 
-#: bungeni.core/bungeni/core/dc.py:342
-msgid "("
-msgstr "("
+#: src/bungeni.core/bungeni/core/app.py:121
+#: src/bungeni.core/bungeni/core/app.py:152
+#: src/bungeni.core/bungeni/core/app.py:195
+msgid "Motions"
+msgstr "misukumo"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:202
-msgid "Activate"
-msgstr "anzisha"
+#: src/bungeni.core/bungeni/core/app.py:126
+#: src/bungeni.core/bungeni/core/app.py:157
+#: src/bungeni.core/bungeni/core/app.py:202
+msgid "Tabled documents"
+msgstr "hati zilizoketishwa"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:327
-msgid "Active Committee"
-msgstr "kamati tenzi"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:197
-msgid "Active Group"
-msgstr "kikundi tenzi"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:336
-msgid "Active Parliament"
-msgstr "bunge tenzi"
-
-#: bungeni.core/bungeni/core/app.py:77
-msgid "Administer bungeni settings"
-msgstr "simamia miongozo ya bungeni"
-
-#: bungeni.core/bungeni/core/app.py:76
-msgid "Administration"
-msgstr "usimamizi"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:71
-msgid "Admissible"
-msgstr "inakubalika"
-
-#: bungeni.core/bungeni/core/app.py:136
-msgid "Agenda items"
-msgstr "pointi za ajenda"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:14
-msgid "Answer a question"
-msgstr "jibu swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:17
-msgid "Answer a question in writing"
-msgstr "jibu swali katika kuandika"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:84
-msgid "Approve"
-msgstr "pitisha"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:61
-msgid "Approved"
-msgstr "imepitishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:9
-msgid "Approved Bill"
-msgstr "muswada umepitishwa"
-
-#: bungeni.core/bungeni/core/app.py:71
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:186
-msgid "Archive"
-msgstr "nyaraka"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:183
-msgid "Archived"
-msgstr "imehifadhiwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:32
-msgid "Assign a bill to a committee"
-msgstr "peleka muswada katika kamati"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:53
-msgid "Back to First Reading"
-msgstr "rudi katika somo la kwanza"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:21
-msgid "Bill Published in Gazette"
-msgstr "muswada umechapishwa katika gazeti"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:22
-msgid "Bill Withdrawn"
-msgstr "muswada umeondolewa"
-
-#: bungeni.core/bungeni/core/app.py:111
+#: src/bungeni.core/bungeni/core/app.py:131
+#: src/bungeni.core/bungeni/core/app.py:162
+#: src/bungeni.core/bungeni/core/app.py:183
 msgid "Bills"
 msgstr "miswada"
 
-#: bungeni.core/bungeni/core/app.py:173
-msgid "Browse"
-msgstr "pekua"
+#: src/bungeni.core/bungeni/core/app.py:136
+#, fuzzy
+msgid " items"
+msgstr "pointi za ajenda"
 
-#: bungeni.core/bungeni/core/app.py:61
-msgid "Business"
-msgstr "biashara"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:57
-msgid "Change Sitting Status"
-msgstr "badili hali ya kikao"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:328
-msgid "Committee is Dissolved"
-msgstr "kamati imefutwa"
-
-#: bungeni.core/bungeni/core/app.py:105
+#: src/bungeni.core/bungeni/core/app.py:140
+#: src/bungeni.core/bungeni/core/app.py:177
 msgid "Committees"
 msgstr "makamati"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:112
-msgid "Complete"
-msgstr "kamilisha"
+#: src/bungeni.core/bungeni/core/app.py:167
+msgid "items"
+msgstr ""
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:107
-msgid "Complete Response"
-msgstr "kamilisha jibu"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:20
-msgid "Complete a Response"
-msgstr "kamilisha jibu"
-
-#: bungeni.core/bungeni/core/app.py:237
-msgid "Content"
+#: src/bungeni.core/bungeni/core/app.py:171
+msgid "What's on"
 msgstr "yaliyomo"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:59
-msgid "Create"
-msgstr "unda"
+#: src/bungeni.core/bungeni/core/app.py:179
+#, fuzzy
+msgid "View committees created by the current parliament"
+msgstr "tazama kamati zilizoundwa na bunge la sasa"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:185
-msgid "Create Translation"
-msgstr "unda tafsiri"
+#: src/bungeni.core/bungeni/core/app.py:185
+#, fuzzy
+msgid "View bills issued by the current parliament"
+msgstr "tazama miswada iliyopitishwa na bunge la sasa"
 
-#: bungeni.core/bungeni/core/app.py:163
+#: src/bungeni.core/bungeni/core/app.py:191
+#, fuzzy
+msgid "View questions issued by the current parliament"
+msgstr "tazama maswali iliyotolewa na bunge la sasa"
+
+#: src/bungeni.core/bungeni/core/app.py:197
+#, fuzzy
+msgid "View motions issued by the current parliament"
+msgstr "tazama maswali iliyotolewa na bunge la sasa"
+
+#: src/bungeni.core/bungeni/core/app.py:204
+#, fuzzy
+msgid "View the tabled documents of the current parliament"
+msgstr "tazama hati zilizoketishwa za bunge la sasa"
+
+#: src/bungeni.core/bungeni/core/app.py:208
+msgid "Agenda items"
+msgstr "pointi za ajenda"
+
+#: src/bungeni.core/bungeni/core/app.py:210
+#, fuzzy
+msgid "View the agenda items of the current parliament"
+msgstr "tazama pointi za ajenda za bunge la sasa"
+
+#: src/bungeni.core/bungeni/core/app.py:220
+msgid "Sittings"
+msgstr "vikao"
+
+#: src/bungeni.core/bungeni/core/app.py:226
+msgid "Parliamentary publications"
+msgstr "machapisho ya bunge"
+
+#: src/bungeni.core/bungeni/core/app.py:228
+#, fuzzy
+msgid "View Agenda and Minutes reports of the current parliament"
+msgstr "tazama ripoti na kumbukumbu za bunge la sasa"
+
+#: src/bungeni.core/bungeni/core/app.py:234
 msgid "Current"
 msgstr "sasa"
 
-#: bungeni.core/bungeni/core/app.py:174
+#: src/bungeni.core/bungeni/core/app.py:235
+#, fuzzy
+msgid "View current parliament members (MPs)"
+msgstr "tazama wanachama wa bunge la sasa (wabunge)"
+
+#: src/bungeni.core/bungeni/core/app.py:239
+msgid "Political groups"
+msgstr "vikundi vya kisiasa"
+
+#: src/bungeni.core/bungeni/core/app.py:240
+#, fuzzy
+msgid "View current political groups"
+msgstr "tazama makundi ya kisiasa ya sasa"
+
+#: src/bungeni.core/bungeni/core/app.py:244
+msgid "Browse"
+msgstr "pekua"
+
+#: src/bungeni.core/bungeni/core/app.py:245
+#, fuzzy
 msgid "Current and historical records"
 msgstr "rekodi za sasa na za kihistoria"
 
-#: bungeni.core/bungeni/core/app.py:57
-msgid "Current parliamentary activity"
-msgstr "shughuli za sasa za bunge"
-
-#: bungeni.core/bungeni/core/app.py:62
-msgid "Daily operations of the parliament"
-msgstr "shughuli za bunge za kila siku"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:200
-msgid "Deactivate"
-msgstr "komesha"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:59
-msgid "Deactivate a file"
-msgstr "komesha faili"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:61
-msgid "Deactivate a heading"
-msgstr "komesha kichwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:60
-msgid "Deactivate an event"
-msgstr "komesha tukio"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:156
-msgid "Debate"
-msgstr "mjadala"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:74
-msgid "Debate adjourned"
-msgstr "mjadala umeahirishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:72
-msgid "Debated"
-msgstr "imejadiliwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:87
-msgid "Defer"
-msgstr "ahirisha"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:70
-msgid "Deferred"
-msgstr "imeahirishwa"
-
-#: bungeni.core/bungeni/core/dc.py:328
-msgid "Discussion"
-msgstr "mjadala"
-
-#. Default: ""
-#: bungeni.core/bungeni/core/dc.py:326
-msgid "Discussion ($time)"
-msgstr "mjadala ($time)"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:204
-msgid "Dissolve"
-msgstr "futa"
-
-#: bungeni.core/bungeni/core/app.py:178
+#: src/bungeni.core/bungeni/core/app.py:249
 msgid "Documents"
 msgstr "hati"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:73
-msgid "Draft"
-msgstr "utungo"
+#: src/bungeni.core/bungeni/core/app.py:250
+#, fuzzy
+msgid "Visit the digital document repository"
+msgstr "zuru nyaraka ya hati dijiti"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:329
-msgid "Draft - Committee not yet Active"
-msgstr "rasimu - kamati bado haijaanzishwa"
+#: src/bungeni.core/bungeni/core/app.py:306
+msgid "Content"
+msgstr "yaliyomo"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:199
-msgid "Draft - Group not yet Active"
-msgstr "rasimu - kikundi bado hakijaanzishwa"
+#: src/bungeni.core/bungeni/core/app.py:307
+msgid "browse the content"
+msgstr "pekua yaliyomo"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:338
-msgid "Draft - Parliament not yet Active"
-msgstr "rasimu - bunge bado halijaanzishwa"
+#: src/bungeni.core/bungeni/core/app.py:311
+msgid "Settings"
+msgstr "miongozo"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:188
-msgid "Draft Agenda"
-msgstr "ajenda rasimu"
+#: src/bungeni.core/bungeni/core/app.py:312
+msgid "settings"
+msgstr "miongozo"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:14
-msgid "Draft Bill"
-msgstr "muswada rasimu"
+#: src/bungeni.core/bungeni/core/app.py:74
+msgid "Workspace"
+msgstr "mahali pa kazi"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:187
-msgid "Draft Minutes"
-msgstr "kumbukumbu rasimu"
+#: src/bungeni.core/bungeni/core/app.py:75
+#: src/bungeni.core/bungeni/core/app.py:94
+#: src/bungeni.core/bungeni/core/app.py:172
+#, fuzzy
+msgid "Current parliamentary activity"
+msgstr "shughuli za sasa za bunge"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:184
-msgid "Draft Translation"
-msgstr "tafsiri rasimu"
+#: src/bungeni.core/bungeni/core/app.py:78
+msgid "Business"
+msgstr "biashara"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:86
-msgid "Elapse"
-msgstr "kawiza"
+#: src/bungeni.core/bungeni/core/app.py:79
+#, fuzzy
+msgid "Daily operations of the parliament"
+msgstr "shughuli za bunge za kila siku"
 
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:16
-msgid "Elapse a question"
-msgstr "kawiza swali"
+#: src/bungeni.core/bungeni/core/app.py:81
+msgid "Members"
+msgstr "wanachama"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:76
-msgid "Elapsed"
-msgstr "imechelewa"
+#: src/bungeni.core/bungeni/core/app.py:82
+#, fuzzy
+msgid "Records on members of parliament"
+msgstr "nyaraka za wanachama wa bunge"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:192
-msgid "Finalize Agenda"
-msgstr "kamilisha agenda"
+#: src/bungeni.core/bungeni/core/app.py:84
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:186
+msgid "Archive"
+msgstr "nyaraka"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:195
-msgid "Finalize Minutes"
-msgstr "kamilisha kumbukumbu"
+#: src/bungeni.core/bungeni/core/app.py:85
+#, fuzzy
+msgid "Parliament records and documents"
+msgstr "nyaraka na hati za bunge"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:17
-msgid "First Committee"
-msgstr "kamati ya kwanza"
+#: src/bungeni.core/bungeni/core/app.py:87
+msgid "Administration"
+msgstr "usimamizi"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:16
-msgid "First Reading"
-msgstr "somo la kwanza"
+#: src/bungeni.core/bungeni/core/app.py:88
+#, fuzzy
+msgid "Administer bungeni settings"
+msgstr "simamia miongozo ya bungeni"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:20
-msgid "First Reading Postponed"
-msgstr "somo la kwanza limeahirishwa"
+#: src/bungeni.core/bungeni/core/app.py:93
+#, fuzzy
+msgid "Parliamentary items"
+msgstr "machapisho ya bunge"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:103
-msgid "Forward to another Ministry"
-msgstr "peleka katika wizara nyingine"
+#: src/bungeni.core/bungeni/core/app.py:97
+msgid "My archive"
+msgstr "nyaraka yangu"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:198
-msgid "Group is Dissolved"
-msgstr "kikundi kimefutwa"
+#: src/bungeni.core/bungeni/core/app.py:98
+msgid "My archive personal items"
+msgstr "vitu binafsi vya nyaraka yangu"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:349
-msgid "Inactive event"
-msgstr "tukio halianzi"
+#: src/bungeni.core/bungeni/core/audit.py:137
+msgid "%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]"
+msgstr "%(transition)s: %(comment)s [mpito kutoka %(source)s kwa %(destination)s]"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:345
-msgid "Inactive file obsolete"
-msgstr "faili haina maana"
+#: src/bungeni.core/bungeni/core/audit.py:177
+msgid "No IRequest in interaction"
+msgstr "hakuna IRequest katika mawasiliano"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:66
-msgid "Inadmissible"
-msgstr "haikubaliki"
+#. Default: ""
+#: src/bungeni.core/bungeni/core/dc.py:141
+msgid "Sitting: $group ($start to $end)"
+msgstr "kikao: $group ($start kwa $end)"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:205
-msgid "Internal - visible to bungeni users"
-msgstr "ya ndani - inayoonekana na watumiaji wa bungeni"
+#. Default: ""
+#: src/bungeni.core/bungeni/core/dc.py:150
+#, fuzzy
+msgid "Sitting scheduled for '$group' ($start to $end)"
+msgstr "kikao kimeratibiwa katika &#39;$group&#39; ($start kwa $end)"
 
-#: bungeni.core/bungeni/core/dc.py:162
+#: src/bungeni.core/bungeni/core/dc.py:160
 msgid "Item scheduling"
 msgstr "kuorodhesha pointi"
 
 #. Default: ""
-#: bungeni.core/bungeni/core/dc.py:188
-msgid "Last modified $date"
-msgstr "siku ya mwisho ilipohaririwa $date"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:90
-msgid "Make available for scheduling"
-msgstr "fanya ipatikane katika orodha"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:212
-msgid "Make private"
-msgstr "fanya iwe ya kibinafsi"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:37
-msgid "Manage Bungeni groups"
-msgstr "simamia vikundi vya bungeni"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:39
-msgid "Manage User Adresses"
-msgstr "simamia anwani ya bungeni"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:27
-msgid "Mark a motion as debated"
-msgstr "saini msukumo kuwa umejadiliwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:54
-msgid "Mark a tabled document as debated"
-msgstr "saini hati iliyoketishwa imejadiliwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:46
-msgid "Mark an agenda item as debated"
-msgstr "saini pointi ya ajenda kuwa imejadiliwa"
-
-#: bungeni.core/bungeni/core/app.py:66
-msgid "Members"
-msgstr "wanachama"
-
-#: bungeni.core/bungeni/core/app.py:123
-msgid "Motions"
-msgstr "misukumo"
-
-#: bungeni.core/bungeni/core/app.py:88
-msgid "My archive"
-msgstr "nyaraka yangu"
-
-#: bungeni.core/bungeni/core/app.py:89
-msgid "My archive personal items"
-msgstr "vitu binafsi vya nyaraka yangu"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:92
-msgid "Needs Clarification"
-msgstr "yahitaji ufafanuzi"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:133
-msgid "Needs Clarification by Clerks Office"
-msgstr "yahitaji ufafanuzi kutoka ofisi ya karani"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:94
-msgid "Needs Clarification by MP"
-msgstr "yahitaji ufafanuzi kutoka mbunge"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:75
-msgid "Needs MPs clarification"
-msgstr "yahitaji ufafanuzi wa mbunge"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:67
-msgid "Needs clerks clarification"
-msgstr "yahitaji ufafanuzi wa karani"
-
-#: bungeni.core/bungeni/core/audit.py:171
-msgid "No IRequest in interaction"
-msgstr "hakuna IRequest katika mawasiliano"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:337
-msgid "Parliament is Dissolved"
-msgstr "bunge limefutwa"
-
-#: bungeni.core/bungeni/core/app.py:72
-msgid "Parliament records and documents"
-msgstr "nyaraka na hati za bunge"
-
-#: bungeni.core/bungeni/core/app.py:154
-msgid "Parliamentary publications"
-msgstr "machapisho ya bunge"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:68
-msgid "Pending response"
-msgstr "yangoja jibu"
-
-#: bungeni.core/bungeni/core/schedule.py:127
-msgid "Plenary"
-msgstr "mjadala"
-
-#: bungeni.core/bungeni/core/app.py:168
-msgid "Political groups"
-msgstr "vikundi vya kisiasa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:116
-msgid "Postpone"
-msgstr "ahirisha"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:49
-msgid "Postpone First Reading"
-msgstr "ahirisha somo la kwanza"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:24
-msgid "Postpone Report Reading"
-msgstr "ahirisha usomaji wa ripoti"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:52
-msgid "Postpone Second Reading"
-msgstr "ahirisha somo la pili"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:25
-msgid "Postpone Second Reading and Whole House Committee"
-msgstr "ahirisha somo la pili na kamati la jumba zima"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:36
-msgid "Postpone Third Reading"
-msgstr "ahirisha somo la tatu"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:48
-msgid "Postpone Whole House Committee"
-msgstr "ahirisha kamati la jumba zima"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:77
-msgid "Postponed"
-msgstr "iliyoahirishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:207
-msgid "Private"
-msgstr "binafsi"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:206
-msgid "Public"
-msgstr "umma"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:209
-msgid "Publish"
-msgstr "chapisha"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:54
-msgid "Publish in Gazette"
-msgstr "chapisha katika gazeti"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:208
-msgid "Publish internal"
-msgstr "chapishia ndani"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:190
-msgid "Published Agenda"
-msgstr "ajenda iliyochapishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:189
-msgid "Published Minutes"
-msgstr "kumbukumbu zilizochapishwa"
-
-#: bungeni.core/bungeni/core/app.py:117
-msgid "Questions"
-msgstr "maswali"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:256
-msgid "Readmit Elapsed"
-msgstr "anzisha tena hati lililochelewa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:169
-msgid "Readmit elpapsed"
-msgstr "anzisha tena hati lililochelewa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:106
-msgid "Receive"
-msgstr "pokea"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:129
-msgid "Received by Clerks Office"
-msgstr "limepokewa na ofisi ya karani"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:63
-msgid "Received by clerk"
-msgstr "limepokewa na karani"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:23
-msgid "receive a motion"
-msgstr "pokea msukumo"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:9
-msgid "receive a question"
-msgstr "pokea swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:50
-msgid "receive a tabled document"
-msgstr "pokea hati iliyoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:42
-msgid "receive an agenda item"
-msgstr "pokea pointi ya ajenda"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:37
-msgid "Recommit to 2nd Committee"
-msgstr "rudisha katika kamati ya pili"
-
-#: bungeni.core/bungeni/core/app.py:67
-msgid "Records on members of parliament"
-msgstr "nyaraka za wanachama wa bunge"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:194
-msgid "Redraft Agenda"
-msgstr "andika ajenda upya"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:196
-msgid "Redraft Minutes"
-msgstr "andika kumbukumbu upya"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:177
-msgid "Redraft Rejected"
-msgstr "uandishi wa pili imekataliwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:110
-msgid "Redraft Response"
-msgstr "andika upya jibu"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:47
-msgid "Reintroduce"
-msgstr "anzisha tena"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:105
-msgid "Reject"
-msgstr "kataa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:33
-msgid "Reject/Approve a bill"
-msgstr "kataa / kubali muswada"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:41
-msgid "Rejected"
-msgstr "imekataliwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:15
-msgid "Rejected Bill"
-msgstr "muswada umekataliwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:19
-msgid "Report Reading"
-msgstr "somo la ripoti"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:18
-msgid "Report Reading Postponed"
-msgstr "somo la ripoti limeahirishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:42
-msgid "Reschedule First Reading"
-msgstr "ratibu upya somo la kwanza"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:60
-msgid "Reschedule Report Reading"
-msgstr "ratibu upya somo la ripoti "
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:50
-msgid "Reschedule Second Reading"
-msgstr "ratibu upya somo la pili "
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:33
-msgid "Reschedule Whole House Committee"
-msgstr "ratibu upya kamati ya jumba zima "
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:32
-msgid "Resend Second Reading"
-msgstr "tuma upya somo la pili"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:40
-msgid "Resend to Whole House"
-msgstr "tuma upya katika jumba zima"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:13
-msgid "Respond to a question"
-msgstr "jibu swali"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:78
-msgid "Response completed"
-msgstr "jibu limekamilika"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:80
-msgid "Response submitted"
-msgstr "jibu limewasilishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:127
-msgid "Resubmit to Clerk"
-msgstr "wasilisha upya kwa karani"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:182
-msgid "Resubmit to clerk"
-msgstr "wasilisha upya kwa karani"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:35
-msgid "Revert a transition back to an earlier stage"
-msgstr "rudisha mpito hadi hatua ya awali"
-
-#. Default: ""
-#: bungeni.core/bungeni/core/version.py:117
-msgid "Reverted to previous version $version"
-msgstr "imerudishwa hadi hatua ya awali $version"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:24
-msgid "Review a motion"
-msgstr "pitia msukumo"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:10
-msgid "Review a question"
-msgstr "pitia swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:51
-msgid "Review a tabled document"
-msgstr "pitia hati iliyoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:43
-msgid "Review an agenda item"
-msgstr "pitia pointi ya ajenda"
-
-#: bungeni.core/bungeni/core/app.py:93
-#: bungeni.core/bungeni/core/workflows/simple.py:37
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:85
-msgid "Schedule"
-msgstr "ratibu"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:58
-msgid "Schedule First Reading"
-msgstr "ratibu somo la kwanza"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:23
-msgid "Schedule Report Reading"
-msgstr "ratibu usomaji wa somo"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:28
-msgid "Schedule Second Reading"
-msgstr "ratibu somo la pili"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:31
-msgid "Schedule Third Reading"
-msgstr "ratibu somo la tatu"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:46
-msgid "Schedule Whole House Committee"
-msgstr "ratibu kamati ya jumba zima"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:31
-msgid "Schedule a bill"
-msgstr "ratibu muswada"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:26
-msgid "Schedule a motion"
-msgstr "ratibu msukumo"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:12
-msgid "Schedule a question"
-msgstr "ratibu swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:53
-msgid "Schedule a tabled document"
-msgstr "ratibu hati lililoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:45
-msgid "Schedule an agenda item"
-msgstr "ratibu pointi ya ajenda"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:64
-msgid "Schedule pending"
-msgstr "ratiba inasubiri"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:62
-msgid "Scheduled"
-msgstr "imeratibiwa"
-
-#. Default: ""
-#: bungeni.core/bungeni/core/dc.py:169
+#: src/bungeni.core/bungeni/core/dc.py:167
+#, fuzzy
 msgid "Scheduled for sitting ($start to $end)"
 msgstr "imeratibiwa kwa kikao ($start kwa $end)"
 
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:11
-msgid "Second Committee"
-msgstr "kamati ya pili"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:13
-msgid "Second Reading"
-msgstr "somo la pili"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:6
-msgid "Second Reading Postponed"
-msgstr "somo la pili limeahirishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:51
-msgid "Second Reading Schedule"
-msgstr "ratiba ya somo la pili"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:26
-msgid "Send to Committee"
-msgstr "tuma kwa kamati"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:89
-msgid "Send to Ministry"
-msgstr "tuma kwa wizara"
-
-#: bungeni.core/bungeni/core/app.py:242
-msgid "Settings"
-msgstr "miongozo"
+#. Default: ""
+#: src/bungeni.core/bungeni/core/dc.py:178
+msgid "$language translation"
+msgstr "$language tafsiri"
 
 #. Default: ""
-#: bungeni.core/bungeni/core/dc.py:152
-msgid "Sitting scheduled for '$group' ($start to $end)"
-msgstr "kikao kimeratibiwa katika &#39;$group&#39; ($start kwa $end)"
-
-#. Default: ""
-#: bungeni.core/bungeni/core/dc.py:143
-msgid "Sitting: $group ($start to $end)"
-msgstr "kikao: $group ($start kwa $end)"
-
-#: bungeni.core/bungeni/core/app.py:148
-msgid "Sittings"
-msgstr "vikao"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:44
-msgid "Speaker review a agenda item"
-msgstr "spika apitia pointi ya ajenda"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:25
-msgid "Speaker review a motion"
-msgstr "spika apitia msukumo"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:11
-msgid "Speaker review a question"
-msgstr "spika apitia swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:52
-msgid "Speaker review a tabled document"
-msgstr "spika apitia hati iliyoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:122
-msgid "Submit Response"
-msgstr "wasilisha jibu"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:19
-msgid "Submit a Response"
-msgstr "wasilisha jibu"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:30
-msgid "Submit a bill"
-msgstr "wasilisha muswada"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:22
-msgid "Submit a motion"
-msgstr "wasilisha msukumo"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:8
-msgid "Submit a question"
-msgstr "wasilisha swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:49
-msgid "Submit a tabled document"
-msgstr "wasilisha hati iliyoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:41
-msgid "Submit an agenda item"
-msgstr "wasilisha pointi ya ajenda"
-
-#: bungeni.core/bungeni/core/workflows/simple.py:30
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:82
-msgid "Submit to Clerk"
-msgstr "wasilisha kwa karani"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:88
-msgid "Submit to the Speaker Office"
-msgstr "wasilisha kwa ofisi ya spika"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:134
-msgid "Submitted"
-msgstr "imewasilishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:69
-msgid "Submitted to clerk"
-msgstr "imewasilishwa kwa karani"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:65
-msgid "Submitted to the Speaker"
-msgstr "imewasilishwa kwa spika"
-
-#: bungeni.core/bungeni/core/app.py:130
-msgid "Tabled documents"
-msgstr "hati zilizoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:12
-msgid "Third Reading"
-msgstr "somo la tatu"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:7
-msgid "Third Reading Postponed"
-msgstr "somo la tatu limeahirishwa"
-
-#: bungeni.core/bungeni/core/schedule.py:78
-msgid "Unknown principal group"
-msgstr "kikundi kikuu kisichojulikana"
-
-#. Default: ""
-#: bungeni.core/bungeni/core/dc.py:183
+#: src/bungeni.core/bungeni/core/dc.py:181
 msgid "Version $version"
 msgstr "aina $version"
 
-#: bungeni.core/bungeni/core/app.py:156
-msgid "View Agenda and Minutes reports of the current parliament"
-msgstr "tazama ripoti na kumbukumbu za bunge la sasa"
+#. Default: ""
+#: src/bungeni.core/bungeni/core/dc.py:186
+#, fuzzy
+msgid "Last modified $date"
+msgstr "siku ya mwisho ilipohaririwa $date"
 
-#: bungeni.core/bungeni/core/app.py:113
-msgid "View bills issued by the current parliament"
-msgstr "tazama miswada iliyopitishwa na bunge la sasa"
+#. Default: ""
+#: src/bungeni.core/bungeni/core/dc.py:324
+msgid "Discussion ($time)"
+msgstr "mjadala ($time)"
 
-#: bungeni.core/bungeni/core/app.py:107
-msgid "View committees created by the current parliament"
-msgstr "tazama kamati zilizoundwa na bunge la sasa"
+#: src/bungeni.core/bungeni/core/dc.py:326
+msgid "Discussion"
+msgstr "mjadala"
 
-#: bungeni.core/bungeni/core/app.py:164
-msgid "View current parliament members (MPs)"
-msgstr "tazama wanachama wa bunge la sasa (wabunge)"
+#: src/bungeni.core/bungeni/core/schedule.py:129
+msgid "Plenary"
+msgstr "mjadala"
 
-#: bungeni.core/bungeni/core/app.py:169
-msgid "View current political groups"
-msgstr "tazama makundi ya kisiasa ya sasa"
+#. Default: ""
+#: src/bungeni.core/bungeni/core/schedule.py:174
+msgid "$x"
+msgstr "$x"
 
-#: bungeni.core/bungeni/core/app.py:125
-msgid "View motions issued by the current parliament"
-msgstr "tazama misukumo iliyotolewa na bunge la sasa"
-
-#: bungeni.core/bungeni/core/app.py:119
-msgid "View questions issued by the current parliament"
-msgstr "tazama maswali iliyotolewa na bunge la sasa"
-
-#: bungeni.core/bungeni/core/app.py:138
-msgid "View the agenda items of the current parliament"
-msgstr "tazama pointi za ajenda za bunge la sasa"
-
-#: bungeni.core/bungeni/core/app.py:94
-msgid "View the sittings of the current parliament"
-msgstr "tazama miongozo ya bunge la sasa"
-
-#: bungeni.core/bungeni/core/app.py:132
-msgid "View the tabled documents of the current parliament"
-msgstr "tazama hati zilizoketishwa za bunge la sasa"
-
-#: bungeni.core/bungeni/core/app.py:179
-msgid "Visit the digital document repository"
-msgstr "zuru nyaraka ya hati dijiti"
-
-#: bungeni.core/bungeni/core/app.py:99
-msgid "What's on"
-msgstr "yaliyomo"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:10
-msgid "Whole House"
-msgstr "jumba zima"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:8
-msgid "Whole House Postponed"
-msgstr "jumba zima limeahirishwa"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:27
-msgid "Withdraw"
-msgstr "ondoa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:34
-msgid "Withdraw a bill"
-msgstr "ondoa muswada"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:28
-msgid "Withdraw a motion"
-msgstr "ondoa msukumo"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:15
-msgid "Withdraw a question"
-msgstr "ondoa swali"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:55
-msgid "Withdraw a tabled document"
-msgstr "ondoa hati iliyoketishwa"
-
-#: bungeni.core/bungeni/core/workflows/permissions.zcml:47
-msgid "Withdraw an agenda item"
-msgstr "ondoa pointi ya ajenda"
-
-#: bungeni.core/bungeni/core/workflows/wfi18n.pt:79
-msgid "Withdrawn"
-msgstr "imeondolewa"
-
-#: bungeni.core/bungeni/core/app.py:56
-msgid "Workspace"
-msgstr "mahali pa kazi"
-
-#: bungeni.core/bungeni/core/app.py:238
-msgid "browse the content"
-msgstr "pekua yaliyomo"
-
-#. Default: "Agenda Item submitted"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:143
-msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
-msgstr "pointi ya ajenda imewasilishwa"
-
-#. Default: "Motion submitted"
-#: bungeni.core/bungeni/core/workflows/motion.py:143
-msgid "notification_email_to_clerk_upon_submit_of_motion"
-msgstr "msukumo umewasilishwa"
-
-#. Default: "Question submitted"
-#: bungeni.core/bungeni/core/workflows/question.py:264
-msgid "notification_email_to_clerk_upon_submit_of_question"
-msgstr "swali limewasilishwa"
-
-#. Default: "Tabled document submitted"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:135
-msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
-msgstr "hati lilioketishwa limewasilishwa"
-
-#. Default: "Question answered"
-#: bungeni.core/bungeni/core/workflows/question.py:463
-msgid "notification_email_to_member_upon_answer_of_question"
-msgstr "swali limejibiwa"
-
-#. Default: "Question completed for review at the speakers office"
-#: bungeni.core/bungeni/core/workflows/question.py:390
-msgid "notification_email_to_member_upon_complete_of_question"
-msgstr "swali limesahihishwa katika ofisi ya spika"
-
-#. Default: "Agenda Item was debated"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:267
-msgid "notification_email_to_member_upon_debate_of_agenda_item"
-msgstr "pointi ya ajenda imejadiliwa"
-
-#. Default: "Motion was debated"
-#: bungeni.core/bungeni/core/workflows/motion.py:267
-msgid "notification_email_to_member_upon_debate_of_motion"
-msgstr "msukumo ulijadiliwa"
-
-#. Default: "Tabled document was debated"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:259
-msgid "notification_email_to_member_upon_debate_of_tabled_document"
-msgstr "hati iliyoketishwa ilijadiliwa"
-
-#. Default: "Question debated"
-#: bungeni.core/bungeni/core/workflows/question.py:487
-msgid "notification_email_to_member_upon_debate_question"
-msgstr "swali limejadiliwa"
-
-#. Default: "Agenda Item deferred"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:205
-msgid "notification_email_to_member_upon_defer_of_agenda_item"
-msgstr "pointi ya ajenda imeahirishwa"
-
-#. Default: "Motion deferred"
-#: bungeni.core/bungeni/core/workflows/motion.py:205
-msgid "notification_email_to_member_upon_defer_of_motion"
-msgstr "msukumo umeahirishwa"
-
-#. Default: "Question deferred"
-#: bungeni.core/bungeni/core/workflows/question.py:326
-msgid "notification_email_to_member_upon_defer_of_question"
-msgstr "swali limeahirishwa"
-
-#. Default: "Tabled document deferred"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:197
-msgid "notification_email_to_member_upon_defer_of_tabled_document"
-msgstr "hati iliyoketishwa imeahirishwa"
-
-#. Default: "Your agenda_item needs to be clarified"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:185
-msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
-msgstr "pointi ya ajenda yako yahitaji kufafanuliwa"
-
-#. Default: "Your motion needs to be clarified"
-#: bungeni.core/bungeni/core/workflows/motion.py:185
-msgid "notification_email_to_member_upon_need_clarification_of_motion"
-msgstr "msukumo wako unahitaji kufafanuliwa"
-
-#. Default: "Your question needs to be clarified"
-#: bungeni.core/bungeni/core/workflows/question.py:306
-msgid "notification_email_to_member_upon_need_clarification_of_question"
-msgstr "swali lako lahitaji kufafanuliwa"
-
-#. Default: "Your tabled document needs to be clarified"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:177
-msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
-msgstr "hati lako lahitaji kufafanuliwa"
-
-#. Default: "Agenda Item postponed"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:247
-msgid "notification_email_to_member_upon_postpone_of_agenda_item"
-msgstr "pointi ya ajenda imeahirishwa"
-
-#. Default: "Motion postponed"
-#: bungeni.core/bungeni/core/workflows/motion.py:247
-msgid "notification_email_to_member_upon_postpone_of_motion"
-msgstr "msukumo umeahirishwa"
-
-#. Default: "Question postponed"
-#: bungeni.core/bungeni/core/workflows/question.py:368
-msgid "notification_email_to_member_upon_postpone_of_question"
-msgstr "swali limeahirishwa"
-
-#. Default: "Tabled document postponed"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:239
-msgid "notification_email_to_member_upon_postpone_of_tabled_document"
-msgstr "hati iliyoketishwa imeahirishwa"
-
-#. Default: "Agenda Item received"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:119
-msgid "notification_email_to_member_upon_receipt_of_agenda_item"
-msgstr "pointi ya ajenda imepokewa"
-
-#. Default: "Motion received"
-#: bungeni.core/bungeni/core/workflows/motion.py:119
-msgid "notification_email_to_member_upon_receipt_of_motion"
-msgstr "msukumo umepokewa"
-
-#. Default: "Question received"
-#: bungeni.core/bungeni/core/workflows/question.py:240
-msgid "notification_email_to_member_upon_receipt_of_question"
-msgstr "swali limepokewa"
-
-#. Default: "Tabled document received"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:111
-msgid "notification_email_to_member_upon_receipt_of_tabled_document"
-msgstr "hati iliyoketishwa imepokewa"
-
-#. Default: "Agenda Item rejected"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:164
-msgid "notification_email_to_member_upon_rejection_of_agenda_item"
-msgstr "pointi ya ajenda imekataliwa"
-
-#. Default: "Motion rejected"
-#: bungeni.core/bungeni/core/workflows/motion.py:164
-msgid "notification_email_to_member_upon_rejection_of_motion"
-msgstr "msukumo umekataliwa"
-
-#. Default: "Question rejected"
-#: bungeni.core/bungeni/core/workflows/question.py:285
-msgid "notification_email_to_member_upon_rejection_of_question"
-msgstr "swali limekataliwa"
-
-#. Default: "Tabled document rejected"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:156
-msgid "notification_email_to_member_upon_rejection_of_tabled_document"
-msgstr "hati lililoketishwa limekataliwa"
-
-#. Default: "Agenda Item scheduled"
-#: bungeni.core/bungeni/core/workflows/agendaitem.py:226
-msgid "notification_email_to_member_upon_schedule_of_agenda_item"
-msgstr "pointi ya ajenda imeratibiwa"
-
-#. Default: "Motion scheduled"
-#: bungeni.core/bungeni/core/workflows/motion.py:226
-msgid "notification_email_to_member_upon_schedule_of_motion"
-msgstr "msukumo umeratibiwa"
-
-#. Default: "Question scheduled"
-#: bungeni.core/bungeni/core/workflows/question.py:347
-msgid "notification_email_to_member_upon_schedule_of_question"
-msgstr "swali limeratibiwa"
-
-#. Default: "Tabled document scheduled"
-#: bungeni.core/bungeni/core/workflows/tableddocument.py:218
-msgid "notification_email_to_member_upon_schedule_of_tabled_document"
-msgstr "hati iliyoketishwa imeratibiwa"
-
-#. Default: "Question sent to ministry for a written answer"
-#: bungeni.core/bungeni/core/workflows/question.py:440
-msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
-msgstr "swali limetumwa kwa wizara kwa jibu lililoandikwa"
-
-#. Default: "Question assigned to ministry"
-#: bungeni.core/bungeni/core/workflows/question.py:411
-msgid "notification_email_to_ministry_upon_complete_question"
-msgstr "swali limetumwa kwa wizara"
-
-#: bungeni.core/bungeni/core/workflows/simple.py:13
-msgid "pending"
-msgstr "inasubiri"
-
-#: bungeni.core/bungeni/core/workflows/simple.py:14
-msgid "scheduled"
-msgstr "imeratibiwa"
-
-#: bungeni.core/bungeni/core/app.py:243
-msgid "settings"
-msgstr "miongozo"
+#: src/bungeni.core/bungeni/core/schedule.py:80
+msgid "Unknown principal group"
+msgstr "kikundi kikuu kisichojulikana"
 
 #. Default: "HTML fragment to OpenDocument format"
-#: bungeni.core/bungeni/core/transformation.py:189
+#: src/bungeni.core/bungeni/core/transformation.py:189
 msgid "title_html_fragment_odf_transform"
 msgstr "HTML itatumika kufungua muundo wa opendocument"
 
-#: bungeni.core/bungeni/core/workflows/simple.py:12
+#. Default: ""
+#: src/bungeni.core/bungeni/core/version.py:117
+#, fuzzy
+msgid "Reverted to previous version $version"
+msgstr "imerudishwa hadi hatua ya awali $version"
+
+#. Default: "Agenda Item received"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:121
+msgid "notification_email_to_member_upon_receipt_of_agenda_item"
+msgstr "pointi ya ajenda imepokewa"
+
+#. Default: "Agenda Item submitted"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:145
+msgid "notification_email_to_clerk_upon_submit_of_agenda_item"
+msgstr "pointi ya ajenda imewasilishwa"
+
+#. Default: "Agenda Item rejected"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:166
+msgid "notification_email_to_member_upon_rejection_of_agenda_item"
+msgstr "pointi ya ajenda imekataliwa"
+
+#. Default: "Your agenda_item needs to be clarified"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:187
+msgid "notification_email_to_member_upon_need_clarification_of_agenda_item"
+msgstr "pointi ya ajenda yako yahitaji kufafanuliwa"
+
+#. Default: "Agenda Item deferred"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:207
+msgid "notification_email_to_member_upon_defer_of_agenda_item"
+msgstr "pointi ya ajenda imeahirishwa"
+
+#. Default: "Agenda Item scheduled"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:228
+msgid "notification_email_to_member_upon_schedule_of_agenda_item"
+msgstr "pointi ya ajenda imeratibiwa"
+
+#. Default: "Agenda Item postponed"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:249
+msgid "notification_email_to_member_upon_postpone_of_agenda_item"
+msgstr "pointi ya ajenda imeahirishwa"
+
+#. Default: "Agenda Item was debated"
+#: src/bungeni.core/bungeni/core/workflows/agendaitem.py:269
+msgid "notification_email_to_member_upon_debate_of_agenda_item"
+msgstr "pointi ya ajenda imejadiliwa"
+
+#. Default: "Motion received"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:120
+msgid "notification_email_to_member_upon_receipt_of_motion"
+msgstr "msukumo umepokewa"
+
+#. Default: "Motion submitted"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:144
+msgid "notification_email_to_clerk_upon_submit_of_motion"
+msgstr "msukumo umewasilishwa"
+
+#. Default: "Motion rejected"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:165
+msgid "notification_email_to_member_upon_rejection_of_motion"
+msgstr "msukumo umekataliwa"
+
+#. Default: "Your motion needs to be clarified"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:186
+msgid "notification_email_to_member_upon_need_clarification_of_motion"
+msgstr "msukumo wako unahitaji kufafanuliwa"
+
+#. Default: "Motion deferred"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:206
+msgid "notification_email_to_member_upon_defer_of_motion"
+msgstr "msukumo umeahirishwa"
+
+#. Default: "Motion scheduled"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:227
+msgid "notification_email_to_member_upon_schedule_of_motion"
+msgstr "msukumo umeratibiwa"
+
+#. Default: "Motion postponed"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:248
+msgid "notification_email_to_member_upon_postpone_of_motion"
+msgstr "msukumo umeahirishwa"
+
+#. Default: "Motion was debated"
+#: src/bungeni.core/bungeni/core/workflows/motion.py:268
+msgid "notification_email_to_member_upon_debate_of_motion"
+msgstr "msukumo ulijadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:10
+msgid "Review a question"
+msgstr "pitia swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
+msgid "Speaker review a question"
+msgstr "spika apitia swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
+msgid "Schedule a question"
+msgstr "ratibu swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:13
+msgid "Respond to a question"
+msgstr "jibu swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:14
+msgid "Answer a question"
+msgstr "jibu swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:15
+msgid "Withdraw a question"
+msgstr "ondoa swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:16
+msgid "Elapse a question"
+msgstr "kawiza swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:17
+msgid "Answer a question in writing"
+msgstr "jibu swali katika kuandika"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:19
+msgid "Submit a Response"
+msgstr "wasilisha jibu"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:20
+msgid "Complete a Response"
+msgstr "kamilisha jibu"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:22
+msgid "Submit a motion"
+msgstr "wasilisha msukumo"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
+#, fuzzy
+msgid "Receive a motion"
+msgstr "pokea msukumo"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:24
+msgid "Review a motion"
+msgstr "pitia msukumo"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
+msgid "Speaker review a motion"
+msgstr "spika apitia msukumo"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:26
+msgid "Schedule a motion"
+msgstr "ratibu msukumo"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:27
+msgid "Mark a motion as debated"
+msgstr "saini msukumo kuwa umejadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:28
+msgid "Withdraw a motion"
+msgstr "ondoa msukumo"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:30
+msgid "Submit a bill"
+msgstr "wasilisha muswada"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:31
+msgid "Schedule a bill"
+msgstr "ratibu muswada"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:32
+msgid "Assign a bill to a committee"
+msgstr "peleka muswada katika kamati"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:33
+msgid "Reject/Approve a bill"
+msgstr "kataa / kubali muswada"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
+msgid "Withdraw a bill"
+msgstr "ondoa muswada"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:35
+msgid "Revert a transition back to an earlier stage"
+msgstr "rudisha mpito hadi hatua ya awali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:37
+msgid "Manage Bungeni groups"
+msgstr "simamia vikundi vya bungeni"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:39
+msgid "Manage User Adresses"
+msgstr "simamia anwani ya bungeni"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
+msgid "Submit an agenda item"
+msgstr "wasilisha pointi ya ajenda"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
+#, fuzzy
+msgid "Receive an agenda item"
+msgstr "pokea pointi ya ajenda"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
+msgid "Review an agenda item"
+msgstr "pitia pointi ya ajenda"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
+msgid "Speaker review a agenda item"
+msgstr "spika apitia pointi ya ajenda"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:45
+msgid "Schedule an agenda item"
+msgstr "ratibu pointi ya ajenda"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:46
+msgid "Mark an agenda item as debated"
+msgstr "saini pointi ya ajenda kuwa imejadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:47
+msgid "Withdraw an agenda item"
+msgstr "ondoa pointi ya ajenda"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
+msgid "Submit a tabled document"
+msgstr "wasilisha hati iliyoketishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
+#, fuzzy
+msgid "Receive a tabled document"
+msgstr "pokea hati iliyoketishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
+msgid "Review a tabled document"
+msgstr "pitia hati iliyoketishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
+msgid "Speaker review a tabled document"
+msgstr "spika apitia hati iliyoketishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:53
+msgid "Schedule a tabled document"
+msgstr "ratibu hati lililoketishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
+msgid "Mark a tabled document as debated"
+msgstr "saini hati iliyoketishwa imejadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:55
+msgid "Withdraw a tabled document"
+msgstr "ondoa hati iliyoketishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:57
+msgid "Change Sitting Status"
+msgstr "badili hali ya kikao"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:59
+msgid "Deactivate a file"
+msgstr "komesha faili"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:60
+msgid "Deactivate an event"
+msgstr "komesha tukio"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:61
+msgid "Deactivate a heading"
+msgstr "komesha kichwa"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:8
+msgid "Submit a question"
+msgstr "wasilisha swali"
+
+#: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
+#, fuzzy
+msgid "Receive a question"
+msgstr "pokea swali"
+
+#. Default: "Question received"
+#: src/bungeni.core/bungeni/core/workflows/question.py:241
+msgid "notification_email_to_member_upon_receipt_of_question"
+msgstr "swali limepokewa"
+
+#. Default: "Question submitted"
+#: src/bungeni.core/bungeni/core/workflows/question.py:265
+msgid "notification_email_to_clerk_upon_submit_of_question"
+msgstr "swali limewasilishwa"
+
+#. Default: "Question rejected"
+#: src/bungeni.core/bungeni/core/workflows/question.py:286
+msgid "notification_email_to_member_upon_rejection_of_question"
+msgstr "swali limekataliwa"
+
+#. Default: "Your question needs to be clarified"
+#: src/bungeni.core/bungeni/core/workflows/question.py:307
+msgid "notification_email_to_member_upon_need_clarification_of_question"
+msgstr "swali lako lahitaji kufafanuliwa"
+
+#. Default: "Question deferred"
+#: src/bungeni.core/bungeni/core/workflows/question.py:327
+msgid "notification_email_to_member_upon_defer_of_question"
+msgstr "swali limeahirishwa"
+
+#. Default: "Question scheduled"
+#: src/bungeni.core/bungeni/core/workflows/question.py:348
+msgid "notification_email_to_member_upon_schedule_of_question"
+msgstr "swali limeratibiwa"
+
+#. Default: "Question postponed"
+#: src/bungeni.core/bungeni/core/workflows/question.py:369
+msgid "notification_email_to_member_upon_postpone_of_question"
+msgstr "swali limeahirishwa"
+
+#. Default: "Question completed for review at the speakers office"
+#: src/bungeni.core/bungeni/core/workflows/question.py:391
+msgid "notification_email_to_member_upon_complete_of_question"
+msgstr "swali limesahihishwa katika ofisi ya spika"
+
+#. Default: "Question assigned to ministry"
+#: src/bungeni.core/bungeni/core/workflows/question.py:412
+msgid "notification_email_to_ministry_upon_complete_question"
+msgstr "swali limetumwa kwa wizara"
+
+#. Default: "Question sent to ministry for a written answer"
+#: src/bungeni.core/bungeni/core/workflows/question.py:441
+msgid "notification_email_to_member_upon_sent_to_ministry_of_question"
+msgstr "swali limetumwa kwa wizara kwa jibu lililoandikwa"
+
+#. Default: "Question answered"
+#: src/bungeni.core/bungeni/core/workflows/question.py:464
+msgid "notification_email_to_member_upon_answer_of_question"
+msgstr "swali limejibiwa"
+
+#. Default: "Question debated"
+#: src/bungeni.core/bungeni/core/workflows/question.py:488
+msgid "notification_email_to_member_upon_debate_question"
+msgstr "swali limejadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:12
 msgid "visible"
 msgstr "inayoonekana"
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:13
+msgid "pending"
+msgstr "inasubiri"
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:14
+msgid "scheduled"
+msgstr "imeratibiwa"
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:30
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:82
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:146
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:233
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:287
+msgid "Submit to Clerk"
+msgstr "wasilisha kwa karani"
+
+#: src/bungeni.core/bungeni/core/workflows/simple.py:37
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:85
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:109
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:120
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:121
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:149
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:166
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:175
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:176
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:236
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:253
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:262
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:263
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:290
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:310
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:320
+msgid "Schedule"
+msgstr "ratibu"
+
+#. Default: "Tabled document received"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:112
+msgid "notification_email_to_member_upon_receipt_of_tabled_document"
+msgstr "hati iliyoketishwa imepokewa"
+
+#. Default: "Tabled document submitted"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:136
+msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
+msgstr "hati lilioketishwa limewasilishwa"
+
+#. Default: "Tabled document rejected"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:157
+msgid "notification_email_to_member_upon_rejection_of_tabled_document"
+msgstr "hati lililoketishwa limekataliwa"
+
+#. Default: "Your tabled document needs to be clarified"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:178
+msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
+msgstr "hati lako lahitaji kufafanuliwa"
+
+#. Default: "Tabled document deferred"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:198
+msgid "notification_email_to_member_upon_defer_of_tabled_document"
+msgstr "hati iliyoketishwa imeahirishwa"
+
+#. Default: "Tabled document scheduled"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:219
+msgid "notification_email_to_member_upon_schedule_of_tabled_document"
+msgstr "hati iliyoketishwa imeratibiwa"
+
+#. Default: "Tabled document postponed"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:240
+msgid "notification_email_to_member_upon_postpone_of_tabled_document"
+msgstr "hati iliyoketishwa imeahirishwa"
+
+#. Default: "Tabled document was debated"
+#: src/bungeni.core/bungeni/core/workflows/tableddocument.py:260
+msgid "notification_email_to_member_upon_debate_of_tabled_document"
+msgstr "hati iliyoketishwa ilijadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:10
+msgid "Whole House"
+msgstr "jumba zima"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:103
+msgid "Forward to another Ministry"
+msgstr "peleka katika wizara nyingine"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:105
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:162
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:249
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:306
+msgid "Reject"
+msgstr "kataa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:106
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:163
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:250
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:307
+msgid "Receive"
+msgstr "pokea"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:107
+msgid "Complete Response"
+msgstr "kamilisha jibu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:11
+msgid "Second Committee"
+msgstr "kamati ya pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:110
+msgid "Redraft Response"
+msgstr "andika upya jibu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:112
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:168
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:255
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:312
+msgid "Complete"
+msgstr "kamilisha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:116
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:172
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:259
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:316
+msgid "Postpone"
+msgstr "ahirisha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:12
+msgid "Third Reading"
+msgstr "somo la tatu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:122
+msgid "Submit Response"
+msgstr "wasilisha jibu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:127
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:269
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:326
+msgid "Resubmit to Clerk"
+msgstr "wasilisha upya kwa karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:129
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:216
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:271
+msgid "Received by Clerks Office"
+msgstr "limepokewa na ofisi ya karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:13
+msgid "Second Reading"
+msgstr "somo la pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:133
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:220
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:275
+msgid "Needs Clarification by Clerks Office"
+msgstr "yahitaji ufafanuzi kutoka ofisi ya karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:134
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:221
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:276
+msgid "Submitted"
+msgstr "imewasilishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:14
+msgid "Draft Bill"
+msgstr "muswada rasimu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:15
+msgid "Rejected Bill"
+msgstr "muswada umekataliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:156
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:243
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:298
+msgid "Debate"
+msgstr "mjadala"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:16
+msgid "First Reading"
+msgstr "somo la kwanza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:169
+msgid "Readmit elpapsed"
+msgstr "anzisha tena hati lililochelewa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:17
+msgid "First Committee"
+msgstr "kamati ya kwanza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:177
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:264
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:321
+msgid "Redraft Rejected"
+msgstr "uandishi wa pili imekataliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:18
+msgid "Report Reading Postponed"
+msgstr "somo la ripoti limeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:182
+msgid "Resubmit to clerk"
+msgstr "wasilisha upya kwa karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:183
+msgid "Archived"
+msgstr "imehifadhiwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:184
+msgid "Draft Translation"
+msgstr "tafsiri rasimu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:185
+msgid "Create Translation"
+msgstr "unda tafsiri"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:187
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:193
+msgid "Draft Minutes"
+msgstr "kumbukumbu rasimu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:188
+msgid "Draft Agenda"
+msgstr "ajenda rasimu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:189
+msgid "Published Minutes"
+msgstr "kumbukumbu zilizochapishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:19
+msgid "Report Reading"
+msgstr "somo la ripoti"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:190
+msgid "Published Agenda"
+msgstr "ajenda iliyochapishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:192
+msgid "Finalize Agenda"
+msgstr "kamilisha agenda"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:194
+msgid "Redraft Agenda"
+msgstr "andika ajenda upya"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:195
+msgid "Finalize Minutes"
+msgstr "kamilisha kumbukumbu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:196
+msgid "Redraft Minutes"
+msgstr "andika kumbukumbu upya"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:197
+msgid "Active Group"
+msgstr "kikundi tenzi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:198
+msgid "Group is Dissolved"
+msgstr "kikundi kimefutwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:199
+msgid "Draft - Group not yet Active"
+msgstr "rasimu - kikundi bado hakijaanzishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:20
+msgid "First Reading Postponed"
+msgstr "somo la kwanza limeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:200
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:332
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:333
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:341
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:342
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:347
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:351
+msgid "Deactivate"
+msgstr "komesha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:202
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:203
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:331
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:334
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:340
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:343
+msgid "Activate"
+msgstr "anzisha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:204
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:335
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:344
+msgid "Dissolve"
+msgstr "futa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:205
+msgid "Internal - visible to bungeni users"
+msgstr "ya ndani - inayoonekana na watumiaji wa bungeni"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:206
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:346
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:350
+msgid "Public"
+msgstr "umma"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:207
+msgid "Private"
+msgstr "binafsi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:208
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:211
+msgid "Publish internal"
+msgstr "chapishia ndani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:209
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:213
+msgid "Publish"
+msgstr "chapisha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:21
+msgid "Bill Published in Gazette"
+msgstr "muswada umechapishwa katika gazeti"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:212
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:214
+msgid "Make private"
+msgstr "fanya iwe ya kibinafsi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:22
+msgid "Bill Withdrawn"
+msgstr "muswada umeondolewa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:23
+msgid "Schedule Report Reading"
+msgstr "ratibu usomaji wa somo"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:24
+msgid "Postpone Report Reading"
+msgstr "ahirisha usomaji wa ripoti"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:25
+msgid "Postpone Second Reading and Whole House Committee"
+msgstr "ahirisha somo la pili na kamati la jumba zima"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:256
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:313
+msgid "Readmit Elapsed"
+msgstr "anzisha tena hati lililochelewa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:26
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:45
+msgid "Send to Committee"
+msgstr "tuma kwa kamati"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:27
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:30
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:34
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:35
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:38
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:43
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:44
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:55
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:81
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:91
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:93
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:95
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:98
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:100
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:117
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:123
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:125
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:126
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:145
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:151
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:153
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:155
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:157
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:167
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:173
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:178
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:180
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:181
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:232
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:238
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:240
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:242
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:244
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:254
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:260
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:265
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:267
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:268
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:286
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:293
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:295
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:297
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:299
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:300
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:317
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:322
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:324
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:325
+msgid "Withdraw"
+msgstr "ondoa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:28
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:29
+msgid "Schedule Second Reading"
+msgstr "ratibu somo la pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:31
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:39
+msgid "Schedule Third Reading"
+msgstr "ratibu somo la tatu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:32
+msgid "Resend Second Reading"
+msgstr "tuma upya somo la pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:327
+msgid "Active Committee"
+msgstr "kamati tenzi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:328
+msgid "Committee is Dissolved"
+msgstr "kamati imefutwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:329
+msgid "Draft - Committee not yet Active"
+msgstr "rasimu - kamati bado haijaanzishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:33
+msgid "Reschedule Whole House Committee"
+msgstr "ratibu upya kamati ya jumba zima "
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:336
+msgid "Active Parliament"
+msgstr "bunge tenzi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:337
+msgid "Parliament is Dissolved"
+msgstr "bunge limefutwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:338
+msgid "Draft - Parliament not yet Active"
+msgstr "rasimu - bunge bado halijaanzishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:345
+msgid "Inactive file obsolete"
+msgstr "faili haina maana"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:349
+msgid "Inactive event"
+msgstr "tukio halianzi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:36
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:56
+msgid "Postpone Third Reading"
+msgstr "ahirisha somo la tatu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:37
+msgid "Recommit to 2nd Committee"
+msgstr "rudisha katika kamati ya pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:40
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:57
+msgid "Resend to Whole House"
+msgstr "tuma upya katika jumba zima"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:41
+msgid "Rejected"
+msgstr "imekataliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:42
+msgid "Reschedule First Reading"
+msgstr "ratibu upya somo la kwanza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:46
+msgid "Schedule Whole House Committee"
+msgstr "ratibu kamati ya jumba zima"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:47
+msgid "Reintroduce"
+msgstr "anzisha tena"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:48
+msgid "Postpone Whole House Committee"
+msgstr "ahirisha kamati la jumba zima"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:49
+msgid "Postpone First Reading"
+msgstr "ahirisha somo la kwanza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:50
+msgid "Reschedule Second Reading"
+msgstr "ratibu upya somo la pili "
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:51
+msgid "Second Reading Schedule"
+msgstr "ratiba ya somo la pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:52
+msgid "Postpone Second Reading"
+msgstr "ahirisha somo la pili"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:53
+msgid "Back to First Reading"
+msgstr "rudi katika somo la kwanza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:54
+msgid "Publish in Gazette"
+msgstr "chapisha katika gazeti"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:58
+msgid "Schedule First Reading"
+msgstr "ratibu somo la kwanza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:59
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:101
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:159
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:191
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:201
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:210
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:246
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:302
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:330
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:339
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:348
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:352
+msgid "Create"
+msgstr "unda"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:6
+msgid "Second Reading Postponed"
+msgstr "somo la pili limeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:60
+msgid "Reschedule Report Reading"
+msgstr "ratibu upya somo la ripoti "
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:61
+msgid "Approved"
+msgstr "imepitishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:62
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:128
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:215
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:270
+msgid "Scheduled"
+msgstr "imeratibiwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:63
+msgid "Received by clerk"
+msgstr "limepokewa na karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:64
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:130
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:217
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:272
+msgid "Schedule pending"
+msgstr "ratiba inasubiri"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:65
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:131
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:218
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:273
+msgid "Submitted to the Speaker"
+msgstr "imewasilishwa kwa spika"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:66
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:132
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:219
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:274
+msgid "Inadmissible"
+msgstr "haikubaliki"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:67
+msgid "Needs clerks clarification"
+msgstr "yahitaji ufafanuzi wa karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:68
+msgid "Pending response"
+msgstr "yangoja jibu"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:69
+msgid "Submitted to clerk"
+msgstr "imewasilishwa kwa karani"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:7
+msgid "Third Reading Postponed"
+msgstr "somo la tatu limeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:70
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:135
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:222
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:277
+msgid "Deferred"
+msgstr "imeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:71
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:136
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:223
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:278
+msgid "Admissible"
+msgstr "inakubalika"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:72
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:96
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:137
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:224
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:279
+msgid "Debated"
+msgstr "imejadiliwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:73
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:138
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:225
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:280
+msgid "Draft"
+msgstr "utungo"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:74
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:83
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:139
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:161
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:226
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:248
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:281
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:304
+msgid "Debate adjourned"
+msgstr "mjadala umeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:75
+msgid "Needs MPs clarification"
+msgstr "yahitaji ufafanuzi wa mbunge"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:76
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:141
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:228
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:283
+msgid "Elapsed"
+msgstr "imechelewa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:77
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:142
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:229
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:284
+msgid "Postponed"
+msgstr "iliyoahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:78
+msgid "Response completed"
+msgstr "jibu limekamilika"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:79
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:143
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:230
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:285
+msgid "Withdrawn"
+msgstr "imeondolewa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:8
+msgid "Whole House Postponed"
+msgstr "jumba zima limeahirishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:80
+msgid "Response submitted"
+msgstr "jibu limewasilishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:84
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:118
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:148
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:174
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:235
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:261
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:289
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:318
+msgid "Approve"
+msgstr "pitisha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:86
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:113
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:115
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:164
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:170
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:251
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:257
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:308
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:314
+msgid "Elapse"
+msgstr "kawiza"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:87
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:104
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:111
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:119
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:144
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:231
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:291
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:305
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:311
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:319
+msgid "Defer"
+msgstr "ahirisha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:88
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:102
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:108
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:114
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:150
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:160
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:165
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:171
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:237
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:247
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:252
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:258
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:292
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:303
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:309
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:315
+msgid "Submit to the Speaker Office"
+msgstr "wasilisha kwa ofisi ya spika"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:89
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:97
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:99
+msgid "Send to Ministry"
+msgstr "tuma kwa wizara"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:9
+msgid "Approved Bill"
+msgstr "muswada umepitishwa"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:90
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:147
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:158
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:234
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:245
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:288
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:301
+msgid "Make available for scheduling"
+msgstr "fanya ipatikane katika orodha"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:92
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:152
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:239
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:294
+msgid "Needs Clarification"
+msgstr "yahitaji ufafanuzi"
+
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:94
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:124
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:140
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:154
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:179
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:227
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:241
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:266
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:282
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:296
+#: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:323
+msgid "Needs Clarification by MP"
+msgstr "yahitaji ufafanuzi kutoka mbunge"
+
+#~ msgid "("
+#~ msgstr "("
 

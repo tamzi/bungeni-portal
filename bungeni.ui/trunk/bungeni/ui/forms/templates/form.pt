@@ -165,7 +165,7 @@
               </metal:block>
             </fieldset>
           </metal:block>
-          <div id="actionsView">
+          <div id="actionsView"> 
             <span class="actionButtons"
                   tal:condition="view/availableActions">
               <tal:loop tal:repeat="action view/actions">

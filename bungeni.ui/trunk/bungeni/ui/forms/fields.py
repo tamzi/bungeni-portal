@@ -14,7 +14,7 @@ from alchemist.ui.core import DynamicFields
 from alchemist.ui.viewlet import DisplayFormViewlet
 
 from bungeni.ui.forms.workflow import bindTransitions
-from bungeni.core.i18n import _
+from bungeni.ui.i18n import _
 from bungeni.core.translation import get_translation_for, get_all_languages
 from copy import copy
 

@@ -39,7 +39,7 @@ from bungeni.core.translation import is_translation
 from bungeni.core.translation import get_translation_for
 from bungeni.core.translation import CurrentLanguageVocabulary
 from bungeni.core.interfaces import IVersioned
-from bungeni.core.i18n import _
+from bungeni.ui.i18n import _
 from bungeni.models.interfaces import IVersion
 from bungeni.models import domain
 from ploned.ui.interfaces import IViewView

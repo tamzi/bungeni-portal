@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:55:49 2010\n"
-"PO-Revision-Date: 2010-04-12 13:03+0300\n"
+"PO-Revision-Date: 2010-04-12 15:27+0300\n"
 "Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1459,9 +1459,8 @@ msgstr "général"
 
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/forms/fields.py:83
-#, fuzzy
 msgid "This content is not yet translated into $language"
-msgstr "identificateur"
+msgstr "le document n'a pas encore être traduit à $language"
 
 #: src/bungeni.ui/bungeni/ui/forms/files.py:14
 #: src/bungeni.ui/bungeni/ui/forms/templates/version-attached-files.pt:1

@@ -104,9 +104,9 @@ def prepare_user_workspaces(event):
         # these are needed by the views, as we need them also here, we just
         # remember them to not need to calculate them again
         user_id=None,
-        user_group_ids=None,
+        user_group_ids=[],
         government_id=None,
-        ministry_ids=None        
+        ministry_ids=[]        
     )
     #LD['app'] = app
     
@@ -157,9 +157,9 @@ class WorkspaceView(BungeniBrowserView):
     
     # set on request._layer_data
     user_id = None
-    user_group_ids = None
+    user_group_ids = []
     government_id = None
-    ministry_ids = None
+    ministry_ids = []
     
     role_interface_mapping = {
         u'bungeni.Admin': interfaces.IAdministratorWorkspace,

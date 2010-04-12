@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-04-12 12:57+0300\n"
+"PO-Revision-Date: 2010-04-12 15:19+0300\n"
 "Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,6 @@ msgstr ""
 "Language-Name: English\n"
 
 #: src/bungeni.core/bungeni/core/app.py:102
-#, fuzzy
 msgid "Scheduling"
 msgstr "planifier"
 

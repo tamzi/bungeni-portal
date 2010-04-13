@@ -613,10 +613,8 @@ class PartyMemberDescriptor( ModelDescriptor ):
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserSource(  
-                    token_field='user_id', 
-                    title_field='fullname', 
-                    value_field='user_id')),
+                source=vocabulary.MemberOfParliamentSource(  
+                    'user_id',)),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,

@@ -6,18 +6,19 @@ from time import mktime
 from dateutil import rrule
 
 marker = object()
+date_range_delimiter=':'
 
 def timestamp_from_date(date):
     return mktime(date.timetuple())
 
 def pack_date_range(start, end):
-    return ";".join(map(
+    return date_range_delimiter.join(map(
         lambda date: (date and str(int(timestamp_from_date(date))) or ""),
         (start, end)))
 
 def unpack_date_range(value):
     try:
-        start, end = value.split(';')
+        start, end = value.split(date_range_delimiter)
     except (ValueError):            
         start = value
         end = None

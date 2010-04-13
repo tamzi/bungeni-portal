@@ -249,7 +249,7 @@
   <browser:menuItem
      menu="ministry_additems"
      for="bungeni.models.interfaces.IMinistry"
-     title="Add Minister..."
+     title="Add member to ministry..."
      action="./ministers/add"
      permission="bungeni.minister.Add"     
      order="10"
@@ -849,7 +849,7 @@
   <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.MinisterContainer"
-     title="Add Minister..."
+     title="Add member to ministry..."
      action="./add"
      permission="bungeni.minister.Add"
      order="100"

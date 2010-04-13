@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 18:30:45 2010\n"
-"PO-Revision-Date: 2010-04-12 18:31+0300\n"
+"PO-Revision-Date: 2010-04-13 14:22+0300\n"
 "Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2556,7 +2556,7 @@ msgstr "sections"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:15
 msgid "From: ${whats_on_start_date} to: ${whats_on_end_date}"
-msgstr "from: ${whatsonstartdate} to: ${whatsonenddate}"
+msgstr "from: ${whats_on_start_date} to: ${whats_on_end_date}"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:7
 msgid "What's on"

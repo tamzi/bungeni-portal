@@ -235,7 +235,7 @@ class AppSetup(object):
             description=_(u"View current parliament members (MPs)"))
 
         political_groups = members[u"political-groups"] = QueryContent(
-            container_getter(get_current_parliament, 'politicalparties'),
+            container_getter(get_current_parliament, 'politicalgroups'),
             title=_(u"Political groups"),
             description=_(u"View current political groups"))
 
@@ -249,50 +249,52 @@ class AppSetup(object):
             title=_(u"Documents"),
             description=_(u"Visit the digital document repository"),
             default_name="browse-archive")
-
+            
+            
+        def to_locatable_container(domain_class, *domain_containers):
+            provideAdapter(location.ContainerLocation(*domain_containers),
+                       (implementedBy(domain_class), ILocation))            
 
         # archive/records
         documents[u"bills"] = domain.BillContainer()
-        provideAdapter(location.ContainerLocation(bills, documents[u"bills"]),
-                       (implementedBy(domain.Bill), ILocation))
+        to_locatable_container(domain.Bill, documents[u"bills"])
 
         documents[u"motions"] = domain.MotionContainer()
-        provideAdapter(location.ContainerLocation(motions, documents[u"motions"]),
-                       (implementedBy(domain.Motion), ILocation))
+        to_locatable_container(domain.Motion, documents[u"motions"])        
+       
 
         documents[u"questions"] = domain.QuestionContainer()
-        provideAdapter(location.ContainerLocation(questions, documents[u"questions"]),
-                       (implementedBy(domain.Question), ILocation))
+        to_locatable_container(domain.Question, documents[u"questions"])                
+     
 
         documents[u"agendaitems"] = domain.AgendaItemContainer()
-        provideAdapter(location.ContainerLocation(agendaitems, documents[u"agendaitems"]),
-                       (implementedBy(domain.AgendaItem), ILocation))
-        
+        to_locatable_container(domain.AgendaItem, documents[u"agendaitems"])                
+
         documents[u"tableddocuments"] = domain.TabledDocumentContainer()
-        provideAdapter(location.ContainerLocation(
-                            tableddocuments, documents[u"tableddocuments"]),
-                       (implementedBy(domain.TabledDocument), ILocation))
+        to_locatable_container(domain.TabledDocument, documents[u"tableddocuments"])                
+  
         
         documents[u"reports"] = domain.ReportContainer()
-        provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
-                       (implementedBy(domain.Report), ILocation))
+        to_locatable_container(domain.Report, documents[u"reports"])                
+        #provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
+        #               (implementedBy(domain.Report), ILocation))
         
         records[u"parliaments"] = domain.ParliamentContainer()
-        provideAdapter(location.ContainerLocation(records[u"parliaments"]),
-                       (implementedBy(domain.Parliament), ILocation))
+        to_locatable_container(domain.Parliament, records[u"parliaments"])                
+       
         
-        records[u"parties"] = domain.PoliticalPartyContainer()
-        provideAdapter(location.ContainerLocation(records[u"parties"]),
-                       (implementedBy(domain.PoliticalParty), ILocation))
+        records[u"politicalgroups"] = domain.PoliticalGroupContainer()
+        to_locatable_container(domain.PoliticalGroup, records[u"politicalgroups"])                        
+        #provideAdapter(location.ContainerLocation(records[u"politicalgroups"]),
+        #               (implementedBy(domain.PoliticalGroup), ILocation))
 
         records[u"constituencies"] = domain.ConstituencyContainer()
-        provideAdapter(location.ContainerLocation(records[u"constituencies"]),
-                       (implementedBy(domain.Constituency), ILocation))
+        to_locatable_container(domain.Constituency, records[u"constituencies"])                
+
                                                                      
         
         records[u"committees"] = domain.CommitteeContainer()
-        provideAdapter(location.ContainerLocation(committees, records[u"committees"]),
-                       (implementedBy(domain.Committee), ILocation))
+        to_locatable_container(domain.Committee, records[u"committees"])                
 
         #records[u"mps"] = domain.MemberOfParliamentContainer()
         #provideAdapter(location.ContainerLocation(records[u"mps"]),
@@ -314,29 +316,30 @@ class AppSetup(object):
             default_name="settings")
 
         content[u"parliaments"] = domain.ParliamentContainer()
-        provideAdapter(location.ContainerLocation(content[u"parliaments"]),
-                       (implementedBy(domain.Parliament), ILocation))
+        to_locatable_container(domain.Parliament, content[u"parliaments"])                
+
         
         content[u'users'] = domain.UserContainer()
-        provideAdapter(location.ContainerLocation(content[u"users"]),
-                       (implementedBy(domain.User), ILocation))    
+        to_locatable_container(domain.User, content[u"users"]) 
+  
 
         content[u'headings'] = domain.HeadingContainer()
-        provideAdapter(location.ContainerLocation(content[u"headings"]),
-                       (implementedBy(domain.Heading), ILocation))                           
+        to_locatable_container(domain.Heading, content[u"headings"]) 
+                         
 
         content[u"provinces"] = domain.ProvinceContainer()
-        provideAdapter(location.ContainerLocation(content[u"provinces"]),
-                       (implementedBy(domain.Province), ILocation))
+        to_locatable_container(domain.Province, content[u"provinces"]) 
+
                        
         content[u"regions"] = domain.RegionContainer()
-        provideAdapter(location.ContainerLocation(content[u"regions"]),
-                       (implementedBy(domain.Region), ILocation))
+        to_locatable_container(domain.Region, content[u"regions"]) 
+ 
 
         content[u"constituencies"] = domain.ConstituencyContainer()
-        provideAdapter(location.ContainerLocation(content[u"constituencies"]),
-                       (implementedBy(domain.Constituency), ILocation))     
-                       
-                                             
+        to_locatable_container(domain.Constituency, content[u"constituencies"]) 
+                            
+        content[u"parties"] = domain.PoliticalPartyContainer()
+        to_locatable_container(domain.PoliticalParty, content[u"parties"]) 
+              
    
 

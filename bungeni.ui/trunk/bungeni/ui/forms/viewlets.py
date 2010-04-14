@@ -54,7 +54,7 @@ class GroupIdViewlet(viewlet.ViewletBase):
         if interfaces.IParliament.providedBy(trusted):
             self.parent_group_principal_id = trusted.group_principal_id           
         else:
-            self.parent_group_principal_id = trusted.parent_group.group_principal_id
+            self.parent_group_principal_id = getattr(trusted.parent_group, 'group_principal_id', "")
         self.my_group_principal_id = trusted.group_principal_id        
         #session.close()
         
@@ -322,10 +322,10 @@ class AddressesViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
 
-class PoliticalPartyViewlet( SubformViewlet ):
+class PoliticalGroupsViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
 
-        self.context = context.politicalparties
+        self.context = context.politicalgroups
         self.request = request
         self.__parent__= context
         self.manager = manager

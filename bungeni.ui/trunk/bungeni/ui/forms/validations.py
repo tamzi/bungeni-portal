@@ -110,32 +110,40 @@ rdb.orm.mapper(AllPartyMemberships, all_party_memberships)
 
 def validate_party_membership(action, data, context, container):
     errors = []
+    parent_id = getattr(container.__parent__, 'parent_group_id', None)    
     if interfaces.IPartyMember.providedBy(context):
         party_member = context
         user_id = context.user_id
     else:
         party_member = None
         user_id = data['user_id']
-    session = Session()                
-    if data['start_date']:
+    if data.get('start_date',None):
         for r in queries.validate_membership_in_interval(party_member, 
                     AllPartyMemberships, 
                     data['start_date'],
-                    user_id):  
+                    user_id,
+                    parent_id=parent_id,
+                    with_parent=True):  
             overlaps = r.short_name                                                                             
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "start_date" ))                    
-    if data['end_date']:    
+    if data.get('end_date', None):    
         for r in queries.validate_membership_in_interval(party_member, 
                     AllPartyMemberships, 
                     data['end_date'],
-                    user_id):    
+                    user_id,
+                    parent_id=parent_id,
+                    with_parent=True):    
             overlaps = r.short_name                      
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
                 "end_date" ))                                
-    for r in queries.validate_open_membership(party_member, AllPartyMemberships, user_id):
+    for r in queries.validate_open_membership(party_member, 
+            AllPartyMemberships, 
+            user_id, 
+            parent_id=parent_id, 
+            with_parent=True):
         overlaps = r.short_name      
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 

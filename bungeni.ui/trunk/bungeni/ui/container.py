@@ -501,7 +501,7 @@ class ContainerWFStatesJSONListing( ContainerJSONListing ):
         order_by = self.getSort()     
         if order_by:
             query = query.order_by( order_by )  
-        query = query.limit( limit ).offset( start )            
+        query = query.limit( limit ).offset( start ) 
         nodes = query.all()                                                          
         batch = self._jsonValues( nodes, self.fields, self.context )
         return batch

@@ -640,11 +640,7 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     
     display_name = _(u"Party membership")
     container_name = _(u"Party memberships")
-    
-    partySource=vocabulary.DatabaseSource(domain.PoliticalParty,  
-                    token_field='party_id', 
-                    title_field='short_name', 
-                    value_field='party_id')
+
     fields = [
         dict( name="user_id", omit=True),                 
         dict( name='short_name', 
@@ -1077,6 +1073,14 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
           
     schema_invariants = [EndAfterStart]
     
+class PoliticalGroupDescriptor( PoliticalPartyDescriptor ):
+    display_name = _(u"Political group")
+    container_name = _(u"Political groups")
+       
+    fields = deepcopy( PoliticalPartyDescriptor.fields )    
+   
+          
+
 
 class OfficeDescriptor(GroupDescriptor):
     display_name = _(u"Office")

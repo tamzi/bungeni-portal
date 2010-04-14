@@ -14,7 +14,8 @@ import operator
 
 from sqlalchemy.orm import eagerload
 import sqlalchemy.sql.expression as sql
-
+from zope.event import notify
+from zope.lifecycleevent import ObjectCreatedEvent
 from zope import interface
 from zope import component
 from zope import schema
@@ -240,19 +241,22 @@ class CalendarView(BrowserView):
         self.display_language = 'en'
         if self.request.get('I18N_LANGUAGES'):
             self.display_language = self.request.get('I18N_LANGUAGES')
-        s = '<div class="dhx_cal_ltext" style="height:80px;">' 
-        s += 'Sitting Type<select>'
+        s = '<div class="dhx_cal_ltext" style="height:90px;">' 
+        s += '<table><tr><td>Sitting Type</td><td><select id="select_sitting_type">'
         for sitting_type in sitting_types:
 		    s += '<option value="'+str(sitting_type.sitting_type_id)+'">'+sitting_type.sitting_type+'</option>'	      
-        s += '</select><br/>'
-        s += 'Venue<select>'
+        s += '</select></td></tr>'
+        s += '<tr><td>Venue</td><td><select id="select_sitting_venue">'
         for venue in venues:
             s += '<option value="'+str(venue.venue_id)+'">'+venue.short_name+'</option>'
-        s += '</select><br/>'
-        s += 'Language<select>'
+        s += '</select></td></tr>'
+        s += '<tr><td>Language</td><td><select id="select_sitting_lang">'
         for lang in languages:
-            s += '<option value="'+lang+'">'+lang+'</option>'    
-        s += '</select><br/></div>'    
+            if lang == 'en':
+                s += '<option value="'+lang+'" selected>'+lang+'</option>'   
+            else:
+                s += '<option value="'+lang+'">'+lang+'</option>'  
+        s += '</select></td></tr></table></div>'    
         self.sitting_details_form = s        
         return template()
 
@@ -953,10 +957,8 @@ class DhtmlxCalendarSittingsEdit(BrowserView):
     def __init__(self, context, request):
         super(DhtmlxCalendarSittingsEdit, self).__init__(
             ISchedulingContext(context), request)
-        self.context.__name__ = self.__name__
         interface.alsoProvides(self.context, ILocation)
         interface.alsoProvides(self.context, IDCDescriptiveProperties)
-        self.__parent__ = context
     def __call__(self):
         ids = self.request.form['ids']
         action = self.request.form[ids+"_!nativeeditor_status"]
@@ -964,24 +966,21 @@ class DhtmlxCalendarSittingsEdit(BrowserView):
         sitting = domain.GroupSitting()
         trusted = removeSecurityProxy(self.context)
         sitting.group_id = trusted.group_id
-        print "GROUP ID => ", sitting.group_id
         if action == "inserted":
             sitting.start_date = self.request.form[ids+"_start_date"]
             sitting.end_date = self.request.form[ids+"_end_date"]
-            #sitting.type = self.request.form[ids+"_text"]
             sitting.sitting_type_id = self.request.form[ids+"_type"]
-            sitting.status = 'draft-agenda'
+            sitting.status = None
             if ids+"_type" in self.request.form.keys():
                 sitting.sitting_type_id = self.request.form[ids+"_type"]
             if ids+"_language" in self.request.form.keys():
                 sitting.language = self.request.form[ids+"_language"]
             if ids+"_venue" in self.request.form.keys():
                 sitting.venue_id = self.request.form[ids+"_venue"]
-            
             session.add(sitting)
+            notify(ObjectCreatedEvent(sitting))
             session.commit()
         elif action == "updated":
-            print "UPDATED!!!!!!!!!!!!!"
             sitting = session.query(domain.GroupSitting).get(ids)
             sitting.start_date = self.request.form[ids+"_start_date"]
             sitting.end_date = self.request.form[ids+"_end_date"]
@@ -991,7 +990,6 @@ class DhtmlxCalendarSittingsEdit(BrowserView):
                 sitting.language = self.request.form[ids+"_language"]
             if ids+"_venue" in self.request.form.keys():
                 sitting.venue_id = self.request.form[ids+"_venue"]
-            
             session.update(sitting)
             session.commit()
         elif action == "deleted":

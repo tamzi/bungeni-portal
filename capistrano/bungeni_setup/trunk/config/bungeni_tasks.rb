@@ -123,6 +123,16 @@ namespace :bungeni_tasks do
     end
 
 
+    desc "stop postgres"
+    task :stop_postgres, :roles=> :app do
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf stop postgres"
+    end
+
+    desc "start postgres"
+    task :start_postgres, :roles=> :app do
+      run "#{supervisorctl} -c #{buildout_dir}/supervisord.conf start postgres"
+    end
+
 
     desc "stop supervisor"
     task :stop_supervisor, :roles=> :app do

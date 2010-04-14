@@ -249,7 +249,7 @@
   <browser:menuItem
      menu="ministry_additems"
      for="bungeni.models.interfaces.IMinistry"
-     title="Add member to ministry..."
+     title="Add Minister..."
      action="./ministers/add"
      permission="bungeni.minister.Add"     
      order="10"
@@ -849,7 +849,7 @@
   <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.MinisterContainer"
-     title="Add member to ministry..."
+     title="Add Minister..."
      action="./add"
      permission="bungeni.minister.Add"
      order="100"
@@ -1641,7 +1641,24 @@
      permission="zope.View"
      order="30"
      />  
-   
+     
+   <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.domain.Report"
+     action="pdf"
+     title="download pdf"
+     permission="zope.View"
+     order="30"
+     /> 
+     
+     <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.domain.Report"
+     action="odt"
+     title="download odt"
+     permission="zope.View"
+     order="30"
+     /> 
    <!--browser:menuItem
      menu="context_actions"
      for="bungeni.models.interfaces.IBungeniContent"

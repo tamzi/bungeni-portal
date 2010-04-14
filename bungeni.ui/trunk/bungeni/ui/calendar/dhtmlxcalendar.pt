@@ -47,7 +47,7 @@
 			            //node.childNodes[7].value=ev.language||"";
 			            $("#select_sitting_type").val(ev.type||"");
 			            $("#select_sitting_venue").val(ev.venue||"");
-			            $("#select_sitting_lang").val(ev.language||"");
+			            $("#select_sitting_lang").val(ev.language||"en");
 		            },
 		            get_value:function(node,ev){
 		                //ev.type = node.childNodes[1].value;

@@ -268,7 +268,7 @@ committee_type = rdb.Table(
                 nullable=False ),
     rdb.Column( "language", rdb.String(5), nullable=False),                   
     )
-
+# political parties (outside the parliament) and political groups in a parliament
 political_parties = rdb.Table(
    "political_parties",
    metadata,

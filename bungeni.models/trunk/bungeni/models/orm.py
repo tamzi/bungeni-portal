@@ -109,13 +109,25 @@ mapper( domain.Parliament, schema.parliaments,
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='parliament'
         )
-        
-mapper( domain.PoliticalParty, schema.political_parties,
+
+mapper( domain.PoliticalEntity, schema.political_parties,
         inherits=domain.Group,                        
+        polymorphic_on=schema.groups.c.type,
+        polymorphic_identity='political-entity'
+        )
+        
+mapper( domain.PoliticalParty, 
+        inherits=domain.PoliticalEntity,                        
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='political-party'
         )
 
+mapper( domain.PoliticalGroup, 
+        inherits=domain.PoliticalEntity,                        
+        polymorphic_on=schema.groups.c.type,
+        polymorphic_identity='political-group'
+        )
+        
 mapper( domain.Ministry,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
@@ -322,7 +334,7 @@ mapper( domain.PartyMember,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='partymember',        
         )  
-
+        
 s_officemember = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.user_group_memberships.c.start_date,
                     schema.user_group_memberships.c.end_date,

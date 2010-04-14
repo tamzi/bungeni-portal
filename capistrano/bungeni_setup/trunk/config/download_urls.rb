@@ -8,7 +8,7 @@ set :python_download_url, "/home/undesa/cache/Python-2.5.4.tgz" # http://www.pyt
 set :python_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7.tar.gz"
 
 ### python24_download_url is the url to python 2.4 source ###
-set :python24_download_url, "/home/#{bungeni_username}/cache/Python-2.4.4.tgz" # http://www.python.org/ftp/python/2.5.4/Python-2.5.4.tgz
+set :python24_download_url, "/home/#{bungeni_username}/cache/Python-2.4.6.tgz" # http://www.python.org/ftp/python/2.4.6/Python-2.4.6.tgz
 set :python24_imaging_download_url, "http://effbot.org/media/downloads/Imaging-1.1.7.tar.gz"
 
 

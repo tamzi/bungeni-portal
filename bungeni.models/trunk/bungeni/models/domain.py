@@ -249,7 +249,7 @@ class Parliament( Group ):
     governments = one2many("governments","bungeni.models.domain.GovernmentContainer", "parent_group_id")
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "group_id")
-    politicalparties = one2many("politicalparties", "bungeni.models.domain.PoliticalPartyContainer", "parent_group_id")
+    politicalgroups = one2many("politicalgroups", "bungeni.models.domain.PoliticalGroupContainer", "parent_group_id")
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "parliament_id")
     questions = one2many("questions", "bungeni.models.domain.QuestionContainer", "parliament_id")
     motions = one2many("motions", "bungeni.models.domain.MotionContainer", "parliament_id")  
@@ -276,18 +276,26 @@ class MemberOfParliament ( GroupMembership ):
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
     listings_class = ListMemberOfParliament
 
-class PoliticalParty( Group ):
-    """ a political party
+class PoliticalEntity( Group ):
+    """ Base class for political parties and political groups """
+
+    
+class PoliticalParty( PoliticalEntity ):
+    """ a political party (ouside the parliament)
+    """
+    partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
+
+class PoliticalGroup( PoliticalEntity ):
+    """ a political group in a parliament
     """
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
     
-
 class ListPartyMember(object):
     pass
 
 class PartyMember( GroupMembership ):
     """ 
-    Member of a political party, defined by its group membership 
+    Member of a political party or group, defined by its group membership 
     """
     titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )   
     listings_class = ListPartyMember

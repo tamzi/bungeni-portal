@@ -144,6 +144,24 @@
      permission="bungeni.politicalgroupmember.Add"
      />
 
+
+  <browser:subMenuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.interfaces.IPoliticalGroup"
+     title="Add..."
+     action="add_content"
+     permission="zope.View"
+     submenu="party_additems"
+     />
+     
+  <browser:menuItem
+     menu="party_additems"
+     for="bungeni.models.interfaces.IPoliticalGroup"
+     title="Add political group member..."
+     action="./partymembers/add"
+     permission="bungeni.politicalgroupmember.Add"
+     />
+
   <browser:menu
      id="committee_additems"
      title="The 'Add...' menu - for committees"
@@ -774,12 +792,20 @@
   <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.PoliticalPartyContainer"
-     title="Add Political Group..."
+     title="Add Political Party..."
      action="./add"
      permission="bungeni.party.Add"
      order="100"
      />
-     
+
+  <browser:menuItem
+     menu="plone_contentmenu"
+     for="bungeni.models.domain.PoliticalGroupContainer"
+     title="Add Political Group..."
+     action="./add"
+     permission="bungeni.party.Add"
+     order="100"
+     />     
   <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.MinistryContainer"
@@ -1539,6 +1565,14 @@
      order="10"
      permission="bungeni.party.Edit"           
      />
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IPoliticalGroup"
+     action="edit"
+     title="Edit"
+     order="10"
+     permission="bungeni.party.Edit"           
+     />
 
 
   <browser:menuItem
@@ -1574,6 +1608,14 @@
      order="10"
      permission="bungeni.party.Delete"           
      />
+  <browser:menuItem
+     menu="context_actions"
+     for="bungeni.models.interfaces.IPoliticalGroup"
+     action="delete"
+     title="Delete"
+     order="10"
+     permission="bungeni.party.Delete"           
+     />     
 
   <browser:menuItem
      menu="context_actions"

@@ -528,9 +528,9 @@
      />        
 
   <browser:viewlet
-     name="bungeni.viewlet.political-parties"
+     name="bungeni.viewlet.political-groups"
      manager="alchemist.ui.interfaces.IContentViewManager"
-     class=".viewlets.PoliticalPartyViewlet"
+     class=".viewlets.PoliticalGroupsViewlet"
      for="bungeni.models.interfaces.IParliament"
      permission="zope.View"
      weight="30"
@@ -587,6 +587,15 @@
      permission="zope.View"
      weight="10"
      />    
+
+  <browser:viewlet
+     name="bungeni.viewlet.political-group-members"
+     manager="alchemist.ui.interfaces.IContentViewManager"
+     class=".viewlets.PartyMemberViewlet"
+     for="bungeni.models.interfaces.IPoliticalGroup"
+     permission="zope.View"
+     weight="10"
+     />        
   
   <!-- bills -->
   

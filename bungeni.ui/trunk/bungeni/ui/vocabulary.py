@@ -72,7 +72,8 @@ class MonthlyRecurrenceVocabulary(object):
                 
 MonthlyRecurrenceVocabularyFactory = MonthlyRecurrenceVocabulary()
 
-
+# you have to add title_field to the vocabulary as only this gets 
+# translated, the token_field will NOT get translated
 QuestionType = vocabulary.SimpleVocabulary( [
     vocabulary.SimpleTerm('O', _(u"Ordinary"), _(u"Ordinary")), 
     vocabulary.SimpleTerm('P', _(u"Private Notice"), _(u"Private Notice"))] )
@@ -711,8 +712,8 @@ class MotionPartySource(SpecializedSource):
                         PartyMembership.parent_group_id == parliament_id)
                         )
         else:
-            query = session.query(domain.PoliticalParty).filter(                    
-                        domain.PoliticalParty.parent_group_id == parliament_id)
+            query = session.query(domain.PoliticalGroup).filter(                    
+                        domain.PoliticalGroup.parent_group_id == parliament_id)
         return query                        
         
 

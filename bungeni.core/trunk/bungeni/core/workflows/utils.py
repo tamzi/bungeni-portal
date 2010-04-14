@@ -45,7 +45,7 @@ def _get_group_local_role(group):
         return "bungeni.Minister"
     elif interfaces.ICommittee.providedBy(group): 
         return "bungeni.CommitteeMember"
-    elif interfaces.IPoliticalParty.providedBy(group):   
+    elif interfaces.IPoliticalGroup.providedBy(group):   
         return "bungeni.PartyMember"
     elif interfaces.IGovernment.providedBy(group):   
         return "bungeni.Government"        
@@ -59,7 +59,7 @@ def _get_group_local_role(group):
         else: 
             raise NotImplementedError 
     else:
-        return None            
+        return "bungeni.GroupMember"            
         
 def _get_group_context(context):
     if interfaces.IOffice.providedBy(context):

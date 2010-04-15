@@ -626,5 +626,55 @@
     <require like_class=".domain.ParliamentaryItem" />     
   </class>
   
+  <class class=".domain.User" >
+    <require permission="zope.View"
+        attributes="user_id
+        status
+        login
+        titles
+        first_name
+        last_name
+        middle_name
+        email
+        gender
+        date_of_birth
+        date_of_death
+        birth_country
+        birth_nationality
+        current_nationality
+        uri
+        type_of_id
+        national_id
+        description
+        image
+        recieve_notification
+        language" />
+
+    <require permission="zope.ManageContent"
+        set_attributes="user_id
+        status
+        login
+        titles
+        first_name
+        last_name
+        middle_name
+        email
+        gender
+        date_of_birth
+        date_of_death
+        birth_country
+        birth_nationality
+        current_nationality
+        uri
+        type_of_id
+        national_id
+        description
+        image
+        recieve_notification
+        language" />
+        
+  </class>
+  
+  
 </configure>
 

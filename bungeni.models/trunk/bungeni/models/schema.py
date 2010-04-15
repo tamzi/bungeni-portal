@@ -80,6 +80,7 @@ users = rdb.Table(
    "users",
    metadata,
    rdb.Column( "user_id", rdb.Integer, PrincipalSequence, primary_key=True ),
+   # login is our principal id
    rdb.Column( "login", rdb.Unicode(80), unique=True, nullable=True ),
    rdb.Column( "titles", rdb.Unicode(32)),
    rdb.Column( "first_name", rdb.Unicode(256), nullable=False ),
@@ -109,8 +110,6 @@ users = rdb.Table(
    rdb.Column( "recieve_notification", rdb.Boolean, default=True),                
    rdb.Column( "language", rdb.String(5), nullable=False),   
    )
-
-
 
 
 # delegate rights to act on behalf of a user to another user

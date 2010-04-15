@@ -92,6 +92,12 @@ class User(Entity):
         attempt = self.encode( password_attempt )
         return attempt == self.password
 
+    def _get_status(self):
+        return self.active_p
+    def _set_status(self, value):
+        self.active_p = value
+    status = property(_get_status, _set_status)
+
     @property
     def fullname(self):
         return "%s %s" % (self.first_name, self.last_name)

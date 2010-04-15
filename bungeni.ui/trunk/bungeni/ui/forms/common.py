@@ -785,6 +785,7 @@ class DeleteForm(BaseForm, form.PageForm):
 
             return self.render()
         session.close()
+        #TODO: check that it is removed from the index!
         notify(ObjectRemovedEvent(
             self.context, oldParent=container, oldName=self.context.__name__))
         # we have to switch our context here otherwise the deleted object will

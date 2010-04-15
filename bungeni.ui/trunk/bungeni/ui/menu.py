@@ -144,7 +144,10 @@ class TranslationSubMenuItem(BrowserSubMenuItem):
     @property
     def action(self):
         url = ui_url.absoluteURL(self.context, self.request)
-        return "%s/translate" % url
+        if checkPermission("bungeni.translation.Add", self.context):        
+            return "%s/translate" % url
+        else:
+            return url            
     
     def selected(self):
         return False
@@ -157,37 +160,38 @@ class TranslateMenu(BrowserMenu):
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
         url = ui_url.absoluteURL(context, request)
-        
-        language = get_language(context)
-        available = get_available_translations(context)
+        if checkPermission("bungeni.translation.Add", context):
+            language = get_language(context)
+            available = get_available_translations(context)
+            results = []
+            for name, obj in get_all_languages().items():
+                title = obj['name']
+                
+                # skip the current language
+                if name == language:
+                    continue
 
-        results = []
-        for name, obj in get_all_languages().items():
-            title = obj['name']
-            
-            # skip the current language
-            if name == language:
-                continue
+                translation_id = available.get(name)
+                selected = translation_id is not None
 
-            translation_id = available.get(name)
-            selected = translation_id is not None
+                action_url = url + '/translate?language=%s' % name
 
-            action_url = url + '/translate?language=%s' % name
-
-            extra = {'id': 'translation-action-%s' % name,
-                     'separator': None,
-                     'class': ''}
-            
-            results.append(
-                dict(title=title,
-                     description="",
-                     action=action_url,
-                     selected=selected,
-                     icon=None,
-                     extra=extra,
-                     submenu=None))
-                     
-        return results
+                extra = {'id': 'translation-action-%s' % name,
+                         'separator': None,
+                         'class': ''}
+                
+                results.append(
+                    dict(title=title,
+                         description="",
+                         action=action_url,
+                         selected=selected,
+                         icon=None,
+                         extra=extra,
+                         submenu=None))
+                         
+            return results
+        else:
+            return None            
 
 
 class WorkflowSubMenuItem(BrowserSubMenuItem):

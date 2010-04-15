@@ -297,28 +297,6 @@ def DeathBeforeLife(User):
             "date_of_death", 
             "date_of_birth")
     
-def IsDeceased(User):
-    """If a user is deceased a date of death must be given"""
-    if User.active_p is None: 
-        if User.date_of_death is None: 
-            return
-        else: 
-            raise interface.Invalid(
-                _(u"If a user is deceased he must have the status D"), 
-                "date_of_death", 
-                "active_p" )
-    if User.active_p == 'D':
-        if User.date_of_death is None:
-            raise interface.Invalid(
-                _(u"A Date of Death must be given if a user is deceased"), 
-                "date_of_death", 
-                "active_p" )
-    else:
-        if User.date_of_death is not None:
-            raise interface.Invalid(
-                _(u"If a user is deceased he must have the status 'D'"), 
-                "date_of_death", 
-                "active_p" )
     
 def POBoxOrAddress( obj ):
     """
@@ -420,16 +398,8 @@ class UserDescriptor( ModelDescriptor ):
               edit_permission="bungeni.user.AdminRecord",
               edit_widget=DateWidget, 
               add_widget=DateWidget),
-        dict( name="active_p", label=_(u"Status"), 
-              property = schema.Choice( 
-                title=_(u"Status"), 
-                source=vocabulary.InActiveDead, default='A' ),
-              listing_column=inActiveDead_Column("active_p", _(u'Status'), ''),
-              #view_permission="bungeni.user.AdminRecord",
-              edit_permission="bungeni.user.AdminRecord",  
-              listing=True,
-              edit_widget=CustomRadioWidget,
-              add_widget=CustomRadioWidget,),
+        dict( name="active_p", label=_(u"Status"),              
+              omit=True),
         dict(name="language", 
              label=_(u"Language"), 
              listing=False, 
@@ -461,7 +431,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="type", omit=True ),
         ]
         
-    schema_invariants = [DeathBeforeLife, IsDeceased]
+    schema_invariants = [DeathBeforeLife]
     custom_validators = []
 
 class UserDelegationDescriptor( ModelDescriptor ):

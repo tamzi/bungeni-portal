@@ -4,7 +4,6 @@ $Id:
 """
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.app.publisher.browser.menu import getMenu
-import bungeni.ui.utils as ui_utils
 from ploned.ui.interfaces import IStructuralView
 
 
@@ -22,8 +21,5 @@ class WeightBasedSorter( WeightOrderedViewletManager ):
 
 class ContentViewsViewlet(StructureAwareViewlet):
     def update(self):
-        # define the request url as the computed view url
-        request_url = ui_utils.url.absoluteURL(self.__parent__, self.request)
-
         # retrieve menu
         self.context_actions = getMenu("context_actions", self.context, self.request)

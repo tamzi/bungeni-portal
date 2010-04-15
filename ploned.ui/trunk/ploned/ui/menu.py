@@ -9,7 +9,7 @@ addressing in these tabs.
 Kapil Thangavelu 
 
 """
-
+log = __import__("logging").getLogger("ploned.ui.menu")
 
 import zope.component
 
@@ -26,20 +26,21 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 import bungeni.ui.utils as ui_utils
 from ploned.ui.interfaces import IViewView
 
-
+# !+ rename this e.g. index_action_in_url()
 def is_selected(item, action, request_url):
-    normalized_action = action.lstrip('.').lstrip('@@')
+    """Get index of action in URL, or None."""
+    # strip all leading combinations of "." "/" or "@" characters
+    normalized_action = action.lstrip('./@')
     index = request_url.rfind(normalized_action)
     if index == -1:
-        return False
+        return None
     return index
 
 def action_to_id(action):
-    return action.\
-           strip('/').\
-           replace('/', '-').\
-           replace('.', '').\
-           strip('-')
+    return action.strip('/'
+                ).replace('/', '-'
+                ).replace('.', ''
+                ).strip('-')
 
 def make_absolute(action, local_url, site_url):
     if action.startswith('http://') or action.startswith('https://'):
@@ -86,15 +87,15 @@ class PloneBrowserMenu(BrowserMenu):
         result = [(item.order, iface_index(item), item.title, item)
                   for item in result]
         result.sort()
-
+        
         local_url = ui_utils.url.absoluteURL(object, request)
         site_url = ui_utils.url.absoluteURL(getSite(), request)
         request_url = request.getURL()
-
+        
         items = []
         selected = None
         current_pos = -1
-
+        
         for index, (order, iface_index, title, item) in enumerate(result):
             extra = item.extra or {'id': action_to_id(item.action)}
             if IBrowserSubMenuItem.providedBy(item):
@@ -102,19 +103,19 @@ class PloneBrowserMenu(BrowserMenu):
             else:
                 submenu = None
                 extra['hideChildren'] = True
-
+            
             url = make_absolute(item.action, local_url, site_url)
             
             if submenu:
                 for menu in submenu:
                     menu['url'] = make_absolute(
                         menu['action'], local_url, site_url)
-
+            
             pos = is_selected(item, item.action, request_url)
             if pos and pos > current_pos:
                 current_pos = pos
                 selected = index
-
+            
             items.append({
                 'title': title,
                 'description': item.description,
@@ -124,12 +125,12 @@ class PloneBrowserMenu(BrowserMenu):
                 'icon': item.icon,
                 'extra': extra,
                 'submenu': submenu})                  
-
+        
         if selected is not None:
             items[selected]['selected'] = u'selected'
-
+        
         return items
-    
+
 class ContentMenuProvider(object):
     """Content menu."""
     

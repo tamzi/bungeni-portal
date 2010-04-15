@@ -74,7 +74,7 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
         session =Session()
         context = session.merge(removeSecurityProxy(self.context))    
         text = "Submitted by %s" % context.owner.first_name + ' ' + \
-               self.context.owner.last_name
+               context.owner.last_name
 
         if self.context.approval_date:
             text += ' (approved on %s)' % context.approval_date

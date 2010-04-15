@@ -222,4 +222,14 @@
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".adapters.HeadingWorkflowAdapter" />      
 
+  <!-- User workflow -->
+  <adapter
+     for="bungeni.models.interfaces.IBungeniUser"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".states.WorkflowState" />
+  
+  <adapter
+     for="bungeni.models.interfaces.IBungeniUser"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".adapters.UserWorkflowAdapter" />    
 </configure>    

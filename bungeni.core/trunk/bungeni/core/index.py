@@ -69,6 +69,8 @@ class ContentResolver( object ):
     scheme = '' # u'pft'
     
     def id( self, object ): 
+        """ defines the xapian 'primary key' """
+        #TODO Add the language to the index!
         return "%s.%s-%s"%( object.__class__.__module__,
                             object.__class__.__name__,
                             container.stringKey( object ) )
@@ -125,6 +127,7 @@ class ContentIndexer( object ):
              )
         
         try:
+            #TODO: loop thru all available languages and index the translations
             self.index( doc )
         except exceptions.OperationalError, exceptions.InvalidRequestError:
             # detatch the dbapi connection from the pool, and close it
@@ -284,10 +287,6 @@ class ParliamentIndexer( ContentIndexer ):
     domain_model = domain.Parliament
 
 
-#class HansardReporterIndexer( UserIndexer ):
-#    domain_model = domain.HansardReporter
-
-
     
 ####################
 ## Field Definitions
@@ -335,9 +334,7 @@ def setupFieldDefinitions(indexer):
     QuestionIndexer.defineIndexes( indexer )
     GroupIndexer.defineIndexes( indexer )
     CommitteeIndexer.defineIndexes( indexer )
-    #ParliamentMemberIndexer.defineIndexes( indexer )
     ParliamentIndexer.defineIndexes( indexer )
-    #HansardReporterIndexer.defineIndexes( indexer )
 
     if interfaces.ENABLE_LOGGING:
         log.debug("Indexer Fields Defined")
@@ -352,6 +349,7 @@ def setupFieldDefinitions(indexer):
 def setupStorageDirectory( part_target="index"):
     # we start in buildout/src/bungeni.core/bungeni/core
     # we end in buildout/parts/index
+    # TODO: this is probably going to break with package restucturing
     store_dir = __file__
     x = 0
     while x < 5:

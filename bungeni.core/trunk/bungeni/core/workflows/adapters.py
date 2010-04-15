@@ -16,6 +16,7 @@ import parliament
 import attachedfile
 import event
 import heading
+import user
 
 from bungeni.models import domain
 from bungeni.models.interfaces import IVersion
@@ -60,4 +61,7 @@ EventWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(event, domain.EventItem))
 HeadingWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(heading, domain.Heading))
- 
+UserWorkflowAdapter = workflow.AdaptedWorkflow(
+    load_workflow(user, domain.User)) 
+    
+    

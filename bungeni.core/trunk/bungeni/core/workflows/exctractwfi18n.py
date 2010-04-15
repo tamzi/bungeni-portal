@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # encoding: utf-8
+# This is used to make the workflow actions and states translatable
+# it simply builds a pagetemplate which i18nextract will look into 
+# to build the pot file
 from bungeni.core.workflows import adapters
-from zope.app.pagetemplate import ViewPageTemplateFile
 from bungeni.core.workflows import bill
 from bungeni.core.workflows import question
 from bungeni.core.workflows import motion
@@ -15,12 +17,13 @@ from bungeni.core.workflows import committee
 from bungeni.core.workflows import parliament
 from bungeni.core.workflows import attachedfile
 from bungeni.core.workflows import event
+from bungeni.core.workflows import user
 import os
 
 path = os.path.split(os.path.abspath(bill.__file__))[0]
 
 f = open('%s/wfi18n.pt' % path, 'w')
-import pdb; pdb.set_trace()
+
 
 f.write(
 """

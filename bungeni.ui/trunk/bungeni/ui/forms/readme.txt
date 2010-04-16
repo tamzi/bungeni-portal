@@ -20,6 +20,7 @@ Parliaments
 -----------   
    
    >>> parliament = model.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
+   >>> parliament.language = "en"
    >>> session.add( parliament)
    >>> session.flush()
    
@@ -28,15 +29,13 @@ Parliaments
    
    >>> from bungeni.ui.forms import validations
 
-   >>> from bungeni.ui.queries import utils
-
    
 Before you can add a new parliament all others must be closed
    
-
    
 Add a new (open ended) parliament
-   >>> parliament2 = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
+   >>> parliament2 = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)
+   >>> parliament2.language = "en"
    >>> session.add( parliament2)
    >>> session.flush()   
    
@@ -56,7 +55,8 @@ Now check for overlapping dates but not for the current (edited) parliament
 Add a governmemt:
 
    >>> gov = model.Government(short_name=u"gov_1", start_date=today, end_date=tomorrow )
-   >>> gov.parliament_id = parliament.parliament_id  
+   >>> gov.parent_group_id = parliament.parliament_id
+   >>> gov.language = "en"
    >>> session.add( gov )
    >>> session.flush() 
  
@@ -65,7 +65,8 @@ Add a governmemt:
 Add a second government
 
    >>> gov2 = model.Government(short_name=u"gov_2", start_date=tomorrow, end_date=dayat )
-   >>> gov2.parliament_id = parliament.parliament_id  
+   >>> gov2.parent_group_id = parliament.parliament_id  
+   >>> gov2.language = "en"
    >>> session.add( gov2 )
    >>> session.flush()       
 
@@ -80,6 +81,7 @@ A parliamentary Session
    >>> sess.full_name = u"First Session"   
    >>> sess.start_date = yesterday
    >>> sess.end_date = today
+   >>> sess.language = "en"
    >>> session.add(sess)
    >>> session.flush() 
  
@@ -96,6 +98,7 @@ A second session
    >>> sess2.full_name = u"2nd Session"   
    >>> sess2.start_date = tomorrow
    >>> sess2.end_date = dayat
+   >>> sess2.language = "en"
    >>> session.add(sess2)
    >>> session.flush()  
  
@@ -108,6 +111,7 @@ Sittings
     >>> ssit.group_id = parliament.parliament_id
     >>> ssit.start_date = today
     >>> ssit.end_date = tomorrow
+    >>> ssit.language = "en"
     >>> session.add(ssit)
     >>> session.flush()    
 
@@ -122,6 +126,7 @@ For Edit we need to be sure we do not check for the current data itself.
     >>> ssit2.group_id = parliament.parliament_id
     >>> ssit2.start_date = yesterday
     >>> ssit2.end_date = today
+    >>> ssit2.language = "en"
     >>> session.add(ssit2)
     >>> session.flush()    
    
@@ -136,11 +141,13 @@ Regions and provinces get their primary key with a db sequence:
  
  >>> region = model.Region()
  >>> region.region = u"Nairobi"
+ >>> region.language = "en"
  >>> session.add(region)
  >>> session.flush() 
 
  >>> province = model.Province()
  >>> province.province= u"Central"
+ >>> province.language = "en"
  >>> session.add(province)
  >>> session.flush()
 
@@ -149,7 +156,7 @@ Regions and provinces get their primary key with a db sequence:
  >>> constituency.region_id = 1
  >>> constituency.province_id = 1
  >>> constituency.start_date = today
-
+ >>> constituency.language = "en"
  >>> session.add(constituency)
  >>> session.flush()
 
@@ -159,12 +166,14 @@ add some users:
     ...        last_name=u'ab', 
     ...        email=u"mp1@example.com", 
     ...        date_of_birth=today,
+    ...        language="en",
     ...        gender='M')
     >>> mp_2 = model.User(u"mp_2", 
     ...        first_name=u"b", 
     ...        last_name=u"bc", 
     ...        date_of_birth=today,
     ...        email=u"mp2@example.com",
+    ...        language="en",
     ...        gender='M')
     >>> session.add(mp_1)
     >>> session.add(mp_2)
@@ -176,6 +185,7 @@ add some users:
     >>> mp1.start_date = today
     >>> mp1.constituency_id = 1
     >>> mp1.elected_nominated = "E"
+    >>> mp1.language = "en"
     >>> session.add(mp1)
     >>> session.flush()
     
@@ -185,6 +195,7 @@ add some users:
     >>> mp2.start_date = today
     >>> mp2.constituency_id = 1
     >>> mp2.elected_nominated = "N"
+    >>> mp2.language = "en"
     >>> session.add(mp2)
     >>> session.flush()
 
@@ -196,6 +207,7 @@ titles
     >>> mrt1.user_role_name = u"President"
     >>> mrt1.user_unique = True
     >>> mrt1.sort_order = 10
+    >>> mrt1.language = "en"
     >>> session.add(mrt1)
     >>> session.flush()
     
@@ -204,6 +216,7 @@ titles
     >>> mrt2.user_role_name = u"Member"
     >>> mrt2.user_unique = False
     >>> mrt2.sort_order = 20
+    >>> mrt2.language = "en"
     >>> session.add(mrt2)
     >>> session.flush()
     

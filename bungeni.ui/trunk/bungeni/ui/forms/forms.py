@@ -222,11 +222,13 @@ class GroupSittingAddForm(AddForm):
       >>> group = testing.add_content(domain.Group,
       ...    start_date=date(1999, 1, 1),
       ...    end_date=date(1999, 12, 31),
+      ...    language="en",
       ...    short_name=u'Test group')
       
       >>> parliament = testing.add_content(
       ...    domain.Parliament,
       ...    short_name=u'Test parliament',
+      ...    language="en",
       ...    start_date=date(1999, 1, 1),
       ...    end_date=date(1999, 12, 31),
       ...    election_date=datetime(1999, 1, 1),
@@ -243,6 +245,7 @@ class GroupSittingAddForm(AddForm):
       ...     'end_date': datetime(1999, 10, 1, 12, 0),
       ...     'weekdays': [nth_day_of_week(0),
       ...                  nth_day_of_week(3)],
+      ...     'language': "en",
       ...     'repeat': 5}
 
       >>> validations.validate_recurring_sittings(

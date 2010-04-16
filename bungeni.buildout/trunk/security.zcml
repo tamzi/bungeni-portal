@@ -44,6 +44,10 @@
   <grant permission="zope.View" role="bungeni.Owner" /> 
   <grant permission="zope.View" role="bungeni.Everybody" /> 
 
+  <!-- admin section -->
+  <grant permission="zope.ManageSite" role="bungeni.Clerk" />      
+  <grant permission="zope.ManageSite" role="bungeni.Speaker" />
+
   <!-- translation -->
   
   <grant permission="bungeni.TranslateContent" role="bungeni.Admin" />

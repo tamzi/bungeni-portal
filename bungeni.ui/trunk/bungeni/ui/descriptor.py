@@ -2376,6 +2376,7 @@ class ReportDescriptor(ModelDescriptor):
              edit=True, 
              omit=False,
              required=True,
+             view=False,
              property=schema.Choice(
                  title=_(u"Language"),
                  default=get_default_language(),

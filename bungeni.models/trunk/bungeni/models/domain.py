@@ -627,7 +627,7 @@ class ConstituencyDetail( object ):
     """
     Details of the Constituency like population and voters at a given time
     """
-    pass       
+    pass
     
     
 # ##########

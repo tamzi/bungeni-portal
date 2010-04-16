@@ -30,8 +30,9 @@ from ore.alchemist import Session
 from plone.i18n.locales.interfaces import ILanguageAvailability
 
 from bungeni.core.interfaces import IVersionable
-from bungeni.models.interfaces import IVersion
+from bungeni.models.interfaces import IVersion, ITranslatable
 from bungeni.models import domain
+from bungeni.models.utils import get_request
 from bungeni.core.i18n import _
 
 
@@ -40,6 +41,7 @@ class BrowserFormLanguages(BrowserLanguages):
 
     def getPreferredLanguages(self):
         langs = super(BrowserFormLanguages, self).getPreferredLanguages()
+        # use same cookie as linguaplone 
         form_lang = self.request.getCookies().get("I18N_LANGUAGES")
         if form_lang is not None:
             langs.insert(0, form_lang)
@@ -73,8 +75,8 @@ def get_language_by_name(name):
 def get_default_language():
     return "en"
 
-def get_language(context):
-    return context.language
+def get_language(alchemist_content_obj):
+    return alchemist_content_obj.language
 
 def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
     """Build a list of all languages.
@@ -92,23 +94,21 @@ def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
     return languages
 
 def get_translation_for(context, lang):
-    """ get the translation for context in 
-    language lang"""
-    trusted = removeSecurityProxy(context)    
+    """Get the translation for context in language lang
+    """
+    assert ITranslatable.providedBy(context)
+    trusted = removeSecurityProxy(context)
     class_name = trusted.__class__.__name__
-    mapper = orm.object_mapper(trusted)            
-    pk = getattr(trusted, mapper.primary_key[0].name) 
-    if type(pk) == int:
-        session = Session()
-        query = session.query(domain.ObjectTranslation).filter(
-            sql.and_(
-                domain.ObjectTranslation.object_id == pk,
-                domain.ObjectTranslation.object_type == class_name,
-                domain.ObjectTranslation.lang == lang)
-                )
-        return query.all()    
-    else:
-        return []                      
+    mapper = orm.object_mapper(trusted)
+    pk = getattr(trusted, mapper.primary_key[0].name)
+    session = Session()
+    query = session.query(domain.ObjectTranslation).filter(
+        sql.and_(
+            domain.ObjectTranslation.object_id == pk,
+            domain.ObjectTranslation.object_type == class_name,
+            domain.ObjectTranslation.lang == lang)
+            )
+    return query.all()    
 
 def translate_obj(context):
     """ translate a content object (context) into
@@ -116,12 +116,9 @@ def translate_obj(context):
     -> copy of the object translated into language of the request
     """
 
-    trusted = removeSecurityProxy(context) 
-    interaction = getInteraction()
-    for participation in interaction.participations:
-        if IRequest.providedBy(participation):
-            request = participation       
-    lang = request.locale.getLocaleID()  
+    trusted = removeSecurityProxy(context)
+    request = get_request()
+    lang = request.locale.getLocaleID() # !+ get_browser_language()
     translation = get_translation_for(context, lang)  
     obj = copy(trusted)        
     for field_translation in translation:

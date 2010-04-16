@@ -11,6 +11,8 @@
 $Id$
 '''
 log = __import__("logging").getLogger("bungeni.models.utils")
+log.setLevel(10)
+
 from zope import component
 from zope.securitypolicy.interfaces import IPrincipalRoleMap
 from zope.securitypolicy.settings import Allow, Deny
@@ -23,6 +25,14 @@ from sqlalchemy.orm import eagerload, lazyload
 import domain, schema
 
 # !+ move "contextual" utils to ui.utils.contextual
+
+def get_request():
+    """ () -> either(IRequest, None)
+    """
+    interaction = getInteraction()
+    for participation in interaction.participations:
+        if IRequest.providedBy(participation):
+            return participation       
 
 def get_principal():
     """ () -> either(IPrincipal, None)
@@ -65,11 +75,23 @@ def get_current_parliament(context):
     from bungeni.core import globalsettings
     return globalsettings.get_current_parliament()
 
-def container_getter(getter, name, query_modifier=None):
+
+def container_getter(parent_container_or_getter, name, query_modifier=None):
+    """Get a child container with name from the specified parent 
+    container/container_callback."""
+    #from ore.alchemist.interfaces import IAlchemistContainer
+    # !+ the parent container SHOULD be implementing IAlchemistContainer but it
+    # does not seem to! As a best alternative, that is close but conceptually 
+    # not quite the same, we check for IBungeniGroup
+    from bungeni.models.interfaces import IBungeniGroup
     def func(context):
-        obj = getter(context)
-        try: 
-            c = getattr(obj, name)
+        if IBungeniGroup.providedBy(parent_container_or_getter):
+            parent_container = parent_container_or_getter
+        else: 
+            parent_container = parent_container_or_getter(context)
+        #
+        try:
+            c = getattr(parent_container, name)
         except AttributeError:
             # the container we need is not there, data may be missing in the db
             from zope.publisher.interfaces import NotFound
@@ -78,6 +100,8 @@ def container_getter(getter, name, query_modifier=None):
         return c
     func.__name__ = "get_%s_container" % name
     return func
+
+
 
 def get_container_by_role(context):
     """Determine container based on the contextual principal's roles
@@ -119,6 +143,7 @@ def get_container_by_role(context):
     else:
         return get_db_user(context)
 
+
 def get_roles(context):
     """Get contextual principal's roles
     
@@ -131,9 +156,9 @@ def get_roles(context):
     prms = []
     def _build_principal_role_maps(ctx):
         if ctx is not None:
-            if component.queryAdapter(ctx, IPrincipalRoleMap):  
+            if component.queryAdapter(ctx, IPrincipalRoleMap):
                 prms.append(IPrincipalRoleMap(ctx))
-            _build_principal_role_maps(getattr(ctx,'__parent__', None))
+            _build_principal_role_maps(getattr(ctx, '__parent__', None))
     _build_principal_role_maps(context)
     prms.reverse()
     

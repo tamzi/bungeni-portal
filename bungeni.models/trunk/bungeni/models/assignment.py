@@ -65,6 +65,7 @@ class GroupAssignmentFactory( object ):
         assignment.item_id = primary_key
 #        assignment.object_type = unwrapped.__class__.__name__
         assignment.start_date = datetime.now()
+        assignment.language = self.group.language
         Session().add( assignment )
         return assignment
     

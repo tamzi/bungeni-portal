@@ -15,7 +15,7 @@ from sqlalchemy.orm import mapper,  column_property
 import sqlalchemy as rdb
 import sqlalchemy.sql.expression as sql
 from bungeni.models import schema, domain, utils, delegation
-
+from bungeni.models.interfaces import ITranslatable
 
 from zope.schema.interfaces import IVocabularyFactory
 from zope.i18n import translate
@@ -116,12 +116,13 @@ class DatabaseSource(ore.alchemist.vocabulary.DatabaseSource):
         title_field = self.title_field or self.token_field
         title_getter = self.title_getter or (lambda ob: getattr(ob, title_field))
         for ob in results:
-            obj = translate_obj(ob)
+            if ITranslatable.providedBy(ob):
+                ob = translate_obj(ob)
             terms.append( 
                 vocabulary.SimpleTerm( 
-                    value = getattr( obj, self.value_field), 
-                    token = getattr( obj, self.token_field),
-                    title = title_getter(obj),
+                    value = getattr( ob, self.value_field), 
+                    token = getattr( ob, self.token_field),
+                    title = title_getter(ob),
                     ))
                     
         return vocabulary.SimpleVocabulary( terms )

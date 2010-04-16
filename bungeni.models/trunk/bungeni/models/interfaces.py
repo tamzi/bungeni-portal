@@ -363,5 +363,8 @@ class IRegion(interface.Interface):
 
 class ITranslatable(interface.Interface):
     """ Marker Interface if an object is translatable """
-    
+    language = interface.Attribute(
+        """The language of the values of the translatable attributes of 
+        the instance""")
+
                 

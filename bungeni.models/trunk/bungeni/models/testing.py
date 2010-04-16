@@ -36,7 +36,7 @@ def setup_db():
     security.metadata.create_all()  
     return db
 
-def create_sitting(group_id=1):
+def create_sitting(group_id=1, language="en"):
     """Sitting to schedule content."""
     
     session = Session()
@@ -45,6 +45,7 @@ def create_sitting(group_id=1):
     st.sitting_type = u"morning"
     st.start_time = datetime.time(8,30)
     st.end_time = datetime.time(12,30)
+    st.language = language
     session.add(st)
     session.flush()
 
@@ -53,8 +54,9 @@ def create_sitting(group_id=1):
     sitting.end_date = datetime.datetime.now()
     sitting.sitting_type_id = st.sitting_type_id
     sitting.group_id = group_id
+    sitting.language = language
     session.add(sitting)
-    session.flush()     
+    session.flush()
     
     return sitting
 

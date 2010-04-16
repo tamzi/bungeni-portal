@@ -23,7 +23,8 @@ Adding a question.
   >>> country = domain.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
-  >>> country.iso_name = u"KENYA"   
+  >>> country.iso_name = u"KENYA"
+  >>> country.language = "en"
   >>> session.add(country)
   >>> session.flush() 
 
@@ -33,6 +34,7 @@ Adding a question.
   ...        birth_country="KE",
   ...        email=u"mp1@example.com", 
   ...        date_of_birth=datetime.datetime.now(),
+  ...        language="en",
   ...        gender='M') 
   >>> session.add(mp_1)       
   >>> session.flush()

@@ -38,6 +38,7 @@ Content creation
   >>> parliament = add_content(
   ...    domain.Parliament,
   ...    short_name=u"p_1",
+  ...    language="en",
   ...    start_date=yesterday,
   ...    election_date=yesterday)
 
@@ -45,6 +46,7 @@ Content creation
   ...     domain.Country,
   ...     country_id='KE',
   ...     iso_name = u"KENYA",  
+  ...     language="en",
   ...     country_name=u"Kenya")
  
   >>> mp_1 = add_content(
@@ -55,10 +57,12 @@ Content creation
   ...     birth_country="KE",
   ...     email=u"mp1@example.com", 
   ...     date_of_birth=today,
+  ...     language="en",
   ...     gender='M')
 
   >>> bt = add_content(
   ...     domain.BillType,
+  ...     language="en",
   ...     bill_type_name=u"Private Bill")
 
   >>> bill = add_content(

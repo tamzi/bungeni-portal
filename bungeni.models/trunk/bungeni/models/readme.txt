@@ -24,6 +24,7 @@ get some values in those tables as they are needed later on
  >>> country.country_id = 'KE'
  >>> country.country_name = u"Kenya"
  >>> country.iso_name = u"KENYA" 
+ >>> country.language = "en" 
  >>> session.add(country)
  >>> session.flush()
  >>> country.country_id
@@ -35,12 +36,14 @@ Regions and provinces get their primary key with a db sequence:
  
  >>> region = model.Region()
  >>> region.region = u"Nairobi"
+ >>> region.language = "en" 
  >>> session.add(region)
  >>> session.flush() 
  >>> region.region_id
  1L
  >>> province = model.Province()
  >>> province.province= u"Central"
+ >>> province.language = "en" 
  >>> session.add(province)
  >>> session.flush()
  >>> province.province_id
@@ -63,6 +66,7 @@ Members of Parliament
   ...        birth_country="KE",
   ...        email=u"mp1@example.com", 
   ...        date_of_birth=datetime.datetime.now(),
+  ...        language="en",
   ...        gender='M')
   >>> mp_2 = model.User(u"mp_2", 
   ...        first_name=u"b", 
@@ -70,6 +74,7 @@ Members of Parliament
   ...        birth_country="KE",  
   ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp2@example.com",
+  ...        language="en",
   ...        gender='M')
   >>> mp_3 = model.User(u"mp_3",
   ...        first_name=u"c", 
@@ -77,6 +82,7 @@ Members of Parliament
   ...        last_name=u"cd",
   ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp3@example.com", 
+  ...        language="en",
   ...        gender='F')
 
 Groups
@@ -89,13 +95,16 @@ political parties, etc. Let's create some groups in the system to examine how
 they work.
 
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.datetime.now(), election_date=datetime.datetime.now())
+  >>> parliament.language = "en"
   >>> session.add( parliament )  
   >>> session.flush()
   
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.datetime.now())
   >>> political_party_a.parent_group_id = parliament.parliament_id
+  >>> political_party_a.language = "en"
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.datetime.now())
   >>> political_party_b.parent_group_id = parliament.parliament_id  
+  >>> political_party_b.language = "en"
   >>> session.add(political_party_a)
   >>> session.add(political_party_b)
   >>> session.add( mp_1 )
@@ -105,6 +114,7 @@ they work.
   
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.datetime.now())
   >>> committee_a.parent_group_id = parliament.parliament_id
+  >>> committee_a.language = "en"
   >>> session.add(committee_a)
   >>> session.flush()
     
@@ -117,10 +127,12 @@ Let's create some memberships and see what we can do with them.
   ...    membership = model.GroupMembership()
   ...    membership.user = mp
   ...    membership.group = parliament
+  ...    membership.language = "en"
   ...    session.add( membership )
   ...    membership = model.GroupMembership()
   ...    membership.user = mp
   ...    membership.group = political_party_a
+  ...    membership.language = "en"
   ...    session.add( membership )
   
 
@@ -137,6 +149,7 @@ Government
 ----------
   >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.datetime.now())
   >>> gov.parent_group_id = parliament.parliament_id
+  >>> gov.language = "en"
   >>> session.add(gov)
   >>> session.flush()  
   >>> gov.parent_group
@@ -147,6 +160,7 @@ Ministries
 -----------
   >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.datetime.now())
   >>> ministry.parent_group_id = gov.group_id
+  >>> ministry.language = "en"
   >>> session.add(ministry)
   >>> session.flush()  
   >>> ministry.parent_group
@@ -172,14 +186,15 @@ Constituencies
 -----------------
 Constituencies have a fk on regions and provinces:
 
- >>> constituency = model.Constituency()
- >>> constituency.name = u"Nairobi/Westlands"
- >>> constituency.region_id = region.region_id
- >>> constituency.province_id = province.province_id
- >>> constituency.start_date = datetime.datetime.now()
+  >>> constituency = model.Constituency()
+  >>> constituency.name = u"Nairobi/Westlands"
+  >>> constituency.region_id = region.region_id
+  >>> constituency.province_id = province.province_id
+  >>> constituency.start_date = datetime.datetime.now()
+  >>> constituency.language = "en"
 
- >>> session.add(constituency)
- >>> session.flush()
+  >>> session.add(constituency)
+  >>> session.flush()
  
 check the pk if it was saved and pk sequence is working
 
@@ -196,6 +211,7 @@ Role title names
   >>> mrt1.user_role_name = u"President"
   >>> mrt1.user_unique = True
   >>> mrt1.sort_order = 10
+  >>> mrt1.language = "en"
   >>> session.add(mrt1)
   >>> session.flush()
     
@@ -213,6 +229,7 @@ the parliaments group and additional attributes.
   >>> mp4.constituency_id = constituency.constituency_id
   >>> mp4.constituency = constituency
   >>> mp4.elected_nominated = 'E'
+  >>> mp4.language = "en"
   >>> session.add(mp4)
   >>> session.flush()   
   >>> mp4.membership_id
@@ -240,6 +257,7 @@ meeting of the group by the system.
  >>> st.sitting_type = u"morning"
  >>> st.start_time = datetime.time(8,30)
  >>> st.end_time = datetime.time(12,30)
+ >>> st.language = "en"
  >>> session.add(st)
  >>> session.flush()
  
@@ -252,6 +270,7 @@ meeting of the group by the system.
  >>> sit.start_date = datetime.datetime.now()
  >>> sit.end_date = datetime.datetime.now()
  >>> sit.sitting_type_id = st.sitting_type_id
+ >>> sit.language = "en"
  >>> session.add(sit)
  >>> session.flush() 
 
@@ -261,6 +280,7 @@ Sitting attendance
 the attendance of a member at a sitting.
 
  >>> at = model.AttendanceType()
+ >>> at.language = "en"
  >>> at.attendance_type = u"present"
  >>> session.add(at)
  >>> session.flush()  
@@ -282,6 +302,7 @@ A parliamentary Session
  >>> sess.full_name = u"First Session XXXX"
  >>> sess.start_date = datetime.datetime.now()
  >>> sess.end_date = datetime.datetime.now()
+ >>> sess.language = "en"
  >>> session.add(sess)
  >>> session.flush() 
  
@@ -295,6 +316,7 @@ Sitting in this session
  >>> ssit.start_date = datetime.datetime.now()
  >>> ssit.end_date = datetime.datetime.now()
  >>> ssit.sitting_type = st
+ >>> ssit.language = "en"
  >>> session.add(ssit)
  >>> session.flush() 
  
@@ -345,6 +367,7 @@ Bill Type:
 -----------
   >>> bt = model.BillType()
   >>> bt.bill_type_name = u"private"
+  >>> #bt.language = "en"
   >>> session.add(bt)
   >>> session.flush()
 

@@ -1,32 +1,32 @@
 # core software
-bungeni.server -r6437   https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
-bungeni.core   -r6437   https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
-bungeni.models -r6437   https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
-bungeni.portal -r6437   https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
-bungeni.plonepas -r6437 https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/trunk/
-bungeni.ui    -r6437    https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
-bungeni.theme.private   -r6437     https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
-marginalia  -r6437      https://bungeni-portal.googlecode.com/svn/marginalia/trunk
-bungeni.transcipts -r6437 https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
+bungeni.server    https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
+bungeni.core      https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
+bungeni.models    https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
+bungeni.portal    https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
+bungeni.plonepas  https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/trunk/
+bungeni.ui        https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
+bungeni.theme.private        https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
+marginalia        https://bungeni-portal.googlecode.com/svn/marginalia/trunk
+bungeni.transcipts  https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
  
 # plone 3 skin
-ploned.ui      -r6437  https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
-plone.maintemplate -r36218 https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
+ploned.ui        https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
+plone.maintemplate https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
 
 # relational database support
-ore.alchemist  -r393 https://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
+ore.alchemist  https://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
 
 # rdb ui components
-alchemist.ui  -r393 https://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
+alchemist.ui   https://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
 
 # rdb auto generation
-alchemist.catalyst -r393 https://zope-alchemist.googlecode.com/svn/alchemist.catalyst/branches/dynamic-ui
+alchemist.catalyst https://zope-alchemist.googlecode.com/svn/alchemist.catalyst/branches/dynamic-ui
 
 # various traversal mechanisms
-alchemist.traversal -r393 https://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
+alchemist.traversal https://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
 
 # zope.securitypolicy rdb implementation
-alchemist.security -r393 https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
+alchemist.security https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
 
 # schema diff 
 # z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
@@ -34,7 +34,7 @@ z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 
 # shows security information ( principal, permissions, views )
 # usage requires including security-debug.zcml
-# z3c.securitytool -r111081 svn://svn.zope.org/repos/main/z3c.securitytool/trunk
+# z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk
 
 
 # lovely memcached
@@ -45,8 +45,8 @@ z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 #svn://svn.zope.org/repos/main/lovely.responsecache/trunk
 # lovely.memcached
 
-bungenicms.theme -r6437 https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk
-bungenicms.policy -r6437 https://bungeni-portal.googlecode.com/svn/bungenicms.policy/trunk
+bungenicms.theme https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk
+bungenicms.policy https://bungeni-portal.googlecode.com/svn/bungenicms.policy/trunk
 
 
 # repoze.whooze z3 authentication

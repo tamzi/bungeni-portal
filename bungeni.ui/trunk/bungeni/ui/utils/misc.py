@@ -9,6 +9,8 @@ from bungeni.ui.utils import misc
 
 $Id$
 """
+log = __import__("logging").getLogger("bungeni.ui.utils.misc")
+#log.setLevel(10) # debug
 
 from bungeni.ui.i18n import _
 from types import StringTypes, ListType
@@ -16,6 +18,18 @@ from types import StringTypes, ListType
 from ore.workflow import interfaces
 
 import os
+
+# pick data
+
+def get_parent_with_interface(context, iface):
+    """Get first parent to implement the interface."""
+    parent = context.__parent__
+    if parent:
+        if iface.providedBy(parent):
+            return parent
+        else:
+            return get_parent_with_interface(parent, iface)
+    return None
 
 
 # file system 

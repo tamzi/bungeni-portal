@@ -9,6 +9,9 @@ from bungeni.ui.utils import url as ui_url
 
 $Id$
 """
+log = __import__("logging").getLogger("bungeni.ui.utils.url")
+#log.setLevel(10) # debug
+
 
 __all__ = ["urljoin", "indexNames", "absoluteURL", "same_path_names"]
 
@@ -32,7 +35,6 @@ def absoluteURL(context, request):
     used instead of zope.traversing.browser.absoluteURL.
     
     """
-    import logging; log = logging.getLogger('bungeni.ui.utils');
     from zope.traversing import browser
     url = browser.absoluteURL(context, request).split("/")
     while url[-1] in indexNames:

@@ -632,24 +632,6 @@
      permission="zope.View"
   />
   
-  <browser:menuItem
-     menu="workspace_navigation"
-     for="bungeni.models.interfaces.IBungeniApplication"
-     title="Scheduling"
-     action="/workspace/calendar"
-     permission="zope.View"
-  />
-  <!--
-  <browser:menuItem
-     menu="workspace_navigation"
-     for="bungeni.models.interfaces.IBungeniApplication"
-     title="My questions"
-     action="/workspace/questions"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     permission="zope.View"
-  />
-  -->
-
 
 
   <browser:subMenuItem

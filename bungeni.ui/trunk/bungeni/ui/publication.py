@@ -7,6 +7,7 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.publication")
+log.setLevel(10)
 
 from zope import interface
 from zope import component
@@ -18,11 +19,22 @@ from ore.alchemist import Session
 import re
 import interfaces
 
-
-
-# 
-
 from workspace import prepare_user_workspaces
+
+'''
+from bungeni.ui.utils import misc
+def once_per_request(event_handler):
+    """Wrap event_handler to limit execution of it to once per request."""
+    # we use a Cache object as size limit is automatically managed
+    cache = misc.Cache(maxsize=37)
+    def event_handler_closure(event):
+        key = id(event.request)
+        if not cache.has(key):
+            event_handler(event)
+            cache.set(key, True)
+    return event_handler_closure
+prepare_user_workspaces = once_per_request(prepare_user_workspaces)
+'''
 
 @component.adapter(IBeforeTraverseEvent)
 def on_before_traverse(event):
@@ -30,7 +42,7 @@ def on_before_traverse(event):
     request pre-processors. We intercept centrally and then call processors
     explicitly to guarantee execution order.
     """
-    log.info("IBeforeTraverseEvent: %s" % event.object)
+    log.info("IBeforeTraverseEvent:%s:%s" % (id(event.request), event.object))
     apply_request_layers_by_url(event)
     prepare_user_workspaces(event)
 
@@ -41,10 +53,10 @@ def on_end_request(event):
     """Subscriber to catch end of request processing, and dispatch cleanup 
     tasks as needed. 
     """
-    log.info("IEndRequestEvent: %s" % event.object)
-    # session
     session = Session()
-    log.debug("IEndRequestEvent: closing sqlalchemy session: %s" % session)
+    log.info("""IEndRequestEvent:%s:%s
+        closing SqlAlchemy session: %s""" % (
+                                    id(event.request), event.object, session))
     session.close()
 
 
@@ -78,6 +90,4 @@ def apply_request_layers_by_url(event):
             log.debug("Adding %s layer to request for path <%s>" % (layer, path))
             interface.alsoProvides(request, layer)
             
-#
-
 

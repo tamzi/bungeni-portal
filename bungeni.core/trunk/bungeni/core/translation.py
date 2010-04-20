@@ -75,22 +75,19 @@ def get_language_by_name(name):
 def get_default_language():
     return "en"
 
-def get_language(alchemist_content_obj):
-    return alchemist_content_obj.language
+def get_language(translatable):
+    return translatable.language
 
 def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
     """Build a list of all languages.
 
     To-do: the result of this method should be cached indefinitely.
     """
-    
     availability = component.getUtility(ILanguageAvailability)
     languages = {}
     _languages = availability.getLanguages()
-
     for name in filter:
         languages[name] = _languages[name]
-
     return languages
 
 def get_translation_for(context, lang):
@@ -111,11 +108,10 @@ def get_translation_for(context, lang):
     return query.all()    
 
 def translate_obj(context):
-    """ translate a content object (context) into
+    """ translate a ITranslatable content object (context) into
     the language defined in the request
     -> copy of the object translated into language of the request
     """
-
     trusted = removeSecurityProxy(context)
     request = get_request()
     lang = request.locale.getLocaleID() # !+ get_browser_language()

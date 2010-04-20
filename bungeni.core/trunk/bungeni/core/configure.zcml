@@ -24,7 +24,22 @@
      provides="ore.wsgiapp.interfaces.IApplication"
      factory=".app.BungeniApp"
      />
-
+  
+  <!-- ErrorReportingUtility -->
+  <!--
+  <exclude package="zope.app.error" />
+  <utility
+    provides="zope.app.error.interfaces.IErrorReportingUtility"
+    component="zope.app.error.error.globalErrorReportingUtility"
+  />
+  gives... Conflicting configuration actions: 
+  zope/app/error/configure.zcml", line 33.2-36.8
+        <utility
+            provides=".interfaces.IErrorReportingUtility"
+            component=".error.globalErrorReportingUtility"
+            />
+  -->
+  
   <!-- Setup Domain Model Audit/ObjectLog Feature-->  
   <include file="audit.zcml"/>
   

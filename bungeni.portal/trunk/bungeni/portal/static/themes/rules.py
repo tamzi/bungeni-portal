@@ -63,17 +63,19 @@ def add_section_links(content, theme, resource_fetcher, log):
     """
     Add top level class links and logos for the different sections (workspace and portal).
     """
-    link_val= None
     host_url = urlsplit(log.theme_url)
-    link_items = str(theme("ul.level0 li.selected")).split("</li>")
-    if len(link_items) > 1:
-        if "workspace" not in link_items[0] and "workspace" not in link_items[1] and not content('.section-membership'):
-            theme('body').addClass('template-portal')        
-        elif (("workspace" in link_items[0] or  "workspace" in link_items[1])) and (not content('.section-membership') and not theme('.template-member-space')):
-            theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')
-            theme('#portal-logo img').attr('width', '803px')
-            theme('#portal-logo img').attr('height', '60px')
-            theme('body').addClass('template-workspace')
+    if theme("#portaltab-").html() is not None:
+        home_tab_value = str(theme("#portaltab-").html())
+    else:
+        home_tab_value = str(content("#portaltab-").html())
+
+    if 'workspace' in  home_tab_value:
+        theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')        
+        theme('#portal-logo img').attr('width', '803px')
+        theme('#portal-logo img').attr('height', '60px')
+        theme('body').addClass('template-workspace')
+    else:
+        theme('body').addClass('template-portal')
 
 def add_member_workspace_styles(content, theme, resource_fetcher, log):
     """
@@ -174,9 +176,36 @@ def rewrite_links(content, theme, resource_fetcher, log):
     Remove the first root folder entry if necessary.
     """
 
-    repeating_link_values = ['business', 'calendar', 'archive', 'workspace/my-archive']
-    strip_link_values = {'/calendar/business': '/business', '/business/calendar': '/calendar', '/calendar/admin': '/admin', 'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"', '/business/whats-on/business': '/business', '/workspace/admin': '/admin', '/workspace/business': '/business', '/workspace/my-archive/business': '/business', '/workspace/my-archive/browse': '/archive/browse', '/workspace/my-archive/workspace': '/workspace'}
-    content_items = [['.level1','class', 'ul'],['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
+    repeating_link_values = ['business', 'calendar', 'archive',
+                             'workspace/my-archive','archive/browse',
+                             'archive/documents']
+    strip_link_values = {'/calendar/business': '/business',
+                         '/business/calendar': '/calendar',
+                         '/calendar/admin': '/admin',
+                         '/business/whats-on/business': '/business',
+                         '/workspace/admin': '/admin',
+                         '/workspace/business': '/business',
+                         '/workspace/my-archive/business': '/business',
+                         '/workspace/my-archive/browse': '/archive/browse',
+                         '/workspace/my-archive/workspace': '/workspace',
+                         '/workspace/business': '/business',
+                         '/workspace/members': '/members',
+                         '/workspace/calendar': '/calendar',
+                         '/workspace/archive': '/archive',
+                         '/documents/archive/browse': '/browse',
+                         '/browse/archive/documents': '/documents',
+                         '/archive/browse/business': '/business',
+                         '/archive/browse/members': '/members',
+                         '/archive/documents/business': '/business',
+                         '/archive/documents/members': '/members',
+                         '/archive/browse/change-language': '/change-language',
+                         '/archive/documents/change-language': '/change-language',
+                         '/calendar/change-language': '/change-language',     
+                         '/workspace/change-language': '/change-language',              
+                         'src="/++resource++calbtn.gif"':'"src="/bungeni/++resource++calbtn.gif"'
+                         }
+    
+    content_items = [['.level1','class', 'ul'],['#portal-globalnav','id', 'div'],['#portal-breadcrumbs','id', 'div'], ['#portal-column-content', 'id', 'td']]
 
     for link_value in repeating_link_values:
         for content_item in content_items:
@@ -268,3 +297,8 @@ def match_request(content, theme, resource_fetcher, log):
         content('body').replaceWith(theme('body').html())
     else:
         pass
+
+
+def test_theme(content, theme, resource_fetcher, log):
+    print "THEME CONTENT"
+    print theme

@@ -191,14 +191,26 @@ class WorkspaceRootRedirect(BrowserView):
         log.warn("WorkspaceRootRedirect %s -> %s" % (request.getURL(), to_url))
         request.response.redirect(to_url)
 
-class WorkspaceContainerIndexRedirect(BrowserView):
-    """Redirect to the the "pi" view of workspace."""
+class _IndexRedirect(BrowserView):
+    """Redirect to the named "index" view."""
+    index_name = "index"
     def __call__(self):
         request = self.request
-        log.warn("WorkspaceContainerIndexRedirect %s -> pi" % (request.getURL()))
-        request.response.redirect("pi")
+        log.warn("%s: %s -> %s" % (
+            self.__class__.__name__, request.getURL(), self.index_name))
+        request.response.redirect(self.index_name)
+class WorkspaceContainerIndexRedirect(_IndexRedirect):
+    index_name = "pi"
+class BusinessIndexRedirect(_IndexRedirect):
+    index_name = "whats-on"
+class MembersIndexRedirect(_IndexRedirect):
+    index_name = "current"
+class ArchiveIndexRedirect(_IndexRedirect):
+    index_name = "browse"
+class AdminIndexRedirect(_IndexRedirect):
+    index_name = "content"
 
-
+AdminIndexRedirect
 
 class ContainerJSONTableHeaders( BrowserView ):
 

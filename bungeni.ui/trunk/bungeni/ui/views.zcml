@@ -302,42 +302,73 @@
      permission="zope.Public"
      />
 
-  <!-- sections -->
+  <!-- business -->
 
-  <browser:page
-     name="whats-on"
-     for="bungeni.core.interfaces.ISection"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".viewlets.whatson.WhatsOnBrowserView"     
-     permission="zope.Public"
-     />
+    <browser:page
+        name="business-index"
+        for="*"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".container.BusinessIndexRedirect"
+        permission="zope.View"
+    />
+    <browser:page
+        name="whats-on"
+        for="bungeni.core.interfaces.ISection"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".viewlets.whatson.WhatsOnBrowserView"     
+        permission="zope.Public"
+    />
+    <browser:page
+        name="whats-on-portlet"
+        for="bungeni.models.interfaces.IBungeniApplication"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".viewlets.whatson.WhatsOnPortletBrowserView"     
+        permission="zope.Public"
+    />  
+
+  <!-- members -->
+
+    <browser:page
+        name="members-index"
+        for="*"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".container.MembersIndexRedirect"
+        permission="zope.View"
+    />
   
+  <!-- archive -->
+    
+    <browser:page
+        name="archive-index"
+        for="*"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".container.ArchiveIndexRedirect"
+        permission="zope.View"
+    />
+    <browser:page
+        name="browse-archive"
+        for="bungeni.core.interfaces.ISection"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".archive.ArchiveBrowserView"
+        permission="zope.Public"
+    />
 
-  <browser:page
-     name="whats-on-portlet"
-     for="bungeni.models.interfaces.IBungeniApplication"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".viewlets.whatson.WhatsOnPortletBrowserView"     
-     permission="zope.Public"
-     />  
-  
-  
-  <browser:page
-     name="browse-archive"
-     for="bungeni.core.interfaces.ISection"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".archive.ArchiveBrowserView"
-     permission="zope.Public"
-     />
+  <!-- admin -->
 
-  <browser:page
-     name="browse-admin"
-     for="bungeni.core.interfaces.ISection"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-     class=".archive.AdminBrowserView"
-     permission="zope.ManageSite"
-     />
-
+    <browser:page
+        name="admin-index"
+        for="*"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".container.AdminIndexRedirect"
+        permission="zope.View"
+    />
+    <browser:page
+        name="browse-admin"
+        for="bungeni.core.interfaces.ISection"
+        layer="bungeni.ui.interfaces.IBungeniSkin"
+        class=".archive.AdminBrowserView"
+        permission="zope.ManageSite"
+    />
 
   <!-- json view of containers-->
   

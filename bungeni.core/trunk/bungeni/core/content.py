@@ -1,13 +1,19 @@
 log = __import__("logging").getLogger("bungeni.core.content")
+log.setLevel(10) # debug
+
+import sys
+
 from zope import interface
 from zope.container.ordered import OrderedContainer
 from zope.container.traversal import ItemTraverser
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.publisher.interfaces.browser import IBrowserPublisher
 from zope.app.publisher.browser import getDefaultViewName
+from zope.publisher.interfaces import NotFound
 
 from bungeni.core.proxy import NavigationProxy
 from bungeni.core.proxy import DublinCoreDescriptivePropertiesProxy
+from bungeni.ui.utils import debug
 
 from interfaces import ISection
 from interfaces import IQueryContent
@@ -31,14 +37,15 @@ class Section(OrderedContainer):
             assert self._parent is obj, \
                 "Section parent may not be changed! %s -> %s" % (self._parent, obj)
             log.warn(" [Section:%s] IGNORING reset of __parent__ to same " \
-                "value: %s" % (self.title, obj))
+                    "value: %s" % (self.title, obj))
             return
         self._parent = obj
     __parent__ = property(_get_parent, _set_parent)
     
     
     def __init__(self, title=None, description=None, default_name=None, 
-            marker=None):
+            marker=None, 
+            publishTraverseResolver=None):
         self._parent = None
         super(Section, self).__init__()
         self.title = title
@@ -46,6 +53,16 @@ class Section(OrderedContainer):
         self.default_name = default_name
         if marker is not None:
             interface.alsoProvides(self, marker)
+        # publishTraverseResolver: callable(context, request, name)
+        # returns domain container object
+        # raises zope.publisher.interfaces.NotFound
+        # !+ we add this as a callback because subclassing Section and 
+        # overriding publishTraverse() insists on giving ForbiddenAttribute 
+        # erros. 
+        self.publishTraverseResolver = publishTraverseResolver
+        log.debug(" __init__ %s (title:%s, default_name:%s)" % (self, title, default_name))
+        
+        
     # !+ section.title is duplicated in ZCML menuItem definitions
     # Section should be modified to just get its title from the associated
     # view descriptor (via default_name)
@@ -76,17 +93,46 @@ class Section(OrderedContainer):
             default_name = getDefaultViewName(self, request)
         return self, (default_name,)
     
-    # !+ all methods should indicate what the expected input parameter 
+    # !+ all methods should indicate what the expected input parameter
     # types and return value types should be e.g. by adopting a 
     # python3-style type annotations as a doc string, 
     # as indicated in the SAMPLE docstring here:
     def publishTraverse(self, request, name):
-        """ (request:IRequest, name:str) -> IView
+        """Lookup a name -  (request:IRequest, name:str) -> IView
+
+        The 'request' argument is the publisher request object.  The
+        'name' argument is the name that is to be looked up; it must
+        be an ASCII string or Unicode object.
+
+        If a lookup is not possible, raise a NotFound error.
+
+        This method should return an object having the specified name and
+        `self` as parent. The method can use the request to determine the
+        correct object.
         """
-        log.debug("Section.publishTraverse: name=%s __parent__=%s context=%s" % (
-            name, self.__parent__, getattr(self, "context", "UNDEFINED")))
+        _meth_id = "%s.publishTraverse" % self.__class__.__name__
+        log.debug("%s: name=%s __name__=%s __parent__=%s context=%s" % (
+            _meth_id, name, self.__name__, self.__parent__, 
+            getattr(self, "context", "UNDEFINED")))
+        try:
+            return self.publishTraverseResolver(self, request, name)
+        except (TypeError,):
+            pass # 'NoneType' object is not callable
+            # typically because self.publishTraverseResolver is None
+        except (NotFound,):
+            debug.log_exc_info(sys.exc_info(), log.debug)
         traverser = ItemTraverser(self, request)
         return traverser.publishTraverse(request, name)
+    
+# ensure public security setting for these Section attributes
+from zope.security.checker import CheckerPublic, Checker, defineChecker
+_PUBLIC_ATTRS = { 
+    'browserDefault':CheckerPublic, 
+    '__call__':CheckerPublic,
+    'publishTraverse':CheckerPublic
+}
+defineChecker(Section, Checker(_PUBLIC_ATTRS))
+
 
 class QueryContent(object):
     interface.implements(IQueryContent, IDCDescriptiveProperties)

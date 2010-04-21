@@ -9,8 +9,18 @@ class IBungeniSkin(IPlonedSkin, IYUILayer):
 class IBungeniAuthenticatedSkin(IBungeniSkin):
     """Skin for authenticated users."""
 
-#class IWorkspace(IBrowserView):
-#    """A (base interface) user's workspace."""
+from zope import interface
+class IWorkspaceContainer(interface.Interface):
+    """Marker for a domain object that is also a user's workspace container."""
+class IWorkspaceSectionContext(interface.Interface):
+    """Marker for a section of a workspace."""
+class IWorkspacePIContext(IWorkspaceSectionContext):
+    """Marker for the PI section of a workspace."""
+class IWorkspaceArchiveContext(IWorkspaceSectionContext):
+    """Marker for the Archive section of a workspace."""
+class IWorkspaceSchedulingContext(IWorkspaceSectionContext):
+    """Marker for the Scheduling section of a workspace."""
+
 class ISpeakerWorkspace(IBrowserView):
     """Speaker's workspace."""
 class IClerkWorkspace(IBrowserView):

@@ -8,6 +8,7 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.viewlets.navigation")
+#log.setLevel(10)
 
 from zope import component
 from zope.location.interfaces import ILocation
@@ -28,7 +29,7 @@ from ore.wsgiapp.interfaces import IApplication
 from alchemist.traversal.managed import ManagedContainerDescriptor
 
 from ploned.ui.menu import make_absolute
-from ploned.ui.menu import is_selected
+from ploned.ui.menu import pos_action_in_url
 
 from bungeni.core import location
 from bungeni.ui.utils import url as ui_url
@@ -49,6 +50,7 @@ class SecondaryNavigationViewlet(object):
     default_menu = "workspace_navigation"
     
     def update(self):
+        request = self.request
         context = self.context
         #view = self.__parent__.__parent__
         chain = get_parent_chain(context)
@@ -65,8 +67,8 @@ class SecondaryNavigationViewlet(object):
             if length > 0:
                 self.items = self.get_menu_items(chain[-1], self.default_menu)
             else:
-                self.items = None                
-            return
+                self.items = None
+            #return
         else:
             self.items = self.get_menu_items(
                     container, "%s_navigation" % container.__name__)
@@ -98,7 +100,7 @@ class SecondaryNavigationViewlet(object):
             else:
                 url = make_absolute(action, local_url, site_url)
                 if selection is None:
-                    selected = is_selected(item, action, request_url)
+                    selected = pos_action_in_url(action, request_url)
             item['url'] = url
             item['selected'] = selected and u'selected' or u''
             if selected:
@@ -109,18 +111,25 @@ class SecondaryNavigationViewlet(object):
 
     def add_container_menu_items(self, context, container):
         request = self.request
-        
-        # add a menu item for each user workspace
+        # add a menu item for each user workspace, if we are in an 
+        # IWorkspaceSectionLayer 
+        # !+ if user is logged in or if request._layer_data
         if interfaces.IWorkspaceSectionLayer.providedBy(request):
+            try:
+                workspaces = request._layer_data.get("workspaces")
+            except:
+                workspaces = []
+            log.info("%s got user workspaces: %s" % (self, workspaces))
             base_url_path = "/workspace"
-            workspaces = request._layer_data.get("workspaces")
-            log.info("%s got user workspaces..." % self)
+            # This does not help BUG "_ws_nav_tuples"
+            #from ore.alchemist import Session; session = Session()
             for workspace in workspaces:
-                log.info("appending menu item for user workspace: %s" % workspace)
-                continue # !+ tmp, to non-disruptively checkin
+                #session.merge(workspace)
+                log.info("appending menu item for user workspace: %s" % 
+                                                                str(workspace))
                 self.items.append(ui_url.get_menu_item_descriptor(
-                    workspace.full_name, 
-                    False, 
+                    workspace.full_name,
+                    False,
                     base_url_path,
                     "obj-%s" % workspace.group_id ))
         
@@ -292,7 +301,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     """Render a navigation tree."""
 
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
-    template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt')
+    template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt') # !+
     path = ()
     
     def __new__(cls, context, request, view, manager):

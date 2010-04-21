@@ -1,6 +1,8 @@
 # encoding: utf-8
 
 log = __import__("logging").getLogger("bungeni.ui.container")
+#log.setLevel(10)
+
 import datetime
 import zc.table
 import simplejson
@@ -175,10 +177,27 @@ class ContainerListing(container.ContainerListing):
         return name
 
 
-class ContainerRootRedirect(BrowserView):
+class WorkspaceRootRedirect(BrowserView):
+    """Redirect to the the "pi" view of the user's *first* workspace OR for the 
+    case on no workspaces, to "/workspace".
+    """
     def __call__(self):
-        log.warn("ContainerRootRedirect %s -> /workspace/pi"%self.request.getURL())
-        self.request.response.redirect("/workspace/pi")
+        request = self.request
+        try: 
+            first_workspace = request._layer_data.workspaces[0]
+            to_url = "/workspace/obj-%s/pi" % first_workspace.group_id
+        except:
+            to_url = "/workspace"
+        log.warn("WorkspaceRootRedirect %s -> %s" % (request.getURL(), to_url))
+        request.response.redirect(to_url)
+
+class WorkspaceContainerIndexRedirect(BrowserView):
+    """Redirect to the the "pi" view of workspace."""
+    def __call__(self):
+        request = self.request
+        log.warn("WorkspaceContainerIndexRedirect %s -> pi" % (request.getURL()))
+        request.response.redirect("pi")
+
 
 
 class ContainerJSONTableHeaders( BrowserView ):

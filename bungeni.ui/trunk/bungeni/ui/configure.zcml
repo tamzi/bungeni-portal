@@ -55,7 +55,6 @@
   <!-- Javascript -->
   <include package="ore.yui"/>
   <include package="ore.yuiwidget"/>
-
   
   <browser:defaultView
      for="bungeni.models.interfaces.IBungeniApplication"

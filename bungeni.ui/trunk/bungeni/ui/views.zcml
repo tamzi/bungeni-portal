@@ -25,40 +25,67 @@
      permission="zope.Public"
      template="templates/app-index.pt"
   />
+  <!-- when logged in, requests to "/" are redirected to the index view of the 
+       user's first workspace OR (if no workspaces) to "/workspace" -->
   <browser:page
      name="index"
      for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".container.ContainerRootRedirect"
+     class=".container.WorkspaceRootRedirect"
   />
   
   <!-- Workspace -->
 
-  <browser:page
-     name="workspace-index"
-     for="bungeni.core.interfaces.ISection"
-     permission="zope.View"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     class=".container.ContainerRootRedirect"
+    <browser:page
+        name="workspace-index"
+        for="bungeni.core.interfaces.ISection"
+        permission="zope.View"
+        layer=".interfaces.IBungeniAuthenticatedSkin"
+        template="templates/app-index.pt"
+    /><!-- class=".container.WorkspaceRootRedirect" -->
+    <browser:page
+        name="view"
+        for=".interfaces.IWorkspaceContainer"
+        class=".container.WorkspaceContainerIndexRedirect"
+        permission="zope.View"
+        layer=".interfaces.IWorkspaceSectionLayer"
+    />
+    
+
+  <adapter 
+    factory=".workspace.WorkspaceContainerTraverser"
+    permission="zope.Public"
+    trusted="true"
   />
   <browser:page
      name="workspace-pi"
-     for="bungeni.core.interfaces.ISection"
-     permission="zope.View"
+     for=".interfaces.IWorkspacePIContext"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace.WorkspacePIView"
+     permission="zope.View"
      template="templates/workspace-index.pt"
   />
   <browser:page
      name="workspace-archive"
-     for="bungeni.core.interfaces.ISection"
+     for=".interfaces.IWorkspaceArchiveContext"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace.WorkspaceArchiveView"
      permission="zope.View"
      template="templates/workspace-index.pt"
   /><!-- !+ rename workspace-index.pt -->
-  
+  <adapter 
+    factory=".workspace.WorkspaceSchedulingContext" 
+    for="bungeni.ui.interfaces.IWorkspaceContainer"
+    provides="bungeni.core.interfaces.ISchedulingContext"
+  />
+  <browser:page
+     for="bungeni.ui.interfaces.IWorkspaceContainer"
+     permission="zope.View"
+     name="workspace-calendar"
+     class=".calendar.browser.CalendarView"
+     layer=".interfaces.IWorkspaceSectionLayer"
+  /><!-- bungeni.models.interfaces.IGroupSittingContainer -->
   
   
   <!-- Setup Access to Browser Resources on the Application -->
@@ -232,14 +259,6 @@
      name="index"
      class=".calendar.browser.CalendarView"
      layer=".interfaces.IBusinessSectionLayer"     
-    />
-
-  <browser:page
-     for="bungeni.models.interfaces.IGroupSittingContainer"
-     permission="zope.View"
-     name="index"
-     class=".calendar.browser.CalendarView"
-     layer=".interfaces.IWorkspaceSectionLayer"
     />
 
 

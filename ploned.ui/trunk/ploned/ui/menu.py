@@ -26,15 +26,11 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 import bungeni.ui.utils as ui_utils
 from ploned.ui.interfaces import IViewView
 
-# !+ rename this e.g. index_action_in_url()
-def is_selected(item, action, request_url):
+def pos_action_in_url(action, request_url):
     """Get index of action in URL, or None."""
     # strip all leading combinations of "." "/" or "@" characters
     normalized_action = action.lstrip('./@')
-    index = request_url.rfind(normalized_action)
-    if index == -1:
-        return None
-    return index
+    return request_url.rfind(normalized_action)
 
 def action_to_id(action):
     return action.strip('/'
@@ -87,13 +83,14 @@ class PloneBrowserMenu(BrowserMenu):
         result = [(item.order, iface_index(item), item.title, item)
                   for item in result]
         result.sort()
+        # !+ replace above with super getMenuItems()
         
         local_url = ui_utils.url.absoluteURL(object, request)
         site_url = ui_utils.url.absoluteURL(getSite(), request)
         request_url = request.getURL()
         
         items = []
-        selected = None
+        selected_index = None
         current_pos = -1
         
         for index, (order, iface_index, title, item) in enumerate(result):
@@ -111,10 +108,12 @@ class PloneBrowserMenu(BrowserMenu):
                     menu['url'] = make_absolute(
                         menu['action'], local_url, site_url)
             
-            pos = is_selected(item, item.action, request_url)
+            pos = pos_action_in_url(item.action, request_url)
             if pos and pos > current_pos:
+                # !+ should really only reset this only once, 
+                # and pos *should* always be len(base_url)
                 current_pos = pos
-                selected = index
+                selected_index = index
             
             items.append({
                 'title': title,
@@ -126,8 +125,8 @@ class PloneBrowserMenu(BrowserMenu):
                 'extra': extra,
                 'submenu': submenu})                  
         
-        if selected is not None:
-            items[selected]['selected'] = u'selected'
+        if selected_index is not None:
+            items[selected_index]['selected'] = u'selected'
         
         return items
 

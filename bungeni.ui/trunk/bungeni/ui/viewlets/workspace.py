@@ -1,20 +1,23 @@
-# -*- coding: utf-8 -*-
 # Bungeni Parliamentary Information System - http://www.bungeni.org/
 # Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 
-'''Workspace wiewlets
+"""Workspace wiewlets
 
 $Id$
-'''
+"""
+log = __import__("logging").getLogger("bungeni.ui.viewlet.workspace")
+log.setLevel(10) # debug
 
 import datetime
 
 import sqlalchemy.sql.expression as sql
 from sqlalchemy.orm import eagerload
 
+from zope.app.publisher.browser.menu import getMenu
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.viewlet import viewlet
+from zope.viewlet.manager import WeightOrderedViewletManager
 
 from ore.alchemist import Session
 
@@ -28,61 +31,77 @@ from bungeni.core.workflows.groupsitting import states as sitting_wf_state
 import bungeni.models.utils  as model_utils
 import bungeni.models.domain as domain
 from bungeni.models.interfaces import ICommittee
+from bungeni.ui.interfaces import IWorkspaceContainer, IWorkspaceSectionContext
 
-import bungeni.ui.utils as ui_utils
+from bungeni.ui import z3evoque
+from bungeni.ui.utils import misc, debug
 from bungeni.ui.i18n import _
+from bungeni.core.translation import translate_obj
+
+from ploned.ui.viewlet import StructureAwareViewlet
 
 
-""" XXX: NON-ZCML-ViewletManager
+class ViewTemplateFile(z3evoque.ViewTemplateFile):
+    """Evoque file-based template that pre-sets the preferred collection and
+    the i18n_domain. Viewlets here should use this ViewTemplateFile class.
+    """
+    collection = "bungeni.ui.viewlets"
+    i18n_domain = "bungeni.ui"
 
-import zope.viewlet
-from bungeni.ui.viewlets import interfaces
 
-# Workspace Viewlet Managers 
+class WorkspaceViewletManager(WeightOrderedViewletManager):
+    
+    # evoque
+    template = ViewTemplateFile("workspace.html#manager")
+    
+    # zpt
+    #template = ViewPageTemplateFile("templates/workspace.pt")
 
-WorkspaceViewletManager = zope.viewlet.manager.ViewletManager(
-    'bungeni.workspace',
-    interfaces.IWorkspaceManager,
-    template=ui_utils.misc.pathjoin(__file__, "templates/workspace.pt"),
-    bases=(zope.viewlet.manager.WeightOrderedViewletManager,) )
-#permission="zope.View"
-#wsvm = WorkspaceViewletManager(context, request, self)
 
-WorkspaceArchiveViewletManager = zope.viewlet.manager.ViewletManager(
-    'bungeni.workspace-archive',
-    interfaces.IWorkspaceArchiveManager,
-    template=ui_utils.misc.pathjoin(__file__, "templates/workspace_archive.pt"),
-    bases=(zope.viewlet.manager.WeightOrderedViewletManager,) )
-#permission="zope.View"
-#wsavm = WorkspaceArchiveViewletManager(context, request, self)
-"""
+class WorkspaceContextNavigation(StructureAwareViewlet):
+    
+    # evoque
+    render = ViewTemplateFile("workspace.html#context_navigation")
+    
+    # zpt
+    #render = ViewPageTemplateFile('templates/workspace_context_navigation.pt')
+    
+    def update(self):
+        # should only ever be called for contexts with these interfaces
+        assert (IWorkspaceContainer.providedBy(self.context) or 
+                IWorkspaceSectionContext.providedBy(self.context))
+        self.sections = getMenu("workspace_context_navigation", 
+                                                self.context, self.request)
+        # get a translated copy of original workspace object
+        workspace = translate_obj(
+                misc.get_parent_with_interface(self, IWorkspaceContainer))
+        self.workspace_title = workspace.full_name
 
+#
 
 class ViewletBase(viewlet.ViewletBase):
-    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')
-
+    render = ViewPageTemplateFile('templates/workspace_item_viewlet.pt')
 
 class UserIdViewlet(viewlet.ViewletBase):
-    """ display the users
-    principal id """
+    """Display the user's principal id."""
     principal_id = None
     
-    def __init__( self,  context, request, view, manager ):        
-
+    def __init__(self,  context, request, view, manager):
         self.context = context
         self.request = request
         self.__parent__= context
         self.manager = manager
-        
+    
     def update(self):
         self.principal_id = model_utils.get_principal_id()
-        
-    render = ViewPageTemplateFile ('../forms/templates/user_id.pt')        
+    
+    render = ViewPageTemplateFile('../forms/templates/user_id.pt')        
     
 
 class QuestionInStateViewlet(ViewletBase):
     name = state = None
     list_id = "_questions"
+    
     def getData(self):
         """return the data of the query
         """
@@ -98,7 +117,7 @@ class QuestionInStateViewlet(ViewletBase):
             item['title'] = q.short_name
             item['result_item_class'] = 'workflow-state-%s' % q.status
             item['url'] = 'questions/obj-%s' % q.question_id
-            item['status'] = ui_utils.misc.get_wf_state(q)
+            item['status'] = misc.get_wf_state(q)
             item['status_date'] = date_formatter.format(q.status_date)
             item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
             item['type'] = _(q.type)
@@ -115,10 +134,10 @@ class QuestionInStateViewlet(ViewletBase):
         self.query = questions        
 
 
-class MyGroupsViewlet( ViewletBase ):
+class MyGroupsViewlet(ViewletBase):
     name = _("My Groups")
     list_id = "my_groups"    
-    render = ViewPageTemplateFile ('templates/workspace_group_viewlet.pt')
+    render = ViewPageTemplateFile('templates/workspace_group_viewlet.pt')
     
     def getData(self):
         """Return the data of the query
@@ -127,10 +146,12 @@ class MyGroupsViewlet( ViewletBase ):
         data_list = []
         results = self.query.all()
         
-        assert self._parent==self.__parent__, "TEMPORARY check, "\
-            "after change of all self._parent calls to self.__parent__"
-        
-        parliament_id = self.__parent__.context.parliament_id
+        # if no current parliament, no data
+        try:
+            parliament_id = model_utils.get_current_parliament().parliament_id
+        except: 
+            return data_list
+        #
         government_id = self.__parent__.government_id
         for result in results:
             data = {}
@@ -154,14 +175,13 @@ class MyGroupsViewlet( ViewletBase ):
                         str(government_id), str(result.group_id) ))
             else:
                 data['url'] = '#'
-            data['status'] = ui_utils.misc.get_wf_state(result)
+            data['status'] = misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
             data['type'] =  _(result.type)
             data['to'] = u""
             data_list.append(data)
         return data_list
-    
     
     def update(self):
         """refresh the query
@@ -176,7 +196,7 @@ class MyGroupsViewlet( ViewletBase ):
         self.query = groups            
 
 
-class SubmittedQuestionViewlet( QuestionInStateViewlet ):
+class SubmittedQuestionViewlet(QuestionInStateViewlet):
     """
     display the submitted questions
     """
@@ -299,7 +319,7 @@ class MotionInStateViewlet( ViewletBase ):
             else:         
                 data['result_item_class'] = 'workflow-state-' + result.status       
             data['url'] = 'motions/obj-' + str(result.motion_id)
-            data['status'] = ui_utils.misc.get_wf_state(result)
+            data['status'] = misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)    
@@ -407,7 +427,7 @@ class BillItemsViewlet( ViewletBase ):
             data['title'] = result.short_name
             data['result_item_class'] = ('workflow-state-' + result.status )
             data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
-            data['status'] = ui_utils.misc.get_wf_state(result)
+            data['status'] = misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
@@ -466,9 +486,7 @@ class ItemInStageViewlet( ViewletBase ):
             'agendaitem',
             'tableddocument',
             'bill']
-
-
-
+    
     def getData(self):
         """return the data of the query
         """
@@ -485,15 +503,16 @@ class ItemInStageViewlet( ViewletBase ):
             data['subject'] = result.short_name
             data['title'] = result.short_name
             data['result_item_class'] = 'workflow-state-' + result.status
-            data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
-            data['status'] = ui_utils.misc.get_wf_state(result)
+            data['url'] = '%ss/obj-%i' % (
+                        result.type, result.parliamentary_item_id)
+            data['status'] = misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)            
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
             if type(result) == domain.Question:
                 data['to'] = result.ministry.short_name
             else:
-                data['to']= u""                
+                data['to']= u""
             data_list.append(data)            
         return data_list
 
@@ -837,7 +856,7 @@ class MinistryItemsViewlet(ViewletBase):
             item['title'] = u'%s (%s)' % (q.short_name, q.status)
             item['result_item_class'] = 'workflow-state-%s' % q.status
             item['url'] = 'questions/obj-%s' % q.question_id
-            item['status'] = ui_utils.misc.get_wf_state(q)
+            item['status'] = misc.get_wf_state(q)
             item['status_date'] = date_formatter.format(q.status_date)
             item['owner'] = "%s %s" %(q.owner.first_name, q.owner.last_name)
             item['type'] = _(q.type)
@@ -864,9 +883,10 @@ class MinistryItemsViewlet(ViewletBase):
         """
         refresh the query
         """
-        session = Session()   
+        session = Session()
         try:
             ministry_ids = self.__parent__.ministry_ids
+            assert ministry_ids is not None
         except:
             ministry_ids = []                        
         qfilter = domain.Ministry.group_id.in_(ministry_ids)        
@@ -923,7 +943,7 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
                 #http://localhost:8081/calendar/group/sittings/obj-5011/schedule            
                 data['url'] = 'calendar/obj-%i/schedule' % result.sitting_id
             data['items'] = ''                
-            data['status'] = ui_utils.misc.get_wf_state(result)
+            data['status'] = misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
             data['type'] =  result.group.type

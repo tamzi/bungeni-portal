@@ -4,13 +4,90 @@
     xmlns:i18n="http://namespaces.zope.org/i18n"                  
     i18n_domain="bungeni.ui">
 
+    <!-- VIEWLET for workspace context navigation 
+         actually 2, because we can only specify 1 "for" interface for a viewlet
+         and we need one this menu at container-root and context-section levels
+         (we could make another interface, and assign also where 
+         IWorkspaceContainer and IWorkspaceSectionContext are assigned).
+    -->
+    <!-- NOTE: actually, given that "obj-id" redirects to "obj-id/pi", the 
+         IWorkspaceContainer-based viewlet and menuItems are currently 
+         not executed anyway.
+    -->
+    <browser:viewlet
+        name="bungeni.workspace_context_navigation"
+        for="..interfaces.IWorkspaceContainer"
+        layer="..interfaces.IWorkspaceSectionLayer"
+        permission="zope.View"
+        manager="ploned.ui.interfaces.ILeftColumnManager"
+        class=".workspace.WorkspaceContextNavigation"
+        weight="1"
+    />
+    <browser:viewlet
+        name="bungeni.workspace_context_navigation"
+        for="..interfaces.IWorkspaceSectionContext"
+        layer="..interfaces.IWorkspaceSectionLayer"
+        permission="zope.View"
+        manager="ploned.ui.interfaces.ILeftColumnManager"
+        class=".workspace.WorkspaceContextNavigation"
+        weight="1"
+    />
+    <!-- !+ should merge usage of template: 
+            ui/portlets/templates/portlet-contentactions.pt -->
+    <browser:menu
+        id="workspace_context_navigation"
+        title="The sections of a user's workspace"
+        class="ploned.ui.menu.PloneBrowserMenu"
+    />
+    <browser:menuItems
+        menu="workspace_context_navigation"
+        for="..interfaces.IWorkspaceContainer"
+        permission="zope.View"
+        >
+        <browser:menuItem
+            title="Parliamentary items"
+            action="pi"
+            order="1"
+        />
+        <browser:menuItem
+            title="Archive"
+            action="archive"
+            order="2"
+        />
+        <browser:menuItem
+            title="Scheduling"
+            action="calendar"
+            order="3"
+        />
+    </browser:menuItems>
+    <browser:menuItems
+        menu="workspace_context_navigation"
+        for="..interfaces.IWorkspaceSectionContext"
+        permission="zope.View"
+        >
+        <browser:menuItem
+            title="Parliamentary items"
+            action="./../pi"
+            order="1"
+        />
+        <browser:menuItem
+            title="Archive"
+            action="./../archive"
+            order="2"
+        />
+        <browser:menuItem
+            title="Scheduling"
+            action="./../calendar"
+            order="3"
+        />
+    </browser:menuItems>
 
+    
   <browser:viewletManager
      name="bungeni.workspace"
      provides=".interfaces.IWorkspaceManager"
      permission="zope.View"
-     class="zope.viewlet.manager.WeightOrderedViewletManager"
-     template="templates/workspace.pt"
+     class=".workspace.WorkspaceViewletManager"
      />
   
   <browser:viewletManager
@@ -20,8 +97,7 @@
      class="zope.viewlet.manager.WeightOrderedViewletManager"
      template="templates/workspace_archive.pt"
      />
-
-
+  
   
   <!-- MPs Workspace -->
   

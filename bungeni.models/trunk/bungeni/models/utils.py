@@ -21,7 +21,7 @@ from zope.publisher.interfaces import IRequest
 from ore.alchemist import Session
 import sqlalchemy as rdb
 from sqlalchemy import sql
-from sqlalchemy.orm import eagerload, lazyload
+from sqlalchemy.orm import eagerload #, lazyload
 import domain, schema
 
 # !+ move "contextual" utils to ui.utils.contextual
@@ -100,49 +100,6 @@ def container_getter(parent_container_or_getter, name, query_modifier=None):
         return c
     func.__name__ = "get_%s_container" % name
     return func
-
-
-
-def get_container_by_role(context):
-    """Determine container based on the contextual principal's roles
-    
-    parliament-level access:
-        "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
-    ministry(ies)-level access:
-        "bungeni.Minister"
-    owner-level (user) access:
-        "zope.Manager", "bungeni.Admin", , "bungeni.Owner", 
-        "bungeni.Everybody", "bungeni.Anybody"
-    
-    """
-    access_level = {'owner':True, 'ministry':False, 'parliament':False}
-    
-    # For sub-containers of Section instances, the context being passed is the 
-    # Section instance itself -- but this is not the correct context to 
-    # determine the user's roles in. Thus, workaround for this is to fallback
-    # to the current parliament object if context passed is NOT a domain object.
-    if not domain.object_hierarchy_type(context):
-        log.debug("context %s for get_roles() is NOT a domain object, " 
-            "falling back to current parliament as context" % context)
-        roles = get_roles(get_current_parliament(None))
-    else:
-        roles = get_roles(context)
-    
-    for role_id in roles:
-        if role_id in ("bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"):
-            access_level['parliament'] = True
-        if role_id in ("bungeni.Minister",):
-            access_level['ministry'] = True
-    
-    # get highest-privileged container
-    if access_level['parliament']:
-        return get_current_parliament(context)
-    elif access_level['ministry']:
-        # multi-ministry container
-        return get_current_parliament(context)
-    else:
-        return get_db_user(context)
-
 
 def get_roles(context):
     """Get contextual principal's roles

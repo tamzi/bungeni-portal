@@ -4,7 +4,7 @@
 
 """Zope3 + Evoque Templating: http://evoque.gizmojo.org/
 
-Evoque features & advantages (comapred to ZPT):
+Evoque features & advantages (compared to ZPT):
 - No server restart needed each time a file-based template is modified.
 - A template may invoke other templates (that may be within same collection or 
   within any other collection in the domain).
@@ -211,7 +211,7 @@ class _ViewTemplateBase(object):
     
     def __init__(self, *args, **kw):
         raise NotImplemented("ViewTemplateBase.__init__ may not be called "
-            "directly. Must be overrided by subslasses.")
+            "directly. Must be overridden by subslasses.")
     
     def __get__(self, view, type_):
         """Non-data descriptor to grab a reference to the caller view.

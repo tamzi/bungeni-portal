@@ -29,7 +29,7 @@ alchemist.traversal https://zope-alchemist.googlecode.com/svn/alchemist.traversa
 alchemist.security https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
 
 # schema diff 
-# z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
+z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
 z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 
 # shows security information ( principal, permissions, views )

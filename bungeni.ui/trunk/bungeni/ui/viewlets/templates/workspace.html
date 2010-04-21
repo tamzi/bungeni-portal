@@ -13,9 +13,10 @@ $begin{manager} #[ workspace.pt ]#
     $rof
     </dl>
     <div class="visualClear"><!-- nothing here --></div>
-    <script language="javascript" type="text/javascript">
-        setTimeout("location.reload();", 200000);
-    </script>
+    $if{ not view.devmode }
+    <script language="javascript" 
+        type="text/javascript">setTimeout("location.reload();", 200000);</script>
+    $fi
 </div>
 $end{manager}
 

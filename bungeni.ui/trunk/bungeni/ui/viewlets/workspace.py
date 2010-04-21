@@ -34,7 +34,7 @@ from bungeni.models.interfaces import ICommittee
 from bungeni.ui.interfaces import IWorkspaceContainer, IWorkspaceSectionContext
 
 from bungeni.ui import z3evoque
-from bungeni.ui.utils import misc, debug
+from bungeni.ui.utils import common, misc, debug
 from bungeni.ui.i18n import _
 from bungeni.core.translation import translate_obj
 
@@ -57,6 +57,10 @@ class WorkspaceViewletManager(WeightOrderedViewletManager):
     # zpt
     #template = ViewPageTemplateFile("templates/workspace.pt")
 
+    def update(self):
+        super(WorkspaceViewletManager, self).update()
+        self.devmode = common.has_feature("devmode")
+         
 
 class WorkspaceContextNavigation(StructureAwareViewlet):
     

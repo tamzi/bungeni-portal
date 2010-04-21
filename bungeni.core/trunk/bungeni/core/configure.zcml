@@ -165,7 +165,7 @@
   <subscriber
      for="bungeni.models.interfaces.IBungeniApplication
           ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent"
-     handler=".app.setUpSubscriber"
+     handler=".app.onWSGIApplicationCreatedEvent"
      />
 
   <!-- Application Setup -->

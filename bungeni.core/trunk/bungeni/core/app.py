@@ -9,6 +9,7 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.core.app")
+log.setLevel(10)
 
 from zope.interface import implements
 from zope.interface import implementedBy
@@ -32,15 +33,20 @@ from bungeni.models.utils import get_current_parliament
 from bungeni.models.utils import container_getter
 
 
-def setUpSubscriber(obj, event):
-    initializer = model_interfaces.IBungeniSetup(obj)
+def onWSGIApplicationCreatedEvent(application, event):
+    """Subscriber to the ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent."""
+    initializer = model_interfaces.IBungeniSetup(application)
     initializer.setUp()
+    from zope.app.appsetup.appsetup import getConfigContext
+    log.debug("onWSGIApplicationCreatedEvent: _features: %s" % (
+                                        getConfigContext()._features))
 
 class BungeniApp(Application):
     implements(model_interfaces.IBungeniApplication)
 
 class BungeniAdmin(SampleContainer):
     implements(model_interfaces.IBungeniAdmin )
+
 
 
 class AppSetup(object):
@@ -78,16 +84,20 @@ class AppSetup(object):
         )
         business = self.context["business"] = Section(
             title=_(u"Business"),
-            description=_(u"Daily operations of the parliament"))
+            description=_(u"Daily operations of the parliament"),
+            default_name="business-index")
         members = self.context["members"] = Section(
             title=_(u"Members"),
-            description=_(u"Records on members of parliament"))
+            description=_(u"Records on members of parliament"),
+            default_name="members-index")
         archive = self.context["archive"] = Section(
             title=_(u"Archive"),
-            description=_(u"Parliament records and documents"))
+            description=_(u"Parliament records and documents"),
+            default_name="archive-index")
         admin = self.context["admin"] = Section(
             title=_(u"Administration"),
             description=_(u"Administer bungeni settings"),
+            default_name="admin-index",
             marker=model_interfaces.IBungeniAdmin)
         
         # business section

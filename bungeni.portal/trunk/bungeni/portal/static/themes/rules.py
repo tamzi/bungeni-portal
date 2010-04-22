@@ -69,7 +69,7 @@ def add_section_links(content, theme, resource_fetcher, log):
     else:
         home_tab_value = str(content("#portaltab-").html())
 
-    if 'workspace' in  home_tab_value:
+    if 'workspace' or 'espace du travail' or 'eneo la kazi' in  home_tab_value:
         theme('#portal-logo img').attr('src', host_url[0] + '://' +  host_url[1] +'/++resource++portal/logo-workspace.png')        
         theme('#portal-logo img').attr('width', '803px')
         theme('#portal-logo img').attr('height', '60px')

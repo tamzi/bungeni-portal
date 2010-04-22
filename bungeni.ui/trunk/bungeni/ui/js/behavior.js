@@ -14,7 +14,7 @@
 
       // set up calendar resizing
       $("#calendar-table").bungeniSafeResize();
-
+     /*
       // set up calendar item scheduling (drag and drop)
       $("#items-for-scheduling-bill tbody tr").bungeniDragAndDropScheduling();
       $("#items-for-scheduling-motion tbody tr").bungeniDragAndDropScheduling();
@@ -22,11 +22,24 @@
       $("#items-for-scheduling-agendaitem tbody tr").bungeniDragAndDropScheduling();
       $("#items-for-scheduling-tableddocument tbody tr").bungeniDragAndDropScheduling();
       $("#items-for-scheduling-heading tbody tr").bungeniDragAndDropScheduling();
-                                    
+      */       
+      
+      //Drag and drop within the schedule
+      // $("#scheduling-table tbody tr").bungeniDragAndDropScheduling();
+      
+      $("#scheduling-table tbody").dragRearrange();
+      // Set up calendar item scheduling (by clicking)
+      $("#items-for-scheduling-bill tbody tr").clickScheduling();
+      $("#items-for-scheduling-motion tbody tr").clickScheduling();
+      $("#items-for-scheduling-question tbody tr").clickScheduling();
+      $("#items-for-scheduling-agendaitem tbody tr").clickScheduling();
+      $("#items-for-scheduling-tableddocument tbody tr").clickScheduling();
+      $("#items-for-scheduling-heading tbody tr").clickScheduling();
+                             
       // set up calendar ajax
       $('#weekly-calendar').bungeniCalendarInteractivity(true);
       $('#daily-calendar').bungeniCalendarInteractivity(false);
-      $('#scheduling-calendar').bungeniSchedulingCalendar();
+     //$('#scheduling-calendar').bungeniSchedulingCalendar();
       $('#scheduling-calendar').bungeniInteractiveSchedule();
       
       // sort workspace tables

@@ -275,7 +275,13 @@
      name="schedule"
      class=".calendar.browser.GroupSittingScheduleView"
     />
-
+    
+      <browser:page
+     name="schedule_order"
+     for="bungeni.models.interfaces.IGroupSitting"
+     class=".calendar.browser.ItemScheduleOrder"
+     permission="bungeni.sitting.Reorder"
+     />   
   <!-- Similar Content -->
   
   <browser:page

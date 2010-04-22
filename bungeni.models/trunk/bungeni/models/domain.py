@@ -359,6 +359,7 @@ class CommitteeMember(GroupMembership):
     
 class CommitteeType(object):
     """ Type of Committee """
+    interface.implements(interfaces.ITranslatable)
         
         
 class Office(Group):

@@ -1,59 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
   <theme href="/static/themes/layout.html" />
-  <match path="regex:.*/(private_folder|web_pages).*$"
- 	 class="menu-items" />
-  <match path="regex:.*/(private_folder|web_pages/).+$"
- 	 class="menu-items" />      
   <match path="exact:/"
          class="frontpage" />
   <match path="exact:/front-page"
          class="frontpage" />
-  <match path="regex:.*/audit-log$"
- 	 class="bungeni-header" />
+  <match path="/workspace"  class="workspace-menu-items" />  
   <match path="regex:.*/(emptypage)$"
  	 abort="1" />
   <match path="/"
          class="primary" />
   
-  
-  <rule class="workspace-committee">
-    <!-- content -->
-    <append content="h2"
-            theme=".main-content" />
-    <append content="dl.enableFormTabbing > dt"
-            theme="children:dl.enableFormTabbing" />
-    <append content="dl.enableFormTabbing > dd"
-            theme="children:dl.enableFormTabbing" />
-    <replace content="children:.documentContent"
-             theme="children:#fieldset-display-form-workspace > div" />    
-    <pyquery pyref="bungeni.portal/static/themes/rules:add_workspace"
-             pyarg-workspace_id="#workgroup-id"/>
-  </rule>
-  
-  
-  
-  <rule class="menu-items">
-    <drop content="#portal-globalnav > li:first-child"/>             
-    <append content="#portal-globalnav > li"
-             theme="children:#portal-globalnav > ul" />
-
-    <replace href="/bungeni"
-            content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />
+  <rule class="workspace-menu-items">
     <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
-             pyarg-link_id="#portal-breadcrumbs"/>
-    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_styles" />
-    <drop content="ul#portal-personaltools" />    
-    <append content="#viewlet-above-content"
-             theme="children:.main-content"/>     
-  </rule>
+             pyarg-link_id="#user-workspace-id"/>
+  </rule>    
   
   <rule class="frontpage">
     <!--header-->
-    <prepend href="/workspace"
-             theme="//head"
-             content="//head"/>         
     <replace content="#portal-logo" theme="#portal-logo" />
     <replace content="#portal-siteactions" theme="#portal-siteactions" />    
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
@@ -61,19 +25,9 @@
     <!-- menu -->
     <append content="#portal-globalnav > li:first-child"
             theme="children:#portal-globalnav > ul.level1" />    
-    <append href="/workspace"
-            content="#portal-globalnav > li:first-child"
-            theme="children:#portal-globalnav > ul" />
     <append content="#portal-globalnav > li"
             theme="children:#portal-globalnav > ul" />
 
-    
-    <prepend href="/workspace"
-             content=".contentActions"
-             theme="children:.main-content" />
-    <append href="/workspace"
-            content="#viewlet-above-content"
-             theme="children:.main-content" />
     <replace content="#portal-personaltools" theme="#portal-personaltools" />
     <append href="/workspace"
             content="ul#portal-personaltools li.navigation"
@@ -84,20 +38,14 @@
     <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
 
     <!-- content -->
-    <prepend href="/workspace"
-            content="elements:#bungeni-workspace"
-            theme="children:#bungeni-workspace" />
     <append content=".portletWorkflowReview"
             theme="children:#review-portlet" />
     <append content=".documentActions"
             theme="children:#portal-column-content" />                        
     <!-- right portlet -->
-    <prepend href="/business/"
+<!--    <append href="/plone/"
              content="children:#region-content"
-             theme="children:#portal-column-two"/>    
-    <prepend href="/workspace/"
-             content="#workspace-viewlet-my_groups"
-             theme="children:#portal-column-two" />
+             theme="children:#portal-column-content"/>    -->
     <append content="children:#portal-column-two" theme="children:#portal-column-two" />
     
     <!-- body attributes -->
@@ -105,19 +53,9 @@
             theme="attributes:body" />
     <replace content="attributes(class):body"
             theme="attributes:dl.enableFormTabbing" />            
-    <append href="/workspace/"
-            content="attributes:div#bungeni-workspace"
-            theme="attributes:body" />
     <pyquery pyref="bungeni.portal/static/themes/rules:move_portlet" />
     <pyquery pyref="bungeni.portal/static/themes/rules:drop_whatsonLinks" />        
   </rule>  
-
-  <rule class="bungeni-header">
-    <!--header-->
-    <prepend href="/bungeni"
-            theme="//head"
-            content="//head" />    
-   </rule>
 
 
   <rule class="primary">
@@ -129,15 +67,10 @@
     <replace content="#portal-searchbox" theme="#portal-searchbox" />
 
     <!-- menu -->
-<!--    <prepend content="#portal-globalnav > li:first-child"
-             theme="children:#portal-globalnav > ul" />-->
 
     <append content="#portal-globalnav > li"
-            theme="children:#portal-globalnav > ul" />
-    <prepend href="/workspace"
-             content="#portal-globalnav > li:first-child"
-             theme="children:#portal-globalnav > ul" />    
-<!---    <drop content="#portal-globalnav > li:first-child"/>-->
+            theme="children:#portal-globalnav > ul" />    
+
     <append href="/plone"
             content="#portal-globalnav > li:nth-child(5)"
             theme="children:#portal-globalnav > ul" />

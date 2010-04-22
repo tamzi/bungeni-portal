@@ -36,7 +36,7 @@ def add_member_workspace_links(content, theme, resource_fetcher, log, link_id):
             content('#portal-logo img').attr('height', '60px')
             theme('#portal-globalnav ul.level1 li:first-child').removeClass('selected')
             if content('.template-private_folder'):
-                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>private folder</a></li>")
+                theme('#portal-globalnav ul.level1').append("<li class='navigation selected'><a href='" + content('del#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>private folder</a></li>")
                 theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/web_pages" + "'>web pages</a></li>")
             elif content('.template-web_pages'):
                 theme('#portal-globalnav ul.level1').append("<li class='navigation'><a href='" + content('#portal-breadcrumbs a:nth-child(8)').attr('href') + "/private_folder" + "'>private folder</a></li>")
@@ -183,6 +183,8 @@ def rewrite_links(content, theme, resource_fetcher, log):
                          '/business/calendar': '/calendar',
                          '/calendar/admin': '/admin',
                          '/business/whats-on/business': '/business',
+                         '/business/dhtmlxcalendar': '/dhtmlxcalendar',
+                         '/business/sittings/business': '/business',                                             '/business/sittings/admin': '/admin',                    
                          '/workspace/admin': '/admin',
                          '/workspace/business': '/business',
                          '/workspace/my-archive/business': '/business',
@@ -196,8 +198,11 @@ def rewrite_links(content, theme, resource_fetcher, log):
                          '/browse/archive/documents': '/documents',
                          '/archive/browse/business': '/business',
                          '/archive/browse/members': '/members',
+                         '/archive/browse/admin': '/admin',                         
                          '/archive/documents/business': '/business',
                          '/archive/documents/members': '/members',
+                         '/archive/documents/admin': '/admin',
+                         '/business/sittings/change-language': '/change-language',      
                          '/archive/browse/change-language': '/change-language',
                          '/archive/documents/change-language': '/change-language',
                          '/calendar/change-language': '/change-language',     
@@ -297,8 +302,3 @@ def match_request(content, theme, resource_fetcher, log):
         content('body').replaceWith(theme('body').html())
     else:
         pass
-
-
-def test_theme(content, theme, resource_fetcher, log):
-    print "THEME CONTENT"
-    print theme

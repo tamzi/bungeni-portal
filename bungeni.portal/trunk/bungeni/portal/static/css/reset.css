@@ -1,4 +1,3 @@
- 
 * {margin: 0; padding: 0; vertical-align: baseline; }
 html {
   height: 100%;
@@ -434,10 +433,19 @@ div#portal-globalnav {
 }
 
 .section-bungeni-whats-on div#portal-globalnav ul.level0 li#portaltab-business-whats-on a,
+.section-bungeni-business div#portal-globalnav ul.level0 li#portaltab-business-whats-on a,
 .section-bungeni-archive div#portal-globalnav ul.level0 li#portaltab-archive-browse a
 {
   background-color:#f8ba61;
 }
+
+.template-workspace.section-bungeni-whats-on div#portal-globalnav ul.level0 li#portaltab-business-whats-on a,
+.template-workspace.section-bungeni-business div#portal-globalnav ul.level0 li#portaltab-business-whats-on a,
+.template-workspace.section-bungeni-archive div#portal-globalnav ul.level0 li#portaltab-archive-browse a
+{
+  background-color:#d4e2ef;
+}
+
 
 .template-portal div#portal-globalnav ul.level0 li#portaltab- a {
   font-weight: normal;
@@ -620,12 +628,12 @@ div#portal-globalnav ul.level0 li.plain a{
 }
 
 .template-portal div#portal-globalnav ul.level1{
-  width: 77em;
+  width: 87em;
   height: 1.50em;
 }
 
 .template-workspace div#portal-globalnav ul.level1{
-  width: 77em;
+  width: 87em;
   height: 1.60em;
 }
 

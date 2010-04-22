@@ -232,7 +232,11 @@ class _ViewTemplateBase(object):
     def __call__(self, *args, **kwds):
         """Wrapper on template.evoque()."""
         namespace = self._get_context()
-        return self.template.evoque(namespace, **kwds)
+        t = self.template
+        log.debug(" __call__ [%s][%s] %s %s %s %s" % (
+                        (t.collection and t.collection.name), t.name, 
+                        self, namespace, args, kwds))
+        return t.evoque(namespace, **kwds)
     
     def _get_context(self):
         view = self._descriptor_view
@@ -276,8 +280,7 @@ class ViewTemplateString(_ViewTemplateBase):
         # templates from string must be explicitly set onto their collection
         domain.set_template(self.name, src=self.src, 
                                 collection=self.collection, from_string=True)
-        log.debug("ViewTemplateString name=%s collection=%s : %s" % (
-                                                    name, collection, self))
+        log.debug("ViewTemplateString [%s][%s] %s" % (collection, name, self))
 
 class ViewTemplateFile(_ViewTemplateBase):
     """Evoque file-based template used as method of a view 
@@ -295,8 +298,7 @@ class ViewTemplateFile(_ViewTemplateBase):
         if src is not None: self.src = src
         if collection is not None: self.collection = collection
         if i18n_domain is not None: self.i18n_domain = i18n_domain
-        log.debug("ViewTemplateFile name=%s collection=%s : %s" % (
-                                                    name, collection, self))
+        log.debug("ViewTemplateFile [%s][%s] %s" % (collection, name, self))
 
 # View Helpers
 

@@ -1,11 +1,16 @@
 #!/usr/bin/env python
-# encoding: utf-8
-"""
-domain.py
+# -*- coding: utf-8 -*-
+# Bungeni Parliamentary Information System - http://www.bungeni.org/
+# Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
+# Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
+
+"""The Bungeni object domain
 
 Created by Kapil Thangavelu on 2007-11-22.
 
+$Id$
 """
+log = __import__("logging").getLogger("bungeni.models.domain")
 
 import md5, random, string
 
@@ -15,14 +20,9 @@ from alchemist.traversal.managed import one2many
 from zope.location.interfaces import ILocation
 import sqlalchemy.sql.expression as sql
 
-import logging
 import interfaces
 
-logger = logging.getLogger('bungeni.models')
-
-
-
-#####
+#
 
 def object_hierarchy_type(object):
     if isinstance(object, User):
@@ -52,7 +52,7 @@ class Entity(object):
             if known_names is None or k in known_names:
                 setattr(self, k, v)
             else:
-                logger.warn(
+                log.warn(
                     "Invalid attribute on %s %s" % (
                         self.__class__.__name__, k))
 

@@ -125,7 +125,7 @@ def prepare_user_workspaces(event):
         return
     
     request = event.request
-    #app = event.object # is bungeni.core.app.BungeniApp
+    application = event.object # is bungeni.core.app.BungeniApp
     
     # initialize a layer data object, for the views in the layer
     LD = request._layer_data = misc.bunch(
@@ -143,9 +143,10 @@ def prepare_user_workspaces(event):
     try:
         parliament = get_current_parliament(None)
         assert parliament is not None # force exception
+        # we do get_roles under the current parliament as context, but we 
+        # must ensure that the BungeniApp is along the __parent__ stack:
+        parliament.__parent__ = application
         roles = get_roles(parliament)
-        log.debug("roles: %s" % roles)
-        
         # "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
         for role_id in roles:
             if role_id in ("bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"):
@@ -162,16 +163,20 @@ def prepare_user_workspaces(event):
                                     parliament)[0].group_id # IndexError
         ministries = get_ministries_for_user_in_government(
                                             LD.user_id, LD.government_id)
-        log.debug("parliament:(%s, %s) / government_id:%s / ministries:%s" % (
-             parliament.full_name, parliament.group_id, 
-             LD.government_id, 
-             [(m.full_name, m.group_id) for m in ministries] ))
+        log.debug(""" [prepare_user_workspaces]
+            user_id:%s
+            parliament:(%s, %s) 
+            government_id:%s
+            ministries:%s""" % (
+                LD.user_id, 
+                parliament.full_name, parliament.group_id, 
+                LD.government_id, 
+                [(m.full_name, m.group_id) for m in ministries] ))
         for ministry in ministries:
             log.debug("adding ministry workspace %s" % ministry)
             LD.workspaces.append(ministry)
     except (Exception,):
-        name, exc = sys.exc_info()[0].__name__,  sys.exc_info()[1]
-        log.info("%s [prepare_user_workspaces] %s" % (name, exc))
+        debug.log_exc_info(sys.exc_info(), log_handler=log.info)
     
     # ensure unique workspaces, preserving order, retaining same list obj ref
     LD.workspaces[:] = [ workspace for i,workspace in enumerate(LD.workspaces) 

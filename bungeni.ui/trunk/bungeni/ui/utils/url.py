@@ -10,7 +10,7 @@ from bungeni.ui.utils import url as ui_url
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.utils.url")
-#log.setLevel(10) # debug
+log.setLevel(10) # debug
 
 import common
 
@@ -18,8 +18,12 @@ def get_destination_url_path(request=None):
     """Get the target URL path of the (current) request."""
     if request is None:
         request = common.get_request()
-    return request.get("PATH_INFO")
-    
+    # request.URL
+    # request.get("PATH_INFO")
+    _url = request.getURL(level=0, path_only=True)
+    log.debug(" [get_destination_url_path] %s " % _url)
+    return _url
+   
 def urljoin(base, action):
     if action is None:
         return

@@ -42,23 +42,23 @@
         for="bungeni.core.interfaces.ISection"
         permission="zope.View"
         layer=".interfaces.IBungeniAuthenticatedSkin"
-        class=".container.WorkspaceRootRedirect"
-    />
+        template="templates/app-index.pt"
+    /><!-- class=".container.WorkspaceRootRedirect" 
     <browser:page
         name="no-workspace-index"
         for="bungeni.core.interfaces.ISection"
         permission="zope.View"
         layer=".interfaces.IBungeniAuthenticatedSkin"
         template="templates/app-index.pt"
-    />
+    /> -->
     <browser:page
-        name="workspace-container-index"
+        name="view"
         for=".interfaces.IWorkspaceContainer"
         class=".container.WorkspaceContainerIndexRedirect"
         permission="zope.View"
         layer=".interfaces.IWorkspaceSectionLayer"
-    />
-    
+    /><!-- why does name must be "view"? e.g. "workspace-container-index" will 
+           not match -->
 
   <adapter 
     factory=".workspace.WorkspaceContainerTraverser"

@@ -12,10 +12,14 @@ $Id$
 log = __import__("logging").getLogger("bungeni.ui.utils.url")
 #log.setLevel(10) # debug
 
+import common
 
-__all__ = ["urljoin", "indexNames", "absoluteURL", "same_path_names"]
-
-
+def get_destination_url_path(request=None):
+    """Get the target URL path of the (current) request."""
+    if request is None:
+        request = common.get_request()
+    return request.get("PATH_INFO")
+    
 def urljoin(base, action):
     if action is None:
         return

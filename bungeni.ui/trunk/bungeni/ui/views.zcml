@@ -42,10 +42,17 @@
         for="bungeni.core.interfaces.ISection"
         permission="zope.View"
         layer=".interfaces.IBungeniAuthenticatedSkin"
-        template="templates/app-index.pt"
-    /><!-- class=".container.WorkspaceRootRedirect" -->
+        class=".container.WorkspaceRootRedirect"
+    />
     <browser:page
-        name="view"
+        name="no-workspace-index"
+        for="bungeni.core.interfaces.ISection"
+        permission="zope.View"
+        layer=".interfaces.IBungeniAuthenticatedSkin"
+        template="templates/app-index.pt"
+    />
+    <browser:page
+        name="workspace-container-index"
         for=".interfaces.IWorkspaceContainer"
         class=".container.WorkspaceContainerIndexRedirect"
         permission="zope.View"
@@ -309,7 +316,7 @@
         for="*"
         layer="bungeni.ui.interfaces.IBungeniSkin"
         class=".container.BusinessIndexRedirect"
-        permission="zope.View"
+        permission="zope.Public"
     />
     <browser:page
         name="whats-on"
@@ -333,7 +340,7 @@
         for="*"
         layer="bungeni.ui.interfaces.IBungeniSkin"
         class=".container.MembersIndexRedirect"
-        permission="zope.View"
+        permission="zope.Public"
     />
   
   <!-- archive -->
@@ -343,7 +350,7 @@
         for="*"
         layer="bungeni.ui.interfaces.IBungeniSkin"
         class=".container.ArchiveIndexRedirect"
-        permission="zope.View"
+        permission="zope.Public"
     />
     <browser:page
         name="browse-archive"

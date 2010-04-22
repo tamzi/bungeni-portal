@@ -32,8 +32,8 @@ from plone.i18n.locales.interfaces import ILanguageAvailability
 from bungeni.core.interfaces import IVersionable
 from bungeni.models.interfaces import IVersion, ITranslatable
 from bungeni.models import domain
-from bungeni.models.utils import get_request
 from bungeni.core.i18n import _
+from bungeni.ui.utils import common
 
 
 
@@ -113,7 +113,7 @@ def translate_obj(context):
     -> copy of the object translated into language of the request
     """
     trusted = removeSecurityProxy(context)
-    request = get_request()
+    request = common.get_request()
     lang = request.locale.getLocaleID() # !+ get_browser_language()
     translation = get_translation_for(context, lang)  
     obj = copy(trusted)        

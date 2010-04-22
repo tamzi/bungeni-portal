@@ -42,7 +42,7 @@ from bungeni.models.utils import get_ministries_for_user_in_government
 from bungeni.models.utils import get_current_parliament
 from bungeni.models.utils import get_current_parliament_governments
 
-from bungeni.ui.utils import misc, debug
+from bungeni.ui.utils import url, misc, debug
 from bungeni.ui import interfaces
 
 from ploned.ui.interfaces import IViewView
@@ -99,7 +99,7 @@ def prepare_user_workspaces(event):
         !+ should these get an owner-level (user) workspace?
     
     """
-    request_target_path = event.request.get("PATH_INFO")
+    destination_url_path = url.get_destination_url_path(event.request)
     def need_to_prepare_workspaces(obj, req):
         return (
             # need only to do it when traversing "/", 
@@ -117,7 +117,7 @@ def prepare_user_workspaces(event):
                 or
                 # the request is for "/" (we need to know the user 
                 # workspaces to be able to redirect appropriately
-                request_target_path=="/"
+                destination_url_path=="/"
                 # !+ IHomeLayer
             )
         )
@@ -184,7 +184,7 @@ def prepare_user_workspaces(event):
         
     log.info("""DONE [prepare_user_workspaces]
         for: [%s][%s]
-        request._layer_data: %s""" % (id(request), request_target_path,
+        request._layer_data: %s""" % (id(request), destination_url_path,
             getattr(request, "_layer_data", None)))
 
 

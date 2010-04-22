@@ -32,17 +32,17 @@ from bungeni.models.interfaces import ICommitteeStaffContainer
 
 from bungeni.core.translation import translate_obj
 
-import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils import url, date
 from bungeni.ui.cookies import get_date_range
 from bungeni.ui.interfaces import IBusinessSectionLayer, IMembersSectionLayer
 from ploned.ui.interfaces import IViewView
 
 def dateFilter(request):
     filter_by = ''
-    displayDate = ui_utils.date.getDisplayDate(request)
+    displayDate = date.getDisplayDate(request)
     
     if displayDate:
-        filter_by = ui_utils.date.getFilter(displayDate)
+        filter_by = date.getFilter(displayDate)
     else:
         filter_by = ''          
     return filter_by
@@ -188,8 +188,16 @@ class WorkspaceRootRedirect(BrowserView):
             to_url = "/workspace/obj-%s/pi" % first_workspace.group_id
         except:
             to_url = "/workspace"
-        log.warn("WorkspaceRootRedirect %s -> %s" % (request.getURL(), to_url))
-        request.response.redirect(to_url)
+        if url.get_destination_url_path(request)!=to_url:
+            # never redirect to same destination!
+            log.warn("WorkspaceRootRedirect %s -> %s" % (request.getURL(), to_url))
+            request.response.redirect(to_url)
+        else:
+            # user has no workspaces and is requesting /workspace view
+            # return the "no workspace" *rendered* view for /workspace
+            return component.getMultiAdapter(
+                        (self.context, request), name="no-workspace-index")()
+
 
 class _IndexRedirect(BrowserView):
     """Redirect to the named "index" view."""

@@ -26,14 +26,6 @@ import domain, schema
 
 # !+ move "contextual" utils to ui.utils.contextual
 
-def get_request():
-    """ () -> either(IRequest, None)
-    """
-    interaction = getInteraction()
-    for participation in interaction.participations:
-        if IRequest.providedBy(participation):
-            return participation       
-
 def get_principal():
     """ () -> either(IPrincipal, None)
     """

@@ -111,29 +111,32 @@ def get_roles(context):
     _build_principal_role_maps(context)
     prms.reverse()
     
-    def add_roles(principal, prms, roles):
+    roles, message = [], []
+    def add_roles(principal, prms):
+        message.append("             principal: %s" % principal)
         for prm in prms:
             l_roles = prm.getRolesForPrincipal(principal) # -> generator
             for role in l_roles:
+                message.append("               role: %s" % str(role))
                 if role[1] == Allow:
                     if not role[0] in roles:
                         roles.append(role[0])
                 elif role[1] == Deny:
                     if role[0] in roles:
                         roles.remove(role[0])
-        return roles
     
     principal = get_principal()
-    log.debug("get_roles: principal id %s" % principal.id)
     pg = principal.groups.keys()
     # ensure that the actual principal.id is included
     if not principal.id in pg:
         pg.append(principal.id)
-    log.debug("get_roles: principal groups %s" % pg)
-    roles = []
+    
     for principal_id in pg:
-        roles = add_roles(principal_id, prms, roles)
-    log.debug("get_roles: principal roles %s" % roles)
+        add_roles(principal_id, prms)
+    
+    log.debug("get_roles: principal: %s" % principal.id)
+    log.debug("           groups %s ::\n%s" % (str(pg), "\n".join(message)))
+    log.debug("           roles %s" % roles)
     return roles
 
 
@@ -232,7 +235,7 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
                         schema.role_titles.c.end_date]                                     
             )
     o_held = connection.execute(offices_held)
-    return o_held            
+    return o_held
     
 def get_group_ids_for_user_in_parliament(user_id, parliament_id):
     """ get the groups a user is member of for a specific parliament """

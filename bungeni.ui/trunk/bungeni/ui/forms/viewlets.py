@@ -566,7 +566,7 @@ class OfficesHeldViewlet( viewlet.ViewletBase ):
             else:                           
                 title['end_date'] = oh[7]  
             office_list.append(title)
-        return office_list                            
+        return office_list
     
     def update(self):
         """

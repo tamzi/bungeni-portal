@@ -115,15 +115,18 @@ class Section(OrderedContainer):
             _meth_id, name, self.__name__, self.__parent__, 
             getattr(self, "context", "UNDEFINED")))
         try:
+            assert self.publishTraverseResolver is not None
             return self.publishTraverseResolver(self, request, name)
-        except (TypeError,):
-            pass # 'NoneType' object is not callable
-            # typically because self.publishTraverseResolver is None
+        except (AssertionError,):
+            pass # self.publishTraverseResolver is None, not callable
         except (NotFound,):
-            debug.log_exc_info(sys.exc_info(), log.debug)
+            pass # this is not really an error
+            #debug.log_exc_info(sys.exc_info(), log.debug)
+        except (TypeError, Exception):
+            debug.log_exc_info(sys.exc_info(), log.error)
         traverser = ItemTraverser(self, request)
         return traverser.publishTraverse(request, name)
-    
+
 # ensure public security setting for these Section attributes
 from zope.security.checker import CheckerPublic, Checker, defineChecker
 _PUBLIC_ATTRS = { 

@@ -24,33 +24,33 @@ logger = logging.getLogger('bungeni.models')
 
 #####
 
-def object_hierarchy_type( object ):
-    if isinstance( object, User ):
+def object_hierarchy_type(object):
+    if isinstance(object, User):
         return "user"
-    if isinstance( object, Group ):
+    if isinstance(object, Group):
         return "group"
-    if isinstance( object, ParliamentaryItem ):
+    if isinstance(object, ParliamentaryItem):
         return "item"
     return ""
 
 
-class Entity( object ):
+class Entity(object):
 
-    interface.implements( location.ILocation )
+    interface.implements(location.ILocation)
 
     __name__ = None
     __parent__ = None
     
-    def __init__( self, **kw ):
+    def __init__(self, **kw):
         try:
-            domain_schema = model.queryModelInterface( self.__class__ )
+            domain_schema = model.queryModelInterface(self.__class__)
             known_names = [k for k,d in domain_schema.namesAndDescriptions(1)]
         except:
             known_names = None
 
         for k,v in kw.items():
             if known_names is None or k in known_names:
-                setattr( self, k, v)
+                setattr(self, k, v)
             else:
                 logger.warn(
                     "Invalid attribute on %s %s" % (
@@ -68,28 +68,28 @@ class User(Entity):
     General representation of a person
     """
     
-    interface.implements( interfaces.IBungeniUser, interfaces.ITranslatable )
+    interface.implements(interfaces.IBungeniUser, interfaces.ITranslatable)
     
-    def __init__( self,  login=None, **kw ):
+    def __init__(self,  login=None, **kw):
         if login:
             self.login = login
-        super( User, self ).__init__( **kw )
+        super(User, self).__init__(**kw)
         self.salt = self._makeSalt()
     
-    def _makeSalt( self ):
-        return ''.join( random.sample( string.letters[:52], 12) )
+    def _makeSalt(self):
+        return ''.join(random.sample(string.letters[:52], 12))
         
-    def setPassword( self, password ):
-        self.password = self.encode( password )
+    def setPassword(self, password):
+        self.password = self.encode(password)
         
-    def getPassword( self ):  
+    def getPassword(self):  
         return None
         
-    def encode( self, password ):
-        return md5.md5( password + self.salt ).hexdigest()
+    def encode(self, password):
+        return md5.md5(password + self.salt).hexdigest()
         
-    def checkPassword( self, password_attempt ):
-        attempt = self.encode( password_attempt )
+    def checkPassword(self, password_attempt):
+        attempt = self.encode(password_attempt)
         return attempt == self.password
 
     def _get_status(self):
@@ -104,8 +104,8 @@ class User(Entity):
 
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name']}    
-    addresses = one2many( "addresses", "bungeni.models.domain.UserAddressContainer", "user_id" )    
-    delegations = one2many( "delegations", "bungeni.models.domain.UserDelegationContainer", "user_id" )   
+    addresses = one2many("addresses", "bungeni.models.domain.UserAddressContainer", "user_id")    
+    delegations = one2many("delegations", "bungeni.models.domain.UserDelegationContainer", "user_id")   
     _password = property(getPassword, setPassword)                
 
     bills = one2many("bills", "bungeni.models.domain.BillContainer", "owner_id")
@@ -123,7 +123,7 @@ class UserDelegation(Entity):
     to another user """
     
   
-#class HansardReporter( User ):
+#class HansardReporter(User):
 #    """ a reporter who reports on parliamentary procedings
 #    """
  
@@ -133,10 +133,10 @@ class UserDelegation(Entity):
     
 ######    
 
-class Group( Entity ):
+class Group(Entity):
     """ an abstract collection of users
     """
-    interface.implements( interfaces.IBungeniGroup, interfaces.ITranslatable )
+    interface.implements(interfaces.IBungeniGroup, interfaces.ITranslatable)
 
     #users = one2many("users", "bungeni.models.domain.GroupMembershipContainer", "group_id")
     #sittings = one2many("sittings", "bungeni.models.domain.GroupSittingContainer", "group_id")
@@ -156,11 +156,11 @@ class Group( Entity ):
 
                     
 
-class GroupMembership( Entity ):
+class GroupMembership(Entity):
     """ a user's membership in a group- abstract
     basis for ministers, committeemembers, etc
     """
-    interface.implements( interfaces.IBungeniGroupMembership, interfaces.ITranslatable )
+    interface.implements(interfaces.IBungeniGroupMembership, interfaces.ITranslatable)
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name']}  
     
@@ -170,24 +170,24 @@ class GroupMembership( Entity ):
     
 
 
-class OfficesHeld( Entity ):
+class OfficesHeld(Entity):
     """ Offices held by this group member """
     
 class ListCommitteeStaff(object):
     pass
             
-class CommitteeStaff( GroupMembership ):
+class CommitteeStaff(GroupMembership):
     """
     Comittee Staff
     """
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
+    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")    
     listings_class = ListCommitteeStaff    
     
-class GroupSitting( Entity ):
+class GroupSitting(Entity):
     """Scheduled meeting for a group (parliament, committee, etc)"""
     
     attendance = one2many(
-        "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id" )
+        "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id")
 
     items = one2many(
         "items", "bungeni.models.domain.ItemScheduleContainer", "sitting_id")
@@ -196,48 +196,46 @@ class GroupSitting( Entity ):
         "sreports", "bungeni.models.domain.Report4SittingContainer", "sitting_id")
 
     @property
-    def short_name( self ):
-        return ( self.start_date ).strftime('%d %b %y %H:%M')
+    def short_name(self):
+        return self.start_date.strftime('%d %b %y %H:%M')
     
-    
-    
-    
+
 class SittingType(object):
-    """ Type of sitting
-    morning/afternoon/... """    
+    """ Type of sitting: morning/afternoon/... """
+    interface.implements(interfaces.ITranslatable)
 
 class ListGroupSittingAttendance(object):
     pass
     
-class GroupSittingAttendance( object ):
+class GroupSittingAttendance(object):
     """ a record of attendance at a meeting 
     """
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'member_id': ['last_name', 'first_name',]}  
     listings_class = ListGroupSittingAttendance   
         
-class AttendanceType( object ):
+class AttendanceType(object):
     """
     lookup for attendance type
     """    
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
 
 class ListGroupItemAssignment(object):
     pass
 
     
-class GroupItemAssignment( object ):
+class GroupItemAssignment(object):
     """ the assignment of a parliamentary content object to a group
     """
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
     listings_class = ListGroupItemAssignment   
 
     
-class GroupGroupItemAssignment( GroupItemAssignment):
+class GroupGroupItemAssignment(GroupItemAssignment):
     """ assign a group to an item """
 
     
-class ItemGroupItemAssignment( GroupItemAssignment ):
+class ItemGroupItemAssignment(GroupItemAssignment):
     """ assign an item to a group """
 
 
@@ -246,7 +244,7 @@ class ItemGroupItemAssignment( GroupItemAssignment ):
 class ListParliament(object):
     pass
     
-class Parliament( Group ):
+class Parliament(Group):
     """ a parliament
     """    
     sort_on = ['start_date']
@@ -273,25 +271,25 @@ class ListMemberOfParliament(object):
     """
 
 
-class MemberOfParliament ( GroupMembership ):    
+class MemberOfParliament (GroupMembership):    
     """
     defined by groupmembership and aditional data
     """    
     sort_on = ['last_name', 'first_name', 'middle_name']
     sort_replace = {'user_id': ['last_name', 'first_name'], 'constituency_id':['name']}      
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
+    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")
     listings_class = ListMemberOfParliament
 
-class PoliticalEntity( Group ):
+class PoliticalEntity(Group):
     """ Base class for political parties and political groups """
 
     
-class PoliticalParty( PoliticalEntity ):
+class PoliticalParty(PoliticalEntity):
     """ a political party (ouside the parliament)
     """
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
 
-class PoliticalGroup( PoliticalEntity ):
+class PoliticalGroup(PoliticalEntity):
     """ a political group in a parliament
     """
     partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
@@ -299,25 +297,25 @@ class PoliticalGroup( PoliticalEntity ):
 class ListPartyMember(object):
     pass
 
-class PartyMember( GroupMembership ):
+class PartyMember(GroupMembership):
     """ 
     Member of a political party or group, defined by its group membership 
     """
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )   
+    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")   
     listings_class = ListPartyMember
 
 
 class ListGovernment(object):
     pass
 
-class Government( Group ):
+class Government(Group):
     """ a government
     """
     sort_on = ['start_date']
     ministries = one2many("ministries", "bungeni.models.domain.MinistryContainer", "parent_group_id")
     listings_class = ListGovernment    
 
-class Ministry( Group ):
+class Ministry(Group):
     """ a government ministry
     """
     ministers = one2many("ministers","bungeni.models.domain.MinisterContainer", "group_id")
@@ -327,18 +325,18 @@ class Ministry( Group ):
 class ListMinister(object):
     pass
     
-class Minister( GroupMembership ):
+class Minister(GroupMembership):
     """ A Minister
     defined by its user_group_membership in a ministry (group)
     """    
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )
+    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")
     listings_class = ListMinister    
 
 
 class ListCommittee(object):
     pass
     
-class Committee( Group ):
+class Committee(Group):
     """ a parliamentary committee of MPs
     """        
     committeemembers = one2many("committeemembers", "bungeni.models.domain.CommitteeMemberContainer", "group_id")
@@ -352,18 +350,18 @@ class Committee( Group ):
 class ListCommitteeMember(object):
     pass
     
-class CommitteeMember( GroupMembership ):
+class CommitteeMember(GroupMembership):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
 
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )  
+    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")  
     listings_class = ListCommitteeMember
     
-class CommitteeType( object):
+class CommitteeType(object):
     """ Type of Committee """
         
         
-class Office( Group ):
+class Office(Group):
     """ parliamentary Office like speakers office,
     clerks office etc. internal only"""
     officemembers = one2many("officemembers", "bungeni.models.domain.OfficeMemberContainer", "group_id") 
@@ -371,24 +369,24 @@ class Office( Group ):
 class ListOfficeMember(object):
     pass
         
-class OfficeMember( GroupMembership ):
+class OfficeMember(GroupMembership):
     """ clerks, .... """        
-    titles = one2many( "titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id" )    
+    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")    
     listings_class = ListOfficeMember           
 
    
-#class Debate( Entity ):
+#class Debate(Entity):
 #    """
 #    Debates
 #    """   
 
-class AddressType( object ):
+class AddressType(object):
     """
     Address Types
     """
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
     
-class UserAddress( Entity ):    
+class UserAddress(Entity):    
     """
     addresses of a user
     """
@@ -396,37 +394,37 @@ class UserAddress( Entity ):
         
 #############
 
-class ItemLog( object ):
+class ItemLog(object):
     """ an audit log of events in the lifecycle of a parliamentary content
     """
     @classmethod
-    def makeLogFactory( klass, name ):
-        factory = type( name, (klass,), {} )
+    def makeLogFactory(klass, name):
+        factory = type(name, (klass,), {})
         interface.classImplements(factory, interfaces.IChange) 
         return factory
 
-class ItemVersions( Entity ):
+class ItemVersions(Entity):
     """a collection of the versions of a parliamentary content object
     """
     @classmethod
-    def makeVersionFactory( klass, name ):
-        factory = type( name, (klass,), {} )    
-        interface.classImplements( factory, interfaces.IVersion )
+    def makeVersionFactory(klass, name):
+        factory = type(name, (klass,), {})    
+        interface.classImplements(factory, interfaces.IVersion)
         return factory
             
     #files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "file_version_id")        
             
         
         
-class ItemVotes( object ):
+class ItemVotes(object):
     """
     """
     
-class ParliamentaryItem( Entity ):
+class ParliamentaryItem(Entity):
     """
     """
-    interface.implements( interfaces.IBungeniContent, interfaces.ITranslatable )
-    #     interfaces.IHeadFileAttachments )
+    interface.implements(interfaces.IBungeniContent, interfaces.ITranslatable)
+    #     interfaces.IHeadFileAttachments)
     sort_replace = {'owner_id': ['last_name', 'first_name']}  
     files = one2many("files", "bungeni.models.domain.AttachedFileContainer", "item_id")        
     # votes
@@ -439,29 +437,29 @@ class ParliamentaryItem( Entity ):
 
 
 
-class AttachedFile( Entity ):
+class AttachedFile(Entity):
     "Files attached to a parliamentary item"
     versions = one2many(
         "versions",
         "bungeni.models.domain.AttachedFileVersionContainer",
         "content_id")  
 
-AttachedFileChange = ItemLog.makeLogFactory( "AttachedFileChange")
+AttachedFileChange = ItemLog.makeLogFactory("AttachedFileChange")
 AttachedFileVersion = ItemVersions.makeVersionFactory("AttachedFileVersion")
 
 
 class ListHeading(object):
     pass
 
-class Heading( ParliamentaryItem ):  
+class Heading(ParliamentaryItem):  
     """ A heading in a report """
     listings_class = ListHeading    
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
               
 class ListAgendaItem(object):
     pass
     
-class AgendaItem( ParliamentaryItem ):    
+class AgendaItem(ParliamentaryItem):    
     """
     Generic Agenda Item that can be scheduled on a sitting
     """
@@ -472,16 +470,16 @@ class AgendaItem( ParliamentaryItem ):
         "content_id")    
     listings_class = ListAgendaItem          
         
-AgendaItemChange = ItemLog.makeLogFactory( "AgendaItemChange")
+AgendaItemChange = ItemLog.makeLogFactory("AgendaItemChange")
 AgendaItemVersion = ItemVersions.makeVersionFactory("AgendaItemVersion")
 
 class ListQuestion(object):
     pass
     
-class Question( ParliamentaryItem ):
+class Question(ParliamentaryItem):
     #supplementaryquestions = one2many("supplementaryquestions", 
     #"bungeni.models.domain.QuestionContainer", "supplement_parent_id")
-    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )    
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id")    
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")    
     versions = one2many(
         "versions",
@@ -491,7 +489,7 @@ class Question( ParliamentaryItem ):
     sort_dir = 'desc'
     listings_class = ListQuestion    
     
-    def getParentQuestion( self ):
+    def getParentQuestion(self):
         if self.supplement_parent_id:
             session = Session()
             parent = session.query(Question).get(self.supplement_parent_id)   
@@ -500,16 +498,16 @@ class Question( ParliamentaryItem ):
             
  
 
-QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
+QuestionChange = ItemLog.makeLogFactory("QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 
 class ListMotion(object):
     pass
 
 
-class Motion( ParliamentaryItem ):  
+class Motion(ParliamentaryItem):  
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
-    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id")
     versions = one2many(
         "versions",
         "bungeni.models.domain.MotionVersionContainer",
@@ -519,7 +517,7 @@ class Motion( ParliamentaryItem ):
     sort_dir = 'desc'
     listings_class = ListMotion
     
-MotionChange = ItemLog.makeLogFactory( "MotionChange")
+MotionChange = ItemLog.makeLogFactory("MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
 
 
@@ -531,9 +529,9 @@ class BillType(object):
 class ListBill(object):
     pass
 
-class Bill( ParliamentaryItem ):
+class Bill(ParliamentaryItem):
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")
-    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id")
     assignedgroups = one2many("assignedgroups", "bungeni.models.domain.GroupGroupItemAssignmentContainer", "item_id")               
 
     versions = one2many(
@@ -544,11 +542,11 @@ class Bill( ParliamentaryItem ):
     sort_dir = 'desc'
     listings_class = ListBill    
         
-BillChange = ItemLog.makeLogFactory( "BillChange")
+BillChange = ItemLog.makeLogFactory("BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 
-class Consignatory( Entity ):
+class Consignatory(Entity):
     """
     Consignatories for a Bill or Motion
     """
@@ -557,31 +555,31 @@ class Consignatory( Entity ):
 
 #############
 
-class ParliamentSession( Entity ):
+class ParliamentSession(Entity):
     """
     """
     sort_on = ['start_date',]
     sort_dir = 'desc'
     
     
-class Rota( object ):
+class Rota(object):
     """
     """
 
-class Take( object ):
+class Take(object):
     """
     """
 
-class TakeMedia( object ):
+class TakeMedia(object):
     """
     """
 
-class Transcript( object ):
+class Transcript(object):
     """
     """    
 
 
-class ObjectSubscriptions( object ):
+class ObjectSubscriptions(object):
     """
     """
 
@@ -590,7 +588,7 @@ class ObjectSubscriptions( object ):
 class ListConstituency(object):
     pass
 
-class Constituency( Entity ):
+class Constituency(Entity):
     """ a locality region, which elects an MP 
     """
     cdetail = one2many("cdetail", "bungeni.models.domain.ConstituencyDetailContainer", "constituency_id")
@@ -598,32 +596,32 @@ class Constituency( Entity ):
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "constituency_id")      
     listings_class = ListConstituency
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
         
-ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
+ConstituencyChange = ItemLog.makeLogFactory("ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
 
-class Region( Entity ):
+class Region(Entity):
     """
     Region of the constituency
     """
-    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "region_id" ) 
-    interface.implements( interfaces.ITranslatable )    
+    constituencies = one2many("constituencies", "bungeni.models.domain.ConstituencyContainer", "region_id") 
+    interface.implements(interfaces.ITranslatable)    
         
-class Province( Entity ):
+class Province(Entity):
     """
     Province of the Constituency
     """
-    constituencies = one2many( "constituencies", "bungeni.models.domain.ConstituencyContainer", "province_id" )
-    interface.implements( interfaces.ITranslatable )    
+    constituencies = one2many("constituencies", "bungeni.models.domain.ConstituencyContainer", "province_id")
+    interface.implements(interfaces.ITranslatable)    
         
-class Country( object ):
+class Country(object):
     """
     Country of Birth
     """ 
     pass   
     
-class ConstituencyDetail( object ):
+class ConstituencyDetail(object):
     """
     Details of the Constituency like population and voters at a given time
     """
@@ -633,12 +631,12 @@ class ConstituencyDetail( object ):
 # ##########
 
     
-class MemberTitle( object ):
+class MemberTitle(object):
     """ Titles for members in groups"""
-    interface.implements( interfaces.ITranslatable )
+    interface.implements(interfaces.ITranslatable)
 
     
-class MemberRoleTitle( Entity ):
+class MemberRoleTitle(Entity):
     """
     The role title a member has in a specific context
     and one official addresse for a official role
@@ -646,7 +644,7 @@ class MemberRoleTitle( Entity ):
     
 
 
-class MinistryInParliament( object ):
+class MinistryInParliament(object):
     """
     auxilliary class to get the parliament and government for a ministry
     """
@@ -678,7 +676,7 @@ class ItemSchedule(Entity):
 
 class ScheduledItemDiscussion(Entity):
     """A discussion on a scheduled item."""
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
     
 class ListTabledDocument(object):
     pass
@@ -703,7 +701,7 @@ class TabledDocument(ParliamentaryItem):
     It must be possible to schedule a tabled document for a sitting.
     """ 
     consignatory = one2many("consignatory", "bungeni.models.domain.ConsignatoryContainer", "item_id")    
-    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id" )    
+    event = one2many("event", "bungeni.models.domain.EventItemContainer", "item_id")    
     versions = one2many(
         "versions",
         "bungeni.models.domain.TabledDocumentVersionContainer",
@@ -711,12 +709,12 @@ class TabledDocument(ParliamentaryItem):
     listings_class = ListTabledDocument   
 
     
-TabledDocumentChange = ItemLog.makeLogFactory( "TabledDocumentChange")
+TabledDocumentChange = ItemLog.makeLogFactory("TabledDocumentChange")
 TabledDocumentVersion = ItemVersions.makeVersionFactory("TabledDocumentVersion")
     
     
     
-class DocumentSource( object ):
+class DocumentSource(object):
     """
     Document source for a tabled document
     """
@@ -724,7 +722,7 @@ class DocumentSource( object ):
 class ListEventItem(object):
     pass
 
-class EventItem( ParliamentaryItem ):
+class EventItem(ParliamentaryItem):
     """
     Bill events with dates and possiblity to upload files.
 
@@ -747,31 +745,31 @@ class EventItem( ParliamentaryItem ):
     """    
     listings_class = ListEventItem    
 
-class HoliDay( object ):
+class HoliDay(object):
     """
     is this day a holiday?
     if a date in in the table it is otherwise not
     """
 
     
-class Resource ( object ):
+class Resource (object):
     """
     A Resource that can be assigned to a sitting
     """
 
-class ResourceBooking ( object ):
+class ResourceBooking (object):
     """
     assign a resource to a sitting
     """
 class ResourceType(object):
     """ A Type of resource"""
 
-class Venue( object ):
+class Venue(object):
     """ A venue for a sitting """
             
-class Report( object ):
+class Report(object):
     """ agendas and minutes """            
-    interface.implements( interfaces.ITranslatable )    
+    interface.implements(interfaces.ITranslatable)    
     
 class SittingReport(Report):
     """ which reports are created for this sitting"""

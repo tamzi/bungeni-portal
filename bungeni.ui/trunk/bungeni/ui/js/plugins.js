@@ -16,7 +16,7 @@
         cursor: 'move',
             cursorAt: { left: 5 },
             helper: function() {
-            var title = $(this).children().eq(1).text();
+            var title = $(this).children().eq(1).children().eq(1).text();
             var helper = $('<div class="helper" />');
             helper.text(title);
             return helper;
@@ -25,7 +25,56 @@
         return this;
 
   };
+  $.fn.dragRearrange= function(){
+     var helperfn = function(event, ui) {
+	        var title = ui[0].childNodes[1].childNodes[1].textContent +": "+ ui[0].childNodes[1].childNodes[3].text;
+            var helper = $('<div class="helper" />');
+            helper.text(title);
+            return helper;
+        };
+     var updatefn = function(event, ui) {
+            var ar = $(this).sortable('serialize');
+            $("#kss-spinner").show();
+            $.post('schedule_order', ar ,function(data, status) {
+                            $("#kss-spinner").hide();
+                        });
+            };
 
+      $(this).sortable({
+	    helper: helperfn,
+        update: updatefn
+    });
+  }
+  $.fn.clickScheduling = function() {
+    var calendar = $('#scheduling-calendar')
+    var selector = '#'+calendar.attr('id');
+    
+    $(this).click(function() {
+        var target = $('#scheduling-calendar').find("fieldset");
+        var id = $(this).find("a[rel=id]").attr('name');
+        var link = target.find("a[rel=schedule-item]");
+        var url = link.attr('href');
+        // ask for a redirect to the current (updated) calendar
+        var next_url = $("a[rel=calendar]").attr('href');
+                            
+        $("#kss-spinner").show();
+        $.post(url, {
+                headless: "true",
+                    next_url: next_url,
+                    item_id: id}, function(data, status) {
+                  $("#kss-spinner").hide();
+                  if (status == 'success') {
+                    _update_tables(selector, data);
+                    calendar.bungeniInteractiveSchedule();
+                    $("#scheduling-table tbody").dragRearrange();
+                    $(this).addClass("dd-disable");
+                  }
+                });
+      });
+      return this;
+  }
+  
+  
   $.fn.bungeniInteractiveSchedule = function() {
     var calendar = $(this);
     var selector = '#'+calendar.attr('id');
@@ -335,10 +384,6 @@
 
     $.each(calendar.find("fieldset"), function(i, o) {
         $(o)
-          .droppable({
-            accept: "tr",
-            tolerance: "touch"
-                })
           .bind('drop', function(event, draggable) {
               var target = $(o);
               var element = draggable.draggable;

@@ -112,7 +112,8 @@ def get_sitting_items(sitting, request, include_actions=False):
             'description': props.description,
             'name': stringKey(scheduling),
             'status': item.status,
-            'type': item.type.capitalize,            
+            'type': item.type.capitalize,  
+            't':item.type,          
             'state_title': state_title,
             #'category_id': scheduling.category_id,
             #'category': scheduling.category,
@@ -406,6 +407,23 @@ class GroupSittingScheduleView(BrowserView):
     @property
     def macros(self):
         return self._macros.macros
+
+class ItemScheduleOrder(BrowserView):
+    "Stores new order of schedule items"
+    def __call__(self):
+        obj = self.request.form['obj[]']
+        '''container = self.context
+        schedulings = container.item_schedule
+        
+        for s in schedulings:
+            print "s=>", s, s.planned_order
+        for order, id_number in enumerate(obj):
+            print "asdfasdf", order, id_number'''
+        session = Session()
+        for i in range(0,len(obj)):
+            sch = session.query(domain.ItemSchedule).get(obj[i])
+            setattr(sch, 'planned_order', i+1)
+        session.commit()
 
 class SittingCalendarView(CalendarView):
     """Sitting calendar view."""

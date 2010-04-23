@@ -10,7 +10,6 @@ from bungeni.ui.utils import misc
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.utils.misc")
-#log.setLevel(10) # debug
 
 from bungeni.ui.i18n import _
 from types import StringTypes, ListType

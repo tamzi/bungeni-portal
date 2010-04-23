@@ -7,7 +7,6 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.publication")
-log.setLevel(10)
 
 from zope import interface
 from zope import component

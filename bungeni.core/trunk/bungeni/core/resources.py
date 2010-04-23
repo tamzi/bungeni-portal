@@ -1,3 +1,5 @@
+log = __import__("logging").getLogger("bungeni.core.resources")
+
 import urllib
 
 from zope import interface
@@ -33,7 +35,6 @@ class rh(view):
     def traverse(self, name, ignored):
         traversal_stack = self.request.getTraversalStack()
         app_names = []
-
         if not name:
             return self.context
         
@@ -75,6 +76,9 @@ class ResourceSiteAbsoluteURL(SiteAbsoluteURL):
             return inst
     
     def __str__(self):
+        log.debug("ResourceSiteAbsoluteURL.__str__: %s [%s]" % (
+                                                self.rhost.url, self.context))
         return self.rhost.url
 
     __call__ = __str__
+

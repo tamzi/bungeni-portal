@@ -4,40 +4,52 @@
 
 """Zope3 + Evoque Templating: http://evoque.gizmojo.org/
 
-Evoque features & advantages (compared to ZPT):
+Evoque advantages (over ZPT):
 - No server restart needed each time a file-based template is modified.
 - A template may invoke other templates (that may be within same collection or 
   within any other collection in the domain).
-- Template inheritance, offering option to move page composition logic out of 
-  the core application.
-- Automatic XML/HTML escaping of all data values, guaranteeing XSS protection.
+- Template inheritance, offering option to move page presentational composition 
+  logic out of the core application.
 - May be used to generate output in any format, not only X/HTML e.g. JSON, CSS,
   JavaScript, INI, SQL, etc. 
-- No "XML Situps" required.
-- May be run in restricted mode (to allow untrusted authors to edit templates).
+- No "XML Situps".
 - Multiple templates may be defined in a single file, if so wished.
-- A direct and immediately obvious syntax.
+- A direct and immediately obvious, and memorable, syntax.
 - Super fast, simple, extremely flexible, small.
 - Lightweight:
-  - to use Evoque with Zope you need this module + the evoque package (1000 LOC); 
-  - for ZPT you'd need: zope.tal, zope.tales, zope.pagetemplate, 
+  - to use Evoque with Zope all you basically need this module + evoque itself 
+    (a 1000 SLOC package); 
+  - to use ZPT with Zope you'd need: zope.tal, zope.tales, zope.pagetemplate, 
     zope.app.pagetemplate, z3c.pt, z3c.template, z3c.ptcompat, chameleon.core, 
     chameleon.zpt, chameleon.html, ... ?!?
+- Evoque runs also on Python 3 (as well as on 2.4 and up).
 
+Other Evoque features (that are also supported by ZPT):
+- May be run in restricted mode (to allow untrusted authors to edit templates).
+- Automatic XML/HTML escaping of all data values, guaranteeing XSS protection (I
+  believe ZPT also has this).
+- Evoque, like ZPT, does not allow embedding *python statements* -- meaning 
+  there can be no data manipulation except through exposed python code. 
+  On the other hand, unlike ZPT, Evoque supports arbitrary *python expressions*, 
+  giving you plenty of flexibility for stating presentation logic, while 
+  retaining good control over the code i.e. to have it run within a restricted 
+  sandbox.
+  
 Current limitations:
 - A "template" attribute may currently not be specified in a ZCML declaration 
-  for an element -- for now, the "template" should be specified in the class.
+  -- for now, the "template" should be specified in the class.
 
 Status:
-This is still exploratory, to first verify that Evoque templates may be used
-everywhere that ZPT are used.
+Exploratory, to first verify that Evoque templates may be used everywhere 
+that ZPT templates are used.
 
 Viewlets and ViewletManagers are confirmed to work, as proven by an 
-implementation of a sample of each of these using an evoque template. 
+implementation of samples of each of these using an evoque template. 
 
 The following still need to be 100% verified with real working examples:
-- Using evoque templates with: BrowserViews, Forms/Widgets (formlib, do these 
-  use ZPT templates?), any other Zope construct that uses a "template".
+- Using evoque templates with: a "site" main page template, BrowserViews, 
+  Forms/Widgets (formlib, do these use ZPT templates?), 
+  any other Zope construct that uses a "template".
 - i18n catalog extraction: this may simply mean adopting a supported alias for 
   the gettext() function -- the implementation below uses "i18n" as alias, 
   i.e. i18n(messageid) to get the translation for messageid, however the most 
@@ -46,7 +58,6 @@ The following still need to be 100% verified with real working examples:
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.z3evoque")
-log.setLevel(10)
 
 import os
 import zope
@@ -72,7 +83,6 @@ evoque_ini = {
 
 # logger
 evoque_logger_name = "evoque"
-evoque_logger_level = 10 # debug
 
 # The (absolute) path as root location against which to resolve all (relative) 
 # domain/collection paths e.g. the abs path for the deployed application root. 
@@ -88,16 +98,39 @@ additional_collections = {
     #"bungeni.ui":"templates", # already the "" default collection (default_dir)
     "bungeni.ui.viewlets":"viewlets/templates",
     #"bungeni.ui.forms":"forms/templates", 
-    #"bungeni.ui.portlets":"portlets/templates",
+    ##"bungeni.ui.portlets":"portlets/templates",
     #"ploned.ui":"../../../ploned.ui/ploned/ui/templates",
     #"alchemist.ui":"../../../alchemist.ui/alchemist/ui/templates"
 }
 
+# i18n domains
+
+def get_gettext(i18n_domain, language):
+    """Get a _() i18n gettext function bound to domain and language.
+    !+ There must be a better way to do this, but this does not work:
+        zope.i18nmessageid.MessageFactory(self.i18n_domain)
+    """
+    import gettext
+    t = gettext.translation(
+        i18n_domain,
+        localedir=i18n_domain_localedirs[i18n_domain],
+        languages=[language])
+    return t.gettext
+
 # (tmp hack) localedirs for i18n domains
 i18n_domain_localedirs = {
+    "bungeni.core": os.path.join(os.path.dirname(os.path.abspath(
+        __import__("bungeni.core").__file__)), "core/locales"),
     "bungeni.ui": os.path.join(os.path.dirname(os.path.abspath(
         __import__("bungeni.ui").__file__)), "ui/locales")
 }
+
+# Use this as default i18n domain i.e. set a bound gettext on the evoque 
+# domain's globals dict, that thus will be available to all templates, unless
+# specific templates choose to override it by setting another bound gettext 
+# onto the template's locals dict.
+default_i18n_domain = "bungeni.core"
+
 
 #
 # Setup of the Evoque Domain
@@ -141,7 +174,11 @@ def setup_evoque():
         errors = int(evoque_ini.get("evoque.errors", 3)),
         
         # evoque logger; additional setings should be specified via the app's 
-        # config ini file, just as for any other logger in the application
+        # config ini file, just as for any other logger in the application e.g:
+        # [logger_evoque]
+        # level = DEBUG
+        # handlers =
+        # qualname = evoque
         log = logging.getLogger(evoque_logger_name),
         
         # [collections] int, max loaded templates in a collection
@@ -171,8 +208,6 @@ def setup_evoque():
         # template is rendered. NOTE: not settable from the conf ini.
         filters=[]
     )
-    # set log level (!+ should not be here)
-    evoque_domain.log.setLevel(evoque_logger_level)
     
     # additional collections
     for name, path in additional_collections.items():
@@ -200,12 +235,15 @@ def setup_evoque():
 class _ViewTemplateBase(object):
     """Evoque template used as method of a view defined as a Python class.
     """
+    # defaults for attributes needed to get a template
     name = None
     src = None
     collection = None
     
+    # if set, use this i18n domain, else fallback to global default
     i18n_domain = None
     
+    # these are updated each time a caller does a self.template
     _descriptor_view = None
     _descriptor_type = None
     
@@ -233,9 +271,11 @@ class _ViewTemplateBase(object):
         """Wrapper on template.evoque()."""
         namespace = self._get_context()
         t = self.template
-        log.debug(" __call__ [%s][%s] %s %s %s %s" % (
+        log.debug(" __call__ [%s][%s] %s %s %s" % (
                         (t.collection and t.collection.name), t.name, 
-                        self, namespace, args, kwds))
+                        self, namespace, kwds))
+        if args:
+            log.warn(" __call__ IGNORING args: %s" % str(args))
         return t.evoque(namespace, **kwds)
     
     def _get_context(self):
@@ -245,21 +285,14 @@ class _ViewTemplateBase(object):
         namespace["request"] = view.request
         namespace["context"] = view.context
         namespace['views'] = ViewMapper(view.context, view.request)
-        namespace["i18n"] = self._get_gettext(
-                self.i18n_domain, view.request.locale.getLocaleID())
+        # i18n bound gettext -- try in order: local, or global, or None
+        i18n_domain = default_i18n_domain
+        if self.i18n_domain is not None:
+            i18n_domain = self.i18n_domain
+        if i18n_domain is not None:
+            namespace["i18n"] = get_gettext(
+                    i18n_domain, view.request.locale.getLocaleID())
         return namespace
-    
-    def _get_gettext(self, i18n_domain, language):
-        """Get a _() i18n gettext function bound to domain and language.
-        !+ There must be a better way to do this, but this does not work:
-            zope.i18nmessageid.MessageFactory(self.i18n_domain)
-        """
-        import gettext
-        t = gettext.translation(
-            i18n_domain,
-            localedir=i18n_domain_localedirs[i18n_domain],
-            languages=[language])
-        return t.gettext
 
 class ViewTemplateString(_ViewTemplateBase):
     """Evoque string-based template used as method of a view 

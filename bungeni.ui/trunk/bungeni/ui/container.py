@@ -1,7 +1,6 @@
 # encoding: utf-8
 
 log = __import__("logging").getLogger("bungeni.ui.container")
-#log.setLevel(10)
 
 import datetime
 import zc.table

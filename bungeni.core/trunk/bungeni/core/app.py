@@ -9,7 +9,6 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.core.app")
-log.setLevel(10)
 
 from zope.interface import implements
 from zope.interface import implementedBy

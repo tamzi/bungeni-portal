@@ -1,5 +1,4 @@
 log = __import__("logging").getLogger("bungeni.core.content")
-log.setLevel(10) # debug
 
 import sys
 

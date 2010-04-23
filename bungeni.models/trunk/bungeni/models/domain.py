@@ -361,7 +361,6 @@ class CommitteeType(object):
     """ Type of Committee """
     interface.implements(interfaces.ITranslatable)
         
-        
 class Office(Group):
     """ parliamentary Office like speakers office,
     clerks office etc. internal only"""
@@ -385,7 +384,7 @@ class AddressType(object):
     """
     Address Types
     """
-    interface.implements(interfaces.ITranslatable)    
+    interface.implements(interfaces.ITranslatable)
     
 class UserAddress(Entity):    
     """

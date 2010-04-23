@@ -560,8 +560,8 @@ class ParliamentSession(Entity):
     """
     sort_on = ['start_date',]
     sort_dir = 'desc'
-    
-    
+    interface.implements(interfaces.ITranslatable)
+
 class Rota(object):
     """
     """
@@ -596,7 +596,7 @@ class Constituency(Entity):
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.models.domain.MemberOfParliamentContainer", "constituency_id")      
     listings_class = ListConstituency
-    interface.implements(interfaces.ITranslatable)    
+    interface.implements(interfaces.ITranslatable)
         
 ConstituencyChange = ItemLog.makeLogFactory("ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")

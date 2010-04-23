@@ -93,7 +93,7 @@ def get_all_languages(filter=('en', 'fr', 'sw', 'pt')):
 def get_translation_for(context, lang):
     """Get the translation for context in language lang
     """
-    assert ITranslatable.providedBy(context)
+    assert ITranslatable.providedBy(context), "%s %s" % (lang, context)
     trusted = removeSecurityProxy(context)
     class_name = trusted.__class__.__name__
     mapper = orm.object_mapper(trusted)

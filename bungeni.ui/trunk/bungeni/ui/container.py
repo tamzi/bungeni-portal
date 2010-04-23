@@ -1,3 +1,4 @@
+
 # encoding: utf-8
 
 log = __import__("logging").getLogger("bungeni.ui.container")
@@ -184,7 +185,9 @@ class WorkspaceRootRedirect(BrowserView):
         request = self.request
         try: 
             first_workspace = request._layer_data.workspaces[0]
-            to_url = "/workspace/obj-%s/pi" % first_workspace.group_id
+            #Url needs to end with a "/", so that child items do
+            #not lose context
+            to_url = "/workspace/obj-%s/pi/" % first_workspace.group_id
         except:
             to_url = "/workspace"
         if url.get_destination_url_path(request)!=to_url:
@@ -207,7 +210,9 @@ class _IndexRedirect(BrowserView):
             self.__class__.__name__, request.getURL(), self.index_name))
         request.response.redirect(self.index_name)
 class WorkspaceContainerIndexRedirect(_IndexRedirect):
-    index_name = "pi"
+    #Url needs to end with a "/", so that child items do
+    #not lose context    
+    index_name = "pi/"
 class BusinessIndexRedirect(_IndexRedirect):
     index_name = "whats-on"
 class MembersIndexRedirect(_IndexRedirect):

@@ -1,11 +1,15 @@
+log = __import__("logging").getLogger("bungeni.portal.layout")
+
 import os
 
 try:
+    log.debug("TRY USING: plone.maintemplate.Layout as Layout...")
     from plone.maintemplate import Layout
-    print "USING: plone.maintemplate.Layout ..."
+    log.debug("  ...SUCCCEEDED: %s" % Layout )
 except ImportError:
     from chameleon.html.template import DynamicHTMLFile as Layout
-    print "USING: chameleon.html.template.DynamicHTMLFile as Layout ..."
+    log.debug("  ...FAILED, falling back to use: "
+            "chameleon.html.template.DynamicHTMLFile as Layout")
     
 from zope import interface
 from zope import component
@@ -15,9 +19,11 @@ from zope.app.publisher.browser.directoryresource import DirectoryResourceFactor
 
 from bungeni import portal
 
+
 bungeni = Layout(
     os.path.join(
         portal.__path__[0], 'static', 'html', 'bungeni.html'))
+log.debug("%s" % bungeni)
 
 mtimes = {}
 

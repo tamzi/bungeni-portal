@@ -1,3 +1,5 @@
+log = __import__("logging").getLogger("bungeni.portal.ploned")
+
 from chameleon.core.template import Macro
 from z3c.pt.pagetemplate import ViewPageTemplateFile
 
@@ -11,6 +13,8 @@ class PlonedLayout(object):
         
         def render(slots, **kwargs):            
             ectx = kwargs.get('econtext', None)
+            log.debug("%s.render slots=%s         kwargs=%s" % (
+                                    self.__class__.__name__, slots, kwargs))
             if ectx:
                 request = ectx.get('request', None)
             else:
@@ -30,7 +34,7 @@ class PlonedLayout(object):
             if len(spath) > 0:
                 section = '-' + spath[1]
             else:
-                section = ''                                                                                                                        
+                section = ''
             kwargs['attributes'] = {
                 'plone.body.attributes': {
                     'class': "section-bungeni" + section,
@@ -39,8 +43,9 @@ class PlonedLayout(object):
 
             return template.render_macro(
                 "", global_scope=False, slots=slots, parameters=kwargs)
-
+        
+        log.debug(" __init__ %s %s %s" % (self, context, id(request)))
         self.macro = Macro(render)
-
+    
     def __getitem__(self, key):
         return self.template.macros.bind(macro=self.macro)[key]

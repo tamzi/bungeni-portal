@@ -7,7 +7,6 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.workspace")
-log.setLevel(10) # debug
 
 import sys
 
@@ -296,6 +295,7 @@ def getWorkSpacePISection(workspace):
             container_getter(workspace, 'committees'),
             #title=_(u"Committees"), # title=None to not show up in menu
             description=_(u"Committees"))
+    log.debug("WorkspacePISection %s" % debug.interfaces(s))
     return s
 
 def getWorkSpaceArchiveSection(workspace):
@@ -332,6 +332,7 @@ def getWorkSpaceArchiveSection(workspace):
                 query_modifier=domain.AgendaItem.status.in_(ARCHIVED)),
             #title=_(u"Agenda items"),
             description=_(u" items"))
+    log.debug("getWorkSpaceArchiveSection %s" % debug.interfaces(s))
     return s
 
 
@@ -483,6 +484,7 @@ class WorkspacePIView(WorkspaceSectionView):
         super(WorkspacePIView, self).__init__(
                 interfaces.IWorkspacePIContext(context), request)
         interface.alsoProvides(self.context, ILocation) # !+ needs it (again!)
+        log.debug("WorkspacePIView %s" % debug.interfaces(self))
         log.debug("WorkspacePIView %s" % debug.location_stack(self))
 
 class WorkspaceArchiveView(WorkspaceSectionView):
@@ -492,6 +494,7 @@ class WorkspaceArchiveView(WorkspaceSectionView):
         super(WorkspaceArchiveView, self).__init__(
                 interfaces.IWorkspaceArchiveContext(context), request)
         interface.alsoProvides(self.context, ILocation) # !+ needs it (again!)
+        log.debug("WorkspaceArchiveView %s" % debug.interfaces(self))
         log.debug("WorkspaceArchiveView %s" % debug.location_stack(self))
     
 

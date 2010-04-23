@@ -10,7 +10,6 @@ from bungeni.ui.utils import debug
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.utils.debug")
-log.setLevel(10) # debug
 
 
 from zope import component

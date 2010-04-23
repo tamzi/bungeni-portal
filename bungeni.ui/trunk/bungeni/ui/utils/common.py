@@ -10,7 +10,6 @@ from bungeni.ui.utils import common
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.utils.common")
-#log.setLevel(10) # debug
 
 import zope
 

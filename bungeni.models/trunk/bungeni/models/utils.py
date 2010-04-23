@@ -11,7 +11,6 @@
 $Id$
 '''
 log = __import__("logging").getLogger("bungeni.models.utils")
-log.setLevel(10)
 
 from zope import component
 from zope.securitypolicy.interfaces import IPrincipalRoleMap

@@ -2,7 +2,6 @@
 # TODO - Cleanup!!!!
 
 log = __import__("logging").getLogger("bungeni.ui.calendar")
-log.setLevel(10) # debug
 
 
 import time

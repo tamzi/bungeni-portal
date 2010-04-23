@@ -1,6 +1,7 @@
 """
 ``repoze.who`` authenticator plugins against a relational database
 """
+log = __import__("logging").getLogger("bungeni.portal.auth")
 
 from zope import interface
 from zope.app.security.principalregistry import principalRegistry
@@ -15,16 +16,6 @@ import sqlalchemy as rdb
 from sqlalchemy.orm import eagerload, lazyload
 
 from bungeni.models import domain, delegation 
-
-import logging
-
-log = logging.getLogger("bungeni.portal")
-log.setLevel(logging.DEBUG)
-# create console handler and set level to debug
-ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
-log.addHandler(ch)
-
 
 
 

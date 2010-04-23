@@ -10,7 +10,6 @@ from bungeni.ui.utils import url as ui_url
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.utils.url")
-log.setLevel(10) # debug
 
 import common
 

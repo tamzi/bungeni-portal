@@ -7,7 +7,6 @@
 $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.viewlet.workspace")
-log.setLevel(10) # debug
 
 import datetime
 

@@ -185,6 +185,7 @@ class CommitteeStaff(GroupMembership):
     
 class GroupSitting(Entity):
     """Scheduled meeting for a group (parliament, committee, etc)"""
+    interface.implements(interfaces.ITranslatable)
     
     attendance = one2many(
         "attendance", "bungeni.models.domain.GroupSittingAttendanceContainer", "sitting_id")

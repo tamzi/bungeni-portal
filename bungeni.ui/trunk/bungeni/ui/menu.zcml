@@ -9,12 +9,10 @@
   <!-- menus -->
 
   
-  <!--
   <browser:menu
      id="workspace_navigation"
      title="Actions for the Workspace"
-     />
-  -->
+     /><!-- ??? -->
   
   <browser:menu
      id="admin_navigation"

@@ -50,8 +50,3 @@ class IAdminSectionLayer(IDefaultBrowserLayer):
 class IWorkspaceSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the workspace section."""
 
-class IAddParliamentaryContentLayer(IDefaultBrowserLayer):
-    """Add Paliamentary Content menu... only: 
-        workspace/ and workspace/calandar 
-    """
-

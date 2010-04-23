@@ -34,13 +34,13 @@ def interfaces_implementedBy_class_for(obj):
 def interfaces_providedBy(obj):
     """Dump out list of interfaces providedBy an object."""
     return """  interfaces providedBy %s:
-    %s""" % (obj, 
+    %s""" % (repr(obj), 
           "\n    ".join([ str(i) for i in interface.providedBy(obj)]
           or [ "</>" ] ))
 def interfaces_directlyProvidedBy(obj):
     """Dump out list of interfaces directlyProvidedBy an object."""
     return """  interfaces directlyProvidedBy %s:
-    %s""" % (obj, 
+    %s""" % (repr(obj), 
           "\n    ".join([ str(i) for i in interface.directlyProvidedBy(obj)]
           or [ "</>" ] ))
 

@@ -137,6 +137,8 @@ def prepare_user_workspaces(event):
         government_id=None,
         ministry_ids=None,
     )
+    # !+ from zope.annotation.interfaces import IAnnotations
+    #    LD = IAnnotations(request)["layer_data"] = ...
     
     LD.user_id = get_db_user_id()
     try:
@@ -185,12 +187,12 @@ def prepare_user_workspaces(event):
     for workspace in LD.workspaces:
         interface.alsoProvides(workspace, interfaces.IWorkspaceContainer)
         log.debug(debug.interfaces(workspace))
-        
-    log.info("""DONE [prepare_user_workspaces]
-        for: [%s][%s]
+    
+    log.debug(" [prepare_user_workspaces] %s" % debug.interfaces(request))
+    log.info(""" [prepare_user_workspaces] DONE:
+        for: [request=%s][path=%s]
         request._layer_data: %s""" % (id(request), destination_url_path,
             getattr(request, "_layer_data", None)))
-
 
 # traversers
 

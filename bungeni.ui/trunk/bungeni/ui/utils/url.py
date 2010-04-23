@@ -18,11 +18,11 @@ def get_destination_url_path(request=None):
     if request is None:
         request = common.get_request()
     # request.URL
-    # request.get("PATH_INFO")
-    _url = request.getURL(level=0, path_only=True)
+    _url = request.get("PATH_INFO")
+    #_url = request.getURL(level=0, path_only=True)
     log.debug(" [get_destination_url_path] %s " % _url)
     return _url
-   
+
 def urljoin(base, action):
     if action is None:
         return

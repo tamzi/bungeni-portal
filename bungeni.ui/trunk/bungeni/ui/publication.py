@@ -64,7 +64,6 @@ def on_end_request(event):
 mapping = (
     (re.compile(r'^archive(/.*)?$'), interfaces.IArchiveSectionLayer),
     # Matches "workspace/" followed by anything other than my-archive
-    (re.compile(r'^workspace(?!/my-archive).*$'), interfaces.IAddParliamentaryContentLayer),
     (re.compile(r'^workspace(/.*)?$'), interfaces.IWorkspaceSectionLayer),
     # Matches "business/" or "business"
     (re.compile(r'^business(/)?$'), interfaces.IBusinessWhatsOnSectionLayer),

@@ -8,11 +8,14 @@
 
   <!-- menus -->
 
+  
+  <!--
   <browser:menu
      id="workspace_navigation"
      title="Actions for the Workspace"
      />
-
+  -->
+  
   <browser:menu
      id="admin_navigation"
      title="Actions for the Administrator"
@@ -99,15 +102,25 @@
 
   <!-- content submenus -->
 
-  <browser:subMenuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.interfaces.IParliament"
-     title="Add Parliamentary Content..."
-     action="add_content"
-     permission="zope.View"
-     submenu="context_additems"
-     layer=".interfaces.IAddParliamentaryContentLayer" 
-  />
+    <browser:subMenuItem
+        menu="plone_contentmenu"
+        for=".interfaces.IWorkspacePIContext"
+        title="Add Parliamentary Content..."
+        action="add_content"
+        permission="zope.View"
+        submenu="context_additems"
+    />
+    <browser:subMenuItem
+        menu="plone_contentmenu"
+        for="bungeni.models.interfaces.IParliament"
+        title="Add Parliamentary Content..."
+        action="add_content"
+        permission="zope.View"
+        submenu="context_additems"
+    /><!-- 
+        for=".interfaces.IWorkspacePIContext" 
+        layer=".interfaces.IAddParliamentaryContentLayer" 
+      -->
   
   <browser:subMenuItem
      menu="plone_contentmenu"
@@ -604,7 +617,6 @@
      permission="zope.ManageContent"
      />
 
-
  <browser:menuItem
      menu="admin_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
@@ -614,6 +626,7 @@
      permission="zope.ManageSite"
      />
 
+<!--
   <browser:menuItem
      menu="workspace_navigation"
      for="bungeni.models.interfaces.IBungeniApplication"
@@ -631,7 +644,7 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.View"
   />
-  
+-->
 
 
   <browser:subMenuItem

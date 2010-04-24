@@ -7,6 +7,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.dublincore.interfaces import IDCDescriptiveProperties
 from zope.location.interfaces import ILocation
 from zope.viewlet import viewlet
+from zope.viewlet.manager import WeightOrderedViewletManager
 from zc.resourcelibrary import need
 from zope.app.component.hooks import getSite
 
@@ -31,6 +32,10 @@ from ore.workflow.interfaces import IWorkflow
 from bungeni.ui.i18n import _
 import bungeni.ui.utils as ui_utils
 from bungeni.ui.calendar.utils import datetimedict
+from interfaces import ISchedulingManager
+
+class SchedulingManager( WeightOrderedViewletManager ):
+    interface.implements(ISchedulingManager)  
 
 class SchedulablesViewlet(viewlet.ViewletBase):
     """Renders a portlet which calls upon the scheduling viewlet
@@ -208,6 +213,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
 
         session = Session()
         group_id = self.get_group_id()
+        
         items = tuple(session.query(self.model).filter(
             sql.and_(
             self.model.status.in_(self.states),

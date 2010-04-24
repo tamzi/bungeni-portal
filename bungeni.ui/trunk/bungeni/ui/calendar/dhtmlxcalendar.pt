@@ -72,7 +72,7 @@
 	                ]
                 
                 scheduler.attachEvent("onDblClick", function (event_id, native_event_object){
-                    parent.location = "/business/sittings/index/group/sittings/obj-"+event_id+"/view";
+                    parent.location = "/business/sittings/obj-"+event_id+"/schedule";
                 }); 
                 
             }

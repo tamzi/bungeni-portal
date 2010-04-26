@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-12 13:00+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-13 13:59+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,15 +17,15 @@ msgstr ""
 
 #: src/bungeni.models/bungeni/models/interfaces.py:214
 msgid "Speaker's Office Email"
-msgstr "speaker's office email"
+msgstr "speaker&#39;s office email"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:216
 msgid "Speaker's Office Notification"
-msgstr "speaker's office notification"
+msgstr "speaker&#39;s office notification"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:217
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgstr "true if the speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
+msgstr "true if the speaker&#39;s office wants to be alerted by mailwhenever a bill, motion, question is submitted"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:222
 msgid "Clerk's Office Notification"
@@ -61,7 +61,7 @@ msgstr "days to notify ministry of pending response"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:237
 msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
-msgstr "timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
+msgstr "time frame after which the clerk&#39;s office and the ministry is alerted that questions that are pending response are not yet answered"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:241
 msgid "Days before question scheduled"
@@ -161,7 +161,7 @@ msgstr "view office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:119
 msgid "Change office type"
-msgstr "Change office type"
+msgstr "change office type"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Edit historical content"
@@ -441,7 +441,7 @@ msgstr "view agenda"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:235
 msgid "View 'Votes and Proceedings'"
-msgstr "view 'votes and proceedings'"
+msgstr "view &#39;votes and proceedings&#39;"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:237
 msgid "Add Consignatory"
@@ -690,15 +690,15 @@ msgstr "minister"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:13
 msgid "Clerks Office"
-msgstr "clerks office"
+msgstr "clerk&#39;s office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "Speaker Office"
-msgstr "speaker office"
+msgstr "speaker&#39;s office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Translators  Office"
-msgstr "translators office"
+msgstr "translator&#39;s office"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:16
 msgid "All authenticated users"

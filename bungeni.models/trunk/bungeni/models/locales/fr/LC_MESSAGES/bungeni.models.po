@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-12 13:00+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-13 11:25+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,7 +161,7 @@ msgstr "voir le bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:119
 msgid "Change office type"
-msgstr ""
+msgstr "changer le type du bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Edit historical content"
@@ -413,7 +413,7 @@ msgstr "voir le journal d&#39;audit"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Add item scheduling"
-msgstr "ajouter ordonnancement de point"
+msgstr "ajouter ordonnancement du point"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:228
 msgid "Add and edit amendments"
@@ -457,7 +457,7 @@ msgstr "modifier consignataire"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Delete item scheduling"
-msgstr "supprimer l&#39;ordonnancement de point"
+msgstr "supprimer l&#39;ordonnancement du point"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:241
 #: src/bungeni.models/bungeni/models/permissions.zcml:242
@@ -478,7 +478,7 @@ msgstr "permission de générer des rapports"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:25
 msgid "Add item scheduling category"
-msgstr "ajouter une catégorie de ordonnancement de  point"
+msgstr "ajouter une catégorie de ordonnancement du  point"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:250
 msgid "add an attached file"
@@ -498,7 +498,7 @@ msgstr "supprimer un fichier joint"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:256
 msgid "add translation"
-msgstr ""
+msgstr "ajouter traduction"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:27
 msgid "Edit item scheduling discussion"
@@ -698,7 +698,7 @@ msgstr "bureau du président de l&#39;assemblée"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Translators  Office"
-msgstr ""
+msgstr "bureau du traducteur"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:16
 msgid "All authenticated users"

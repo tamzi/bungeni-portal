@@ -16,6 +16,7 @@ from zope.security import proxy
 from zope.security import checkPermission
 from zope.security.proxy import ProxyFactory
 from zope.publisher.browser import BrowserView
+from zope.annotation.interfaces import IAnnotations
 
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
@@ -184,9 +185,9 @@ class WorkspaceRootRedirect(BrowserView):
     def __call__(self):
         request = self.request
         try: 
-            first_workspace = request._layer_data.workspaces[0]
-            #Url needs to end with a "/", so that child items do
-            #not lose context
+            first_workspace = IAnnotations(request)["layer_data"].workspaces[0]
+            # !+ deliverance issue: "pi" url path needs to end with a "/", as
+            # otherwise the url for other child items will have "pi/" omitted
             to_url = "/workspace/obj-%s/pi/" % first_workspace.group_id
         except:
             to_url = "/workspace"
@@ -210,8 +211,8 @@ class _IndexRedirect(BrowserView):
             self.__class__.__name__, request.getURL(), self.index_name))
         request.response.redirect(self.index_name)
 class WorkspaceContainerIndexRedirect(_IndexRedirect):
-    #Url needs to end with a "/", so that child items do
-    #not lose context    
+    # !+ deliverance issue: "pi" url path needs to end with a "/", as
+    # otherwise the url for other child items will have "pi/" omitted
     index_name = "pi/"
 class BusinessIndexRedirect(_IndexRedirect):
     index_name = "whats-on"

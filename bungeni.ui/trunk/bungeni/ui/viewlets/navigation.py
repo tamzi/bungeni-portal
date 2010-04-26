@@ -21,6 +21,7 @@ from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.publisher.browser import queryDefaultViewName
+from zope.annotation.interfaces import IAnnotations
 
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
@@ -113,10 +114,10 @@ class SecondaryNavigationViewlet(object):
         request = self.request
         # add a menu item for each user workspace, if we are in an 
         # IWorkspaceSectionLayer 
-        # !+ if user is logged in or if request._layer_data
+        # !+ if user is logged in or if request.layer_data
         if interfaces.IWorkspaceSectionLayer.providedBy(request):
             try:
-                workspaces = request._layer_data.get("workspaces")
+                workspaces = IAnnotations(request)["layer_data"].get("workspaces")
             except:
                 workspaces = []
             log.info("%s got user workspaces: %s" % (self, workspaces))

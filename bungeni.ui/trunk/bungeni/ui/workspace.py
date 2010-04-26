@@ -20,6 +20,7 @@ from zope.publisher.interfaces import IPublishTraverse
 from zope.publisher.interfaces.browser import IHTTPRequest
 from zope.security.proxy import ProxyFactory
 from zope.security.proxy import removeSecurityProxy
+from zope.annotation.interfaces import IAnnotations
 
 from sqlalchemy import sql
 
@@ -98,7 +99,10 @@ def prepare_user_workspaces(event):
         !+ should these get an owner-level (user) workspace?
     
     """
-    destination_url_path = url.get_destination_url_path(event.request)
+    request = event.request
+    application = event.object # is bungeni.core.app.BungeniApp
+    destination_url_path = url.get_destination_url_path(request)
+    path_info = request.get("PATH_INFO")
     def need_to_prepare_workspaces(obj, req):
         return (
             # need only to do it when traversing "/", 
@@ -113,21 +117,26 @@ def prepare_user_workspaces(event):
                 # publication.apply_request_layers_by_url() that therefore must 
                 # have already been called
                 interfaces.IWorkspaceSectionLayer.providedBy(req)
-                or
-                # the request is for "/" (we need to know the user 
-                # workspaces to be able to redirect appropriately
-                destination_url_path=="/"
-                # !+ IHomeLayer
+                or (
+                    # the request is for "/" - we need to know the user 
+                    # workspaces to be able to redirect appropriately
+                    destination_url_path=="/"
+                    and not "/++resource++" in path_info
+                    and not path_info.startswith("/@@/")
+                    # !+ IHomeLayer
+                )
             )
         )
-    if not need_to_prepare_workspaces(event.object, event.request):
+    if IAnnotations(request).get("layer_data_initialized", False):
+        # ensure that for a request user workspaces are prepared only once
+        return
+    IAnnotations(request)["layer_data_initialized"] = True
+    # !+ above flag handling as parametrized utility to wrap a callable
+    if not need_to_prepare_workspaces(event.object, request):
         return
     
-    request = event.request
-    application = event.object # is bungeni.core.app.BungeniApp
-    
     # initialize a layer data object, for the views in the layer
-    LD = request._layer_data = misc.bunch(
+    LD = IAnnotations(request)["layer_data"] = misc.bunch(
         workspaces=[], # workspace containers !+ unique?
         # !+ role-based workspaces: (role|group, workspace_container)
         # these are needed by the views, as we need them also here, we just
@@ -137,7 +146,6 @@ def prepare_user_workspaces(event):
         government_id=None,
         ministry_ids=None,
     )
-    # !+ from zope.annotation.interfaces import IAnnotations
     #    LD = IAnnotations(request)["layer_data"] = ...
     
     LD.user_id = get_db_user_id()
@@ -190,9 +198,9 @@ def prepare_user_workspaces(event):
     
     log.debug(" [prepare_user_workspaces] %s" % debug.interfaces(request))
     log.info(""" [prepare_user_workspaces] DONE:
-        for: [request=%s][path=%s]
-        request._layer_data: %s""" % (id(request), destination_url_path,
-            getattr(request, "_layer_data", None)))
+        for: [request=%s][path=%s][path_info=%s]
+        request.layer_data: %s""" % (id(request), destination_url_path, path_info,
+            IAnnotations(request).get("layer_data", None)))
 
 # traversers
 
@@ -205,7 +213,7 @@ def workspace_resolver(context, request, name):
     """
     if name.startswith("obj-"):
         obj_id = int(name[4:])
-        for workspace in request._layer_data.workspaces:
+        for workspace in IAnnotations(request)["layer_data"].workspaces:
             if obj_id==workspace.group_id:
                 log.debug("[workspace_resolver] name=%s workspace=%s context=%s" % (
                                         name, workspace, context))
@@ -438,7 +446,7 @@ class WorkspaceSchedulingContext(object):
 
 class WorkspaceSectionView(BungeniBrowserView):
     
-    # set on request._layer_data
+    # set on request.layer_data
     user_id = None
     user_group_ids = None
     government_id = None
@@ -457,12 +465,12 @@ class WorkspaceSectionView(BungeniBrowserView):
                     templates/workspace-index.pt
            context:bungeni.core.content.Section
         """
+        LD = IAnnotations(request)["layer_data"]
         assert interfaces.IWorkspaceSectionLayer.providedBy(request)
-        assert request._layer_data.get("workspaces") is not None        
+        assert LD.get("workspaces") is not None        
         super(WorkspaceSectionView, self).__init__(context, request)
         log.debug(" __init__ %s context=%s url=%s" % (
                                         self, self.context, request.getURL()))
-        LD = request._layer_data
         
         # transfer layer data items, for the view/template
         self.user_id = LD.user_id

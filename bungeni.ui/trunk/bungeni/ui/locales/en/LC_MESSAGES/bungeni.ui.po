@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 18:30:45 2010\n"
-"PO-Revision-Date: 2010-04-13 14:22+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-13 15:01+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,7 +105,7 @@ msgstr "votes and proceedings"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:937
 msgid "This form generates the “votes and proceedings” report"
-msgstr "This form generates the “votes and proceedings” report"
+msgstr "this form generates the &#39;votes and proceedings&#39; report"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:938
 msgid "VOTES AND PROCEEDINGS"
@@ -712,9 +712,8 @@ msgid "Number of Voters registered in this Constituency"
 msgstr "number of voters registered in this constituency"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2304
-#, fuzzy
 msgid "Rota Identifier"
-msgstr "identifier"
+msgstr "rota identifier"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2326
 msgid "Document source"
@@ -1387,17 +1386,17 @@ msgstr "save and add another"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:393
 #: src/bungeni.ui/bungeni/ui/forms/common.py:544
 msgid "edit_translation_legend"
-msgstr "editing $language translation of \\"
+msgstr "editing $language translation of \"$title\""
 
 #. Default: "Editing \"$title\" (version $version)"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:399
 msgid "edit_version_legend"
-msgstr "editing \\"
+msgstr "editing \"$title\" (version $version)"
 
 #. Default: "Editing \"$title\""
 #: src/bungeni.ui/bungeni/ui/forms/common.py:404
 msgid "edit_item_legend"
-msgstr "editing \\"
+msgstr "editing \"$title\""
 
 #. Default: "The original $language version is shown on the left"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:411
@@ -1412,7 +1411,7 @@ msgstr "add $language translation"
 #. Default: "The document \"$title\" has not yet been translated into $language. Use this form to add the translation"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:549
 msgid "translate_item_help"
-msgstr "the document \\"
+msgstr "the document \"$title\" has not yet been translated into $language. Use this form to add the translation"
 
 #. Default: "Adding $language translation"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:562
@@ -1460,9 +1459,8 @@ msgstr "general"
 
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/forms/fields.py:83
-#, fuzzy
 msgid "This content is not yet translated into $language"
-msgstr "identifier"
+msgstr "this content is not yet translated into $language"
 
 #: src/bungeni.ui/bungeni/ui/forms/files.py:14
 #: src/bungeni.ui/bungeni/ui/forms/templates/version-attached-files.pt:1
@@ -1543,12 +1541,12 @@ msgstr "delete item confirmation"
 #. Default: "(Required)"
 #: src/bungeni.ui/bungeni/ui/forms/templates/form.pt:13
 msgid "label_required"
-msgstr ""
+msgstr "required"
 
 #. Default: "Required"
 #: src/bungeni.ui/bungeni/ui/forms/templates/form.pt:13
 msgid "title_required"
-msgstr ""
+msgstr "required"
 
 #. Default: "Name"
 #: src/bungeni.ui/bungeni/ui/forms/templates/library-macros.pt:70
@@ -1733,9 +1731,8 @@ msgid "Question timeline"
 msgstr "question version"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:647
-#, fuzzy
 msgid "Tabled document timeline"
-msgstr "tabled document number"
+msgstr "tabled document timeline"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:745
 msgid "Add"
@@ -1777,9 +1774,8 @@ msgid "label_calendar_context"
 msgstr "calendar:"
 
 #: src/bungeni.ui/bungeni/ui/menu.py:69
-#, fuzzy
 msgid "Logout"
-msgstr "logo"
+msgstr "logout"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1000
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1034
@@ -1851,7 +1847,7 @@ msgstr "delete scheduling"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:124
 msgid "The 'Add..' menu - for political parties"
-msgstr "the 'add..' menu - for political parties"
+msgstr "the &#39;add..&#39; menu - for political parties"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1249
 msgid "Move Scheduling up"
@@ -1926,7 +1922,7 @@ msgstr "respond"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:147
 msgid "The 'Add...' menu - for committees"
-msgstr "the 'add...' menu - for committees"
+msgstr "the &#39;add...&#39; menu - for committees"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:16
 msgid "Actions for the Administrator"
@@ -1972,7 +1968,7 @@ msgstr "add sitting..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:210
 msgid "The 'Add..' menu - for government"
-msgstr "the 'add..' menu - for government"
+msgstr "the &#39;add..&#39; menu - for government"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:22
 msgid "Actions for the 'Business' section"
@@ -1985,7 +1981,7 @@ msgstr "add ministry..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:234
 msgid "The 'Add..' menu - for ministry"
-msgstr "the 'add..' menu - for ministry"
+msgstr "the &#39;add..&#39; menu - for ministry"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:249
 #: src/bungeni.ui/bungeni/ui/menu.zcml:849
@@ -1994,11 +1990,11 @@ msgstr "add minister..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:258
 msgid "The 'Add...' menu - for Group Memberships"
-msgstr "the 'add...' menu - for group memberships"
+msgstr "the &#39;add...&#39; menu - for group memberships"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:27
 msgid "Actions for the 'Members' section"
-msgstr "actions for the 'members' section"
+msgstr "actions for the &#39;members&#39; section"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:273
 msgid "Add title..."
@@ -2006,7 +2002,7 @@ msgstr "add title..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:283
 msgid "The 'Add...' menu - for Group Sittings"
-msgstr "the 'add...' menu - for group sittings"
+msgstr "the &#39;add...&#39; menu - for group sittings"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:298
 msgid "Add Attendance..."
@@ -2020,11 +2016,11 @@ msgstr "add heading..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:318
 msgid "The 'Add...' menu - for motion"
-msgstr "the 'add...' menu - for motion"
+msgstr "the &#39;add...&#39; menu - for motion"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:32
 msgid "Actions for the 'Archive' section"
-msgstr "actions for the 'archive' section"
+msgstr "actions for the &#39;archive&#39; section"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:333
 #: src/bungeni.ui/bungeni/ui/menu.zcml:457
@@ -2044,7 +2040,7 @@ msgstr "add file..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:353
 msgid "The 'Add...' menu - for bill"
-msgstr "the 'add...' menu - for bill"
+msgstr "the &#39;add...&#39; menu - for bill"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:368
 msgid "Add consignatory..."
@@ -2071,7 +2067,7 @@ msgstr "assign bill to a group..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:433
 msgid "The 'Add...' menu - for question"
-msgstr "the 'add...' menu - for question"
+msgstr "the &#39;add...&#39; menu - for question"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:47
 msgid "Actions for Scheduling Discussions"
@@ -2079,7 +2075,7 @@ msgstr "actions for scheduling discussions"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:484
 msgid "The 'Add...' menu - for tabled document"
-msgstr "the 'add...' menu - for tabled document"
+msgstr "the &#39;add...&#39; menu - for tabled document"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:52
 msgid "Actions for Calendar Schedulings"
@@ -2087,15 +2083,15 @@ msgstr "actions for calendar schedulings"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:526
 msgid "The 'Add...' menu - for agenda item"
-msgstr "the 'add...' menu - for agenda item"
+msgstr "the &#39;add...&#39; menu - for agenda item"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:550
 msgid "The 'Add...' menu - for offices"
-msgstr "the 'add...' menu - for offices"
+msgstr "the &#39;add...&#39; menu - for offices"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:57
 msgid "The 'workflow' menu - allows the user to execute workflow transitions"
-msgstr "the 'workflow' menu - allows the user to execute workflow transitions"
+msgstr "the &#39;workflow&#39; menu - allows the user to execute workflow transitions"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:580
 msgid "content"
@@ -2115,7 +2111,7 @@ msgstr "my archive"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:63
 msgid "The 'Calendar' menu - allows the user to select a scheduling context"
-msgstr "the 'calendar' menu - allows the user to select a scheduling context"
+msgstr "the &#39;calendar&#39; menu - allows the user to select a scheduling context"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:637
 msgid "Add ..."
@@ -2123,7 +2119,7 @@ msgstr "add ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:647
 msgid "The 'Add..' menu - for calendar"
-msgstr "the 'add..' menu - for calendar"
+msgstr "the &#39;add...&#39; menu - for calendar"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:688
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1202
@@ -2132,7 +2128,7 @@ msgstr "delete sitting"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:69
 msgid "The 'Add' menu - allows the user to add content"
-msgstr "the 'add' menu - allows the user to add content"
+msgstr "the &#39;add...&#39; menu - allows the user to add content"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:698
 msgid "Add Parliament..."
@@ -2157,9 +2153,8 @@ msgid "Add MP..."
 msgstr "add mp..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:75
-#, fuzzy
 msgid "The 'Translate' menu - allows the user to translate content"
-msgstr "the 'add' menu - allows the user to add content"
+msgstr "the &#39;add&#39; menu - allows the user to add content"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:765
 msgid "Add Office..."
@@ -2204,7 +2199,7 @@ msgstr "add address..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:88
 msgid "The 'Actions' menu - provides context-specific actions (views)"
-msgstr "the 'actions' menu - provides context-specific actions (views)"
+msgstr "the &#39;actions&#39; menu - provides context-specific actions (views)"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:886
 msgid "Add Delegation..."
@@ -2224,12 +2219,11 @@ msgstr "add tabled document..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:94
 msgid "The 'Reports' menu - provides reporting actions"
-msgstr "the 'reports' menu - provides reporting actions"
+msgstr "the &#39;reports&#39; menu - provides reporting actions"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:954
-#, fuzzy
 msgid "Delete Session"
-msgstr "delete sitting"
+msgstr "delete session"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:964
 #: src/bungeni.ui/bungeni/ui/menu.zcml:973
@@ -2300,7 +2294,7 @@ msgstr "settings"
 
 #: src/bungeni.ui/bungeni/ui/templates/app-index.pt:6
 msgid "Welcome to Bungeni"
-msgstr ""
+msgstr "welcome to bungeni"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:7
 msgid "Access to current and historical records"
@@ -2481,9 +2475,8 @@ msgid "Date range set"
 msgstr "date range set"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:122
-#, fuzzy
 msgid "Clear"
-msgstr "calendar"
+msgstr "clear"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:128
 msgid "Date range cleared"
@@ -2523,9 +2516,8 @@ msgid "parliament..."
 msgstr "parliament..."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:92
-#, fuzzy
 msgid "Filter"
-msgstr "file"
+msgstr "filter"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/archive-dates.pt:5
 msgid "Filter by date or parliament"
@@ -2556,11 +2548,11 @@ msgstr "sections"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:15
 msgid "From: ${whats_on_start_date} to: ${whats_on_end_date}"
-msgstr "from: ${whats_on_start_date} to: ${whats_on_end_date}"
+msgstr "from: ${whatsonstartdate} to: ${whatsonenddate}"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:7
 msgid "What's on"
-msgstr "what's on"
+msgstr "what&#39;s on"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:8
 msgid "An overview of the daily operations of the parliament"
@@ -2656,22 +2648,20 @@ msgid "Listing"
 msgstr "listing"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:100
-#, fuzzy
 msgid "Library Office"
-msgstr "office"
+msgstr "library office"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:101
 msgid "Researcher Office"
-msgstr ""
+msgstr "researcher&#39;s office"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:104
 msgid "Yes"
-msgstr ""
+msgstr "yes"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:105
-#, fuzzy
 msgid "No"
-msgstr "note"
+msgstr "no"
 
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:31
@@ -2690,66 +2680,59 @@ msgstr "first $day of every month"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:77
 msgid "Ordinary"
-msgstr ""
+msgstr "ordinary"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:78
-#, fuzzy
 msgid "Private Notice"
-msgstr "ordinary or private notice"
+msgstr "private notice"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:80
 msgid "Oral"
-msgstr ""
+msgstr "oral"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:81
-#, fuzzy
 msgid "Written"
-msgstr "oral or written"
+msgstr "written"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:83
 msgid "Male"
-msgstr ""
+msgstr "male"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:84
-#, fuzzy
 msgid "Female"
-msgstr "file"
+msgstr "female"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:86
-#, fuzzy
 msgid "elected"
-msgstr "delete"
+msgstr "elected"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:87
-#, fuzzy
 msgid "nominated"
-msgstr "elected/nominated"
+msgstr "nominated"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:88
-#, fuzzy
 msgid "ex officio"
-msgstr "to"
+msgstr "ex officio"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:94
 msgid "initial"
-msgstr ""
+msgstr "initial"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:95
 msgid "subsequent"
-msgstr ""
+msgstr "subsequent"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:97
 msgid "House Business Office"
-msgstr ""
+msgstr "house business office"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:98
-#, fuzzy
 msgid "Clerks Office"
-msgstr "office"
+msgstr "clerk&#39;s office"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:99
 msgid "Translators Office"
-msgstr ""
+msgstr "translator&#39;s office"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:274
 msgid "Supplementary Question to: <br/> %s"

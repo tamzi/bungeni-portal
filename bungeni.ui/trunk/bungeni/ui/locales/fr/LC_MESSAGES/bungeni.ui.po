@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 18:30:45 2010\n"
-"PO-Revision-Date: 2010-04-12 18:31+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-13 13:32+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -65,11 +65,11 @@ msgstr "choisissez une date de départ de ce rapport"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:569
 msgid "Include draft sittings"
-msgstr "inclure le projet de séances"
+msgstr "inclurez le projet de séances"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:570
 msgid "Whether or not to include sittings still in draft"
-msgstr "qu&#39;il s&#39;agisse ou non d&#39;inclure de séances qui sont encore dans le projet  "
+msgstr "qu&#39;il s&#39;agisse ou non d&#39;inclurer de séances qui sont encore dans le projet  "
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:66
 msgid "Daily"
@@ -282,7 +282,7 @@ msgstr "fichiers"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1358
 msgid "Upload a file"
-msgstr "télécharger vers un serveur un fichier"
+msgstr "télécharger un fichier vers un serveur "
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1394
 msgid "Attached file version"
@@ -599,7 +599,7 @@ msgstr "sessions parlementaires"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1992
 msgid "Short Name"
-msgstr "dénomination"
+msgstr "nom court"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2050
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2081
@@ -712,9 +712,8 @@ msgid "Number of Voters registered in this Constituency"
 msgstr "nombre d&#39;électeurs inscrits dans cette circonscription"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2304
-#, fuzzy
 msgid "Rota Identifier"
-msgstr "identificateur"
+msgstr "identificateur du rote"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2326
 msgid "Document source"
@@ -901,7 +900,7 @@ msgstr "email"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:362
 #: src/bungeni.ui/bungeni/ui/descriptor.py:976
 msgid "Email address"
-msgstr "adresse email"
+msgstr "courrier électronique"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:368
 #: src/bungeni.ui/bungeni/ui/login.py:20
@@ -1311,7 +1310,7 @@ msgstr "numéro(s) de téléphone "
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:959
 msgid "Enter one phone number per line"
-msgstr "entrez un numéro de téléphone par ligne"
+msgstr "entrez un numéro de téléphone par chaque ligne"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:967
 msgid "Fax Number(s)"
@@ -1353,12 +1352,12 @@ msgstr "valeur en double pour domaine unique"
 #. Default: "Add $name"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:306
 msgid "add_item_legend"
-msgstr "ajouter $name"
+msgstr "ajouter $nom"
 
 #. Default: "Adding $name"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:312
 msgid "add_item_title"
-msgstr "ajoutant $name"
+msgstr "ajoutant $nom"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:326
 #: src/bungeni.ui/bungeni/ui/forms/common.py:468
@@ -1412,12 +1411,12 @@ msgstr "ajouter une traduction de $language"
 #. Default: "The document \"$title\" has not yet been translated into $language. Use this form to add the translation"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:549
 msgid "translate_item_help"
-msgstr "le document &#39;$title&#39;  n'a pas encore être traduit à $language. Utilisez cette forme pour ajouter la traduction"
+msgstr "le document &#39;$title&#39;  n'a pas encore être traduit à $langue. Utilisez cette forme pour ajouter la traduction"
 
 #. Default: "Adding $language translation"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:562
 msgid "translate_item_title"
-msgstr "ajout de la traduction de $language"
+msgstr "ajout de la traduction de $langue"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:631
 msgid "Save translation"
@@ -1531,9 +1530,8 @@ msgid "Recurring events"
 msgstr "evénements récurrents"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms090326.py:92
-#, fuzzy
 msgid "Attach a file"
-msgstr "fichiers joints"
+msgstr "joindre un fichier"
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/delete.pt:7
 msgid "Delete item confirmation"
@@ -1542,12 +1540,12 @@ msgstr "confirmation de la suppression du point"
 #. Default: "(Required)"
 #: src/bungeni.ui/bungeni/ui/forms/templates/form.pt:13
 msgid "label_required"
-msgstr ""
+msgstr "requis"
 
 #. Default: "Required"
 #: src/bungeni.ui/bungeni/ui/forms/templates/form.pt:13
 msgid "title_required"
-msgstr ""
+msgstr "requis"
 
 #. Default: "Name"
 #: src/bungeni.ui/bungeni/ui/forms/templates/library-macros.pt:70
@@ -1776,9 +1774,8 @@ msgid "label_calendar_context"
 msgstr "calendrier:"
 
 #: src/bungeni.ui/bungeni/ui/menu.py:69
-#, fuzzy
 msgid "Logout"
-msgstr "logo"
+msgstr "déconnectez-vous"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1000
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1034
@@ -2156,9 +2153,8 @@ msgid "Add MP..."
 msgstr "ajouter mp ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:75
-#, fuzzy
 msgid "The 'Translate' menu - allows the user to translate content"
-msgstr "le menu &#39;ajouter&#39; - permet à l&#39;utilisateur d&#39;ajouter du contenu"
+msgstr "le menu &#39;traduire&#39; - permet à l&#39;utilisateur de traduire du contenu"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:765
 msgid "Add Office..."
@@ -2299,7 +2295,7 @@ msgstr "paramètres"
 
 #: src/bungeni.ui/bungeni/ui/templates/app-index.pt:6
 msgid "Welcome to Bungeni"
-msgstr ""
+msgstr "bienvenue à bungeni"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:7
 msgid "Access to current and historical records"
@@ -2538,7 +2534,7 @@ msgstr "vous êtes ici:"
 #. Default: "Home"
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:4
 msgid "tabs_home"
-msgstr ""
+msgstr "acceuil"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/questions.pt:20
 msgid "No items"
@@ -2655,22 +2651,20 @@ msgid "Listing"
 msgstr "classement"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:100
-#, fuzzy
 msgid "Library Office"
-msgstr "bureau"
+msgstr "bureau de la bibilothèque"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:101
 msgid "Researcher Office"
-msgstr ""
+msgstr "bureau du chercheur"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:104
 msgid "Yes"
-msgstr ""
+msgstr "oui"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:105
-#, fuzzy
 msgid "No"
-msgstr "note"
+msgstr "non"
 
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:31
@@ -2705,48 +2699,43 @@ msgstr "écrite"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:83
 msgid "Male"
-msgstr ""
+msgstr "mâle"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:84
-#, fuzzy
 msgid "Female"
-msgstr "fichier"
+msgstr "féminin"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:86
-#, fuzzy
 msgid "elected"
-msgstr "supprimer"
+msgstr "élu"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:87
-#, fuzzy
 msgid "nominated"
-msgstr "élection ou de nomination"
+msgstr "nommé"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:88
-#, fuzzy
 msgid "ex officio"
-msgstr "à"
+msgstr "ex officio"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:94
 msgid "initial"
-msgstr ""
+msgstr "initial"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:95
 msgid "subsequent"
-msgstr ""
+msgstr "subséquent"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:97
 msgid "House Business Office"
-msgstr ""
+msgstr "bureau d&#affaires de la chambre"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:98
-#, fuzzy
 msgid "Clerks Office"
-msgstr "bureau"
+msgstr "bureau du greffier"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:99
 msgid "Translators Office"
-msgstr ""
+msgstr "bureau du traducteur"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:274
 msgid "Supplementary Question to: <br/> %s"

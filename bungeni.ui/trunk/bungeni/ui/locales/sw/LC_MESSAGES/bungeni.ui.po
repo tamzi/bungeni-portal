@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 18:30:45 2010\n"
-"PO-Revision-Date: 2010-04-12 18:32+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-15 16:54+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,8 +27,9 @@ msgstr "tarehe"
 #: src/bungeni.ui/bungeni/ui/audit.py:22
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1526
 #: src/bungeni.ui/bungeni/ui/workflow.py:69
+#, fuzzy
 msgid "user"
-msgstr "mtumiaji"
+msgstr "chanzo cha hati"
 
 #: src/bungeni.ui/bungeni/ui/audit.py:23
 #: src/bungeni.ui/bungeni/ui/workflow.py:70
@@ -425,7 +426,7 @@ msgstr "kitambulisho"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1668
 msgid "Entered By"
-msgstr "limewekwa na"
+msgstr "imewekwa na"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1692
 msgid "Motion version"
@@ -539,25 +540,25 @@ msgstr "matukio"
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1877
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1304
 msgid "Tabled document"
-msgstr "hati iliyoketishwa"
+msgstr "hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1878
 #: src/bungeni.ui/bungeni/ui/viewlets/schedule.py:172
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:107
 msgid "Tabled documents"
-msgstr "hati zilizoketishwa"
+msgstr "hati zilizopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1884
 msgid "Tabled document Number"
-msgstr "nambari ya hati iliyoketishwa"
+msgstr "nambari ya hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1902
 msgid "Tabled Document version"
-msgstr "aina ya hati iliyoketishwa"
+msgstr "aina ya hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1907
 msgid "Tabled Document change"
-msgstr "mabadiliko ya hati iliyoketishwa"
+msgstr "mabadiliko ya hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:1914
 msgid "Sitting"
@@ -712,9 +713,8 @@ msgid "Number of Voters registered in this Constituency"
 msgstr "idadi ya wapiga kura waliojisajili katika eneo-bunge hili"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2304
-#, fuzzy
 msgid "Rota Identifier"
-msgstr "kitambulisho"
+msgstr "kitambulisho cha rota"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:2326
 msgid "Document source"
@@ -1348,7 +1348,7 @@ msgstr "vyeo"
 
 #: src/bungeni.ui/bungeni/ui/forms/common.py:265
 msgid "Duplicate Value for Unique Field"
-msgstr "nakila ya pointi kwa uwanja wa kipekee"
+msgstr "nakala ya pointi kwa uwanja wa kipekee"
 
 #. Default: "Add $name"
 #: src/bungeni.ui/bungeni/ui/forms/common.py:306
@@ -1460,9 +1460,8 @@ msgstr "jumla"
 
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/forms/fields.py:83
-#, fuzzy
 msgid "This content is not yet translated into $language"
-msgstr "kitambulisho"
+msgstr "bado haijatafsiriwa katika $language"
 
 #: src/bungeni.ui/bungeni/ui/forms/files.py:14
 #: src/bungeni.ui/bungeni/ui/forms/templates/version-attached-files.pt:1
@@ -1480,7 +1479,7 @@ msgstr "mchana"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:115
 msgid "Move"
-msgstr "songa"
+msgstr "songesha"
 
 #: src/bungeni.ui/bungeni/ui/forms/forms.py:314
 msgid "Weekdays"
@@ -1538,17 +1537,17 @@ msgstr "faili zilizopachikwa"
 
 #: src/bungeni.ui/bungeni/ui/forms/templates/delete.pt:7
 msgid "Delete item confirmation"
-msgstr "kipaimara ili pointi ifutwe"
+msgstr "hakikisha ili pointi ifutwe"
 
 #. Default: "(Required)"
 #: src/bungeni.ui/bungeni/ui/forms/templates/form.pt:13
 msgid "label_required"
-msgstr ""
+msgstr "yahitajika"
 
 #. Default: "Required"
 #: src/bungeni.ui/bungeni/ui/forms/templates/form.pt:13
 msgid "title_required"
-msgstr ""
+msgstr "yahitajika"
 
 #. Default: "Name"
 #: src/bungeni.ui/bungeni/ui/forms/templates/library-macros.pt:70
@@ -1728,14 +1727,12 @@ msgid "Motion timeline"
 msgstr "kipindi cha wakati cha muswada"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:642
-#, fuzzy
 msgid "Question timeline"
-msgstr "aina ya swali"
+msgstr "muda wa swali"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:647
-#, fuzzy
 msgid "Tabled document timeline"
-msgstr "nambari ya hati iliyoketishwa"
+msgstr "nambari ya hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/forms/viewlets.py:745
 msgid "Add"
@@ -1777,9 +1774,8 @@ msgid "label_calendar_context"
 msgstr "kalenda:"
 
 #: src/bungeni.ui/bungeni/ui/menu.py:69
-#, fuzzy
 msgid "Logout"
-msgstr "nembo"
+msgstr "toka"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1000
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1034
@@ -1882,7 +1878,7 @@ msgstr "eneo la kazi"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1334
 msgid "Home"
-msgstr "maskani"
+msgstr "nyumbani"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1350
 msgid "Business"
@@ -2079,7 +2075,7 @@ msgstr "vitendo vya majadiliano ya ratiba"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:484
 msgid "The 'Add...' menu - for tabled document"
-msgstr "menyu ya &#39;ongeza ...&#39;  - kwa hati iliyoketishwa"
+msgstr "menyu ya &#39;ongeza ...&#39;  - kwa hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:52
 msgid "Actions for Calendar Schedulings"
@@ -2220,7 +2216,7 @@ msgstr "ongeza saini ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:924
 msgid "Add Tabled document..."
-msgstr "ongeza hati iliyoketishwa ..."
+msgstr "ongeza hati iliyopendekezwa ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:94
 msgid "The 'Reports' menu - provides reporting actions"
@@ -2300,7 +2296,7 @@ msgstr "miongozo"
 
 #: src/bungeni.ui/bungeni/ui/templates/app-index.pt:6
 msgid "Welcome to Bungeni"
-msgstr ""
+msgstr "karibu bungeni"
 
 #: src/bungeni.ui/bungeni/ui/templates/archive.pt:7
 msgid "Access to current and historical records"
@@ -2481,9 +2477,8 @@ msgid "Date range set"
 msgstr "mfululizo wa siku umewekwa"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:122
-#, fuzzy
 msgid "Clear"
-msgstr "kalenda"
+msgstr "futa"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:128
 msgid "Date range cleared"
@@ -2512,7 +2507,7 @@ msgstr "au chagua"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:34
 msgid "Set date range to that of a given particular parliament"
-msgstr "weka mfululizo wa data kuwa katika mpangilio wa bunge maalum"
+msgstr "weka kipindi cha muda kwa kila bunge"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:42
 msgid "Filter the archive by date range"
@@ -2523,9 +2518,8 @@ msgid "parliament..."
 msgstr "bunge ..."
 
 #: src/bungeni.ui/bungeni/ui/viewlets/archive.py:92
-#, fuzzy
 msgid "Filter"
-msgstr "faili"
+msgstr "chuja"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/archive-dates.pt:5
 msgid "Filter by date or parliament"
@@ -2539,7 +2533,7 @@ msgstr "uko hapa:"
 #. Default: "Home"
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/breadcrumbs.pt:4
 msgid "tabs_home"
-msgstr ""
+msgstr "nyumbani"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/questions.pt:20
 msgid "No items"
@@ -2609,7 +2603,7 @@ msgstr "pointi katika nyaraka"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/workspace.py:642
 msgid "Items succesfully tabled"
-msgstr "pointi zilizoketishwa"
+msgstr "pointi zilizopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/workspace.py:662
 msgid "Archived Items"
@@ -2656,22 +2650,20 @@ msgid "Listing"
 msgstr "orodha"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:100
-#, fuzzy
 msgid "Library Office"
-msgstr "ofisi"
+msgstr "ofisi ya maktaba"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:101
 msgid "Researcher Office"
-msgstr ""
+msgstr "ofisi ya mtafiti"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:104
 msgid "Yes"
-msgstr ""
+msgstr "ndio"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:105
-#, fuzzy
 msgid "No"
-msgstr "kidokezo"
+msgstr "la"
 
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:31
@@ -2690,66 +2682,59 @@ msgstr "siku ya $day ya kila mwezi"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:77
 msgid "Ordinary"
-msgstr ""
+msgstr "ya kawaida"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:78
-#, fuzzy
 msgid "Private Notice"
-msgstr "tangazo la kawaida au la kibinafsi"
+msgstr "tangazo la kibinafsi"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:80
 msgid "Oral"
-msgstr ""
+msgstr "simulizi"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:81
-#, fuzzy
 msgid "Written"
-msgstr "simulizi au lililoandikwa"
+msgstr "lililoandikwa"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:83
 msgid "Male"
-msgstr ""
+msgstr "kiume"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:84
-#, fuzzy
 msgid "Female"
-msgstr "faili"
+msgstr "kike"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:86
-#, fuzzy
 msgid "elected"
-msgstr "futa"
+msgstr "amechaguliwa"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:87
-#, fuzzy
 msgid "nominated"
-msgstr "waliochaguliwa / walioteuliwa"
+msgstr "ameteuliwa"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:88
-#, fuzzy
 msgid "ex officio"
-msgstr "kwa"
+msgstr "ex officio"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:94
 msgid "initial"
-msgstr ""
+msgstr "awali"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:95
 msgid "subsequent"
-msgstr ""
+msgstr "baadae"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:97
 msgid "House Business Office"
-msgstr ""
+msgstr "ofisi ya shughuli za jumba"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:98
-#, fuzzy
 msgid "Clerks Office"
-msgstr "ofisi"
+msgstr "ofisi ya karani"
 
 #: src/bungeni.ui/bungeni/ui/vocabulary.py:99
 msgid "Translators Office"
-msgstr ""
+msgstr "ofisi ya tafsiri"
 
 #: src/bungeni.ui/bungeni/ui/widgets.py:274
 msgid "Supplementary Question to: <br/> %s"
@@ -2803,7 +2788,7 @@ msgstr "toa maoni kuhusu mabadiliko ya mchakato wa kazi"
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/workflow.py:150
 msgid "Confirmation required for workflow transition: '${title}'"
-msgstr "kipaimara kinahitajika kwa mpito wa mchakato wa kazi: &#39;${title}&#39;"
+msgstr "hakikisho linahitajika kwa mpito wa mchakato wa kazi: &#39;${title}&#39;"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:56
 msgid "Workflow history"

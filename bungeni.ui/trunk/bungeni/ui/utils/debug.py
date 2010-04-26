@@ -63,14 +63,24 @@ def location_stack(obj):
 
 import traceback
 def log_exc_info(exc_info, log_handler=log.error):
-    """Log an exception.
+    """Traceback log an exception.
     exc_info: the 3-tuple as returned by sys.get_exc_info()
         the client is required to call sys.get_exc_info() himself
-    log_handler: to allow loggin via the caller's logger, 
+    log_handler: to allow logging via the caller's logger, 
         but defaults to bungeni.ui.utils.log.error
     """
     cls, exc, tb = exc_info
-    log_handler("""%s %s\n%s""" % (cls.__name__, exc, traceback.format_exc(tb)))
+    log_handler("""\n%s""" % (traceback.format_exc(tb)))
+
+def log_exc(exc_info, log_handler=log.error):
+    """Short log of an exception.
+    exc_info: the 3-tuple as returned by sys.get_exc_info()
+        the client is required to call sys.get_exc_info() himself
+    log_handler: to allow logging via the caller's logger, 
+        but defaults to bungeni.ui.utils.log.error
+    """
+    cls, exception, tb = exc_info
+    log_handler(""" [%s] %s""" % (cls.__name__, exception))
 
 # events 
 

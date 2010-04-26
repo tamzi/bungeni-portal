@@ -8,37 +8,17 @@
 
   <!-- menus -->
 
-  
-  <browser:menu
-     id="workspace_navigation"
-     title="Actions for the Workspace"
-     /><!-- ??? -->
-  
-  <browser:menu
-     id="admin_navigation"
-     title="Actions for the Administrator"
-     />
-
-
-  <browser:menu
-     id="business_navigation"
-     title="Actions for the 'Business' section"
-     />
-
-  <browser:menu
-     id="members_navigation"
-     title="Actions for the 'Members' section"
-     />
-
-  <browser:menu
-     id="archive_navigation"
-     title="Actions for the 'Archive' section"
-     />
-
-  <browser:menu
-     id="records_navigation"
-     title="Actions for the 'Records' section"
-     />
+    <!-- Top-level sections *may* define a ZCML menu for navigating to 
+         sub-sections, see SecondaryNavigationViewlet:
+    
+    <browser:menu id="workspace_navigation" title="Actions Workspace" />
+    -->
+    <browser:menu id="admin_navigation" title="Actions Admin" />
+    <!--
+    <browser:menu id="business_navigation" title="Actions Business" />
+    <browser:menu id="members_navigation" title="Actions Members" />
+    <browser:menu id="archive_navigation" title="Actions Archive" />
+    -->
 
   <browser:menu
      id="sitting_actions"
@@ -623,26 +603,6 @@
      layer=".interfaces.IAdministratorWorkspace"
      permission="zope.ManageSite"
      />
-
-<!--
-  <browser:menuItem
-     menu="workspace_navigation"
-     for="bungeni.models.interfaces.IBungeniApplication"
-     title="Parliamentary items"
-     action="/workspace/pi"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     permission="zope.View"
-     />
-
-  <browser:menuItem
-     menu="workspace_navigation"
-     for="bungeni.models.interfaces.IBungeniApplication"
-     title="My archive"
-     action="/workspace/my-archive"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     permission="zope.View"
-  />
--->
 
 
   <browser:subMenuItem

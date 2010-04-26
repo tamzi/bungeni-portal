@@ -9,6 +9,7 @@ $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.viewlets.navigation")
 
+import sys
 from zope import component
 from zope.location.interfaces import ILocation
 from zope.dublincore.interfaces import IDCDescriptiveProperties
@@ -31,46 +32,38 @@ from ploned.ui.menu import make_absolute
 from ploned.ui.menu import pos_action_in_url
 
 from bungeni.core import location
-from bungeni.ui.utils import url as ui_url
+from bungeni.ui.utils import url as ui_url, debug
 from bungeni.ui import interfaces
 
 def get_parent_chain(context):
     context = proxy.removeSecurityProxy(context)
-
     chain = []
     while context is not None:
         chain.append(context)
         context = context.__parent__
-
     return chain
 
 class SecondaryNavigationViewlet(object):
     render = ViewPageTemplateFile("templates/secondary-navigation.pt")
-    default_menu = "workspace_navigation"
     
     def update(self):
         request = self.request
         context = self.context
-        #view = self.__parent__.__parent__
         chain = get_parent_chain(context)
         length = len(chain)
+        self.items = []
         if length < 2:
-            container = None
+            # there must be at least: [top-level section, application]
+            return # container is None
         else:
+            # the penultimate context is the top-level container
             container = chain[-2]
             assert container.__name__ is not None
             if not IReadContainer.providedBy(container):
-                container = None
-        # menu items
-        if container is None:
-            if length > 0:
-                self.items = self.get_menu_items(chain[-1], self.default_menu)
-            else:
-                self.items = None
-            #return
-        else:
-            self.items = self.get_menu_items(
-                    container, "%s_navigation" % container.__name__)
+                return # container has no readable content
+        assert container is not None
+        # add any menu items from zcml
+        self.add_zcml_menu_items(container)
         # add container items
         if length > 2:
             context = chain[-3]
@@ -78,13 +71,21 @@ class SecondaryNavigationViewlet(object):
             context = None
         self.add_container_menu_items(context, container)
         
-    def get_menu_items(self, container, name):
-        #XXX ad hoc fix - todo: write a utility for this navigation structure
+    def add_zcml_menu_items(self, container):
+        """Add the list of ZCML menu items (if any) for this top-level 
+        container. Top-level section given by container may define a menu 
+        in ZCML with naming convention: <container_name>_navigation. 
+        """
+        # !+ turn this into a utility
+        zcml_menu_name_template = "%s_navigation"
         try:
-            menu = component.getUtility(IBrowserMenu, name=name)        
+            menu_name = zcml_menu_name_template % container.__name__
+            menu = component.getUtility(IBrowserMenu, name=menu_name)
             items = menu.getMenuItems(container, self.request)
-        except:
-            return
+        except (Exception,):
+            debug.log_exc(sys.exc_info(), log_handler=log.debug)
+            return []
+        # OK, do any necessary post-processing of each menu item
         local_url = ui_url.absoluteURL(container, self.request)
         site_url = ui_url.absoluteURL(getSite(), self.request)
         request_url = self.request.getURL()
@@ -106,8 +107,8 @@ class SecondaryNavigationViewlet(object):
                 # self is marker
                 selection = self
                 selected = False
-        return items
-
+            self.items.append(item)
+    
     def add_container_menu_items(self, context, container):
         request = self.request
         # add a menu item for each user workspace, if we are in an 
@@ -120,10 +121,7 @@ class SecondaryNavigationViewlet(object):
                 workspaces = []
             log.info("%s got user workspaces: %s" % (self, workspaces))
             base_url_path = "/workspace"
-            # This does not help BUG "_ws_nav_tuples"
-            #from ore.alchemist import Session; session = Session()
             for workspace in workspaces:
-                #session.merge(workspace)
                 log.info("appending menu item for user workspace: %s" % 
                                                                 str(workspace))
                 self.items.append(ui_url.get_menu_item_descriptor(

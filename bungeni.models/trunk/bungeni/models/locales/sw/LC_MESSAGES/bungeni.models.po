@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-12 13:01+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-15 16:53+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,11 +17,11 @@ msgstr ""
 
 #: src/bungeni.models/bungeni/models/interfaces.py:214
 msgid "Speaker's Office Email"
-msgstr "barua pepe ya speaker"
+msgstr "barua pepe ya spika"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:216
 msgid "Speaker's Office Notification"
-msgstr "maarifa kutoka ofisi ya speaker"
+msgstr "maarifa kutoka ofisi ya spika"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:217
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
@@ -161,7 +161,7 @@ msgstr "tazama ofisi"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:119
 msgid "Change office type"
-msgstr ""
+msgstr "badili aina ya ofisi"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Edit historical content"
@@ -498,7 +498,7 @@ msgstr "futa faili iliyoambatishwa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:256
 msgid "add translation"
-msgstr ""
+msgstr "badili tafsiri"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:27
 msgid "Edit item scheduling discussion"
@@ -602,19 +602,19 @@ msgstr "tazama pointi ya ajenda"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:72
 msgid "Add tabled document"
-msgstr "ongeza hati iliyoketishwa"
+msgstr "ongeza hati iliyopendekezwa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:73
 msgid "Edit tabled document"
-msgstr "hariri hati iliyoketishwa"
+msgstr "hariri hati iliyopendekezwa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:74
 msgid "Delete tabled document"
-msgstr "futa hati iliyoketishwa"
+msgstr "futa hati iliyopendekezwa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:75
 msgid "View tabled document"
-msgstr "tazama hati iliyoketishwa"
+msgstr "tazama hati iliyopendekezwa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:78
 msgid "Edit Response"
@@ -698,7 +698,7 @@ msgstr "ofisi ya spika "
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Translators  Office"
-msgstr ""
+msgstr "ofisi ya tafsiri"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:16
 msgid "All authenticated users"

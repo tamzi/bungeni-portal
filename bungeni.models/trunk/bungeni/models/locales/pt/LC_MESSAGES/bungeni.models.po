@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-12 13:01+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-14 13:01+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +25,7 @@ msgstr "notificação do escritório do alto-falante"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:217
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgstr "true se o escritório de alto-falantes quer ser alertado por mailwhenever um projeto de lei, o movimento, a questão é apresentada"
+msgstr "verdadeiro se o escritório de alto-falantes quer ser alertado por correio sempre que um projeto de lei, o movimento, a questão é apresentada"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:222
 msgid "Clerk's Office Notification"
@@ -33,7 +33,7 @@ msgstr "notificação funcionário do escritório"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:223
 msgid "true if the clerks office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgstr "true se o escritório de funcionários quer ser alertado por mailwhenever um projeto de lei, o movimento, a questão é apresentada"
+msgstr "verdadeiro se o escritório de funcionários quer ser alertado por correio sempre que um projeto de lei, o movimento, a questão é apresentada"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:228
 msgid "Clerks's Office Email"
@@ -61,7 +61,7 @@ msgstr "dias para notificar ministério de resposta pendente"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:237
 msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
-msgstr "prazo após o qual o clerksoffice eo ministério é alertado thatquestions que estão pendentes de resposta ainda não respondeu"
+msgstr "prazo após o qual o gabinete do secretário eo ministério é alertado thatquestions que estão pendentes de resposta ainda não respondeu"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:241
 msgid "Days before question scheduled"
@@ -69,15 +69,15 @@ msgstr "dias antes da questão agendada"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:242
 msgid "Days before bill scheduled"
-msgstr "dias antes da lei prevista"
+msgstr "dias antes da projeto de lei agendada"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:243
 msgid "Max Questions Per Sitting"
-msgstr "questões no máximo, por sessão"
+msgstr "questões no máximo por sessão"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:244
 msgid "Max Questions Per Sitting Per MP"
-msgstr "questões no máximo, por sessão por mp"
+msgstr "questões no máximo por sessão por mp"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:249
 msgid "Email Notifications Enabled?"
@@ -101,7 +101,7 @@ msgstr "tipo de atribuição"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:259
 msgid "Status"
-msgstr "status"
+msgstr "estado"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:260
 msgid "Notes"
@@ -109,7 +109,7 @@ msgstr "notas"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:100
 msgid "View party"
-msgstr "partido vista"
+msgstr "ver partido "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:103
 msgid "Add government"
@@ -157,11 +157,11 @@ msgstr "apagar escritório"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:118
 msgid "View office"
-msgstr "office veja"
+msgstr "ver escritório"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:119
 msgid "Change office type"
-msgstr ""
+msgstr "alterar o tipo de serviço"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:12
 msgid "Edit historical content"
@@ -181,7 +181,7 @@ msgstr "apagar membro office"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:125
 msgid "View office member"
-msgstr "membro office vista"
+msgstr "ver membro do escritório"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:13
 msgid "Translate content"
@@ -201,7 +201,7 @@ msgstr "apagar ministério"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:134
 msgid "View ministry"
-msgstr "ministério vista"
+msgstr "ver ministério "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:137
 msgid "Add mp"
@@ -217,7 +217,7 @@ msgstr "apagar mp"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:140
 msgid "View mp"
-msgstr "mp ver"
+msgstr "ver mp "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:146
 msgid "Add user"
@@ -233,7 +233,7 @@ msgstr "excluir usuário"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "View user"
-msgstr "view user"
+msgstr "ver usuário"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:15
 msgid "Add session"
@@ -241,19 +241,19 @@ msgstr "adicionar sessão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:152
 msgid "Add constituency"
-msgstr "adicionar eleitoral"
+msgstr "adicionar círculo eleitoral"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:153
 msgid "Edit constituency"
-msgstr "editar eleitoral"
+msgstr "editar círculo eleitoral"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:154
 msgid "Delete constituency"
-msgstr "apagar eleitoral"
+msgstr "apagar círculo eleitoral"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:155
 msgid "View constituency"
-msgstr "circunscrição vista"
+msgstr "ver círculo eleitoral"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:158
 msgid "Add minister"
@@ -273,7 +273,7 @@ msgstr "apagar ministro"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:161
 msgid "View minister"
-msgstr "ministro vista"
+msgstr "ver ministro "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:167
 msgid "Add committee member"
@@ -293,7 +293,7 @@ msgstr "apagar sessão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:170
 msgid "View committee member"
-msgstr "membro da comissão de vista"
+msgstr "ver membro da comissão "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Add committee staff"
@@ -309,7 +309,7 @@ msgstr "apagar pessoal da comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:179
 msgid "View committee staff"
-msgstr "pessoal da comissão vista"
+msgstr "ver pessoal da comissão "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:18
 msgid "Add sitting"
@@ -369,7 +369,7 @@ msgstr "apagar delegação"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:203
 msgid "View delegation"
-msgstr "delegação vista"
+msgstr "ver delegação "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:206
 msgid "Add title/function"
@@ -385,7 +385,7 @@ msgstr "apagar título / função"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:209
 msgid "View title/function"
-msgstr "título vista / função"
+msgstr "ver título / função"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:21
 msgid "Reorder schedulings"
@@ -405,11 +405,11 @@ msgstr "apagar título / evento"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:215
 msgid "View title/event"
-msgstr "título vista / evento"
+msgstr "ver título / evento"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:219
 msgid "View audit log"
-msgstr "log de auditoria de vista"
+msgstr "ver log de auditoria "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Add item scheduling"
@@ -421,7 +421,7 @@ msgstr "adicionar e editar as alterações"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:229
 msgid "View amendments"
-msgstr "alterações vista"
+msgstr "ver alterações "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:23
 msgid "Edit item scheduling"
@@ -441,7 +441,7 @@ msgstr "ver agenda"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:235
 msgid "View 'Votes and Proceedings'"
-msgstr "voto vista &quot;e processos&quot;"
+msgstr "ver voto &quot;e processos&quot;"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:237
 msgid "Add Consignatory"
@@ -498,7 +498,7 @@ msgstr "apagar um arquivo anexado"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:256
 msgid "add translation"
-msgstr ""
+msgstr "adicionar tradução"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:27
 msgid "Edit item scheduling discussion"
@@ -506,7 +506,7 @@ msgstr "editar item de discussão agendamento"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:29
 msgid "View sitting attendance"
-msgstr "atendimento vista sentada"
+msgstr "ver atendimento sentada"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:30
 msgid "Add sitting attendance"
@@ -534,7 +534,7 @@ msgstr "excluir comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:38
 msgid "View committee"
-msgstr "comissão vista"
+msgstr "ver comissão "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:42
 msgid "Add Question"
@@ -638,7 +638,7 @@ msgstr "excluir do parlamento"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:84
 msgid "View Parliament"
-msgstr "parlamento vista"
+msgstr "ver parlamento "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:87
 msgid "Add Bill"
@@ -654,7 +654,7 @@ msgstr "apagar conta"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:90
 msgid "View Bill"
-msgstr "bill vista"
+msgstr "ver projeto de lei"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Admin User Record"
@@ -698,7 +698,7 @@ msgstr "escritório falante"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Translators  Office"
-msgstr ""
+msgstr "escritório tradutor"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:16
 msgid "All authenticated users"
@@ -714,7 +714,7 @@ msgstr "gerenciador do site"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:9
 msgid "Bungeni Admin"
-msgstr "bungeni admin"
+msgstr "administrador bungeni"
 
 #~ msgid "Female"
 #~ msgstr "fêmea"

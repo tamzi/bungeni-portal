@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2010-04-12 12:58+0300\n"
-"Last-Translator: Christian Ledermann <christian@parliaments.info>\n"
+"PO-Revision-Date: 2010-04-14 17:14+0300\n"
+"Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -16,15 +16,13 @@ msgstr ""
 "Language-Name: English\n"
 
 #: src/bungeni.core/bungeni/core/app.py:102
-#, fuzzy
 msgid "Scheduling"
 msgstr "ratibu"
 
 #: src/bungeni.core/bungeni/core/app.py:103
 #: src/bungeni.core/bungeni/core/app.py:221
-#, fuzzy
 msgid "View the sittings of the current parliament"
-msgstr "tazama miongozo ya bunge la sasa"
+msgstr "tazama vikao vya bunge la sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:116
 #: src/bungeni.core/bungeni/core/app.py:147
@@ -42,7 +40,7 @@ msgstr "misukumo"
 #: src/bungeni.core/bungeni/core/app.py:157
 #: src/bungeni.core/bungeni/core/app.py:202
 msgid "Tabled documents"
-msgstr "hati zilizoketishwa"
+msgstr "hati zilizopendekezwa"
 
 #: src/bungeni.core/bungeni/core/app.py:131
 #: src/bungeni.core/bungeni/core/app.py:162
@@ -51,9 +49,8 @@ msgid "Bills"
 msgstr "miswada"
 
 #: src/bungeni.core/bungeni/core/app.py:136
-#, fuzzy
 msgid " items"
-msgstr "pointi za ajenda"
+msgstr "vipengele"
 
 #: src/bungeni.core/bungeni/core/app.py:140
 #: src/bungeni.core/bungeni/core/app.py:177
@@ -62,45 +59,39 @@ msgstr "makamati"
 
 #: src/bungeni.core/bungeni/core/app.py:167
 msgid "items"
-msgstr ""
+msgstr "vipengele"
 
 #: src/bungeni.core/bungeni/core/app.py:171
 msgid "What's on"
 msgstr "yaliyomo"
 
 #: src/bungeni.core/bungeni/core/app.py:179
-#, fuzzy
 msgid "View committees created by the current parliament"
 msgstr "tazama kamati zilizoundwa na bunge la sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:185
-#, fuzzy
 msgid "View bills issued by the current parliament"
-msgstr "tazama miswada iliyopitishwa na bunge la sasa"
+msgstr "tazama miswada iliyotolewa na bunge la sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:191
-#, fuzzy
 msgid "View questions issued by the current parliament"
 msgstr "tazama maswali iliyotolewa na bunge la sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:197
-#, fuzzy
 msgid "View motions issued by the current parliament"
-msgstr "tazama maswali iliyotolewa na bunge la sasa"
+msgstr "tazama misukumo iliyotolewa na bunge la sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:204
-#, fuzzy
 msgid "View the tabled documents of the current parliament"
-msgstr "tazama hati zilizoketishwa za bunge la sasa"
+msgstr "tazama hati zilizopendekezwa na bunge la sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:208
 msgid "Agenda items"
 msgstr "pointi za ajenda"
 
 #: src/bungeni.core/bungeni/core/app.py:210
-#, fuzzy
 msgid "View the agenda items of the current parliament"
-msgstr "tazama pointi za ajenda za bunge la sasa"
+msgstr "tazama pointi za ajenda za bunge la sasa "
 
 #: src/bungeni.core/bungeni/core/app.py:220
 msgid "Sittings"
@@ -111,34 +102,30 @@ msgid "Parliamentary publications"
 msgstr "machapisho ya bunge"
 
 #: src/bungeni.core/bungeni/core/app.py:228
-#, fuzzy
 msgid "View Agenda and Minutes reports of the current parliament"
-msgstr "tazama ripoti na kumbukumbu za bunge la sasa"
+msgstr "tazama ajenda na ripoti za kumbukumbu za bunge la sasa "
 
 #: src/bungeni.core/bungeni/core/app.py:234
 msgid "Current"
 msgstr "sasa"
 
 #: src/bungeni.core/bungeni/core/app.py:235
-#, fuzzy
 msgid "View current parliament members (MPs)"
-msgstr "tazama wanachama wa bunge la sasa (wabunge)"
+msgstr "tazama wanabunge wa sasa "
 
 #: src/bungeni.core/bungeni/core/app.py:239
 msgid "Political groups"
 msgstr "vikundi vya kisiasa"
 
 #: src/bungeni.core/bungeni/core/app.py:240
-#, fuzzy
 msgid "View current political groups"
-msgstr "tazama makundi ya kisiasa ya sasa"
+msgstr "vipengele"
 
 #: src/bungeni.core/bungeni/core/app.py:244
 msgid "Browse"
 msgstr "pekua"
 
 #: src/bungeni.core/bungeni/core/app.py:245
-#, fuzzy
 msgid "Current and historical records"
 msgstr "rekodi za sasa na za kihistoria"
 
@@ -147,9 +134,8 @@ msgid "Documents"
 msgstr "hati"
 
 #: src/bungeni.core/bungeni/core/app.py:250
-#, fuzzy
 msgid "Visit the digital document repository"
-msgstr "zuru nyaraka ya hati dijiti"
+msgstr "zuru makavazi ya hati"
 
 #: src/bungeni.core/bungeni/core/app.py:306
 msgid "Content"
@@ -174,7 +160,6 @@ msgstr "mahali pa kazi"
 #: src/bungeni.core/bungeni/core/app.py:75
 #: src/bungeni.core/bungeni/core/app.py:94
 #: src/bungeni.core/bungeni/core/app.py:172
-#, fuzzy
 msgid "Current parliamentary activity"
 msgstr "shughuli za sasa za bunge"
 
@@ -183,18 +168,16 @@ msgid "Business"
 msgstr "biashara"
 
 #: src/bungeni.core/bungeni/core/app.py:79
-#, fuzzy
 msgid "Daily operations of the parliament"
-msgstr "shughuli za bunge za kila siku"
+msgstr "shughuli za kila siku za bunge"
 
 #: src/bungeni.core/bungeni/core/app.py:81
 msgid "Members"
 msgstr "wanachama"
 
 #: src/bungeni.core/bungeni/core/app.py:82
-#, fuzzy
 msgid "Records on members of parliament"
-msgstr "nyaraka za wanachama wa bunge"
+msgstr "kumbukumbu za wanabunge"
 
 #: src/bungeni.core/bungeni/core/app.py:84
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:186
@@ -202,23 +185,20 @@ msgid "Archive"
 msgstr "nyaraka"
 
 #: src/bungeni.core/bungeni/core/app.py:85
-#, fuzzy
 msgid "Parliament records and documents"
-msgstr "nyaraka na hati za bunge"
+msgstr "kumbukumbu na hati za bunge"
 
 #: src/bungeni.core/bungeni/core/app.py:87
 msgid "Administration"
 msgstr "usimamizi"
 
 #: src/bungeni.core/bungeni/core/app.py:88
-#, fuzzy
 msgid "Administer bungeni settings"
-msgstr "simamia miongozo ya bungeni"
+msgstr "vipengele vya bunge"
 
 #: src/bungeni.core/bungeni/core/app.py:93
-#, fuzzy
 msgid "Parliamentary items"
-msgstr "machapisho ya bunge"
+msgstr "simamia vigezo vya bungeni"
 
 #: src/bungeni.core/bungeni/core/app.py:97
 msgid "My archive"
@@ -234,7 +214,7 @@ msgstr "%(transition)s: %(comment)s [mpito kutoka %(source)s kwa %(destination)s
 
 #: src/bungeni.core/bungeni/core/audit.py:177
 msgid "No IRequest in interaction"
-msgstr "hakuna IRequest katika mawasiliano"
+msgstr "hakuna irequest katika mawasiliano"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:141
@@ -243,9 +223,8 @@ msgstr "kikao: $group ($start kwa $end)"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:150
-#, fuzzy
 msgid "Sitting scheduled for '$group' ($start to $end)"
-msgstr "kikao kimeratibiwa katika &#39;$group&#39; ($start kwa $end)"
+msgstr "kikao kimeratibiwa kwa '$group' ($start to $end)"
 
 #: src/bungeni.core/bungeni/core/dc.py:160
 msgid "Item scheduling"
@@ -253,9 +232,8 @@ msgstr "kuorodhesha pointi"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:167
-#, fuzzy
 msgid "Scheduled for sitting ($start to $end)"
-msgstr "imeratibiwa kwa kikao ($start kwa $end)"
+msgstr "imeratibiwa katika kikao ($start to $end)"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:178
@@ -269,9 +247,8 @@ msgstr "aina $version"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:186
-#, fuzzy
 msgid "Last modified $date"
-msgstr "siku ya mwisho ilipohaririwa $date"
+msgstr "ilibadilishwa tarehe $date"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/dc.py:324
@@ -302,9 +279,8 @@ msgstr "HTML itatumika kufungua muundo wa opendocument"
 
 #. Default: ""
 #: src/bungeni.core/bungeni/core/version.py:117
-#, fuzzy
 msgid "Reverted to previous version $version"
-msgstr "imerudishwa hadi hatua ya awali $version"
+msgstr "imerudishwa katika hali ya awali $version"
 
 #. Default: "Agenda Item received"
 #: src/bungeni.core/bungeni/core/workflows/agendaitem.py:121
@@ -431,7 +407,6 @@ msgid "Submit a motion"
 msgstr "wasilisha msukumo"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:23
-#, fuzzy
 msgid "Receive a motion"
 msgstr "pokea msukumo"
 
@@ -492,9 +467,8 @@ msgid "Submit an agenda item"
 msgstr "wasilisha pointi ya ajenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
-#, fuzzy
 msgid "Receive an agenda item"
-msgstr "pokea pointi ya ajenda"
+msgstr "pokea hati iliyopendekezwa"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:43
 msgid "Review an agenda item"
@@ -518,24 +492,23 @@ msgstr "ondoa pointi ya ajenda"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:49
 msgid "Submit a tabled document"
-msgstr "wasilisha hati iliyoketishwa"
+msgstr "hati lililopendekezwa limeratibiwa"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:50
-#, fuzzy
 msgid "Receive a tabled document"
-msgstr "pokea hati iliyoketishwa"
+msgstr "pokea hati zilizopendekezwa"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:51
 msgid "Review a tabled document"
-msgstr "pitia hati iliyoketishwa"
+msgstr "pitia hati lililopendekezwa"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
 msgid "Speaker review a tabled document"
-msgstr "spika apitia hati iliyoketishwa"
+msgstr "spika amepitia hati lililopendekezwa"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:53
 msgid "Schedule a tabled document"
-msgstr "ratibu hati lililoketishwa"
+msgstr "ratibu hati lililopendekezwa"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:54
 msgid "Mark a tabled document as debated"
@@ -566,9 +539,8 @@ msgid "Submit a question"
 msgstr "wasilisha swali"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:9
-#, fuzzy
 msgid "Receive a question"
-msgstr "pokea swali"
+msgstr "hati zilizopendekezwa"
 
 #. Default: "Question received"
 #: src/bungeni.core/bungeni/core/workflows/question.py:241
@@ -672,42 +644,42 @@ msgstr "ratibu"
 #. Default: "Tabled document received"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:112
 msgid "notification_email_to_member_upon_receipt_of_tabled_document"
-msgstr "hati iliyoketishwa imepokewa"
+msgstr "hati lililopendekezwa limepokewa"
 
 #. Default: "Tabled document submitted"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:136
 msgid "notification_email_to_clerk_upon_submit_of_tabled_document"
-msgstr "hati lilioketishwa limewasilishwa"
+msgstr "hati liliopendekezwa limewasilishwa"
 
 #. Default: "Tabled document rejected"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:157
 msgid "notification_email_to_member_upon_rejection_of_tabled_document"
-msgstr "hati lililoketishwa limekataliwa"
+msgstr "hati lililopendekezwa limekataliwa"
 
 #. Default: "Your tabled document needs to be clarified"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:178
 msgid "notification_email_to_member_upon_need_clarification_of_tabled_document"
-msgstr "hati lako lahitaji kufafanuliwa"
+msgstr "hati lako ulilopendekeza lahitaji kufafanuliwa"
 
 #. Default: "Tabled document deferred"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:198
 msgid "notification_email_to_member_upon_defer_of_tabled_document"
-msgstr "hati iliyoketishwa imeahirishwa"
+msgstr "hati iliyopendekezwa imeahirishwa"
 
 #. Default: "Tabled document scheduled"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:219
 msgid "notification_email_to_member_upon_schedule_of_tabled_document"
-msgstr "hati iliyoketishwa imeratibiwa"
+msgstr "hati iliyopendekezwa imeratibiwa"
 
 #. Default: "Tabled document postponed"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:240
 msgid "notification_email_to_member_upon_postpone_of_tabled_document"
-msgstr "hati iliyoketishwa imeahirishwa"
+msgstr "hati iliyopendekezwa imeahirishwa"
 
 #. Default: "Tabled document was debated"
 #: src/bungeni.core/bungeni/core/workflows/tableddocument.py:260
 msgid "notification_email_to_member_upon_debate_of_tabled_document"
-msgstr "hati iliyoketishwa ilijadiliwa"
+msgstr "hati iliyopendekezwa imejadiliwa"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:10
 msgid "Whole House"
@@ -823,7 +795,7 @@ msgstr "kamati ya kwanza"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:264
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:321
 msgid "Redraft Rejected"
-msgstr "uandishi wa pili imekataliwa"
+msgstr "uandishi wa pili umekataliwa"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:18
 msgid "Report Reading Postponed"
@@ -931,7 +903,7 @@ msgstr "ya ndani - inayoonekana na watumiaji wa bungeni"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:346
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:350
 msgid "Public"
-msgstr "umma"
+msgstr "ya umma"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:207
 msgid "Private"

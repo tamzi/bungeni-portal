@@ -1,114 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
   <theme href="/static/themes/layout.html" />
-  <match path="exact:/"
-         class="frontpage" />
-  <match path="exact:/front-page"
-         class="frontpage" />
-  <match path="/workspace"  class="workspace-menu-items" />  
   <match path="regex:.*/(emptypage)$"
  	 abort="1" />
   <match path="/"
          class="primary" />
   
-  <rule class="workspace-menu-items">
-    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
-             pyarg-link_id="#user-workspace-id"/>
-  </rule>    
-  
-  <rule class="frontpage">
-    <!--header-->
-    <replace content="#portal-logo" theme="#portal-logo" />
-    <replace content="#portal-siteactions" theme="#portal-siteactions" />    
-    <replace content="#portal-searchbox" theme="#portal-searchbox" />
-    
-    <!-- menu -->
-    <append content="#portal-globalnav > li:first-child"
-            theme="children:#portal-globalnav > ul.level1" />    
-    <append content="#portal-globalnav > li"
-            theme="children:#portal-globalnav > ul" />
-
-    <replace content="#portal-personaltools" theme="#portal-personaltools" />
-    <append href="/workspace"
-            content="ul#portal-personaltools li.navigation"
-            theme="children:#portal-globalnav ul.level1" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:add_member_workspace_links"
-             pyarg-link_id="#user-workspace-id"/>    
-    <!-- breadcrumbs -->
-    <replace content="#portal-breadcrumbs" theme="#portal-breadcrumbs" />
-
-    <!-- content -->
-    <append content=".portletWorkflowReview"
-            theme="children:#review-portlet" />
-    <append content=".documentActions"
-            theme="children:#portal-column-content" />                        
-    <!-- right portlet -->
-<!--    <append href="/plone/"
-             content="children:#region-content"
-             theme="children:#portal-column-content"/>    -->
-    <append content="children:#portal-column-two" theme="children:#portal-column-two" />
-    
-    <!-- body attributes -->
-    <append content="attributes(class):body"
-            theme="attributes:body" />
-    <replace content="attributes(class):body"
-            theme="attributes:dl.enableFormTabbing" />            
-    <pyquery pyref="bungeni.portal/static/themes/rules:move_portlet" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:drop_whatsonLinks" />        
-  </rule>  
-
-
   <rule class="primary">
-    <drop theme=".workspace-tab"
-          if-content="not:a[href*='committees/obj-'], a[href*='members/current/obj-']"/>     
     <append theme="//head" content="//head/meta" nocontent="ignore" />     
-    <!-- header -->
-    <replace content="#portal-logo" theme="#portal-logo" />
-    <replace content="#portal-searchbox" theme="#portal-searchbox" />
 
     <!-- menu -->
-
     <append content="#portal-globalnav > li"
             theme="children:#portal-globalnav > ul" />    
-
-    <append href="/plone"
-            content="#portal-globalnav > li:nth-child(5)"
-            theme="children:#portal-globalnav > ul" />
-    <append href="/plone"
-            content="#portal-globalnav > li:nth-child(6)"
-            theme="children:#portal-globalnav > ul" />
-    <append href="/plone"
-            content="#portal-globalnav > li:nth-child(7)"
-            theme="children:#portal-globalnav > ul" />            
     <prepend content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1"
-            if-content=".navigation" />    
-    <append href="/plone"
-            content="children:#portal-personaltools :not(.navigation)"
-            theme="children:#portal-personaltools" />            
+            if-content=".navigation" />
+    
+    <replace content="children:#portal-personaltools :not(.navigation)"
+            theme="children:#portal-personaltools" />
 
     <!-- breadcrumbs -->
-    <drop content="#breadcrumbs-you-are-here"/>    
-    <drop content="#portal-breadcrumbs > a"/>
     <append content="children:#portal-breadcrumbs" theme="children:#portal-breadcrumbs" />
-    <prepend href="/plone"
-             content="#portal-breadcrumbs > a"
-             theme="children:#portal-breadcrumbs" />
-    <prepend href="/plone"
-             content="#breadcrumbs-you-are-here"
-             theme="children:#portal-breadcrumbs" />    
     <!-- content -->
-    <replace content="#portal-column-one"
-             theme="#portal-column-one"/>     
-    <append content="children:#portal-column-content" theme="children:.main-content" />
-    <replace content="#portal-column-two"
-             theme="#portal-column-two"/>     
-    <pyquery pyref="bungeni.portal/static/themes/rules:drop_contentActions" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:rewrite_links" />    
+    <replace content="#portal-columns"
+             theme="#portal-columns"/>     
+
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />
-    <pyquery pyref="bungeni.portal/static/themes/rules:modify_siteactions" />        
-    <pyquery pyref="bungeni.portal/static/themes/rules:drop_tabLinks" />    
     <pyquery pyref="bungeni.portal/static/themes/rules:add_section_links"/>
     
    </rule>

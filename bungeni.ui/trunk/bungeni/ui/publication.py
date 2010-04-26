@@ -69,7 +69,7 @@ mapping = (
     (re.compile(r'^business(/)?$'), interfaces.IBusinessWhatsOnSectionLayer),
     # Matches "business/" followed by anything but whats-on
     (re.compile(r'^business(?!/whats-on)(/.*)+$'), interfaces.IBusinessSectionLayer),
-    # Matches "business/whats-on"    
+    # Matches "business/whats-on"
     (re.compile(r'^business/whats-on(/.*)?$'), interfaces.IBusinessWhatsOnSectionLayer),
     (re.compile(r'^members(/.*)?$'), interfaces.IMembersSectionLayer), 
     (re.compile(r'^admin(/.*)?$'), interfaces.IAdminSectionLayer),        

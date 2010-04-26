@@ -258,7 +258,6 @@ class WorkflowMenu(BrowserMenu):
         wf_info = IWorkflowInfo(context)
         transitions = wf_info.getManualTransitionIds()
         
-
         parliament_id = getCurrentParliamentId()
         
         url = ui_url.absoluteURL(context, request)

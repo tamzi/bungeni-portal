@@ -3,8 +3,9 @@ from bungeni.ui.calendar.utils import unpack_date_range
 
 date_range_cookie_name = "date_range"
 
-def get_primary_path(request):
-    return "/%s" % request['PATH_INFO'].lstrip('/').split('/', 1)[0]
+def _get_first_url_component(request):
+    #This should only be called after traversing the root.
+    return request.getURL(level=0, path_only=True)
 
 def get_date_range(request):
     cookie = request.getCookies().get(date_range_cookie_name)
@@ -18,9 +19,10 @@ def set_date_range(request, start, end, path=None):
 
     By default the path is set to the first path element.
     """
-    
+
     if path is None:
-        path = get_primary_path(request)
+        path = _get_first_url_component(request)
+        
     request.response.setCookie(
         date_range_cookie_name, pack_date_range(start, end),
         max_age=3600, path=path)
@@ -32,6 +34,6 @@ def unset_date_range(request, path=None):
     """
 
     if path is None:
-        path = get_primary_path(request)
+        path = _get_first_url_component(request)
     request.response.setCookie(date_range_cookie_name, "deleted", path=path)
     request.response.expireCookie(date_range_cookie_name, path=path)

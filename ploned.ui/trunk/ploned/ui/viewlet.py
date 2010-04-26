@@ -29,4 +29,3 @@ class ContentViewsViewlet(StructureAwareViewlet):
     def update(self):
         # retrieve menu
         self.context_actions = getMenu("context_actions", self.context, self.request)
-

@@ -143,6 +143,6 @@ class ArchiveDatesViewlet(object):
         if start_date or end_date:
             self.filter_on = 'dates-filtered'     
         else:
-            self.filter_on = ''    
-            
+            self.filter_on = ''
+
             

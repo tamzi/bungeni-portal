@@ -15,3 +15,10 @@ def add_section_links(content, theme, resource_fetcher, log):
     else:
         theme('body').addClass('template-portal')
 
+def add_plone_tabs(content, theme, resource_fetcher, log):
+    """
+    Add top level dummy menu tabs to represent plone content.
+    """
+    theme('.level0').append("<li class='plain'><a href='#'>have our say</a></li>")
+    theme('.level0').append("<li class='plain'><a href='#'>how we work</a></li>")
+    theme('.level0').append("<li class='plain'><a href='#'>reference material</a></li>")

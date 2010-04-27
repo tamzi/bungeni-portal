@@ -97,8 +97,7 @@ abs_root = os.path.dirname(os.path.abspath(__file__))
 additional_collections = {
     #"bungeni.ui":"templates", # already the "" default collection (default_dir)
     "bungeni.ui.viewlets":"viewlets/templates",
-    #"bungeni.ui.forms":"forms/templates", 
-    ##"bungeni.ui.portlets":"portlets/templates",
+    #"bungeni.ui.forms":"forms/templates",
     #"ploned.ui":"../../../ploned.ui/ploned/ui/templates",
     #"alchemist.ui":"../../../alchemist.ui/alchemist/ui/templates"
 }

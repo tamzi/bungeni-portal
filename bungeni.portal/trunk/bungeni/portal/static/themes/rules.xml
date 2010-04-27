@@ -7,7 +7,7 @@
          class="primary" />
   
   <rule class="primary">
-    <append theme="//head" content="//head/meta" nocontent="ignore" />     
+    <append theme="//head" content="//head/meta" nocontent="ignore" />
 
     <!-- menu -->
     <append content="#portal-globalnav > li"
@@ -28,6 +28,7 @@
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />
     <pyquery pyref="bungeni.portal/static/themes/rules:add_section_links"/>
+    <pyquery pyref="bungeni.portal/static/themes/rules:add_plone_tabs"/>
     
    </rule>
 

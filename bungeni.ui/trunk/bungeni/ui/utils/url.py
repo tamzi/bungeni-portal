@@ -14,12 +14,28 @@ log = __import__("logging").getLogger("bungeni.ui.utils.url")
 import common
 
 def get_destination_url_path(request=None):
-    """Get the target URL path of the (current) request."""
+    """Get the (effective, sans any "traversal namespace notation" components
+    and other such "traversal processing instruction" url components) target 
+    URL path of the (current) request.
+    """
     if request is None:
         request = common.get_request()
-    # request.URL
-    #_url = request.get("PATH_INFO")
-    _url = request.getURL(level=0, path_only=True)
+    #_url = request.URL
+    #_url = request.getURL(level=0, path_only=True)
+    # NOTE: both URL and getURL() depend on where we are in the traversal 
+    # process i.e. they return the *currently* traversed URL path and not 
+    # the full requested path. 
+    # 
+    # So, we use the request's PATH_INFO but as this may contain:
+    # - (++) any number of Zope "traversal namespace notation" url components
+    # - (@@/) to indicate that the URL is for an object that is a resource
+    # - (@@)) to indicate a view name
+    # we need to get rid 
+    # of them:
+    _url = "/".join([ url_component 
+                      for url_component in request.get("PATH_INFO").split("/")
+                      if not url_component.startswith("++") and
+                         not url_component.startswith("@@") ])
     log.debug(" [get_destination_url_path] %s " % _url)
     return _url
 

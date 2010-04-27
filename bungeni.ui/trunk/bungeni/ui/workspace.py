@@ -2,7 +2,7 @@
 # Copyright (C) 2010 - Africa i-Parliaments - http://www.parliaments.info/
 # Licensed under GNU GPL v2 - http://www.gnu.org/licenses/gpl-2.0.txt
 
-"""Workspace Views
+"""User Workspaces
 
 $Id$
 """
@@ -112,25 +112,18 @@ def prepare_user_workspaces(event):
             # user is logged in
             interfaces.IBungeniAuthenticatedSkin.providedBy(req)
             and (
-                # the request should be for a view within /workspace
+                # either the request should be for a view within /workspace
                 # note: IWorkspaceSectionLayer is applied to the request by 
-                # publication.apply_request_layers_by_url() that therefore must 
+                # publication.apply_request_layer_by_url() that therefore must 
                 # have already been called
                 interfaces.IWorkspaceSectionLayer.providedBy(req)
-                or (
-                    # the request is for "/" - we need to know the user 
-                    # workspaces to be able to redirect appropriately
-                    destination_url_path=="/"
-                    and not "/++resource++" in path_info
-                    and not path_info.startswith("/@@/")
-                    # !+ IHomeLayer
-                )
+                or 
+                # or the request is for *the* Home Page -- as in this case we 
+                # still need to know the user workspaces to be able to redirect 
+                # appropriately
+                interfaces.IHomePageLayer.providedBy(req)
             )
         )
-    if IAnnotations(request).get("layer_data_initialized", False):
-        # ensure that for a request user workspaces are prepared only once
-        return
-    IAnnotations(request)["layer_data_initialized"] = True
     # !+ above flag handling as parametrized utility to wrap a callable
     if not need_to_prepare_workspaces(event.object, request):
         return
@@ -146,14 +139,13 @@ def prepare_user_workspaces(event):
         government_id=None,
         ministry_ids=None,
     )
-    #    LD = IAnnotations(request)["layer_data"] = ...
     
     LD.user_id = get_db_user_id()
     try:
         parliament = get_current_parliament(None)
         assert parliament is not None # force exception
         # we do get_roles under the current parliament as context, but we 
-        # must ensure that the BungeniApp is along the __parent__ stack:
+        # must also ensure that the BungeniApp is along the __parent__ stack:
         parliament.__parent__ = application
         roles = get_roles(parliament)
         # "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
@@ -199,7 +191,8 @@ def prepare_user_workspaces(event):
     log.debug(" [prepare_user_workspaces] %s" % debug.interfaces(request))
     log.info(""" [prepare_user_workspaces] DONE:
         for: [request=%s][path=%s][path_info=%s]
-        request.layer_data: %s""" % (id(request), destination_url_path, path_info,
+        request.layer_data: %s""" % (
+            id(request), destination_url_path, path_info,
             IAnnotations(request).get("layer_data", None)))
 
 # traversers
@@ -209,7 +202,7 @@ def workspace_resolver(context, request, name):
     
     Raise zope.publisher.interfaces.NotFound if no container found.
     This is a callback for the "/workspace" Section (the context here), 
-    to resolve which domain object is needed for a workspace.
+    to resolve which domain object is the workspace container.
     """
     if name.startswith("obj-"):
         obj_id = int(name[4:])
@@ -303,7 +296,7 @@ def getWorkSpacePISection(workspace):
             description=_(u" items"))
     s["committees"] = QueryContent(
             container_getter(workspace, 'committees'),
-            #title=_(u"Committees"), # title=None to not show up in menu
+            #title=_(u"Committees"),
             description=_(u"Committees"))
     log.debug("WorkspacePISection %s" % debug.interfaces(s))
     return s
@@ -347,10 +340,10 @@ def getWorkSpaceArchiveSection(workspace):
 
 
 ''' !+ workspace section contexts:
-the more logical approach -- that did not work -- for the PI and Archive 
-workspace sections: the idea is to have WorkspaceContainerTraverser return 
-an interfaces.IWorkspacePIContext(workspace_container), that would then be
-defined something like:
+the more logical approach [ForbiddenAttribute error on Section] for the PI and 
+Archive workspace sections: the idea is to have WorkspaceContainerTraverser 
+return an interfaces.IWorkspacePIContext(workspace_container), that would then 
+be defined something like:
 
 <adapter factory=".workspace.WorkspacePIContext" 
     for=".interfaces.IWorkspaceContainer" 
@@ -409,7 +402,6 @@ class WorkspaceSchedulingContext(object):
         return _(u"Unknown principal group")
     
     def get_group(self, name="group"):
-
         if self.group_id is None:
             return
         try:
@@ -469,8 +461,10 @@ class WorkspaceSectionView(BungeniBrowserView):
         assert interfaces.IWorkspaceSectionLayer.providedBy(request)
         assert LD.get("workspaces") is not None        
         super(WorkspaceSectionView, self).__init__(context, request)
-        log.debug(" __init__ %s context=%s url=%s" % (
-                                        self, self.context, request.getURL()))
+        cls_name = self.__class__.__name__ 
+        # NOTE: Zope morphs this class's name to "SimpleViewClass from ..." 
+        log.debug("%s.__init__ %s context=%s url=%s" % (
+                            cls_name, self, self.context, request.getURL()))
         
         # transfer layer data items, for the view/template
         self.user_id = LD.user_id
@@ -486,16 +480,14 @@ class WorkspaceSectionView(BungeniBrowserView):
             iface = self.role_interface_mapping.get(role_id)
             if iface is not None:
                 interface.alsoProvides(self, iface)
-
+        log.debug("%s.__init__ %s" % (cls_name, debug.interfaces(self)))
+        
 class WorkspacePIView(WorkspaceSectionView):
     page_title = u"Bungeni Workspace"
     provider_name = "bungeni.workspace"
     def __init__(self, context, request):
         super(WorkspacePIView, self).__init__(
                 interfaces.IWorkspacePIContext(context), request)
-        interface.alsoProvides(self.context, ILocation) # !+ needs it (again!)
-        log.debug("WorkspacePIView %s" % debug.interfaces(self))
-        log.debug("WorkspacePIView %s" % debug.location_stack(self))
 
 class WorkspaceArchiveView(WorkspaceSectionView):
     provider_name = "bungeni.workspace-archive"
@@ -503,8 +495,5 @@ class WorkspaceArchiveView(WorkspaceSectionView):
     def __init__(self, context, request):
         super(WorkspaceArchiveView, self).__init__(
                 interfaces.IWorkspaceArchiveContext(context), request)
-        interface.alsoProvides(self.context, ILocation) # !+ needs it (again!)
-        log.debug("WorkspaceArchiveView %s" % debug.interfaces(self))
-        log.debug("WorkspaceArchiveView %s" % debug.location_stack(self))
-    
+
 

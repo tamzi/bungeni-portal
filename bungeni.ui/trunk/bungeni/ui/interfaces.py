@@ -33,6 +33,11 @@ class IMPWorkspace(IBrowserView):
     """MP's workspace."""
 
 
+class IHomePageLayer(IDefaultBrowserLayer):
+    """Requests for the Home Page."""
+class IResourceNonLayer(interface.Interface):
+    """A fake layer, to mark that the request is for some resource"""
+
 class IArchiveSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the archive."""
 

@@ -118,13 +118,12 @@ def prepare_user_workspaces(event):
                 # have already been called
                 interfaces.IWorkspaceSectionLayer.providedBy(req)
                 or 
-                # or the request is for *the* Home Page -- as in this case we 
-                # still need to know the user workspaces to be able to redirect 
-                # appropriately
+                # or the request is for *the* Home Page -- in this case
+                # we still need to know the user workspaces to be able to 
+                # redirect appropriately
                 interfaces.IHomePageLayer.providedBy(req)
             )
         )
-    # !+ above flag handling as parametrized utility to wrap a callable
     if not need_to_prepare_workspaces(event.object, request):
         return
     

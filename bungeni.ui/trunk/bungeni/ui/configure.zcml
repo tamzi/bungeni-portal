@@ -31,9 +31,6 @@
   <!-- Resources -->
   <include file="resources.zcml"/>  
 
-  <!-- Site Portlets -->
-  <include package=".portlets" />
-
   <!-- Site Viewlets -->
   <include package=".viewlets" />
 

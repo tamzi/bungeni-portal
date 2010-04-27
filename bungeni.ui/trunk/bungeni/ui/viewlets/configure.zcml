@@ -7,6 +7,26 @@
   <include file="workspace.zcml" />
   <include file="schedule.zcml" />
   
+    <browser:viewlet
+        name="bungeni.content-actions-portlet"
+        for="*"
+        layer="..interfaces.IBungeniAuthenticatedSkin"
+        permission="zope.View"
+        manager="ploned.ui.interfaces.ILeftColumnManager"
+        class="ploned.ui.viewlet.ContentViewsViewlet"     
+        weight="5"       
+    /><!-- logged in, for all sections -->
+    <browser:viewlet
+        name="bungeni.content-actions-portlet"
+        for="*"
+        layer="..interfaces.IArchiveSectionLayer" 
+        permission="zope.View"
+        manager="ploned.ui.interfaces.ILeftColumnManager"
+        class="ploned.ui.viewlet.ContentViewsViewlet"     
+        weight="5"       
+    /><!-- not logged in, for Archive Section -->
+
+  
   <!-- navigation  - the navigation is Public -->
   
   <browser:viewlet

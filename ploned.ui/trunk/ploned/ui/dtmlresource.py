@@ -32,7 +32,7 @@ class CSSPropertiedDTMLResource(FileResource):
         file = self.chooseContext()
         
         properties_file = os.path.join( os.path.dirname( file.path ), self._property_file )
-        d = {}        
+        d = {}
         if not os.path.exists( properties_file ):
             return d
             
@@ -48,7 +48,7 @@ class CSSPropertiedDTMLResource(FileResource):
         fh.close()
         return d
             
-class DTMLResourceFactory(object):        
+class DTMLResourceFactory(object):
 
     def __init__(self, path, checker, name):
         self.__file = File(path, name)

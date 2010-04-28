@@ -1,5 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:db="http://namespaces.objectrealms.net/rdb"
            xmlns:xapian="http://namespaces.objectrealms.net/xapian"
            i18n_domain="bungeni">
@@ -8,7 +8,7 @@
   <include package="zope.app.zcmlfiles" />
 
   <include package="ore.alchemist" file="meta.zcml" />
-  <include package="ore.alchemist" />  
+  <include package="ore.alchemist" />
   <include package="alchemist.catalyst" file="meta.zcml" />
   <include package="alchemist.ui" />
 

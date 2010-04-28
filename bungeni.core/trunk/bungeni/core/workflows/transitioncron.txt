@@ -57,7 +57,7 @@ Questions
   ...     approval_date=daybeforeyesterday,
   ...     status=u"admissible",
   ...     language="en",
-  ...     owner_id=mp_1.user_id,  
+  ...     owner_id=mp_1.user_id,
   ...     short_name="question 1")
 
   >>> question2 = add_content(
@@ -65,7 +65,7 @@ Questions
   ...     approval_date=yesterday,
   ...     status=u"admissible",
   ...     language="en",
-  ...     owner_id=mp_1.user_id,  
+  ...     owner_id=mp_1.user_id,
   ...     short_name="question 2")
 
   >>> question3 = add_content(
@@ -73,7 +73,7 @@ Questions
   ...     approval_date=yesterday,
   ...     status=u"complete",
   ...     language="en",
-  ...     owner_id=mp_1.user_id,  
+  ...     owner_id=mp_1.user_id,
   ...     short_name="question 3")
 
 Get the questions that are in the workflow state:
@@ -89,7 +89,7 @@ Get the questions that are in the workflow state:
 Defer admissible question older than today.
 
   >>> cron._deferAdmissibleQuestionsBefore(today)
-  >>> session.flush()     
+  >>> session.flush()
  
   >>> len(cron._getQuestionsApprovedBefore(
   ...     today, "admissible"))

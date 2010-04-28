@@ -99,14 +99,14 @@
      for="marginalia.interfaces.IMarginaliaAnnotatable"
      action="annote.html"
      title="Comment"
-     />       
+     />
 
    <browser:menuItem
      menu="context_actions"
      for="marginalia.interfaces.IMarginaliaAnnotatable"
      action="amend.html"
      title="Amend"
-     />       
+     />
 
   <browser:page
       for="marginalia.interfaces.IMarginaliaAnnotatable"

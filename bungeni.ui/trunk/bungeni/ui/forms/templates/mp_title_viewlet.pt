@@ -42,5 +42,5 @@
         </tr>
       </tal:loop>
     </tbody>
-  </table>  
+  </table>
 </dd>

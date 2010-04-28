@@ -3,136 +3,136 @@
    id="tableddocument-workflow"
    title="Tabled Document Workflow"
    description="A tabled document"
-   domain="bungeni.ui"   
+   domain="bungeni.ui"
    initial_state="">
 
   <state id="draft" title="Draft">
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
-    <grant permission="zope.View" role="bungeni.Owner" />    
-    <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />   
-    <deny permission="zope.View" role="bungeni.MP" />     
-    <deny permission="zope.View" role="bungeni.Clerk" />       
-    <deny permission="zope.View" role="bungeni.Speaker" />  
-    <deny permission="zope.View" role="bungeni.Minister" />  
+    <grant permission="zope.View" role="bungeni.Owner" />
+    <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />
+    <deny permission="zope.View" role="bungeni.MP" />
+    <deny permission="zope.View" role="bungeni.Clerk" />
+    <deny permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="zope.View" role="bungeni.Minister" />
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />  
+    <deny permission="zope.View" role="bungeni.Anybody" />
     <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" /> 
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                           
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
   <state id="submitted" title="Submitted">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
-    <deny permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />    
-    <grant permission="zope.View" role="bungeni.Clerk" />   
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />      
-    <grant permission="zope.View" role="bungeni.Speaker" />                        
+    <deny permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
   </state>
 
-  <state id="received" title="Received by Clerks Office">  
+  <state id="received" title="Received by Clerks Office">
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Clerk" /> 
     <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                             
-    <grant permission="zope.View" role="bungeni.Speaker" />       
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
   </state>
 
-  <state id="complete" title="Submitted to the Speaker">  
+  <state id="complete" title="Submitted to the Speaker">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />      
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />       
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />       
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                        
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="admissible" title="Admissible">  
-    <grant permission="zope.View" role="bungeni.Everybody" />   
-    <grant permission="zope.View" role="bungeni.Anybody" />    
+  <state id="admissible" title="Admissible">
+    <grant permission="zope.View" role="bungeni.Everybody" />
+    <grant permission="zope.View" role="bungeni.Anybody" />
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />   
+    <grant permission="zope.View" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                                                     
-  </state>    
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+  </state>
 
   <state id="schedule_pending" title="Schedule pending">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-  </state>    
+  </state>
 
-  <state id="inadmissible" title="Inadmissible">     
+  <state id="inadmissible" title="Inadmissible">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                                  
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
   
-  <state id="clarify_clerk" title="Needs Clarification by Clerks Office">     
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />    
+  <state id="clarify_clerk" title="Needs Clarification by Clerks Office">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                   
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                            
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
 
-  <state id="clarify_mp" title="Needs Clarification by MP">  
+  <state id="clarify_mp" title="Needs Clarification by MP">
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />   
+    <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" /> 
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                                   
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
 
   <!-- is scheduled for debate at a sitting -->
-  <state id="scheduled" title="Scheduled">  
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+  <state id="scheduled" title="Scheduled">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-  </state>    
+  </state>
   <!-- admissable tableddocument that cannot be debated -->
-  <state id="deferred" title="Deferred">  
+  <state id="deferred" title="Deferred">
 
-  </state>    
+  </state>
   <!--tableddocument was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="Postponed">  
+  <state id="postponed" title="Postponed">
 
-  </state>    
+  </state>
   <!--defered or postponed tableddocument that were not debated -->
-  <state id="elapsed" title="Elapsed">  
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+  <state id="elapsed" title="Elapsed">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-  </state>    
+  </state>
   <!--a tableddocument was debated  -->
-  <state id="debated" title="Debated">  
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+  <state id="debated" title="Debated">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
   </state>
   
-  <state id="debate_adjourned" title="Debate adjourned">  
+  <state id="debate_adjourned" title="Debate adjourned">
   
-  </state>   
-
-  <state id="withdrawn" title="Withdrawn">  
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                   
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />                   
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                      
   </state>
 
-  <state id="withdrawn_public" title="Withdrawn">  
-    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />      
+  <state id="withdrawn" title="Withdrawn">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                   
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />                   
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                      
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+  </state>
+
+  <state id="withdrawn_public" title="Withdrawn">
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
 
@@ -180,7 +180,7 @@
      action="bungeni.core.workflows.tableddocument.actions.require_edit_by_mp"
      condition=""
      event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"
-     require_confirmation="true"          
+     require_confirmation="true"
      />
   <transition
      id="complete"
@@ -200,7 +200,7 @@
      trigger="manual"
      source="submitted
              received"
-     destination="complete"     
+     destination="complete"
      permission="bungeni.tableddocument.speaker.Review"
      action="bungeni.core.workflows.tableddocument.actions.complete"
      condition=""
@@ -238,7 +238,7 @@
      action="bungeni.core.workflows.tableddocument.actions.reject"
      condition=""
      event="bungeni.core.workflows.interfaces.ITabledDocumentRejectedEvent"
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   
   <transition
@@ -263,7 +263,7 @@
      permission="bungeni.tableddocument.speaker.Review"
      action="bungeni.core.workflows.tableddocument.actions.require_amendment"
      condition=""
-     require_confirmation="true"          
+     require_confirmation="true"
      />
   <transition
      id="complete-clarify"
@@ -284,8 +284,8 @@
      permission="bungeni.tableddocument.clerk.Review"
      action="bungeni.core.workflows.tableddocument.actions.mp_clarify"
      condition=""
-     event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"    
-     require_confirmation="true"          
+     event="bungeni.core.workflows.interfaces.ITabledDocumentClarifyEvent"
+     require_confirmation="true"
      />
   <transition
      id="resubmit-clerk"
@@ -338,7 +338,7 @@
      permission="bungeni.tableddocument.RevertTransitions"
      action="bungeni.core.workflows.tableddocument.actions.approve"
      condition=""
-     />  
+     />
   
   <transition
      id="schedule-deferred"
@@ -349,7 +349,7 @@
      permission="bungeni.tableddocument.Schedule"
      action="bungeni.core.workflows.tableddocument.actions.schedule"
      condition="bungeni.core.workflows.tableddocument.conditions.is_scheduled"
-     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"    
+     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"
      />
   <transition
      id="postpone"
@@ -383,7 +383,7 @@
      permission="bungeni.tableddocument.Schedule"
      condition=""
      event=""
-     />     
+     />
      
   <transition
      id="schedule-postponed"
@@ -394,7 +394,7 @@
      permission="bungeni.tableddocument.Schedule"
      action="bungeni.core.workflows.tableddocument.actions.schedule"
      condition="bungeni.core.workflows.tableddocument.conditions.is_scheduled"
-     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"    
+     event="bungeni.core.workflows.interfaces.ITabledDocumentScheduledEvent"
      />
   <transition
      id="elapse-postponed"
@@ -413,7 +413,7 @@
      trigger="manual"
      source="submitted
              received
-             complete             
+             complete
              clarify_mp"
      destination="withdrawn"
      permission="bungeni.tableddocument.Withdraw"

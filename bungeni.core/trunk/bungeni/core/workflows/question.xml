@@ -3,91 +3,91 @@
    id="question-workflow"
    title="Question Workflow"
    description="A question"
-   domain="bungeni.ui"   
+   domain="bungeni.ui"
    initial_state="">
 
   <state id="draft" title="Draft">
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
-    <grant permission="zope.View" role="bungeni.Owner" />    
-    <grant permission="bungeni.question.Delete" role="bungeni.Owner" />    
-    <deny permission="bungeni.question.Add" role="bungeni.MP" />  
-    <deny permission="zope.View" role="bungeni.MP" />     
-    <deny permission="zope.View" role="bungeni.Clerk" />       
-    <deny permission="zope.View" role="bungeni.Speaker" />  
-    <deny permission="zope.View" role="bungeni.Minister" />  
+    <grant permission="zope.View" role="bungeni.Owner" />
+    <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
+    <deny permission="bungeni.question.Add" role="bungeni.MP" />
+    <deny permission="zope.View" role="bungeni.MP" />
+    <deny permission="zope.View" role="bungeni.Clerk" />
+    <deny permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="zope.View" role="bungeni.Minister" />
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />     
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />   
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                        
+    <deny permission="zope.View" role="bungeni.Anybody" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
   <state id="submitted" title="Submitted to clerk">
     <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
-    <grant permission="zope.View" role="bungeni.Clerk" />    
-    <grant permission="zope.View" role="bungeni.Speaker" />        
-    <deny permission="bungeni.question.Delete" role="bungeni.Owner" />     
-    <grant permission="zope.View" role="bungeni.Speaker" />      
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="bungeni.question.Delete" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                                        
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
   <state id="received" title="Received by clerk">
     <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
-    <grant permission="zope.View" role="bungeni.Speaker" />        
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />    
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                      
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
   <state id="complete" title="Submitted to the Speaker">
-    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />    
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                                      
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
     <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                      
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                                  
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
 
   <state id="admissible" title="Admissible">
-    <grant permission="zope.View" role="bungeni.Everybody" />    
-    <grant permission="zope.View" role="bungeni.Anybody" />          
+    <grant permission="zope.View" role="bungeni.Everybody" />
+    <grant permission="zope.View" role="bungeni.Anybody" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                         
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
 
   <state id="inadmissible" title="Inadmissible">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                            
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
 
   <state id="clarify_mp" title="Needs MPs clarification">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.question.Edit" role="bungeni.Owner" />  
+    <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.clerk" />
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.clerk" />
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />          
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
   <state id="clarify_clerk" title="Needs clerks clarification">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />    
-    <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
     <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />           
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
   <state id="schedule_pending" title="Schedule pending">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />          
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
   </state> 
 
   <state id="scheduled" title="Scheduled">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.response.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />   
-    <grant permission="bungeni.response.View" role="bungeni.Clerk" />         
+    <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.View" role="bungeni.Clerk" />
   </state>
 
   
@@ -95,26 +95,26 @@
   </state>
   
   <state id="response_pending" title="Pending response">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <grant permission="bungeni.response.Edit" role="bungeni.Minister" />   
-    <grant permission="bungeni.response.View" role="bungeni.Minister" />        
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.response.Edit" role="bungeni.Minister" />
+    <grant permission="bungeni.response.View" role="bungeni.Minister" />
   </state>
 
   <state id="response_submitted" title="Response submitted">
     <grant permission="bungeni.response.Edit" role="bungeni.Clerk"/>
-    <grant permission="zope.View" role="bungeni.Clerk"/>    
+    <grant permission="zope.View" role="bungeni.Clerk"/>
     <deny permission="bungeni.response.Edit" role="bungeni.Owner"/>
     <deny permission="bungeni.response.Edit" role="bungeni.Minister"/>
-    <grant permission="bungeni.response.View" role="bungeni.Clerk" />        
-    <grant permission="bungeni.response.View" role="bungeni.Speaker" />                
+    <grant permission="bungeni.response.View" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.View" role="bungeni.Speaker" />
   </state>
 
   <state id="response_complete" title="Response completed">
     <deny permission="bungeni.response.Edit" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Everybody" />
-    <grant permission="zope.View" role="bungeni.Anybody" />   
-    <grant permission="bungeni.response.View" role="bungeni.Everybody" />        
-    <grant permission="bungeni.response.View" role="bungeni.Anybody" />                 
+    <grant permission="zope.View" role="bungeni.Anybody" />
+    <grant permission="bungeni.response.View" role="bungeni.Everybody" />
+    <grant permission="bungeni.response.View" role="bungeni.Anybody" />
   </state>
 
 
@@ -129,34 +129,34 @@
   </state>
 
 
-  <state id="debated" title="Debated">  
-    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />      
+  <state id="debated" title="Debated">
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
   </state>
 
   <state id="withdrawn" title="Withdrawn">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
-    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />          
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />     
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
   
   <state id="withdrawn_public" title="Withdrawn">
-    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />  
-    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />  
-    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />          
+    <deny permission="bungeni.question.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.question.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />  
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />     
-  </state>  
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
+  </state>
 
   <transition 
      id="create"
@@ -196,7 +196,7 @@
       a notification to the MP to access the question and review it according 
       to Speaker/Clerk's  office remarks. 
       A new version of the question will be created, once the question is modified and saved.
-    -->     
+    -->
   <transition 
      id="require-edit-by-mp"
      title="Needs Clarification by MP"
@@ -207,7 +207,7 @@
      action="bungeni.core.workflows.question.actions.require_edit_by_mp"
      condition=""
      event=".interfaces.IQuestionClarifyEvent"
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   
   <!--After the Clerk's Office is through with the Notices reviews and there are satisfied 
@@ -217,7 +217,7 @@
       While the ministry can preview the question the ministry cannot respond until 
       the state of the question has been set to “admissible” by the Speaker's office 
       (for details about questions being set to “admissible” see Approval of Questions )
-    -->    
+    -->
   
   <transition 
      id="complete"
@@ -239,11 +239,11 @@
      source="submitted
              received"
      destination="complete"
-     permission="bungeni.question.speaker.Review"          
+     permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.actions.complete"
      condition=""
      event=".interfaces.IQuestionCompleteEvent"
-     />     
+     />
      
   <!--the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
       or “requires amendment”.
@@ -251,7 +251,7 @@
       An inadmissible Question is rejected and the Member who proposed the Question 
       will be notified accordingly via their workspace and optionally by email.
       Question that require amendments may be modified and re-submitted
-      Questions marked as “admissible” are then made available for Scheduling   
+      Questions marked as “admissible” are then made available for Scheduling
     -->
   
   <transition 
@@ -276,7 +276,7 @@
      action="bungeni.core.workflows.question.actions.reject"
      condition=""
      event=".interfaces.IQuestionRejectedEvent"
-     require_confirmation="true"     
+     require_confirmation="true"
      />
      
   <transition 
@@ -289,13 +289,13 @@
      action="bungeni.core.workflows.question.actions.require_amendment"
      condition=""
      event=""
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   
   <!--
       a question that requires clarification/amendmends
       can be resubmitted by the clerks office
-    -->        
+    -->
   
   <transition 
      id="complete-clarify"
@@ -310,7 +310,7 @@
      />
   <!--
       or send to the mp for clarification
-    -->           
+    -->
   
   <transition 
      id="mp-clarify"
@@ -322,12 +322,12 @@
      action="bungeni.core.workflows.question.actions.mp_clarify"
      condition=""
      event=""
-     require_confirmation="true"     
+     require_confirmation="true"
      />
 
   <!--
       after a question is amended it can be resubmitted to the clerks office
-    -->           
+    -->
   
   <transition 
      id="resubmit-clerk"
@@ -346,7 +346,7 @@
       select questions for scheduling for a specific sitting
       Questions when “admissible” are made available for “scheduling”
       Questions with the “require a Written response” flag do not appear as questions available for scheduling.
-    -->    
+    -->
   
   
   <!--
@@ -383,7 +383,7 @@
   <!--
       questions which are flagged as “requiring written response” are never scheduled,
       but are answered directly by the ministry 
-    -->    
+    -->
   
   <transition 
      id="send-ministry"
@@ -399,7 +399,7 @@
   
   <!--
       questions can be forwarded to another ministry to be answered.
-    -->      
+    -->
   
   <transition 
      id="forward-ministry"
@@ -411,7 +411,7 @@
      action="bungeni.core.workflows.question.actions.send_to_ministry"
      condition="bungeni.core.workflows.question.conditions.is_ministry_set"
      event=".interfaces.IQuestionSentToMinistryEvent"
-     require_confirmation="true"     
+     require_confirmation="true"
      />
 
     <transition 
@@ -429,13 +429,13 @@
      id="re-draft-response"
      title="Redraft Response"
      trigger="manual"
-     source="response_submitted"     
+     source="response_submitted"
      destination="response_pending"
      permission="bungeni.response.RevertTransitions" 
      condition=""
      action=""
      event=""
-     />    
+     />
 
 
   <transition 
@@ -445,7 +445,7 @@
      source="response_submitted"
      destination="response_complete"
      permission="bungeni.response.Complete" 
-     event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"     
+     event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"
      />
 
   
@@ -461,13 +461,13 @@
      action="bungeni.core.workflows.question.actions.elapse"
      condition=""
      event=""
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   
   <!--
       all admissible questions awaiting an oral response etc. and flag them for “scheduling” for a later day 
       or otherwise drop them from the pending ones. Dropping a question sets its status to “Deferred” 
-    -->          
+    -->
   
   <transition 
      id="defer"
@@ -486,7 +486,7 @@
 
   
   <!--
-      a deferred question may be send to a ministry for a written response     
+      a deferred question may be send to a ministry for a written response
     -->
   
   <transition 
@@ -502,7 +502,7 @@
      />
 
   <!--
-      A defered question can be rescheduled later       
+      A defered question can be rescheduled later
     -->
   
   <transition 
@@ -532,7 +532,7 @@
      action="bungeni.core.workflows.question.actions.postpone"
      condition=""
      event=".interfaces.IQuestionPostponedEvent"
-     />      
+     />
          
 
 
@@ -552,8 +552,8 @@
  
   
   <!--
-      postponed question can be send to a ministry for a written response       
-    -->    
+      postponed question can be send to a ministry for a written response
+    -->
   
   <transition 
      id="postponed-ministry"
@@ -627,4 +627,4 @@
      />
 
 
-</workflow>  
+</workflow>

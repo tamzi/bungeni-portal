@@ -29,7 +29,7 @@ class actions:
     #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
     #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Clerk' )
     #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Speaker' )
-    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.MP' )    
+    #    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.MP' )
 
     @staticmethod
     def postpone(info,context):
@@ -40,12 +40,12 @@ class actions:
         user_id = get_principal_id()
         if not user_id:
             user_id ='-'
-        zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)   
+        zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)
         utils.setParliamentId(info, context)
         owner_id = utils.getOwnerId( context )
         if owner_id and (owner_id != user_id):
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
-                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)  
+                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)
 
     @staticmethod
     def submit( info, context ):
@@ -54,7 +54,7 @@ class actions:
 
     @staticmethod
     def received_by_clerk( info, context ):
-        utils.createVersion(info, context)   
+        utils.createVersion(info, context)
 
     @staticmethod
     def require_edit_by_mp( info, context ):
@@ -64,7 +64,7 @@ class actions:
     @staticmethod
     def complete( info, context ):
         utils.createVersion(info,context)
-        utils.setSubmissionDate(info, context)        
+        utils.setSubmissionDate(info, context)
  
 
     @staticmethod
@@ -111,7 +111,7 @@ class actions:
         pass
 
     @staticmethod
-    def withdraw( info, context ):  
+    def withdraw( info, context ):
         pass
 
 class SendNotificationToMemberUponReceipt(Notification):

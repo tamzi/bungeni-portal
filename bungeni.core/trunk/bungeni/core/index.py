@@ -111,7 +111,7 @@ class ContentIndexer( object ):
 
         we can introspect the connection to discover relevant fields available.
         """
-        doc = xappy.UnprocessedDocument()        
+        doc = xappy.UnprocessedDocument()
 
         if interfaces.ENABLE_LOGGING:
             log.debug("Indexing Document %r"%self.context )
@@ -154,7 +154,7 @@ class ContentIndexer( object ):
     def index( self, doc ):
         " populate a xapian document with fields to be indexed from context "
         # create index of all text fields for the document
-        for field_index_name, field in self.fields():            
+        for field_index_name, field in self.fields():
             if not isinstance( field, ( schema.Text, schema.ASCII ) ):
                 continue
             value = field.query( self.context, '' )
@@ -196,7 +196,7 @@ class ContentIndexer( object ):
                 continue
             if not isinstance( field, ( schema.Text, schema.ASCII ) ):
                 continue
-            if interfaces.ENABLE_LOGGING: log.info(" indexing field %s"%field.__name__ )            
+            if interfaces.ENABLE_LOGGING: log.info(" indexing field %s"%field.__name__ )
             indexer.add_field_action( field.__name__, xappy.FieldActions.INDEX_FREETEXT, language='en' )
     
     @classmethod
@@ -261,7 +261,7 @@ class UserIndexer( ContentIndexer ):
     def defineIndexes( klass, indexer ):
 
         indexer.add_field_action('core.person-fname', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en', spell=True )
-        indexer.add_field_action('core.person-lname', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en', spell=True )        
+        indexer.add_field_action('core.person-lname', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en', spell=True )
         indexer.add_field_action('core.person-lname', xappy.FieldActions.SORTABLE )
         
         indexer.add_field_action('core.person-email', xappy.FieldActions.STORE_CONTENT )
@@ -309,8 +309,8 @@ def setupFieldDefinitions(indexer):
 
     indexer.add_field_action('object_kind', xappy.FieldActions.INDEX_EXACT )
     indexer.add_field_action('object_kind', xappy.FieldActions.STORE_CONTENT )
-    indexer.add_field_action('object_kind', xappy.FieldActions.SORTABLE )    
-    #indexer.add_field_action('object_kind', xappy.FieldActions.FACET, type='string')    
+    indexer.add_field_action('object_kind', xappy.FieldActions.SORTABLE )
+    #indexer.add_field_action('object_kind', xappy.FieldActions.FACET, type='string')
 
     # active / inactive status
     indexer.add_field_action('status', xappy.FieldActions.INDEX_EXACT )
@@ -329,7 +329,7 @@ def setupFieldDefinitions(indexer):
     indexer.add_field_action('title', xappy.FieldActions.SORTABLE )
     
     UserIndexer.defineIndexes( indexer )
-    BillIndexer.defineIndexes( indexer )    
+    BillIndexer.defineIndexes( indexer )
     MotionIndexer.defineIndexes( indexer )
     QuestionIndexer.defineIndexes( indexer )
     GroupIndexer.defineIndexes( indexer )
@@ -369,7 +369,7 @@ store_dir = setupStorageDirectory()
 # search connection hub
 searcher = search.IndexSearch( store_dir )
 
-# async indexer  
+# async indexer
 indexer = xappy.IndexerConnection( store_dir )
 
 # if synchronous debugging, setup the index connection

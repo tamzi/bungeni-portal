@@ -1,6 +1,6 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"      
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/@@standard_macros/page"
       i18n:domain="bungeni.ui">
 
@@ -133,9 +133,9 @@
                             <div class="widget" tal:content="structure widget"  >
                               <input type="text" />
 	                    </div>
-	                    <div tal:condition="error" tal:content="structure error" tal:attributes="class python:'errormessage' + (changed and ' changed' or '')">               
+	                    <div tal:condition="error" tal:content="structure error" tal:attributes="class python:'errormessage' + (changed and ' changed' or '')">
                               The Error
-                            </div>                    
+                            </div>
 	                  </div>
                         </div>
                       </tal:standard>
@@ -177,7 +177,7 @@
                        i18n:attributes="value" />
               </tal:loop>						
             </span>
-          </div>   
+          </div>
         </form>
       </metal:block>
 

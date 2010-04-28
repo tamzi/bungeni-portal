@@ -11,7 +11,7 @@
 
     <!-- menu -->
     <append content="#portal-globalnav > li"
-            theme="children:#portal-globalnav > ul" />    
+            theme="children:#portal-globalnav > ul" />
     <prepend content="ul#portal-personaltools li.navigation"
             theme="children:#portal-globalnav ul.level1"
             if-content=".navigation" />
@@ -23,7 +23,7 @@
     <append content="children:#portal-breadcrumbs" theme="children:#portal-breadcrumbs" />
     <!-- content -->
     <replace content="#portal-columns"
-             theme="#portal-columns"/>     
+             theme="#portal-columns"/>
 
     <!-- body attributes -->
     <append content="attributes:body" theme="attributes:body" />

@@ -42,19 +42,19 @@ class LanguageViewlet(object):
             if language in translations:
                 if css_attr:
                     css_attr = css_attr + ' available'
-                else:                    
+                else:
                     css_attr = 'available'
-            return css_attr    
+            return css_attr
             
         def language_name(language): 
             langname = language.get('native',None)
             if langname == None:
-                langname = language.get('name')    
+                langname = language.get('name')
             return langname
                                                    
         translations = get_available_translations(self.context)
         if hasattr(self.context,'language'):
-            translations[self.context.language] = None            
+            translations[self.context.language] = None
         languages = get_all_languages()
         selected = self.request.locale.getLocaleID()
         url = ui_utils.url.absoluteURL(getSite(), self.request)
@@ -67,7 +67,7 @@ class LanguageViewlet(object):
             'url': "%s/change-language?language=%s" % (url, language),
             } for language in languages]
             
-class ChangeLanguage(BrowserView):  
+class ChangeLanguage(BrowserView):
 
     def __call__(self):
         """set the I18N_LANGUAGES cookie and redirect back to referrer"""
@@ -76,7 +76,7 @@ class ChangeLanguage(BrowserView):
         if lang:
             response.setCookie('I18N_LANGUAGES', lang, path='/')
         else:
-            response.expireCookie('I18N_LANGUAGES', path='/')                        
+            response.expireCookie('I18N_LANGUAGES', path='/')
         url =  self.request.get('HTTP_REFERER','..')
         return response.redirect(url)
 

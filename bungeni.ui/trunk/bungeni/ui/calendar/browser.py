@@ -88,7 +88,7 @@ def get_sitting_items(sitting, request, include_actions=False):
     if sitting.status in [sitting_wf_state[u'draft-agenda'].id , sitting_wf_state[u'published-agenda'].id]:
         order = "planned_order"
     else:
-        order = "real_order"        
+        order = "real_order"
 
     schedulings = map(
         removeSecurityProxy,
@@ -111,8 +111,8 @@ def get_sitting_items(sitting, request, include_actions=False):
             'description': props.description,
             'name': stringKey(scheduling),
             'status': item.status,
-            'type': item.type.capitalize,  
-            't':item.type,          
+            'type': item.type.capitalize,
+            't':item.type,
             'state_title': state_title,
             #'category_id': scheduling.category_id,
             #'category': scheduling.category,
@@ -175,7 +175,7 @@ def create_sittings_map(sittings, request):
         else:
             link = ui_url.absoluteURL(sitting, request)
         
-        if checkPermission("zope.View", proxied):                          
+        if checkPermission("zope.View", proxied):
             mapping[day, hour] = {
                 'url': link,
                 'record': sitting,
@@ -187,7 +187,7 @@ def create_sittings_map(sittings, request):
                 'status' : status,
             }
             for hour in range(sitting.start_date.hour+1, sitting.end_date.hour):
-                mapping[day, hour] = None            
+                mapping[day, hour] = None
         
         # make sure start- and end-date is the same DAY
         assert (sitting.start_date.day == sitting.end_date.day) and \
@@ -217,7 +217,7 @@ class CalendarView(BrowserView):
         log.debug(debug.interfaces(self))
         log.debug(debug.location_stack(self))
         
-    def __call__(self, timestamp=None):     
+    def __call__(self, timestamp=None):
         return self.render()
         
     def publishTraverse(self, request, name):
@@ -237,14 +237,14 @@ class CalendarView(BrowserView):
         venues = session.query(domain.Venue).all()
         languages = get_all_languages()
         sitting_types = session.query(domain.SittingType).all()
-        session.close()    
+        session.close()
         self.display_language = 'en'
         if self.request.get('I18N_LANGUAGES'):
             self.display_language = self.request.get('I18N_LANGUAGES')
         s = '<div class="dhx_cal_ltext" style="height:90px;">' 
         s += '<table><tr><td>Sitting Type</td><td><select id="select_sitting_type">'
         for sitting_type in sitting_types:
-		    s += '<option value="'+str(sitting_type.sitting_type_id)+'">'+sitting_type.sitting_type+'</option>'	      
+		    s += '<option value="'+str(sitting_type.sitting_type_id)+'">'+sitting_type.sitting_type+'</option>'	
         s += '</select></td></tr>'
         s += '<tr><td>Venue</td><td><select id="select_sitting_venue">'
         for venue in venues:
@@ -253,11 +253,11 @@ class CalendarView(BrowserView):
         s += '<tr><td>Language</td><td><select id="select_sitting_lang">'
         for lang in languages:
             if lang == 'en':
-                s += '<option value="'+lang+'" selected>'+lang+'</option>'   
+                s += '<option value="'+lang+'" selected>'+lang+'</option>'
             else:
-                s += '<option value="'+lang+'">'+lang+'</option>'  
-        s += '</select></td></tr></table></div>'    
-        self.sitting_details_form = s        
+                s += '<option value="'+lang+'">'+lang+'</option>'
+        s += '</select></td></tr></table></div>'
+        self.sitting_details_form = s
         return template()
 
 class CommitteeCalendarView(CalendarView):
@@ -342,9 +342,9 @@ class GroupSittingScheduleView(BrowserView):
         if self.context.status == "draft-agenda":
             return 'planned_order'
         elif self.context.status == "draft-minutes": 
-            return 'real_order'            
+            return 'real_order'
         else:
-            return None    
+            return None
             
     def render(self, date, template=None):
         #need('yui-editor')
@@ -459,10 +459,10 @@ def availableItems(context):
                 'Questions',
                 'Tabled Documents',
                 )
-    return SimpleVocabulary.fromValues(items)    
+    return SimpleVocabulary.fromValues(items)
            
 def billOptions(context):
-    items = ('Title',  
+    items = ('Title',
              'Summary', 
              'Text', 
              'Owner',
@@ -471,14 +471,14 @@ def billOptions(context):
     return SimpleVocabulary.fromValues(items)
 
 def agendaOptions(context):
-    items = ('Title',   
+    items = ('Title',
              'Text', 
              'Owner',
             )
     return SimpleVocabulary.fromValues(items)
 
 def motionOptions(context):
-    items = ('Title',  
+    items = ('Title',
              'Number', 
              'Text', 
              'Owner',
@@ -486,7 +486,7 @@ def motionOptions(context):
     return SimpleVocabulary.fromValues(items)
 
 def tabledDocumentOptions(context):
-    items = ('Title',  
+    items = ('Title',
              'Number', 
              'Text', 
              'Owner',
@@ -494,7 +494,7 @@ def tabledDocumentOptions(context):
     return SimpleVocabulary.fromValues(items)
 
 def questionOptions(context):
-    items = ('Title',  
+    items = ('Title',
              'Number', 
              'Text', 
              'Owner',
@@ -583,7 +583,7 @@ class ReportingView(form.PageForm):
         motion_options = schema.List( title=u'Motion options',
                                         required=False,
                                         value_type=schema.Choice(
-                                        vocabulary='Motion Options'),)  
+                                        vocabulary='Motion Options'),)
         question_options = schema.List( title=u'Question options',
                                           required=False,
                                           value_type=schema.Choice(
@@ -633,7 +633,7 @@ class ReportingView(form.PageForm):
         motion_options = schema.List( title=u'Motion options',
                                         required=False,
                                         value_type=schema.Choice(
-                                        vocabulary='Motion Options'),)  
+                                        vocabulary='Motion Options'),)
         question_options = schema.List( title=u'Question options',
                                           required=False,
                                           value_type=schema.Choice(
@@ -658,7 +658,7 @@ class ReportingView(form.PageForm):
     
    
     def setUpWidgets(self, ignore_request=False):
-        if IGroupSitting.providedBy(self.context):        
+        if IGroupSitting.providedBy(self.context):
             class context:
                 item_types = 'Bills'
                 bill_options = 'Title'
@@ -692,8 +692,8 @@ class ReportingView(form.PageForm):
             self.widgets = form.setUpEditWidgets(
                 self.form_fields, self.prefix, self.context, self.request,
                 adapters=self.adapters, ignore_request=ignore_request)
-        else:   
-            raise NotImplementedError   
+        else:
+            raise NotImplementedError
         
         
 
@@ -702,7 +702,7 @@ class ReportingView(form.PageForm):
         super(ReportingView, self).update()
         set_widget_errors(self.widgets, self.errors)
 
-    def validate(self, action, data):    
+    def validate(self, action, data):
         errors = super(ReportingView, self).validate(action, data)
         time_span = TIME_SPAN.daily
         if 'doc_type' in data:
@@ -711,11 +711,11 @@ class ReportingView(form.PageForm):
             elif data['doc_type'] == "Proceedings of the day":
                 time_span = TIME_SPAN.daily
             elif data['doc_type'] == "Weekly Business":
-                time_span = TIME_SPAN.weekly      
+                time_span = TIME_SPAN.weekly
             elif data['doc_type'] == "Questions of the week":
-                time_span = TIME_SPAN.weekly          
+                time_span = TIME_SPAN.weekly
        
-        if 'date' in data:    
+        if 'date' in data:
             start_date = data['date']
         else:
             start_date = self.date
@@ -736,26 +736,26 @@ class ReportingView(form.PageForm):
         return errors
     
     def process_form(self, data):
-        if 'date' in data:    
+        if 'date' in data:
             self.start_date = data['date']
         else:
             self.start_date = self.date
         time_span = TIME_SPAN.daily 
-        if 'doc_type' in data:    
+        if 'doc_type' in data:
             self.doc_type = data['doc_type']
         else:
             if self.display_minutes: 
-                self.doc_type = "Proceedings of the day"  
+                self.doc_type = "Proceedings of the day"
             else:
-                self.doc_type =  "Order of the day"     
+                self.doc_type =  "Order of the day"
         if self.doc_type == "Order of the day":
             time_span = TIME_SPAN.daily
         elif self.doc_type == "Weekly Business":
-            time_span = TIME_SPAN.weekly      
+            time_span = TIME_SPAN.weekly
         elif self.doc_type == "Questions of the week":
-            time_span = TIME_SPAN.weekly     
+            time_span = TIME_SPAN.weekly
         elif self.doc_type == "Proceedings of the day":
-            time_span = TIME_SPAN.daily                 
+            time_span = TIME_SPAN.daily
         self.end_date = self.get_end_date(self.start_date, time_span)
         #Hack:Check if called on scheduling page or sitting page. todo : fix this
         if 'date' in data:
@@ -861,7 +861,7 @@ class ReportingView(form.PageForm):
                     #    self.question_response = True
                     elif option == 'Type':
                         self.question_type = True
-                self.question = True    
+                self.question = True
         #import pdb; pdb.set_trace()
         '''for item in self.sitting_items:
             if item.item_schedule.item.type in item_types:
@@ -879,12 +879,12 @@ class ReportingView(form.PageForm):
                             items.append(item)
                     sitting.item_schedule = items'''
         if 'draft' in data:
-            sitting_items = []    
+            sitting_items = []
             for sitting in self.sitting_items:
                 if data["draft"] ==  'No':
                     if sitting.status in ["published-agenda","published-minutes"]:
                         sitting_items.append(sitting)
-                elif data["draft"] ==  'Yes':                
+                elif data["draft"] ==  'Yes':
                     if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes", "draft-agenda"]:
                         sitting_items.append(sitting)
             self.sitting_items = sitting_items
@@ -892,20 +892,20 @@ class ReportingView(form.PageForm):
             self.link = ui_url.absoluteURL(self.context, self.request)+'/votes-and-proceedings'
         else :
             self.link = ui_url.absoluteURL(self.context, self.request)+'/agenda'
-        try:              
+        try:
             self.group = self.context.get_group()
         except:
             session = Session()
             self.group = session.query(domain.Group).get(self.context.group_id)
-        if IGroupSitting.providedBy(self.context):        
+        if IGroupSitting.providedBy(self.context):
             self.back_link = ui_url.absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
-            self.back_link = ui_url.absoluteURL(self.context, self.request)  
+            self.back_link = ui_url.absoluteURL(self.context, self.request)
             
     
         
-    @form.action(_(u"Preview"))  
-    def handle_preview(self, action, data):                
+    @form.action(_(u"Preview"))
+    def handle_preview(self, action, data):
         self.process_form(data)
         #import pdb; pdb.set_trace()
         self.save_link = ui_url.absoluteURL(self.context, self.request)+"/save_report"
@@ -938,7 +938,7 @@ class AgendaReportingView(ReportingView):
     
     def get_sittings_items(self, start, end):
             """ return the sittings with scheduled items for 
-                the given daterange"""    
+                the given daterange"""
             session = Session()
             query = session.query(domain.GroupSitting).filter(
                 sql.and_(
@@ -955,11 +955,11 @@ class AgendaReportingView(ReportingView):
         #items.sort(key=operator.attrgetter('start_date'))
             for item in items:
                 if self.display_minutes:
-                    item.item_schedule.sort(key=operator.attrgetter('real_order'))                              
+                    item.item_schedule.sort(key=operator.attrgetter('real_order'))
                 else:
-                    item.item_schedule.sort(key=operator.attrgetter('planned_order'))  
+                    item.item_schedule.sort(key=operator.attrgetter('planned_order'))
                     item.sitting_type.sitting_type = item.sitting_type.sitting_type.capitalize() 
-                    #s = queries.get_session_by_date_range(self, item.start_date, item.end_date)  
+                    #s = queries.get_session_by_date_range(self, item.start_date, item.end_date)
                 
             return items
             
@@ -1043,7 +1043,7 @@ class DhtmlxCalendarSittings(BrowserView):
         except:
             start_date = None
             
-        try:    
+        try:
             date = self.request.get('to')
             dateobj = datetime.datetime(*time.strptime(date, "%Y-%m-%d")[0:5])
             end_date = utils.datetimedict.fromdate(dateobj)
@@ -1057,15 +1057,15 @@ class DhtmlxCalendarSittings(BrowserView):
         elif end_date is None:
             start_date = utils.datetimedict.fromdate(datetime.date.today())
             days = tuple(start_date + timedelta(days=d) for d in range(7))
-            end_date = days[-1]  
+            end_date = days[-1]
         sittings = self.context.get_sittings(
             start_date,
             end_date,
             )
-        self.sittings = []   
+        self.sittings = []
         for sitting in sittings.values():
-            if checkPermission("zope.View", sitting):  
-                trusted = removeSecurityProxy(sitting)                 
+            if checkPermission("zope.View", sitting):
+                trusted = removeSecurityProxy(sitting)
                 self.sittings.append(trusted)
         #import pdb; pdb.set_trace()
         self.request.response.setHeader('Content-type', 'text/xml')
@@ -1083,11 +1083,11 @@ class SaveView(AgendaReportingView):
         report = domain.Report()
         start_date = self.request.form['start_date']
         end_date = self.request.form['end_date']
-        report.start_date = start_date                 
-        report.end_date = end_date                     
-        report.created_date = datetime.datetime.now()   
-        report.note = self.request.form['note']                                
-        report.report_type = self.request.form['report_type']                    
+        report.start_date = start_date
+        report.end_date = end_date
+        report.created_date = datetime.datetime.now()
+        report.note = self.request.form['note']
+        report.report_type = self.request.form['report_type']
         report.body_text = body_text
         report.user_id = get_principal_id()
         report.group_id = self.context.group_id
@@ -1111,38 +1111,38 @@ class SaveView(AgendaReportingView):
         session.flush()
         
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
-        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )        
+        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )
         
         
-        if IGroupSitting.providedBy(self.context):        
+        if IGroupSitting.providedBy(self.context):
             back_link =  './schedule'
         elif ISchedulingContext.providedBy(self.context):
-            back_link = './'  
-        else:   
-            raise NotImplementedError                                                                     
+            back_link = './'
+        else:
+            raise NotImplementedError
         self.request.response.redirect(back_link) 
                                             
                     
 class StoreReportView(BrowserView):
-    template = ViewPageTemplateFile('save-reports.pt')  
+    template = ViewPageTemplateFile('save-reports.pt')
           
     def __call__(self):
         date = datetime.datetime.strptime(self.request.form['date'],
                 '%Y-%m-%d').date()
-        self.display_minutes = (self.request.form['display_minutes'] == "True")                
+        self.display_minutes = (self.request.form['display_minutes'] == "True")
         time_span = self.request.form['time_span']
         if time_span == TIME_SPAN.daily:
             time_span = TIME_SPAN.daily
         elif time_span == TIME_SPAN.weekly:
-            time_span = TIME_SPAN.weekly            
-        end = self.get_end_date(date, time_span)            
+            time_span = TIME_SPAN.weekly
+        end = self.get_end_date(date, time_span)
         body_text = super(StoreReportView, self).__call__()
-        sitting_items = []            
+        sitting_items = []
         for sitting in self.sitting_items:
             if self.display_minutes:
                 if sitting.status in ["published-minutes"]:
                     sitting_items.append(sitting)
-            else:                
+            else:
                 if sitting.status in [ "published-agenda", "draft-minutes", "published-minutes"]:
                     sitting_items.append(sitting)
         if len(sitting_items) == 0:
@@ -1150,19 +1150,19 @@ class StoreReportView(BrowserView):
             if referer:
                 referer=referer.split('?')[0]
             else:
-                referer = ""                
+                referer = ""
             self.request.response.redirect(referer + "?portal_status_message=No data found")
-            return                     
-        self.sitting_items = sitting_items                   
+            return
+        self.sitting_items = sitting_items
         session = Session()
         report = domain.Report()
-        report.start_date = date                      
-        report.end_date = end                        
-        report.created_date = datetime.datetime.now()   
-        if self.display_minutes:                                 
+        report.start_date = date
+        report.end_date = end
+        report.created_date = datetime.datetime.now()
+        if self.display_minutes:
             report.report_type = 'minutes'
         else:
-            report.report_type = 'agenda'                    
+            report.report_type = 'agenda'
         report.body_text = body_text
         report.user_id = get_principal_id()
         report.group_id = self.group.group_id
@@ -1175,13 +1175,13 @@ class StoreReportView(BrowserView):
         session.flush()
 
         rpm = zope.securitypolicy.interfaces.IRolePermissionMap( report )
-        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )          
+        rpm.grantPermissionToRole( u'zope.View', 'bungeni.Anybody' )
         
-        if IGroupSitting.providedBy(self.context):        
+        if IGroupSitting.providedBy(self.context):
             back_link = ui_url.absoluteURL(self.context, self.request)  + '/schedule'
         elif ISchedulingContext.providedBy(self.context):
-            back_link = ui_url.absoluteURL(self.context, self.request)  
-        else:   
+            back_link = ui_url.absoluteURL(self.context, self.request)
+        else:
             raise NotImplementedError
         self.request.response.redirect(back_link)
         session.close()

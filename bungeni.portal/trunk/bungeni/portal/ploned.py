@@ -11,22 +11,22 @@ class PlonedLayout(object):
     def __init__(self, context, request):
         template = layout.bungeni
         
-        def render(slots, **kwargs):            
+        def render(slots, **kwargs):
             ectx = kwargs.get('econtext', None)
             log.debug("%s.render slots=%s         kwargs=%s" % (
                                     self.__class__.__name__, slots, kwargs))
             if ectx:
                 request = ectx.get('request', None)
             else:
-                request = None                
+                request = None
             if request:
                 url = request.getURL()
             else:
-                url = None                
+                url = None
             if url:
                 path = url.split('//')
             else:
-                path = ''                
+                path = ''
             if len(path) == 2:
                 spath = path[1].split('/')
             else:

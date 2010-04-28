@@ -6,4 +6,4 @@ class ISubFormViewletManager(IViewletManager):
 class IResponeQuestionViewletManager( IViewletManager ):
     """
     Manager for question in reponseform
-    """    
+    """

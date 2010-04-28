@@ -2,12 +2,12 @@
   <em> Sittings </em>
   <table class="listing grid">
     <thead>
-      <tr>        
+      <tr>
         <th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th>
         <th colspan="6" tal:content="view/monthname"> month </th>
         <th colspan="1" tal:content="structure view/next"> &gt;&gt; </th>
       </tr>
-      <tr>        
+      <tr>
         <th width="5%">  </th> 
         <th width="14%"> Mon </th>
         <th width="14%"> Tue </th>

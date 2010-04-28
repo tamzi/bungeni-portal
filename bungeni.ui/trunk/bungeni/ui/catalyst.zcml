@@ -2,7 +2,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:db="http://namespaces.objectrealms.net/rdb"
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.ui">
 
 
@@ -13,72 +13,72 @@
      class="bungeni.models.domain.Group"
      descriptor=".descriptor.GroupDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"   
-     echo="False"  
-     />     
+     ui_module="bungeni.ui.content"
+     echo="False"
+     />
 
   <db:catalyst
      class="bungeni.models.domain.Government"
      descriptor=".descriptor.GovernmentDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
-     echo="False"     
+     echo="False"
      /> 
           
   <db:catalyst
      class="bungeni.models.domain.Parliament"
      descriptor=".descriptor.ParliamentDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />     
+     />
 
   <db:catalyst
      class="bungeni.models.domain.Committee"
      descriptor=".descriptor.CommitteeDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />     
+     />
      
   <db:catalyst
      class="bungeni.models.domain.CommitteeMember"
      descriptor=".descriptor.CommitteeMemberDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />          
+     />
      
   <db:catalyst
      class="bungeni.models.domain.CommitteeStaff"
      descriptor=".descriptor.CommitteeStaffDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />          
+     />
 
   <!--db:catalyst
      class="bungeni.models.domain.GroupItemAssignment"
      descriptor=".descriptor.GroupItemAssignmentDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     /-->             
+     /-->
 
   <db:catalyst
      class="bungeni.models.domain.GroupGroupItemAssignment"
      descriptor=".descriptor.GroupGroupItemAssignmentDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />  
+     />
   <db:catalyst
      class="bungeni.models.domain.ItemGroupItemAssignment"
      descriptor=".descriptor.ItemGroupItemAssignmentDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />       
+     />
 
 
      
@@ -134,7 +134,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />        
+    />
     
   <db:catalyst
      class="bungeni.models.domain.ParliamentSession"
@@ -142,7 +142,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-     />     
+     />
      
   <db:catalyst
      class="bungeni.models.domain.GroupMembership"
@@ -156,7 +156,7 @@
      class="bungeni.models.domain.GroupSitting"
      descriptor=".descriptor.SittingDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
      />
 
@@ -170,7 +170,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-     />  
+     />
   
 
   <db:catalyst
@@ -179,7 +179,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-     />    
+     />
   
   <db:catalyst
      class="bungeni.models.domain.ParliamentaryItem"
@@ -187,7 +187,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-     />  
+     />
   
   <db:catalyst
      class="bungeni.models.domain.Bill"
@@ -210,7 +210,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
-     />     
+     />
   
   <db:catalyst
      class="bungeni.models.domain.Consignatory"
@@ -218,14 +218,14 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-     />     
+     />
      
   <db:catalyst
      class="bungeni.models.domain.Motion"
      descriptor=".descriptor.MotionDescriptor"
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
-     />     
+     />
 
   <db:catalyst
      class="bungeni.models.domain.MotionVersion"
@@ -240,14 +240,14 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
-     />     
+     />
 
   <db:catalyst
     class="bungeni.models.domain.Question"
     descriptor=".descriptor.QuestionDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
-    echo="False"   
+    echo="False"
     />
 
   <db:catalyst
@@ -272,7 +272,7 @@
     descriptor=".descriptor.TabledDocumentDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
-    echo="False"   
+    echo="False"
     />
 
   <db:catalyst
@@ -288,7 +288,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
-     />     
+     />
      
 
     
@@ -297,7 +297,7 @@
     descriptor=".descriptor.DocumentSourceDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
-    echo="False"   
+    echo="False"
     /-->
   
   <db:catalyst
@@ -305,8 +305,8 @@
     descriptor=".descriptor.EventItemDescriptor"
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content" 
-    echo="False"   
-    />        
+    echo="False"
+    />
     
   <!-- Domain Model -->
   <db:catalyst
@@ -363,9 +363,9 @@
      class="bungeni.models.domain.PartyMember"
      descriptor=".descriptor.PartyMemberDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />     
+     />
 
 
    
@@ -373,7 +373,7 @@
      class="bungeni.models.domain.SittingType"
      descriptor=".descriptor.SittingTypeDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
      />
               
@@ -381,9 +381,9 @@
      class="bungeni.models.domain.MemberOfParliament"
      descriptor=".descriptor.MpDescriptor"
      interface_module="bungeni.models.interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      echo="False"
-     />  
+     />
     
   <!--db:catalyst
      class="bungeni.models.domain.HansardReporter"
@@ -399,7 +399,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />  
+    />
       
   <db:catalyst
      class="bungeni.models.domain.AttendanceType"
@@ -407,7 +407,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />   
+    />
 
    
 
@@ -417,7 +417,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    /-->   
+    /-->
 
 <db:catalyst
      class="bungeni.models.domain.AddressType"
@@ -425,7 +425,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />       
+    />
 
  <db:catalyst
      class="bungeni.models.domain.UserAddress"
@@ -433,7 +433,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />       
+    />
 
  <db:catalyst
      class="bungeni.models.domain.MemberRoleTitle"
@@ -441,7 +441,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />     
+    />
     
  <db:catalyst
      class="bungeni.models.domain.AgendaItem"
@@ -449,7 +449,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />       
+    />
 
   <db:catalyst
      class="bungeni.models.domain.AgendaItemVersion"
@@ -464,7 +464,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content" 
      echo="False"
-     />     
+     />
     
     
  <!--db:catalyst
@@ -473,7 +473,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    /-->   
+    /-->
 
  <!-- scheduling -->
  
@@ -483,7 +483,7 @@
      interface_module="bungeni.models.interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />       
+    />
 
  <db:catalyst
     class="bungeni.models.domain.ScheduledItemDiscussion"
@@ -491,7 +491,7 @@
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content"
     echo="False"
-    />       
+    />
 
 
   <!-- delgate rights to act on behalf of user -->
@@ -518,7 +518,7 @@
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content"
     echo="False"
-    />            
+    />
 
    <db:catalyst
     class="bungeni.models.domain.Heading"
@@ -526,5 +526,5 @@
     interface_module="bungeni.models.interfaces"
     ui_module="bungeni.ui.content"
     echo="False"
-    />     
+    />
 </configure>

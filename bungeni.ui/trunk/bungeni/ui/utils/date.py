@@ -23,18 +23,18 @@ def get_date(date):
     else:
         raise TypeError (_("date must be of type datetime or date"))
 
-def getDisplayDate(request):   
+def getDisplayDate(request):
     """
     get the date for which to display the data.
     #SQL WHERE:
     # displayDate BETWEEN start_date and end_date
     # OR
-    # displayDate > start_date and end_date IS NULL   
+    # displayDate > start_date and end_date IS NULL
     """
     DisplayDate = request.get('date', None)
     if not DisplayDate:
         if request.has_key('display_date'):
-            DisplayDate = request['display_date']     
+            DisplayDate = request['display_date']
     displayDate = None
     if DisplayDate:
         try:
@@ -46,15 +46,15 @@ def getDisplayDate(request):
         displayDate=None
     return displayDate
 
-def getFilter(displayDate):                   
+def getFilter(displayDate):
     if displayDate:
         filter_by = """
         ( ('%(displayDate)s' BETWEEN start_date AND end_date )
         OR
         ( '%(displayDate)s' > start_date AND end_date IS NULL) )
-        """ % ({ 'displayDate' : displayDate})        
+        """ % ({ 'displayDate' : displayDate})
     else:
-        filter_by = ""            
+        filter_by = ""
     return filter_by
 
 

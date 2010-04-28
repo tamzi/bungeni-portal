@@ -71,14 +71,14 @@ Members of Parliament
   >>> mp_2 = model.User(u"mp_2", 
   ...        first_name=u"b", 
   ...        last_name=u"bc", 
-  ...        birth_country="KE",  
+  ...        birth_country="KE",
   ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp2@example.com",
   ...        language="en",
   ...        gender='M')
   >>> mp_3 = model.User(u"mp_3",
   ...        first_name=u"c", 
-  ...        birth_country="KE",  
+  ...        birth_country="KE",
   ...        last_name=u"cd",
   ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp3@example.com", 
@@ -96,20 +96,20 @@ they work.
 
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.datetime.now(), election_date=datetime.datetime.now())
   >>> parliament.language = "en"
-  >>> session.add( parliament )  
+  >>> session.add( parliament )
   >>> session.flush()
   
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.datetime.now())
   >>> political_party_a.parent_group_id = parliament.parliament_id
   >>> political_party_a.language = "en"
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.datetime.now())
-  >>> political_party_b.parent_group_id = parliament.parliament_id  
+  >>> political_party_b.parent_group_id = parliament.parliament_id
   >>> political_party_b.language = "en"
   >>> session.add(political_party_a)
   >>> session.add(political_party_b)
   >>> session.add( mp_1 )
   >>> session.add( mp_2 )
-  >>> session.add( mp_3 )      
+  >>> session.add( mp_3 )
   >>> session.flush()
   
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.datetime.now())
@@ -151,7 +151,7 @@ Government
   >>> gov.parent_group_id = parliament.parliament_id
   >>> gov.language = "en"
   >>> session.add(gov)
-  >>> session.flush()  
+  >>> session.flush()
   >>> gov.parent_group
   <bungeni.models.domain.Parliament object at ...>
 
@@ -162,7 +162,7 @@ Ministries
   >>> ministry.parent_group_id = gov.group_id
   >>> ministry.language = "en"
   >>> session.add(ministry)
-  >>> session.flush()  
+  >>> session.flush()
   >>> ministry.parent_group
   <bungeni.models.domain.Government object at ...>
   
@@ -207,7 +207,7 @@ check the pk if it was saved and pk sequence is working
 Role title names
 
   >>> mrt1 = model.MemberTitle()
-  >>> mrt1.user_type = 'memberofparliament'   
+  >>> mrt1.user_type = 'memberofparliament'
   >>> mrt1.user_role_name = u"President"
   >>> mrt1.user_unique = True
   >>> mrt1.sort_order = 10
@@ -231,9 +231,9 @@ the parliaments group and additional attributes.
   >>> mp4.elected_nominated = 'E'
   >>> mp4.language = "en"
   >>> session.add(mp4)
-  >>> session.flush()   
+  >>> session.flush()
   >>> mp4.membership_id
-  7L            
+  7L
 
 Titles of Members
 ------------------
@@ -243,7 +243,7 @@ Members have a title in their groups
   >>> mt1.membership_id = mp4.membership_id
   >>> mt1.title_name_id = 1
   >>> mt1.start_date = datetime.datetime.now()
-  >>> mt1.title_name_id = mrt1.user_role_type_id   
+  >>> mt1.title_name_id = mrt1.user_role_type_id
   >>> session.add(mt1)
       
   
@@ -283,7 +283,7 @@ the attendance of a member at a sitting.
  >>> at.language = "en"
  >>> at.attendance_type = u"present"
  >>> session.add(at)
- >>> session.flush()  
+ >>> session.flush()
  
  >>> gsa = model.GroupSittingAttendance()
  >>> gsa.sitting_id = sit.sitting_id
@@ -336,7 +336,7 @@ Motions
   >>> motion.language = 'en'
   >>> motion.owner = mp_1
   >>> session.add(motion)
-  >>> session.flush()  
+  >>> session.flush()
 
 Motions
 
@@ -358,8 +358,8 @@ Note that the questions workflow is tested separated (see workflows/question.txt
 
 
   
-Assignment  
-++++++++++  
+Assignment
+++++++++++
 
 assigning a question to a ministry
 
@@ -379,7 +379,7 @@ Bill
   >>> bill.language = 'en'
   >>> bill.owner = mp_3
   >>> session.add(bill)
-  >>> session.flush()  
+  >>> session.flush()
 
 
 Schedule items for a sitting:
@@ -387,7 +387,7 @@ Schedule items for a sitting:
 
 we may either add the id only:
 
-  >>> item_schedule = model.ItemSchedule()    
+  >>> item_schedule = model.ItemSchedule()
   >>> item_schedule.item_id = bill.bill_id
   >>> item_schedule.sitting_id = sit.sitting_id
   >>> session.add(item_schedule)
@@ -408,14 +408,14 @@ or we can add an object:
   >>> session.add(item_schedule)
   >>> session.flush()
   >>> item_schedule.item
-  <bungeni.models.domain.Question object at ...>  
+  <bungeni.models.domain.Question object at ...>
   
   >>> item_schedule.item_id == question.question_id
   True
   >>> item_schedule.item.short_name
   u'question'
   >>> item_schedule.item.type
-  'question'  
+  'question'
   
   
   

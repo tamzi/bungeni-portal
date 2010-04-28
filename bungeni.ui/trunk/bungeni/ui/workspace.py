@@ -232,7 +232,7 @@ class WorkspaceContainerTraverser(SimpleComponentTraverser):
         log.debug(" __init__ %s context=%s url=%s" % (
                         self, self.context, request.getURL()))
     
-    def publishTraverse(self, request, name):        
+    def publishTraverse(self, request, name):
         workspace = self.context
         _meth_id = "%s.publishTraverse" % self.__class__.__name__
         log.debug("%s: name=%s context=%s " % (_meth_id, name, workspace))
@@ -458,7 +458,7 @@ class WorkspaceSectionView(BungeniBrowserView):
         """
         LD = IAnnotations(request)["layer_data"]
         assert interfaces.IWorkspaceSectionLayer.providedBy(request)
-        assert LD.get("workspaces") is not None        
+        assert LD.get("workspaces") is not None
         super(WorkspaceSectionView, self).__init__(context, request)
         cls_name = self.__class__.__name__ 
         # NOTE: Zope morphs this class's name to "SimpleViewClass from ..." 

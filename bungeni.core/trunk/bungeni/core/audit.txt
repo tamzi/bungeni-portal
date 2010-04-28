@@ -73,7 +73,7 @@ create an instance of the class:
   >>> session.flush()
   
   >>> user.user_id
-  1  
+  1
   
   
 check that our changes table acts as expected
@@ -104,7 +104,7 @@ setting up the event subscribers/adapters:
   >>> import zope.lifecycleevent
   >>> import zope.event
   
-  >>> auditor = bungeni.core.interfaces.IAuditable(user, UserAuditor)  
+  >>> auditor = bungeni.core.interfaces.IAuditable(user, UserAuditor)
 
 #  <subscriber
 #     for=".interfaces.IAuditable
@@ -121,7 +121,7 @@ setting up the event subscribers/adapters:
 
 broadcast an event:
 
-  >>> event = zope.lifecycleevent.ObjectCreatedEvent(user)  
+  >>> event = zope.lifecycleevent.ObjectCreatedEvent(user)
   >>> zope.component.event.objectEventNotify(event)
   
 check the audit table: 
@@ -131,7 +131,7 @@ check the audit table:
 
 broadcast an event:
 
-  >>> event = zope.lifecycleevent.ObjectModifiedEvent(user)  
+  >>> event = zope.lifecycleevent.ObjectModifiedEvent(user)
   >>> zope.component.event.objectEventNotify(event)
 
 check the audit table: 

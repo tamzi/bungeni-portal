@@ -56,7 +56,7 @@ def is_ajax_request(request):
 
 def makeList(itemIds):
     if type(itemIds) == ListType:
-        return itemIds            
+        return itemIds
     elif type(itemIds) in StringTypes:
         # only one item in this list
         return [itemIds,]

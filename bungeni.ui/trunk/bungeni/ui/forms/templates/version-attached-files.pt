@@ -8,16 +8,16 @@
       <tr>
         <th i18n:translate=""> Title </th>
         <th i18n:translate=""> File name </th>
-        <th i18n:translate=""> Type </th>            
+        <th i18n:translate=""> Type </th>
       </tr>
     </thead>
     <tbody>
       <tr tal:repeat="data view/results"> 
         <td tal:content="data/file_title"> title</td>
         <td><a tal:attributes="href data/url" tal:content="data/file_name">  filename </a></td>
-        <td tal:content="data/file_mimetype">  mimetype </td>           
+        <td tal:content="data/file_mimetype">  mimetype </td>
       </tr>
-    </tbody>  
+    </tbody>
   </table>
 
 </dd>

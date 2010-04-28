@@ -44,7 +44,7 @@ class IPortalHeaderManager( IViewletManager ):
     """ """
     
 class IPortalToolsManager( IViewletManager ):
-    """ """    
+    """ """
     
 class IPortalFooterManager( IViewletManager ):
     """ """

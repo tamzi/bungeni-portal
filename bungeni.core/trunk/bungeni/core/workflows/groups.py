@@ -24,7 +24,7 @@ class actions:
         utils.set_group_local_role(context)
     
     @staticmethod
-    def dissolve(info, context):                
+    def dissolve(info, context):
         """ when a group is dissolved all members of this 
         group get the end date of the group (if they do not
         have one yet) and there active_p status gets set to
@@ -36,4 +36,4 @@ class actions:
         
     @staticmethod
     def deactivate(info, context):
-        utils.unset_group_local_role(context)      
+        utils.unset_group_local_role(context)

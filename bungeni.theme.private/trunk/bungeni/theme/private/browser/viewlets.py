@@ -8,17 +8,17 @@ class LogoViewlet(ViewletBase):
         
     render = ViewPageTemplateFile('publiclogo.pt')
     
-class AdminLogoViewlet(LogoViewlet):   
+class AdminLogoViewlet(LogoViewlet):
     render = ViewPageTemplateFile('adminlogo.pt')
 
-class MPLogoViewlet(LogoViewlet):   
+class MPLogoViewlet(LogoViewlet):
     render = ViewPageTemplateFile('mplogo.pt')
 
-class ClerkLogoViewlet(LogoViewlet):   
+class ClerkLogoViewlet(LogoViewlet):
     render = ViewPageTemplateFile('clerklogo.pt')
  
-class SpeakerLogoViewlet(LogoViewlet):   
+class SpeakerLogoViewlet(LogoViewlet):
     render = ViewPageTemplateFile('speakerlogo.pt')
     
-class AdminLogoViewlet(ViewletBase):   
-    render = ViewPageTemplateFile('adminlogo.pt')    
+class AdminLogoViewlet(ViewletBase):
+    render = ViewPageTemplateFile('adminlogo.pt')

@@ -15,7 +15,7 @@ setup(
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
-          'Framework :: Zope3'],    
+          'Framework :: Zope3'],
     packages=find_packages(),
     include_package_data=True,
     install_requires = [ 'setuptools',

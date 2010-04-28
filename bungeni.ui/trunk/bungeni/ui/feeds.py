@@ -6,9 +6,9 @@ from zope.publisher.browser import BrowserView
 
 from bungeni.ui.utils import queries, statements, url
 
-class BungeniRSSEventView(BrowserView):   
+class BungeniRSSEventView(BrowserView):
     __call__ = ViewPageTemplateFile('templates/rss-event-view.pt') 
-    form_name = None  
+    form_name = None
 
     # Required channel elements:
     
@@ -21,7 +21,7 @@ class BungeniRSSEventView(BrowserView):
         return self.context.short_name
         
     def rssDescription ( self ):
-        """description       
+        """description
         Phrase or sentence describing the channel.
         """
         return self.context.summary
@@ -52,7 +52,7 @@ class BungeniRSSEventView(BrowserView):
         
         bill_id = self.context.bill_id
         results = queries.execute_sql(
-                            statements.sql_bill_timeline, item_id=bill_id)        
+                            statements.sql_bill_timeline, item_id=bill_id)
         path = url.absoluteURL(self.context, self.request)
         rlist = []
         for result in results:
@@ -61,5 +61,5 @@ class BungeniRSSEventView(BrowserView):
                     'description': result.title, 
                     'date': result.adate.isoformat()
                 })
-        return rlist           
+        return rlist
         

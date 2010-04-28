@@ -10,7 +10,7 @@ class TestGroupManager( basetestcase.BaseTestCase ):
         self.group_name = "ExampleReporters"
         self.groupname = self.group_name
         self.username = 'joe'
-        self.password = 'passw0rd'        
+        self.password = 'passw0rd'
         self.source_groups = self.getPAS().bungeni_groups
         self.source_users  = self.getPAS().bungeni_users
 

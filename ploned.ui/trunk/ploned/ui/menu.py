@@ -59,8 +59,8 @@ class PloneBrowserMenu(BrowserMenu):
         # the permissions for 
         security_checked_result = []
         for item in result:
-            if checkPermission(item.permission, object):  
-                security_checked_result.append(item)      
+            if checkPermission(item.permission, object):
+                security_checked_result.append(item)
         result = security_checked_result
         # Now order the result. This is not as easy as it seems.
         #
@@ -123,7 +123,7 @@ class PloneBrowserMenu(BrowserMenu):
                 'selected': u'',
                 'icon': item.icon,
                 'extra': extra,
-                'submenu': submenu})                  
+                'submenu': submenu})
         
         if selected_index is not None:
             items[selected_index]['selected'] = u'selected'

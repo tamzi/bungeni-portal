@@ -35,7 +35,7 @@ from bungeni.ui.calendar.utils import datetimedict
 from interfaces import ISchedulingManager
 
 class SchedulingManager( WeightOrderedViewletManager ):
-    interface.implements(ISchedulingManager)  
+    interface.implements(ISchedulingManager)
 
 class SchedulablesViewlet(viewlet.ViewletBase):
     """Renders a portlet which calls upon the scheduling viewlet
@@ -80,8 +80,8 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             if IBungeniGroup.providedBy(parent):
                 return parent
             parent = parent.__parent__
-        return None            
-        raise ValueError("Unable to locate application.")        
+        return None
+        raise ValueError("Unable to locate application.")
 
     def visible(self):
         return not(ICommittee.providedBy(self.group()))
@@ -122,7 +122,7 @@ class SchedulableItemsViewlet(viewlet.ViewletBase):
             } for item, properties in \
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \
             IDCDescriptiveProperties(item))) for
-             item in items]]        
+             item in items]]
 
 class SchedulableHeadingsViewlet(SchedulableItemsViewlet):
     model = domain.Heading
@@ -138,7 +138,7 @@ class SchedulableBillsViewlet(SchedulableItemsViewlet):
     view_name="bill"
     states = (
         bill_wf_state[u"gazetted"].id,
-        bill_wf_state[u"first_reading"].id,        
+        bill_wf_state[u"first_reading"].id,
         bill_wf_state[u"first_reading_postponed"].id,
         bill_wf_state[u"second_reading"].id,
         bill_wf_state[u"second_reading_postponed"].id,
@@ -157,7 +157,7 @@ class SchedulableQuestionsViewlet(SchedulableItemsViewlet):
     states = (
         question_wf_state[u"scheduled"].id,
         question_wf_state[u"schedule_pending"].id,
-        question_wf_state[u"debate_adjourned"].id,        
+        question_wf_state[u"debate_adjourned"].id,
         question_wf_state[u"postponed"].id,
         )
 
@@ -166,10 +166,10 @@ class SchedulableMotionsViewlet(SchedulableItemsViewlet):
     name = _('Motions')
     view_name="motion"
     states = (
-        motion_wf_state[u"scheduled"].id,    
+        motion_wf_state[u"scheduled"].id,
         motion_wf_state[u"schedule_pending"].id,
-        motion_wf_state[u"debate_adjourned"].id,        
-        motion_wf_state[u"postponed"].id,        
+        motion_wf_state[u"debate_adjourned"].id,
+        motion_wf_state[u"postponed"].id,
         )
 
 class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
@@ -179,7 +179,7 @@ class SchedulableTabledDocumentsViewlet(SchedulableItemsViewlet):
     states = (
         tableddocument_wf_state[u"scheduled"].id,
         tableddocument_wf_state[u"schedule_pending"].id,
-        tableddocument_wf_state[u"debate_adjourned"].id,          
+        tableddocument_wf_state[u"debate_adjourned"].id,
         tableddocument_wf_state[u"postponed"].id,
         
         )
@@ -193,8 +193,8 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
     states = (
         agendaitem_wf_state[u"scheduled"].id,
         agendaitem_wf_state[u"schedule_pending"].id,
-        agendaitem_wf_state[u"debate_adjourned"].id,        
-        agendaitem_wf_state[u"postponed"].id,            
+        agendaitem_wf_state[u"debate_adjourned"].id,
+        agendaitem_wf_state[u"postponed"].id,
         )
 
     def get_group_id(self):
@@ -205,7 +205,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
                 return group_id
             else:
                 parent = parent.__parent__
-        raise ValueError("Unable to determine group.")  
+        raise ValueError("Unable to determine group.")
                 
     def update(self):
         need('yui-dragdrop')
@@ -219,7 +219,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
             self.model.status.in_(self.states),
             self.model.group_id == group_id)
             ))
-        sitting = self._parent._parent.context            
+        sitting = self._parent._parent.context
         scheduled_item_ids = [item.item_id for item in sitting.item_schedule]
         # add location to items
         gsm = component.getSiteManager()
@@ -240,7 +240,7 @@ class SchedulableAgendaItemsViewlet(SchedulableItemsViewlet):
 #
             'state': _(IWorkflow(item).workflow.states[item.status].title),
             'id': item.parliamentary_item_id,
-            'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",            
+            'class': (item.parliamentary_item_id in scheduled_item_ids) and "dd-disable" or "",
             'url': ui_utils.url.absoluteURL(item, self.request)
             } for item, properties in \
             [(item, (IDCDescriptiveProperties.providedBy(item) and item or \

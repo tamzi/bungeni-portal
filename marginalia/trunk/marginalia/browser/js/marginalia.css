@@ -579,7 +579,7 @@ ol#articles {
 }
 
 .hentry .markers .annotation-user-count {
-    border: 1px solid #BBBBBB;    
+    border: 1px solid #BBBBBB;
 	cursor: pointer;
 	display:  block;
 	width: 1.5em;

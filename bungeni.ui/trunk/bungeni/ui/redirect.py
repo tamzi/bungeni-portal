@@ -28,13 +28,13 @@ class RedirectToCurrent(BrowserView):
         
     def __call__(self):
         """redirect to container"""
-        #context = proxy.removeSecurityProxy( self.context )        
+        #context = proxy.removeSecurityProxy( self.context )
         response = self.request.response
         rooturl = ui_url.absoluteURL(self.context, self.request)
         #response.setHeader('Content-Type', 'application/octect-stream')
         #if len(self.traverse_subpath) != 1:
         #    return
-        #fname = self.traverse_subpath[0]     
+        #fname = self.traverse_subpath[0]
         qstr =  self.request['QUERY_STRING']
         if 'date' not in self.request.form:
             qstr = "%s&date=%s" % (qstr,
@@ -44,8 +44,8 @@ class RedirectToCurrent(BrowserView):
             # we have a traversal to redirect to
             if self.traverse_subpath[0] == 'parliament':
                 url = "%s/parliament/obj-%s/%s?%s" % (
-                        rooturl,  
-                        self.currParliament,  
+                        rooturl,
+                        self.currParliament,
                         '/'.join(self.traverse_subpath[1:]),
                         qstr)
         return response.redirect(url)

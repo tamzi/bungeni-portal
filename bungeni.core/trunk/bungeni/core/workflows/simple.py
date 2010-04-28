@@ -30,14 +30,14 @@ def create_simple_workflow( ):
         title=_(u'Submit to Clerk'),
         source = states.new,
         destination = states.pending
-        ) )    
+        ) )
 
     add( workflow.Transition(
         transition_id = 'Schedule',
         title=_(u'Schedule'),
         source = states.pending,
         destination = states.scheduled
-        ) )    
+        ) )
 
     return transitions
 

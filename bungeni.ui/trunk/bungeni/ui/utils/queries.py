@@ -45,38 +45,38 @@ def validate_date_in_interval(obj, domain_model, date):
             sql.expression.between(date, domain_model.start_date, domain_model.end_date)
             )
     results = query.all() 
-    if results:      
+    if results:
         if obj:
-            # the object itself can overlap   
+            # the object itself can overlap
             for result in results:
                 if stringKey(result) == stringKey(obj):
                     continue
                 else:
-                    yield result                
+                    yield result
         else:
             # all results indicate an error
-           for result in results:     
-                yield result     
+           for result in results:
+                yield result
 
 def validate_open_interval(obj, domain_model):
     session = Session()
     query = session.query(domain_model).filter(
             domain_model.end_date == None)
     results = query.all() 
-    if results:      
+    if results:
         if obj:
             for result in results:
                 if stringKey(result) == stringKey(obj):
                     continue
                 else:
-                    yield result                
+                    yield result
         else:
-           for result in results:     
+           for result in results:
                 yield result
 
 def validate_membership_in_interval(obj, domain_model, date, user_id, group_id=None, parent_id=None, with_parent=False):
     """ validates the start end for a user in a group or over
-    all groups if group_id is not given    
+    all groups if group_id is not given
     """
     session = Session()
     query = session.query(domain_model).filter(
@@ -85,20 +85,20 @@ def validate_membership_in_interval(obj, domain_model, date, user_id, group_id=N
             domain_model.user_id == user_id)
             )
     if group_id:
-        query = query.filter(domain_model.group_id == group_id)      
+        query = query.filter(domain_model.group_id == group_id)
     if with_parent:
-        query = query.filter(domain_model.parent_group_id == parent_id)                
+        query = query.filter(domain_model.parent_group_id == parent_id)
     results = query.all() 
-    if results:      
+    if results:
         if obj:
             for result in results:
                 if result.membership_id == obj.membership_id:
                     continue
                 else:
-                    yield result                
+                    yield result
         else:
-           for result in results:     
-                yield result    
+           for result in results:
+                yield result
 
 def validate_open_membership(obj, domain_model, user_id, 
     group_id=None, parent_id=None, with_parent=False):
@@ -109,19 +109,19 @@ def validate_open_membership(obj, domain_model, user_id,
             domain_model.user_id == user_id)
             )
     if group_id:
-        query = query.filter(domain_model.group_id == group_id)  
+        query = query.filter(domain_model.group_id == group_id)
     if with_parent:
-        query = query.filter(domain_model.parent_group_id == parent_id)                       
+        query = query.filter(domain_model.parent_group_id == parent_id)
     results = query.all() 
-    if results:      
+    if results:
         if obj:
             for result in results:
                 if result.membership_id == obj.membership_id:
                     continue
                 else:
-                    yield result                
+                    yield result
         else:
-           for result in results:     
+           for result in results:
                 yield result
 
 
@@ -132,8 +132,8 @@ def get_parliament_by_date_range(context, start_date, end_date):
         ((domain.Parliament.end_date == None) | \
          (domain.Parliament.end_date > end_date))).\
         order_by(desc(domain.Parliament.election_date)).first()
-    #session.close()            
-    return parliament         
+    #session.close()
+    return parliament
 
 def get_session_by_date_range(context, start_date, end_date):
     session = Session()
@@ -141,7 +141,7 @@ def get_session_by_date_range(context, start_date, end_date):
         (domain.ParliamentSession.start_date < start_date) & \
         ((domain.ParliamentSession.end_date == None) | \
          (domain.ParliamentSession.end_date > end_date))).first()
-    #session.close()            
+    #session.close()
     return ps 
 
 
@@ -202,18 +202,18 @@ def check_date_in_interval( pp_key, checkDate, sql_statement):
         checkDict = { 'date': checkDate, 'parent_key': pp_key }
         return check_with_sql(sql_statement, **checkDict)
     else:
-        raise TypeError        
+        raise TypeError
 
 
 def check_start_end_dates_in_interval( pp_key, data, sql_statement):
     """ 
     Check if start and end dates are not overlapping with a prior or later peer
     """
-    errors =[]    
+    errors =[]
     overlaps = check_date_in_interval(pp_key, data['start_date'], sql_statement)
     if overlaps is not None:
         errors.append( interface.Invalid(_("The start date overlaps with (%s)" % overlaps), "start_date" ))
-    if data['end_date'] is not None:        
+    if data['end_date'] is not None:
         overlaps = check_date_in_interval(pp_key, data['end_date'], sql_statement)
         if overlaps is not None:
             errors.append( interface.Invalid(_("The end date overlaps with (%s)" % overlaps), "end_date" )) 
@@ -237,7 +237,7 @@ class SQLQuerySource ( object ):
     it must be a childobject of something.
     """
     
-    interface.implements( IContextSourceBinder )   
+    interface.implements( IContextSourceBinder )
 
         
     def getValueKey(self, context):
@@ -245,12 +245,12 @@ class SQLQuerySource ( object ):
         """
         if context.__parent__ is None:
             return None
-        else:            
+        else:
             try:
                 value_key = valueKey( context.__parent__.__name__ )[0]
             except:
                 value_key = self.getValueKey( context.__parent__)
-        return value_key          
+        return value_key
     
     def __init__( self, sql_statement, token_field, value_field, filter = {}, title_field=None ):
         self.sql_statement = sql_statement
@@ -267,24 +267,24 @@ class SQLQuerySource ( object ):
         trusted=removeSecurityProxy(context)
         filter = {}
         for key in filter_dict.keys():
-            if str(filter_dict[key]).startswith('$'):              
+            if str(filter_dict[key]).startswith('$'):
                 value =filter_dict[key][1:]
-                filter_dict[key] = trusted.__dict__[value]                
-        return filter_dict                
+                filter_dict[key] = trusted.__dict__[value]
+        return filter_dict
         
         
         
-    def constructQuery( self, context ):        
-        session = Session()            
+    def constructQuery( self, context ):
+        session = Session()
         if  self.sql_statement.find(':primary_key') > 1:
             #if the keyword primary key is present in the sql 
-            #replace it with the parent pk  
+            #replace it with the parent pk
             pfk = self.getValueKey(context)
-            filter_dict = {'primary_key' : pfk}            
+            filter_dict = {'primary_key' : pfk}
         else:
-            filter_dict = {}            
+            filter_dict = {}
         filter_dict.update(self.filter)
-        filter_dict = self.constructFilterDict( filter_dict, context )      
+        filter_dict = self.constructFilterDict( filter_dict, context )
         query = execute_sql(self.sql_statement, **filter_dict)
         return query
         

@@ -59,7 +59,7 @@ class TestEnumerateUsers(basetestcase.BaseTestCase):
         self.assertEqual(len(ret), len(expected))
         self.assertEqual( ret[0]['login'], expected[0]['login'])
         self.assertEqual( ret[0]['id'], expected[0]['id'])
-        self.assertEqual( ret[0]['pluginid'], expected[0]['pluginid'])                
+        self.assertEqual( ret[0]['pluginid'], expected[0]['pluginid'])
 
     def testIdStringNoExact(self):
         ret = self.plugin.enumerateUsers(id='user_1')

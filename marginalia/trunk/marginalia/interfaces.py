@@ -19,7 +19,7 @@ class ISimpleDocument(Interface):
 class IMarginaliaAnnotatable(Interface):
     '''Annotatable Marker Interface'''
 
-    # Acts as a marker interface    
+    # Acts as a marker interface
     
 class IMarginaliaAnnotatableAdaptor(Interface):
     '''Annotatable Adaptor Interface'''
@@ -137,7 +137,7 @@ class IMarginaliaAnnotation(Interface):
     link = TextLine(
         title=u"Link",
         description=u"Reference Field",
-        )    
+        )
 
     def getUserName():
         """Owner name."""

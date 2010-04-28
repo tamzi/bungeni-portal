@@ -3,7 +3,7 @@
 }
 
 .hentry em.annotation em.annotation {
-   background: none;     
+   background: none;
 }
 
 .hentry em.annotation em.annotation em.annotation {
@@ -23,5 +23,5 @@
 }
 
 .hentry .entry-content em.annotation del {
-   display:none;     
+   display:none;
 }

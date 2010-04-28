@@ -5,7 +5,7 @@
 
 <title metal:fill-slot="title"
        i18n:translate=""
-       tal:content="string:${view/form_name} ${context/short_name|nothing}"/>  
+       tal:content="string:${view/form_name} ${context/short_name|nothing}"/>
   
 <div metal:fill-slot="body">
 

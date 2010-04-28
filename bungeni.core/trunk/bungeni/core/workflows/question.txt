@@ -39,8 +39,8 @@ In order to create a participation, we need a principal:
 
   >>> member = create_principal("member", "Member", ())
   >>> clerk = create_principal("clerk", "Clerk", ())
-  >>> speaker = create_principal("speaker", "Speaker", ())    
-  >>> minister = create_principal("minister", "Minister", ())      
+  >>> speaker = create_principal("speaker", "Speaker", ())
+  >>> minister = create_principal("minister", "Minister", ())
 
 Assign roles.
 
@@ -48,7 +48,7 @@ Assign roles.
   >>> global_prm.assignRoleToPrincipal( u'bungeni.MP', 'member')
   >>> global_prm.assignRoleToPrincipal( u'bungeni.Clerk', 'clerk')
   >>> global_prm.assignRoleToPrincipal( u'bungeni.Speaker', 'speaker')
-  >>> global_prm.assignRoleToPrincipal( u'bungeni.Minister', 'minister')      
+  >>> global_prm.assignRoleToPrincipal( u'bungeni.Minister', 'minister')
 
   >>> zope.security.management.newInteraction(create_participation(member))
   
@@ -105,7 +105,7 @@ send the question notifications.
   ...        u"minister 2",
   ...        first_name=u"b", 
   ...        last_name=u"bc", 
-  ...        birth_country="KE",  
+  ...        birth_country="KE",
   ...        date_of_birth=today,
   ...        email=u"mp2@example.com",
   ...        language="en",
@@ -115,12 +115,12 @@ send the question notifications.
   ...        domain.User,
   ...        u"No minister",
   ...        first_name=u"c", 
-  ...        birth_country="KE",  
+  ...        birth_country="KE",
   ...        last_name=u"cd",
   ...        date_of_birth=today,
   ...        email=u"mp3@example.com", 
   ...        language="en",
-  ...        gender='F')      
+  ...        gender='F')
 
   >>> question = add_content(
   ...     domain.Question,
@@ -343,7 +343,7 @@ to the Speaker's Office for reviewing and to make it “admissible”.
 At the same time the question is also forwarded to the ministry.
 
   >>> question.ministry_id = ministry.group_id
-  >>> notification.SendNotificationToMinistryUponComplete(ObjectEvent(question))  
+  >>> notification.SendNotificationToMinistryUponComplete(ObjectEvent(question))
   From: clerks.office@parliament.go.tld
   To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> 
   ...
@@ -379,7 +379,7 @@ A question was scheduled by Speakers office.
 
 A question was postponed by the speakers office.
 
-  >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(question))  
+  >>> notification.SendNotificationToMemberUponPostponed(ObjectEvent(question))
   From: clerks.office@parliament.go.tld
   To: "John Doe" <john.doe@localhost> ...
   Subject: Question postponed: My subject ...
@@ -393,7 +393,7 @@ A question was sent to a ministry for written response.
 
 A questions answer was reviewed by Clerk's office.
 
-  >>> notification.SendNotificationToMemberUponAnswer(ObjectEvent(question))  
+  >>> notification.SendNotificationToMemberUponAnswer(ObjectEvent(question))
   From: clerks.office@parliament.go.tld
   To: "John Doe" <john.doe@localhost> ...
   Subject: Question answered: My subject ...
@@ -405,5 +405,5 @@ Cleanup
 
   >>> session.flush()
   >>> session.commit()
-  >>> session.close()  
+  >>> session.close()
   >>> zope.security.management.endInteraction()

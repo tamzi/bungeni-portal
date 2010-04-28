@@ -445,7 +445,7 @@ li.formTab a {
     text-decoration: none;
 }
 li.formTab a:visited {
-    color: #436976;    
+    color: #436976;
 }
 li.firstFormTab a {
     border-left: 1px solid #8cacbb;
@@ -489,7 +489,7 @@ div.formControls input.hidden {
 
 .contentViewsLeftPort li.selected {
     background-color: white;
-    text-decoration: bold;    
+    text-decoration: bold;
 }
 
 .contentViewsLeftPort li:hover {

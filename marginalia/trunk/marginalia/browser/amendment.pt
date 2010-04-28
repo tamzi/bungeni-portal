@@ -7,73 +7,73 @@
 <head-->
   <!--title tal:content="context/title/title">recipe name goes here</title--> 
   <!-- 3rd Party -->
-<script type="text/javascript" src="3rd-party.js"        
+<script type="text/javascript" src="3rd-party.js"
      tal:attributes="src context/++resource++jsmarginalia/3rd-party.js"></script>
-<script type="text/javascript" src="shortcut.js"        
+<script type="text/javascript" src="shortcut.js"
      tal:attributes="src context/++resource++jsexternal/shortcut.js"></script>
-<script type="text/javascript" src="cssQuery.js"        
+<script type="text/javascript" src="cssQuery.js"
      tal:attributes="src context/++resource++jsexternal/cssQuery.js"></script>
-<script type="text/javascript" src="cssQuery-level2.js"        
+<script type="text/javascript" src="cssQuery-level2.js"
      tal:attributes="src context/++resource++jsexternal/cssQuery-level2.js"></script>
-<script type="text/javascript" src="cssQuery-standard.js"        
+<script type="text/javascript" src="cssQuery-standard.js"
      tal:attributes="src context/++resource++jsexternal/cssQuery-standard.js"></script>
 
   <!-- Libraries -->
-<script type="text/javascript" src="log.js"        
+<script type="text/javascript" src="log.js"
      tal:attributes="src context/++resource++jsmarginalia/log.js"></script>
-<script type="text/javascript" src="prefs.js"        
+<script type="text/javascript" src="prefs.js"
      tal:attributes="src context/++resource++jsmarginalia/prefs.js"></script>
-<script type="text/javascript" src="html-model.js"        
+<script type="text/javascript" src="html-model.js"
      tal:attributes="src context/++resource++jsmarginalia/html-model.js"></script>
-<script type="text/javascript" src="domutil.js"        
+<script type="text/javascript" src="domutil.js"
      tal:attributes="src context/++resource++jsmarginalia/domutil.js"></script>
-<script type="text/javascript" src="ranges.js"        
+<script type="text/javascript" src="ranges.js"
      tal:attributes="src context/++resource++jsmarginalia/ranges.js"></script>
-<script type="text/javascript" src="SequenceRange.js"        
+<script type="text/javascript" src="SequenceRange.js"
      tal:attributes="src context/++resource++jsmarginalia/SequenceRange.js"></script>
-<script type="text/javascript" src="XPathRange.js"        
+<script type="text/javascript" src="XPathRange.js"
      tal:attributes="src context/++resource++jsmarginalia/XPathRange.js"></script>
-<script type="text/javascript" src="annotation.js"        
+<script type="text/javascript" src="annotation.js"
      tal:attributes="src context/++resource++jsmarginalia/annotation.js"></script>
-<script type="text/javascript" src="post-micro.js"        
+<script type="text/javascript" src="post-micro.js"
      tal:attributes="src context/++resource++jsmarginalia/post-micro.js"></script>
-<script type="text/javascript" src="linkable.js"        
+<script type="text/javascript" src="linkable.js"
      tal:attributes="src context/++resource++jsmarginalia/linkable.js"></script>
 
   <!-- Marginalia -->
-<script type="text/javascript" src="marginalia.js"        
+<script type="text/javascript" src="marginalia.js"
      tal:attributes="src context/++resource++jsmarginalia/marginalia.js"></script>
-<script type="text/javascript" src="blockmarker-ui.js"        
+<script type="text/javascript" src="blockmarker-ui.js"
      tal:attributes="src context/++resource++jsmarginalia/blockmarker-ui.js"></script>
-<script type="text/javascript" src="highlight-ui.js"        
+<script type="text/javascript" src="highlight-ui.js"
      tal:attributes="src context/++resource++jsmarginalia/highlight-ui.js"></script>
-<script type="text/javascript" src="link-ui.js"        
+<script type="text/javascript" src="link-ui.js"
      tal:attributes="src context/++resource++jsmarginalia/link-ui-z3.js"></script>
-<script type="text/javascript" src="note-ui.js"        
+<script type="text/javascript" src="note-ui.js"
      tal:attributes="src context/++resource++jsmarginalia/note-ui.js"></script>
-<script type="text/javascript" src="link-ui-plain.js"        
+<script type="text/javascript" src="link-ui-plain.js"
      tal:attributes="src context/++resource++jsmarginalia/link-ui-plain.js"></script>
-<script type="text/javascript" src="track-changes.js"        
+<script type="text/javascript" src="track-changes.js"
      tal:attributes="src context/++resource++jsmarginalia/track-changes.js"></script>
 
   <!-- Rest -->
-<script type="text/javascript" src="RangeInfo.js"        
+<script type="text/javascript" src="RangeInfo.js"
      tal:attributes="src context/++resource++jsmarginalia/RangeInfo.js"></script>
-<script type="text/javascript" src="rest-annotate.js"        
+<script type="text/javascript" src="rest-annotate.js"
      tal:attributes="src context/++resource++jsmarginalia/rest-annotate.js"></script>
-<script type="text/javascript" src="rest-prefs.js"        
+<script type="text/javascript" src="rest-prefs.js"
      tal:attributes="src context/++resource++jsmarginalia/rest-prefs.js"></script>
-<script type="text/javascript" src="rest-keywords.js"        
+<script type="text/javascript" src="rest-keywords.js"
      tal:attributes="src context/++resource++jsmarginalia/rest-keywords.js"></script>
-<script type="text/javascript" src="marginalia-direct.js"        
+<script type="text/javascript" src="marginalia-direct.js"
      tal:attributes="src context/++resource++jsmarginalia/marginalia-direct.js"></script>
 
   <!-- Others -->
-<script type="text/javascript" src="marginalia-config.js"        
+<script type="text/javascript" src="marginalia-config.js"
      tal:attributes="src context/++resource++jsmarginalia/marginalia-config.js"></script>
-<script type="text/javascript" src="marginalia-strings.js"        
+<script type="text/javascript" src="marginalia-strings.js"
      tal:attributes="src context/++resource++jsmarginalia/marginalia-strings.js"></script>
-<script type="text/javascript" src="bungeni-annotate.js"        
+<script type="text/javascript" src="bungeni-annotate.js"
      tal:attributes="src context/++resource++jsmarginalia/bungeni-annotate.js"></script>
 
   <!-- Page and Context Specific -->
@@ -95,7 +95,7 @@ function show_annotations_on_load() {
 	var url = '${context/@@absolute_url}';
     var restService = '/amendment';
 	bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
-    setTimeout( 'load();', 500);    
+    setTimeout( 'load();', 500);
 }
 
 function addLoadEvent(func) {
@@ -204,17 +204,17 @@ function bungeniClickCreateAnnotation( event, id ) {
 bar and select the amendment option you wish to use.</div>
 <h3 tal:content="view/getTitle"> Comment Document </h3>
 
-  <dl class="portalMessage error"                                                                                                              
+  <dl class="portalMessage error"
       tal:condition="view/statusmessage | nothing"
-      tal:attributes="class string:portalMessage error;">                                                                                  
-      <dt i18n:translate="">                                                                                                                  
-         Error                                                                                                                                
-      </dt>                                                                                                                                   
-      <dd tal:content="view/statusmessage | nothing"                                                                                             
-           i18n:translate="">                                                                                                                  
-           The status message.                                                                                                                 
-      </dd>                                                                                                                                   
-  </dl>        
+      tal:attributes="class string:portalMessage error;">
+      <dt i18n:translate="">
+         Error
+      </dt>
+      <dd tal:content="view/statusmessage | nothing"
+           i18n:translate="">
+           The status message.
+      </dd>
+  </dl>
 
  <!-- Marginalia .. -->
 <ul id="debug" style="display:none">
@@ -239,7 +239,7 @@ bar and select the amendment option you wish to use.</div>
            </td>
          </tr>
       </table>
-   </div>   
+   </div>
 </div>
 
 </metal:main>

@@ -54,8 +54,8 @@ class LoginAction(GlobalMenuItem):
         return available
 
     @property
-    def title(self):        
-        return _("Login")             
+    def title(self):
+        return _("Login")
 
 class LogoutAction(GlobalMenuItem):
     
@@ -65,8 +65,8 @@ class LogoutAction(GlobalMenuItem):
         return authenticated
         
     @property
-    def title(self):        
-        return _("Logout")      
+    def title(self):
+        return _("Logout")
         
 class DashboardAction(GlobalMenuItem):
 
@@ -92,18 +92,18 @@ class AdminAction(GlobalMenuItem):
     #@property
     #def available(self):
     #    context = self.getURLContext()
-    #    return getInteraction().checkPermission('zope.ManageSite', context)  
+    #    return getInteraction().checkPermission('zope.ManageSite', context)
 
 
 # 
 # class TaskMenu(managr.MenuManager):
-#     
+#
 #     def update(self):
 #         """See zope.contentprovider.interfaces.IContentProvider"""
 #         self.__updated = True
 # 
 #         viewlets = self._getViewlets()
-#             
+#
 #         viewlets = self.filter(viewlets)
 #         viewlets = self.sort(viewlets)
 #         # Just use the viewlets from now on
@@ -144,10 +144,10 @@ class TranslationSubMenuItem(BrowserSubMenuItem):
     @property
     def action(self):
         url = ui_url.absoluteURL(self.context, self.request)
-        if checkPermission("bungeni.translation.Add", self.context):        
+        if checkPermission("bungeni.translation.Add", self.context):
             return "%s/translate" % url
         else:
-            return url            
+            return url
     
     def selected(self):
         return False
@@ -191,7 +191,7 @@ class TranslateMenu(BrowserMenu):
                          
             return results
         else:
-            return None            
+            return None
 
 
 class WorkflowSubMenuItem(BrowserSubMenuItem):
@@ -253,7 +253,7 @@ class WorkflowMenu(BrowserMenu):
                 return ()
         wf = IWorkflow(context, None)
         if wf is None:
-            return ()        
+            return ()
         #state = IWorkflowInfo(context).state().getState()
         wf_info = IWorkflowInfo(context)
         transitions = wf_info.getManualTransitionIds()

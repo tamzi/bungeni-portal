@@ -44,17 +44,17 @@ class ArchiveDatesForm(form.PageForm):
     def is_in_parliament(self, context):
         parent = context
         while not IParliament.providedBy(parent):
-            parent = getattr(parent, '__parent__', None)            
+            parent = getattr(parent, '__parent__', None)
             if parent is None:
                 return False
-        return True                
+        return True
             
     def get_start_end_restictions(self, context):
         parent = context
         while not hasattr(parent,'start_date'):
-            parent = getattr(parent, '__parent__', None)            
+            parent = getattr(parent, '__parent__', None)
             if parent is None:
-                return None, None           
+                return None, None
         return getattr(parent, 'start_date', None), getattr(parent, 'end_date', None)
 
     def setUpWidgets(self, ignore_request=False, cookie=None):
@@ -81,12 +81,12 @@ class ArchiveDatesForm(form.PageForm):
             self.widgets['parliament']._messageNoValue = _(
                 u"parliament...")
         except KeyError:
-            pass   
-        start, end = self.get_start_end_restictions(self.context)                         
+            pass
+        start, end = self.get_start_end_restictions(self.context)
         self.widgets['range_start_date'].set_min_date(start)
-        self.widgets['range_end_date'].set_min_date(start)                                        
+        self.widgets['range_end_date'].set_min_date(start)
         self.widgets['range_start_date'].set_max_date(end)
-        self.widgets['range_end_date'].set_max_date(end)   
+        self.widgets['range_end_date'].set_max_date(end)
         
         
     @form.action(_(u"Filter"))
@@ -100,17 +100,17 @@ class ArchiveDatesForm(form.PageForm):
                 self.status = _("Invalid Date Range")
                 unset_date_range(self.request)
                 return
-        start, end = self.get_start_end_restictions(self.context)                        
-        if start_date and end:            
-            if start_date > end:                    
+        start, end = self.get_start_end_restictions(self.context)
+        if start_date and end:
+            if start_date > end:
                   self.status = (_("Start date must be before %s") %
                         end.strftime("%d %B %Y"))
                   unset_date_range(self.request)
-                  return                        
+                  return
         if end_date and start:
             if end_date < start:
                   self.status = (_("End date must be after %s") %
-                        start.strftime("%d %B %Y"))                                                
+                        start.strftime("%d %B %Y"))
                   unset_date_range(self.request)
                   return
                                 
@@ -139,9 +139,9 @@ class ArchiveDatesViewlet(object):
 
     def update(self):
         self.form = ArchiveDatesForm(self.context, self.request)
-        start_date, end_date = get_date_range(self.request)  
+        start_date, end_date = get_date_range(self.request)
         if start_date or end_date:
-            self.filter_on = 'dates-filtered'     
+            self.filter_on = 'dates-filtered'
         else:
             self.filter_on = ''
 

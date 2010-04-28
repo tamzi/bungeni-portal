@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.ui">
 
     <!-- VIEWLET for workspace context navigation 
@@ -110,17 +110,17 @@
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="1"
-     /-->  
+     /-->
      
   <browser:viewlet
      name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".workspace.UserIdViewlet"
-     view="bungeni.ui.interfaces.IMPWorkspace"     
+     view="bungeni.ui.interfaces.IMPWorkspace"
      for="*"
      permission="zope.View"
      weight="10"
-     />   
+     />
      
   <browser:viewlet
      name="bungeni.viewlet.schedule-user_id"
@@ -129,7 +129,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      permission="zope.View"
      weight="10"
-     />      
+     />
   
    <browser:viewlet
      name="bungeni.workspace.mp-draft"
@@ -139,7 +139,7 @@
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="30"
-     />  
+     />
   
    <browser:viewlet
      name="bungeni.workspace.mp-action-required"
@@ -159,7 +159,7 @@
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="20"
-     />    
+     />
 
 
   <browser:viewlet
@@ -170,7 +170,7 @@
      view="bungeni.ui.interfaces.IMPWorkspace"
      permission="zope.View"
      weight="40"
-     />   
+     />
 
 
 
@@ -179,14 +179,14 @@
 
 
   <browser:viewlet
-     name="bungeni.viewlet.ws-user_id"     
+     name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".workspace.UserIdViewlet"
-     view="bungeni.ui.interfaces.IClerkWorkspace"     
+     view="bungeni.ui.interfaces.IClerkWorkspace"
      for="*"
      permission="zope.View"
      weight="10"
-     />        
+     />
 
 
   <browser:viewlet
@@ -219,7 +219,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="25"
-     />  
+     />
 
   <browser:viewlet
      name="bungeni.workspace.items-pending-schedule.clerk"
@@ -229,7 +229,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="30"
-     />       
+     />
 
   <browser:viewlet
      name="bungeni.workspace.sittings.clerk"
@@ -250,7 +250,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="50"
-     />     
+     />
 
 
   <!--browser:viewlet
@@ -282,7 +282,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="20"
-     />      
+     />
 
   <browser:viewlet
      name="bungeni.workspace.questions-clerk-clarify"
@@ -292,7 +292,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="5"
-     />  
+     />
   
   <browser:viewlet
      name="bungeni.workspace.questions-clerk-deferred"
@@ -302,7 +302,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="40"
-     />       
+     />
   
   <browser:viewlet
      name="bungeni.workspace.questions-clerk-responded"
@@ -312,7 +312,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="50"
-     />         
+     />
   
   <browser:viewlet
      name="bungeni.workspace.questions-postponed"
@@ -322,7 +322,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="35"
-     />    
+     />
 
 
   <browser:viewlet
@@ -333,7 +333,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="60"
-     />    
+     />
 
   <browser:viewlet
      name="bungeni.workspace.motions-recieved"
@@ -343,7 +343,7 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="70"
-     />  
+     />
 
   <browser:viewlet
      name="bungeni.workspace.motions-clarify-clerk"
@@ -353,15 +353,15 @@
      view="bungeni.ui.interfaces.IClerkWorkspace"
      permission="zope.View"
      weight="80"
-     /-->  
+     /-->
 
   <!-- speakers workspace -->
 
   <browser:viewlet
-     name="bungeni.viewlet.ws-user_id"     
+     name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".workspace.UserIdViewlet"
-     view="bungeni.ui.interfaces.ISpeakerWorkspace"     
+     view="bungeni.ui.interfaces.ISpeakerWorkspace"
      for="*"
      permission="zope.View"
      weight="10"
@@ -375,7 +375,7 @@
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
      weight="10"
-     />    
+     />
      
   <browser:viewlet
      name="bungeni.workspace.items-approved.speaker"
@@ -385,7 +385,7 @@
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
      weight="20"
-     />  
+     />
 
   <browser:viewlet
      name="bungeni.workspace.items-pending-schedule"
@@ -395,7 +395,7 @@
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
      weight="30"
-     />   
+     />
 
 
   <browser:viewlet
@@ -406,7 +406,7 @@
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
      weight="40"
-     />      
+     />
 
   <browser:viewlet
      name="bungeni.workspace.speaker-questions-pending"
@@ -416,7 +416,7 @@
      view="bungeni.ui.interfaces.ISpeakerWorkspace"
      permission="zope.View"
      weight="50"
-     />      
+     />
      
   <!-- Ministers workspace -->
 
@@ -428,7 +428,7 @@
      view="bungeni.ui.interfaces.IMinisterWorkspace"
      permission="zope.View"
      weight="10"
-     /-->    
+     /-->
 
   <browser:viewlet
      name="bungeni.minister-workspace.oral-questions"
@@ -438,7 +438,7 @@
      view="bungeni.ui.interfaces.IMinisterWorkspace"
      permission="zope.View"
      weight="5"
-     />      
+     />
   
   <browser:viewlet
      name="bungeni.minister-workspace.written-questions"
@@ -448,7 +448,7 @@
      view="bungeni.ui.interfaces.IMinisterWorkspace"
      permission="zope.View"
      weight="7"
-     />      
+     />
   
   
   <!-- Workspace Archive -->
@@ -491,6 +491,6 @@
      view="bungeni.ui.interfaces.IMinisterWorkspace"
      permission="zope.View"
      weight="50"
-     />       
+     />
   
 </configure>

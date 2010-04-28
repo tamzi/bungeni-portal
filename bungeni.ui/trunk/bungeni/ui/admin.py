@@ -112,7 +112,7 @@ class UserSettings( EditForm ):
         if len(results) == 1:
             user = results[0]
         else:
-            user = None            
+            user = None
         settings = interfaces.IBungeniUserSettings( user, None )
         if settings is None:
             raise SyntaxError("User Settings Only For Database Users")

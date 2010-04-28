@@ -1,4 +1,4 @@
-<div id="">  
+<div id="">
     <table id="" class="listing grid">
         <theader>
           <tr>
@@ -10,7 +10,7 @@
             <th tal:content="view/week_no"> Week number </th>
             <th tal:repeat="session view/sessions"> Plenary<!--br/><b tal:replace="session/short_name"> parliament </b--> </th>
             <th tal:repeat="committee view/committees"> <span tal:content="committee/short_name" tal:attributes="title committee/full_name"> committee </span> </th>
-          </tr>  
+          </tr>
         </theader>
         <tbody>
           <tr tal:repeat="day view/weekcalendar">
@@ -20,7 +20,7 @@
               <div tal:repeat="sitting python: view.getScheduledParliamentSittings(day, session.session_id)">
                 <span tal:content="sitting/short_name" tal:attributes="title sitting/s_type" />
                 <ol tal:attributes="id sitting/sittingid" tal:define="sid sitting/sid">
-                  <li tal:repeat="question python: view.getActiveSittingItems(sid)"                  
+                  <li tal:repeat="question python: view.getActiveSittingItems(sid)"
                       tal:attributes="id question/schedule_id; class question/schedule_date_class">
                      <a tal:content="question/subject" tal:attributes="title question/title; href question/url" />
                    </li>
@@ -32,14 +32,14 @@
               <div tal:repeat="sitting python: view.getScheduledCommitteeSittings(day, committee.committee_id)">
                 <span tal:content="sitting/short_name" tal:attributes="title sitting/s_type" />
                 <ol tal:attributes="id sitting/sittingid" tal:define="sid sitting/sid">
-                  <li tal:repeat="question python: view.getActiveSittingItems(sid)"                  
+                  <li tal:repeat="question python: view.getActiveSittingItems(sid)"
                       tal:attributes="id question/schedule_id; class question/schedule_date_class">
                      <a tal:content="question/subject" tal:attributes="title question/title; href question/url" />
                    </li>
-                </ol>                
+                </ol>
               </div>
             </td>
-          </tr>  
+          </tr>
         </tbody>
     </table>
 </div>

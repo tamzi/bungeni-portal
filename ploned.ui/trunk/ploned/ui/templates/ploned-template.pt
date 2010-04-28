@@ -7,7 +7,7 @@
   <head>
     <metal:block define-slot="title">
       <title tal:content="string:bungeni">Z3 UI</title>
-    </metal:block>         
+    </metal:block>
 
     <tal:block tal:replace="structure provider:plone-css">
       CS Includes, Dynamically Included by Context 
@@ -31,7 +31,7 @@
     <div id="portal-top">
       <h5 class="hiddenStructure" i18n:translate="heading_sections">Sections</h5>
       
-      <div id="portal-header">         
+      <div id="portal-header">
           <tal:block replace="structure provider:plone.portalheader" />
       </div>
       <tal:block replace="structure provider:plone.portaltools" />
@@ -39,7 +39,7 @@
       
     </div>
 
-    <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>      
+    <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
     
       <table id="portal-columns">
         <tbody>
@@ -78,7 +78,7 @@
                         view, never on edit forms, control panels etc. It's meant to only wrap the
                         actual content that gets rendered on a page, not the other UI elements.
                     </tal:comment>
-		    
+		
 		    <!--
                     <div id="content"
                          tal:omit-tag="not:context/@@plone_context_state/is_view_template">

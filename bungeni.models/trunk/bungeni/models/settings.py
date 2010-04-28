@@ -50,7 +50,7 @@ class SettingsBase( object ):
 
         
     def _fetch( self ):
-        oid, otype = self._context()        
+        oid, otype = self._context()
         values = rdb.select( [settings.c.name, settings.c.value ],
                              rdb.and_( settings.c.propertysheet == self.settings_schema.__name__,
                                        settings.c.object_type == otype,
@@ -115,7 +115,7 @@ class SettingsBase( object ):
         if k in self._data and self._data[k] == v:
             return
         self._store( k, v)
-        self._data[k] = v        
+        self._data[k] = v
         
     def keys( self ):
         return self._data.keys()

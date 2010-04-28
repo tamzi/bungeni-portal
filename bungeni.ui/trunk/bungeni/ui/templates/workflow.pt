@@ -28,4 +28,4 @@
     <div tal:replace="structure view/action_viewlet/render" />
   </div>
   
-</html>  
+</html>

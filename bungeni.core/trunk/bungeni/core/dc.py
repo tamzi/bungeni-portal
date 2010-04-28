@@ -72,7 +72,7 @@ class QuestionDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))    
+        context = session.merge(removeSecurityProxy(self.context))
         text = "Submitted by %s" % context.owner.first_name + ' ' + \
                context.owner.last_name
 
@@ -97,7 +97,7 @@ class BillDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))    
+        context = session.merge(removeSecurityProxy(self.context))
         text = "Submitted by %s" % context.owner.first_name + ' ' + \
                context.owner.last_name
 
@@ -112,7 +112,7 @@ class MotionDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))    
+        context = session.merge(removeSecurityProxy(self.context))
         if context.motion_number is None:
             return context.short_name
         return "#%d: %s" % (
@@ -122,7 +122,7 @@ class MotionDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         text = "Submitted by %s" %  context.owner.first_name + ' ' + \
                context.owner.last_name
 
@@ -137,7 +137,7 @@ class SittingDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         return _(u"Sitting: $group ($start to $end)",
                  mapping={'group': context.group.short_name,
                           'start': context.start_date.strftime('%Y-%m-%d %H:%M'),
@@ -146,7 +146,7 @@ class SittingDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))          
+        context = session.merge(removeSecurityProxy(self.context))
         return _(u"Sitting scheduled for '$group' ($start to $end)",
                  mapping={'group': context.group.short_name,
                           'start': context.start_date.strftime('%Y-%m-%d %H:%M'),
@@ -162,8 +162,8 @@ class ItemScheduleDescriptiveProperties(DescriptiveProperties):
     @property
     def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
-        sitting = context.sitting                             
+        context = session.merge(removeSecurityProxy(self.context))
+        sitting = context.sitting
         return _(u"Scheduled for sitting ($start to $end)",
                  mapping={'start': sitting.start_date,
                           'end': sitting.end_date})
@@ -187,16 +187,16 @@ class VersionDescriptiveProperties(DescriptiveProperties):
                  mapping={'date': self.context.change.date})
                  
 class GroupDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IBungeniGroup)          
+    component.adapts(interfaces.IBungeniGroup)
     
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         return "%s - %s" %(
             #self.context.type.capitalize(),
             context.short_name,
-            context.full_name)           
+            context.full_name)
 
 class ContainerDescriptiveProperties(DescriptiveProperties):
     component.adapts(IAlchemistContainer)
@@ -208,15 +208,15 @@ class ContainerDescriptiveProperties(DescriptiveProperties):
         
     @property
     def descrition(self):
-        return u""        
+        return u""
     
 class UserDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IBungeniUser)
     
-    @property  
+    @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return "%s %s %s" % (context.titles,
                 context.first_name,
                 context.last_name)
@@ -227,7 +227,7 @@ class GroupMembershipDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
@@ -236,7 +236,7 @@ class GroupMembershipDescriptiveProperties(DescriptiveProperties):
             return u"New User"
 
     @property
-    def description(self):            
+    def description(self):
         return u""
 
             
@@ -246,7 +246,7 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
@@ -254,9 +254,9 @@ class GroupSittingAttendanceDescriptiveProperties(DescriptiveProperties):
         else:
             return u"New User"
     @property
-    def description(self):            
+    def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         return context.attendance_type.attendance_type
 
 
@@ -267,7 +267,7 @@ class ConsignatoryDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         if context.user:
             return "%s %s %s" % (context.user.titles,
                 context.user.first_name,
@@ -275,38 +275,38 @@ class ConsignatoryDescriptiveProperties(DescriptiveProperties):
         else:
             return u"New User"
     @property
-    def description(self):            
+    def description(self):
        return u""
 
             
 class ParliamentSessionDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IParliamentSession)  
+    component.adapts(interfaces.IParliamentSession)
     
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
-        return context.short_name   
+        context = session.merge(removeSecurityProxy(self.context))
+        return context.short_name
 
     @property
-    def description(self):  
+    def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))                
-        return context.full_name   
+        context = session.merge(removeSecurityProxy(self.context))
+        return context.full_name
                 
 class ConstituencyDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IConstituency)  
+    component.adapts(interfaces.IConstituency)
     
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
-        return context.name         
+        context = session.merge(removeSecurityProxy(self.context))
+        return context.name
         
     @property
-    def description(self):            
+    def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         return u"%s - %s -%s" %( context.name,
             context.province.province,
             context.region.region)
@@ -318,7 +318,7 @@ class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         time = context.sitting_time
         if time is not None:
             return _(u"Discussion ($time)",
@@ -326,7 +326,7 @@ class ScheduledItemDiscussionDescriptiveProperties(DescriptiveProperties):
         return _(u"Discussion")
 
     @property
-    def description(self):            
+    def description(self):
         return u""
 
 class SittingTypeDescriptiveProperties(DescriptiveProperties):
@@ -338,36 +338,36 @@ class SittingTypeDescriptiveProperties(DescriptiveProperties):
 
         
     @property
-    def description(self):            
+    def description(self):
         return u""
         
 class ChangeDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IChange)  
+    component.adapts(interfaces.IChange)
     
     @property
     def title(self):
-        return self.context.action   
+        return self.context.action
     @property
-    def description(self):            
-        return u""  
+    def description(self):
+        return u""
 
 class UserAddressDescriptiveProperties(DescriptiveProperties):
-    component.adapts(interfaces.IUserAddress)  
+    component.adapts(interfaces.IUserAddress)
     
     @property
     def title(self):
-        return u"Address"   
+        return u"Address"
 
     @property
-    def description(self):            
+    def description(self):
         return u""
         
 #class MarginaliaDescriptiveProperties(DescriptiveProperties):
-#    component.adapts(IMarginaliaAnnotation)  
-#    
+#    component.adapts(IMarginaliaAnnotation)
+#
 #    @property
 #    def title(self):
-#        return u"Marginalia"   
+#        return u"Marginalia"
         
 class AgendaItemDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IAgendaItem)
@@ -375,7 +375,7 @@ class AgendaItemDescriptiveProperties(DescriptiveProperties):
     @property
     def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
+        context = session.merge(removeSecurityProxy(self.context))
         return u"%s - %s" % (context.short_name, context.group.short_name)
 
             
@@ -383,181 +383,181 @@ class TabledDocumentDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.ITabledDocument)
     
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))        
+        context = session.merge(removeSecurityProxy(self.context))
         return context.short_name
     @property
-    def description(self):            
+    def description(self):
         return u""
 
 class ConstituencyDetailsDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IConstituencyDetail)
     
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return '%s - %i' % (context.constituency.name,
             context.date.year)
 
     @property
-    def description(self):            
+    def description(self):
         return u""
 
 class GroupItemAssignmentDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IGroupItemAssignment)
     
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return '%s - %s ' % (context.item.short_name, context.group.short_name)
 
     @property
-    def description(self):            
+    def description(self):
         return u""
 
-class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):                        
+class MemberRoleTitleDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IMemberRoleTitle)
     
     @property
     def title(self): 
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))  
-        return context.title_name.user_role_name                                   
+        context = session.merge(removeSecurityProxy(self.context))
+        return context.title_name.user_role_name
 
     @property
-    def description(self):            
+    def description(self):
         return u""
 
 
-class ReportDescriptiveProperties(DescriptiveProperties):                        
+class ReportDescriptiveProperties(DescriptiveProperties):
     component.adapts(interfaces.IReport)
     
     @property
     def title(self): 
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))          
+        context = session.merge(removeSecurityProxy(self.context))
         return u'%s: %s - %s' %(context.group.short_name, 
-            context.start_date, context.end_date)                                  
+            context.start_date, context.end_date)
 
     @property
-    def description(self):        
+    def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))             
+        context = session.merge(removeSecurityProxy(self.context))
         return u"Created on %s by %s" %( context.created_date.strftime('%Y-%m-%d'),
             context.user_id)
 
-class ItemScheduleCategoryDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IItemScheduleCategory)         
+class ItemScheduleCategoryDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IItemScheduleCategory)
     
     @property
-    def title(self):   
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))       
+        context = session.merge(removeSecurityProxy(self.context))
         return context.short_name
            
     @property
-    def description(self):            
+    def description(self):
         return u""
     
-class UserDelegationDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IUserDelegation)         
+class UserDelegationDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IUserDelegation)
     
     @property
-    def title(self):    
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))       
+        context = session.merge(removeSecurityProxy(self.context))
         if getattr(context, 'delegation', None):
             return u'%s %s' % (context.delegation.first_name,
                 context.delegation.last_name)
         else:
-            return u""                
+            return u""
            
     @property
-    def description(self):            
-        return u""    
+    def description(self):
+        return u""
         
-class ProvinceDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IProvince)       
+class ProvinceDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IProvince)
       
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return context.province
 
     @property
-    def description(self):            
-        return u""  
+    def description(self):
+        return u""
         
-class RegionDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IRegion)   
+class RegionDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IRegion)
 
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return context.region
 
     @property
-    def description(self):            
-        return u""      
+    def description(self):
+        return u""
         
-class EventItemProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IEventItem)   
+class EventItemProperties(DescriptiveProperties):
+    component.adapts(interfaces.IEventItem)
 
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return context.short_name
 
     @property
-    def description(self):            
-        return u""           
+    def description(self):
+        return u""
     
-class AttachedFileDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IAttachedFile)   
+class AttachedFileDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IAttachedFile)
 
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return context.file_title
 
     @property
-    def description(self):            
+    def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return u"%s  (%s)" %(context.file_name, context.file_mimetype)
 
-class AttachedFileVersionDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IAttachedFileVersion)   
+class AttachedFileVersionDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IAttachedFileVersion)
 
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return context.file_title
 
     @property
-    def description(self):            
+    def description(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return u"%s  (%s)" %(context.file_name, context.file_mimetype)
 
-class HeadingDescriptiveProperties(DescriptiveProperties):                        
-    component.adapts(interfaces.IHeading)   
+class HeadingDescriptiveProperties(DescriptiveProperties):
+    component.adapts(interfaces.IHeading)
     
     @property
-    def title(self):  
+    def title(self):
         session =Session()
-        context = session.merge(removeSecurityProxy(self.context))      
+        context = session.merge(removeSecurityProxy(self.context))
         return context.short_name
 
     @property
-    def description(self):                 
+    def description(self):
         return ""
                             

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="plone">
 
   <!-- Skin Definition -->
@@ -26,7 +26,7 @@
      class=".macros.StandardMacros"
      permission="zope.View"
      allowed_interface="zope.interface.common.mapping.IItemMapping"
-     layer=".interfaces.IPlonedSkin"     
+     layer=".interfaces.IPlonedSkin"
      />
 
   <!-- Icon View for Site -->

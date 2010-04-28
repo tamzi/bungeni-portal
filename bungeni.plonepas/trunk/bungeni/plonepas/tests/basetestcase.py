@@ -61,7 +61,7 @@ class SQLLayer:
         ppasinstall.registerPluginTypes(pas)
         from bungeni.plonepas import install
         install.install_pas_plugins( container )
-        return pas        
+        return pas
 
 class BaseTestCase( ZopeTestCase.ZopeTestCase ):
     

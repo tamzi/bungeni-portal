@@ -30,9 +30,9 @@ def validate_start_date_within_parent( parent, data ):
     """ Check that the start date is inside the restrictictions.
     It must not start before the contextParents start date or end
     after the contextsParents end date"""
-    errors =[]   
+    errors =[]
     if data.get('start_date',None):
-        start = ui_date.get_date(data['start_date'])    
+        start = ui_date.get_date(data['start_date'])
         if getattr(parent, 'start_date', None):
             pstart = ui_date.get_date(parent.start_date)
             if start < pstart:
@@ -44,21 +44,21 @@ def validate_start_date_within_parent( parent, data ):
             if start > pend:
                 errors.append( interface.Invalid( 
                 _(u"Start date must be prior to (%s)") % pend, 
-                "start_date" ))     
+                "start_date" ))
     return errors
 
 def validate_start_date_equals_end_date(action, data, context, container):
     """ Check that the start date is inside the restrictictions.
     It must not start before the contextParents start date or end
     after the contextsParents end date"""
-    errors =[]   
+    errors =[]
     if data.get('start_date',None) and data.get('end_date', None):
         start = ui_date.get_date(data['end_date']) 
-        end = ui_date.get_date(data['start_date'])   
+        end = ui_date.get_date(data['start_date'])
         if start != end:
             errors.append( interface.Invalid( 
                 _(u"End date must be equal to start date") , 
-                "end_date" ))             
+                "end_date" ))
     return errors
 
     
@@ -66,11 +66,11 @@ def validate_end_date_within_parent( parent, data ):
     """
     Check that the end date is inside the restrictictions.
     It must not end before the context.Parents start date or end
-    after the context.Parents end date    
-    """    
-    errors =[]   
+    after the context.Parents end date
+    """
+    errors =[]
     if data.get( 'end_date', None):
-        end = ui_date.get_date(data['end_date'])                
+        end = ui_date.get_date(data['end_date'])
         if getattr(parent, 'start_date', None):
             pstart = ui_date.get_date(parent.start_date)
             if end < pstart:
@@ -78,11 +78,11 @@ def validate_end_date_within_parent( parent, data ):
                 _(u"End date must be after (%s)")  % pstart, 
                 "end_date" ))
         if getattr(parent, 'end_date', None):
-            pend = ui_date.get_date(parent.end_date)        
+            pend = ui_date.get_date(parent.end_date)
             if end > pend:
                 errors.append( interface.Invalid( 
                 _(u"End date must be prior to (%s)") % pend, 
-                "end_date" ))  
+                "end_date" ))
     return errors
 
 
@@ -106,11 +106,11 @@ all_party_memberships = rdb.join(
         schema.user_group_memberships, schema.groups).join(
            schema.political_parties)
         
-rdb.orm.mapper(AllPartyMemberships, all_party_memberships)     
+rdb.orm.mapper(AllPartyMemberships, all_party_memberships)
 
 def validate_party_membership(action, data, context, container):
     errors = []
-    parent_id = getattr(container.__parent__, 'parent_group_id', None)    
+    parent_id = getattr(container.__parent__, 'parent_group_id', None)
     if interfaces.IPartyMember.providedBy(context):
         party_member = context
         user_id = context.user_id
@@ -123,32 +123,32 @@ def validate_party_membership(action, data, context, container):
                     data['start_date'],
                     user_id,
                     parent_id=parent_id,
-                    with_parent=True):  
-            overlaps = r.short_name                                                                             
+                    with_parent=True):
+            overlaps = r.short_name
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
-                "start_date" ))                    
-    if data.get('end_date', None):    
+                "start_date" ))
+    if data.get('end_date', None):
         for r in queries.validate_membership_in_interval(party_member, 
                     AllPartyMemberships, 
                     data['end_date'],
                     user_id,
                     parent_id=parent_id,
-                    with_parent=True):    
-            overlaps = r.short_name                      
+                    with_parent=True):
+            overlaps = r.short_name
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
-                "end_date" ))                                
+                "end_date" ))
     for r in queries.validate_open_membership(party_member, 
             AllPartyMemberships, 
             user_id, 
             parent_id=parent_id, 
             with_parent=True):
-        overlaps = r.short_name      
+        overlaps = r.short_name
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
                     "end_date" )) 
-    return errors                    
+    return errors
          
 
 def validate_parliament_dates(action, data, context, container):
@@ -168,7 +168,7 @@ def validate_parliament_dates(action, data, context, container):
     if data['end_date']:
         results = queries.validate_date_in_interval(parliament, 
                     domain.Parliament, 
-                    data['start_date'])           
+                    data['start_date'])
         for result in results:
             overlaps = result.short_name
             errors.append(interface.Invalid(
@@ -210,7 +210,7 @@ def validate_government_dates(action, data, context, container):
         errors.append( interface.Invalid(
             _("Start date must start after the swearing in of the parliament (%s)") 
             % container.__parent__.start_date , 
-            "start_date") )   
+            "start_date") )
     results = queries.validate_date_in_interval(government, 
                     domain.Government, 
                     data['start_date'])
@@ -222,7 +222,7 @@ def validate_government_dates(action, data, context, container):
     if data['end_date']:
         results = queries.validate_date_in_interval(government, 
                     domain.Government, 
-                    data['start_date'])            
+                    data['start_date'])
         for result in results:
             overlaps = result.short_name
             errors.append(interface.Invalid(
@@ -242,35 +242,35 @@ def validate_government_dates(action, data, context, container):
 def validate_group_membership_dates(action, data, context, container):
     """ A User must be member of a group only once at a time """
     errors =[]
-    group_id = container.__parent__.group_id    
+    group_id = container.__parent__.group_id
     if interfaces.IGroupMembership.providedBy(context):
         group_membership = context
-    else:         
+    else:
         group_membership = None
-    user_id = data['user_id']           
+    user_id = data['user_id']
     session = Session()
     if data['start_date']:
         for r in queries.validate_membership_in_interval(group_membership, 
                     domain.GroupMembership, 
                     data['start_date'],
-                    user_id, group_id):  
-            overlaps = r.group.short_name                                                                             
+                    user_id, group_id):
+            overlaps = r.group.short_name
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
-                "start_date", "user_id" ))                    
-    if data['end_date']:    
+                "start_date", "user_id" ))
+    if data['end_date']:
         for r in queries.validate_membership_in_interval(group_membership, 
                     domain.GroupMembership, 
                     data['end_date'],
-                    user_id, group_id):    
-            overlaps = r.group.short_name                      
+                    user_id, group_id):
+            overlaps = r.group.short_name
             errors.append(interface.Invalid(
                 _("The person is a member in (%s) at that date") % overlaps, 
-                "end_date", "user_id" ))                                
+                "end_date", "user_id" ))
     for r in queries.validate_open_membership(group_membership, 
                 domain.GroupMembership, 
                 user_id, group_id):
-        overlaps = r.group.short_name      
+        overlaps = r.group.short_name
         errors.append(interface.Invalid(
                     _("The person is a member in (%s) at that date") % overlaps, 
                     "end_date", "user_id" )) 
@@ -279,20 +279,20 @@ def validate_group_membership_dates(action, data, context, container):
 
 class GroupMemberTitle(object):
     """ Titels that may be held by multiple persons of the
-    group at the same time"""     
+    group at the same time"""
 
 group_member_title = rdb.join(schema.user_group_memberships, 
         schema.role_titles).join(
             schema.user_role_types)
             
                         
-rdb.orm.mapper( GroupMemberTitle, group_member_title )                         
+rdb.orm.mapper( GroupMemberTitle, group_member_title )
 
 
 def validate_member_titles(action, data, context, container):
     """Titles for members follow the restrictions:
     A person must have the same title only once (e.g. you cannot
-    be chairperson in a group twice at a time)       
+    be chairperson in a group twice at a time)
     If a Title is unique (e.g. chairperson) there can be only one person 
     at a time in this group holding this title, other titles like member 
     may be applied to several persons at the same time""" 
@@ -307,8 +307,8 @@ def validate_member_titles(action, data, context, container):
                             date, 
                             schema.role_titles.c.start_date,
                             schema.role_titles.c.end_date),
-                        schema.role_titles.c.end_date == None  
-                        )                  
+                        schema.role_titles.c.end_date == None
+                        )
                     )
                 )
     def get_q_unique(date):
@@ -322,35 +322,35 @@ def validate_member_titles(action, data, context, container):
                         date, 
                         schema.role_titles.c.start_date,
                         schema.role_titles.c.end_date),
-                    schema.role_titles.c.end_date == None  
-                    )                  
-                )  
-            )                 
+                    schema.role_titles.c.end_date == None
+                    )
+                )
+            )
     errors = []
-    group_id = container.__parent__.group_id    
-    user_id = container.__parent__.user_id    
-    membership_id = container.__parent__.membership_id    
+    group_id = container.__parent__.group_id
+    user_id = container.__parent__.user_id
+    membership_id = container.__parent__.membership_id
     session = Session()
     title_name_id = data['title_name_id']
     if interfaces.IMemberRoleTitle.providedBy(context):
         roletitle = context
     else:
-        roletitle = None        
-    date = datetime.date.today()        
+        roletitle = None
+    date = datetime.date.today()
     if  data.get( 'start_date', None):
         date = data['start_date']
         q = get_q_user(date)
-        results = q.all()    
+        results = q.all()
         for result in results:
-            overlaps = result.user_role_name        
+            overlaps = result.user_role_name
             if roletitle:
                 if roletitle.role_title_id == result.role_title_id:
                     continue
-                else:                    
+                else:
                     errors.append( interface.Invalid(
                         _(u"This persons allready has the title %s") % 
                         overlaps, 
-                        "start_date" ))            
+                        "start_date" ))
             else:
                 errors.append( interface.Invalid(
                     _(u"This persons allready has the title %s") % 
@@ -359,61 +359,61 @@ def validate_member_titles(action, data, context, container):
     if data.get('end_date',None):
         date = data['end_date']
         q = get_q_user(date)
-        results = q.all()   
+        results = q.all()
         for result in results:
-            overlaps = result.user_role_name        
+            overlaps = result.user_role_name
             if roletitle:
                 if roletitle.role_title_id == result.role_title_id:
                     continue
-                else:                    
+                else:
                     errors.append( interface.Invalid(
                         _(u"This persons allready has the title %s") % 
                         overlaps, 
-                        "end_date" ))            
+                        "end_date" ))
             else:
                 errors.append( interface.Invalid(
                     _(u"This persons allready has the title %s") % 
                     overlaps, 
-                    "end_date" ))                                              
+                    "end_date" ))
     if data.get('start_date',None):
         date = data['start_date']
         q = get_q_unique(date)
-        results = q.all()    
+        results = q.all()
         for result in results:
-            overlaps = result.user_role_name        
+            overlaps = result.user_role_name
             if roletitle:
                 if roletitle.role_title_id == result.role_title_id:
                     continue
-                else:               
+                else:
                     errors.append( interface.Invalid(
                         _(u"A person with the title %s allready exists") % 
                         overlaps, 
-                        "start_date" ))  
+                        "start_date" ))
             else:
                 errors.append( interface.Invalid(
                     _(u"A person with the title %s allready exists") % 
                     overlaps, 
-                    "start_date" ))                                      
+                    "start_date" ))
             
     if data.get('end_date',None):
         date = data['end_date']
         q = get_q_unique(date)
-        results = q.all()   
+        results = q.all()
         for result in results:
-            overlaps = result.user_role_name                
+            overlaps = result.user_role_name
             if roletitle:
                 if roletitle.role_title_id == result.role_title_id:
                     continue
-                else:                           
+                else:
                     errors.append( interface.Invalid(
                         _(u"A person with the title %s allready exists") % 
                         overlaps, 
-                        "end_date" ))                                                               
+                        "end_date" ))
             else:
                 errors.append( interface.Invalid(
                     _(u"A person with the title %s allready exists") % 
                     overlaps, 
-                    "end_date" ))  
+                    "end_date" ))
     return errors
 
 def validate_venues(action, data, context, container):
@@ -427,12 +427,12 @@ def validate_venues(action, data, context, container):
     venue_id = data.get('venue_id')
     if venue_id is not None:
         venue_id = long(venue_id)
-        session = Session()        
-        svenue = session.query(domain.Venue).get(venue_id)            
+        session = Session()
+        svenue = session.query(domain.Venue).get(venue_id)
     else:
         return []
         
-    start = data.get('start_date')    
+    start = data.get('start_date')
     end = data.get('end_date')
     if not(start and end):
         return []
@@ -530,7 +530,7 @@ def validate_non_overlapping_sitting(action, data, context, container, *fields):
                 _(u"One or more events would be scheduled for $F, which "
                   "overlaps with an existing sitting",
                   mapping={'F':datetimedict.fromdatetime(start)}),
-                *fields)]  
+                *fields)]
 
 
     return []

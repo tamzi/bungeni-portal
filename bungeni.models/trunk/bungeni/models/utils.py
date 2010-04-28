@@ -215,7 +215,7 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
         schema.user_group_memberships.c.start_date,
         schema.user_group_memberships.c.end_date,
         ], 
-        from_obj=[   
+        from_obj=[
         rdb.join(schema.groups, schema.user_group_memberships,
         schema.groups.c.group_id == schema.user_group_memberships.c.group_id
             ).outerjoin(
@@ -227,11 +227,11 @@ def get_offices_held_for_user_in_parliament(user_id, parliament_id):
             whereclause =
             rdb.and_(
                 schema.groups.c.group_id.in_(group_ids),
-                schema.user_group_memberships.c.user_id == user_id),  
+                schema.user_group_memberships.c.user_id == user_id),
             order_by = [schema.user_group_memberships.c.start_date,
                         schema.user_group_memberships.c.end_date,
                         schema.role_titles.c.start_date, 
-                        schema.role_titles.c.end_date]                                     
+                        schema.role_titles.c.end_date]
             )
     o_held = connection.execute(offices_held)
     return o_held
@@ -259,7 +259,7 @@ def get_parliament_for_group_id(group_id):
     if group.type == 'parliament':
         return group
     else:
-        return get_parliament_for_group_id(group.parent_group_id)               
+        return get_parliament_for_group_id(group.parent_group_id)
         
         
         

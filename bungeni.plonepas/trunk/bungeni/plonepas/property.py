@@ -28,8 +28,8 @@ class PropertyProvider( BasePlugin, Cacheable ):
         cached_info = self.ZCacheable_get(view_name=view_name)
         if cached_info is not None:
             return MutablePropertySheet(self.id, **cached_info)
-        data = None               
-        session = Session()        
+        data = None
+        session = Session()
         if user.isGroup():
             groups = session.query(domain.Group).filter(
                 domain.Group.group_principal_id == user.getUserName()).all()
@@ -49,8 +49,8 @@ class PropertyProvider( BasePlugin, Cacheable ):
                     'email' : b_user.email or u"",
                     'description' : b_user.description or u"",
                     'notification': b_user.recieve_notification or False,
-                    }    
-        if data:              
+                    }
+        if data:
             self.ZCacheable_set(data, view_name=view_name)
             sheet = MutablePropertySheet(self.id, **data)
             return sheet
@@ -65,21 +65,21 @@ class PropertyProvider( BasePlugin, Cacheable ):
             groups = session.query(domain.Group).filter(
                 domain.Group.group_principal_id == user.getUserName()).all()
             if len(groups) == 1:
-                group = groups[0]     
-                #we do not set any attributes from plone here                           
+                group = groups[0]
+                #we do not set any attributes from plone here
         else:
             users = session.query(domain.User).filter(
                 domain.User.login == user.getUserName()).all()
             if len(users) == 1:
                 b_user = users[0]
                 email =  propertysheet.getProperty('email')
-                if email:   
+                if email:
                     b_user.email = email
                 recieve_notification = propertysheet.getProperty('notification')
-                if recieve_notification != None:   
-                    b_user.recieve_notification = recieve_notification   
+                if recieve_notification != None:
+                    b_user.recieve_notification = recieve_notification
         view_name = createViewName('getPropertiesForUser', user) 
-        cached_info = self.ZCacheable_invalidate(view_name=view_name)        
+        cached_info = self.ZCacheable_invalidate(view_name=view_name)
 
 classImplements(PropertyProvider,
                 IPropertiesPlugin,

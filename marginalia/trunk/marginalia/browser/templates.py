@@ -67,10 +67,10 @@ class MarginaliaPage(BrowserPage):
 
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
-        if hasattr(self.request.principal, 'getLogin'):        
+        if hasattr(self.request.principal, 'getLogin'):
             return self.request.principal.getLogin()
         else:
-            return self.request.principal.title            
+            return self.request.principal.title
 
     def _listAnnotations(self):
         """Returns a list of Annotations."""
@@ -82,11 +82,11 @@ class MarginaliaPage(BrowserPage):
         response = self.request.response
                                 
         if 'atom' == format:
-            response.setHeader('Content-Type', 'application/atom+xml')                        
+            response.setHeader('Content-Type', 'application/atom+xml')
             return str(ViewPageTemplateFile('listAnnotations.pt')(self))
 
         elif 'blocks' == format:
-            response.setHeader('Content-Type', 'application/xml')            
+            response.setHeader('Content-Type', 'application/xml')
             return str(ViewPageTemplateFile('listBlocks.pt')(self))
         
     def _createAnnotation(self):
@@ -104,13 +104,13 @@ class MarginaliaPage(BrowserPage):
             'xpath-range': '',
             'note': '',
             'access': '',
-            'status': '',            
+            'status': '',
             'action': '',
             'quote': '',
             'quote_title': '',
             'quote_author': '',
-            'quote_authorid': '',            
-            'link': '',            
+            'quote_authorid': '',
+            'link': '',
             }
         # TODO: Don't treat query string and body parameters as equivalent.
         # Query string parameters should identify the resources, while
@@ -118,7 +118,7 @@ class MarginaliaPage(BrowserPage):
         params.update(self.request)
         params.update(parse_qsl(self.request['QUERY_STRING']))
         if self.request.environment.has_key('wsgi.input'):
-            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))                    
+            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))
         sequenceRange = SequenceRange(params['sequence-range'])
         xpathRange = XPathRange(params['xpath-range'])
         params['start_block'] = sequenceRange.start.getPaddedPathStr()
@@ -142,7 +142,7 @@ class MarginaliaPage(BrowserPage):
             value = params.get(key, None)
             if value == None:
                 continue
-            setattr(annotation, key, unicode(value))        
+            setattr(annotation, key, unicode(value))
         session.save(annotation)
         session.commit()
 
@@ -185,7 +185,7 @@ class MarginaliaPage(BrowserPage):
             value = params.get(key, None)
             if not value:
                 continue
-            setattr(annotation, key, value)        
+            setattr(annotation, key, value)
         session.commit()
 
         self.request.response.setStatus('NoContent')
@@ -251,7 +251,7 @@ class MarginaliaPage(BrowserPage):
         query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
         
         if search_string:
-            query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))            
+            query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))
         if filter_name:
             query = query.filter(AnnotationMaster.quote_authorid.in_(filter_name))
                                  
@@ -259,7 +259,7 @@ class MarginaliaPage(BrowserPage):
 
         annotation_list = []
         public_annotations = query.filter(AnnotationMaster.access == u'public').all()
-        users_annotations =  query.filter(AnnotationMaster.quote_authorid == user).all()                        
+        users_annotations =  query.filter(AnnotationMaster.quote_authorid == user).all()
         annotation_list.extend(public_annotations)
         annotation_list.extend(users_annotations)
                     
@@ -271,17 +271,17 @@ class MarginaliaPage(BrowserPage):
             for annotation in annotation_list:
                 if annotation.id in uids:
                     continue
-                uids.append(annotation.id)                
+                uids.append(annotation.id)
                 arange = annotation.getSequenceRange( )
                 if arange.start.compareInclusive(block) <= 0 and \
-                       arange.end.compareInclusive(block) >= 0:            
+                       arange.end.compareInclusive(block) >= 0:
                     annotations.append( annotation )
             return annotations
 
         for annotation in annotation_list:
             if annotation.id in uids:
                 continue
-            uids.append(annotation.id)                
+            uids.append(annotation.id)
             annotations.append(annotation)
 
         if filter_group:
@@ -345,10 +345,10 @@ class AmendmentPage(MarginaliaPage):
         if not filter_type:
             filter_type = [u'comment', u'delete', u'insert', u'replace']
         if 'annotate' in filter_type:
-            raise Exception, "Cannot display annotations on the amendment page"            
+            raise Exception, "Cannot display annotations on the amendment page"
         
         query = query.filter(AnnotationMaster.url == unicode(url))
-        if search_string:            
+        if search_string:
             query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))
         if filter_type:
             query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
@@ -359,7 +359,7 @@ class AmendmentPage(MarginaliaPage):
 
         annotation_list = []
         public_annotations = query.filter(AnnotationMaster.access == u'public').all()
-        users_annotations =  query.filter(AnnotationMaster.quote_authorid == user).all()                        
+        users_annotations =  query.filter(AnnotationMaster.quote_authorid == user).all()
         annotation_list.extend(public_annotations)
         annotation_list.extend(users_annotations)
                     
@@ -371,17 +371,17 @@ class AmendmentPage(MarginaliaPage):
             for annotation in annotation_list:
                 if annotation.id in uids:
                     continue
-                uids.append(annotation.id)                
+                uids.append(annotation.id)
                 arange = annotation.getSequenceRange( )
                 if arange.start.compareInclusive(block) <= 0 and \
-                       arange.end.compareInclusive(block) >= 0:            
+                       arange.end.compareInclusive(block) >= 0:
                     annotations.append( annotation )
             return annotations
 
         for annotation in annotation_list:
             if annotation.id in uids:
                 continue
-            uids.append(annotation.id)                
+            uids.append(annotation.id)
             annotations.append(annotation)
 
         if filter_group:
@@ -422,7 +422,7 @@ class DownloadPage(MarginaliaPage):
             view.statusmessage = str(err)
             return view()
             
-        response.setHeader('Content-Disposition', 'attachment;filename="document.html"')        
+        response.setHeader('Content-Disposition', 'attachment;filename="document.html"')
         return contents
 
     def getDocumentBody(self):
@@ -474,10 +474,10 @@ class MarginaliaAnnotationView(BrowserView):
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
         
-        if hasattr(self.request.principal, 'getLogin'):        
+        if hasattr(self.request.principal, 'getLogin'):
             return self.request.principal.getLogin()
         else:
-            return self.request.principal.title            
+            return self.request.principal.title
 
     def getBodyText(self):
         """Returns annotated url."""

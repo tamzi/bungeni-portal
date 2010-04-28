@@ -153,7 +153,7 @@ class BaseForm(form.FormBase):
 
     def __call__(self):
         #session = Session()
-        call = super(BaseForm, self).__call__()    
+        call = super(BaseForm, self).__call__()
         #session.close()
         return call
 
@@ -179,7 +179,7 @@ class BaseForm(form.FormBase):
     def filter_fields(self):
         return self.form_fields
 
-    def validate(self, action, data):    
+    def validate(self, action, data):
         """Validation that require context must be called here,
         invariants may be defined in the descriptor."""
 
@@ -206,7 +206,7 @@ class DisplayForm(ui.DisplayForm):
     
     def __call__(self):
         session = Session()
-        call = super(DisplayForm, self).__call__()    
+        call = super(DisplayForm, self).__call__()
         session.close()
         return call
 
@@ -221,9 +221,9 @@ class AddForm(BaseForm, ui.AddForm):
     description = None
     
     def getDomainModel( self ):
-        return getattr( self.context, 'domain_model', self.context.__class__)    
+        return getattr( self.context, 'domain_model', self.context.__class__)
     
-    def validate(self, action, data):    
+    def validate(self, action, data):
         errors = super(AddForm, self).validate(action, data)
         errors += self.validateUnique(action, data)
         descriptor = queryModelDescriptor(self.domain_model)
@@ -245,8 +245,8 @@ class AddForm(BaseForm, ui.AddForm):
         mapper = rdb.orm.class_mapper( domain_model  )
         ucols = list( unique_columns( mapper ) )
 
-        # query out any existing values with the same unique values,        
-        session = Session()        
+        # query out any existing values with the same unique values,
+        session = Session()
         # find data matching unique columns
         for key, col in ucols:
             if key in data:
@@ -328,7 +328,7 @@ class AddForm(BaseForm, ui.AddForm):
         for key in data.keys():
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
-        ob = self.createAndAdd(data)        
+        ob = self.createAndAdd(data)
         name = self.context.domain_model.__name__
         if not self._next_url:
             self._next_url = ui_utils.url.absoluteURL(
@@ -339,9 +339,9 @@ class AddForm(BaseForm, ui.AddForm):
     def handle_cancel( self, action, data ):
         """Cancelling redirects to the listing."""
         session = Session()
-        if not self._next_url:        
+        if not self._next_url:
             self._next_url = ui_utils.url.absoluteURL(self.__parent__, self.request)
-        self.request.response.redirect(self._next_url)            
+        self.request.response.redirect(self._next_url)
         session.close()
         
     @form.action(_(u"Save"),
@@ -351,8 +351,8 @@ class AddForm(BaseForm, ui.AddForm):
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
         ob = self.createAndAdd( data )
-        name = self.context.domain_model.__name__        
-        if not self._next_url:        
+        name = self.context.domain_model.__name__
+        if not self._next_url:
             self._next_url = ui_utils.url.absoluteURL(ob, self.request ) + \
                              "/edit?portal_status_message=%s Added" % name
 
@@ -412,7 +412,7 @@ class EditForm(BaseForm, ui.EditForm):
                      default=u'The original $language version is shown on the left',
                      mapping={'language': language})
             
-    def validate(self, action, data):    
+    def validate(self, action, data):
         errors = super(EditForm, self).validate(action, data)
 
         descriptor = queryModelDescriptor(self.context.__class__)
@@ -475,7 +475,7 @@ class EditForm(BaseForm, ui.EditForm):
         if not self._next_url:
             self._next_url = ui_utils.url.absoluteURL(
                 self.context, self.request) + \
-                '?portal_status_message= Saved'   
+                '?portal_status_message= Saved'
         self.request.response.redirect(self._next_url)
  
     @form.action(_(u"Cancel"), validator=null_validator )
@@ -522,10 +522,10 @@ class TranslateForm(AddForm):
                 field.for_display = True
                 field.custom_widget = md.get(field.__name__).view_widget
                 
-    def validate(self, action, data):   
+    def validate(self, action, data):
         return (
             form.getWidgetsData(self.widgets, self.prefix, data) 
-            )        
+            )
         
     @property
     def form_name(self):
@@ -540,12 +540,12 @@ class TranslateForm(AddForm):
         language = get_language_by_name(self.language)['name']
         props = IDCDescriptiveProperties.providedBy(self.context) \
                 and self.context or IDCDescriptiveProperties(self.context)
-        if self.is_translation:   
+        if self.is_translation:
             return _(u"edit_translation_legend",
              default=u'Editing $language translation of "$title"',
              mapping={'title': translate(props.title, context=self.request),
                       'language': language}) 
-        else:    
+        else:
             return _(
                 u"translate_item_help",
                 default=u'The document "$title" has not yet been translated into $language. Use this form to add the translation',
@@ -573,23 +573,23 @@ class TranslateForm(AddForm):
         #get the translation if available
         language = self.request.get('language')
         
-        translation = get_translation_for(self.context, language)     
+        translation = get_translation_for(self.context, language)
         if translation:
             self.is_translation = True
         else:
-            self.is_translation = False                                                  
-        context = copy(removeSecurityProxy(self.context))  
+            self.is_translation = False
+        context = copy(removeSecurityProxy(self.context))
         for field_translation in translation:
             setattr(context, field_translation.field_name, 
                     field_translation.field_text)
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, context, self.request,
-            adapters=self.adapters, ignore_request=ignore_request)         
+            adapters=self.adapters, ignore_request=ignore_request)
 
         if language is not None:
             widget = self.widgets['language']
             try:
-                self.language = language                                
+                self.language = language
                 widget.vocabulary = CurrentLanguageVocabulary().__call__(self)
                 widget.vocabulary.getTermByToken(language)
             except LookupError:
@@ -643,7 +643,7 @@ class TranslateForm(AddForm):
         
         session = Session()
         trusted = removeSecurityProxy(self.context)
-        mapper = rdb.orm.object_mapper(trusted)            
+        mapper = rdb.orm.object_mapper(trusted)
         pk = getattr(trusted, mapper.primary_key[0].name) 
         
         current_translation = get_translation_for(self.context, data['language'])
@@ -660,10 +660,10 @@ class TranslateForm(AddForm):
             translation.object_type = trusted.__class__.__name__
             translation.field_name = form_field
             translation.lang = data['language']
-            translation.field_text = data[form_field]             
+            translation.field_text = data[form_field]
             session.add(translation)
-        session.flush()  
-        session.commit()                  
+        session.flush()
+        session.commit()
         session.close()
         
         #versions = IVersioned(self.context)
@@ -764,7 +764,7 @@ class DeleteForm(BaseForm, form.PageForm):
     
     @form.action(_(u"Delete"), condition=_can_delete_item)
     def handle_delete(self, action, data):
-        count = self.delete_subobjects()        
+        count = self.delete_subobjects()
         container = self.context.__parent__
         trusted = removeSecurityProxy(self.context)
         session = Session()
@@ -789,7 +789,7 @@ class DeleteForm(BaseForm, form.PageForm):
         notify(ObjectRemovedEvent(
             self.context, oldParent=container, oldName=self.context.__name__))
         # we have to switch our context here otherwise the deleted object will
-        # be merged into the session again and reappear magically     
+        # be merged into the session again and reappear magically
         self.context = container
         next_url = self.nextURL()
         

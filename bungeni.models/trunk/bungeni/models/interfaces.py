@@ -40,13 +40,13 @@ class IUserAdmin( interface.Interface ):
     """
 class IGroupAdmin( interface.Interface ):
     """
-    marker interface attached to user objects viewed in the admin for admin views    
+    marker interface attached to user objects viewed in the admin for admin views
     """
 
 class IBungeniUser( interface.Interface ):
     """
     a user in bungeni
-    """     
+    """
     
 class IBungeniGroup( interface.Interface ):
     """
@@ -59,16 +59,16 @@ class IGovernment(IBungeniGroup):
     """ marker interface for group Government """
 
 class IMinistry(IBungeniGroup):
-    """ marker interface for group ministry """            
+    """ marker interface for group ministry """
 
 class ICommittee(IBungeniGroup):
     """ marker interface for group ministry """ 
     
 class IPoliticalParty(IBungeniGroup):
-    """ marker interface for political party """   
+    """ marker interface for political party """
 
 class IOffice(IBungeniGroup):
-    """ marker interface for a parliamentary office """   
+    """ marker interface for a parliamentary office """
     
 class ICommittee(IBungeniGroup):
     pass
@@ -229,7 +229,7 @@ class IBungeniSettings( interface.Interface ):
                                             default=u"clerks.office@parliament.go.tld" )
     
     administrators_email  = schema.TextLine(title=_(u"Administrator's Email") )
-    question_submission_allowed = schema.Bool( title=_(u"Allow Question Submission"), default=True )    
+    question_submission_allowed = schema.Bool( title=_(u"Allow Question Submission"), default=True )
     days_to_defer_question = schema.Int(title=_(u"Days to Defer Question"),
                                         description=_(u"Time after which admissible questions are automatically deferred"),
                                         default=10 )
@@ -239,7 +239,7 @@ class IBungeniSettings( interface.Interface ):
                                                                   )
                                                     )
     days_before_question_schedule = schema.Int( title=_(u"Days before question scheduled"), default=3 )
-    days_before_bill_schedule = schema.Int( title=_(u"Days before bill scheduled"), default=3 )    
+    days_before_bill_schedule = schema.Int( title=_(u"Days before bill scheduled"), default=3 )
     max_questions_sitting = schema.Int( title=_(u"Max Questions Per Sitting"), default=15  )
     max_mp_questions_sitting = schema.Int( title=_(u"Max Questions Per Sitting Per MP"), default=1  )
 
@@ -254,7 +254,7 @@ class IAssignment( IAlchemistContent ):
     context = schema.Object( IAlchemistContent )
     title = schema.TextLine(title=_(u"Name of the Assignment"))
     start_date = schema.Date(title=_(u"Start Date of the Assignment"))
-    end_date = schema.Date(title=_(u"End Date of the Assignment"))    
+    end_date = schema.Date(title=_(u"End Date of the Assignment"))
     type = schema.TextLine(title=_(u"Assignment Type"), readonly=True)
     status = schema.TextLine(title=_(u"Status"), readonly=True)
     notes  = schema.Text( title=_(u"Notes"), description=_(u"Notes"))
@@ -279,8 +279,8 @@ class IAssignmentFactory( interface.Interface ):
         create a new assignment
         """
         
-class IAttachedFile( interface.Interface ):     
-    pass   
+class IAttachedFile( interface.Interface ):
+    pass
         
        
 class IAttachedFileVersionContainer(IVersionContainer):
@@ -316,8 +316,8 @@ class IVersion( interface.Interface ):
     on that object's domain schema
     """
 
-class IAttachedFileVersion( IVersion ):     
-    pass   
+class IAttachedFileVersion( IVersion ):
+    pass
 
 
 class IDateRangeFilter(interface.Interface):
@@ -334,7 +334,7 @@ class IChange(interface.Interface):
     """ Marker for Change (log table) """
         
 class IMemberRoleTitle(interface.Interface):
-    pass        
+    pass
         
     
 class IUserAddress(interface.Interface):
@@ -347,10 +347,10 @@ class IGroupGroupItemAssignment(IGroupItemAssignment):
     pass
 
 class IItemGroupItemAssignment(IGroupItemAssignment):
-    pass            
+    pass
     
 class IReport(interface.Interface):
-    pass        
+    pass
             
 class IUserDelegation(interface.Interface):
     pass
@@ -359,7 +359,7 @@ class IProvince(interface.Interface):
     pass
     
 class IRegion(interface.Interface):
-    pass    
+    pass
 
 class ITranslatable(interface.Interface):
     """ Marker Interface if an object is translatable """

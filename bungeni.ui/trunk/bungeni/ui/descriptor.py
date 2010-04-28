@@ -83,11 +83,11 @@ def day_column( name, title, default="" ):
 def date_from_to_column( name, title, default="" ):
     def getter( item, formatter ):
         start = getattr( item, 'start_date')
-        end = getattr( item, 'end_date')        
+        end = getattr( item, 'end_date')
         if start:
             start = start.strftime('%Y-%m-%d %H:%M')
         if end:
-            end = end.strftime('%H:%M')            
+            end = end.strftime('%H:%M')
         return u"%s - %s"%(start, end)
     return column.GetterColumn( title, getter )
 
@@ -105,7 +105,7 @@ def name_column( name, title, default=""):
         if len(value) > size:
             return "%s..."%value[:size]
         return value
-    return _column( name, title, renderer, default)    
+    return _column( name, title, renderer, default)
         
 
 def user_name_column(name, title, attr, default=u""):
@@ -115,14 +115,14 @@ def user_name_column(name, title, attr, default=u""):
             if user:
                 return u"%s %s"%(user.first_name, user.last_name)
         else:
-            return u"%s %s"%(item.first_name, item.last_name)                            
-    return column.GetterColumn( title, getter )     
+            return u"%s %s"%(item.first_name, item.last_name)
+    return column.GetterColumn( title, getter )
 
 
 def member_title_column(name, title, default=u""):
     def getter( item, formatter ):
         return item.title_name.user_role_name
-    return column.GetterColumn( title, getter )     
+    return column.GetterColumn( title, getter )
 
 def current_titles_in_group_column(name, title, default=u""):
     def getter(item, formatter):
@@ -136,33 +136,33 @@ def current_titles_in_group_column(name, title, default=u""):
             if title.start_date <= today:
                 if title.end_date:
                     if title.end_date >= today:
-                        obj = translate_obj(title.title_name)                        
+                        obj = translate_obj(title.title_name)
                         title_list.append(obj.user_role_name) 
                 else:
-                    obj = translate_obj(title.title_name)                                        
-                    title_list.append(obj.user_role_name)    
-        return ", ".join(title_list)                                                            
-    return column.GetterColumn(title, getter)     
+                    obj = translate_obj(title.title_name)
+                    title_list.append(obj.user_role_name)
+        return ", ".join(title_list)
+    return column.GetterColumn(title, getter)
      
 def inActiveDead_Column( name, title, default):
     aid = { 'A': _(u"active"),
         'I': _(u"inactive"),
-        'D': _(u"deceased")}    
+        'D': _(u"deceased")}
     renderer = lambda x: aid[x]
-    return _column( name, title, renderer, default)  
+    return _column( name, title, renderer, default)
   
 def item_name_column(name, title, default=u""):
-    def getter( item, formatter ):        
+    def getter( item, formatter ):
         session = Session()
-        return u"%s %s"%(item.item.type, item.item.short_name)    
+        return u"%s %s"%(item.item.type, item.item.short_name)
     return column.GetterColumn( title, getter )
     
 def group_name_column(name, title, default=u""):
-    def getter( item, formatter ):        
+    def getter( item, formatter ):
         session = Session()
         obj = translate_obj(item)
         #TODO: translate group.type
-        return u"%s %s"%(item.group.type, obj.group.short_name)    
+        return u"%s %s"%(item.group.type, obj.group.short_name)
     return column.GetterColumn( title, getter )
 
 
@@ -172,17 +172,17 @@ def workflow_column(name, title, default=u""):
         interaction = getInteraction()
         for participation in interaction.participations:
             if IRequest.providedBy(participation):
-                request = participation          
+                request = participation
         return translate(
             str(state_title), 
             domain="bungeni.core",
-            context=request)                  
+            context=request)
     return column.GetterColumn( title, getter ) 
 
 def constituency_column( name, title, default=u""):
     def getter( item, formatter ):
         obj = translate_obj(item.constituency)
-        return obj.name   
+        return obj.name
     return column.GetterColumn( title, getter ) 
 
 def committee_type_column( name, title, default=u""):
@@ -193,13 +193,13 @@ def committee_type_column( name, title, default=u""):
 
 def ministry_column( name, title, default=u""):
     def getter( item, formatter ):
-        obj = translate_obj(item.ministry)        
+        obj = translate_obj(item.ministry)
         return obj.short_name
     return column.GetterColumn( title, getter ) 
 
 def sitting_type_column( name, title, default=u""):
     def getter( item, formatter ):
-        obj = translate_obj(item.sitting_type)    
+        obj = translate_obj(item.sitting_type)
         return obj.sitting_type
     return column.GetterColumn( title, getter ) 
 
@@ -211,24 +211,24 @@ def attendance_column( name, title, default=u""):
 
 def province_column( name, title, default=u""):
     def getter( item, formatter ):
-        obj = translate_obj(item.province)        
+        obj = translate_obj(item.province)
         return obj.province
     return column.GetterColumn( title, getter ) 
 
 def region_column( name, title, default=u""):
     def getter( item, formatter ):
-        obj = translate_obj(item.region)    
+        obj = translate_obj(item.region)
         return obj.region
     return column.GetterColumn( title, getter ) 
         
 ####
 #  Constraints / Invariants
-#  
+#
 
 
 
 def ElectionAfterStart(obj):
-    """ Start Date must be after Election Date"""        
+    """ Start Date must be after Election Date"""
     if obj.election_date >= obj.start_date:
         raise interface.Invalid(
             _("A parliament has to be elected before it can be sworn in"), 
@@ -236,7 +236,7 @@ def ElectionAfterStart(obj):
             "start_date")
    
 def EndAfterStart(obj):
-    """ End Date must be after Start Date"""    
+    """ End Date must be after Start Date"""
     if obj.end_date is None: return
     if obj.end_date <= obj.start_date:
         raise interface.Invalid(
@@ -244,8 +244,8 @@ def EndAfterStart(obj):
             "start_date", 
             "end_date")
 
-def DissolutionAfterReinstatement( obj ):       
-    """ A committee must be disolved before it can be reinstated """   
+def DissolutionAfterReinstatement( obj ):
+    """ A committee must be disolved before it can be reinstated """
     if (obj.dissolution_date is None) or (obj.reinstatement_date is None): 
         return
     if obj.dissolution_date > obj.reinstatement_date:
@@ -264,7 +264,7 @@ def ActiveAndSubstituted( obj ):
 
 def SubstitudedEndDate( obj ):
     """ If a person is substituted he must have an end date"""
-    if not (obj.end_date) and obj.replaced_id:    
+    if not (obj.end_date) and obj.replaced_id:
         raise interface.Invalid(
             _("If a person is substituted End Date must be set"), 
             "replaced_id", 
@@ -280,27 +280,27 @@ def InactiveNoEndDate( obj ):
                 "active_p")
         
 def MpStartBeforeElection( obj ):
-    """ For members of parliament start date must be after election """                
+    """ For members of parliament start date must be after election """
     if obj.election_nomination_date > obj.start_date:
         raise interface.Invalid(
             _("A parliament member has to be elected/nominated before she/he can be sworn in"), 
             "election_nomination_date", 
-            "start_date")    
+            "start_date")
             
 
 def DeathBeforeLife(User):
     """Check if date of death is after date of birth"""
     if User.date_of_death is None: return
-    if User.date_of_death < User.date_of_birth:       
+    if User.date_of_death < User.date_of_birth:
         raise interface.Invalid(
-            _(u"One cannot die before being born"),     
+            _(u"One cannot die before being born"),
             "date_of_death", 
             "date_of_birth")
     
     
 def POBoxOrAddress( obj ):
     """
-    An Address must have either an entry for a physical address or a P.O. Box    
+    An Address must have either an entry for a physical address or a P.O. Box
     """
     if obj.po_box is None and  obj.address is None:
         raise interface.Invalid(
@@ -332,7 +332,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="first_name", 
             property = schema.TextLine(title=_(u"First Name"),required=True)),
         dict( name="middle_name", 
-            property = schema.TextLine(title=_(u"Middle Name"),required=False)),        
+            property = schema.TextLine(title=_(u"Middle Name"),required=False)),
         dict( name="last_name", 
             property = schema.TextLine(title=_(u"Last Name"),required=True)), 
         dict( name="email",
@@ -341,17 +341,17 @@ class UserDescriptor( ModelDescriptor ):
                           constraint=constraints.check_email,
                           required=True
                           ),
-             ),                                                                                
+             ),
         dict( name="login", 
                 property = schema.TextLine(title=_(u"Login"), required=True),
             add=True, edit=False, view=True),
         dict( name="password", omit = True),
         dict( name="_password",
-                property = schema.TextLine(     
+                property = schema.TextLine(
                     title=_(u"Initial password"),
                     required=True),
             add=True, view=False, edit=False,
-            required=True ),                        
+            required=True ),
         dict( name="national_id", 
             property = schema.TextLine(title=_(u"National Id"),required=False)),
         dict( name="gender", 
@@ -361,7 +361,7 @@ class UserDescriptor( ModelDescriptor ):
               edit_widget=CustomRadioWidget,
               add_widget=CustomRadioWidget, ),
         dict( name="date_of_birth", 
-              property = schema.Date(  
+              property = schema.Date(
               title=_(u"Date of Birth")), 
               edit_widget=DateWidget, 
               add_widget=DateWidget),
@@ -371,8 +371,8 @@ class UserDescriptor( ModelDescriptor ):
             source=vocabulary.DatabaseSource(domain.Country, 
                     token_field='country_id', 
                     title_field='country_name',
-                    value_field='country_id' ),                                        
-                    required=True ),             
+                    value_field='country_id' ),
+                    required=True ),
             ),
         dict( name="birth_nationality", 
               property = schema.Choice( 
@@ -380,8 +380,8 @@ class UserDescriptor( ModelDescriptor ):
                 source=vocabulary.DatabaseSource(domain.Country, 
                     token_field='country_id', 
                     title_field='country_name',
-                    value_field='country_id' ),                                        
-                required=True ),             
+                    value_field='country_id' ),
+                required=True ),
             ),
         dict( name="current_nationality", 
               property = schema.Choice( 
@@ -389,8 +389,8 @@ class UserDescriptor( ModelDescriptor ):
                 source=vocabulary.DatabaseSource(domain.Country, 
                 token_field='country_id', 
                 title_field='country_name',
-                value_field='country_id' ),                                        
-            required=True ),             
+                value_field='country_id' ),
+            required=True ),
             ),
         dict( name="date_of_death", 
               property=schema.Date(title=_(u"Date of Death"), required=False),
@@ -398,7 +398,7 @@ class UserDescriptor( ModelDescriptor ):
               edit_permission="bungeni.user.AdminRecord",
               edit_widget=DateWidget, 
               add_widget=DateWidget),
-        dict( name="active_p", label=_(u"Status"),              
+        dict( name="active_p", label=_(u"Status"),
               omit=True),
         dict(name="language", 
              label=_(u"Language"), 
@@ -412,7 +412,7 @@ class UserDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),              
+             ),
         dict( name="description", 
               property=schema.Text(title=_(u"Biographical notes"), required=False),
               view_widget=HTMLDisplay,
@@ -422,11 +422,11 @@ class UserDescriptor( ModelDescriptor ):
                ),
         dict( name ="image", 
                 property=schema.Bytes(title=_(u"Image"),
-                    description=_(u"Picture of the person"),                 
+                    description=_(u"Picture of the person"),
                    required=False),
                 view_widget=ImageDisplayWidget,
                 edit_widget = ImageInputWidget,
-                listing=False),       
+                listing=False),
         dict( name="salt", omit=True),
         dict( name="type", omit=True ),
         ]
@@ -441,19 +441,19 @@ class UserDelegationDescriptor( ModelDescriptor ):
     fields = [
         dict( name="user_id",
               omit=True,
-            ),     
+            ),
         dict( name="delegation_id",
               property=schema.Choice( 
                 title=_(u"User"), 
-                source=vocabulary.DatabaseSource(domain.User,  
+                source=vocabulary.DatabaseSource(domain.User,
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=user_name_column("delegation_id", 
                     _(u'User'), 'user'), 
               listing=True,
-            ),     
-]                        
+            ),
+]
 
        
         
@@ -464,9 +464,9 @@ class GroupMembershipDescriptor( ModelDescriptor ):
     SubstitutionSource = vocabulary.SubstitutionSource(
                     token_field='user_id', 
                     title_field='fullname', 
-                    value_field='user_id')       
+                    value_field='user_id')
 
-    fields = [               
+    fields = [
         dict( name="start_date", 
                 property=schema.Date(title=_(u"Start Date"), required=True),
                 listing_column=day_column("start_date", 
@@ -500,7 +500,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             add=False, edit=False, view=False, listing=False,
             listing_column=current_titles_in_group_column("membership_id", 
                 _(u"Roles/Titles"))),
-        dict( name="membership_type", omit=True ),   
+        dict( name="membership_type", omit=True ),
         dict(name="language", 
              label=_(u"Language"), 
              listing=False, 
@@ -513,13 +513,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                   
+             ),
         ]
         
     schema_invariants = [EndAfterStart, ActiveAndSubstituted,
         SubstitudedEndDate, InactiveNoEndDate]
     custom_validators = [validations.validate_date_range_within_parent, 
-        validations.validate_group_membership_dates]                                                       
+        validations.validate_group_membership_dates]
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of parliament")
@@ -528,17 +528,17 @@ class MpDescriptor ( ModelDescriptor ):
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserSource(  
+                source=vocabulary.UserSource(
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,
-            ),]  
+            ),]
     
-    fields.extend(deepcopy(GroupMembershipDescriptor.fields))    
-    constituencySource=vocabulary.DatabaseSource(domain.Constituency,  
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))
+    constituencySource=vocabulary.DatabaseSource(domain.Constituency,
                     token_field='constituency_id', 
                     title_field='name', 
                     value_field='constituency_id')
@@ -547,7 +547,7 @@ class MpDescriptor ( ModelDescriptor ):
             property=schema.Choice( 
                 title=_(u"elected/nominated"), 
                 source=vocabulary.ElectedNominated), 
-                listing=True,            
+                listing=True,
             ),
         dict( name="election_nomination_date", 
             property=schema.Date(title=_("Election/Nomination Date"), required=True),
@@ -559,7 +559,7 @@ class MpDescriptor ( ModelDescriptor ):
                 title=_(u"Constituency"), 
                 source=constituencySource,),
             listing_column=constituency_column("constituency_id","Constituency"),
-            listing=True),               
+            listing=True),
         dict( name="leave_reason", 
             property=schema.Text(title=_("Leave Reason"),required=False)),
         dict( name="notes", 
@@ -568,7 +568,7 @@ class MpDescriptor ( ModelDescriptor ):
               edit_widget=RichTextEditor,
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-             ),             
+             ),
     ])
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
@@ -583,12 +583,12 @@ class PartyMemberDescriptor( ModelDescriptor ):
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.MemberOfParliamentSource(  
+                source=vocabulary.MemberOfParliamentSource(
                     'user_id',)),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,
-            ),]  
+            ),]
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     fields.extend([
@@ -598,11 +598,11 @@ class PartyMemberDescriptor( ModelDescriptor ):
               edit_widget=RichTextEditor,
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-             ),     
+             ),
     ])
     
     custom_validators = [validations.validate_date_range_within_parent,
-                    validations.validate_party_membership]                                                       
+                    validations.validate_party_membership]
     
     
 class MemberOfPartyDescriptor( ModelDescriptor ):
@@ -612,7 +612,7 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     container_name = _(u"Party memberships")
 
     fields = [
-        dict( name="user_id", omit=True),                 
+        dict( name="user_id", omit=True),
         dict( name='short_name', 
             property=schema.Text(title=_(u"Political Party"), required=True),
             listing=True),
@@ -647,7 +647,7 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),            
+             ),
         dict( name="notes", 
                 property=schema.Text(title=_(u"Notes"), required=False),
                 view_widget=HTMLDisplay,
@@ -693,7 +693,7 @@ class GroupDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                    
+             ),
         dict( name="description", 
                 property=schema.Text(title=_(u"Description") , 
                     required=False ),
@@ -714,13 +714,13 @@ class GroupDescriptor( ModelDescriptor ):
                 listing_column=day_column('end_date', 
                     _(u'End Date')), 
                     edit_widget=DateWidget, 
-                    add_widget=DateWidget),        
+                    add_widget=DateWidget),
         dict( name="status", omit=True),
         dict( name="status_date", omit=True),
         ]
 
     schema_invariants = [EndAfterStart]
-    custom_validators = [validations.validate_date_range_within_parent,]   
+    custom_validators = [validations.validate_date_range_within_parent,]
     public_wfstates = [group_wf_state[u'active'].id, group_wf_state[u'dissolved'].id ]
 
                                                         
@@ -741,7 +741,7 @@ class ParliamentDescriptor( GroupDescriptor ):
                 property=schema.TextLine(title=_(u"Parliament Identifier"), 
                 description=_(u"Unique identifier of each Parliament (e.g. IX Parliament)"), 
                 required=True),
-                listing=True ),  
+                listing=True ),
         dict(name="language", 
              label=_(u"Language"), 
              listing=False, 
@@ -754,7 +754,7 @@ class ParliamentDescriptor( GroupDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                              
+             ),
         dict( name="description", 
               property=schema.Text(title=_(u"Description"), required=False),
               view_widget=HTMLDisplay,
@@ -768,7 +768,7 @@ class ParliamentDescriptor( GroupDescriptor ):
               required=True),
               edit_widget=DateWidget, 
               add_widget=DateWidget
-              ),        
+              ),
         dict( name="start_date",
               property=schema.Date(title=_(u"In power from"), 
               description=_(u"Date of the swearing in"),
@@ -789,11 +789,11 @@ class ParliamentDescriptor( GroupDescriptor ):
               ),
         dict( name="status", omit=True),
         dict( name="status_date", omit=True,
-                ) ,        
+                ) ,
         dict( name="type", omit=True),
         ]
     schema_invariants = [EndAfterStart, ElectionAfterStart]
-    public_wfstates = [parliament_wf_state[u'active'].id, parliament_wf_state[u'dissolved'].id ]    
+    public_wfstates = [parliament_wf_state[u'active'].id, parliament_wf_state[u'dissolved'].id ]
        
 parliamentSource = vocabulary.DatabaseSource(domain.Parliament, 
                     token_field='parliament_id', 
@@ -832,17 +832,17 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='no_researchers', 
             property=schema.Int(title=_(u"Number of researchers"),required=False)),
         dict( name='proportional_representation', 
-            property=schema.Bool(title=_(u"Proportional representation"), default=True, required=False)),       
+            property=schema.Bool(title=_(u"Proportional representation"), default=True, required=False)),
         dict( name='default_chairperson', 
             label=_(u"Default chairperson"),
             omit=True),
         dict( name='reinstatement_date', 
             property=schema.Date(title=_(u"Reinstatement Date"), required=False),
             edit_widget=DateWidget, 
-            add_widget=DateWidget ),              
+            add_widget=DateWidget ),
     ])
     schema_invariants = [EndAfterStart,] # DissolutionAfterReinstatement]
-    public_wfstates = [committee_wf_state[u'active'].id, committee_wf_state[u'dissolved'].id ]    
+    public_wfstates = [committee_wf_state[u'active'].id, committee_wf_state[u'dissolved'].id ]
     
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Member")
@@ -850,16 +850,16 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserSource(  
+                source=vocabulary.UserSource(
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,
-            ),]  
+            ),]
     
-    fields.extend(deepcopy(GroupMembershipDescriptor.fields))    
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     fields.extend([
             dict( name="notes", 
               property=schema.TextLine(title=_(u"Notes"), required=False),
@@ -867,10 +867,10 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
               edit_widget=RichTextEditor,
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-             ),     
+             ),
     ])
         
-    custom_validators = [validations.validate_date_range_within_parent,]    
+    custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate]
 
@@ -888,7 +888,7 @@ class AddressDescriptor ( ModelDescriptor ):
     display_name = _(u"Address")
     container_name = _(u"Addresses")
     
-    fields = [        
+    fields = [
         dict( name="address_id", omit=True ),
         dict( name="role_title_id", omit=True ),
         dict( name="user_id", omit=True ),
@@ -899,26 +899,26 @@ class AddressDescriptor ( ModelDescriptor ):
                 title_field='address_type_name',
                 token_field='address_type_id',
                 value_field='address_type_id'),)
-             ),                                                                
+             ),
         dict( name="po_box", property=schema.TextLine(title=_(u"P.O. Box"), required=False)),
         dict( name="address", 
                 property = schema.Text( 
                     title =_(u"Address"),required=False ),
               edit_widget=zope.app.form.browser.TextAreaWidget, 
               add_widget=zope.app.form.browser.TextAreaWidget,
-              ),        
+              ),
         dict( name="city", 
             property=schema.TextLine(title=_(u"City"),required=False)),
         dict( name="zipcode", label=_(u"Zip Code") ),
-        dict( name="country",  
+        dict( name="country",
                 property = schema.Choice( title=_(u"Country"), 
                 source=vocabulary.DatabaseSource(domain.Country, 
                      title_field='country_name',
                      token_field='country_id', 
-                     value_field='country_id' ),                                        
+                     value_field='country_id' ),
                 required=False ), 
              ),
-        dict( name="phone",  
+        dict( name="phone",
                 property = schema.Text( title=_(u"Phone Number(s)"), 
                 description=_(u"Enter one phone number per line"), 
                 required=False ),
@@ -928,18 +928,18 @@ class AddressDescriptor ( ModelDescriptor ):
               ),
         dict( name="fax", 
                 property = schema.Text( 
-                    title=_(u"Fax Number(s)"),  
+                    title=_(u"Fax Number(s)"),
                     description=_(u"Enter one fax number per line"), 
                     required=False ),
               edit_widget=zope.app.form.browser.TextAreaWidget, 
-              add_widget=zope.app.form.browser.TextAreaWidget,              
+              add_widget=zope.app.form.browser.TextAreaWidget,
               ),
         dict( name="email", 
               property = schema.TextLine( 
                 title =_(u"Email"), 
                 description=_(u"Email address"),
                 constraint=constraints.check_email,
-                required=False                
+                required=False
                 ),
                 listing = True,
              ),
@@ -948,11 +948,11 @@ class AddressDescriptor ( ModelDescriptor ):
             description=_(u"ICQ, AOL IM, GoogleTalk..."), required=False)),
         dict( name="status", omit=True ),
         dict( name="status_date", omit=True,
-                ) ,        
+                ) ,
         ]
         
     schema_invariants = [POBoxOrAddress]
-    public_wfstates = [address_wf_state[u'public'].id]    
+    public_wfstates = [address_wf_state[u'public'].id]
 
     
 class MemberRoleTitleDescriptor( ModelDescriptor ):
@@ -963,7 +963,7 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name='role_title_id', omit=True),
-        dict( name='membership_id', omit=True),    
+        dict( name='membership_id', omit=True),
         dict( name='title_name_id', label=_(u"Title"),
                 property=schema.Choice(title=_(u"Title"), 
                   source=vocabulary.MemberTitleSource('title_name_id'),
@@ -991,7 +991,7 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
     
     
            
-    schema_invariants = [EndAfterStart, POBoxOrAddress]     
+    schema_invariants = [EndAfterStart, POBoxOrAddress]
     custom_validators = [validations.validate_date_range_within_parent,
             validations.validate_member_titles]
         
@@ -1001,15 +1001,15 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserNotMPSource(  
+                source=vocabulary.UserNotMPSource(
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,
-            ),]  
-    fields.extend(deepcopy(GroupMembershipDescriptor.fields))     
+            ),]
+    fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     fields.extend([
             dict( name="notes", 
               property=schema.Text(title=_(u"Notes"), required=False),
@@ -1017,18 +1017,18 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
               edit_widget=RichTextEditor,
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-             ),     
+             ),
     ])
-    custom_validators = [validations.validate_date_range_within_parent,]    
+    custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
-            SubstitudedEndDate, InactiveNoEndDate]     
+            SubstitudedEndDate, InactiveNoEndDate]
         
 class PoliticalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political party")
     container_name = _(u"Political parties")
     custom_validators = [validations.validate_date_range_within_parent,]
     
-    fields = deepcopy( GroupDescriptor.fields )    
+    fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name='logo_data', 
                 property=schema.Bytes(title=_(u"Logo"), required=False),
@@ -1038,7 +1038,7 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
                 listing=False,
                 view_widget=ImageDisplayWidget,
                 edit_widget = ImageInputWidget),
-        dict(name="party_id", omit=True),                           
+        dict(name="party_id", omit=True),
      ])
           
     schema_invariants = [EndAfterStart]
@@ -1047,7 +1047,7 @@ class PoliticalGroupDescriptor( PoliticalPartyDescriptor ):
     display_name = _(u"Political group")
     container_name = _(u"Political groups")
        
-    fields = deepcopy( PoliticalPartyDescriptor.fields )    
+    fields = deepcopy( PoliticalPartyDescriptor.fields )
    
           
 
@@ -1057,7 +1057,7 @@ class OfficeDescriptor(GroupDescriptor):
     container_name = _(u"Offices")
     custom_validators = [validations.validate_date_range_within_parent,]
     
-    fields = deepcopy( GroupDescriptor.fields )    
+    fields = deepcopy( GroupDescriptor.fields )
     fields.insert(0,
         dict(name="office_type", listing=False,
             property = schema.Choice(
@@ -1069,20 +1069,20 @@ class OfficeDescriptor(GroupDescriptor):
     )
     
     
-class OfficeMemberDescriptor( ModelDescriptor ):    
+class OfficeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Office Member")
     container_name = _(u"Office Members")
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserNotMPSource(  
+                source=vocabulary.UserNotMPSource(
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,
-            ),]  
+            ),]
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     fields.extend([
@@ -1092,11 +1092,11 @@ class OfficeMemberDescriptor( ModelDescriptor ):
               edit_widget=RichTextEditor,
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-             ),     
+             ),
     ])
     custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
-            InactiveNoEndDate]   
+            InactiveNoEndDate]
 
      
 class MinistryDescriptor( GroupDescriptor ):
@@ -1104,35 +1104,35 @@ class MinistryDescriptor( GroupDescriptor ):
     container_name = _(u"Ministries")
     custom_validators = [validations.validate_date_range_within_parent,]
     
-    fields = deepcopy( GroupDescriptor.fields )       
+    fields = deepcopy( GroupDescriptor.fields )
     
     schema_invariants = [EndAfterStart]
     
-class MinisterDescriptor( ModelDescriptor ):    
+class MinisterDescriptor( ModelDescriptor ):
     display_name = _(u"Minister")
     container_name = _(u"Ministers")
     fields = [dict( name="user_id",
               property=schema.Choice( 
                 title=_(u"Name"), 
-                source=vocabulary.UserSource(  
+                source=vocabulary.UserSource(
                     token_field='user_id', 
                     title_field='fullname', 
                     value_field='user_id')),
                 listing_column=user_name_column("user_id", 
                     _(u'Name'),'user'), 
               listing=True,
-            ),]  
+            ),]
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
-    fields.extend([  
+    fields.extend([
             dict( name="notes", 
               property=schema.Text(title=_(u"Notes"), required=False),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor,
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-             ),     
-    ])    
+             ),
+    ])
     custom_validators = [validations.validate_date_range_within_parent,]
     schema_invariants = [ActiveAndSubstituted, SubstitudedEndDate,
             InactiveNoEndDate]
@@ -1150,7 +1150,7 @@ class GovernmentDescriptor( GroupDescriptor ):
                 description=_(u"Name"), required=False),
                 listing=True),
         dict( name="full_name", 
-                label=_(u"Number")),       
+                label=_(u"Number")),
         dict( name="start_date", 
                 property=schema.Date(title=_(u"In power from"), 
                     required=True),
@@ -1178,7 +1178,7 @@ class GovernmentDescriptor( GroupDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                
+             ),
         dict( name="description", 
                 property=schema.Text(title=_(u"Notes") , required=False),
                 view_widget=HTMLDisplay,
@@ -1188,11 +1188,11 @@ class GovernmentDescriptor( GroupDescriptor ):
             ),
         dict( name="status", omit=True), 
         dict( name="status_date", omit=True
-                ) ,        
-        dict( name="type", omit=True ),  
+                ) ,
+        dict( name="type", omit=True ),
         ]
     
-    schema_invariants = [EndAfterStart]    
+    schema_invariants = [EndAfterStart]
     custom_validators = [validations.validate_government_dates,]
 
 class GroupItemAssignmentDescriptor( ModelDescriptor ):
@@ -1205,7 +1205,7 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
                 _(u'Start Date') ), 
                 listing=True,
             edit_widget=DateWidget, add_widget=DateWidget ),
-        dict(name="end_date",  
+        dict(name="end_date",
             property=schema.Date(title=_(u"End Date"), 
             required=False),
             listing_column=day_column("end_date", 
@@ -1221,11 +1221,11 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
             edit_widget=DateWidget, add_widget=DateWidget),
         dict(name="status", omit=True),
         dict( name="status_date", add=False, edit=False,
-            label=_(u"Status date"),        
+            label=_(u"Status date"),
             view=False, listing=False,
             listing_column=day_column("status_date", 
                 _(u'Status date')),
-                ) ,        
+                ) ,
         dict(name="notes",
             property=schema.Text(title=_(u"Notes") , required=False),
                 view_widget=HTMLDisplay,
@@ -1244,7 +1244,7 @@ class GroupItemAssignmentDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                    
+             ),
     ]
 
 
@@ -1254,18 +1254,18 @@ class ItemGroupItemAssignmentDescriptor( GroupItemAssignmentDescriptor ):
     fields= [
         dict(name="item_id",
             property = schema.Choice(
-                title=_(u"Bill"),    
+                title=_(u"Bill"),
                 source=vocabulary.BillSource( 
                     title_field='short_name', 
                     token_field='parliamentary_item_id', 
-                    value_field ='parliamentary_item_id' ),  
-                ),            
+                    value_field ='parliamentary_item_id' ),
+                ),
               listing_column = item_name_column( 
                         "parliamentary_item_id", 
-                        _(u'Item')),            
+                        _(u'Item')),
             listing=True,
         ),
-        dict(name="group_id", omit=True),                       
+        dict(name="group_id", omit=True),
     ]
     fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields )) 
     
@@ -1276,19 +1276,19 @@ class GroupGroupItemAssignmentDescriptor( GroupItemAssignmentDescriptor ):
         dict(name="item_id",omit=True),
         dict(name="group_id",
          property = schema.Choice(
-                title=_(u"Committee"),    
+                title=_(u"Committee"),
                 source=vocabulary.CommitteeSource( 
                     title_field='short_name', 
                     token_field='group_id', 
-                    value_field = 'group_id' ),  
-                ),               
+                    value_field = 'group_id' ),
+                ),
               listing_column = group_name_column( 
                         "group_id", 
-                        _(u'Group')),            
-            listing=True,                
-        ),           
+                        _(u'Group')),
+            listing=True,
+        ),
     ]
-    fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields ))      
+    fields.extend( deepcopy( GroupItemAssignmentDescriptor.fields ))
 
 class AttachedFileDescriptor(ModelDescriptor):
     display_name =_(u"File")
@@ -1296,7 +1296,7 @@ class AttachedFileDescriptor(ModelDescriptor):
     fields =[
         dict(name="attached_file_id", omit=True),
         dict(name="item_id", omit=True),
-        dict(name="file_version_id", omit=True),   
+        dict(name="file_version_id", omit=True),
         dict(name="language", 
              label=_(u"Language"), 
              listing=False, 
@@ -1309,12 +1309,12 @@ class AttachedFileDescriptor(ModelDescriptor):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),         
+             ),
         dict(name="file_title", 
             property=schema.TextLine(title=_(u"Title"), required=True),
             listing=True, 
             edit_widget = widgets.LongTextWidget,
-            add_widget = widgets.LongTextWidget,            
+            add_widget = widgets.LongTextWidget,
             add=True, 
             edit=True, 
             omit=False),
@@ -1324,23 +1324,23 @@ class AttachedFileDescriptor(ModelDescriptor):
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-              ),                  
+              ),
         dict(name="file_data", 
             property=schema.Bytes(title=_(u"File"),required=True),
-            description=_(u"Upload a file"),        
+            description=_(u"Upload a file"),
             edit_widget=FileEditWidget,
             add_widget=FileAddWidget,
-            view_widget=FileDisplayWidget,            
+            view_widget=FileDisplayWidget,
             required=True,
-            listing=False),                             
+            listing=False),
         dict(name="file_name", label=u"", 
             edit_widget=NoInputWidget,
             add_widget=NoInputWidget,
-            view=False),              
+            view=False),
         dict(name="file_mimetype", label=u"", 
             edit_widget=NoInputWidget,
             add_widget=NoInputWidget,
-            view=False),     
+            view=False),
         dict( name="status", 
             label=_(u"Status"), 
              property=schema.Choice(
@@ -1350,13 +1350,13 @@ class AttachedFileDescriptor(ModelDescriptor):
             listing_column=workflow_column("status","Workflow status"),
             add=False,
             listing=True, 
-            omit=False ),     
+            omit=False ),
         dict( name="status_date", add=False, edit=False,
             view=True, listing=True,
-            label=_(u"Status date"),            
+            label=_(u"Status date"),
             listing_column=day_column("status_date", 
                 _(u'Status date')),
-                ) ,                                     
+                ) ,
     ]
 
     public_wfstates = [af_wf_state[u'public'].id]
@@ -1372,7 +1372,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
         dict(name="parliamentary_item_id", omit=True),
         dict(name="parliament_id", 
             property = schema.Choice(
-                title=_(u"Parliament"),                
+                title=_(u"Parliament"),
                 source=parliamentSource,
                 required=True), 
                 add=False, 
@@ -1381,15 +1381,15 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             property=schema.TextLine(title=_(u"Title"),required=True), 
             listing=True, 
             edit_widget = widgets.LongTextWidget,
-            add_widget = widgets.LongTextWidget,            
+            add_widget = widgets.LongTextWidget,
             add=True, 
             edit=True, 
-            omit=False),            
+            omit=False),
         dict(name="full_name", 
             #property=schema.TextLine(title=_(u"Summary"),required=False), 
             listing=False, 
             edit_widget = widgets.LongTextWidget,
-            add_widget = widgets.LongTextWidget,            
+            add_widget = widgets.LongTextWidget,
             add=True, 
             edit=True, 
             omit=True),
@@ -1397,7 +1397,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             property=schema.Int(title=_(u"Registry number"),required=False), 
             listing=False, 
             add=False, 
-            edit=True,),            
+            edit=True,),
         dict( name="owner_id", 
               property = schema.Choice(
                 title=_(u"Moved by"),
@@ -1405,9 +1405,9 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                 source=vocabulary.MemberOfParliamentDelegationSource('owner_id'),
                 ),
               listing_column=user_name_column("owner_id", 
-                    _(u'Name'), 'owner'),              
+                    _(u'Name'), 'owner'),
               listing = True 
-            ),            
+            ),
         dict(name="language", 
              listing=False, 
              add=True, 
@@ -1417,7 +1417,7 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
                  title=_(u"Language"),
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
-                 required=True,                 
+                 required=True,
                  ),
              ),
         dict( name="body_text", 
@@ -1426,17 +1426,17 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
               edit_widget=RichTextEditor, 
               add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-              ),       
+              ),
         dict( name="submission_date", 
             property=schema.Date(title=_(u"Submission Date"), required=False),
             add=False, 
             edit=True, 
             view_permission = "bungeni.edit.historical", 
-            edit_permission = "bungeni.edit.historical",            
-            listing=True ,  
+            edit_permission = "bungeni.edit.historical",
+            listing=True ,
             edit_widget=DateWidget, 
             add_widget=DateWidget, 
-            omit=False),        
+            omit=False),
         dict( name="status", 
             label=_(u"Status"), 
              property=schema.Choice(
@@ -1446,39 +1446,39 @@ class ParliamentaryItemDescriptor( ModelDescriptor ):
             listing_column=workflow_column("status","Workflow status"),
             add=False,
             listing=True, 
-            omit=False ),     
+            omit=False ),
         dict( name="status_date", add=False, edit=False,
             view=True, listing=True,
-            label=_(u"Status date"),            
+            label=_(u"Status date"),
             listing_column=day_column("status_date", 
                 _(u'Status date')),
-                ) ,                  
+                ) ,
         dict( name="note", 
             label=_(u"Notes"), 
             description="Recommendation note", 
-              property=schema.Text(title=_(u"Notes"),  
-                description=_(u"Recommendation note"), required=False ),              
+              property=schema.Text(title=_(u"Notes"),
+                description=_(u"Recommendation note"), required=False ),
               edit = True, 
               add = True, 
               view = False, 
               add_widget=OneTimeEditWidget,
-              edit_widget=OneTimeEditWidget, ),    
+              edit_widget=OneTimeEditWidget, ),
         dict( name="receive_notification", 
                 property = schema.Choice( 
                 title=_(u"Receive notification"),
-                description=_(u"Select this option to receive notifications for this item"),                  
+                description=_(u"Select this option to receive notifications for this item"),
                 source=vocabulary.YesNoSource ),
-              edit_widget=CustomRadioWidget,  
-              add_widget=CustomRadioWidget,                                
+              edit_widget=CustomRadioWidget,
+              add_widget=CustomRadioWidget,
               listing=False, 
-              omit=False ),  
+              omit=False ),
         dict( name="type", 
               omit=False,
               listing = False,
               edit = False, 
               add = False, 
               view = False, ),
-        ]                   
+        ]
 
 
 
@@ -1492,23 +1492,23 @@ class ChangeDescriptor( ModelDescriptor ):
         dict(name="action", property=schema.TextLine(title=_(u"Action")),listing=True),
         dict(name="date", 
             property=schema.Date(title=_(u"Date")),
-            listing=True ,  
+            listing=True ,
             edit_widget=DateTimeWidget, 
             add_widget=DateTimeWidget, ),
-        dict( name="user_id", label=_(u"user"), listing=True),            
+        dict( name="user_id", label=_(u"user"), listing=True),
         dict(name="description", label= _(u"Description"),
             property = schema.Text( title=_(u"Description") ),
             listing=True,
-            ),         
+            ),
         dict( name="notes", 
-            label=_(u"Notes"),     
+            label=_(u"Notes"),
             property = schema.Text( title=_(u"Notes"), required=False ),
             view_widget=HTMLDisplay,
             edit_widget=RichTextEditor, 
             add_widget=RichTextEditor,
               differ=diff.HTMLDiff,
-            ),        
-        ]                 
+            ),
+        ]
         
         
 class VersionDescriptor( ModelDescriptor ):
@@ -1530,7 +1530,7 @@ class VersionDescriptor( ModelDescriptor ):
             property=schema.TextLine(title=_(u"Summary"),required=True), 
             listing=False, 
             edit_widget = widgets.LongTextWidget,
-            add_widget = widgets.LongTextWidget,            
+            add_widget = widgets.LongTextWidget,
             add=True, 
             edit=True, 
             omit=False),
@@ -1554,38 +1554,38 @@ class VersionDescriptor( ModelDescriptor ):
               differ=diff.HTMLDiff,
               ),
         dict( name="submission_date", 
-            omit=True),        
+            omit=True),
         dict( name="status", 
-            omit=True ),            
+            omit=True ),
         dict( name="note", 
             description="Recommendation note", 
-              property=schema.Text(title=_(u"Notes"),  
-                description=_(u"Recommendation note"), required=False ),              
+              property=schema.Text(title=_(u"Notes"),
+                description=_(u"Recommendation note"), required=False ),
               edit = True, 
               add = True, 
               view = False, 
-              edit_widget=OneTimeEditWidget,),    
-        dict( name="receive_notification",               
-              omit=True ),  
+              edit_widget=OneTimeEditWidget,),
+        dict( name="receive_notification",
+              omit=True ),
         dict( name="type", 
               omit=True, ),
-        ]                   
+        ]
 
     public_wfstates = [version_wf_state[u'archived'].id]
     
 class HeadingDescriptor( ParliamentaryItemDescriptor): 
     display_name =_(u"Heading")
     container_name =_(u"Headings")
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )   
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
     public_wfstates = [heading_wf_state[u'public'].id]
 
 class AgendaItemDescriptor( ParliamentaryItemDescriptor): 
     display_name =_(u"Agenda item")
     container_name =_(u"Agenda items")
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
     fields.extend([
         dict( name="agenda_item_id", omit=True ), 
-        dict( name="group_id", omit=True ),        
+        dict( name="group_id", omit=True ),
     ])
     public_wfstates = [agendaitem_wf_state[u'admissible'].id,
                        agendaitem_wf_state[u'schedule_pending'].id,
@@ -1613,7 +1613,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Motion")
     container_name = _(u"Motions")
     fields = deepcopy( ParliamentaryItemDescriptor.fields )
-    fields.extend([                
+    fields.extend([
         dict( name="approval_date", 
             property=schema.Date(title=_(u"Approval Date"), required=False),
             view_permission = "bungeni.edit.historical", 
@@ -1628,7 +1628,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
             edit= False, 
             listing=False, 
             edit_widget=DateWidget, 
-            add_widget=DateWidget),        
+            add_widget=DateWidget),
         dict( name="motion_number", 
             property=schema.Int(title=_(u"Identifier"), required=False),
             add=False, 
@@ -1645,7 +1645,7 @@ class MotionDescriptor( ParliamentaryItemDescriptor ):
 #                token_field='party_id', 
 #                value_field = 'party_id' ), 
 #              required=False),
-              omit=True, ),                
+              omit=True, ),
         ])
 
     public_wfstates = [motion_wf_state[u'admissible'].id,
@@ -1673,7 +1673,7 @@ class MotionChangeDescriptor( ChangeDescriptor ):
 class BillDescriptor( ParliamentaryItemDescriptor ):
     display_name = _(u"Bill")
     container_name = _(u"Bills")
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
     for field in fields:
         if field['name'] == 'body_text':
             field['label'] = _(u"Statement of Purpose")
@@ -1689,7 +1689,7 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                     token_field='bill_type_id',
                     value_field='bill_type_id'),
                 ),
-             ),                                                                
+             ),
         dict( name="ministry_id", 
               property = schema.Choice( title=_(u"Ministry"), 
                     source=vocabulary.MinistrySource("ministry_id"),
@@ -1706,20 +1706,20 @@ class BillDescriptor( ParliamentaryItemDescriptor ):
                 edit_widget=DateWidget, 
                 add_widget=DateWidget ,
                 listing_column=day_column("publication_date", 
-                    _(u"Publication Date")), ),        
+                    _(u"Publication Date")), ),
 
         ])
 
     public_wfstates = [bill_wf_state[u"gazetted"].id , 
-                        bill_wf_state[u"first_reading"].id ,        
+                        bill_wf_state[u"first_reading"].id ,
                         bill_wf_state[u"first_reading_postponed"].id ,
-                        bill_wf_state[u"first_committee"].id ,                        
+                        bill_wf_state[u"first_committee"].id ,
                         bill_wf_state[u"second_reading"].id , 
                         bill_wf_state[u"second_reading_postponed"].id , 
                         bill_wf_state[u"whole_house"].id ,
                         bill_wf_state[u"second_committee"].id ,
                         bill_wf_state[u"whole_house_postponed"].id ,
-                        bill_wf_state[u"report_reading_postponed"].id ,                                                                                
+                        bill_wf_state[u"report_reading_postponed"].id ,
                         bill_wf_state[u"report_reading"].id , 
                         bill_wf_state[u"third_reading"].id,
                         bill_wf_state[u"third_reading_postponed"].id,
@@ -1744,7 +1744,7 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
     container_name = _(u"Questions")
     custom_validators = ()
     
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
     fields.extend([
         dict( name="question_id", omit=True),
         dict( name="question_number", 
@@ -1759,28 +1759,28 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
                 property = schema.Choice(title=_(u"Ministry"), 
                  source=vocabulary.MinistrySource("ministry_id"),
                  required=True),
-                listing_column=ministry_column( "ministry_id" , _(u'Ministry')),                
-                listing=True,                 
+                listing_column=ministry_column( "ministry_id" , _(u'Ministry')),
+                listing=True,
             ),
         dict( name="approval_date", 
             property=schema.Date(title=_(u"Date approved"), required=False),
             edit_widget=DateWidget, 
-            add_widget=DateWidget,              
+            add_widget=DateWidget,
             listing=False, 
-            add=False ),     
+            add=False ),
         dict( name="ministry_submit_date", 
-            property=schema.Date(title=_(u"Submitted to ministry"), required=False),  
+            property=schema.Date(title=_(u"Submitted to ministry"), required=False),
             edit_widget=DateWidget, 
-            add_widget=DateWidget,            
+            add_widget=DateWidget,
             listing=False, 
-            add=False ),   
+            add=False ),
         dict( name="question_type", 
             listing=False, 
             property=schema.Choice( title=_(u"Question Type"), 
                         description=_("Ordinary or Private Notice"), 
                         vocabulary=vocabulary.QuestionType) ,
-              ),                                    
-        dict( name="response_type",  
+              ),
+        dict( name="response_type",
             listing=False,
             property=schema.Choice( title=_(u"Response Type"), 
                       description=_("Oral or Written"), 
@@ -1796,11 +1796,11 @@ class QuestionDescriptor( ParliamentaryItemDescriptor ):
                 edit=True,
                 view=True,
                 add=False,
-              differ=diff.HTMLDiff,),             
+              differ=diff.HTMLDiff,),
         dict( name="sitting_time", 
             label=_(u"Sitting Time"), 
             listing=False,
-            omit=True ),         
+            omit=True ),
         ])
 
     public_wfstates = [question_wf_state[u'admissible'].id,
@@ -1831,7 +1831,7 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
     display_name =_(u"Event")
     container_name =_(u"Events")
     
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
     fields.extend([
         dict( name="event_item_id", omit=True ),
         dict( name="item_id", omit=True ),
@@ -1848,16 +1848,16 @@ class EventItemDescriptor( ParliamentaryItemDescriptor ):
 class TabledDocumentDescriptor(ParliamentaryItemDescriptor): 
     display_name =_(u"Tabled document")
     container_name =_(u"Tabled documents")
-    fields = deepcopy( ParliamentaryItemDescriptor.fields )    
-    fields.extend([    
+    fields = deepcopy( ParliamentaryItemDescriptor.fields )
+    fields.extend([
         dict( name="tabled_document_id", omit=True ), 
-        dict( name="group_id", omit=True ),   
+        dict( name="group_id", omit=True ),
         dict( name="tabled_document_number", 
             property=schema.Int(title=_(u"Tabled document Number"), required=True),
             add= False,
             listing=False,
             edit=True,
-            view=True,),      
+            view=True,),
     ])
     public_wfstates = [tableddocument_wf_state[u'admissible'].id,
                        tableddocument_wf_state[u'schedule_pending'].id,
@@ -1901,7 +1901,7 @@ class SittingDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),        
+             ),
         dict( name="sitting_type_id", 
               listing_column = sitting_type_column( "sitting_type_id", 
                 _(u"Sitting Type")),
@@ -1930,7 +1930,7 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="venue_id",
               property=schema.Choice( 
                 title=_(u"Venue"), 
-                source=vocabulary.DatabaseSource(domain.Venue,  
+                source=vocabulary.DatabaseSource(domain.Venue,
                     title_field='short_name', 
                     token_field='venue_id', 
                     value_field = 'venue_id'),
@@ -1947,7 +1947,7 @@ class SittingDescriptor( ModelDescriptor ):
     public_wfstates = [sitting_wf_state[u'published-agenda'].id,
                        sitting_wf_state[u'draft-minutes'].id,
                        sitting_wf_state[u'published-minutes'].id,
-                    ]                         
+                    ]
 
 class SittingTypeDescriptor(ModelDescriptor):
     display_name = _(u"Type")
@@ -1991,7 +1991,7 @@ class SessionDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),                       
+             ),
         dict( name="notes", label=_(u"Notes"), required=False)
         ]
     schema_invariants = [EndAfterStart]
@@ -2003,7 +2003,7 @@ class SessionDescriptor( ModelDescriptor ):
     
 #    fields = [
 #        dict( name="sitting_id", omit=True ), 
-#        dict( name="debate_id", omit=True ),                
+#        dict( name="debate_id", omit=True ),
 #        dict( name="short_name", 
 #                label=_(u"Short Name"), 
 #                listing=True,
@@ -2015,8 +2015,8 @@ class SessionDescriptor( ModelDescriptor ):
 #              edit_widget=RichTextEditor, 
 #              add_widget=RichTextEditor,
 #              differ=diff.HTMLDiff,
-#              ),   
-#        ]             
+#              ),
+#        ]
         
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting attendance")
@@ -2026,13 +2026,13 @@ class AttendanceDescriptor( ModelDescriptor ):
         domain.AttendanceType, 
                     token_field='attendance_id', 
                     title_field='attendance_type', 
-                    value_field='attendance_id' )                                                                    
+                    value_field='attendance_id' )
         
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
                 property = schema.Choice(title=_(u"Attendance"), 
-                source=vocabulary.SittingAttendanceSource(  
+                source=vocabulary.SittingAttendanceSource(
                     title_field='fullname', 
                     token_field='user_id', 
                     value_field = 'member_id')), 
@@ -2046,10 +2046,10 @@ class AttendanceDescriptor( ModelDescriptor ):
                     required=True),
                 listing_column = attendance_column(
                     "attendance_id", 
-                    _(u'Attendance') )),            
+                    _(u'Attendance') )),
         ]
         
-class AttendanceTypeDescriptor( ModelDescriptor ):        
+class AttendanceTypeDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting attendance")
     container_name =_(u"Sitting attendances")
     
@@ -2069,7 +2069,7 @@ class AttendanceTypeDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),        
+             ),
         ]
         
 
@@ -2088,7 +2088,7 @@ class ConsignatoryDescriptor( ModelDescriptor ):
               listing_column=user_name_column("user_id", 
                 _(u'Cosignatory'), 'owner'), 
             listing=True, 
-            ),  
+            ),
     ]
 
        
@@ -2119,7 +2119,7 @@ class ConstituencyDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),        
+             ),
         dict( name="name", 
             property=schema.TextLine(title=_(u"Name"), 
             description=_("Name of the constituency"), 
@@ -2128,7 +2128,7 @@ class ConstituencyDescriptor( ModelDescriptor ):
         dict(name="province_id",
             property = schema.Choice( 
                 title=_(u"Province"), 
-                source=provinceSource,            
+                source=provinceSource,
                 required=True ),
             listing_column = province_column("province_id", 
                 _(u"Province")), 
@@ -2138,7 +2138,7 @@ class ConstituencyDescriptor( ModelDescriptor ):
             label=_(u"Region"),
             property = schema.Choice( 
                 title=_(u"Region"), 
-                source=regionSource,              
+                source=regionSource,
                 required=True ),
              listing_column = region_column("region_id", 
                 _(u"Region")), 
@@ -2155,7 +2155,7 @@ class ConstituencyDescriptor( ModelDescriptor ):
                 listing=True , 
                 listing_column=day_column('end_date', _(u"End Date")), 
                 edit_widget=DateWidget, 
-                add_widget=DateWidget),        
+                add_widget=DateWidget),
         ]
 
 schema_invariants = [EndAfterStart]
@@ -2201,7 +2201,7 @@ class RegionDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),    
+             ),
         dict( name="region_id", omit=True ),
         dict( name="region", 
                 property=schema.TextLine(title=_(u"Region"), 
@@ -2224,7 +2224,7 @@ class CountryDescriptor( ModelDescriptor ):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),    
+             ),
         dict( name="country_id", 
                 property=schema.TextLine(title=_(u"Country Code"), 
                 description =_(u"ISO Code of the  country"))),
@@ -2232,7 +2232,7 @@ class CountryDescriptor( ModelDescriptor ):
                 property=schema.TextLine(title=_(u"Country"), 
                 description=_(u"Name of the Country")), 
                 listing=True ), 
-        ]        
+        ]
 		
 class ConstituencyDetailDescriptor( ModelDescriptor ):
     display_name = _(u"Constituency details")
@@ -2248,7 +2248,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
                 property=schema.Date(title=_(u"Date"), 
                 description=_(u"Date the data was submitted from the Constituency"), 
                 required=True),
-                listing=True,  
+                listing=True,
                 listing_column=day_column("date", "Date"),
                 edit_widget=DateWidget, 
                 add_widget=DateWidget),
@@ -2256,7 +2256,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
                 property=schema.Int(title=_(u"Population"), 
                 description=_(u"Total Number of People living in this Constituency"),
                 required=True), 
-                listing=True ),                
+                listing=True ),
         dict( name="voters", 
                 property=schema.Int(title=_(u"Voters"), 
                 description=_(u"Number of Voters registered in this Constituency"),
@@ -2270,7 +2270,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
 ################
 class RotaDescriptor( ModelDescriptor ):
     fields = [
-        dict( name="rota_id", omit=True ),         
+        dict( name="rota_id", omit=True ),
         dict( name="reporter_id", omit=True), #XXX
         dict( name="identifier", 
             title=_("Rota Identifier"), listing=True),
@@ -2344,7 +2344,7 @@ class ScheduledItemDiscussionDescriptor(ModelDescriptor):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),    
+             ),
         dict(name="schedule_id", omit=True),
         dict( name="body_text", label=_(u"Minutes"),
               property = schema.Text(title=_(u"Minutes")),
@@ -2382,7 +2382,7 @@ class ReportDescriptor(ModelDescriptor):
                  default=get_default_language(),
                  vocabulary="language_vocabulary",
                  ),
-             ),        
+             ),
         dict( name="report_type", 
                 label=_(u"Publications type"), 
                 listing=True,
@@ -2402,7 +2402,7 @@ class ReportDescriptor(ModelDescriptor):
             listing=True , 
             edit_widget=DateWidget, 
             add_widget=DateWidget,
-            view=False),                      
+            view=False),
         
         
         dict( name="user_id", 
@@ -2412,7 +2412,7 @@ class ReportDescriptor(ModelDescriptor):
         dict( name="note", 
                 label=_(u"Note"), 
                 listing=True,
-                view=False),                                                       
+                view=False),
         dict( name="body_text", 
                 label=_(u"Text"),
                 property = schema.Text( title=_(u"Text") ),
@@ -2426,11 +2426,11 @@ class ReportDescriptor(ModelDescriptor):
     ]
 
 class Report4SittingDescriptor(ReportDescriptor):
-    fields = deepcopy( ReportDescriptor.fields )    
-    fields.extend([    
+    fields = deepcopy( ReportDescriptor.fields )
+    fields.extend([
         dict( name="sitting_report_id", omit=True ), 
-        dict( name="report_id", omit=True ),     
-        dict( name="sitting_id", omit=True ),                     
+        dict( name="report_id", omit=True ),
+        dict( name="sitting_id", omit=True ),
     ])
 
 

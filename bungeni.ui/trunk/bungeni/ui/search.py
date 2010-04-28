@@ -9,33 +9,33 @@ Todo - Canonical URL on index of results, tuple,
 
 Supported xapian query operators
  |  OP_AND = 0
- |  
+ |
  |  OP_AND_MAYBE = 4
- |  
+ |
  |  OP_AND_NOT = 2
- |  
+ |
  |  OP_ELITE_SET = 10
- |  
+ |
  |  OP_FILTER = 5
- |  
+ |
  |  OP_NEAR = 6
- |  
+ |
  |  OP_OR = 1
- |  
+ |
  |  OP_PHRASE = 7
- |  
+ |
  |  OP_SCALE_WEIGHT = 9
- |  
+ |
  |  OP_SYNONYM = 13
- |  
+ |
  |  OP_VALUE_GE = 11
- |  
+ |
  |  OP_VALUE_LE = 12
- |  
+ |
  |  OP_VALUE_RANGE = 8
- |  
+ |
  |  OP_XOR = 3
- |         
+ |
 """
 
 import time, simplejson
@@ -64,12 +64,12 @@ class ResultListing( object ):
     doc_count = None
     
     columns = [
-        column.GetterColumn( title=_(u"rank"), getter=lambda i,f:i.rank ),    
+        column.GetterColumn( title=_(u"rank"), getter=lambda i,f:i.rank ),
         column.GetterColumn( title=_(u"type"), getter=lambda i,f: i.data.get('object_type',('',))[0] ),
         column.GetterColumn( title=_(u"title"), getter=lambda i,f:i.data.get('title',('',))[0] ),
-        column.GetterColumn( title=_(u"status"), getter=lambda i,f:i.data.get('status',('',))[0] ),        
-        column.GetterColumn( title=_(u"weight"), getter=lambda i,f:i.weight ),                
-        column.GetterColumn( title=_(u"percent"), getter=lambda i,f:i.percent ),                        
+        column.GetterColumn( title=_(u"status"), getter=lambda i,f:i.data.get('status',('',))[0] ),
+        column.GetterColumn( title=_(u"weight"), getter=lambda i,f:i.weight ),
+        column.GetterColumn( title=_(u"percent"), getter=lambda i,f:i.percent ),
         ]
 
     @property
@@ -233,8 +233,8 @@ class Similar( BrowserView, ResultListing ):
         t = time.time()
         searcher = component.getUtility( interfaces.IIndexSearch )()
         query = searcher.query_similar( doc_id )
-        # similarity includes original doc      
-        # grab first fifteen matching  
+        # similarity includes original doc
+        # grab first fifteen matching
         self.results = searcher.search( query, 0, 15)
         self.search_time = time.time()-t
         self.doc_count = searcher.get_doccount()

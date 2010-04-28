@@ -29,7 +29,7 @@ class actions:
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.Owner' )
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.Clerk' )
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.Speaker' )
-    #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.MP' )    
+    #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.MP' )
 
     @staticmethod
     def postpone(info,context):
@@ -46,7 +46,7 @@ class actions:
         owner_id = utils.getOwnerId(context)
         if owner_id and (owner_id != user_id):
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
-                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)  
+                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)
 
     @staticmethod
     def submit( info, context ):
@@ -55,7 +55,7 @@ class actions:
 
     @staticmethod
     def received_by_clerk( info, context ):
-        utils.createVersion(info, context)   
+        utils.createVersion(info, context)
 
     @staticmethod
     def require_edit_by_mp( info, context ):
@@ -65,7 +65,7 @@ class actions:
     @staticmethod
     def complete( info, context ):
         utils.createVersion(info,context)
-        utils.setSubmissionDate(info, context)        
+        utils.setSubmissionDate(info, context)
  
 
     @staticmethod
@@ -112,7 +112,7 @@ class actions:
         pass
 
     @staticmethod
-    def withdraw( info, context ):  
+    def withdraw( info, context ):
         pass
 
 class SendNotificationToMemberUponReceipt(Notification):

@@ -7,29 +7,29 @@
    initial_state="">
 
   <state id="private" title="Private">
-    <grant permission="bungeni.address.Delete" role="bungeni.Owner" />  
-    <grant permission="zope.View" role="bungeni.Owner" />  
-    <grant permission="zope.View" role="bungeni.Clerk" />       
-    <deny permission="zope.View" role="bungeni.Speaker" />  
-    <deny permission="zope.View" role="bungeni.MP" />         
-    <deny permission="zope.View" role="bungeni.Minister" />  
+    <grant permission="bungeni.address.Delete" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <deny permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="zope.View" role="bungeni.MP" />
+    <deny permission="zope.View" role="bungeni.Minister" />
     <deny permission="zope.View" role="bungeni.Everybody" /> 
     <deny permission="zope.View" role="bungeni.Anybody" /> 
   </state>
 
   <state id="internal" title="Internal - visible to bungeni users">
-    <deny permission="bungeni.address.Delete" role="bungeni.Owner" />  
-    <grant permission="zope.View" role="bungeni.MP" />     
-    <grant permission="zope.View" role="bungeni.Clerk" />       
-    <grant permission="zope.View" role="bungeni.Speaker" />  
-    <grant permission="zope.View" role="bungeni.Minister" />  
+    <deny permission="bungeni.address.Delete" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.MP" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <grant permission="zope.View" role="bungeni.Minister" />
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />   
+    <deny permission="zope.View" role="bungeni.Anybody" />
   </state>
   
   <state id="public" title="Public">
     <grant permission="zope.View" role="bungeni.Everybody" /> 
-    <grant permission="zope.View" role="bungeni.Anybody" />   
+    <grant permission="zope.View" role="bungeni.Anybody" />
   </state>
 
   <transition 

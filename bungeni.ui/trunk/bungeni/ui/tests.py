@@ -35,7 +35,7 @@ zcml_slug = """
 
   <db:bind
      engine="bungeni-db"
-     metadata="alchemist.security.metadata" />     
+     metadata="alchemist.security.metadata" />
 
   <!-- Setup Core Model --> 
   <include package="bungeni.ui" file="catalyst.zcml"/>
@@ -81,7 +81,7 @@ def test_suite():
             optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS)
         test_suites.append(test_suite)
 
-    test_suites.append(forms.test_dates.test_suite())                                
+    test_suites.append(forms.test_dates.test_suite())
     return unittest.TestSuite( test_suites )
 
 if __name__ == '__main__':

@@ -19,7 +19,7 @@ def pack_date_range(start, end):
 def unpack_date_range(value):
     try:
         start, end = value.split(date_range_delimiter)
-    except (ValueError):            
+    except (ValueError):
         start = value
         end = None
     try:
@@ -155,7 +155,7 @@ class base:
         if result == "":
             raise KeyError(key)
 
-        return result    
+        return result
 
     def get(self, key, default=None):
         try:

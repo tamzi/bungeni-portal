@@ -115,7 +115,7 @@ class NavigationProxy(ProxyBase):
 
     __reduce_ex__ = __reduce__
 
-    __providedBy__ = DecoratorSpecificationDescriptor()    
+    __providedBy__ = DecoratorSpecificationDescriptor()
     
 class LocationProxy(ProxyBase):
     """Location-object proxy

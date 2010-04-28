@@ -9,7 +9,7 @@ class actions(object):
     def create( info, context ):
         zope.securitypolicy.interfaces.IPrincipalRoleMap( 
             context ).assignRoleToPrincipal( 
-                u'bungeni.Owner',  context.login)   
+                u'bungeni.Owner',  context.login)
                 
     @staticmethod
     def resurrect( info, context ):

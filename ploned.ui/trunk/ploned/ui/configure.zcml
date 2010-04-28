@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="plone">
 
   <view
@@ -29,7 +29,7 @@
      />
   
   <!-- Site Skin Definition -->
-  <include file="skin.zcml"/>  
+  <include file="skin.zcml"/>
   
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>

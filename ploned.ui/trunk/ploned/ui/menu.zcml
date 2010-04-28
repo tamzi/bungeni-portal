@@ -29,7 +29,7 @@
      provides=".interfaces.IPersonalTasksMenu"
      layer=".interfaces.IPlonedSkin"
      permission="zope.View"
-     />     
+     />
 
   <!-- content menu -->
 

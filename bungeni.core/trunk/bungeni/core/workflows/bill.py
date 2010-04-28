@@ -22,7 +22,7 @@ class actions:
         owner_id = utils.getOwnerId(context)
         if owner_id and (owner_id != user_id):
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
-                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)          
+                ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)
 
     @staticmethod
     def submit(info, context):
@@ -45,7 +45,7 @@ class actions:
 
     @staticmethod
     def schedule_second(info, context):
-        utils.createVersion(info, context)           
+        utils.createVersion(info, context)
 
 
 

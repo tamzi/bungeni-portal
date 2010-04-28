@@ -4,12 +4,10 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 
 from ploned.ui.interfaces import IViewView
 
-class ArchiveBrowserView(BrowserView):
+class ArchiveBrowseContentView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/archive.pt")
 
     interface.implements(IViewView)
-    
-class AdminBrowserView(BrowserView):
-    __call__ = ViewPageTemplateFile("templates/archive.pt")
 
-    interface.implements(IViewView)
+# NOTE: AdminBrowseContentView is identical to ArchiveBrowseContentView
+AdminBrowseContentView = ArchiveBrowseContentView

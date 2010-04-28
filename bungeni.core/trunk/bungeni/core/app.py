@@ -232,7 +232,7 @@ class AppSetup(object):
         content = admin["content"] = Section(
             title=_(u"Content"),
             description=_(u"browse the content"),
-            default_name="browse-archive")
+            default_name="browse-admin")
 
         admin["settings"] = Section(
             title=_(u"Settings"),

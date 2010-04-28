@@ -13,7 +13,7 @@
     <dd class="portletItem" tal:attributes="id string:fieldset-${view/list_id}">
       <!--ul tal:attributes="id view/list_id; class string:draglist">
         <li tal:repeat="result results" tal:attributes="id result/qid; class result/result_item_class; title result/title">
-          <a tal:content="result/subject" tal:attributes="href result/url" />       
+          <a tal:content="result/subject" tal:attributes="href result/url" />
         </li>
       </ul-->
       <table tal:attributes="id string:workspace-table-${view/list_id}" 
@@ -31,7 +31,7 @@
             <td tal:content="result/group" />
             <td tal:content="result/status" i18n:translate="" />
           </tr>
-        </tbody>           
+        </tbody>
       </table>
       
       

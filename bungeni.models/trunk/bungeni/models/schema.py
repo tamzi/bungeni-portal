@@ -41,7 +41,7 @@ def make_versions_table( table, metadata, secondarytable=None ):
     some version metadata information will be stored.
     
     A secondary table may be defined if the object mapped to this 
-    table consists of a join between two tables   
+    table consists of a join between two tables
     """
     
     table_name = table.name
@@ -59,7 +59,7 @@ def make_versions_table( table, metadata, secondarytable=None ):
     
     columns.extend( [ c.copy() for c in table.columns if not c.primary_key ] )
     if secondarytable:
-        columns.extend( [ c.copy() for c in secondarytable.columns if not c.primary_key ] )        
+        columns.extend( [ c.copy() for c in secondarytable.columns if not c.primary_key ] )
     
     versions_table = rdb.Table(
             versions_name,
@@ -89,7 +89,7 @@ users = rdb.Table(
    rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
         rdb.CheckConstraint("gender in ('M', 'F')")
-        ), # (M)ale (F)emale       
+        ), # (M)ale (F)emale
    rdb.Column( "date_of_birth", rdb.Date ),
    rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
    rdb.Column( "birth_nationality", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
@@ -99,16 +99,16 @@ users = rdb.Table(
    rdb.Column( "type_of_id", rdb.String(1)),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
-   rdb.Column( "salt", rdb.String(24)),  
-   rdb.Column( "description", rdb.UnicodeText ),  
+   rdb.Column( "salt", rdb.String(24)),
+   rdb.Column( "description", rdb.UnicodeText ),
    rdb.Column( "image", rdb.Binary),
    rdb.Column( "active_p", rdb.String(1),
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A", #activ/inactiv/deceased
                 ), 
-   # comment out for now - will be used for user preferences                
-   rdb.Column( "recieve_notification", rdb.Boolean, default=True),                
-   rdb.Column( "language", rdb.String(5), nullable=False),   
+   # comment out for now - will be used for user preferences
+   rdb.Column( "recieve_notification", rdb.Boolean, default=True),
+   rdb.Column( "language", rdb.String(5), nullable=False),
    )
 
 
@@ -134,7 +134,7 @@ parliament_memberships = rdb.Table(
    rdb.Column( "leave_reason", rdb.Unicode(40) ),
 
 
-   )   
+   )
 
 
 
@@ -149,8 +149,8 @@ constituencies = rdb.Table(
    rdb.Column( "province_id", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
    rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
    rdb.Column( "start_date", rdb.Date, nullable=False ),
-   rdb.Column( "end_date", rdb.Date ),   
-   rdb.Column( "language", rdb.String(5), nullable=False),   
+   rdb.Column( "end_date", rdb.Date ),
+   rdb.Column( "language", rdb.String(5), nullable=False),
    )
 
 
@@ -158,17 +158,17 @@ provinces = rdb.Table(
     "provinces",
     metadata,
     rdb.Column( "province_id", rdb.Integer,  primary_key=True ),
- #   rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),    
+ #   rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
     rdb.Column( "province", rdb.Unicode(256), nullable=False ),
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
     
 regions = rdb.Table(
     "regions",
     metadata,
     rdb.Column( "region_id", rdb.Integer,  primary_key=True ),
-    rdb.Column( "region", rdb.Unicode(256), nullable=False ),  
-    rdb.Column( "language", rdb.String(5), nullable=False),      
+    rdb.Column( "region", rdb.Unicode(256), nullable=False ),
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
     
 countries = rdb.Table(
@@ -179,7 +179,7 @@ countries = rdb.Table(
     rdb.Column( "country_name", rdb.Unicode(80), nullable=False ),
     rdb.Column( "iso3", rdb.String(3)),
     rdb.Column( "numcode", rdb.Integer),
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
         
 constituency_details = rdb.Table(
@@ -207,15 +207,15 @@ groups = rdb.Table(
     metadata,
     rdb.Column( "group_id", rdb.Integer, PrincipalSequence,  primary_key=True ),
     rdb.Column( "short_name", rdb.Unicode(256), nullable=False ),
-    rdb.Column( "full_name", rdb.Unicode(256) ),   
+    rdb.Column( "full_name", rdb.Unicode(256) ),
     rdb.Column( "description", rdb.UnicodeText ),
     rdb.Column( "status", rdb.Unicode(32) ), # workflow for groups
-    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),   
+    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),
     rdb.Column( "start_date", rdb.Date, nullable=False ),
     rdb.Column( "end_date", rdb.Date ),  #
     rdb.Column( "type", rdb.String(30),  nullable=False ),
-    rdb.Column( "parent_group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),   
-    rdb.Column( "language", rdb.String(5), nullable=False),   
+    rdb.Column( "parent_group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),
+    rdb.Column( "language", rdb.String(5), nullable=False),
    )
 
 
@@ -226,7 +226,7 @@ offices = rdb.Table(
    rdb.Column( "office_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    #Speakers office or Clerks office, the members of members of
    #this group will get local roles in the parliament accordingly
-   rdb.Column( "office_type", rdb.String(1),  
+   rdb.Column( "office_type", rdb.String(1),
                 rdb.CheckConstraint("office_type in ('S','C', 'T','L','R')"),
                 nullable=False ),
    )
@@ -235,7 +235,7 @@ offices = rdb.Table(
 parliaments = rdb.Table(
    "parliaments",
    metadata,
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    rdb.Column( "election_date", rdb.Date , nullable=False ),
    )
 
@@ -261,17 +261,17 @@ committee_type = rdb.Table(
     rdb.Column("committee_type", rdb.Unicode(256), nullable=False),
     rdb.Column("description", rdb.UnicodeText),
     rdb.Column("life_span", rdb.Unicode(16)),
-    # Indicate whether this type of committees are: ‘P' - Permanent, ‘T' - Temporary    
-    rdb.Column("status", rdb.String(1),             
-       rdb.CheckConstraint("status in ('P','T')"),   
+    # Indicate whether this type of committees are: ‘P' - Permanent, ‘T' - Temporary
+    rdb.Column("status", rdb.String(1),
+       rdb.CheckConstraint("status in ('P','T')"),
                 nullable=False ),
-    rdb.Column( "language", rdb.String(5), nullable=False),                   
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 # political parties (outside the parliament) and political groups in a parliament
 political_parties = rdb.Table(
    "political_parties",
    metadata,
-   rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
+   rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    rdb.Column( "logo_data", rdb.Binary, ),
    rdb.Column( "logo_name", rdb.String(127)),
    rdb.Column( "logo_mimetype", rdb.String(127)),
@@ -290,7 +290,7 @@ user_role_types = rdb.Table(
     rdb.Column( "user_role_name", rdb.Unicode(40), nullable=False),
     rdb.Column( "user_unique", rdb.Boolean, default=False,),# nullable=False ),
     rdb.Column( "sort_order", rdb.Integer(2), nullable=False),
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
 
@@ -308,24 +308,24 @@ user_group_memberships = rdb.Table(
     rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id'), nullable=False),
     rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False ),
     rdb.Column( "end_date", rdb.Date ),
-    rdb.Column( "notes", rdb.UnicodeText ),   
+    rdb.Column( "notes", rdb.UnicodeText ),
     # we use this as an easier query to end_date in queries, needs to be set by
     # a cron process against end_date < current_time
     rdb.Column( "active_p", rdb.Boolean, default=True ),
-    # these fields are only present when a membership is a result of substitution   
+    # these fields are only present when a membership is a result of substitution
     # unique because you can only replace one specific group member.
     rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), unique=True ),
     rdb.Column( "substitution_type", rdb.Unicode(100) ),
     # type of membership staff or member
     rdb.Column( "membership_type", rdb.String(30), default ="member",), # nullable = False),
-    rdb.Column( "language", rdb.String(5), nullable=False),   
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
   
 # a bill assigned to a committee, a question assigned to a ministry
 group_item_assignments = rdb.Table(
    "group_assignments",
    metadata,
-   rdb.Column( "assignment_id", rdb.Integer,  
+   rdb.Column( "assignment_id", rdb.Integer,
         primary_key=True, nullable=False ),
    rdb.Column( "item_id", rdb.Integer, 
         rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
@@ -335,12 +335,12 @@ group_item_assignments = rdb.Table(
         rdb.ForeignKey('groups.group_id'), 
         nullable=False  ),
    rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False),
-   rdb.Column( "end_date", rdb.Date ),   
+   rdb.Column( "end_date", rdb.Date ),
    rdb.Column( "due_date", rdb.Date ),
-   rdb.Column( "status", rdb.String(16) ),    
-   rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),   
+   rdb.Column( "status", rdb.String(16) ),
+   rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),
    rdb.Column( "notes", rdb.UnicodeText ),
-   rdb.Column( "language", rdb.String(5), nullable=False),   
+   rdb.Column( "language", rdb.String(5), nullable=False),
    )
 
 
@@ -362,9 +362,9 @@ role_titles = rdb.Table(
         nullable=False ),
     # title of user's group role
     rdb.Column( "title_name_id", rdb.Integer, 
-    rdb.ForeignKey('user_role_types.user_role_type_id'), nullable=False ),     
+    rdb.ForeignKey('user_role_types.user_role_type_id'), nullable=False ),
     rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False),
-    rdb.Column( "end_date", rdb.Date ),  
+    rdb.Column( "end_date", rdb.Date ),
     )
 
 
@@ -380,7 +380,7 @@ address_types = rdb.Table (
     metadata,
     rdb.Column( "address_type_id", rdb.Integer, primary_key = True ),
     rdb.Column( "address_type_name", rdb.Unicode(40) ),
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
 addresses = rdb.Table(
@@ -404,7 +404,7 @@ addresses = rdb.Table(
     rdb.Column( "im_id", rdb.String(40) ),
     # Workflow State -> determins visibility
     rdb.Column( "status", rdb.Unicode(16) ),
-    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),   
+    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),
     )
 
 
@@ -420,11 +420,11 @@ parliament_sessions = rdb.Table(
    rdb.Column( "session_id", rdb.Integer,   primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
    rdb.Column( "short_name", rdb.Unicode(32), nullable=False ),
-   rdb.Column( "full_name", rdb.Unicode(256), nullable=False ),      
+   rdb.Column( "full_name", rdb.Unicode(256), nullable=False ),
    rdb.Column( "start_date", rdb.Date, nullable=False),
    rdb.Column( "end_date", rdb.Date),
-   rdb.Column( "notes", rdb.UnicodeText ),   
-   rdb.Column( "language", rdb.String(5), nullable=False),   
+   rdb.Column( "notes", rdb.UnicodeText ),
+   rdb.Column( "language", rdb.String(5), nullable=False),
    )
 
 
@@ -443,11 +443,11 @@ sittings = rdb.Table(
    # to make it possible to delete the original sitting
    rdb.Column( "recurring_id", rdb.Integer ),
    rdb.Column( "status", rdb.Unicode(48) ),
-   rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),   
-   # venues for sittings   
+   rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),
+   # venues for sittings
    rdb.Column( "venue_id", rdb.Integer, rdb.ForeignKey('venues.venue_id')),
-   rdb.Column( "language", rdb.String(5), nullable=False),   
-   )   
+   rdb.Column( "language", rdb.String(5), nullable=False),
+   )
 
 sitting_type = rdb.Table(
     "sitting_type",
@@ -482,9 +482,9 @@ attendance_type = rdb.Table(
 venues = rdb.Table(
     "venues",
     metadata,
-    rdb.Column( "venue_id", rdb.Integer, primary_key=True ),  
-    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),      
-    rdb.Column( "description", rdb.UnicodeText ),    
+    rdb.Column( "venue_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),
+    rdb.Column( "description", rdb.UnicodeText ),
     rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
@@ -495,33 +495,33 @@ venues = rdb.Table(
 resource_types = rdb.Table(
     "resource_types",
     metadata,
-    rdb.Column( "resource_type_id", rdb.Integer, primary_key=True ),  
+    rdb.Column( "resource_type_id", rdb.Integer, primary_key=True ),
     rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
-    rdb.Column( "language", rdb.String(5), nullable=False),      
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
 resources = rdb.Table(
     "resources",
     metadata,
-    rdb.Column( "resource_id", rdb.Integer, primary_key=True ),  
+    rdb.Column( "resource_id", rdb.Integer, primary_key=True ),
     rdb.Column( "resource_type_id", rdb.Integer, 
             rdb.ForeignKey('resource_types.resource_type_id'),
             nullable=False),
-    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),      
-    rdb.Column( "description", rdb.UnicodeText ),    
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "short_name", rdb.Unicode(255), nullable=False ),
+    rdb.Column( "description", rdb.UnicodeText ),
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
 resourcebookings = rdb.Table(
     "resourcebookings",
     metadata,
-    rdb.Column( "resource_id", rdb.Integer, rdb.ForeignKey('resources.resource_id'), primary_key=True ),  
-    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), primary_key=True ),    
+    rdb.Column( "resource_id", rdb.Integer, rdb.ForeignKey('resources.resource_id'), primary_key=True ),
+    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), primary_key=True ),
     )
 
 #######################
 # Parliament
-#######################   
+#######################
 
 
 
@@ -537,7 +537,7 @@ item_votes = rdb.Table(
    rdb.Column( "date", rdb.Date ),
    rdb.Column( "affirmative_votes", rdb.Integer),
    rdb.Column( "negative_votes", rdb.Integer ),
-   rdb.Column( "remarks", rdb.UnicodeText  ),   
+   rdb.Column( "remarks", rdb.UnicodeText  ),
    rdb.Column( "language", rdb.String(5), nullable=False),
    )
 
@@ -560,12 +560,12 @@ items_schedule = rdb.Table(
    "items_schedule",
    metadata,
    rdb.Column( "schedule_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "item_id",  rdb.Integer,  
+   rdb.Column( "item_id",  rdb.Integer,
             rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
             nullable=True ),
    rdb.Column( "sitting_id", rdb.Integer, 
             rdb.ForeignKey('group_sittings.sitting_id'), 
-            nullable=True ),          
+            nullable=True ),
    rdb.Column( "planned_order", rdb.Integer, rdb.Sequence('planned_order', 0, 1)),
    rdb.Column( "real_order", rdb.Integer),
    # item was discussed on this sitting sitting
@@ -584,7 +584,7 @@ item_discussion = rdb.Table(
     rdb.Column( "schedule_id", rdb.Integer, rdb.ForeignKey('items_schedule.schedule_id'), primary_key=True),
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "sitting_time", rdb.Time( timezone=False ) ),
-    rdb.Column( "language", rdb.String(5), nullable=False, default="en"),    
+    rdb.Column( "language", rdb.String(5), nullable=False, default="en"),
     )
     
 reports = rdb.Table(
@@ -597,9 +597,9 @@ reports = rdb.Table(
     rdb.Column( "report_type", rdb.String(32), nullable=False ),
     rdb.Column( "body_text", rdb.UnicodeText),
     rdb.Column( "user_id", rdb.Unicode(32) ),
-    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),  
-    rdb.Column( "note", rdb.String(256)),   
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id')),
+    rdb.Column( "note", rdb.String(256)),
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
     
 sitting_reports = rdb.Table(
@@ -608,7 +608,7 @@ sitting_reports = rdb.Table(
     rdb.Column( "sitting_report_id", rdb.Integer, primary_key = True ),
     rdb.Column( "report_id", rdb.Integer, rdb.ForeignKey('reports.report_id') ),
     rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'),)
-    )    
+    )
     
 # generic subscriptions, to any type
 subscriptions = rdb.Table(
@@ -619,7 +619,7 @@ subscriptions = rdb.Table(
    rdb.Column( "object_type", rdb.String(32), nullable=False ),
    rdb.Column( "party_id",  rdb.Integer, nullable=False ),
    rdb.Column( "party_type", rdb.String(32), nullable=False ),
-   rdb.Column( "last_delivery", rdb.Date, nullable=False ),   
+   rdb.Column( "last_delivery", rdb.Date, nullable=False ),
    # delivery period
    # rdb.Column( "delivery_period",  rdb.Integer ),
    # delivery type
@@ -637,16 +637,16 @@ attached_files = rdb.Table(
     rdb.Column( "item_id", rdb.Integer, 
         rdb.ForeignKey('parliamentary_items.parliamentary_item_id')),
     rdb.Column( "file_version_id", rdb.Integer ),
-    rdb.Column( "file_title", rdb.Unicode(255), nullable=False ),  
-    rdb.Column( "file_description", rdb.UnicodeText),          
+    rdb.Column( "file_title", rdb.Unicode(255), nullable=False ),
+    rdb.Column( "file_description", rdb.UnicodeText),
     rdb.Column( "file_data", rdb.Binary ),
     rdb.Column( "file_name", rdb.String(127)),
     rdb.Column( "file_mimetype", rdb.String(127)), 
     # Workflow State
     rdb.Column( "status", rdb.Unicode(48) ),
     rdb.Column( "status_date", rdb.DateTime( timezone=False ), 
-        server_default=(text('now()')), nullable=False ),     
-    rdb.Column( "language", rdb.String(5), nullable=False),                 
+        server_default=(text('now()')), nullable=False ),
+    rdb.Column( "language", rdb.String(5), nullable=False),
 )
 
 attached_file_changes = make_changes_table( attached_files, metadata )
@@ -673,15 +673,15 @@ parliamentary_items = rdb.Table(
     rdb.Column( "submission_date", rdb.Date ),
     # Workflow State
     rdb.Column( "status", rdb.Unicode(48) ),
-    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),  
+    rdb.Column( "status_date", rdb.DateTime( timezone=False ), server_default=(text('now()')), nullable=False ),
     rdb.Column( "registry_number", rdb.Integer), 
     # the reviewer may add a recommendation note
     rdb.Column( "note", rdb.UnicodeText),
     # Receive  Notifications -> triggers notification on workflow change
     rdb.Column( "receive_notification", rdb.Boolean, default=True ),
-    # type for polymorphic_identity    
+    # type for polymorphic_identity
     rdb.Column( "type", rdb.String(30),  nullable=False ),
-    rdb.Column( "language", rdb.String(5), nullable=False),    
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
 # Agenda Items:
@@ -694,8 +694,8 @@ agenda_items = rdb.Table(
    rdb.Column( "agenda_item_id", rdb.Integer, 
                 rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
                 primary_key=True ),
-   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), nullable=False),  
-   rdb.Column( "approval_date", rdb.Date,),                 
+   rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), nullable=False),
+   rdb.Column( "approval_date", rdb.Date,),
    )
 
 agenda_item_changes = make_changes_table( agenda_items, metadata )
@@ -723,7 +723,7 @@ questions = rdb.Table(
    rdb.Column( "supplement_parent_id", rdb.Integer, rdb.ForeignKey('questions.question_id')  ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id')), 
-   rdb.Column( "response_text", rdb.UnicodeText ),   
+   rdb.Column( "response_text", rdb.UnicodeText ),
    )
 
 
@@ -741,10 +741,10 @@ motions = rdb.Table(
    metadata,
    rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
    rdb.Column( "motion_number", rdb.Integer),
-   rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question   
+   rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question
    rdb.Column( "public", rdb.Boolean ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
-   rdb.Column( "entered_by_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
+   rdb.Column( "entered_by_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    # Receive  Notifications -> triggers notification on workflow change
@@ -769,7 +769,7 @@ bills = rdb.Table(
    metadata,
    rdb.Column( "bill_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
    rdb.Column( "bill_type_id", rdb.Integer, rdb.ForeignKey('bill_types.bill_type_id'), nullable = False ),
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),    
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "identifier",  rdb.Integer),
    rdb.Column( "publication_date", rdb.Date ),
    )
@@ -811,7 +811,7 @@ consignatories = rdb.Table(
 #document_sources = rdb.Table(
 #    "document_sources",
 #    metadata,
-#    rdb.Column( "document_source_id", rdb.Integer, primary_key=True),   
+#    rdb.Column( "document_source_id", rdb.Integer, primary_key=True),
 #    rdb.Column( "document_source", rdb.Unicode(256)),
 #    )
 
@@ -822,9 +822,9 @@ tabled_documents = rdb.Table(
     metadata,
     rdb.Column( "tabled_document_id", rdb.Integer, 
         rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), 
-        primary_key=True ),   
-    rdb.Column( "link", rdb.String(256)),   
-    rdb.Column( "approval_date", rdb.Date,),                     
+        primary_key=True ),
+    rdb.Column( "link", rdb.String(256)),
+    rdb.Column( "approval_date", rdb.Date,),
     rdb.Column( "tabled_document_number", rdb.Integer),
    )
 
@@ -859,11 +859,11 @@ settings = rdb.Table( "settings", metadata,
                       rdb.Column("setting_id", rdb.Integer, primary_key=True ),
                       rdb.Column("object_id", rdb.Integer ), # scope
                       rdb.Column("object_type", rdb.String(50) ),
-                      rdb.Column("propertysheet", rdb.String(50) ),                      
-                      rdb.Column("name", rdb.String(50) ),           
+                      rdb.Column("propertysheet", rdb.String(50) ),
+                      rdb.Column("name", rdb.String(50) ),
                       rdb.Column("value", rdb.String(400) ),
-                      rdb.Column("type", rdb.String(40) ),           
-                      )	   
+                      rdb.Column("type", rdb.String(40) ),
+                      )	
 
 
 holidays = rdb.Table(
@@ -872,12 +872,12 @@ holidays = rdb.Table(
     rdb.Column("holiday_id", rdb.Integer, primary_key=True ),
     rdb.Column("holiday_date", rdb.Date, nullable=False),
     rdb.Column("holiday_name", rdb.Unicode(32)),
-    rdb.Column("language", rdb.String(5), nullable=False),    
-   )  
+    rdb.Column("language", rdb.String(5), nullable=False),
+   )
 
 #######################
 # Hansard
-#######################   
+#######################
 
 rotas = rdb.Table(
    "rotas",
@@ -909,7 +909,7 @@ transcripts = rdb.Table(
    metadata,
    rdb.Column( "transcript_id", rdb.Integer, primary_key=True ),
    rdb.Column( "take_id", rdb.Integer, rdb.ForeignKey('takes.take_id')),
-   rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id')),   
+   rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id')),
    )
 
 translations = rdb.Table(
@@ -920,16 +920,16 @@ translations = rdb.Table(
    rdb.Column( "object_type", rdb.String(50), 
         primary_key=True, nullable=False),
    rdb.Column( "lang", rdb.String(5), 
-        primary_key=True, nullable=False),   
+        primary_key=True, nullable=False),
    rdb.Column( "field_name", rdb.String(50), 
         primary_key=True, nullable=False), 
-   rdb.Column( "field_text", rdb.UnicodeText),      
+   rdb.Column( "field_text", rdb.UnicodeText),
    )
 
 translation_lookup_index = rdb.Index('translation_lookup_index',
     translations.c.object_id,
     translations.c.object_type,
-    translations.c.lang)    
+    translations.c.lang)
 
 def reset_database(  ):
     import util
@@ -946,7 +946,7 @@ def reset_database(  ):
 
 
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
     import sys
 
     if len(sys.argv) == 1:
@@ -957,12 +957,12 @@ if __name__ == '__main__':
     else:
         db_uri = sys.argv[1]
 
-        db_uri = 'sqlite://'        
+        db_uri = 'sqlite://'
     db = rdb.create_engine( db_uri, echo=True)
     metadata.bind = db
 
     try:
-        metadata.drop_all()        
+        metadata.drop_all()
         metadata.create_all()
     except:
         import pdb, traceback, sys

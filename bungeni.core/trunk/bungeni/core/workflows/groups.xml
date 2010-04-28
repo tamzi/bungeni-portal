@@ -3,41 +3,41 @@
    id="group-workflow"
    title="Group Workflow"
    description="Workflow for Parliamentary Groups"
-   domain="bungeni.ui"   
+   domain="bungeni.ui"
    initial_state="">
 
   <state id="draft" title="Draft - Group not yet Active">
-    <grant permission="bungeni.group.Delete" role="bungeni.Owner" />  
-    <grant permission="zope.View" role="bungeni.Clerk" />       
-    <grant permission="zope.View" role="bungeni.Speaker" />  
-    <deny permission="zope.View" role="bungeni.MP" />         
-    <deny permission="zope.View" role="bungeni.Minister" />  
+    <grant permission="bungeni.group.Delete" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="zope.View" role="bungeni.MP" />
+    <deny permission="zope.View" role="bungeni.Minister" />
     <deny permission="zope.View" role="bungeni.Everybody" /> 
     <deny permission="zope.View" role="bungeni.Anybody" /> 
     <deny permission="bungeni.groupmember.Add" role="bungeni.Clerk" />
     <deny permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
-    <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />
     <grant permission="bungeni.office.ChangeType" role="bungeni.Clerk" /> 
   </state>
 
   <state id="active" title="Active Group">
-    <deny permission="bungeni.group.Delete" role="bungeni.Owner" />  
-    <grant permission="zope.View" role="bungeni.MP" />     
-    <grant permission="zope.View" role="bungeni.Clerk" />       
-    <grant permission="zope.View" role="bungeni.Speaker" />  
-    <grant permission="zope.View" role="bungeni.Minister" />  
+    <deny permission="bungeni.group.Delete" role="bungeni.Owner" />
+    <grant permission="zope.View" role="bungeni.MP" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
+    <grant permission="zope.View" role="bungeni.Minister" />
     <grant permission="zope.View" role="bungeni.Everybody" /> 
-    <grant permission="zope.View" role="bungeni.Anybody" />   
+    <grant permission="zope.View" role="bungeni.Anybody" />
     <grant permission="bungeni.groupmember.Add" role="bungeni.Clerk" />
     <grant permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />  
-    <deny permission="bungeni.office.ChangeType" role="bungeni.Clerk" />        
+    <grant permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />
+    <deny permission="bungeni.office.ChangeType" role="bungeni.Clerk" />
   </state>
   
   <state id="dissolved" title="Group is Dissolved">
     <deny permission="bungeni.groupmember.Add" role="bungeni.Clerk" />
     <deny permission="bungeni.groupmember.Edit" role="bungeni.Clerk" />
-    <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.groupmember.Delete" role="bungeni.Clerk" />
   </state>
 
   <transition 

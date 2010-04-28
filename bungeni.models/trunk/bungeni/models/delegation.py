@@ -13,11 +13,11 @@ def get_user_delegations(user_id):
     query = session.query(domain.UserDelegation).filter(
                 rdb.and_(
                 domain.UserDelegation.delegation_id == user_id)
-                )                
-    results = query.all()                    
-    for result in results:  
+                )
+    results = query.all()
+    for result in results:
         if ((result.user.active_p == 'A') and
             (len(result.user.login) > 1) and
-            (result.delegation.active_p == 'A')):                                        
+            (result.delegation.active_p == 'A')):
             yield result.user
-    #session.close()                        
+    #session.close()

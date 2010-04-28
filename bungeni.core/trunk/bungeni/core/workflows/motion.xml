@@ -3,110 +3,110 @@
    id="motion-workflow"
    title="Motion Workflow"
    description="A Motion"
-   domain="bungeni.ui"   
+   domain="bungeni.ui"
    initial_state="">
 
   <state id="draft" title="Draft">
     <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
-    <grant permission="zope.View" role="bungeni.Owner" />    
-    <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />   
-    <deny permission="zope.View" role="bungeni.MP" />     
-    <deny permission="zope.View" role="bungeni.Clerk" />       
-    <deny permission="zope.View" role="bungeni.Speaker" />  
-    <deny permission="zope.View" role="bungeni.Minister" />  
+    <grant permission="zope.View" role="bungeni.Owner" />
+    <grant permission="bungeni.motion.Delete" role="bungeni.Owner" />
+    <deny permission="zope.View" role="bungeni.MP" />
+    <deny permission="zope.View" role="bungeni.Clerk" />
+    <deny permission="zope.View" role="bungeni.Speaker" />
+    <deny permission="zope.View" role="bungeni.Minister" />
     <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />    
+    <deny permission="zope.View" role="bungeni.Anybody" />
     <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
-    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />     
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />
     <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" /> 
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />     
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
-  <state id="submitted" title="Submitted">  
+  <state id="submitted" title="Submitted">
     <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />     
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                                                   
-    <!--deny permission="zope.View" role="bungeni.Owner" /-->    
-    <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />    
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
+    <!--deny permission="zope.View" role="bungeni.Owner" /-->
+    <deny permission="bungeni.motion.Delete" role="bungeni.Owner" />
     <!--grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /-->
-    <grant permission="zope.View" role="bungeni.Clerk" />      
-    <grant permission="zope.View" role="bungeni.Speaker" />          
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
   </state>
 
-  <state id="received" title="Received by Clerks Office">  
+  <state id="received" title="Received by Clerks Office">
     <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />     
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />   
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                                                 
-    <grant permission="zope.View" role="bungeni.Clerk" />     
-    <grant permission="zope.View" role="bungeni.Speaker" />               
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" />
   </state>
 
-  <state id="complete" title="Submitted to the Speaker">  
+  <state id="complete" title="Submitted to the Speaker">
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />         
+    <grant permission="zope.View" role="bungeni.Speaker" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />
     <grant permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />   
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                            
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />    
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                            
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                         
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="admissible" title="Admissible">  
-    <grant permission="zope.View" role="bungeni.Everybody" />   
-    <grant permission="zope.View" role="bungeni.Anybody" />    
+  <state id="admissible" title="Admissible">
+    <grant permission="zope.View" role="bungeni.Everybody" />
+    <grant permission="zope.View" role="bungeni.Anybody" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <grant permission="zope.View" role="bungeni.Speaker" />      
+    <grant permission="zope.View" role="bungeni.Speaker" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />               
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                                                    
-  </state>    
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+  </state>
 
   <state id="schedule_pending" title="Schedule pending">
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-  </state>    
+  </state>
 
 
-  <state id="inadmissible" title="Inadmissible">     
+  <state id="inadmissible" title="Inadmissible">
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" /> 
     <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />  
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />  
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                                                                                      
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
   
-  <state id="clarify_clerk" title="Needs Clarification by Clerks Office">     
-    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />    
+  <state id="clarify_clerk" title="Needs Clarification by Clerks Office">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <grant permission="bungeni.motion.Edit" role="bungeni.Clerk" /> 
     <grant permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
-    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                            
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />    
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                            
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                     
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="clarify_mp" title="Needs Clarification by MP">  
+  <state id="clarify_mp" title="Needs Clarification by MP">
     <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
-    <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />    
+    <grant permission="bungeni.motion.Edit" role="bungeni.Owner" />
     <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
-    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                                                    
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />  
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                                                                         
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
   </state>
 
 
@@ -114,81 +114,81 @@
 
 
   <!-- is scheduled for debate at a sitting -->
-  <state id="scheduled" title="Scheduled">  
-    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+  <state id="scheduled" title="Scheduled">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                            
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                            
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                        
-  </state>    
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+  </state>
   <!-- admissable motion that cannot be debated -->
-  <state id="deferred" title="Deferred">  
+  <state id="deferred" title="Deferred">
 
-  </state>    
+  </state>
   <!--motion was scheduled for but not debated at the sitting -->
-  <state id="postponed" title="Postponed">  
+  <state id="postponed" title="Postponed">
 
-  </state>    
+  </state>
   <!--defered or postponed motion that were not debated -->
-  <state id="elapsed" title="Elapsed">  
-    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+  <state id="elapsed" title="Elapsed">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                            
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                            
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                       
-  </state>    
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+  </state>
   <!--a motion was debated  -->
-  <state id="debated" title="Debated">  
-    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+  <state id="debated" title="Debated">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                            
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                            
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />                                       
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
   </state>
   
   <!--a motion was debated and the debate adjourned  -->
-  <state id="debate_adjourned" title="Debate adjourned">  
+  <state id="debate_adjourned" title="Debate adjourned">
   
   </state> 
 
 
-  <state id="withdrawn" title="Withdrawn">  
-    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+  <state id="withdrawn" title="Withdrawn">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
     <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                            
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                            
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                            
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                           
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
-  <state id="withdrawn_public" title="Withdrawn">  
-    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />      
+  <state id="withdrawn_public" title="Withdrawn">
+    <deny permission="bungeni.motion.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Speaker" />
     <deny permission="bungeni.motion.Edit" role="bungeni.Owner" /> 
     <deny permission="bungeni.consignatory.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />   
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Owner" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Clerk" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />   
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Clerk" />
     <deny permission="bungeni.consignatory.Add" role="bungeni.Speaker" />
-    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />      
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />                            
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />                            
-    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />   
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />                            
+    <deny permission="bungeni.consignatory.Delete" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+    <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" /> 
-    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />                                           
+    <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
 
 
@@ -258,7 +258,7 @@
      action="bungeni.core.workflows.motion.actions.require_edit_by_mp"
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   <transition
      id="complete"
@@ -282,7 +282,7 @@
      permission="bungeni.motion.speaker.Review"
      action="bungeni.core.workflows.motion.actions.complete"
      condition=""
-     />          
+     />
      
   <transition
      id="approve"
@@ -304,7 +304,7 @@
      permission="bungeni.motion.Schedule"
      action=""
      event="bungeni.core.workflows.interfaces.IMotionPendingEvent"
-     />     
+     />
      
   <transition
      id="reject"
@@ -316,7 +316,7 @@
      action="bungeni.core.workflows.motion.actions.reject"
      condition=""
      event="bungeni.core.workflows.interfaces.IMotionRejectedEvent"
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   
   <transition
@@ -341,7 +341,7 @@
      permission="bungeni.motion.speaker.Review"
      action="bungeni.core.workflows.motion.actions.require_amendment"
      condition=""
-     require_confirmation="true"     
+     require_confirmation="true"
      />
   <transition
      id="complete-clarify"
@@ -362,8 +362,8 @@
      permission="bungeni.motion.clerk.Review"
      action="bungeni.core.workflows.motion.actions.mp_clarify"
      condition=""
-     event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"    
-     require_confirmation="true"     
+     event="bungeni.core.workflows.interfaces.IMotionClarifyEvent"
+     require_confirmation="true"
      />
   <transition
      id="resubmit-clerk"
@@ -407,7 +407,7 @@
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.elapse"
      condition=""
-     require_confirmation="true"     
+     require_confirmation="true"
      />
 
   <transition
@@ -419,7 +419,7 @@
      permission="bungeni.motion.RevertTransitions"
      action="bungeni.core.workflows.motion.actions.approve"
      condition=""
-     />  
+     />
   
   <transition
      id="schedule-deferred"
@@ -430,7 +430,7 @@
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.schedule"
      condition="bungeni.core.workflows.motion.conditions.is_scheduled"
-     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
+     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"
      />
   <transition
      id="postpone"
@@ -463,7 +463,7 @@
      permission="bungeni.motion.Schedule"
      condition=""
      event=""
-     />     
+     />
   <transition
      id="schedule-postponed"
      title="Schedule"
@@ -473,7 +473,7 @@
      permission="bungeni.motion.Schedule"
      action="bungeni.core.workflows.motion.actions.schedule"
      condition="bungeni.core.workflows.motion.conditions.is_scheduled"
-     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"    
+     event="bungeni.core.workflows.interfaces.IMotionScheduledEvent"
      />
   <transition
      id="elapse-postponed"
@@ -492,7 +492,7 @@
      trigger="manual"
      source="submitted
              received
-             complete             
+             complete
              clarify_mp"
      destination="withdrawn"
      permission="bungeni.motion.Withdraw"

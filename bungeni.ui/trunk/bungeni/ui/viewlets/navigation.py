@@ -134,7 +134,7 @@ class SecondaryNavigationViewlet(object):
         url = ui_url.absoluteURL(container, request)
         
         if IReadContainer.providedBy(container):
-            #XXX should be the same in all containers ?          
+            #XXX should be the same in all containers ?
             container=proxy.removeSecurityProxy(container)
             for name, item in container.items():
                 if context is None:
@@ -208,9 +208,9 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
     Render the breadcrumbs to show a user his current location.
     
     """
-    render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )        
+    render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )
 
-    def __init__( self,  context, request, view, manager ):        
+    def __init__( self,  context, request, view, manager ):
         self.context = context
         self.request = request
         self.__parent__= view
@@ -251,19 +251,19 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 'name' : title,
                 'url' : url})
             
-        elif IAlchemistContainer.providedBy(context):                        
+        elif IAlchemistContainer.providedBy(context):
             domain_model = context._class 
             try:
                 descriptor = queryModelDescriptor( domain_model )
             except:
                 descriptor = None
-                name = ""                
+                name = ""
             if descriptor:
                 name = getattr(descriptor, 'container_name', None)
                 if name is None:
                     name = getattr(descriptor, 'display_name', None)
             if not name:
-                name = getattr( context, '__name__', None)  
+                name = getattr( context, '__name__', None)
             path.append({
                 'name' : name,
                 'url' : url,
@@ -291,7 +291,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 })
 
         try:
-            self.user_name = self.request.principal.login          
+            self.user_name = self.request.principal.login
         except:
             pass
 
@@ -418,7 +418,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             if IDCDescriptiveProperties.providedBy(context):
                 props = IDCDescriptiveProperties(context)
             else:
-                props = context                
+                props = context
             props = proxy.removeSecurityProxy(props)
 
             selected = len(chain) == 0
@@ -427,7 +427,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                 try:
                     self.expand_containers(nodes, context.items(), url, chain, context)
                 except:
-                    pass                    
+                    pass
             else:
                 nodes = self.expand(chain)
             i_id = getattr(props, 'id','N/A')

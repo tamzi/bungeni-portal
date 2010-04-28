@@ -4,7 +4,7 @@
 
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
-from zope.publisher.interfaces.browser import IBrowserView     
+from zope.publisher.interfaces.browser import IBrowserView
 
 
 class IWorkspaceManager(IViewletManager):

@@ -81,8 +81,8 @@
               <tr tal:repeat="item options/items" tal:attributes="id item/name">
                 <td class="item"
                     tal:define="discussion_action item/discussion_action;
-                                body_text item/discussion/body_text">                 
-                    <span tal:content="item/type" />:  
+                                body_text item/discussion/body_text">
+                    <span tal:content="item/type" />:
                     <a rel="item"
                      tal:attributes="name item/name;
                                      href item/url"
@@ -182,7 +182,7 @@
   </div>
     
   <div metal:define-macro="daily">
-  <h2 tal:content="view/getTitle"> calendar of..... </h2>  
+  <h2 tal:content="view/getTitle"> calendar of..... </h2>
     <div class="calendar listing" id="daily-calendar">
       <div id="calendar-header">
         <table class="listing grid">
@@ -199,7 +199,7 @@
       <div id="calendar-table">
         <table class="listing grid">
           <thead>
-            <tr>        
+            <tr>
               <th>
                 <a i18n:translate=""
                    rel="calendar"
@@ -295,7 +295,7 @@
       <div id="calendar-table">
         <table class="listing grid">
           <thead>
-            <tr>        
+            <tr>
               <th>
                 <a i18n:translate=""
                    rel="calendar"
@@ -338,7 +338,7 @@
                         </span>
                         
                         <span class="sitting-type" 
-                              tal:content="string:(${sitting/record/sitting_type/sitting_type})" />                                                
+                              tal:content="string:(${sitting/record/sitting_type/sitting_type})" />
                       </a>
                     </div>
 
@@ -358,7 +358,7 @@
                       <span class="discreet"
                                 i18n:translate=""
                                 tal:content="sitting/status" />
-                      <br />                                
+                      <br />
                       <span i18n:translate=""
                             tal:define="record sitting/record;
                                         count python: len(record.items)"
@@ -379,4 +379,4 @@
     </div>
   </div>
   
-</html>  
+</html>

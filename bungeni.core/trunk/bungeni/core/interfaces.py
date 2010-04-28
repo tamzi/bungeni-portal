@@ -79,11 +79,11 @@ class IVersionable( interface.Interface ):
 
 #####################
 # Versioned Object Interfaces
-#     
+#
 class IVersioned( IContainer ):
     """ a versioning system interface to an object, versioned is a container
         of versions.
-    """    
+    """
 
     def create( ):
         """
@@ -102,7 +102,7 @@ class IVersionEvent( IObjectEvent ):
     """
     
     versioned = schema.Object( IVersioned )
-    version = schema.Object( IVersion )    
+    version = schema.Object( IVersion )
     message = schema.Text(description=u"Message accompanying versioning event")
     
 class VersionEvent( ObjectEvent ):
@@ -145,7 +145,7 @@ class IFilePathChooser( interface.Interface ):
     def path( ):
         """
         return the path to store a context's files within the repo 
-        """        
+        """
 
 ########################
 # Versioned Files

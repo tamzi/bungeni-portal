@@ -50,8 +50,8 @@ def _getQuestionsPendingResponse(date, ministry):
                 (domain.Question.c.status == status),
                 (domain.Question.c.ministry_id == ministry.ministry_id)
                 )
-    query = session.query(domain.Question).filter(qfilter)   
-    return query.all()    
+    query = session.query(domain.Question).filter(qfilter)
+    return query.all()
 
 
 
@@ -67,8 +67,8 @@ def _getAllMinistries(date):
                 (schema.groups.c.start_date < date ),
                 (schema.groups.c.end_date == None)
                 )
-        )        
-    query = session.query(domain.Ministry).filter(mfilter)   
+        )
+    query = session.query(domain.Ministry).filter(mfilter)
     return query.all()
     
 def _getMemberOfParliamentEmail(question):
@@ -79,7 +79,7 @@ def _getMemberOfParliamentEmail(question):
     
 
     
-def sendNotificationToMP(date):    
+def sendNotificationToMP(date):
     """
     send a mail to the MP asking the question that the deadline 
     of the question is aproaching
@@ -92,9 +92,9 @@ def sendNotificationToMP(date):
     session = Session()
     qfilter=sql.and_(
                 (domain.Question.c.ministry_submit_date < date ),
-                (domain.Question.c.status == status),                
+                (domain.Question.c.status == status),
                 )
-    questions = session.query(domain.Question).filter(qfilter).all()  
+    questions = session.query(domain.Question).filter(qfilter).all()
     for question in questions:
         mailto = _getMemberOfParliamentEmail(question)
         if mailto and question.receive_notification:
@@ -141,7 +141,7 @@ def sendNotificationToMinistry(date):
     text = translate('notification_email_to_ministry_question_pending_response',
                      target_language='en',
                      domain='bungeni.core',
-                     default="Questions pending responses.")    
+                     default="Questions pending responses.")
     ministries = _getAllMinistries(date)
     for ministry in ministries:
         questions = _getQuestionsPendingResponse(date, ministry)
@@ -150,24 +150,24 @@ def sendNotificationToMinistry(date):
                      domain='bungeni.core',
                      default="Questions assigned to the ministry pending responses.")
         if questions: 
-            text = text + '\n' + ministry.full_name +': \n'                    
+            text = text + '\n' + ministry.full_name +': \n'
             for question in questions:
-                 text = text + question.subject + '\n'    
-            emails = dbutils.getMinsiteryEmails(ministry)                     
+                 text = text + question.subject + '\n'
+            emails = dbutils.getMinsiteryEmails(ministry)
             msg = MIMEText(text)
             
             msg['Subject'] = u'Questions pending response'
             msg['From'] = prefs.getClerksOfficeEmail()
             msg['To'] = emails
-            print msg    
+            print msg
             #dispatch(msg)
         
 def sendAllNotifications():
     """
     get the timeframes and send all notifications out
-    """    
-    delta = prefs.getDaysToNotifyMinistriesQuestionsPendingResponse()    
-    date = datetime.date.today()   
+    """
+    delta = prefs.getDaysToNotifyMinistriesQuestionsPendingResponse()
+    date = datetime.date.today()
     sendNotificationToMinistry(date)
     sendNotificationToClerksOffice(date)
     sendNotificationToMP(date)
@@ -180,7 +180,7 @@ def main(argv=None):
     db = create_engine('postgres://localhost/bungeni', echo=False)
     component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
     model.metadata.bind = db
-    session = Session()   
+    session = Session()
      
     sendAllNotifications()
         

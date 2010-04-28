@@ -35,5 +35,5 @@ def get_request():
     interaction = zope.security.management.getInteraction()
     for participation in interaction.participations:
         if zope.publisher.interfaces.IRequest.providedBy(participation):
-            return participation       
+            return participation
 

@@ -38,13 +38,13 @@ class SimpleDocumentTestCase(FunctionalTestCase):
                           "ISimpleDocument Interface implementation error")
 
         self.assertEquals(ISimpleDocument.providedBy(self.document), True,
-                          "ISimpleDocument Interface implementation error")        
+                          "ISimpleDocument Interface implementation error")
 
         self.assertEquals(IMarginaliaAnnotatable.implementedBy(SimpleDocument), True,
                           "IMarginaliaAnnotatable Interface implementation error")
 
         self.assertEquals(IMarginaliaAnnotatable.providedBy(self.document), True,
-                          "IMarginaliaAnnotatable Interface implementation error")        
+                          "IMarginaliaAnnotatable Interface implementation error")
 
 
     def test_verifyimplementations(self):

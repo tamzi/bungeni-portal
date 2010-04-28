@@ -37,7 +37,7 @@ class WorkflowVocabulary(object):
             ctx = context
         elif  IAlchemistContainer.providedBy(context):
             domain_model = removeSecurityProxy( context.domain_model )
-            ctx = domain_model()        
+            ctx = domain_model()
         wf = interfaces.IWorkflow(ctx)
         items=[]
         for state in wf.workflow.states.keys():
@@ -56,7 +56,7 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     form_name = _(u"Workflow history")
     formatter_factory = TableFormatter
     
-    def __init__( self,  context, request, view, manager ):        
+    def __init__( self,  context, request, view, manager ):
         self.context = context
         self.request = request
         self.__parent__= view
@@ -64,23 +64,23 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
         self.wf_status = u'new'
         self.has_status = False
         # table to display the workflow history
-        self.columns = [            
+        self.columns = [
             column.GetterColumn( title=_(u"date"), getter=lambda i,f: i['date'].strftime('%Y-%m-%d %H:%M') ),
             column.GetterColumn( title=_(u"user"), getter=lambda i,f:i['user_id'] ),
             column.GetterColumn( title=_(u"description"), getter=lambda i,f:i['description'] ),
-            ]    
+            ]
         
     def update(self):
         has_wfstate = False
         try:
-            wf_state = interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()           
+            wf_state = interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
             has_wfstate = True
         except:
-            wf_state = u'undefined'                        
+            wf_state = u'undefined'
         if wf_state is None:
            wf_state =u'undefined'
            has_wfstate = False
-        self.wf_status = wf_state       
+        self.wf_status = wf_state
         self.has_status = has_wfstate
         self.entries = self.getFeedEntries()
         
@@ -104,7 +104,7 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
             return auditor.change_table
 
     def getFeedEntries( self ):
-        instance = removeSecurityProxy( self.context )        
+        instance = removeSecurityProxy( self.context )
         mapper = orm.object_mapper( instance )
 
         table = self._log_table
@@ -158,11 +158,11 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
         self.setupActions(transition)
         # only display the notes field to comment if there is an action
         # and a log table
-        auditor = audit.getAuditor( self.context )                
+        auditor = audit.getAuditor( self.context )
         if len(self.actions) == 0: 
             self.form_fields = self.form_fields.omit('note')
-        elif auditor is None:          
-            self.form_fields = self.form_fields.omit('note')   
+        elif auditor is None:
+            self.form_fields = self.form_fields.omit('note')
         else:
             note_widget = TextAreaWidget
             note_widget.height = 1
@@ -185,7 +185,7 @@ class WorkflowActionViewlet(BaseForm, viewlet.ViewletBase):
         # setup widgets in data entry mode not bound to context
         self.widgets = form.setUpDataWidgets(
             self.form_fields, self.prefix, self.context, self.request,
-            ignore_request = ignore_request )            
+            ignore_request = ignore_request )
 
 class WorkflowView(BrowserView):
     template = ViewPageTemplateFile('templates/workflow.pt')
@@ -217,7 +217,7 @@ class WorkflowChangeStateView(WorkflowView):
     ajax_template = ViewPageTemplateFile('templates/workflow_ajax.pt')
     
     def __call__(self, headless=False, transition=None):
-        method = self.request['REQUEST_METHOD']        
+        method = self.request['REQUEST_METHOD']
         if transition:
             wf = interfaces.IWorkflow(self.context) 
             state_transition = wf.getTransitionById(transition)
@@ -251,6 +251,6 @@ class WorkflowChangeStateView(WorkflowView):
 
             return result
             
-        template = self.template()        
+        template = self.template()
         return template
 

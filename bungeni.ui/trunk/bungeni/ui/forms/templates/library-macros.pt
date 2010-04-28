@@ -30,8 +30,8 @@
 	    <option value="d">Days</option>
 	    <option value="w">Weeks</option>
 	    <option value="m">Months</option>
-	    <option value="y">Years</option>	      
-	    <option value="r">Revision</option>	      	      	      
+	    <option value="y">Years</option>	
+	    <option value="r">Revision</option>	      	      	
 	  </select>
 	</div>
 	</form>
@@ -51,13 +51,13 @@
 	 <!--div id="actionsView">
 	   <span class="actionButtons"
 	         tal:condition="view/availableActions">
-	   
+	
 	      <input tal:repeat="action view/actions"
 	            tal:replace="structure action/render"/>
-	   
+	
 	   </span>
 	 </div-->
-	 </form>       
+	 </form>
      </div>
      
      <div metal:define-macro="directory_render">
@@ -95,7 +95,7 @@
                   <td tal:content="python: view.shortLog(log.message)">Message</td>
                </tr>
             </div>
-	    
+	
             <div tal:repeat="resource directory/getFiles"
                  tal:omit-tag="">
                <tr tal:define="log resource/getLog;

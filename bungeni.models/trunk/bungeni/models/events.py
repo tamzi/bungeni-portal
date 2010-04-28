@@ -10,4 +10,4 @@ def create_discussion_for_item_scheduling(context, event):
 @component.adapter(domain.AgendaItem, IObjectCreatedEvent)
 def set_parliament_id(context, event):
     parliament =  utils.get_parliament_for_group_id(context.group_id)
-    context.parliament_id = parliament.group_id   
+    context.parliament_id = parliament.group_id

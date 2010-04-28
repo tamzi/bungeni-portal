@@ -35,7 +35,7 @@ zcml_slug = """
 
   <db:bind
      engine="bungeni-db"
-     metadata="alchemist.security.metadata" />     
+     metadata="alchemist.security.metadata" />
 
   <!-- Setup Core Model --> 
   <include package="bungeni.ui" file="catalyst.zcml"/>
@@ -72,14 +72,14 @@ def assignment_tests( ):
                                     setUp = _setUp,
                                     tearDown = tearDown,
                                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                    )    
+                                    )
 
 def test_suite():
 
     doctests = ('readme.txt', 
                 'settings.txt', 
-                'resourcebooking.txt',  
-                'venue.txt'                        
+                'resourcebooking.txt',
+                'venue.txt'
                 )
     
     globs = dict(interface=interface, component=component)

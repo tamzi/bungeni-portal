@@ -2,7 +2,7 @@ import index
 import zope.interface
 import zope.publisher.interfaces
 import zope.security.testing
-from alchemist.security.schema import metadata  
+from alchemist.security.schema import metadata
 from ore.alchemist.interfaces import IDatabaseEngine
 from sqlalchemy import create_engine
 from zope import component

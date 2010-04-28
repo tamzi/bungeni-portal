@@ -64,7 +64,7 @@
      factory=".adapters.VersionWorkflowAdapter" />
      
   <subscriber
-     handler=".events.initializeWorkflow"     
+     handler=".events.initializeWorkflow"
      for="bungeni.models.interfaces.IVersion
           zope.lifecycleevent.IObjectCreatedEvent" />
 
@@ -74,19 +74,19 @@
   <adapter
      for="bungeni.models.interfaces.IBungeniGroup"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.GroupWorkflowAdapter" />   
+     factory=".adapters.GroupWorkflowAdapter" />
 
 
 
   <adapter
      for="bungeni.models.interfaces.IParliament"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.ParliamentWorkflowAdapter" />   
+     factory=".adapters.ParliamentWorkflowAdapter" />
 
   <adapter
      for="bungeni.models.interfaces.ICommittee"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.CommitteeWorkflowAdapter" />   
+     factory=".adapters.CommitteeWorkflowAdapter" />
 
 
 
@@ -95,13 +95,13 @@
   <adapter
      for="bungeni.models.interfaces.IGroupSitting"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.GroupSittingWorkflowAdapter" />     
+     factory=".adapters.GroupSittingWorkflowAdapter" />
 
   <!-- user addresses -->
   <adapter
      for="bungeni.models.interfaces.IUserAddress"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.AddressWorkflowAdapter" />          
+     factory=".adapters.AddressWorkflowAdapter" />
 
   <!-- bill workflow -->
   
@@ -113,7 +113,7 @@
   <adapter
      for="bungeni.models.interfaces.IBill"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.BillWorkflowAdapter" />     
+     factory=".adapters.BillWorkflowAdapter" />
 
 
 
@@ -136,10 +136,10 @@
   <subscriber handler=".question.SendNotificationToMemberUponReject" />
   <subscriber handler=".question.SendNotificationToMemberUponNeedsClarification" />
   <subscriber handler=".question.SendNotificationToMemberUponDeferred" />
-  <subscriber handler=".question.SendNotificationToMemberUponSchedule" />    
+  <subscriber handler=".question.SendNotificationToMemberUponSchedule" />
   <subscriber handler=".question.SendNotificationToMemberUponPostponed" />
   <subscriber handler=".question.SendNotificationToMemberUponSentToMinistry" />
-  <subscriber handler=".question.SendNotificationToMemberUponAnswer" />                
+  <subscriber handler=".question.SendNotificationToMemberUponAnswer" />
   <subscriber handler=".question.SendNotificationToMinistryUponComplete" />
   <subscriber handler=".question.SendNotificationToMemberUponComplete" /> 
 
@@ -162,9 +162,9 @@
   <subscriber handler=".motion.SendNotificationToMemberUponReject" />
   <subscriber handler=".motion.SendNotificationToMemberUponNeedsClarification" />
   <subscriber handler=".motion.SendNotificationToMemberUponDeferred" />
-  <subscriber handler=".motion.SendNotificationToMemberUponSchedule" />    
+  <subscriber handler=".motion.SendNotificationToMemberUponSchedule" />
   <subscriber handler=".motion.SendNotificationToMemberUponPostponed" />
-  <subscriber handler=".motion.SendNotificationToMemberUponDebated" />                
+  <subscriber handler=".motion.SendNotificationToMemberUponDebated" />
   
   <!-- agenda item workflow -->
   <adapter
@@ -198,7 +198,7 @@
   <adapter
      for="bungeni.models.interfaces.IAttachedFile"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.AttachedFileWorkflowAdapter" />       
+     factory=".adapters.AttachedFileWorkflowAdapter" />
 
   <!-- Event workflow -->
   <adapter
@@ -209,7 +209,7 @@
   <adapter
      for="bungeni.models.interfaces.IEventItem"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.EventWorkflowAdapter" />  
+     factory=".adapters.EventWorkflowAdapter" />
 
   <!-- Heading workflow -->
   <adapter
@@ -220,7 +220,7 @@
   <adapter
      for="bungeni.models.interfaces.IHeading"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.HeadingWorkflowAdapter" />      
+     factory=".adapters.HeadingWorkflowAdapter" />
 
   <!-- User workflow -->
   <adapter
@@ -231,5 +231,5 @@
   <adapter
      for="bungeni.models.interfaces.IBungeniUser"
      provides="ore.workflow.interfaces.IWorkflow"
-     factory=".adapters.UserWorkflowAdapter" />    
-</configure>    
+     factory=".adapters.UserWorkflowAdapter" />
+</configure>

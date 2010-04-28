@@ -21,7 +21,7 @@ from bungeni.models import settings
 from bungeni.models.interfaces import IBungeniSettings
 from bungeni.models.settings import GlobalSettingFactory
 
-app = BungeniApp()                
+app = BungeniApp()
 
 # !+ rename to globals.py
 # !+ move the "global common" utils in models.utils to here
@@ -39,7 +39,7 @@ def get_current_parliament(date=None):
     if not date:
         date = datetime.date.today()
     session = Session()
-    query = session.query(domain.Parliament).filter(getFilter(date))   
+    query = session.query(domain.Parliament).filter(getFilter(date))
     try:
         return query.one()
     except:
@@ -69,7 +69,7 @@ def getSpeakersOfficeRecieveNotification():
     """
     return BungeniSettings(app).speakers_office_notification
             
-def getClerksOfficeEmail():        
+def getClerksOfficeEmail():
     """
     return the official email address 
     of the clerks office
@@ -81,30 +81,30 @@ def getClerksOfficeRecieveNotification():
     returns true if the clerks office wants to be alerted by mail
     whenever a bill, motion, question is submitted 
     """
-    return BungeniSettings(app).clerks_office_notification             
+    return BungeniSettings(app).clerks_office_notification
     
     
 def getAdministratorsEmail():
     """
     email of the site admin
     """
-    return BungeniSettings(app).administrators_email    
+    return BungeniSettings(app).administrators_email
         
         
 def getDaysToDeferAdmissibleQuestions():
     """
     time after which admissible questions are automatically deferred
-    """       
+    """
      
-    return datetime.timedelta(BungeniSettings(app).days_to_defer_question)    
+    return datetime.timedelta(BungeniSettings(app).days_to_defer_question)
     
 def getDaysToNotifyMinistriesQuestionsPendingResponse():
     """
     timeframe after which the clerksoffice and the ministry is alerted that
     questions that are pending response are not yet answered
-    """    
+    """
     
-    return datetime.timedelta(BungeniSettings(app).days_to_notify_ministry_unanswered)  
+    return datetime.timedelta(BungeniSettings(app).days_to_notify_ministry_unanswered)
   
 def getQuestionSubmissionAllowed():
     return BungeniSettings(app).question_submission_allowed
@@ -137,7 +137,7 @@ def getFirstDayOfWeek():
     """
     (0 is Monday, 6 is Sunday)
     """
-    return 0        
+    return 0
 
 def getPloneMenuUrl():
     """
@@ -145,6 +145,6 @@ def getPloneMenuUrl():
     """
 
     raise NotImplementedError(
-        "This method should not be used.")    
+        "This method should not be used.")
 
 BungeniSettings = GlobalSettingFactory(IBungeniSettings)

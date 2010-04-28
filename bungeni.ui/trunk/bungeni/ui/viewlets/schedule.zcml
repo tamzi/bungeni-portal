@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.ui">
 
   <browser:viewletManager
@@ -18,7 +18,7 @@
      class=".schedule.SchedulableBillsViewlet"
      permission="bungeni.itemschedule.Edit"
      weight="10"
-     />    
+     />
 
   <browser:viewlet
      name="bungeni.scheduling.questions"
@@ -27,7 +27,7 @@
      class=".schedule.SchedulableQuestionsViewlet"
      permission="bungeni.itemschedule.Edit"
      weight="20"
-     />    
+     />
 
   <browser:viewlet
      name="bungeni.scheduling.motions"
@@ -36,7 +36,7 @@
      class=".schedule.SchedulableMotionsViewlet"
      permission="bungeni.itemschedule.Edit"
      weight="30"
-     />    
+     />
 
   <browser:viewlet
      name="bungeni.scheduling.tableddocuments"
@@ -45,7 +45,7 @@
      class=".schedule.SchedulableTabledDocumentsViewlet"
      permission="bungeni.itemschedule.Edit"
      weight="40"
-     />    
+     />
      
      
   <browser:viewlet
@@ -55,7 +55,7 @@
      class=".schedule.SchedulableAgendaItemsViewlet"
      permission="bungeni.itemschedule.Edit"
      weight="50"
-     />         
+     />
 
 
   <browser:viewlet
@@ -65,6 +65,6 @@
      weight="0"
      class=".schedule.SchedulableHeadingsViewlet"
      permission="bungeni.itemschedule.Edit"
-     />    
+     />
 
 </configure>

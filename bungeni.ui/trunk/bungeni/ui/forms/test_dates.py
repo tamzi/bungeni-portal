@@ -21,22 +21,22 @@ class StartDateTestCase ( unittest.TestCase ):
     """ Test the start dates """
     
     
-    def setUp( self ):    
+    def setUp( self ):
         self.parent = DummyObject()
         self.data =  {'start_date' : today, 'end_date': today }
         
     def test_startDate_is_none(self):
         """ No start_date never fails"""
-        self.data =  {'start_date' : None, 'end_date': today }   
+        self.data =  {'start_date' : None, 'end_date': today }
         self.parent.start_date = today
-        self.parent.end_date = today     
-        result = validate_start_date_within_parent( self.parent, self.data )        
+        self.parent.end_date = today
+        result = validate_start_date_within_parent( self.parent, self.data )
         self.assertEqual(result, [])
         self.parent.start_date = None
         self.parent.end_date = tomorrow
         self.data =  {'start_date' : tomorrow, 'end_date': today }
-        result = validate_start_date_within_parent( self.parent, self.data )        
-        self.assertEqual(result, [])        
+        result = validate_start_date_within_parent( self.parent, self.data )
+        self.assertEqual(result, [])
         
     def test_startDate_eq_start(self):
         """ all dates may be equal """
@@ -44,7 +44,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.parent.start_date = today
         self.parent.end_date = today
         result = validate_start_date_within_parent( self.parent, self.data )
-        self.assertEqual(result, [])        
+        self.assertEqual(result, [])
         
     def test_startDate_lt_start(self):
         "starts before parent"
@@ -52,7 +52,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.parent.start_date = tomorrow
         self.parent.end_date = today
         result = validate_start_date_within_parent( self.parent, self.data )
-        self.failIfEqual(result, [])  
+        self.failIfEqual(result, [])
 
     def test_startDate_gt_start(self):
         """ starts after and ends befor parent  """
@@ -60,7 +60,7 @@ class StartDateTestCase ( unittest.TestCase ):
         self.parent.start_date = today
         self.parent.end_date = tomorrow
         result = validate_start_date_within_parent( self.parent, self.data )
-        self.assertEqual(result, [])    
+        self.assertEqual(result, [])
                 
     def test_endDate_lt_start(self):
         """ starts after parents end """
@@ -68,28 +68,28 @@ class StartDateTestCase ( unittest.TestCase ):
         self.parent.start_date = today
         self.parent.end_date = today
         result = validate_start_date_within_parent( self.parent, self.data )
-        self.failIfEqual(result, [])            
+        self.failIfEqual(result, [])
                     
         
 class EndDateTestCase ( unittest.TestCase ):
     """ Test the end dates"""
     
-    def setUp( self ):    
+    def setUp( self ):
         self.parent = DummyObject()
         self.data =  {'start_date' : today, 'end_date': today }
 
     def test_endDate_is_none(self):
         """ No end_date never fails"""
-        self.data =  {'start_date' : tomorrow, 'end_date': None }  
+        self.data =  {'start_date' : tomorrow, 'end_date': None }
         self.parent.start_date = today
-        self.parent.end_date = today      
-        result = validate_end_date_within_parent( self.parent, self.data )        
+        self.parent.end_date = today
+        result = validate_end_date_within_parent( self.parent, self.data )
         self.assertEqual(result, [])
         self.parent.start_date = yesterday
         self.parent.end_date = None
         self.data =  {'start_date' : today, 'end_date': today }
-        result = validate_end_date_within_parent( self.parent, self.data )        
-        self.assertEqual(result, [])        
+        result = validate_end_date_within_parent( self.parent, self.data )
+        self.assertEqual(result, [])
             
         
     def test_endDate_eq_start(self):
@@ -98,7 +98,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.parent.start_date = today
         self.parent.end_date = today
         result = validate_end_date_within_parent( self.parent, self.data )
-        self.assertEqual(result, [])        
+        self.assertEqual(result, [])
         
     def test_endDate_lt_start(self):
         """ end < start """
@@ -106,7 +106,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.parent.start_date = today
         self.parent.end_date = tomorrow
         result = validate_end_date_within_parent( self.parent, self.data )
-        self.failIfEqual(result, [])          
+        self.failIfEqual(result, [])
         
     def test_endDate_gt_end(self):
         """ end < end """
@@ -114,7 +114,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.parent.start_date = yesterday
         self.parent.end_date = today
         result = validate_end_date_within_parent( self.parent, self.data )
-        self.failIfEqual(result, [])            
+        self.failIfEqual(result, [])
         
     def test_endDate_gt_start(self):
         """ start < end """
@@ -122,7 +122,7 @@ class EndDateTestCase ( unittest.TestCase ):
         self.parent.start_date = today
         self.parent.end_date = yesterday
         result = validate_end_date_within_parent( self.parent, self.data )
-        self.failIfEqual(result, [])            
+        self.failIfEqual(result, [])
         
         
                 
@@ -133,4 +133,4 @@ def test_suite():
     return suite
     
 if __name__ == '__main__':
-    unittest.main()           
+    unittest.main()

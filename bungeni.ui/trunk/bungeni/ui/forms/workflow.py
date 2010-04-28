@@ -36,7 +36,7 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
         action.form = form_instance
         action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
         
-        actions.append( action )  
+        actions.append( action )
     return actions
     
 class TransitionHandler( object ):
@@ -60,12 +60,12 @@ class TransitionHandler( object ):
         else:
             info = interfaces.IWorkflowInfo( context ) 
         if data.has_key('note'):
-            notes = data['note']     
+            notes = data['note']
         else:
-            notes=''            
+            notes=''
         result = handle_edit_action( form, action, data )
         if form.errors: 
             return result
-        else:         
+        else:
             info.fireTransition( self.transition_id, notes )
             return form.request.response.redirect(form.next_url)

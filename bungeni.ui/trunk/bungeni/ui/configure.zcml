@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser" 
-           xmlns:i18n="http://namespaces.zope.org/i18n"                  
+           xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="bungeni.ui">
   <i18n:registerTranslations directory="locales" />
   <!-- Catalyze Domain Models -->
@@ -26,10 +26,10 @@
   <adapter factory=".tz.tzinfo" />
 
   <!-- Site Skin Definition -->
-  <include file="skin.zcml"/>  
+  <include file="skin.zcml"/>
 
   <!-- Resources -->
-  <include file="resources.zcml"/>  
+  <include file="resources.zcml"/>
 
   <!-- Site Viewlets -->
   <include package=".viewlets" />
@@ -47,7 +47,7 @@
   <include file="admin.zcml"/>
   
   <!-- Custom forms -->
-  <include package=".forms"/>  
+  <include package=".forms"/>
 
   <!-- Javascript -->
   <include package="ore.yui"/>
@@ -119,7 +119,7 @@
             component=".calendar.browser.billOptions"
             name="Bill Options"
             provides="zope.schema.interfaces.IVocabularyFactory"
-            />   
+            />
    <utility
             component=".calendar.browser.motionOptions"
             name="Motion Options"
@@ -134,12 +134,12 @@
             component=".calendar.browser.questionOptions"
             name="Question Options"
             provides="zope.schema.interfaces.IVocabularyFactory"
-            />  
+            />
     <utility
             component=".calendar.browser.tabledDocumentOptions"
             name="Tabled Document Options"
             provides="zope.schema.interfaces.IVocabularyFactory"
-            />  
+            />
 
 
   <utility

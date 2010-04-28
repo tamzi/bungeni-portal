@@ -49,7 +49,7 @@
   
   <include package="zc.resourcelibrary" file="meta.zcml"/>
   <include package="zc.resourcelibrary"/>
-  <include package="zc.table"/>  
+  <include package="zc.table"/>
       
   <!--
       <include package="zope.annotation" />

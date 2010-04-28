@@ -38,7 +38,7 @@
   <subscriber
      for="bungeni.core.interfaces.IAuditable
           .interfaces.IVersionReverted"
-     handler=".audit.objectRevertedVersion" />     
+     handler=".audit.objectRevertedVersion" />
   
   <subscriber
      for="bungeni.models.interfaces.IConsignatory

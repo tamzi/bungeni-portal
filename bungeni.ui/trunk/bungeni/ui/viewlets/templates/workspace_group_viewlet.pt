@@ -14,7 +14,7 @@
     <dd class="portletItem" tal:attributes="id string:fieldset-${view/list_id}">
       <!--ul tal:attributes="id view/list_id; class string:draglist">
         <li tal:repeat="result results" tal:attributes="id result/qid; class result/result_item_class; title result/title">
-          <a tal:content="result/subject" tal:attributes="href result/url" />       
+          <a tal:content="result/subject" tal:attributes="href result/url" />
         </li>
       </ul-->
       <table tal:attributes="id string:workspace-table-${view/list_id}" 
@@ -32,9 +32,9 @@
             <td>  <a tal:content="result/subject" tal:attributes="href result/url" />  </td>
             <td tal:content="result/type" i18n:translate="" />
             <td tal:content="result/status" i18n:translate="" />
-            <td tal:content="result/status_date" />                
+            <td tal:content="result/status_date" />
           </tr>
-        </tbody>           
+        </tbody>
       </table>
       <p tal:condition="not:results" i18n:translate="workspace_no_items"> 
       No items found

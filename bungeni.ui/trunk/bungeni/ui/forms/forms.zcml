@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser" 
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.ui">
 
-<!-- Bills -->           
+<!-- Bills -->
   <browser:page
      name="view"
      for="bungeni.models.interfaces.IBill"
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -19,7 +19,7 @@
      class=".common.AddForm"
      permission="bungeni.bill.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -44,7 +44,7 @@
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -52,7 +52,7 @@
      class=".common.AddForm"
      permission="bungeni.motion.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -76,7 +76,7 @@
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -124,7 +124,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -132,7 +132,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.tableddocument.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -157,7 +157,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -165,7 +165,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.agendaitem.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -183,7 +183,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
-<!-- Groups -->           
+<!-- Groups -->
 
   <browser:page
      name="view"
@@ -191,7 +191,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -199,7 +199,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.parliament.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -223,7 +223,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -231,7 +231,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.government.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -255,7 +255,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -263,7 +263,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.ministry.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -288,7 +288,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -296,7 +296,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.committee.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -320,7 +320,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -328,7 +328,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.office.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -352,7 +352,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -360,7 +360,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.party.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -385,7 +385,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.party.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -403,14 +403,14 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
      
-<!-- Group Memberships -->     
+<!-- Group Memberships -->
   <browser:page
      name="add"
      for="bungeni.models.interfaces.IBungeniGroupMembershipContainer"
      class=".common.AddForm"
      permission="bungeni.groupmember.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -434,7 +434,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.groupmember.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -450,7 +450,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DeleteForm"
      permission="bungeni.groupmember.Delete"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />     
+     />
      
 <!-- Session -->
   <browser:page
@@ -459,7 +459,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 <!--browser:page
      name="view"
      for="bungeni.models.interfaces.IReport"
@@ -473,7 +473,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.session.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -499,7 +499,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -507,7 +507,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.delegation.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -532,7 +532,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.DisplayForm"
      permission="zope.View"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="add"
@@ -540,7 +540,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.sittingattendance.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -567,7 +567,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.attachedfile.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />          
+     />
 
   <browser:page
      name="edit"
@@ -594,7 +594,7 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.consignatory.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />  
+     />
 
 
 <!-- group item assignments-->
@@ -604,17 +604,17 @@ Unauthorized: (<zope.app.publisher.browser.viewmeta.AddForm object at ...>, 'bro
      class=".common.AddForm"
      permission="bungeni.groupitemassignment.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />       
+     />
   <browser:page
      name="add"
      for="bungeni.models.domain.ItemGroupItemAssignmentContainer"
      class=".common.AddForm"
      permission="bungeni.groupitemassignment.Add"
      layer="bungeni.ui.interfaces.IBungeniSkin"
-     />       
+     />
      
 
 
 
      
-</configure>     
+</configure>

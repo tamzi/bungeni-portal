@@ -58,7 +58,7 @@ class ImageInputWidget(FileWidget):
     _missing = u''
     
     
-    __call__ = ViewPageTemplateFile('templates/imagewidget.pt')    
+    __call__ = ViewPageTemplateFile('templates/imagewidget.pt')
     
     @property
     def update_action_name(self):
@@ -68,15 +68,15 @@ class ImageInputWidget(FileWidget):
     def upload_name(self):
         return self.name.replace(".","_") + '_file'
         
-    @property    
+    @property
     def imageURL(self):
-        return './file-image/%s' % self.context.__name__            
+        return './file-image/%s' % self.context.__name__
         
     def empty_field(self):
         return self._data is None
 
     def _getFieldInput(self, name):
-        return self.request.form.get(name, self._missing)     
+        return self.request.form.get(name, self._missing)
                 
     def _getFormInput(self):
         """extract the input value from the submitted form """
@@ -91,8 +91,8 @@ class ImageInputWidget(FileWidget):
             if upload is None or upload == '':
                 if self._data is None:
                     return self.context.missing_value
-                else:                    
-                    raise ConversionError(_('Form upload is not a file object'))                
+                else:
+                    raise ConversionError(_('Form upload is not a file object'))
             try:
                 seek = upload.seek
                 read = upload.read
@@ -122,15 +122,15 @@ class ImageInputWidget(FileWidget):
                     if data or getattr(upload, 'filename', ''):
                         return data
                     else:
-                        return self.context.missing_value                                                    
+                        return self.context.missing_value
         else:
             raise NotImplementedError
-            return                    
+            return
                 
     def hasInput(self):
         """
         determins if the widget widget has changed
-        """       
+        """
 
         if self.update_action_name in self.request.form:
             action = self.request.form.get(self.update_action_name, self._missing) 
@@ -139,7 +139,7 @@ class ImageInputWidget(FileWidget):
             elif action == u'delete':
                 return True
             else:
-                return self.upload_name  in self.request.form   
+                return self.upload_name  in self.request.form
  
 
 class FileInputWidget(ImageInputWidget):
@@ -155,10 +155,10 @@ class NoInputWidget(TextWidget):
         return u""
 
 class FileAddWidget(FileInputWidget):
-    __call__ = ViewPageTemplateFile('templates/addfilewidget.pt')    
+    __call__ = ViewPageTemplateFile('templates/addfilewidget.pt')
 
 class FileEditWidget(FileInputWidget):
-    __call__ = ViewPageTemplateFile('templates/editfilewidget.pt')    
+    __call__ = ViewPageTemplateFile('templates/editfilewidget.pt')
 
 class FileDisplayWidget(DisplayWidget):
     def __call__(self):
@@ -180,7 +180,7 @@ class HTMLDisplay(UnicodeDisplayWidget):
         else:
             value = self.context.default
         if value == self.context.missing_value:
-            return ""    
+            return ""
         return unicode(value)
 
 class RichTextEditor( TextAreaWidget ):
@@ -215,7 +215,7 @@ class RichTextEditor( TextAreaWidget ):
                 function( ev ) { 
                     %(jsid)s_editor.saveHTML(); 
                     }
-                );            
+                );
             %(jsid)s_editor._defaultToolbar.titlebar = false;
             %(jsid)s_editor.on('editorContentLoaded', function() { 
 	            resize = new YAHOO.util.Resize(%(jsid)s_editor.get('element_cont').get('element'), { 
@@ -242,8 +242,8 @@ class RichTextEditor( TextAreaWidget ):
 	        }); 
             
             
-            %(jsid)s_editor.render();     
-        </script>    
+            %(jsid)s_editor.render();
+        </script>
         """% js_inserts #(jsid, self.name, jsid, jsid, jsid, jsid)
         
         # return the rendered input widget
@@ -256,7 +256,7 @@ class OneTimeEditWidget( TextAreaWidget ):
     was made and an empty texarea input that will get stored.
     
     """
-    __call__ = ViewPageTemplateFile('templates/one-time-textinput-widget.pt')    
+    __call__ = ViewPageTemplateFile('templates/one-time-textinput-widget.pt')
 
 
 class SupplementaryQuestionDisplay(DisplayWidget):
@@ -270,7 +270,7 @@ class SupplementaryQuestionDisplay(DisplayWidget):
             #session = Session()
             #parent = session.query(domain.Question).get(self._data)
             context = removeSecurityProxy (self.context.context)
-            parent = context.getParentQuestion()  
+            parent = context.getParentQuestion()
             return _(u"Supplementary Question to: <br/> %s") % parent
         else:
             return _(u"Initial Question")
@@ -320,26 +320,26 @@ class SelectDateWidget( SimpleInputWidget):
         if date:
             if type(date) == datetime.date:
                 self.minDate = date
-            elif type(date) == datetime.datetime:                
+            elif type(date) == datetime.datetime:
                 self.minDate = date.date()
             else:
                 self.minDate = (datetime.date.today() - 
-                            datetime.timedelta(self.minYearDelta*365))                    
-        else:            
+                            datetime.timedelta(self.minYearDelta*365))
+        else:
             self.minDate = (datetime.date.today() - 
-                    datetime.timedelta(self.minYearDelta*365))    
+                    datetime.timedelta(self.minYearDelta*365))
     def set_max_date(self, date):
         if date:
             if type(date) == datetime.date:
                 self.maxDate = date
-            elif type(date) == datetime.datetime:                
-                self.maxDate = date.date()   
+            elif type(date) == datetime.datetime:
+                self.maxDate = date.date()
             else:
                 self.maxDate = (datetime.date.today() + 
-                        datetime.timedelta(self.maxYearDelta*365))                         
+                        datetime.timedelta(self.maxYearDelta*365))
         else:
             self.maxDate = (datetime.date.today() + 
-                    datetime.timedelta(self.maxYearDelta*365))                    
+                    datetime.timedelta(self.maxYearDelta*365))
 
     def jstr(self, alist):
         return u'["' + u'", "'.join(alist) + u'"]'
@@ -349,19 +349,19 @@ class SelectDateWidget( SimpleInputWidget):
         if self.maxDate < pagedate:
             pagedate = self.maxDate
         if (type(self._data) == datetime.date) or (type(self._data) == datetime.datetime):
-            pagedate = self._data    
+            pagedate = self._data
         calendar = self.request.locale.dates.calendars['gregorian']
         month = _(u"Choose Month")
         year = _(u"Enter Year")
         submit = _("OK")
         cancel = _(u"Cancel")
-        invalidYear = _(u"Please enter a valid year")            
+        invalidYear = _(u"Please enter a valid year")
         months_short = self.jstr(calendar.getMonthAbbreviations())
         months_long = self.jstr(calendar.getMonthNames()) 
         w_day_1char = self.jstr([dn[:1] for dn in calendar.getDayAbbreviations()]) 
         w_day_short = self.jstr([dn[:2] for dn in calendar.getDayAbbreviations()]) 
         w_day_medium = self.jstr(calendar.getDayAbbreviations())
-        w_day_long =  self.jstr(calendar.getDayNames())  
+        w_day_long =  self.jstr(calendar.getDayNames())
         return self.js_template % {'name' : self.field_name,
                     'sel_day': self._day_name,
                     'sel_month' : self._month_name,
@@ -380,14 +380,14 @@ class SelectDateWidget( SimpleInputWidget):
                     'year' : translate(str(year), domain='bungeni.ui', context=self.request),
                     'submit' : translate(str(submit), domain='bungeni.ui', context=self.request),
                     'cancel' : translate(str(cancel), domain='bungeni.ui', context=self.request),
-                    'invalidYear' : translate(str(invalidYear), domain='bungeni.ui', context=self.request)                    
+                    'invalidYear' : translate(str(invalidYear), domain='bungeni.ui', context=self.request)
                      }
 
     def _days(self):
         dl = []
         for i in range( 1, 32 ):
             dl.append( '%02d' % (i) )
-        return dl            
+        return dl
         
 
     def _months(self):
@@ -395,16 +395,16 @@ class SelectDateWidget( SimpleInputWidget):
         calendar = self.request.locale.dates.calendars['gregorian']
         i=0
         months = []
-        for month in  calendar.getMonthNames():       
+        for month in  calendar.getMonthNames():
             i = i+1
-            months.append({'num' :  "%02d" % i, 'name': month})          
+            months.append({'num' :  "%02d" % i, 'name': month})
         return months
         
-    @property    
+    @property
     def _years(self):
         minYear = self.minYear
         if self.minDate:
-            minYear = self.minDate.year            
+            minYear = self.minDate.year
         if minYear is None:
             minYear = datetime.date.today().year - int(self.minYearDelta)
         maxYear = self.maxYear
@@ -412,7 +412,7 @@ class SelectDateWidget( SimpleInputWidget):
             maxYear = self.maxDate.year
         if maxYear is None:
             maxYear = datetime.date.today().year + int(self.maxYearDelta)
-        return range( maxYear, minYear-1, -1 )                     
+        return range( maxYear, minYear-1, -1 )
     
     @property
     def _day_name(self):
@@ -428,7 +428,7 @@ class SelectDateWidget( SimpleInputWidget):
         
     @property
     def date_name(self):
-        return self.name.replace(".","__") + '__date'    
+        return self.name.replace(".","__") + '__date'
  
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
@@ -452,14 +452,14 @@ class SelectDateWidget( SimpleInputWidget):
 
                 
     def _getFieldInput(self, name):
-        return self.request.form.get(name, self._missing)                
+        return self.request.form.get(name, self._missing)
     
     def _toFieldValue(self, (day, month, year)):
         """convert the input value to an value suitable for the field."""
         if day == self._missing or month == self._missing or year == self._missing:
             if self.required:
                 return self.context.missing_value
-            else:        
+            else:
                 if day + month + year == self._missing:
                     return None
                 else:
@@ -469,17 +469,17 @@ class SelectDateWidget( SimpleInputWidget):
                 time_zone = self.time_zone
                 return datetime.date(year=int(year), month=int(month), day=int(day), ) #tzinfo=time_zone )
             except ValueError, e:
-                raise ConversionError(_(u"Incorrect string data for date"), e)                
+                raise ConversionError(_(u"Incorrect string data for date"), e)
                 
     
     def _toFormValue(self, value):
-        """convert a field value to a string that can be inserted into the form"""        
+        """convert a field value to a string that can be inserted into the form"""
         if (value == self.context.missing_value) and self.required:
             d = datetime.date.today()
             return (d.day, d.month, d.year)
         else:
             try:
-                return (value.day, value.month, value.year)                
+                return (value.day, value.month, value.year)
             except:
                 return( '0', '0', '0')
             
@@ -488,7 +488,7 @@ class SelectDateWidget( SimpleInputWidget):
         """
         Returns a field value to a string that can be inserted into the form. 
         The difference to _toFormValue is that it takes into account when a form
-        has already been submitted but needs to be re-rendered (input error)  
+        has already been submitted but needs to be re-rendered (input error)
         """
         if not self._renderedValueSet():
             if self._hasPartialInput():
@@ -504,7 +504,7 @@ class SelectDateWidget( SimpleInputWidget):
                 if self.required:
                     value = self._getDefault()
                 else:
-                    value = None    
+                    value = None
         else:
             value = self._data
         return self._toFormValue(value)
@@ -520,10 +520,10 @@ class TextDateWidget(SelectDateWidget):
         
     def _getFormInput(self):
         """extract the input value from the submitted form """
-        return (self._getFieldInput(self.date_name))                
+        return (self._getFieldInput(self.date_name))
         
     def _getFieldInput(self, name):
-        return self.request.form.get(name, self._missing)                
+        return self.request.form.get(name, self._missing)
     
     def _toFieldValue(self, date):
         """convert the input value to an value suitable for the field."""
@@ -535,11 +535,11 @@ class TextDateWidget(SelectDateWidget):
             except ValueError, e:
                 if date=="":
                     return
-                raise ConversionError(_(u"Incorrect string data for date"), e)                
+                raise ConversionError(_(u"Incorrect string data for date"), e)
             
     
     def _toFormValue(self, value):
-        """convert a field value to a string that can be inserted into the form"""    
+        """convert a field value to a string that can be inserted into the form"""
         if (value == self.context.missing_value) and self.required:
             d = datetime.date.today()
             return  datetime.datetime.strftime(d,"%Y-%m-%d")
@@ -554,7 +554,7 @@ class TextDateWidget(SelectDateWidget):
         """
         Returns a field value to a string that can be inserted into the form. 
         The difference to _toFormValue is that it takes into account when a form
-        has already been submitted but needs to be re-rendered (input error)  
+        has already been submitted but needs to be re-rendered (input error)
         """
         if not self._renderedValueSet():
             if self.hasInput():
@@ -570,7 +570,7 @@ class TextDateWidget(SelectDateWidget):
                 if self.required:
                     value = self._getDefault()
                 else:
-                    value = None    
+                    value = None
         else:
             value = self._data
         return self._toFormValue(value)
@@ -583,7 +583,7 @@ class TextDateTimeWidget(TextDateWidget):
 
     @property
     def time_name(self):
-        return self.name.replace(".","__") + '__time'    
+        return self.name.replace(".","__") + '__time'
         
     def hasInput(self):
         return (self.date_name in self.request.form and 
@@ -600,7 +600,7 @@ class TextDateTimeWidget(TextDateWidget):
 
 
     def _toFormValue(self, value):
-        """convert a field value to a string that can be inserted into the form"""  
+        """convert a field value to a string that can be inserted into the form"""
         if (value == self.context.missing_value) and self.required:
             d = datetime.datetime.now()
             return  (datetime.datetime.strftime(d,"%Y-%m-%d"),
@@ -612,7 +612,7 @@ class TextDateTimeWidget(TextDateWidget):
             except:
                 return('', '')
                         
-    def _toFieldValue(self, (date, time)):  
+    def _toFieldValue(self, (date, time)):
         if (date == self._missing or time == self._missing):
             if self.required:
                 return self.context.missing_value
@@ -620,17 +620,17 @@ class TextDateTimeWidget(TextDateWidget):
                 if date + time == self._missing:
                     return None
                 else:
-                    return self.context.missing_value              
+                    return self.context.missing_value
         else:
-            try:     
-                d = datetime.datetime.strptime(date,"%Y-%m-%d")       
+            try:
+                d = datetime.datetime.strptime(date,"%Y-%m-%d")
                 t = datetime.datetime.strptime(time,"%H:%M") 
                 return datetime.datetime(year=d.year, month=d.month, 
                     day=d.day, hour=t.hour, minute=t.minute,) 
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date and time"), e)
              
-class SelectDateTimeWidget(SelectDateWidget):        
+class SelectDateTimeWidget(SelectDateWidget):
 
     __call__ = ViewPageTemplateFile('templates/selectdatetimewidget.pt')
     
@@ -678,7 +678,7 @@ class SelectDateTimeWidget(SelectDateWidget):
             try:
                 return (value.day, value.month, value.year, 
                     value.hour, value.minute)
-            except:                
+            except:
                 return ( '0', '0', '0', '0', '0')
                 
     def _toFieldValue(self, (day, month, year, hour, minute)):
@@ -690,10 +690,10 @@ class SelectDateTimeWidget(SelectDateWidget):
                 if day + month + year + hour + minute == self._missing:
                     return None
                 else:
-                    return self.context.missing_value              
+                    return self.context.missing_value
         else:
-            try:    
-                time_zone = self.time_zone                          
+            try:
+                time_zone = self.time_zone
                 return datetime.datetime(year=int(year), month=int(month), 
                     day=int(day), hour=int(hour), minute=int(minute),) 
             except ValueError, e:

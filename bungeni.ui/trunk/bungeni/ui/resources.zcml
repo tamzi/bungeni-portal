@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
-    i18n_domain="bungeni.ui">                      
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="bungeni.ui">
 
 
   <!-- Application JS -->
@@ -60,7 +60,7 @@
      permission="zope.Public"
      layer="ploned.ui.interfaces.IPlonedSkin"
      weight="20"
-     />  
+     />
 
   <browser:viewlet
      name="jquery-resizable"
@@ -120,7 +120,7 @@
      permission="zope.Public"
      layer="ploned.ui.interfaces.IPlonedSkin"
      weight="25"
-     /-->          
+     /-->
           
 
 
@@ -193,7 +193,7 @@
      permission="zope.Public"
      layer="ploned.ui.interfaces.IPlonedSkin"
      weight="25"
-     />     
+     />
   <browser:viewlet
      name="dhtmlx-calendar"
      for="*"
@@ -202,7 +202,7 @@
      permission="zope.Public"
      layer="ploned.ui.interfaces.IPlonedSkin"
      weight="25"
-     />   
+     />
      <browser:viewlet
      name="dhtmlx-calendarlist"
      for="*"

@@ -15,7 +15,7 @@ setup(
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
-          'Framework :: Zope3'],    
+          'Framework :: Zope3'],
     packages=find_packages(),
     package_data = { '': ['*.txt', '*.zcml', '*.pt', '*.jpg', '*.gif', '*.css'] },
     namespace_packages=['bungeni', 'bungeni.theme'],

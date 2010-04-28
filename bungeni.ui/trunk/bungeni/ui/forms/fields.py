@@ -39,14 +39,14 @@ def filterFields(context, form_fields):
         ctx=getattr(context, 'context', None)
         if ctx:
             filterFields(ctx, form_fields)
-        else:            
-            raise NotImplementedError   
-    return form_fields.omit(*omit_names)   
+        else:
+            raise NotImplementedError
+    return form_fields.omit(*omit_names)
 
 class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     mode = "view"
     template = ViewPageTemplateFile('templates/display_form.pt')
-    form_name = _(u"General")    
+    form_name = _(u"General")
     has_data = True
     adapters = None
 
@@ -67,9 +67,9 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     def setUpWidgets(self, ignore_request=False):
         languages = get_all_languages()
         self.form_fields = filterFields(self.context, self.form_fields)
-        lang = self.request.locale.getLocaleID()  
-        try:   
-            translation = get_translation_for(self.context, lang)         
+        lang = self.request.locale.getLocaleID()
+        try:
+            translation = get_translation_for(self.context, lang)
         except:
             translation = []
         if (not translation) and (getattr(self.context, 'language', None) and
@@ -83,24 +83,24 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
                     _(u'This content is not yet translated into $language', 
                         mapping={'language': langname}),
                     domain="bungeni.ui",
-                    context=self.request)                                        
-        context = copy(removeSecurityProxy(self.context))        
+                    context=self.request)
+        context = copy(removeSecurityProxy(self.context))
         for field_translation in translation:
             setattr(context, field_translation.field_name, 
                     field_translation.field_text)
         self.widgets = form.setUpEditWidgets(
             self.form_fields, self.prefix, context, self.request,
-            adapters=self.adapters, for_display=True, ignore_request=ignore_request)                    
+            adapters=self.adapters, for_display=True, ignore_request=ignore_request)
      
 
     def update( self ):
         self.setupActions()
         super(BungeniAttributeDisplay, self).update() 
-        self.setupActions()  # after we transition we have different actions  
+        self.setupActions()  # after we transition we have different actions
         try:
             wf_state =interfaces.IWorkflowState(
                 removeSecurityProxy(self.context)).getState()
-            self.wf_status = wf_state  
+            self.wf_status = wf_state
         except:
             pass
 

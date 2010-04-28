@@ -52,7 +52,7 @@ def list_permissions(item):
     return tuple(transition.permission 
                 for transition in wf.getTransitions(state))
 
-def setup_adapters():  
+def setup_adapters():
     zope.component.provideAdapter(
         bungeni.core.workflows.states.WorkflowState,
         (bungeni.models.interfaces.IBungeniContent,))
@@ -133,13 +133,13 @@ def setup_security_adapters():
     gsm.registerAdapter(
         alchemist.security.permission.GlobalRolePermissionMap,
          (bungeni.models.interfaces.IBungeniApplication, ),
-         zope.securitypolicy.interfaces.IRolePermissionMap)     
+         zope.securitypolicy.interfaces.IRolePermissionMap)
       
       
     gsm.registerAdapter(
         alchemist.security.role.LocalPrincipalRoleMap,
          (bungeni.models.interfaces.IBungeniContent, ),
-         zope.securitypolicy.interfaces.IPrincipalRoleMap)  
+         zope.securitypolicy.interfaces.IPrincipalRoleMap)
         
     gsm.registerAdapter(
         alchemist.security.permission.LocalRolePermissionMap,

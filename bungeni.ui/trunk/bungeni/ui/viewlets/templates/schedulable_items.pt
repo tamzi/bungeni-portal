@@ -17,7 +17,7 @@
               <th>Last modified</th>
             </tr>
           </thead>
-          <tbody>      
+          <tbody>
             <tal:items repeat="item view/items">
               <tr tal:attributes="id string:row-${item/id}; class item/class;">
                 <td tal:content="item/name" />
@@ -33,4 +33,4 @@
             </tal:items>
           </tbody>
     </table>
-</dd>            
+</dd>

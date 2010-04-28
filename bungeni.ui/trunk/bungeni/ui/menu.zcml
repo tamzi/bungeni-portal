@@ -63,8 +63,8 @@
     for="bungeni.models.interfaces.ITranslatable *"
     name="plone.contentmenu.translation"
     factory=".menu.TranslationSubMenuItem"
-    permission="bungeni.translation.Add"    
-    provides="ploned.ui.interfaces.IContentMenuItem" />     
+    permission="bungeni.translation.Add"
+    provides="ploned.ui.interfaces.IContentMenuItem" />
 
   <browser:menu
      id="context_actions"
@@ -173,7 +173,7 @@
      title="Add Member..."
      action="./committeemembers/add"
      permission="bungeni.committeemember.Add"
-     order="10"     
+     order="10"
      />
 
   <browser:menuItem
@@ -182,8 +182,8 @@
      title="Add Staff..."
      action="./committeestaff/add"
      permission="bungeni.committeestaff.Add"
-     order="20"     
-     />          
+     order="20"
+     />
      
   <browser:menuItem
      menu="committee_additems"
@@ -210,9 +210,9 @@
      for="bungeni.models.interfaces.ICommittee"
      title="Add Sitting..."
      action="./sittings/add"
-     permission="bungeni.sitting.Add"     
+     permission="bungeni.sitting.Add"
      order="40"
-     />     
+     />
 
   <browser:menu
      id="government_additems"
@@ -234,9 +234,9 @@
      for="bungeni.models.interfaces.IGovernment"
      title="Add Ministry..."
      action="./ministries/add"
-     permission="bungeni.ministry.Add"     
+     permission="bungeni.ministry.Add"
      order="10"
-     />  
+     />
 
   <browser:menu
      id="ministry_additems"
@@ -258,7 +258,7 @@
      for="bungeni.models.interfaces.IMinistry"
      title="Add Minister..."
      action="./ministers/add"
-     permission="bungeni.minister.Add"     
+     permission="bungeni.minister.Add"
      order="10"
      />
 
@@ -282,9 +282,9 @@
      for="bungeni.models.interfaces.IBungeniGroupMembership"
      title="Add title..."
      action="./titles/add"
-     permission="bungeni.function.Add"     
+     permission="bungeni.function.Add"
      order="10"
-     />  
+     />
 
 
   <browser:menu
@@ -307,9 +307,9 @@
      for="bungeni.models.interfaces.IGroupSitting"
      title="Add Attendance..."
      action="./attendance/add"
-     permission="bungeni.sittingattendance.Add"     
+     permission="bungeni.sittingattendance.Add"
      order="10"
-     />  
+     />
 
  <browser:menuItem
      menu="sitting_additems"
@@ -342,16 +342,16 @@
      for="bungeni.models.interfaces.IMotion"
      title="Add cosignatory..."
      action="./consignatory/add"
-     permission="bungeni.consignatory.Add"     
+     permission="bungeni.consignatory.Add"
      order="10"
-     />       
+     />
 
   <browser:menuItem
      menu="motion_additems"
      for="bungeni.models.interfaces.IMotion"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.attachedfile.Add"     
+     permission="bungeni.attachedfile.Add"
      order="20"
      /> 
 
@@ -377,9 +377,9 @@
      for="bungeni.models.interfaces.IBill"
      title="Add consignatory..."
      action="./consignatory/add"
-     permission="bungeni.consignatory.Add"     
+     permission="bungeni.consignatory.Add"
      order="10"
-     />  
+     />
 
 
   <browser:menuItem
@@ -388,8 +388,8 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.event.Delete"           
-     />     
+     permission="bungeni.event.Delete"
+     />
      
  <browser:menuItem
      menu="context_actions"
@@ -398,25 +398,25 @@
      action="delete"
      permission="bungeni.heading.Delete"
      order="100"
-     />     
+     />
 
   <browser:menuItem
      menu="bill_additems"
      for="bungeni.models.interfaces.IBill"
      title="Add event..."
      action="./event/add"
-     permission="bungeni.event.Add"     
+     permission="bungeni.event.Add"
      order="10"
-     />       
+     />
 
   <browser:menuItem
      menu="motion_additems"
      for="bungeni.models.interfaces.IMotion"
      title="Add event..."
      action="./event/add"
-     permission="bungeni.event.Add"     
+     permission="bungeni.event.Add"
      order="10"
-     />       
+     />
                
 
   <browser:menuItem
@@ -424,9 +424,9 @@
      for="bungeni.models.interfaces.IBill"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.attachedfile.Add"     
+     permission="bungeni.attachedfile.Add"
      order="10"
-     />        
+     />
      
  <browser:menuItem
      menu="bill_additems"
@@ -448,27 +448,27 @@
      for="bungeni.models.interfaces.IQuestion"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.attachedfile.Add"     
+     permission="bungeni.attachedfile.Add"
      order="10"
-     />        
+     />
 
   <browser:menuItem
      menu="question_additems"
      for="bungeni.models.interfaces.IQuestion"
      title="Add event..."
      action="./event/add"
-     permission="bungeni.event.Add"     
+     permission="bungeni.event.Add"
      order="20"
-     />       
+     />
 
   <browser:menuItem
      menu="question_additems"
      for="bungeni.models.interfaces.IQuestion"
      title="Add cosignatory..."
      action="./consignatory/add"
-     permission="bungeni.consignatory.Add"     
+     permission="bungeni.consignatory.Add"
      order="30"
-     />    
+     />
   <browser:subMenuItem
      menu="plone_contentmenu"
      for="bungeni.models.interfaces.IQuestion"
@@ -483,9 +483,9 @@
      for="bungeni.models.interfaces.IQuestion"
      title="Add supplementary question ..."
      action="./supplementaryquestions/add"
-     permission="bungeni.question.Add"     
+     permission="bungeni.question.Add"
      order="10"
-     /-->       
+     /-->
 
 
   <browser:menu
@@ -499,26 +499,26 @@
      for="bungeni.models.interfaces.ITabledDocument"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.attachedfile.Add"     
+     permission="bungeni.attachedfile.Add"
      order="10"
-     />   
+     />
 
   <browser:menuItem
      menu="tableddocument_additems"
      for="bungeni.models.interfaces.ITabledDocument"
      title="Add event..."
      action="./event/add"
-     permission="bungeni.event.Add"     
+     permission="bungeni.event.Add"
      order="10"
-     />      
+     />
   <browser:menuItem
      menu="tableddocument_additems"
      for="bungeni.models.interfaces.ITabledDocument"
      title="Add cosignatory..."
      action="./consignatory/add"
-     permission="bungeni.consignatory.Add"     
+     permission="bungeni.consignatory.Add"
      order="10"
-     />     
+     />
 
   <browser:subMenuItem
      menu="plone_contentmenu"
@@ -541,9 +541,9 @@
      for="bungeni.models.interfaces.IAgendaItem"
      title="Add file..."
      action="./files/add"
-     permission="bungeni.attachedfile.Add"     
+     permission="bungeni.attachedfile.Add"
      order="10"
-     />   
+     />
      
   <browser:subMenuItem
      menu="plone_contentmenu"
@@ -552,7 +552,7 @@
      action="add_content"
      permission="zope.View"
      submenu="agendaitem_additems"
-     />     
+     />
      
   <browser:menu
      id="office_additems"
@@ -610,14 +610,14 @@
      action="add_content"
      permission="zope.View"
      submenu="schedule_additems"
-     />     
+     />
 
      
   <browser:menu
      id="schedule_additems"
      title="The 'Add..' menu - for calendar"
      class="ploned.ui.menu.PloneBrowserMenu"
-     />     
+     />
   
 
   <browser:menuItem
@@ -625,7 +625,7 @@
      for="bungeni.core.interfaces.ISchedulingContext"
      title="Add Sitting..."
      action="./add?next_url=..."
-     permission="bungeni.sitting.Add"     
+     permission="bungeni.sitting.Add"
      order="100"
      />
   <browser:menuItem
@@ -690,7 +690,7 @@
      action="./add"
      permission="bungeni.session.Add"
      order="100"
-     />     
+     />
      
   <browser:menuItem
      menu="plone_contentmenu"
@@ -699,7 +699,7 @@
      action="./add"
      permission="bungeni.government.Add"
      order="100"
-     />     
+     />
      
   <browser:menuItem
      menu="plone_contentmenu"
@@ -716,8 +716,8 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.mp.Delete"           
-     />          
+     permission="bungeni.mp.Delete"
+     />
 
   <browser:menuItem
      menu="context_actions"
@@ -725,8 +725,8 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.groupmember.Delete"           
-     />   
+     permission="bungeni.groupmember.Delete"
+     />
 
 
           
@@ -756,7 +756,7 @@
      action="./add"
      permission="bungeni.party.Add"
      order="100"
-     />     
+     />
   <browser:menuItem
      menu="plone_contentmenu"
      for="bungeni.models.domain.MinistryContainer"
@@ -811,7 +811,7 @@
      action="./add"
      permission="bungeni.committeemember.Add"
      order="100"
-     />     
+     />
 
   <browser:menuItem
      menu="plone_contentmenu"
@@ -820,7 +820,7 @@
      action="./add"
      permission="bungeni.committeestaff.Add"
      order="100"
-     />     
+     />
 
 
   <browser:menuItem
@@ -839,7 +839,7 @@
      action="./add"
      permission="bungeni.office.Add"
      order="100"
-     />   
+     />
    
 
   <browser:menuItem
@@ -858,7 +858,7 @@
      action="./addresses/add"
      permission="bungeni.address.Add"
      order="100"
-     />     
+     />
      
   <browser:menuItem
      menu="plone_contentmenu"
@@ -895,7 +895,7 @@
      action="./delete"
      permission="bungeni.consignatory.Delete"
      order="100"
-     />     
+     />
 
 
   <browser:menuItem
@@ -972,7 +972,7 @@
      action="./add"
      permission="bungeni.heading.Add"
      order="100"
-     />     
+     />
 
   <browser:menuItem
      menu="plone_contentmenu"
@@ -992,7 +992,7 @@
      for="bungeni.models.domain.AttachedFileContainer"
      title="Add file..."
      action="./add"
-     permission="bungeni.attachedfile.Add"     
+     permission="bungeni.attachedfile.Add"
      order="100"
      /> 
 
@@ -1063,7 +1063,7 @@
      title="Add Committee..."
      action="/business/committees/add"
      permission="bungeni.committee.Add"
-     layer=".interfaces.IBusinessSectionLayer"     
+     layer=".interfaces.IBusinessSectionLayer"
      order="100"
      />
 
@@ -1121,7 +1121,7 @@
   <adapter
      for="* *"
      name="plone.contentmenu.workflow"
-     factory=".menu.WorkflowSubMenuItem"    
+     factory=".menu.WorkflowSubMenuItem"
      provides="ploned.ui.interfaces.IContentMenuItem" />
  
   <adapter
@@ -1284,7 +1284,7 @@
      title="Tabled document"
      action="tableddocuments/add"
      permission="bungeni.tableddocument.Add"
-     />     
+     />
 
 
   <!--browser:menuItem
@@ -1329,21 +1329,21 @@
      for="*"
      action="/business/whats-on"
      title="Business"
-     permission="zope.Public"          
+     permission="zope.Public"
   />
   <browser:menuItem
      menu="site_actions"
      for="*"
      action="/members/current"
      title="Members"
-     permission="zope.Public"           
+     permission="zope.Public"
   />
   <browser:menuItem
      menu="site_actions"
      for="*"
      action="/archive/browse"
      title="Archive"
-     permission="zope.Public"           
+     permission="zope.Public"
   />
   <browser:menuItem
      menu="site_actions"
@@ -1352,7 +1352,7 @@
      action="/admin/content"
      layer=".interfaces.IBungeniAuthenticatedSkin"
      permission="zope.ManageSite"
-  />  
+  />
 
 
   <browser:menuItem
@@ -1369,7 +1369,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="zope.ManageContent"                
+     permission="zope.ManageContent"
      />
      
   <browser:menuItem
@@ -1378,7 +1378,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.bill.Edit"           
+     permission="bungeni.bill.Edit"
      />
 
   <browser:menuItem
@@ -1387,7 +1387,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.bill.Delete"           
+     permission="bungeni.bill.Delete"
      />
      
   <browser:menuItem
@@ -1396,7 +1396,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.question.Edit"           
+     permission="bungeni.question.Edit"
      />
 
   <browser:menuItem
@@ -1405,7 +1405,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.question.Delete"           
+     permission="bungeni.question.Delete"
      />
 
 
@@ -1415,7 +1415,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="zope.ManageContent"           
+     permission="zope.ManageContent"
      />
 
   <browser:menuItem
@@ -1424,7 +1424,7 @@
      action="respond"
      title="Respond"
      order="10"
-     permission="bungeni.response.Edit"           
+     permission="bungeni.response.Edit"
      />
 
   <browser:menuItem
@@ -1433,7 +1433,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.motion.Edit"           
+     permission="bungeni.motion.Edit"
      />
 
   <browser:menuItem
@@ -1442,7 +1442,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.motion.Delete"           
+     permission="bungeni.motion.Delete"
      />
  
   <browser:menuItem
@@ -1451,7 +1451,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.tableddocument.Edit"           
+     permission="bungeni.tableddocument.Edit"
      />
 
 
@@ -1461,7 +1461,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.tableddocument.Delete"           
+     permission="bungeni.tableddocument.Delete"
      />
      
   <browser:menuItem
@@ -1470,7 +1470,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.agendaitem.Edit"           
+     permission="bungeni.agendaitem.Edit"
      />
      
   <browser:menuItem
@@ -1479,8 +1479,8 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.agendaitem.Delete"           
-     />     
+     permission="bungeni.agendaitem.Delete"
+     />
 
   <browser:menuItem
      menu="context_actions"
@@ -1488,7 +1488,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.parliament.Edit"           
+     permission="bungeni.parliament.Edit"
      />
      
   <browser:menuItem
@@ -1497,7 +1497,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.office.Edit"           
+     permission="bungeni.office.Edit"
      />
   <browser:menuItem
      menu="context_actions"
@@ -1505,8 +1505,8 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.committee.Edit"           
-     />     
+     permission="bungeni.committee.Edit"
+     />
 
   <browser:menuItem
      menu="context_actions"
@@ -1514,7 +1514,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.party.Edit"           
+     permission="bungeni.party.Edit"
      />
   <browser:menuItem
      menu="context_actions"
@@ -1522,7 +1522,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.party.Edit"           
+     permission="bungeni.party.Edit"
      />
 
 
@@ -1532,7 +1532,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.parliament.Delete"           
+     permission="bungeni.parliament.Delete"
      />
   <browser:menuItem
      menu="context_actions"
@@ -1540,7 +1540,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.office.Delete"           
+     permission="bungeni.office.Delete"
      />
   <browser:menuItem
      menu="context_actions"
@@ -1548,8 +1548,8 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.committee.Delete"           
-     />     
+     permission="bungeni.committee.Delete"
+     />
 
   <browser:menuItem
      menu="context_actions"
@@ -1557,7 +1557,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.party.Delete"           
+     permission="bungeni.party.Delete"
      />
   <browser:menuItem
      menu="context_actions"
@@ -1565,8 +1565,8 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.party.Delete"           
-     />     
+     permission="bungeni.party.Delete"
+     />
 
   <browser:menuItem
      menu="context_actions"
@@ -1574,7 +1574,7 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.government.Edit"           
+     permission="bungeni.government.Edit"
      />
 
   <browser:menuItem
@@ -1583,8 +1583,8 @@
      action="edit"
      title="Edit"
      order="10"
-     permission="bungeni.ministry.Edit"           
-     />                    
+     permission="bungeni.ministry.Edit"
+     />
 
   <browser:menuItem
      menu="context_actions"
@@ -1592,7 +1592,7 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.government.Delete"           
+     permission="bungeni.government.Delete"
      />
 
   <browser:menuItem
@@ -1601,14 +1601,14 @@
      action="delete"
      title="Delete"
      order="10"
-     permission="bungeni.ministry.Delete"           
-     />    
+     permission="bungeni.ministry.Delete"
+     />
 
      
 
   <browser:menuItem
      menu="context_actions"
-     layer=".interfaces.IBusinessSectionLayer"     
+     layer=".interfaces.IBusinessSectionLayer"
      for="bungeni.models.interfaces.ICommittee"
      action="./calendar"
      title="Calendar"
@@ -1624,7 +1624,7 @@
      title="Audit Log"
      permission="bungeni.auditlog.View"
      order="30"
-     />  
+     />
   
   <browser:menuItem
      menu="context_actions"
@@ -1633,7 +1633,7 @@
      title="Versions"
      permission="zope.View"
      order="30"
-     />  
+     />
      
    <browser:menuItem
      menu="context_actions"
@@ -1658,7 +1658,7 @@
      action="similar"
      title="Similar"
      order="30"
-      /-->       
+      /-->
      
    <browser:menuItem
      menu="context_actions"
@@ -1666,7 +1666,7 @@
      action="workflow"
      title="Workflow"
      order="30"
-      />           
+      />
 
    <browser:menuItem
      menu="context_actions"
@@ -1675,7 +1675,7 @@
      title="Files"
      permission="bungeni.attachedfile.Edit"
      order="40"
-      />   
+      />
 
 
 

@@ -19,13 +19,13 @@ def consignatory_added(ob, event):
         title=  "%s %s %s" % (ob.user.titles,
                 ob.user.first_name,
                 ob.user.last_name)
-    else:                
-        title = ""        
+    else:
+        title = ""
     event.cls =  ob.__class__.__name__
     event.description = u" %s: %s added" % (
             ob.__class__.__name__ , 
             title)
-    if ob.item:                        
+    if ob.item:
         audit.objectContained( ob.item, event)
 
     
@@ -36,13 +36,13 @@ def consignatory_modified(ob, event):
         title=  "%s %s %s" % (ob.user.titles,
                 ob.user.first_name,
                 ob.user.last_name)
-    else:                
-        title = ""        
+    else:
+        title = ""
     event.cls =  ob.__class__.__name__
     event.description = u" %s: %s modified" % (
             ob.__class__.__name__ , 
             title)
-    if ob.item:                        
+    if ob.item:
         audit.objectContained( ob.item, event)
 
 def group_member_modified(ob, event):
@@ -52,13 +52,13 @@ def group_member_modified(ob, event):
     """
     if ob.end_date:
         session = Session()
-        trusted = removeSecurityProxy(ob)        
+        trusted = removeSecurityProxy(ob)
         membership_id = trusted.membership_id
         titles = session.query(domain.MemberRoleTitle).filter(
             domain.MemberRoleTitle.membership_id == membership_id)
         for title in titles.all():
             if title.end_date == None:
-                title.end_date = ob.end_date            
+                title.end_date = ob.end_date
         
 
 

@@ -45,7 +45,7 @@ def _getQuestionsApprovedBefore(date, status):
                 (domain.Question.approval_date < date ),
                 (domain.Question.status == status)
                 )
-    query = session.query(domain.Question).filter(qfilter)   
+    query = session.query(domain.Question).filter(qfilter)
     return query.all()
     
     
@@ -53,12 +53,12 @@ def _deferAdmissibleQuestionsBefore(date):
     """
     set all admissible Questions before this
     date to defered
-    """    
+    """
     status = u"admissible"
     admissibleQuestions = _getQuestionsApprovedBefore(date, status)
     for question in admissibleQuestions:
         IWorkflowInfo(question).fireTransitionToward(u'deferred', 
-                check_security=False)   
+                check_security=False)
     
     
     
@@ -79,7 +79,7 @@ def main(argv=None):
     db = create_engine('postgres://localhost/bungeni', echo=False)
     component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
     model.metadata.bind = db
-    session = Session()    
+    session = Session()
     component.provideAdapter(
       bungeni.core.workflows.states.WorkflowState,
       (bungeni.core.interfaces.IBungeniContent,))
@@ -93,11 +93,11 @@ def main(argv=None):
       (domain.Question,))
 
     component.provideHandler(
-      bungeni.core.workflows.question.workflowTransitionEventDispatcher)  
-    # add autitor for time based transitions     
+      bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+    # add autitor for time based transitions
     #component.provideAdapter(
     #    (bungeni.core.interfaces.IAuditable, bungeni.core.interfaces.IQuestion, ),
-    #    (domain.Question, ))        
+    #    (domain.Question, ))
     #component.provideAdapter( audit.objectModified, 
     #(domain.Question, bungeni.core.interfaces.IAuditable, ))
     

@@ -20,7 +20,7 @@ from zope.interface import implements
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.security.management import getInteraction
-from zope.publisher.interfaces import IRequest    
+from zope.publisher.interfaces import IRequest
 
 from zope.publisher.browser import BrowserLanguages
 
@@ -105,7 +105,7 @@ def get_translation_for(context, lang):
             domain.ObjectTranslation.object_type == class_name,
             domain.ObjectTranslation.lang == lang)
             )
-    return query.all()    
+    return query.all()
 
 def translate_obj(context):
     """ translate a ITranslatable content object (context) into
@@ -115,12 +115,12 @@ def translate_obj(context):
     trusted = removeSecurityProxy(context)
     request = common.get_request()
     lang = request.locale.getLocaleID() # !+ get_browser_language()
-    translation = get_translation_for(context, lang)  
-    obj = copy(trusted)        
+    translation = get_translation_for(context, lang)
+    obj = copy(trusted)
     for field_translation in translation:
         setattr(obj, field_translation.field_name, 
-                    field_translation.field_text)  
-    return obj                         
+                    field_translation.field_text)
+    return obj
 
 def get_available_translations(context):
     """ returns a dictionary of all
@@ -130,7 +130,7 @@ def get_available_translations(context):
     
     class_name = trusted.__class__.__name__
     try:
-        mapper = orm.object_mapper(trusted)            
+        mapper = orm.object_mapper(trusted)
         pk = getattr(trusted, mapper.primary_key[0].name)
         
         session = Session()
@@ -142,7 +142,7 @@ def get_available_translations(context):
             
         return dict(query)
     except:
-        return {}        
+        return {}
     
 def is_translation(context):
     return IVersion.providedBy(context) and \

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:i18n="http://namespaces.zope.org/i18n"                  
+    xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.ui">
 
   <include file="workspace.zcml" />
@@ -13,8 +13,8 @@
         layer="..interfaces.IBungeniAuthenticatedSkin"
         permission="zope.View"
         manager="ploned.ui.interfaces.ILeftColumnManager"
-        class="ploned.ui.viewlet.ContentViewsViewlet"     
-        weight="5"       
+        class="ploned.ui.viewlet.ContentViewsViewlet"
+        weight="5"
     /><!-- logged in, for all sections -->
     <browser:viewlet
         name="bungeni.content-actions-portlet"
@@ -22,8 +22,8 @@
         layer="..interfaces.IArchiveSectionLayer" 
         permission="zope.View"
         manager="ploned.ui.interfaces.ILeftColumnManager"
-        class="ploned.ui.viewlet.ContentViewsViewlet"     
-        weight="5"       
+        class="ploned.ui.viewlet.ContentViewsViewlet"
+        weight="5"
     /><!-- not logged in, for Archive Section -->
 
   
@@ -53,7 +53,7 @@
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".navigation.TopLevelContainerNavigation"
      permission="zope.Public"
-     layer="bungeni.ui.interfaces.IArchiveSectionLayer"     
+     layer="bungeni.ui.interfaces.IArchiveSectionLayer"
      weight="5"
      />
 
@@ -62,7 +62,7 @@
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".navigation.NavigationTreeViewlet"
      permission="zope.Public"
-     layer="bungeni.ui.interfaces.IAdminSectionLayer"     
+     layer="bungeni.ui.interfaces.IAdminSectionLayer"
      weight="10"
      />
 
@@ -108,7 +108,7 @@
      permission="bungeni.itemschedule.Edit"
      view="bungeni.ui.calendar.browser.GroupSittingScheduleView"
      class=".schedule.SchedulablesViewlet"
-     />  
+     />
 
 <!-- Languages -->
      
@@ -117,15 +117,15 @@
      permission="zope.Public"
      name="change-language"
      class=".language.ChangeLanguage"
-     />    
+     />
 
   <browser:viewlet
      name="bungeni.content.languages"
      for="*"
-     permission="zope.Public"     
+     permission="zope.Public"
      manager="ploned.ui.interfaces.IAboveContentManager"
      class=".language.LanguageViewlet"
-     />       
+     />
      
   
 </configure>

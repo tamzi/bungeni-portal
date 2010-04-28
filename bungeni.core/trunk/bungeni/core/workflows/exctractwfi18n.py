@@ -29,7 +29,7 @@ f.write(
 """
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"      
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       i18n:domain="bungeni.core"> <body>
       """)
       
@@ -45,6 +45,6 @@ for wf in [bill, question, motion, version, groupsitting, groups,
         #f.write( '<b i18n:translate="%s_wf_transition_%s" >' %( name, t))
         f.write( '<b i18n:translate="" >' + wf.wf.getTransitionById(t).title + '</b>')
         f.write('\n')
-f.write('</body></html>')        
+f.write('</body></html>')
 f.close()
   

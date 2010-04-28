@@ -62,7 +62,7 @@ class UserManager( BasePlugin ):
 
     def __init__(self, id, title=None):
         self.id = self.id = id
-        self.title = title    
+        self.title = title
 
     security.declarePrivate('invalidateCacheForChangedUser')
     def invalidateCacheForChangedUser(self, user_id):
@@ -76,7 +76,7 @@ class UserManager( BasePlugin ):
     def doChangeUser(self, login, password, **kw):
         # userSetPassword in PlonePAS expects a RuntimeError when a plugin doesn't hold the user.
         try:
-            self.updateUserPassword(login, login, password)            
+            self.updateUserPassword(login, login, password)
         except KeyError:
             raise RuntimeError, "User does not exist: %s"%login
 
@@ -137,7 +137,7 @@ class UserManager( BasePlugin ):
         if id is None:
             id = login
 
-        # try to normalize the list of ids/logins into single sequence    
+        # try to normalize the list of ids/logins into single sequence
         if isinstance( login, (list, tuple ) ):
             if isinstance( id, (list, tuple ) ):
                 ids = []
@@ -167,7 +167,7 @@ class UserManager( BasePlugin ):
                         rdb.or_(schema.users.c.login.like(like_val),
                                 schema.users.c.first_name.like(like_val),
                                 schema.users.c.last_name.like(like_val)
-                            )                
+                            )
                         )
         elif isinstance( id, (list, tuple)) and exact_match:
             statements = []
@@ -185,7 +185,7 @@ class UserManager( BasePlugin ):
                             )
         else:
             clause = schema.users.c.login == id
-        session = Session()        
+        session = Session()
         query = session.query(domain.User).filter(
                         rdb.and_( clause,
                             schema.users.c.active_p == 'A',
@@ -201,9 +201,9 @@ class UserManager( BasePlugin ):
             query =query.limit( max_results )
 
         return [ dict( id=safeencode(r.login), 
-                title= u"%s %s" %(r.first_name, r.last_name),  
+                title= u"%s %s" %(r.first_name, r.last_name),
                 fullname= u"%s %s" %(r.first_name, r.last_name),
-                email = (r.email),      
+                email = (r.email),
                 login=safeencode(r.login), pluginid=self.id ) 
                 for r in query.all()]
 
@@ -395,9 +395,9 @@ class UserManager( BasePlugin ):
                 security_schema.principal_role_map.c.setting==True,
                 security_schema.principal_role_map.c.object_type==None,
                 security_schema.principal_role_map.c.object_id==None)))
-        role_names = []        
+        role_names = []
         for (role_name,) in mappings:
-            role_names.append(role_name)  
+            role_names.append(role_name)
         return role_names
 
 
@@ -479,4 +479,4 @@ classImplements( UserManager,
                  IRoleEnumerationPlugin,
                  IAssignRoleCapability )
 
-InitializeClass( UserManager )        
+InitializeClass( UserManager )

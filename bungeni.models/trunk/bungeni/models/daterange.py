@@ -47,11 +47,11 @@ def group_filter(domain_model):
     sql.between(sql.bindparam("start_date"), 
                 domain_model.start_date, domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain_model.start_date, domain_model.end_date),                
+                domain_model.start_date, domain_model.end_date),
     sql.and_(
         domain_model.start_date <= sql.bindparam("end_date"),
         domain_model.end_date == None),
-    )    
+    )
             
     
 def group_membership_filter(domain_model):
@@ -65,11 +65,11 @@ def group_membership_filter(domain_model):
                 domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
                 domain_model.start_date, 
-                domain_model.end_date),            
+                domain_model.end_date),
     sql.and_(
         domain_model.start_date <= sql.bindparam("end_date"),
         domain_model.end_date == None),
-    )     
+    )
     
     
 def session_filter(domain_model):
@@ -81,11 +81,11 @@ def session_filter(domain_model):
     sql.between(sql.bindparam("start_date"), 
                 domain_model.start_date, domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain_model.start_date, domain_model.end_date),                
+                domain_model.start_date, domain_model.end_date),
     sql.and_(
         domain_model.start_date <= sql.bindparam("end_date"),
         domain_model.end_date == None),
-    )       
+    )
     
     
 def sitting_filter(domain_model):
@@ -97,11 +97,11 @@ def sitting_filter(domain_model):
     sql.between(sql.bindparam("start_date"), 
                 domain_model.start_date, domain_model.end_date),
     sql.between(sql.bindparam("end_date"),
-                domain_model.start_date, domain_model.end_date),                
+                domain_model.start_date, domain_model.end_date),
     sql.and_(
         domain_model.start_date <= sql.bindparam("end_date"),
         domain_model.end_date == None),
-    )           
+    )
     
     
     

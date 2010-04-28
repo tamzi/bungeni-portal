@@ -91,7 +91,7 @@ class StateWorkflow( Workflow ):
             self.states[ s.id ] = s
             state_names.add( s.id )
 
-        # find any states given that don't match a transition state            
+        # find any states given that don't match a transition state
         t_state_names = set( [ t.destination for t in transitions] )
         t_state_names.update(
             set( [ t.source for t in transitions ] )
@@ -105,7 +105,7 @@ class StateWorkflowInfo( WorkflowInfo ):
     #interface.implements(interfaces.IWorkflowInfo)
 
     def _setState( self, state_id ):
-        wf = self.workflow()        
+        wf = self.workflow()
         if not isinstance( wf.workflow, StateWorkflow):
             return
         state = wf.workflow.states.get( state_id )

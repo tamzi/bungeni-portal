@@ -108,17 +108,17 @@ class VersionLogView(BaseForm):
     def has_write_permission(self, context):
         """check that  the user has the rights to edit 
              the object, if not we assume he has no rights 
-             to make a version             
+             to make a version
              assumption is here that if he has the rights on any of the fields
-             he may create a version."""  
-        trusted = removeSecurityProxy(self.context)                
-        table = orm.class_mapper(trusted.__class__).mapped_table   
+             he may create a version."""
+        trusted = removeSecurityProxy(self.context)
+        table = orm.class_mapper(trusted.__class__).mapped_table
         for column in table.columns:
             try:
                 if canWrite(self.context, column.name):
                     return True
             except ForbiddenAttribute:
-                pass                    
+                pass
         else:
             return False
 
@@ -132,22 +132,22 @@ class VersionLogView(BaseForm):
     
     @form.action(label=_("New Version"), condition=has_write_permission)
     def handle_new_version( self, action, data ):
-        self._versions.create( message = data['commit_message'], manual=True )        
+        self._versions.create( message = data['commit_message'], manual=True )
         self.status = _(u"New Version Created")
 
     @form.action(label=_("Revert To"), condition=has_write_permission)
     def handle_revert_version( self, action, data):
-        selected = getSelected( self.selection_column, self.request )  
+        selected = getSelected( self.selection_column, self.request )
         if len(selected) != 1:
             self.status = _("Select one item to revert to")
-            return                          
+            return
         version = self._versions.get( selected[0] )
         message = data['commit_message']
         self._versions.revert( version, message )
         self.status = (_(u"Reverted to Previous Version %s") %(version.version_id))
 
     @form.action(
-        label=_("Show Differences"), name="diff",        
+        label=_("Show Differences"), name="diff",
         validator=lambda form, action, data: ())
     def handle_diff_version( self, action, data):
         self.status = _("Displaying differences")
@@ -166,7 +166,7 @@ class VersionLogView(BaseForm):
             if source.version_id > target.version_id:
                 t = source
                 source = target
-                target = t            
+                target = t
         except IndexError:
             target = context
         view = z3c.schemadiff.browser.DiffView(source, target, self.request)
@@ -183,8 +183,8 @@ class VersionLogView(BaseForm):
                 if action.condition(self, self.context):
                     self.actions.append(action) 
             else:
-                self.actions.append(action)           
-        if not self.has_write_permission(self.context):                                        
+                self.actions.append(action)
+        if not self.has_write_permission(self.context):
             self.form_fields = self.form_fields.omit('commit_message')
         self.adapters = {}
         self.widgets = form.setUpDataWidgets(

@@ -98,8 +98,8 @@ OfficeType = vocabulary.SimpleVocabulary( [
     vocabulary.SimpleTerm('S', _(u"House Business Office"), _(u"House Business Office")), 
     vocabulary.SimpleTerm('C', _(u"Clerks Office"), _(u"Clerks Office")), 
     vocabulary.SimpleTerm('T', _(u"Translators Office"), _(u"Translators Office")), 
-    vocabulary.SimpleTerm('L', _(u"Library Office"), _(u"Library Office")),     
-    vocabulary.SimpleTerm('R', _(u"Researcher Office"), _(u"Researcher Office")),     
+    vocabulary.SimpleTerm('L', _(u"Library Office"), _(u"Library Office")),
+    vocabulary.SimpleTerm('R', _(u"Researcher Office"), _(u"Researcher Office")),
     ] )
 YesNoSource = vocabulary.SimpleVocabulary( [
     vocabulary.SimpleTerm(True, _(u"Yes"), _(u"Yes")), 
@@ -148,9 +148,9 @@ class SpecializedSource( object ):
         if parliament_id is None:
             if trusted.__parent__ is None:
                 return None
-            else:    
-                parliament_id = self._get_parliament_id(trusted.__parent__)            
-        return parliament_id  
+            else:
+                parliament_id = self._get_parliament_id(trusted.__parent__)
+        return parliament_id
             
     def constructQuery( self, context ):
         raise NotImplementedError("Must be implemented by subclass.")
@@ -182,7 +182,7 @@ class SittingTypes(SpecializedSource):
 
     def constructQuery(self, context):
         session= Session()
-        return session.query(domain.SittingType)        
+        return session.query(domain.SittingType)
 
     def __call__( self, context=None ):
         query = self.constructQuery( context )
@@ -242,7 +242,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                     ).filter(domain.User.user_id == 
                         user_id).order_by(domain.User.last_name,
                             domain.User.first_name,
-                            domain.User.middle_name)                                                                                                                 
+                            domain.User.middle_name)
             return query
         else:
             parliament_id = self._get_parliament_id(trusted)
@@ -259,11 +259,11 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                             domain.User.last_name,
                             domain.User.first_name,
                             domain.User.middle_name)
-        return query                                                                                                           
+        return query
 
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()        
+        results = query.all()
         terms = []
         for ob in results:
             terms.append( 
@@ -280,7 +280,7 @@ class MemberOfParliamentImmutableSource(SpecializedSource):
                 # This should not happen in real life
                 # but if we do not add it her the view form will 
                 # throw an exception 
-                session = Session()            
+                session = Session()
                 ob = session.query(domain.User).get(user_id)
                 terms.append( 
                 vocabulary.SimpleTerm( 
@@ -297,7 +297,7 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
         session= Session()
         trusted=removeSecurityProxy(context)
         user_id = getattr(trusted, self.value_field, None)
-        parliament_id = self._get_parliament_id(trusted)     
+        parliament_id = self._get_parliament_id(trusted)
         if user_id:
             if parliament_id:
                 query = session.query( MemberOfParliament
@@ -309,21 +309,21 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                         sql.and_(MemberOfParliament.group_id ==
                                 parliament_id,
                                 MemberOfParliament.active_p ==
-                                True)                     
+                                True)
                         )).order_by(
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
-                            MemberOfParliament.middle_name).distinct()                                                                                                                       
+                            MemberOfParliament.middle_name).distinct()
                 return query
             else:
                 query = session.query(MemberOfParliament).order_by(
                             MemberOfParliament.last_name,
                             MemberOfParliament.first_name,
                             MemberOfParliament.middle_name).filter(
-                                MemberOfParliament.active_p == True)                                           
+                                MemberOfParliament.active_p == True)
         else:
             if parliament_id:
-                query = session.query(MemberOfParliament).filter(                    
+                query = session.query(MemberOfParliament).filter(
                     sql.and_(MemberOfParliament.group_id ==
                             parliament_id,
                             MemberOfParliament.active_p ==
@@ -335,8 +335,8 @@ class MemberOfParliamentSource(MemberOfParliamentImmutableSource):
                 query = session.query(domain.User).order_by(
                             domain.User.last_name,
                             domain.User.first_name,
-                            domain.User.middle_name)          
-        return query   
+                            domain.User.middle_name)
+        return query
 
 class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
     """ A logged in User will only be able to choose
@@ -345,15 +345,15 @@ class MemberOfParliamentDelegationSource(MemberOfParliamentSource):
     def constructQuery(self, context):
         mp_query = super(MemberOfParliamentDelegationSource, 
                 self).constructQuery(context)
-        #XXX clerks cannot yet choose MPs freely                
+        #XXX clerks cannot yet choose MPs freely
         user_id = utils.get_db_user_id()
-        if user_id:            
+        if user_id:
             user_ids=[user_id,]
             for result in delegation.get_user_delegations(user_id):
                 user_ids.append(result.user_id)
             query = mp_query.filter(
-                domain.MemberOfParliament.user_id.in_(user_ids))                        
-            if len(query.all()) > 0:                
+                domain.MemberOfParliament.user_id.in_(user_ids))
+            if len(query.all()) > 0:
                 return query
         return mp_query
                        
@@ -362,20 +362,20 @@ class MinistrySource(SpecializedSource):
     """ Ministries in the current parliament """
 
     def __init__(self, value_field):
-        self.value_field = value_field    
+        self.value_field = value_field
     
     def constructQuery( self, context):
         session= Session()
         trusted=removeSecurityProxy(context)
         ministry_id = getattr(trusted, self.value_field, None)
         parliament_id = self._get_parliament_id(trusted)
-        today = datetime.date.today()   
+        today = datetime.date.today()
         if parliament_id:
             governments = session.query(domain.Government).filter(
                 sql.and_(
                     domain.Government.parent_group_id == parliament_id,
                     domain.Government.status == u'active'
-                    ))                                
+                    ))
             government = governments.all()
             if len(government) > 0:
                 gov_ids = [gov.group_id for gov in government]
@@ -385,30 +385,30 @@ class MinistrySource(SpecializedSource):
                             domain.Ministry.group_id == ministry_id,
                             sql.and_(
                                 domain.Ministry.parent_group_id.in_(gov_ids),
-                                domain.Ministry.status == u'active'                                
-                                ))  
+                                domain.Ministry.status == u'active'
+                                ))
                     )
                 else:
                     query = session.query(domain.Ministry).filter(
                             sql.and_(
                                 domain.Ministry.parent_group_id.in_(gov_ids),
-                                domain.Ministry.status == u'active'                                
-                                ))                                                       
+                                domain.Ministry.status == u'active'
+                                ))
             else:
                 if ministry_id:
                     query = session.query(domain.Ministry).filter(
-                            domain.Ministry.group_id == ministry_id)                          
-                else:                    
-                    query = session.query(domain.Ministry)            
+                            domain.Ministry.group_id == ministry_id)
+                else:
+                    query = session.query(domain.Ministry)
         else:
             query = session.query(domain.Ministry)
-        return query     
+        return query
                
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()        
+        results = query.all()
         terms = []
-        trusted=removeSecurityProxy(context)        
+        trusted=removeSecurityProxy(context)
         ministry_id = getattr(trusted, self.value_field, None)
         for ob in results:
             obj = translate_obj(ob)
@@ -421,9 +421,9 @@ class MinistrySource(SpecializedSource):
                     ))
         if ministry_id:
             if query.filter(domain.Group.group_id == ministry_id).count() == 0:
-                session = Session()            
+                session = Session()
                 ob = session.query(domain.Group).get(ministry_id)
-                obj = translate_obj(ob)                
+                obj = translate_obj(ob)
                 terms.append( 
                     vocabulary.SimpleTerm( 
                         value = getattr( obj, 'group_id'), 
@@ -432,7 +432,7 @@ class MinistrySource(SpecializedSource):
                                 getattr( obj, 'full_name'))
                         ))
                             
-        return vocabulary.SimpleVocabulary( terms )                
+        return vocabulary.SimpleVocabulary( terms )
 
 class MemberTitleSource(SpecializedSource):
     """ get titles (i.e. roles/functions) in the current context """
@@ -442,14 +442,14 @@ class MemberTitleSource(SpecializedSource):
     
     def _get_user_type(self, context):
         user_type = getattr(context, 'membership_type', None)
-        if not user_type:            
-            user_type = self._get_user_type(context.__parent__)                        
+        if not user_type:
+            user_type = self._get_user_type(context.__parent__)
         return user_type
     
     def constructQuery( self, context):
         session= Session()
         trusted=removeSecurityProxy(context)
-        user_type = self._get_user_type(trusted)  
+        user_type = self._get_user_type(trusted)
         titles = session.query(domain.MemberTitle).filter(
             domain.MemberTitle.user_type == user_type).order_by(
                 domain.MemberTitle.sort_order)
@@ -457,7 +457,7 @@ class MemberTitleSource(SpecializedSource):
 
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()        
+        results = query.all()
         terms = []
         for ob in results:
             obj = translate_obj(ob)
@@ -467,7 +467,7 @@ class MemberTitleSource(SpecializedSource):
                     token = getattr( obj, 'user_role_type_id'),
                     title = getattr( obj, 'user_role_name'),
                     ))
-        return vocabulary.SimpleVocabulary( terms )  
+        return vocabulary.SimpleVocabulary( terms )
 
                     
 class UserSource(SpecializedSource):
@@ -477,14 +477,14 @@ class UserSource(SpecializedSource):
         
         users = session.query(domain.User).order_by(
                 domain.User.last_name, domain.User.first_name)
-        return users    
+        return users
     
 
 class UserNotMPSource(SpecializedSource):
     """ All users that are NOT a MP """
         
     def constructQuery( self, context):
-        session= Session()    
+        session= Session()
         trusted=removeSecurityProxy(context)
         parliament_id = self._get_parliament_id(trusted)
         mp_user_ids = sql.select([schema.user_group_memberships.c.user_id], 
@@ -493,11 +493,11 @@ class UserNotMPSource(SpecializedSource):
             sql.not_(domain.User.user_id.in_( mp_user_ids)),
             domain.User.active_p == 'A')).order_by(
                 domain.User.last_name, domain.User.first_name)
-        return query                       
+        return query
 
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()        
+        results = query.all()
         terms = []
         for ob in results:
             terms.append( 
@@ -514,7 +514,7 @@ class UserNotMPSource(SpecializedSource):
                 # This should not happen in real life
                 # but if we do not add it her the view form will 
                 # throw an exception 
-                session = Session()            
+                session = Session()
                 ob = session.query(domain.User).get(user_id)
                 terms.append( 
                 vocabulary.SimpleTerm( 
@@ -541,7 +541,7 @@ class SittingAttendanceSource(SpecializedSource):
                     ).filter(domain.User.user_id == 
                         user_id).order_by(domain.User.last_name,
                             domain.User.first_name,
-                            domain.User.middle_name)                                                                                                                 
+                            domain.User.middle_name)
             return query
         else:
             sitting = trusted.__parent__
@@ -551,19 +551,19 @@ class SittingAttendanceSource(SpecializedSource):
                     sql.and_(
                         schema.user_group_memberships.c.group_id == group_id,
                         schema.user_group_memberships.c.active_p == True))
-            attended_ids = sql.select([schema.sitting_attendance.c.member_id],   
+            attended_ids = sql.select([schema.sitting_attendance.c.member_id],
                      schema.sitting_attendance.c.sitting_id == sitting_id)
             query = session.query( domain.User).filter(
                 sql.and_(domain.User.user_id.in_( all_member_ids),
                     ~ domain.User.user_id.in_(attended_ids) )).order_by(
                             domain.User.last_name,
                             domain.User.first_name,
-                            domain.User.middle_name)   
-            return query                                              
+                            domain.User.middle_name)
+            return query
                  
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()        
+        results = query.all()
         terms = []
         for ob in results:
             terms.append( 
@@ -576,7 +576,7 @@ class SittingAttendanceSource(SpecializedSource):
         user_id = getattr(context, self.value_field, None) 
         if user_id:
             if len(query.filter(schema.users.c.user_id == user_id).all()) == 0:
-                session = Session()            
+                session = Session()
                 ob = session.query(domain.User).get(user_id)
                 terms.append( 
                 vocabulary.SimpleTerm( 
@@ -592,14 +592,14 @@ class SittingAttendanceSource(SpecializedSource):
 class SubstitutionSource(SpecializedSource):
     """ active user of the same group """
     def _get_group_id(self, context):
-        trusted = removeSecurityProxy(context)        
+        trusted = removeSecurityProxy(context)
         group_id = getattr(trusted,'group_id', None)
         if not group_id:
              group_id = getattr(trusted.__parent__,'group_id', None)
         return group_id
 
     def _get_user_id(self, context):
-        trusted = removeSecurityProxy(context)        
+        trusted = removeSecurityProxy(context)
         user_id = getattr(trusted,'user_id', None)
         if not user_id:
              user_id = getattr(trusted.__parent__,'user_id', None)
@@ -611,7 +611,7 @@ class SubstitutionSource(SpecializedSource):
         query = session.query(domain.GroupMembership).order_by(
             'last_name', 'first_name').filter(
             domain.GroupMembership.active_p == True)
-        user_id = self._get_user_id(context)     
+        user_id = self._get_user_id(context)
         if user_id:
              query = query.filter(
                 domain.GroupMembership.user_id != user_id)
@@ -619,13 +619,13 @@ class SubstitutionSource(SpecializedSource):
         if group_id:
             query = query.filter(
                 domain.GroupMembership.group_id == group_id)
-        return query                
+        return query
                     
         
         
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()        
+        results = query.all()
         tdict = {}
         for ob in results:
             tdict[getattr( ob.user, 'user_id')] = "%s %s" % (
@@ -634,7 +634,7 @@ class SubstitutionSource(SpecializedSource):
         user_id = getattr(context, 'replaced_id', None) 
         if user_id:
             if len(query.filter(domain.GroupMembership.replaced_id == user_id).all()) == 0:
-                session = Session()            
+                session = Session()
                 ob = session.query(domain.User).get(user_id)
                 tdict[getattr( ob, 'user_id')] = "%s %s" % (
                             getattr( ob, 'first_name') ,
@@ -646,7 +646,7 @@ class SubstitutionSource(SpecializedSource):
                     value = t, 
                     token = t,
                     title = tdict[t]
-                    ))        
+                    ))
         return vocabulary.SimpleVocabulary( terms )
 
 class PartyMembership(object):
@@ -662,7 +662,7 @@ party_membership = sql.join(schema.political_parties, schema.groups,
 
 mapper(PartyMembership,party_membership)
 
-class BillSource(SpecializedSource):  
+class BillSource(SpecializedSource):
     
     def constructQuery( self, context):
         session= Session()
@@ -673,15 +673,15 @@ class BillSource(SpecializedSource):
             query = session.query(domain.Bill).filter(
                 domain.Bill.parliamentary_item_id ==
                 bill_id)
-        else:                
+        else:
             query = session.query(domain.Bill).filter(
                 sql.and_(
                 sql.not_(domain.Bill.status.in_(
                     ['draft','withdrawn','approved','rejected'])),
                 domain.Bill.parliament_id == parliament_id))
-        return query                
+        return query
                 
-class CommitteeSource(SpecializedSource):  
+class CommitteeSource(SpecializedSource):
 
     def constructQuery( self, context):
         session= Session()
@@ -691,11 +691,11 @@ class CommitteeSource(SpecializedSource):
             sql.and_(
             domain.Committee.status == 'active',
             domain.Committee.parent_group_id == parliament_id))
-        return query                
+        return query
 
 
 
-class MotionPartySource(SpecializedSource):    
+class MotionPartySource(SpecializedSource):
 
     def constructQuery( self, context):
         session= Session()
@@ -713,9 +713,9 @@ class MotionPartySource(SpecializedSource):
                         PartyMembership.parent_group_id == parliament_id)
                         )
         else:
-            query = session.query(domain.PoliticalGroup).filter(                    
+            query = session.query(domain.PoliticalGroup).filter(
                         domain.PoliticalGroup.parent_group_id == parliament_id)
-        return query                        
+        return query
         
 
 class QuerySource( object ):
@@ -729,12 +729,12 @@ class QuerySource( object ):
         """iterate through the parents until you get a valueKey """
         if context.__parent__ is None:
             return None
-        else:            
+        else:
             try:
                 value_key = valueKey( context.__parent__.__name__ )[0]
             except:
                 value_key = self.getValueKey( context.__parent__)
-        return value_key         
+        return value_key
         
         
     def __init__( self, 
@@ -756,7 +756,7 @@ class QuerySource( object ):
     def constructQuery( self, context ):
         session = Session()
         trusted=removeSecurityProxy(context)
-        if self.filter_value:       
+        if self.filter_value:
             query = session.query( self.domain_model ).filter(
                 self.domain_model.c[self.filter_field] == 
                 trusted.__dict__[self.filter_value] )

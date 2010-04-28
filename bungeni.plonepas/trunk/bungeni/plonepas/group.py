@@ -71,7 +71,7 @@ class GroupManager( BasePlugin, Cacheable ):
 
     #
     # IGroupsEnumeration implementation
-    #        
+    #
 
     def enumerateGroups( self, id=None
                        , exact_match=False
@@ -101,7 +101,7 @@ class GroupManager( BasePlugin, Cacheable ):
         query = session.query(domain.Group).filter(
                         rdb.and_( clause,
                             domain.Group.status == 'active')
-                        )                            
+                        )
         if clause:
             query = query.filter(clause)
         if sort_by:
@@ -141,7 +141,7 @@ class GroupManager( BasePlugin, Cacheable ):
         Add a given principal to the group.
         return True on success
         """
-        raise NotImplementedError        
+        raise NotImplementedError
         insert = schema.user_group_memberships.insert()
         group_id = self._gid( group_id )
         user_id  = self._uid( principal_id )
@@ -314,7 +314,7 @@ class GroupManager( BasePlugin, Cacheable ):
             rdb.and_(schema.users.c.user_id == ugm.c.user_id,
                      schema.groups.c.group_id == ugm.c.group_id,
                      domain.Group.group_principal_id == group_id,
-                     ugm.c.active_p == True)).all()        
+                     ugm.c.active_p == True)).all()
         return [r.login for r in users]
 
 classImplements( GroupManager,

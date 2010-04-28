@@ -8,18 +8,18 @@
 
   <state id="I" title="Inactive User">
     <deny permission="bungeni.delegation.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.delegation.Edit" role="bungeni.Owner" />   
+    <deny permission="bungeni.delegation.Edit" role="bungeni.Owner" />
   </state>
 
   
   <state id="A" title="Active User">
     <grant permission="bungeni.delegation.Add" role="bungeni.Owner" />
-    <grant permission="bungeni.delegation.Edit" role="bungeni.Owner" />   
+    <grant permission="bungeni.delegation.Edit" role="bungeni.Owner" />
   </state>
 
   <state id="D" title="Deceased User">
     <deny permission="bungeni.delegation.Add" role="bungeni.Owner" />
-    <deny permission="bungeni.delegation.Edit" role="bungeni.Owner" />    
+    <deny permission="bungeni.delegation.Edit" role="bungeni.Owner" />
   </state>
 
 
@@ -42,7 +42,7 @@
      destination="I"
      permission="bungeni.user.Manage"
      require_confirmation="true"
-     condition="bungeni.core.workflows.user.conditions.not_has_date_of_death"     
+     condition="bungeni.core.workflows.user.conditions.not_has_date_of_death"
      />
 
 
@@ -88,7 +88,7 @@
      destination="A"
      permission="bungeni.user.Manage"
      require_confirmation="true"
-     action="bungeni.core.workflows.user.actions.resurrect"     
+     action="bungeni.core.workflows.user.actions.resurrect"
      />
 
 

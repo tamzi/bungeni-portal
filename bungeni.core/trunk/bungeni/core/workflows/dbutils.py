@@ -40,7 +40,7 @@ def removeQuestionFromItemSchedule(question_id):
     when a question gets postponed the previous schedules of that
     question are invalidated so the do not show up in the schedule 
     calendar any more
-    """            
+    """
     session = Session()
     active_question_filter = rdb.and_( schema.items_schedule.c.item_id == question_id,
                                        schema.items_schedule.c.active == True)
@@ -51,11 +51,11 @@ def removeQuestionFromItemSchedule(question_id):
     
 def setRegistryNumber(item):
     session = Session()
-    connection = session.connection(domain.ParliamentaryItem)    
+    connection = session.connection(domain.ParliamentaryItem)
     sequence = rdb.Sequence('registry_number_sequence')
-    item.registry_number = connection.execute(sequence)    
+    item.registry_number = connection.execute(sequence)
 
-def setTabledDocumentSerialNumber(tabled_document):    
+def setTabledDocumentSerialNumber(tabled_document):
     session = Session()
     connection = session.connection(domain.TabledDocument)
     sequence = rdb.Sequence('tabled_document_number_sequence')
@@ -67,7 +67,7 @@ def setQuestionSerialNumber(question):
      to record the order in which questions are recieved and hence enforce 
      a first come first served policy in placing the questions on the order
      paper. The serial number is re-initialized at the start of each session
-    """    
+    """
     session = Session()
     connection = session.connection(domain.Question)
     sequence = rdb.Sequence('question_number_sequence')
@@ -82,21 +82,21 @@ def isItemScheduled(item_id):
     return (len(results) >= 1)
     
     
-def setMotionSerialNumber(motion):    
+def setMotionSerialNumber(motion):
     """
      Number that indicate the order in which motions have been approved 
      by the Speaker. The Number is reset at the start of each new session
-     with the first motion assigned the number 1    
+     with the first motion assigned the number 1
     """
     session = Session()
     connection = session.connection(domain.Motion)
     sequence = rdb.Sequence('motion_number_sequence')
-    motion.motion_number = connection.execute(sequence)    
+    motion.motion_number = connection.execute(sequence)
 
 
 
 class _Minister(object):
-    pass     
+    pass
 
 ministers = rdb.join(schema.groups,schema.user_group_memberships, 
                          schema.groups.c.group_id == schema.user_group_memberships.c.group_id
@@ -104,13 +104,13 @@ ministers = rdb.join(schema.groups,schema.user_group_memberships,
                           schema.users,
                           schema.user_group_memberships.c.user_id == schema.users.c.user_id)
 
-mapper(_Minister, ministers)     
+mapper(_Minister, ministers)
         
 def getMinsiteryEmails(ministry):
     """
     returns the emails of all persons who are members of that ministry
-    """    
-    session = Session()                      
+    """
+    session = Session()
     query = session.query(_Minister).filter(_Minister.group_id == ministry.group_id)
     results = query.all()
     addresses = []
@@ -123,8 +123,8 @@ def deactivateGroupMemberTitles(group):
     session = Session()
     group_id = group.group_id
     end_date = group.end_date
-    assert(end_date != None)    
-    connection = session.connection(domain.Group)    
+    assert(end_date != None)
+    connection = session.connection(domain.Group)
     group_members = rdb.select([schema.user_group_memberships.c.user_id],
              schema.user_group_memberships.c.group_id == group_id)
     connection.execute(schema.role_titles.update(
@@ -132,7 +132,7 @@ def deactivateGroupMemberTitles(group):
                     schema.role_titles.c.membership_id.in_(group_members),
                     schema.role_titles.c.end_date == None) 
                     ).values(end_date=end_date)
-                )         
+                )
         
 
         
@@ -142,7 +142,7 @@ def deactivateGroupMembers(group):
     session = Session()
     group_id = group.group_id
     end_date = group.end_date
-    assert(end_date != None)    
+    assert(end_date != None)
     connection = session.connection(domain.Group)
     connection.execute(schema.user_group_memberships.update().where(
         rdb.and_(
@@ -168,32 +168,32 @@ def endChildGroups(group):
     def _end_parliament_group(group_class, parent_id, end_date):
         groups = session.query(group_class).filter(
             rdb.and_(group_class.status == 'active',
-                group_class.parent_group_id == parliament_id)).all()          
+                group_class.parent_group_id == parliament_id)).all()
         for group in groups:
             if group.end_date == None:
-                group.end_date = end_date   
-        return groups                              
+                group.end_date = end_date
+        return groups
     
     session = Session()
-    end_date = group.end_date   
+    end_date = group.end_date
     assert(end_date != None)
     if interfaces.IParliament.providedBy(group):
         parliament_id = group.parliament_id
         committees = _end_parliament_group(domain.Committee, 
                     parliament_id,
                     end_date)
-        for committee in committees:                    
+        for committee in committees:
             yield committee
-        offices = _end_parliament_group(domain.Office,  
+        offices = _end_parliament_group(domain.Office,
                     parliament_id,
-                    end_date)                         
-        for office in offices:                    
+                    end_date)
+        for office in offices:
             yield office
         political_groups =  _end_parliament_group(domain.PoliticalGroup,
                     parliament_id,
-                    end_date)    
-        for political_group in political_groups:                          
-            yield political_group                                    
+                    end_date)
+        for political_group in political_groups:
+            yield political_group
     elif interfaces.IGovernment.providedBy(group):
         government_id = group.group_id
         ministries = session.query(domain.Ministry).filter(

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="plone">
 
   <browser:viewletManager
@@ -53,7 +53,7 @@
      name="plone.leftcolumn"
      provides=".interfaces.ILeftColumnManager"
      layer=".interfaces.IPlonedSkin"
-     class=".viewlet.WeightBasedSorter"     
+     class=".viewlet.WeightBasedSorter"
      permission="zope.Public"
      />
 

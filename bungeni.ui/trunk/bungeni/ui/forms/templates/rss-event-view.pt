@@ -13,6 +13,6 @@
          <!--link>http://....</link-->
          <description tal:content="item/description" > Description/ title </description>
          <pubDate tal:content="item/date" >Tue, 03 Jun 2003 09:39:21 GMT</pubDate>
-      </item>    
+      </item>
    </channel>
 </rss>

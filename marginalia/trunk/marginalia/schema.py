@@ -8,7 +8,7 @@ metadata = rdb.MetaData()
 annotations_table = rdb.Table(
     "annotations",
     metadata,
-    rdb.Column('id', rdb.Integer, primary_key=True),  
+    rdb.Column('id', rdb.Integer, primary_key=True),
     rdb.Column("url", rdb.Unicode(240), nullable=False),
     rdb.Column("start_block", rdb.Unicode(80), nullable=False),
     rdb.Column("start_xpath", rdb.Unicode(80), nullable=False),
@@ -20,13 +20,13 @@ annotations_table = rdb.Table(
     rdb.Column("end_char", rdb.Unicode(80), nullable=False),
     rdb.Column("note", rdb.Text()), 
     rdb.Column("access", rdb.Unicode(80), nullable=False),
-    rdb.Column("status", rdb.Unicode(80), nullable=False),    
+    rdb.Column("status", rdb.Unicode(80), nullable=False),
     rdb.Column("action", rdb.Unicode(80)),
     rdb.Column("edit_type", rdb.Unicode(80), nullable=False),
     rdb.Column("quote", rdb.Text()),
     rdb.Column("quote_title", rdb.Unicode(120)),
     rdb.Column("quote_author", rdb.Unicode(80), nullable=False),
-    rdb.Column("quote_authorid", rdb.Unicode(80), nullable=False),    
+    rdb.Column("quote_authorid", rdb.Unicode(80), nullable=False),
     rdb.Column("link_title", rdb.Unicode(80)),
     rdb.Column("link", rdb.Unicode(240)),
     rdb.Column("modified", rdb.DateTime(), nullable=False),
@@ -92,7 +92,7 @@ class AnnotationMaster(object):
 mapper(AnnotationMaster, annotations_table)
     
 if __name__=='__main__':
-    from sqlalchemy import create_engine    
+    from sqlalchemy import create_engine
     engine = create_engine("postgres://localhost/bungeni", echo=True)
     metadata.create_all(engine)
 

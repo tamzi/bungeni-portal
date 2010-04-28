@@ -4,7 +4,7 @@
 
   <div metal:fill-slot="body" i18n:domain="bungeni">
     <div metal:use-macro="context/@@annotate.html/body">
-    </div>  
+    </div>
   </div>
   
-</html>  
+</html>

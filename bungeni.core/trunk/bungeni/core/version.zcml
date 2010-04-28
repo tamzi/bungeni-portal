@@ -10,7 +10,7 @@
      factory=".version.ContextVersioned"
      />
   
-  <!--   
+  <!--
   <subscriber
      for=".interfaces.IVersionable 
           zope.publisher.interfaces.IPublisherRequest"

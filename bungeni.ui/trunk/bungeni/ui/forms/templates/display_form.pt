@@ -23,8 +23,8 @@
             i18n:translate="">Info</dt>
 
         <dd tal:content="view/status | nothing"
-            i18n:translate="">The status message.</dd>                     
-      </dl>        
+            i18n:translate="">The status message.</dd>
+      </dl>
       <dl class="portalMessage info"
           tal:condition="note"
           tal:define="mtype string:notes; note view/get_note | nothing"
@@ -32,7 +32,7 @@
         <dt tal:content="python:mtype.capitalize()"
             i18n:translate="">Info</dt>
         <dd tal:content="note" />
-      </dl>       
+      </dl>
       
       <div class="invariant-errors" tal:condition="view/invariantErrors|nothing">
         <ul>
@@ -93,7 +93,7 @@
 	                  </div>
 	                  <div tal:condition="error" 
 	                        tal:content="structure error" 
-	                        tal:attributes="class python:'errormessage' + (changed and ' changed' or '')">               
+	                        tal:attributes="class python:'errormessage' + (changed and ' changed' or '')">
                         The Error
                       </div>
 	               </div>
@@ -105,13 +105,13 @@
         </fieldset>
       </metal:block>
 
-      <!-- some viewlets are only displayed if they have content -->       
+      <!-- some viewlets are only displayed if they have content -->
       <div tal:replace="structure provider:bungeni.subform.manager"> 
         <div class="listing">
         <em>Subform Title</em>
          subform contents
         </div>
-      </div>      
+      </div>
       <div class="rowspacer"></div>
       <div id="actionsView">
         <span class="actionButtons"

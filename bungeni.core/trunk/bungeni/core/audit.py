@@ -32,7 +32,7 @@ def getAuditableParent(obj):
         if  interfaces.IAuditable.providedBy(parent):
             return parent
         else:
-            parent = getattr(parent, '__parent__', None)              
+            parent = getattr(parent, '__parent__', None)
  
 
 def getAuditor( ob ):
@@ -43,14 +43,14 @@ def objectAdded( ob, event):
     auditor.objectAdded( removeSecurityProxy(ob), event )
     
 def objectModified( ob, event ):
-    auditor = getAuditor( ob )  
+    auditor = getAuditor( ob )
     if getattr( event, 'change_id', None):
         return
-    auditor.objectModified( removeSecurityProxy(ob), event )    
+    auditor.objectModified( removeSecurityProxy(ob), event )
     
 def objectDeleted( ob, event ):
-    auditor = getAuditor( ob )    
-    auditor.objectDeleted( removeSecurityProxy(ob), event )        
+    auditor = getAuditor( ob )
+    auditor.objectDeleted( removeSecurityProxy(ob), event )
 
 def objectStateChange( ob, event ):
     auditor = getAuditor( ob )
@@ -69,16 +69,16 @@ def objectRevertedVersion( ob, event ):
     # slightly obnoxious hand off between event handlers (objectnewV, objectrevertedV),
     # stuffing onto the event for value passing
     auditor = getAuditor( ob )
-    change_id = auditor.objectRevertedVersion( removeSecurityProxy(ob), event )   
+    change_id = auditor.objectRevertedVersion( removeSecurityProxy(ob), event )
     event.change_id = change_id
         
 def objectAttachment( ob, event ):
     auditor = getAuditor( ob ) 
-    auditor.objectAttachment( removeSecurityProxy(ob), event )     
+    auditor.objectAttachment( removeSecurityProxy(ob), event )
 
-def objectContained( ob, event):       
+def objectContained( ob, event):
     auditor = getAuditor( ob ) 
-    auditor.objectContained( removeSecurityProxy(ob), event )  
+    auditor.objectContained( removeSecurityProxy(ob), event )
     
 class AuditorFactory( object ):
 
@@ -110,7 +110,7 @@ class AuditorFactory( object ):
         str_attrset = []
         for a in attrset:
             if type(a) in StringTypes:
-                str_attrset.append(a)                
+                str_attrset.append(a)
         description = u", ".join( str_attrset )
         return self._objectChanged(u'modified', object, description )
         
@@ -121,16 +121,16 @@ class AuditorFactory( object ):
         else:
             if hasattr(object, 'note') and len(comment)>1:
                 object.note = comment
-        wf = IWorkflowInfo(object)  
+        wf = IWorkflowInfo(object)
         if hasattr(object, 'status_date'):
             object.status_date = datetime.now()
         if event.source:
             #get human readable titles for workflow state
             event_title = wf.workflow().workflow.states[event.source].title
         else:
-            event_title = 'new'   
+            event_title = 'new'
         event_description={ 'source': event_title, 
-                            'destination': wf.workflow().workflow.states[event.destination].title,  
+                            'destination': wf.workflow().workflow.states[event.destination].title,
                             'transition': event.transition.title,
                             'comment': comment }
         
@@ -174,7 +174,7 @@ class AuditorFactory( object ):
         for participation in interaction.participations:
             if IRequest.providedBy(participation):
                 return participation.principal.id
-        raise RuntimeError(_("No IRequest in interaction"))    
+        raise RuntimeError(_("No IRequest in interaction"))
 
 BillAuditor = AuditorFactory( schema.bill_changes, domain.BillChange )
 MotionAuditor = AuditorFactory( schema.motion_changes, domain.MotionChange )

@@ -23,7 +23,7 @@ class AnnotationFilter(XMLGenerator):
 
         for (attrname, value) in attrs.items():
             if flag and attrname == 'class':
-                continue            
+                continue
             tag.write(' %s=%s' % (attrname, quoteattr(value)))
         tag.write('>')
 

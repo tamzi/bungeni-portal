@@ -45,7 +45,7 @@ Content creation
   >>> country = add_content(
   ...     domain.Country,
   ...     country_id='KE',
-  ...     iso_name = u"KENYA",  
+  ...     iso_name = u"KENYA",
   ...     language="en",
   ...     country_name=u"Kenya")
  

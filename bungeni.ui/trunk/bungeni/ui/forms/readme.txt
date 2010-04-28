@@ -9,17 +9,17 @@ Setting up Database Connection and Utilities:
    >>> db = bungeni.models.testing.setup_db()
    >>> from ore.alchemist import Session
    >>> session = Session()
-   >>> from bungeni.ui.forms.test_dates import today, yesterday, tomorrow, dayat   
+   >>> from bungeni.ui.forms.test_dates import today, yesterday, tomorrow, dayat
 
    
 Note that we only test the overlap of 'peers' here.
 refer to test_dates.py to test  that contained objects are inside
-their parents dates   
+their parents dates
    
 Parliaments
------------   
+-----------
    
-   >>> parliament = model.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
+   >>> parliament = model.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)
    >>> parliament.language = "en"
    >>> session.add( parliament)
    >>> session.flush()
@@ -37,18 +37,18 @@ Add a new (open ended) parliament
    >>> parliament2 = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)
    >>> parliament2.language = "en"
    >>> session.add( parliament2)
-   >>> session.flush()   
+   >>> session.flush()
    
-Note that the date yesterday is well ouside our p_2 so it does not matter.   
+Note that the date yesterday is well ouside our p_2 so it does not matter.
 
-give the 2nd parliament an end date and save   
-   >>> parliament2.end_date = dayat   
+give the 2nd parliament an end date and save
+   >>> parliament2.end_date = dayat
    >>> session.flush() 
    
 No open parliaments  anymore 
 
    
-Now check for overlapping dates but not for the current (edited) parliament   
+Now check for overlapping dates but not for the current (edited) parliament
    
 
    
@@ -65,10 +65,10 @@ Add a governmemt:
 Add a second government
 
    >>> gov2 = model.Government(short_name=u"gov_2", start_date=tomorrow, end_date=dayat )
-   >>> gov2.parent_group_id = parliament.parliament_id  
+   >>> gov2.parent_group_id = parliament.parliament_id
    >>> gov2.language = "en"
    >>> session.add( gov2 )
-   >>> session.flush()       
+   >>> session.flush()
 
 
 Sessions
@@ -78,7 +78,7 @@ A parliamentary Session
    >>> sess = model.ParliamentSession()
    >>> sess.parliament_id = parliament.parliament_id
    >>> sess.short_name = u"First Session"
-   >>> sess.full_name = u"First Session"   
+   >>> sess.full_name = u"First Session"
    >>> sess.start_date = yesterday
    >>> sess.end_date = today
    >>> sess.language = "en"
@@ -95,12 +95,12 @@ A second session
    >>> sess2 = model.ParliamentSession()
    >>> sess2.parliament_id = parliament.parliament_id
    >>> sess2.short_name = u"2nd Session"
-   >>> sess2.full_name = u"2nd Session"   
+   >>> sess2.full_name = u"2nd Session"
    >>> sess2.start_date = tomorrow
    >>> sess2.end_date = dayat
    >>> sess2.language = "en"
    >>> session.add(sess2)
-   >>> session.flush()  
+   >>> session.flush()
  
 
  
@@ -113,7 +113,7 @@ Sittings
     >>> ssit.end_date = tomorrow
     >>> ssit.language = "en"
     >>> session.add(ssit)
-    >>> session.flush()    
+    >>> session.flush()
 
 Just check if we get something back because the return value depends on the times
 
@@ -128,9 +128,9 @@ For Edit we need to be sure we do not check for the current data itself.
     >>> ssit2.end_date = today
     >>> ssit2.language = "en"
     >>> session.add(ssit2)
-    >>> session.flush()    
+    >>> session.flush()
    
-Just a quick check that the above validation for yesterday now fails   
+Just a quick check that the above validation for yesterday now fails
 
 and the real check
             
@@ -199,11 +199,11 @@ add some users:
     >>> session.add(mp2)
     >>> session.flush()
 
-titles     
+titles
 --------------
 
     >>> mrt1 = model.MemberTitle()
-    >>> mrt1.user_type = 'memberofparliament'   
+    >>> mrt1.user_type = 'memberofparliament'
     >>> mrt1.user_role_name = u"President"
     >>> mrt1.user_unique = True
     >>> mrt1.sort_order = 10
@@ -212,7 +212,7 @@ titles
     >>> session.flush()
     
     >>> mrt2 = model.MemberTitle()
-    >>> mrt2.user_type = 'memberofparliament'   
+    >>> mrt2.user_type = 'memberofparliament'
     >>> mrt2.user_role_name = u"Member"
     >>> mrt2.user_unique = False
     >>> mrt2.sort_order = 20
@@ -226,7 +226,7 @@ titles
     >>> mt1.membership_id = mp1.membership_id
     >>> mt1.title_name_id = mrt1.user_role_type_id
     >>> mt1.start_date = today
-    >>> mt1.title_name_id = mrt1.user_role_type_id   
+    >>> mt1.title_name_id = mrt1.user_role_type_id
     >>> session.add(mt1)
     >>> session.flush()
 
@@ -235,7 +235,7 @@ A (group) member can only hold the same title once at a time
 
  
     >>> mt1.end_date = tomorrow
-    >>> session.flush()    
+    >>> session.flush()
 
   
 exclude data with role_title_id when editing the record
@@ -250,14 +250,14 @@ Some titles must be unique inside a group
     >>> mt2.title_name_id = mrt2.user_role_type_id
     >>> mt2.start_date = today
     >>> session.add(mt2)
-    >>> session.flush()     
+    >>> session.flush()
    
 second check for same title at a time
 
-A president is allready there   
+A president is allready there
   
 
-Members do not have to be unique    
+Members do not have to be unique
 
 
 And the day after tomorrow there is no more president
@@ -269,8 +269,8 @@ when editing exclude self
     
 
 
-Membership in a political group      
----------------------------   
+Membership in a political group
+---------------------------
 
 
       
@@ -278,7 +278,7 @@ Membership in a political group
 clean up - commit open transactions
 ---------------------------------
 
-   >>> session.flush()  
+   >>> session.flush()
    >>> session.close() 
          
          

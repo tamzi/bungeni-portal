@@ -71,7 +71,7 @@ class actions:
         pass
 
     @staticmethod
-    def submit_to_clerk(info,context):      
+    def submit_to_clerk(info,context):
         """
         a question submitted to the clerks office, the owner cannot edit it anymore
         the clerk has no edit rights until it is recieved
@@ -84,7 +84,7 @@ class actions:
         the question is recieved by the clerks office, 
         the clerk can edit the question
         """
-        utils.createVersion(info, context)   
+        utils.createVersion(info, context)
 
     @staticmethod
     def withdraw( info, context ):
@@ -93,7 +93,7 @@ class actions:
         and cannot be edited by anyone
         """
 
-        utils.setQuestionScheduleHistory(info,context)    
+        utils.setQuestionScheduleHistory(info,context)
 
 
 

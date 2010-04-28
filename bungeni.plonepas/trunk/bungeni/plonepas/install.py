@@ -41,7 +41,7 @@ def install_pas_plugins( self ):
              'IRolesPlugin',
              'IRoleAssignerPlugin',
              'IRoleEnumerationPlugin']
-            )        
+            )
 
 def uninstall_pas_plugins( self ):
     pas = self.acl_users
@@ -53,7 +53,7 @@ def uninstall( self ):
     out = StringIO()
     print >> out, "Removing PAS Plugin"
     uninstall_pas_plugins( self )
-    return out.getvalue()    
+    return out.getvalue()
 
 def install( self ):
     out = StringIO()

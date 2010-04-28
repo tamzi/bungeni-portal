@@ -44,15 +44,15 @@ VersionWorkflowAdapter = workflow.AdaptedWorkflow(
 GroupSittingWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groupsitting, domain.GroupSitting))
 AddressWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(address, domain.UserAddress))   
+    load_workflow(address, domain.UserAddress))
 TabledDocumentWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(tableddocument, domain.TabledDocument))      
+    load_workflow(tableddocument, domain.TabledDocument))
 AgendaItemWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(agendaitem, domain.AgendaItem))          
+    load_workflow(agendaitem, domain.AgendaItem))
 ParliamentWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(parliament, domain.Parliament)) 
 CommitteeWorkflowAdapter = workflow.AdaptedWorkflow(
-    load_workflow(committee, domain.Committee))     
+    load_workflow(committee, domain.Committee))
 GroupWorkflowAdapter = workflow.AdaptedWorkflow(
     load_workflow(groups, domain.Group))
 AttachedFileWorkflowAdapter = workflow.AdaptedWorkflow(

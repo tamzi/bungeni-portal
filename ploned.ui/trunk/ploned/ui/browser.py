@@ -9,7 +9,7 @@ from zope.viewlet.interfaces import IViewletManager
 
 class PloneView(BrowserView):
     def show_editable_border(self):
-        return checkPermission("zope.ManageContent", self.context)  
+        return checkPermission("zope.ManageContent", self.context)
 
     def have_viewlets(self, view, name):
         gsm = component.getSiteManager()

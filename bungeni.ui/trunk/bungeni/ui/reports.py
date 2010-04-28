@@ -30,8 +30,8 @@ def unescape(text):
     return re.sub("&#?\w+;", fixup, text)
 
 
-class DownloadODT(BrowserView):  
-    def __call__(self):    
+class DownloadODT(BrowserView):
+    def __call__(self):
         body_text = removeSecurityProxy(self.context.body_text)
         odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
         #appy.Renderer expects a file name of a file that does not exist.
@@ -47,9 +47,9 @@ class DownloadODT(BrowserView):
                                             removeSecurityProxy(self.context.start_date).strftime('%Y-%m-%d')+'.odt"')
         f = open(tempFileName, 'rb')
         doc = f.read()
-        f.close()      
-        os.remove(tempFileName)    
-        return doc  
+        f.close()
+        os.remove(tempFileName)
+        return doc
     
 class  DownloadPDF(BrowserView):
     
@@ -71,7 +71,7 @@ class  DownloadPDF(BrowserView):
                             +removeSecurityProxy(self.context.start_date).strftime('%Y-%m-%d')+'.pdf"')
         f = open(tempFileName, 'rb')
         doc = f.read()
-        f.close()      
-        os.remove(tempFileName)    
+        f.close()
+        os.remove(tempFileName)
         return doc 
         

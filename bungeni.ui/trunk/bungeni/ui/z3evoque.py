@@ -166,7 +166,7 @@ def setup_evoque():
         os.path.join(abs_root, evoque_ini.get("evoque.default_dir", "")),
         
         # whether evaluation namespace is restricted or not 
-        restricted = evoque_ini.get("evoque.restricted", False),    
+        restricted = evoque_ini.get("evoque.restricted", False),
         
         # how should any evaluation errors be rendered
         # int 0 to 4, for: [silent, zero, name, render, raise]

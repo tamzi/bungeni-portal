@@ -12,7 +12,7 @@ class IQuestionSubmittedEvent(IWorkflowTransitionEvent):
 class IQuestionReceivedEvent(IWorkflowTransitionEvent):
     """Issued when a question was received by Clerk's office."""
 
-class IQuestionCompleteEvent(IWorkflowTransitionEvent):    
+class IQuestionCompleteEvent(IWorkflowTransitionEvent):
     """Issued when a question was reviewed by Clerk's office."""
 
 class IQuestionRejectedEvent(IWorkflowTransitionEvent):
@@ -22,7 +22,7 @@ class IQuestionClarifyEvent(IWorkflowTransitionEvent):
     """Issued when a question needs clarification by the MP"""
 
 class IQuestionDeferredEvent(IWorkflowTransitionEvent):
-    """Issued when a question was deferred by Clerk's office."""    
+    """Issued when a question was deferred by Clerk's office."""
 
 class IQuestionScheduledEvent(IWorkflowTransitionEvent):
     """Issued when a question was scheduled by Speakers office."""
@@ -36,7 +36,7 @@ class IQuestionSentToMinistryEvent(IWorkflowTransitionEvent):
 class IQuestionAnsweredEvent(IWorkflowTransitionEvent):
     """Issued when a questions answer was reviewed by Clerk's office."""
 
-class IQuestionDebatedEvent(IWorkflowTransitionEvent):   
+class IQuestionDebatedEvent(IWorkflowTransitionEvent):
     """ A question was debated in the plenary """ 
     
 class IQuestionSchedulePendingEvent(IWorkflowTransitionEvent): 
@@ -79,7 +79,7 @@ class IMotionDebatedEvent(IWorkflowTransitionEvent):
     """Issued when a Motions answer was debated"""
     
 class IMotionPendingEvent(IWorkflowTransitionEvent):
-    pass    
+    pass
     
 ######################
 # Bills

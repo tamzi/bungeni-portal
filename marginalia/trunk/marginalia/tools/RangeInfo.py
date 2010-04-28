@@ -36,7 +36,7 @@ class RangeInfoUser:
         self.username = username
 	self.notes = 0
 	self.edits = 0
-	    
+	
 def mergeRangeInfos( infos ):
     """ Reduce the number of range infos as much as possible.
     Subsequent infos with the same stand and end will be collapsed to a single info. """

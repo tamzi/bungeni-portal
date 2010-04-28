@@ -24,9 +24,9 @@ def getUserGroups(login_id, groups):
     a) the groups defined by his user_group_memberships
     b) the users who have him assigned as a delegation
     c) the groups of the delegation user.
-    """        
+    """
     if login_id not in groups:
-        groups.append(login_id)                
+        groups.append(login_id)
     session = Session()
     db_user = session.query(domain.User).filter(
                 domain.User.login==login_id).all()
@@ -40,16 +40,16 @@ def getUserGroups(login_id, groups):
                         domain.GroupMembership.active_p == 
                         True)).options(
                     eagerload('group'), lazyload('user')
-                    )        
+                    )
         results = query.all()
         for result in results:
             if (result.group.group_principal_id not in groups):
                 groups.append(result.group.group_principal_id)
-        results = delegation.get_user_delegations(user_id)                   
-        for result in results:  
+        results = delegation.get_user_delegations(user_id)
+        for result in results:
             if (result.login not in groups):
                 groups = groups + getUserGroups(result.login, groups)
-    return groups                    
+    return groups
                 
 
 
@@ -81,7 +81,7 @@ class AlchemistWhoPlugin(object):
         query = session.query(domain.User).filter(
                 rdb.and_(
                     domain.User.login==unicode(login),
-                    domain.User.active_p=='A')               
+                    domain.User.active_p=='A')
                 )
         results = query.all()
         if len(results) != 1:
@@ -92,7 +92,7 @@ class AlchemistWhoPlugin(object):
     def add_metadata(self, environ, identity):
         userid = identity.get('repoze.who.userid')
         user = self.get_user(userid) 
-        groups = None       
+        groups = None
         if user is not None:
             groups = tuple( self.getGroups(userid))
             identity.update({

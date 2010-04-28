@@ -23,5 +23,5 @@ def initialize( context ):
             permission = add_user_folders,
             constructors = (user.manage_addBungeniUserManagerForm,
                             user.manage_addBungeniUserManager ),
-            visibility = None)        
+            visibility = None)
     

@@ -134,7 +134,7 @@ class AppSetup(object):
             container_getter(get_current_parliament, 'tableddocuments'),
             title=_(u"Tabled documents"),
             marker=interfaces.ITabledDocumentAddContext,
-            description=_(u"View the tabled documents of the current parliament"))     
+            description=_(u"View the tabled documents of the current parliament"))
 
         business[u"agendaitems"] = QueryContent(
             container_getter(get_current_parliament, 'agendaitems'),
@@ -186,40 +186,40 @@ class AppSetup(object):
         
         def to_locatable_container(domain_class, *domain_containers):
             provideAdapter(location.ContainerLocation(*domain_containers),
-                       (implementedBy(domain_class), ILocation))            
+                       (implementedBy(domain_class), ILocation))
         
         # archive/records
         documents[u"bills"] = domain.BillContainer()
         to_locatable_container(domain.Bill, documents[u"bills"])
 
         documents[u"motions"] = domain.MotionContainer()
-        to_locatable_container(domain.Motion, documents[u"motions"])        
+        to_locatable_container(domain.Motion, documents[u"motions"])
         
         documents[u"questions"] = domain.QuestionContainer()
-        to_locatable_container(domain.Question, documents[u"questions"])                
+        to_locatable_container(domain.Question, documents[u"questions"])
         
         documents[u"agendaitems"] = domain.AgendaItemContainer()
-        to_locatable_container(domain.AgendaItem, documents[u"agendaitems"])                
+        to_locatable_container(domain.AgendaItem, documents[u"agendaitems"])
 
         documents[u"tableddocuments"] = domain.TabledDocumentContainer()
         to_locatable_container(domain.TabledDocument, documents[u"tableddocuments"])
         
         documents[u"reports"] = domain.ReportContainer()
-        to_locatable_container(domain.Report, documents[u"reports"])                
+        to_locatable_container(domain.Report, documents[u"reports"])
         #provideAdapter(location.ContainerLocation(tableddocuments, documents[u"reports"]),
         #               (implementedBy(domain.Report), ILocation))
         
         records[u"parliaments"] = domain.ParliamentContainer()
-        to_locatable_container(domain.Parliament, records[u"parliaments"])                
+        to_locatable_container(domain.Parliament, records[u"parliaments"])
         
         records[u"politicalgroups"] = domain.PoliticalGroupContainer()
         to_locatable_container(domain.PoliticalGroup, records[u"politicalgroups"])
         
         records[u"constituencies"] = domain.ConstituencyContainer()
-        to_locatable_container(domain.Constituency, records[u"constituencies"])                
+        to_locatable_container(domain.Constituency, records[u"constituencies"])
         
         records[u"committees"] = domain.CommitteeContainer()
-        to_locatable_container(domain.Committee, records[u"committees"])                
+        to_locatable_container(domain.Committee, records[u"committees"])
 
         #records[u"mps"] = domain.MemberOfParliamentContainer()
         #provideAdapter(location.ContainerLocation(records[u"mps"]),
@@ -237,7 +237,7 @@ class AppSetup(object):
         admin["settings"] = Section(
             title=_(u"Settings"),
             description=_(u"settings"),
-            marker=model_interfaces.IBungeniAdmin,            
+            marker=model_interfaces.IBungeniAdmin,
             default_name="settings")
         
         content[u"parliaments"] = domain.ParliamentContainer()

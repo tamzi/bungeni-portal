@@ -118,7 +118,7 @@ class PrincipalGroupSchedulingContext(object):
 #            proxied = ProxyFactory(sitting)
 #            if checkPermission("zope.View", proxied):
 #                r_sittings.append(sitting)
-#        return r_sittings                
+#        return r_sittings
 
     def get_categories(self):
         return domain.ItemScheduleCategoryContainer()

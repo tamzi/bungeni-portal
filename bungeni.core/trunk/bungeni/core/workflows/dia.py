@@ -26,7 +26,7 @@ def main():
     
     f = open('motion.dot', 'w')
     f.write(motion.wf.dot())
-    f.close()    
+    f.close()
 
     f = open('version.dot', 'w')
     f.write(version.wf.dot())
@@ -34,7 +34,7 @@ def main():
     
     f = open('groupsitting.dot', 'w')
     f.write(groupsitting.wf.dot())
-    f.close()    
+    f.close()
 
     f = open('groups.dot', 'w')
     f.write(groups.wf.dot())
@@ -46,7 +46,7 @@ def main():
     
     f = open('tableddocument.dot', 'w')
     f.write(tableddocument.wf.dot())
-    f.close()    
+    f.close()
 
     f = open('agendaitem.dot', 'w')
     f.write(agendaitem.wf.dot())
@@ -54,7 +54,7 @@ def main():
 
     f = open('committee.dot', 'w')
     f.write(committee.wf.dot())
-    f.close()    
+    f.close()
 
     f = open('parliament.dot', 'w')
     f.write(parliament.wf.dot())

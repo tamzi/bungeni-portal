@@ -84,7 +84,7 @@ div.pageBreak {
     vertical-align: top;
     width: 16em;
     border-collapse: collapse;
-    padding: 0;    
+    padding: 0;
 }
 
 .inlinePortlet {
@@ -184,7 +184,7 @@ li.formTab a {
     text-decoration: none;
 }
 li.formTab a:visited {
-    color: #436976;    
+    color: #436976;
 }
 li.firstFormTab a {
     border-left: 1px solid #8cacbb;
@@ -324,23 +324,23 @@ div.top,
 .hiddenStructure,
 #portal-searchbox,
 #portal-globalnav,
-.template-portal #portal-globalnav,  
+.template-portal #portal-globalnav,
 #portal-personaltools,
-.template-portal #personaltools,  
+.template-portal #personaltools,
 #portal-breadcrumbs,
 .template-portal #portal-breadcrumbs,
-.template-workspace #portal-breadcrumbs,  
+.template-workspace #portal-breadcrumbs,
 #portal-column-one,
 #portal-column-two,
 #portal-languageselector,
 #portal-globalnav-bottom,
-.template-portal #portal-globalnav-bottom,  
+.template-portal #portal-globalnav-bottom,
 #print_button,
 #send_button,
 .contentViews,
 .contentActions,
 .template-portal .contentActions,
-.template-workspace .contentActions,  
+.template-workspace .contentActions,
 .help,
 .legend,
 .portalMessage,

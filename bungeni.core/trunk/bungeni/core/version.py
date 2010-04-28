@@ -51,10 +51,10 @@ class Versioned(container.PartialContainer):
     def has_write_permission(self, context):
         """check that  the user has the rights to edit 
              the object, if not we assume he has no rights 
-             to make a version             
+             to make a version
              assumption is here that if he has the rights on any of the fields
-             he may create a version."""             
-        table = orm.class_mapper(context.__class__).mapped_table            
+             he may create a version."""
+        table = orm.class_mapper(context.__class__).mapped_table
         for column in table.columns:
             if canWrite(context, column.name):
                 return True
@@ -67,7 +67,7 @@ class Versioned(container.PartialContainer):
         context = self.__parent__
         if manual:
             if not self.has_write_permission(context):
-                raise Unauthorized             
+                raise Unauthorized
                             
         version = self.domain_model()
         trusted = removeSecurityProxy(context)
@@ -90,7 +90,7 @@ class Versioned(container.PartialContainer):
         session = Session()
         session.add(version)
         
-        version.context = context        
+        version.context = context
         event.notify(ObjectCreatedEvent(version))
 
         return version

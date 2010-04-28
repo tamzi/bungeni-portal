@@ -10,10 +10,10 @@ from bungeni.ui.i18n import _
 import bungeni.ui.utils as ui_utils
 
 class LibraryViewlet (viewlet.ViewletBase):
-    render = ViewPageTemplateFile ('templates/attached-files.pt')  
-    form_name = _(u"attached files")    
-    for_display = True    
-    def __init__( self,  context, request, view, manager ):        
+    render = ViewPageTemplateFile ('templates/attached-files.pt')
+    form_name = _(u"attached files")
+    for_display = True
+    def __init__( self,  context, request, view, manager ):
         trusted = removeSecurityProxy(context)
         self.context = trusted.attached_files
         self.request = request
@@ -25,8 +25,8 @@ class LibraryViewlet (viewlet.ViewletBase):
     def results(self):
         return self.context
     
-class VersionLibraryViewlet(LibraryViewlet):    
-    render = ViewPageTemplateFile ('templates/version-attached-files.pt')  
+class VersionLibraryViewlet(LibraryViewlet):
+    render = ViewPageTemplateFile ('templates/version-attached-files.pt')
     def results(self):
         rl = []
         rd = {}
@@ -40,4 +40,4 @@ class VersionLibraryViewlet(LibraryViewlet):
             rd["file_mimetype"] = result.file_mimetype
             rl.append(rd)
             rd= {}
-        return rl             
+        return rl

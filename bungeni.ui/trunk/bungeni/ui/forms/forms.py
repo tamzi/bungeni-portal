@@ -69,8 +69,8 @@ def flag_changed_widgets( widgets, context, data):
         if data[name] == getattr(context, name):
             widget.changed = False
         else:
-            widget.changed = True  
-    return []                  
+            widget.changed = True
+    return []
 
 class ResponseEditForm( EditForm ):
     """ Answer a Question
@@ -145,13 +145,13 @@ class ItemScheduleReorderForm(PageForm):
             # if this item has a category assigned, and there's an
             # item after it, swap categories with it
             if  index < len(ordering)-1:
-                next = container[ordering[index+1]]           
+                next = container[ordering[index+1]]
             prev = container[ordering[index-1]]
             order = getattr(self.context, field)
             setattr(self.context, field, getattr(prev, field))
             setattr(prev, field, order)
 
-        if mode == 'down' and index < len(ordering) - 1:            
+        if mode == 'down' and index < len(ordering) - 1:
             next = container[ordering[index+1]]
  
 
@@ -193,7 +193,7 @@ class ItemScheduleDeleteForm(DeleteForm):
             del unproxied.discussions[key]
             session.delete(discussion)
             count += 1
-        #session.close()            
+        #session.close()
         return count
 
 class GroupSittingAddForm(AddForm):
@@ -307,7 +307,7 @@ class GroupSittingAddForm(AddForm):
 
     Cleanup.
 
-      >>> session.flush()  
+      >>> session.flush()
       >>> session.close() 
 
     """

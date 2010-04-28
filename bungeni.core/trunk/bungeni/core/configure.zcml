@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:browser="http://namespaces.zope.org/browser"
            xmlns:db="http://namespaces.objectrealms.net/rdb"
            xmlns:xapian="http://namespaces.objectrealms.net/xapian"
            xmlns:plone="http://namespaces.plone.org/plone"
@@ -40,7 +40,7 @@
             />
   -->
   
-  <!-- Setup Domain Model Audit/ObjectLog Feature-->  
+  <!-- Setup Domain Model Audit/ObjectLog Feature-->
   <include file="audit.zcml"/>
   
   <!-- Setup Domain Model Versioning Feature-->
@@ -136,7 +136,7 @@
     <implements interface=".interfaces.IVersionable
                             ore.xapian.interfaces.IIndexable
                             .interfaces.IAuditable" />
-  </class>                            
+  </class>
   <class class="bungeni.models.domain.TabledDocument">
     <implements interface=".interfaces.IVersionable
                             ore.xapian.interfaces.IIndexable
@@ -238,20 +238,20 @@
   <adapter factory=".dc.SittingTypeDescriptiveProperties" />
   <adapter factory=".dc.ConstituencyDescriptiveProperties" />
   <adapter factory=".dc.ChangeDescriptiveProperties" />
-  <adapter factory=".dc.UserAddressDescriptiveProperties" />  
+  <adapter factory=".dc.UserAddressDescriptiveProperties" />
   <adapter factory=".dc.AgendaItemDescriptiveProperties" />
-  <adapter factory=".dc.TabledDocumentDescriptiveProperties" />  
+  <adapter factory=".dc.TabledDocumentDescriptiveProperties" />
   <adapter factory=".dc.ConstituencyDetailsDescriptiveProperties" />
   <adapter factory=".dc.GroupItemAssignmentDescriptiveProperties" />
   <adapter factory=".dc.MemberRoleTitleDescriptiveProperties" />
   <adapter factory=".dc.ReportDescriptiveProperties" />
-  <adapter factory=".dc.ItemScheduleCategoryDescriptiveProperties" />  
-  <adapter factory=".dc.UserDelegationDescriptiveProperties" />    
-  <adapter factory=".dc.ProvinceDescriptiveProperties" />  
-  <adapter factory=".dc.RegionDescriptiveProperties" />     
-  <adapter factory=".dc.AttachedFileDescriptiveProperties" />   
-  <adapter factory=".dc.AttachedFileVersionDescriptiveProperties" />     
-  <adapter factory=".dc.EventItemProperties" />    
+  <adapter factory=".dc.ItemScheduleCategoryDescriptiveProperties" />
+  <adapter factory=".dc.UserDelegationDescriptiveProperties" />
+  <adapter factory=".dc.ProvinceDescriptiveProperties" />
+  <adapter factory=".dc.RegionDescriptiveProperties" />
+  <adapter factory=".dc.AttachedFileDescriptiveProperties" />
+  <adapter factory=".dc.AttachedFileVersionDescriptiveProperties" />
+  <adapter factory=".dc.EventItemProperties" />
   <adapter factory=".dc.HeadingDescriptiveProperties" />
   <adapter
      name="dc"

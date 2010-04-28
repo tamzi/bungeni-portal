@@ -38,7 +38,7 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
     data_view ="/jsonlisting"
     prefix = "listing"
     
-    def getFields( self ):        
+    def getFields( self ):
         return container.getFields( self.context )
 
     def getFieldColumns( self ):
@@ -63,11 +63,11 @@ class ContextDataTableFormatter(BaseDataTableFormatter):
                     """{label:"%(label)s", key:"sort_%(key)s", 
                     sortable:true, resizeable:true,
                     children: [ 
-	                {key:"%(key)s", sortable:false}]   
+	                {key:"%(key)s", sortable:false}]
                     }""" % coldef
                     )
             field_model.append(
-                '{key:"%s"}'%( key )               
+                '{key:"%s"}'%( key )
                 )
         return ','.join(column_model), ','.join(field_model)
     

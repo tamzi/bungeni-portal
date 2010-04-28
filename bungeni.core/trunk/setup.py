@@ -14,7 +14,7 @@ setup(
           'Natural Language :: English',
           'Operating System :: OS Independent',
           'Topic :: Internet :: WWW/HTTP',
-          'Framework :: Zope3'],    
+          'Framework :: Zope3'],
     packages=find_packages(),
     package_data = { '': ['*.txt', '*.zcml'] },
     namespace_packages=['bungeni'],
@@ -39,7 +39,7 @@ setup(
             'bungeni-reset-db = bungeni.core.schema:reset_database',
             'bungeni-sync-index = bungeni.core.index:reset_index',
             ]
-        },    
+        },
     zip_safe = False,
     )
 

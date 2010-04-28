@@ -98,7 +98,7 @@ class UserIdViewlet(viewlet.ViewletBase):
     def update(self):
         self.principal_id = model_utils.get_principal_id()
     
-    render = ViewPageTemplateFile('../forms/templates/user_id.pt')        
+    render = ViewPageTemplateFile('../forms/templates/user_id.pt')
     
 
 class QuestionInStateViewlet(ViewletBase):
@@ -113,7 +113,7 @@ class QuestionInStateViewlet(ViewletBase):
         def _q_data_item(q):
             item = {}
             item['qid']= 'q_%s' % q.question_id
-            if q.question_number:                       
+            if q.question_number:
                 item['subject'] = u'Q %s %s' % (q.question_number, q.short_name)
             else:
                 item['subject'] = q.short_name
@@ -134,17 +134,17 @@ class QuestionInStateViewlet(ViewletBase):
         session = Session()
         qfilter = ( domain.Question.status == self.state )
         questions = session.query(domain.Question).filter(qfilter)
-        self.query = questions        
+        self.query = questions
 
 
 class MyGroupsViewlet(ViewletBase):
     name = _("My Groups")
-    list_id = "my_groups"    
+    list_id = "my_groups"
     render = ViewPageTemplateFile('templates/workspace_group_viewlet.pt')
     
     def getData(self):
         """Return the data of the query
-        """      
+        """
         formatter = self.request.locale.dates.getFormatter('date', 'short')
         data_list = []
         results = self.query.all()
@@ -158,15 +158,15 @@ class MyGroupsViewlet(ViewletBase):
         government_id = self.__parent__.government_id
         for result in results:
             data = {}
-            data['qid']= ( 'g_' + str(result.group_id) )              
+            data['qid']= ( 'g_' + str(result.group_id) )
             data['subject'] = result.short_name
             data['title'] = result.short_name  + ' (' + result.type + ')'
-            data['result_item_class'] = 'workflow-state-' + result.status   
+            data['result_item_class'] = 'workflow-state-' + result.status
             url = "/archive/browse/parliaments/obj-" + str(parliament_id) 
             if type(result) == domain.Parliament:
                 data['url'] = url
                 continue
-            elif type(result) == domain.Committee:   
+            elif type(result) == domain.Committee:
                 #data['url'] = url + '/committees/obj-' + str(result.group_id) 
                 data['url'] = ('/groups/' + 
                     result.parent_group.group_principal_id + 
@@ -190,13 +190,13 @@ class MyGroupsViewlet(ViewletBase):
         """refresh the query
         """
         session = Session()
-        #user_id = self.__parent__.user_id    
+        #user_id = self.__parent__.user_id
         #parliament_id = self.__parent__.context.parliament_id
         group_ids = self.__parent__.user_group_ids
         gfilter = sql.and_(domain.Group.group_id.in_(group_ids),
                             domain.Group.status == 'active')
         groups = session.query(domain.Group).filter(gfilter)
-        self.query = groups            
+        self.query = groups
 
 
 class SubmittedQuestionViewlet(QuestionInStateViewlet):
@@ -204,35 +204,35 @@ class SubmittedQuestionViewlet(QuestionInStateViewlet):
     display the submitted questions
     """
     name = question_wf_state[u"submitted"].title
-    state =  question_wf_state[u"submitted"].id   
-    list_id = "submitted_questions"  
+    state =  question_wf_state[u"submitted"].id
+    list_id = "submitted_questions"
     
 class ReceivedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the recieved questions
-    """    
+    """
     name = question_wf_state[u"received"].title
-    state = question_wf_state[u"received"].id   
-    list_id = "recieved_questions"     
+    state = question_wf_state[u"received"].id
+    list_id = "recieved_questions"
     
 class ScheduledQuestionViewlet( QuestionInStateViewlet ): 
     name = question_wf_state[u"scheduled"].title
     state = question_wf_state[u"scheduled"].id
-    list_id = "scheduled_questions"     
+    list_id = "scheduled_questions"
         
 class PostponedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the postponed questions
-    """    
+    """
     name = question_wf_state[u"postponed"].title
-    state = question_wf_state[u"postponed"].id   
-    list_id = "postponed_questions"    
+    state = question_wf_state[u"postponed"].id
+    list_id = "postponed_questions"
     
     
 class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"admissible"].title
     state = question_wf_state[u"admissible"].id
     list_id = "admissible_questions"
@@ -240,7 +240,7 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
 class InadmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"inadmissible"].title
     state = question_wf_state[u"inadmissible"].id
     list_id = "inadmissible_questions"
@@ -249,15 +249,15 @@ class InadmissibleQuestionViewlet( QuestionInStateViewlet ):
 class ClarifyClerkQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"clarify_clerk"].title
     state = question_wf_state[u"clarify_clerk"].id
-    list_id = "clarify_clerk_questions"  
+    list_id = "clarify_clerk_questions"
 
 class ResponsePendingQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"response_pending"].title
     state = question_wf_state[u"response_pending"].id
     list_id = "response_pending_questions" 
@@ -265,7 +265,7 @@ class ResponsePendingQuestionViewlet( QuestionInStateViewlet ):
 class CompleteQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"complete"].title
     state = question_wf_state[u"complete"].id
     list_id = "complete_questions" 
@@ -273,7 +273,7 @@ class CompleteQuestionViewlet( QuestionInStateViewlet ):
 class DeferredQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"deferred"].title
     state = question_wf_state[u"deferred"].id
     list_id = "deferred_questions" 
@@ -281,7 +281,7 @@ class DeferredQuestionViewlet( QuestionInStateViewlet ):
 class ElapsedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"elapsed"].title
     state = question_wf_state[u"elapsed"].id
     list_id = "elapsed_questions" 
@@ -291,7 +291,7 @@ class ElapsedQuestionViewlet( QuestionInStateViewlet ):
 class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
-    """    
+    """
     name = question_wf_state[u"withdrawn"].title
     state = question_wf_state[u"withdrawn"].id
     list_id = "withdrawn_questions" 
@@ -300,34 +300,34 @@ class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
 
 
  
-class MotionInStateViewlet( ViewletBase ):  
+class MotionInStateViewlet( ViewletBase ):
     name = state = None
-    list_id = "_motions"    
+    list_id = "_motions"
     def getData(self):
         """
         return the data of the query
-        """      
+        """
         data_list = []
         results = self.query.all()
-        formatter = self.request.locale.dates.getFormatter('date', 'short')        
-        for result in results:            
+        formatter = self.request.locale.dates.getFormatter('date', 'short')
+        for result in results:
             data ={}
-            data['qid']= ( 'm_' + str(result.motion_id) )                         
+            data['qid']= ( 'm_' + str(result.motion_id) )
             data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.short_name
             data['title'] = result.short_name
             if result.approval_date:
                 data['result_item_class'] = ('workflow-state-' + 
                     result.status  + 'sc-after-' + 
                     datetime.date.strftime(result.approval_date, '%Y-%m-%d'))
-            else:         
-                data['result_item_class'] = 'workflow-state-' + result.status       
+            else:
+                data['result_item_class'] = 'workflow-state-' + result.status
             data['url'] = 'motions/obj-' + str(result.motion_id)
             data['status'] = misc.get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
+            data['status_date'] = formatter.format(result.status_date)
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
-            data['type'] =  _(result.type)    
-            data['to'] = ""                  
-            data_list.append(data)            
+            data['type'] =  _(result.type)
+            data['to'] = ""
+            data_list.append(data)
         return data_list
     
     
@@ -337,10 +337,10 @@ class MotionInStateViewlet( ViewletBase ):
         """
         session = Session()
         motions = session.query(domain.Motion).filter(domain.Motion.status == self.state)
-        self.query = motions        
+        self.query = motions
 
 
-class SubmittedMotionViewlet( MotionInStateViewlet ):   
+class SubmittedMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
@@ -349,7 +349,7 @@ class SubmittedMotionViewlet( MotionInStateViewlet ):
     list_id = "submitted_motions"
 
 
-class ReceivedMotionViewlet( MotionInStateViewlet ):   
+class ReceivedMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
@@ -357,7 +357,7 @@ class ReceivedMotionViewlet( MotionInStateViewlet ):
     state = motion_wf_state[u"received"].id
     list_id = "received_motions"
 
-class CompleteMotionViewlet( MotionInStateViewlet ):   
+class CompleteMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
@@ -367,7 +367,7 @@ class CompleteMotionViewlet( MotionInStateViewlet ):
     
    
 
-class ClarifyMpMotionViewlet( MotionInStateViewlet ):   
+class ClarifyMpMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
@@ -375,25 +375,25 @@ class ClarifyMpMotionViewlet( MotionInStateViewlet ):
     state = motion_wf_state[u"clarify_mp"].id
     list_id = "clarify_mp_motions"
     
-class ClarifyClerkMotionViewlet( MotionInStateViewlet ):   
+class ClarifyClerkMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
     name = motion_wf_state[u"clarify_clerk"].title
     state = motion_wf_state[u"clarify_clerk"].id
-    list_id = "clarify_clerk_motions"    
+    list_id = "clarify_clerk_motions"
 
-class DeferredMotionViewlet( MotionInStateViewlet ):   
+class DeferredMotionViewlet( MotionInStateViewlet ):
     """
     display the submitted Motions
     """
     name =  motion_wf_state[u"deferred"].title
     state = motion_wf_state[u"deferred"].id
-    list_id = "deferred_motions"    
+    list_id = "deferred_motions"
     
     
     
-class AdmissibleMotionViewlet( MotionInStateViewlet ):   
+class AdmissibleMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
@@ -402,7 +402,7 @@ class AdmissibleMotionViewlet( MotionInStateViewlet ):
     list_id = "admissible_motions"
     
 
-class PostponedMotionViewlet( MotionInStateViewlet ):   
+class PostponedMotionViewlet( MotionInStateViewlet ):
     """
     display the admissible Motions
     """
@@ -413,29 +413,29 @@ class PostponedMotionViewlet( MotionInStateViewlet ):
 class BillItemsViewlet( ViewletBase ): 
     """
     Display all bills that can be scheduled for a parliamentary sitting
-    """  
+    """
     name  = _(u"Bills")
     list_id = "schedule_bills"
     def getData(self):
         """
         return the data of the query
-        """      
+        """
         data_list = []
         results = self.query.all()
-        formatter = self.request.locale.dates.getFormatter('date', 'short')       
-        for result in results:            
+        formatter = self.request.locale.dates.getFormatter('date', 'short')
+        for result in results:
             data ={}
-            data['qid']= ( 'b_' + str(result.bill_id) )                         
+            data['qid']= ( 'b_' + str(result.bill_id) )
             data['subject'] = result.short_name
             data['title'] = result.short_name
             data['result_item_class'] = ('workflow-state-' + result.status )
             data['url'] = '%ss/obj-%i' %(result.type, result.parliamentary_item_id)
             data['status'] = misc.get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
+            data['status_date'] = formatter.format(result.status_date)
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
             data['to'] = ""
-            data_list.append(data)            
+            data_list.append(data)
         return data_list
     
     
@@ -457,7 +457,7 @@ class BillItemsViewlet( ViewletBase ):
             bill_wf_state[u"third_reading"].id,
             bill_wf_state[u"third_reading_postponed"].id
         ] ))
-        self.query = bills            
+        self.query = bills
 
 class DraftBillViewlet(BillItemsViewlet):
     name  = _(u"Draft Bills")
@@ -470,7 +470,7 @@ class DraftBillViewlet(BillItemsViewlet):
         session = Session()
         bills = session.query(domain.Bill).filter(domain.Bill.status.in_( [bill_wf_state[u"draft"].id]
                                                                                 ))
-        self.query = bills            
+        self.query = bills
 
 
 
@@ -483,7 +483,7 @@ class ItemInStageViewlet( ViewletBase ):
     """
     name = "Items in Stage"
     states = []
-    list_id = "items-in-stage"    
+    list_id = "items-in-stage"
     types = ['motion',
             'question',
             'agendaitem',
@@ -509,14 +509,14 @@ class ItemInStageViewlet( ViewletBase ):
             data['url'] = '%ss/obj-%i' % (
                         result.type, result.parliamentary_item_id)
             data['status'] = misc.get_wf_state(result)
-            data['status_date'] = formatter.format(result.status_date)            
+            data['status_date'] = formatter.format(result.status_date)
             data['owner'] = "%s %s" %(result.owner.first_name, result.owner.last_name)
             data['type'] =  _(result.type)
             if type(result) == domain.Question:
                 data['to'] = result.ministry.short_name
             else:
                 data['to']= u""
-            data_list.append(data)            
+            data_list.append(data)
         return data_list
 
     def update(self):
@@ -525,16 +525,16 @@ class ItemInStageViewlet( ViewletBase ):
         """
         session = Session()
         try:
-            user_id = self.__parent__.user_id    
+            user_id = self.__parent__.user_id
         except:
-            user_id = None     
+            user_id = None
         qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
                 domain.ParliamentaryItem.status.in_(self.states),
                 domain.ParliamentaryItem.type.in_(self.types )
-                            )        
+                            )
         self.query = session.query(domain.ParliamentaryItem).filter(
                 qfilter).order_by(
-            domain.ParliamentaryItem.parliamentary_item_id.desc())  
+            domain.ParliamentaryItem.parliamentary_item_id.desc())
 
 class AllItemsInStageViewlet( ItemInStageViewlet ): 
 
@@ -542,11 +542,11 @@ class AllItemsInStageViewlet( ItemInStageViewlet ):
         """
         refresh the query
         """
-        session = Session()    
+        session = Session()
         qfilter = sql.and_(
                 domain.ParliamentaryItem.status.in_(self.states),
                 domain.ParliamentaryItem.type.in_(self.types )
-                    )        
+                    )
         self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
             domain.ParliamentaryItem.parliamentary_item_id.desc()) 
             
@@ -560,21 +560,21 @@ class MPItemDraftViewlet( ItemInStageViewlet ):
         tableddocument_wf_state[u"draft"].id,
         bill_wf_state[u"draft"].id,
         ]
-    list_id = "items-draft"    
+    list_id = "items-draft"
 
 
 class MPItemActionRequiredViewlet( ItemInStageViewlet ): 
     """
     Display all questions and motions that require action
     (e.g. draft, clarification required)
-    """  
+    """
     name = _("to do")
     states = [motion_wf_state[u"clarify_mp"].id,
         question_wf_state[u"clarify_mp"].id,
         agendaitem_wf_state[u"clarify_mp"].id,
         tableddocument_wf_state[u"clarify_mp"].id,
         ]
-    list_id = "items-action-required"     
+    list_id = "items-action-required"
 
 
     
@@ -588,8 +588,8 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
         question_wf_state[u"admissible"].id,
-        question_wf_state[u"clarify_clerk"].id,     
-        question_wf_state[u"complete"].id,  
+        question_wf_state[u"clarify_clerk"].id,
+        question_wf_state[u"complete"].id,
         motion_wf_state[u"submitted"].id,
         motion_wf_state[u"received"].id,
         motion_wf_state[u"complete"].id,
@@ -597,7 +597,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         motion_wf_state[u"admissible"].id,
         question_wf_state[u"scheduled"].id,
         question_wf_state[u"postponed"].id,
-        question_wf_state[u"response_pending"].id,        
+        question_wf_state[u"response_pending"].id,
         question_wf_state[u"deferred"].id,
         question_wf_state[u"response_submitted"].id,
         motion_wf_state[u"deferred"].id,
@@ -610,7 +610,7 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         agendaitem_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"deferred"].id,
         agendaitem_wf_state[u"postponed"].id,
-        agendaitem_wf_state[u"scheduled"].id,    
+        agendaitem_wf_state[u"scheduled"].id,
         tableddocument_wf_state[u"submitted"].id,
         tableddocument_wf_state[u"received"].id,
         tableddocument_wf_state[u"complete"].id,
@@ -618,9 +618,9 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         tableddocument_wf_state[u"admissible"].id,
         tableddocument_wf_state[u"deferred"].id,
         tableddocument_wf_state[u"postponed"].id,
-        tableddocument_wf_state[u"scheduled"].id,    
+        tableddocument_wf_state[u"scheduled"].id,
         bill_wf_state[u"gazetted"].id , 
-        bill_wf_state[u"first_reading"].id ,        
+        bill_wf_state[u"first_reading"].id ,
         bill_wf_state[u"first_reading_postponed"].id ,
         bill_wf_state[u"second_reading"].id , 
         bill_wf_state[u"second_reading_postponed"].id , 
@@ -629,35 +629,35 @@ class MPItemInProgressViewlet(ItemInStageViewlet):
         bill_wf_state[u"report_reading_postponed"].id ,
         bill_wf_state[u"report_reading"].id , 
         bill_wf_state[u"third_reading"].id,
-        bill_wf_state[u"third_reading_postponed"].id                                
+        bill_wf_state[u"third_reading_postponed"].id
         ]
-    list_id = "items-in-progress"     
+    list_id = "items-in-progress"
 
 
 class ItemArchiveViewlet(ItemInStageViewlet):
     name = _("archived items")
     states = [
-        question_wf_state[u"response_complete"].id,                
+        question_wf_state[u"response_complete"].id,
         question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
         agendaitem_wf_state[u"debated"].id,
-        tableddocument_wf_state[u"debated"].id,  
+        tableddocument_wf_state[u"debated"].id,
         question_wf_state[u"elapsed"].id,
         question_wf_state[u"withdrawn"].id,
         question_wf_state[u"inadmissible"].id, 
         motion_wf_state[u"withdrawn"].id,
         motion_wf_state[u"elapsed"].id,
-        motion_wf_state[u"inadmissible"].id,          
+        motion_wf_state[u"inadmissible"].id,
         agendaitem_wf_state[u"withdrawn"].id,
         agendaitem_wf_state[u"elapsed"].id,
-        agendaitem_wf_state[u"inadmissible"].id,  
+        agendaitem_wf_state[u"inadmissible"].id,
         tableddocument_wf_state[u"withdrawn"].id,
         tableddocument_wf_state[u"elapsed"].id,
-        tableddocument_wf_state[u"inadmissible"].id,          
+        tableddocument_wf_state[u"inadmissible"].id,
         bill_wf_state[u"approved"].id , 
-        bill_wf_state[u"rejected"].id ,          
+        bill_wf_state[u"rejected"].id ,
         ]
-    list_id = "items-archived"     
+    list_id = "items-archived"
 
 class MPItemSuccessEndViewlet(ItemInStageViewlet):
     """ items in end status that were discussed/answered ..."""
@@ -668,12 +668,12 @@ class MPItemSuccessEndViewlet(ItemInStageViewlet):
         motion_wf_state[u"debated"].id,
         question_wf_state[u"elapsed"].id,
         question_wf_state[u"withdrawn"].id,
-        question_wf_state[u"inadmissible"].id,        
+        question_wf_state[u"inadmissible"].id,
         motion_wf_state[u"withdrawn"].id,
         motion_wf_state[u"elapsed"].id,
-        motion_wf_state[u"inadmissible"].id        
+        motion_wf_state[u"inadmissible"].id
         ]
-    list_id = "items-sucess"     
+    list_id = "items-sucess"
 
 class AllItemArchiveViewlet(AllItemsInStageViewlet):
     types = ['motion',
@@ -683,27 +683,27 @@ class AllItemArchiveViewlet(AllItemsInStageViewlet):
             
     name = _("Archived Items")
     states = [
-        question_wf_state[u"response_complete"].id,                
+        question_wf_state[u"response_complete"].id,
         question_wf_state[u"debated"].id,
         motion_wf_state[u"debated"].id,
         agendaitem_wf_state[u"debated"].id,
-        tableddocument_wf_state[u"debated"].id,  
+        tableddocument_wf_state[u"debated"].id,
         question_wf_state[u"elapsed"].id,
         question_wf_state[u"withdrawn"].id,
         question_wf_state[u"inadmissible"].id, 
         motion_wf_state[u"withdrawn"].id,
         motion_wf_state[u"elapsed"].id,
-        motion_wf_state[u"inadmissible"].id,          
+        motion_wf_state[u"inadmissible"].id,
         agendaitem_wf_state[u"withdrawn"].id,
         agendaitem_wf_state[u"elapsed"].id,
-        agendaitem_wf_state[u"inadmissible"].id,  
+        agendaitem_wf_state[u"inadmissible"].id,
         tableddocument_wf_state[u"withdrawn"].id,
         tableddocument_wf_state[u"elapsed"].id,
-        tableddocument_wf_state[u"inadmissible"].id,          
+        tableddocument_wf_state[u"inadmissible"].id,
         bill_wf_state[u"approved"].id , 
-        bill_wf_state[u"rejected"].id ,          
+        bill_wf_state[u"rejected"].id ,
         ]
-    list_id = "items-archived"  
+    list_id = "items-archived"
     
 class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ): 
     types = ['motion',
@@ -715,17 +715,17 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
     states = [
         question_wf_state[u"submitted"].id,
         question_wf_state[u"received"].id,
-        question_wf_state[u"clarify_clerk"].id,  
-        question_wf_state[u"response_submitted"].id,                 
+        question_wf_state[u"clarify_clerk"].id,
+        question_wf_state[u"response_submitted"].id,
         motion_wf_state[u"submitted"].id,
         motion_wf_state[u"received"].id,
-        motion_wf_state[u"clarify_clerk"].id,    
+        motion_wf_state[u"clarify_clerk"].id,
         agendaitem_wf_state[u"submitted"].id,
         agendaitem_wf_state[u"received"].id,
-        agendaitem_wf_state[u"clarify_clerk"].id,    
+        agendaitem_wf_state[u"clarify_clerk"].id,
         tableddocument_wf_state[u"submitted"].id,
         tableddocument_wf_state[u"received"].id,
-        tableddocument_wf_state[u"clarify_clerk"].id,        
+        tableddocument_wf_state[u"clarify_clerk"].id,
     ]
     list_id = "items-action-required"
 
@@ -737,22 +737,22 @@ class SpeakersClerkItemActionRequiredViewlet(ClerkItemActionRequiredViewlet):
 class ClerkReviewedItemViewlet( AllItemsInStageViewlet ): 
     name = _("reviewed & in progress")
     states = [
-        question_wf_state[u"complete"].id,  
+        question_wf_state[u"complete"].id,
         motion_wf_state[u"complete"].id,
         agendaitem_wf_state[u"complete"].id,
         tableddocument_wf_state[u"complete"].id, 
-        question_wf_state[u"admissible"].id,  
+        question_wf_state[u"admissible"].id,
         motion_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"admissible"].id,
-        tableddocument_wf_state[u"admissible"].id,  
+        tableddocument_wf_state[u"admissible"].id,
         question_wf_state[u"clarify_mp"].id,
         motion_wf_state[u"clarify_mp"].id,
         agendaitem_wf_state[u"clarify_mp"].id,
-        tableddocument_wf_state[u"clarify_mp"].id,    
+        tableddocument_wf_state[u"clarify_mp"].id,
         
         question_wf_state[u"scheduled"].id,
         question_wf_state[u"postponed"].id,
-        question_wf_state[u"response_pending"].id,        
+        question_wf_state[u"response_pending"].id,
         question_wf_state[u"deferred"].id,
         question_wf_state[u"response_submitted"].id,
         motion_wf_state[u"deferred"].id,
@@ -760,13 +760,13 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         motion_wf_state[u"scheduled"].id,
         agendaitem_wf_state[u"deferred"].id,
         agendaitem_wf_state[u"postponed"].id,
-        agendaitem_wf_state[u"scheduled"].id,    
+        agendaitem_wf_state[u"scheduled"].id,
         tableddocument_wf_state[u"deferred"].id,
         tableddocument_wf_state[u"postponed"].id,
         tableddocument_wf_state[u"scheduled"].id,
             
         bill_wf_state[u"gazetted"].id , 
-        bill_wf_state[u"first_reading"].id ,                
+        bill_wf_state[u"first_reading"].id ,
         bill_wf_state[u"first_reading_postponed"].id ,
         bill_wf_state[u"second_reading"].id , 
         bill_wf_state[u"second_reading_postponed"].id , 
@@ -775,28 +775,28 @@ class ClerkReviewedItemViewlet( AllItemsInStageViewlet ):
         bill_wf_state[u"report_reading_postponed"].id ,
         bill_wf_state[u"report_reading"].id , 
         bill_wf_state[u"third_reading"].id,
-        bill_wf_state[u"third_reading_postponed"].id                            
+        bill_wf_state[u"third_reading_postponed"].id
     ]
     
 class ItemsCompleteViewlet( AllItemsInStageViewlet ): 
     name = _("to do")
     states = [
-        question_wf_state[u"complete"].id,  
+        question_wf_state[u"complete"].id,
         motion_wf_state[u"complete"].id,
         agendaitem_wf_state[u"complete"].id,
-        tableddocument_wf_state[u"complete"].id,                                     
+        tableddocument_wf_state[u"complete"].id,
     ]
     list_id = "items-action-required"
 
 class ItemsApprovedViewlet( AllItemsInStageViewlet ): 
     name = _("approved")
-    states = [   
-        question_wf_state[u"admissible"].id,  
+    states = [
+        question_wf_state[u"admissible"].id,
         motion_wf_state[u"admissible"].id,
         agendaitem_wf_state[u"admissible"].id,
-        tableddocument_wf_state[u"admissible"].id,                                   
+        tableddocument_wf_state[u"admissible"].id,
         
-        question_wf_state[u"deferred"].id,  
+        question_wf_state[u"deferred"].id,
         motion_wf_state[u"deferred"].id,
         agendaitem_wf_state[u"deferred"].id,
         tableddocument_wf_state[u"deferred"].id, 
@@ -806,22 +806,22 @@ class ItemsApprovedViewlet( AllItemsInStageViewlet ):
 
 class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ): 
     name = _("to be scheduled")
-    states = [   
-        question_wf_state[u"schedule_pending"].id,  
-        question_wf_state[u"scheduled"].id,          
-        question_wf_state[u"postponed"].id,  
-        question_wf_state[u"debate_adjourned"].id,      
-        agendaitem_wf_state[u"schedule_pending"].id,  
-        agendaitem_wf_state[u"scheduled"].id,                  
-        agendaitem_wf_state[u"postponed"].id,  
-        agendaitem_wf_state[u"debate_adjourned"].id,   
-        motion_wf_state[u"schedule_pending"].id,  
-        motion_wf_state[u"scheduled"].id,                  
-        motion_wf_state[u"postponed"].id,  
-        motion_wf_state[u"debate_adjourned"].id,      
-        tableddocument_wf_state[u"schedule_pending"].id,  
-        tableddocument_wf_state[u"scheduled"].id,                  
-        tableddocument_wf_state[u"postponed"].id,  
+    states = [
+        question_wf_state[u"schedule_pending"].id,
+        question_wf_state[u"scheduled"].id,
+        question_wf_state[u"postponed"].id,
+        question_wf_state[u"debate_adjourned"].id,
+        agendaitem_wf_state[u"schedule_pending"].id,
+        agendaitem_wf_state[u"scheduled"].id,
+        agendaitem_wf_state[u"postponed"].id,
+        agendaitem_wf_state[u"debate_adjourned"].id,
+        motion_wf_state[u"schedule_pending"].id,
+        motion_wf_state[u"scheduled"].id,
+        motion_wf_state[u"postponed"].id,
+        motion_wf_state[u"debate_adjourned"].id,
+        tableddocument_wf_state[u"schedule_pending"].id,
+        tableddocument_wf_state[u"scheduled"].id,
+        tableddocument_wf_state[u"postponed"].id,
         tableddocument_wf_state[u"debate_adjourned"].id,
     ]
     list_id = "items-pending-schedule"
@@ -829,19 +829,19 @@ class ItemsPendingScheduleViewlet( AllItemsInStageViewlet ):
 
 class QuestionsPendingResponseViewlet( AllItemsInStageViewlet ): 
     name = _("questions at the ministries")
-    states = [   
-        question_wf_state[u"response_submitted"].id,  
-        question_wf_state[u"response_pending"].id,                                        
+    states = [
+        question_wf_state[u"response_submitted"].id,
+        question_wf_state[u"response_pending"].id,
     ]
-    list_id = "questions-pending-response"    
+    list_id = "questions-pending-response"
 
 class MinistryItemsViewlet(ViewletBase):
     list_id = "ministry-items"
     name = _("questions to the ministry")
     states = [
-        question_wf_state[u"admissible"].id,  
-        question_wf_state[u"scheduled"].id,                                          
-        question_wf_state[u"response_pending"].id,          
+        question_wf_state[u"admissible"].id,
+        question_wf_state[u"scheduled"].id,
+        question_wf_state[u"response_pending"].id,
     ]
     response_types = ['O','W']
     
@@ -851,7 +851,7 @@ class MinistryItemsViewlet(ViewletBase):
         def _q_data_item(q):
             item = {}
             item['qid']= 'q_%s' % q.question_id
-            if q.question_number:                       
+            if q.question_number:
                 item['subject'] = u'Q %s %s (%s)' % (
                                     q.question_number, q.short_name, q.status)
             else:
@@ -878,7 +878,7 @@ class MinistryItemsViewlet(ViewletBase):
            
     def getData(self):
         """ template calls this to get the data of the query setup in update()
-        """    
+        """
         return [ item for ministry in self.query.all() 
                  for item in self._getItems(ministry) ]
     
@@ -891,20 +891,20 @@ class MinistryItemsViewlet(ViewletBase):
             ministry_ids = self.__parent__.ministry_ids
             assert ministry_ids is not None
         except:
-            ministry_ids = []                        
-        qfilter = domain.Ministry.group_id.in_(ministry_ids)        
+            ministry_ids = []
+        qfilter = domain.Ministry.group_id.in_(ministry_ids)
         ministries = session.query(domain.Ministry).filter(qfilter).order_by(
-            domain.Ministry.start_date.desc())            
-        self.query = ministries    
+            domain.Ministry.start_date.desc())
+        self.query = ministries
 
 
 class OralMinistryQuestionsViewlet(MinistryItemsViewlet):
     list_id = "ministry-oral-questions"
     name = _("oral questions")
     states = [
-        question_wf_state[u"admissible"].id,  
-        question_wf_state[u"scheduled"].id,                                          
-        question_wf_state[u"schedule_pending"].id,          
+        question_wf_state[u"admissible"].id,
+        question_wf_state[u"scheduled"].id,
+        question_wf_state[u"schedule_pending"].id,
     ]
     response_types = ['O']
 
@@ -912,8 +912,8 @@ class WrittenMinistryQuestionsViewlet(MinistryItemsViewlet):
     list_id = "ministry-written-questions"
     name = _("written questions")
     states = [
-        question_wf_state[u"admissible"].id,  
-        question_wf_state[u"response_pending"].id,          
+        question_wf_state[u"admissible"].id,
+        question_wf_state[u"response_pending"].id,
     ]
     response_types = ['W']
 
@@ -922,8 +922,8 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')
     
     name = _("agendas/minutes")
-    states = [   
-        sitting_wf_state[u"draft-agenda"].id,  
+    states = [
+        sitting_wf_state[u"draft-agenda"].id,
         sitting_wf_state[u"draft-minutes"].id,
     ]
     list_id = "sitting-draft"
@@ -931,11 +931,11 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
     def getData(self):
         """
         return the data of the query
-        """    
-        data_list = []       
+        """
+        data_list = []
         results = self.query.all()
-        formatter = self.request.locale.dates.getFormatter('date', 'short')         
-        for result in results:            
+        formatter = self.request.locale.dates.getFormatter('date', 'short')
+        for result in results:
             data ={}
             data['subject'] = result.short_name
             if ICommittee.providedBy(result.group):
@@ -943,9 +943,9 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
                 data['url'] = 'committees/obj-%i/calendar/group/sittings/obj-%i/schedule' % (
                     result.group.group_id, result.sitting_id)
             else:
-                #http://localhost:8081/calendar/group/sittings/obj-5011/schedule            
+                #http://localhost:8081/calendar/group/sittings/obj-5011/schedule
                 data['url'] = 'calendar/obj-%i/schedule' % result.sitting_id
-            data['items'] = ''                
+            data['items'] = ''
             data['status'] = misc.get_wf_state(result)
             data['status_date'] = formatter.format(result.status_date)
             data['owner'] = ""
@@ -959,21 +959,21 @@ class DraftSittingsViewlet(viewlet.ViewletBase):
             if type(result) == domain.Question:
                 data['to'] = result.ministry.short_name
             else:
-                data['to']= u""                
-            data_list.append(data)                 
+                data['to']= u""
+            data_list.append(data)
         return data_list
 
     def update(self):
         """
         refresh the query
         """
-        session = Session()                        
-        qfilter = domain.GroupSitting.status.in_(self.states)        
+        session = Session()
+        qfilter = domain.GroupSitting.status.in_(self.states)
         sittings = session.query(domain.GroupSitting).filter(
                 qfilter).order_by(domain.GroupSitting.start_date.desc()
                     ).options(
                 eagerload('group'),
                 eagerload('sitting_type')
                 )
-        self.query = sittings             
+        self.query = sittings
         

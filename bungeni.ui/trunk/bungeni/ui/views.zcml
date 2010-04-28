@@ -328,7 +328,7 @@
         name="whats-on"
         for="bungeni.core.interfaces.ISection"
         layer="bungeni.ui.interfaces.IBungeniSkin"
-        class=".viewlets.whatson.WhatsOnBrowserView"     
+        class=".viewlets.whatson.WhatsOnBrowserView"
         permission="zope.Public"
     />
     <browser:page
@@ -362,7 +362,7 @@
         name="browse-archive"
         for="bungeni.core.interfaces.ISection"
         layer="bungeni.ui.interfaces.IBungeniSkin"
-        class=".archive.ArchiveBrowserView"
+        class=".archive.ArchiveBrowseContentView"
         permission="zope.Public"
     />
 
@@ -379,7 +379,7 @@
         name="browse-admin"
         for="bungeni.core.interfaces.ISection"
         layer="bungeni.ui.interfaces.IBungeniSkin"
-        class=".archive.AdminBrowserView"
+        class=".archive.AdminBrowseContentView"
         permission="zope.ManageSite"
     />
 

@@ -48,7 +48,7 @@
      />
 
   <browser:menu
-     id="context_additems"
+     id="context_add_parliamentary_content"
      title="The 'Add' menu - allows the user to add content"
      class="ploned.ui.menu.PloneBrowserMenu"
      />
@@ -86,7 +86,7 @@
         title="Add Parliamentary Content..."
         action="add_content"
         permission="zope.View"
-        submenu="context_additems"
+        submenu="context_add_parliamentary_content"
     />
     <browser:subMenuItem
         menu="plone_contentmenu"
@@ -94,11 +94,9 @@
         title="Add Parliamentary Content..."
         action="add_content"
         permission="zope.View"
-        submenu="context_additems"
-    /><!-- 
-        for=".interfaces.IWorkspacePIContext" 
-        layer=".interfaces.IAddParliamentaryContentLayer" 
-      -->
+        layer=".interfaces.IAdminSectionLayer"
+        submenu="context_add_parliamentary_content"
+    />
   
   <browser:subMenuItem
      menu="plone_contentmenu"
@@ -1248,7 +1246,7 @@
   <!-- menu items -->
   
   <browser:menuItem
-     menu="context_additems"
+     menu="context_add_parliamentary_content"
      for="*"
      title="Bill"
      action="bills/add"
@@ -1256,7 +1254,7 @@
      />
 
   <browser:menuItem
-     menu="context_additems"
+     menu="context_add_parliamentary_content"
      for="*"
      title="Motion"
      action="motions/add"
@@ -1264,7 +1262,7 @@
      />
 
   <browser:menuItem
-     menu="context_additems"
+     menu="context_add_parliamentary_content"
      for="*"
      title="Question"
      action="questions/add"
@@ -1273,7 +1271,7 @@
 
 
   <browser:menuItem
-     menu="context_additems"
+     menu="context_add_parliamentary_content"
      for="*"
      title="Agenda item"
      action="agendaitems/add"
@@ -1281,7 +1279,7 @@
      />
      
   <browser:menuItem
-     menu="context_additems"
+     menu="context_add_parliamentary_content"
      for="*"
      title="Tabled document"
      action="tableddocuments/add"

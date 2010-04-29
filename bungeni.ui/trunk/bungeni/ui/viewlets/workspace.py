@@ -41,8 +41,9 @@ from ploned.ui.viewlet import StructureAwareViewlet
 
 
 class ViewTemplateFile(z3evoque.ViewTemplateFile):
-    """Evoque file-based template that pre-sets the preferred collection and
-    the i18n_domain. Viewlets here should use this ViewTemplateFile class.
+    """Evoque file-based template classes with conveniently pre-set preferences
+    i.e. the collection and the i18n_domain. 
+    Viewlets here should use this ViewTemplateFile class.
     """
     collection = "bungeni.ui.viewlets"
     i18n_domain = "bungeni.ui"

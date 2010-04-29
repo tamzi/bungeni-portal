@@ -81,7 +81,6 @@ class BungeniBrowserView(BrowserView):
         return provider.render()
 
 
-
 def prepare_user_workspaces(event):
     """Determine the current principal's workspaces, depending on roles and
     group memberships. 
@@ -434,8 +433,12 @@ class WorkspaceSchedulingContext(object):
 
 
 # views
+from zope.app.pagetemplate import ViewPageTemplateFile
 
 class WorkspaceSectionView(BungeniBrowserView):
+    
+    # zpt
+    __call__ = ViewPageTemplateFile("templates/workspace-section.pt")
     
     # set on request.layer_data
     user_id = None

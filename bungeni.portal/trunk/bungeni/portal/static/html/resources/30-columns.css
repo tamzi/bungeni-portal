@@ -33,15 +33,6 @@
     padding: 0;
 }
 
-.inlinePortlet {
-    width: 100%;
-    float: left;
-}
-
-#contentBottomLeft {
-  clear: both;
-  display: block;
-}
 
 /* fullscreen */
 body.fullscreen #portal-column-one,

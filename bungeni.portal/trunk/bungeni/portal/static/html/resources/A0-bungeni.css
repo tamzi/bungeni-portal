@@ -60,6 +60,26 @@ table.side-by-side th span.fieldRequired {
   white-space: nowrap;
 }
 
+.inlinePortlet {
+    width: 100%;
+    float: left;
+}
+
+.contentViewsLeftPort li.selected {
+    background-color: white;
+    text-decoration: bold;
+}
+
+.contentViewsLeftPort li:hover {
+    background-color: white;
+    text-decoration: bold;
+}
+
+#contentBottomLeft {
+  clear: both;
+  display: block;
+}
+
 #portletArchiveDates #actionsView {
   clear: none;
   float: right;
@@ -86,3 +106,35 @@ table.side-by-side th span.fieldRequired {
   background: yellow;
 }
 
+.rowspacer {
+    clear: both;
+}
+
+.workspace-viewlet dd {
+    height: 40em;
+    overflow: auto;
+}
+
+.widget-multicheckboxwidget .widget label {
+  display: inline;
+  margin-right: 1em;
+    font-size: 0.9em;
+}
+
+.widget-multicheckboxwidget br {
+   display: none;
+}
+
+div.content-left-column{
+float: left;
+width : 30%;
+}
+
+div.content-right-column{
+float: right;
+width: 70%;
+}
+
+tr.yui-dt-last th {
+white-space: nowrap; 
+}

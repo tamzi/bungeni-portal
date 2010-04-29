@@ -7,6 +7,8 @@ import datetime
 import tempfile
 from zope.security.proxy import removeSecurityProxy
 import htmlentitydefs
+from xml.dom.minidom import parseString
+import tidy
 
 def unescape(text):
     def fixup(m):
@@ -35,21 +37,35 @@ class DownloadODT(BrowserView):
         body_text = removeSecurityProxy(self.context.body_text)
         odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
         #appy.Renderer expects a file name of a file that does not exist.
-        tempFileName = '/tmp/%f.odt' % ( time.time())
+        tempFileName = os.path.dirname(__file__) + '/tmp/%f.odt' % ( time.time())
         params = {}
-        params['body_text'] = unescape(body_text)
+        options = dict(output_xhtml=1, 
+                    add_xml_decl=0, 
+                    indent=1, 
+                    tidy_mark=0,
+                    output_encoding='utf8')
+        aftertidy = tidy.parseString(str(unescape(body_text)), **options)
+        dom = parseString(str(aftertidy))
+        nodeList = dom.getElementsByTagName("body")
+        text = ""
+        for childNode in nodeList[0].childNodes:
+            text += childNode.toxml()
+        #print text
+        #params['body_text'] = "<b>This is a test</b>"
+        params['body_text'] = text
+        dom.unlink()
         renderer = Renderer(odt_file, params, tempFileName)
-        #import pdb; pdb.set_trace()
         renderer.run()
         self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
         self.request.response.setHeader('Content-disposition', 'inline;filename="'+
                                             removeSecurityProxy(self.context.report_type)+"_"+
                                             removeSecurityProxy(self.context.start_date).strftime('%Y-%m-%d')+'.odt"')
+        
         f = open(tempFileName, 'rb')
         doc = f.read()
-        f.close()
-        os.remove(tempFileName)
-        return doc
+        f.close()      
+        os.remove(tempFileName)    
+        return doc  
     
 class  DownloadPDF(BrowserView):
     
@@ -59,8 +75,19 @@ class  DownloadPDF(BrowserView):
         #appy.Renderer expects a file name of a file that does not exist.
         tempFileName = '/tmp/%f.pdf' % ( time.time())
         params = {}
-        params['body_text'] = unescape(body_text)
-        
+        options = dict(output_xhtml=1, 
+                    add_xml_decl=0, 
+                    indent=1, 
+                    tidy_mark=0,
+                    output_encoding='utf8')
+        aftertidy = tidy.parseString(str(unescape(body_text)), **options)
+        dom = parseString(str(aftertidy))
+        nodeList = dom.getElementsByTagName("body")
+        text = ""
+        for childNode in nodeList[0].childNodes:
+            text += childNode.toxml()
+        params['body_text'] = text
+        dom.unlink()
         #uses system open office and python uno to generate pdf
         #TO DO : fix this to use user python
         renderer = Renderer(odt_file, params, tempFileName, pythonWithUnoPath="/usr/bin/python2.5")

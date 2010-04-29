@@ -14,7 +14,7 @@ desc "Start Bungeni"
     task :start_bungeni, :roles => [:app] do
 	run "echo 'Starting Bungeni...'"
     end
-
+   
     task :stop_bungeni, :roles => [:app] do
 	run "echo 'Stopping Bungeni...'"
     end
@@ -22,7 +22,12 @@ desc "Start Bungeni"
     task :restart_bungeni, :roles => [:app] do
 	run "echo 'Restarting Bungeni...'"
     end
-
+    
+    task :start_openoffice, :roles => [:app] do
+    run "echo starting openoffice daemon"
+    run  "soffice -headless -accept='socket,port=2002;urp;'"
+    end
+    
     after "bungeni_services:start_bungeni", "bungeni_tasks:start_supervisor"
     after "bungeni_services:stop_bungeni", "bungeni_tasks:stop_supervisor"
     after "bungeni_services:restart_bungeni", "bungeni_services:stop_bungeni", "bungeni_services:start_bungeni"

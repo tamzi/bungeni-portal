@@ -206,12 +206,12 @@ form.searchPage {
 }
 
 input.searchPage {
-    font-size: 150% !important;
+    font-size: 200% !important;
 }
 
 form.searchPage input.searchButton {
     background-position:5px 7px;
-    padding:1px 10px 0px 25px;
+    padding:1px 10px 1px 25px;
 }
 
 /* LiveSearch styles */
@@ -980,7 +980,7 @@ a.link-parent {
     padding: 1px 0px 1px 16px;
 }
 #content .link-comment {
-    background: transparent url(http://localhost:8082/site1/discussionitem_icon.gif) center left no-repeat;
+    background: transparent url(discussionitem_icon.gif) center left no-repeat;
     padding: 1px 0px 1px 16px !important; /* value:  */
 }
 #content .link-anchor {

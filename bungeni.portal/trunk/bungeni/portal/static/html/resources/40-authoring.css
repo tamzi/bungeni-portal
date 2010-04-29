@@ -151,7 +151,7 @@
     border-spacing: 0;
 }
 .actionMenu.deactivated .actionMenuContent {
-    /*display: none !important;*/
+    display: none !important;
 }
 .actionMenu .actionMenuContent ul {
     display: block;
@@ -288,9 +288,6 @@ ul.configletDetails li.configletDescription {
 .spacer {
     margin: 1em;
 }
-.rowspacer {
-    clear: both;
-}
 
 /* Collapsible elements */
 dl.collapsible {
@@ -339,7 +336,7 @@ dl.collapsedBlockCollapsible dt.collapsibleHeader {
     float: none;
     position: static;
     margin: 0;
-    padding: 0 0 0 0px;
+    padding: 0 0 0 22px;
     line-height: 1em;
     background: transparent url(treeCollapsed.gif) no-repeat 6px 50%;
     cursor: pointer;
@@ -487,14 +484,5 @@ div.formControls input.hidden {
 
 }
 
-.contentViewsLeftPort li.selected {
-    background-color: white;
-    text-decoration: bold;
-}
-
-.contentViewsLeftPort li:hover {
-    background-color: white;
-    text-decoration: bold;
-}
 
 

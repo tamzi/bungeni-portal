@@ -70,7 +70,10 @@ namespace :bungeni_presetup do
 			"automake" ,  # for svn
 			"autoconf" , # for svn
 			"libsqlite3-dev", #for python unit tests
-			"uuid-dev" # for ubuntu 9.04 xapian
+			"uuid-dev", # for ubuntu 9.04 xapian
+			"openoffice.org-headless", #for generating pdf reports
+			"python-ctypes", #required by tidy
+			"libtidy" #required by tidy
 			#"libaprutil1-dev", # for svn
 			#"swig", # for svn
 			#"xmlto" # for libneon 

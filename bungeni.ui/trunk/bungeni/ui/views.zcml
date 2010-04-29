@@ -50,7 +50,7 @@
         permission="zope.View"
         layer=".interfaces.IBungeniAuthenticatedSkin"
         template="templates/app-index.pt"
-    /> -->
+    /> !+ ??? -->
     <browser:page
         name="view"
         for=".interfaces.IWorkspaceContainer"
@@ -71,7 +71,6 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace.WorkspacePIView"
      permission="zope.View"
-     template="templates/workspace-index.pt"
   />
   <browser:page
      name="workspace-archive"
@@ -79,8 +78,7 @@
      layer=".interfaces.IBungeniAuthenticatedSkin"
      class=".workspace.WorkspaceArchiveView"
      permission="zope.View"
-     template="templates/workspace-index.pt"
-  /><!-- !+ rename workspace-index.pt -->
+  />
   <adapter 
     factory=".workspace.WorkspaceSchedulingContext" 
     for="bungeni.ui.interfaces.IWorkspaceContainer"

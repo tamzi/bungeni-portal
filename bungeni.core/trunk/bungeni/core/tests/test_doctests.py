@@ -43,6 +43,10 @@ def tearDown( test ):
 def test_suite():
     from bungeni.core.app import BungeniApp
 
+    # NOTE: to run an individual test txt file from the commandline:
+    #
+    #       $ bin/test -s bungeni.core -t file.txt
+    #
     doctests = ('audit.txt',
                 'version.txt',
                 'odf.txt',

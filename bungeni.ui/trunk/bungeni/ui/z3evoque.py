@@ -118,17 +118,17 @@ def get_gettext(i18n_domain, language):
 
 # (tmp hack) localedirs for i18n domains
 i18n_domain_localedirs = {
-    "bungeni.core": os.path.join(os.path.dirname(os.path.abspath(
-        __import__("bungeni.core").__file__)), "core/locales"),
     "bungeni.ui": os.path.join(os.path.dirname(os.path.abspath(
-        __import__("bungeni.ui").__file__)), "ui/locales")
+        __import__("bungeni.ui").__file__)), "ui/locales"),
+    "bungeni.core": os.path.join(os.path.dirname(os.path.abspath(
+        __import__("bungeni.core").__file__)), "core/locales"), # !+
 }
 
 # Use this as default i18n domain i.e. set a bound gettext on the evoque 
 # domain's globals dict, that thus will be available to all templates, unless
 # specific templates choose to override it by setting another bound gettext 
 # onto the template's locals dict.
-default_i18n_domain = "bungeni.core"
+default_i18n_domain = "bungeni.ui"
 
 
 #
@@ -293,9 +293,24 @@ class _ViewTemplateBase(object):
                     i18n_domain, view.request.locale.getLocaleID())
         return namespace
 
+
 class ViewTemplateString(_ViewTemplateBase):
     """Evoque string-based template used as method of a view 
     defined as a Python class.
+    
+    To use: 
+    
+      >>> from bungeni.ui import z3evoque
+      >>> vts = z3evoque.ViewTemplateString("test_vts", "</somemarkup>")
+      >>> vts()
+      </somemarkup>
+      
+    The above is basically a wrapper to fetch the evoque template form the 
+    domain and render it:      
+    
+      >>> z3evoque.domain.get_template("test_vts").evoque()
+      </somemarkup>
+    
     """
     def __init__(self, name, src, collection=None, i18n_domain=None):
         """
@@ -313,7 +328,7 @@ class ViewTemplateString(_ViewTemplateBase):
         domain.set_template(self.name, src=self.src, 
                                 collection=self.collection, from_string=True)
         log.debug("ViewTemplateString [%s][%s] %s" % (collection, name, self))
-
+        
 class ViewTemplateFile(_ViewTemplateBase):
     """Evoque file-based template used as method of a view 
     defined as a Python class.
@@ -331,6 +346,12 @@ class ViewTemplateFile(_ViewTemplateBase):
         if collection is not None: self.collection = collection
         if i18n_domain is not None: self.i18n_domain = i18n_domain
         log.debug("ViewTemplateFile [%s][%s] %s" % (collection, name, self))
+        
+# ensure public security setting for these Section attributes
+from zope.security.checker import CheckerPublic, Checker, defineChecker
+defineChecker(ViewTemplateString, Checker({'__call__':CheckerPublic}))
+defineChecker(ViewTemplateFile, Checker({'__call__':CheckerPublic}))
+
 
 # View Helpers
 
@@ -343,7 +364,8 @@ class ViewMapper(object):
         return zope.component.getMultiAdapter((self.ob, self.request), name=name)
 
 
-''' Idea here is to separate all page-concerns from templates:
+'''
+# Idea here is to separate all page-concerns from templates:
 class Page(object):
     """Wrapper on a ViewTemplate instance, adding page-related features
     

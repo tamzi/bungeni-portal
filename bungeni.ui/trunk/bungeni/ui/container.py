@@ -196,6 +196,7 @@ class WorkspaceRootRedirect(BrowserView):
             log.warn("WorkspaceRootRedirect %s -> %s" % (request.getURL(), to_url))
             request.response.redirect(to_url)
         else:
+            # !+
             # user has no workspaces and is requesting /workspace view
             # return the "no workspace" *rendered* view for /workspace
             return component.getMultiAdapter(

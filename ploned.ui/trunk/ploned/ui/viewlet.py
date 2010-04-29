@@ -28,17 +28,10 @@ class StructureAwareViewlet(object):
 
 # specific content
 
-# !+ define this in ui.viewlets for common use
-class ViewTemplateFile(z3evoque.ViewTemplateFile):
-    """Evoque file-based template that pre-sets the preferred collection and
-    the i18n_domain. Viewlets here should use this ViewTemplateFile class.
-    """
-    collection = "bungeni.ui.viewlets"
-    i18n_domain = "bungeni.ui"
-
 class ContentViewsViewlet(StructureAwareViewlet):
     # evoque
-    render = ViewTemplateFile("ploned.html#content_actions")
+    render = z3evoque.ViewTemplateFile("ploned.html#content_actions",
+                collection="bungeni.ui.viewlets", i18n_domain="bungeni.ui")
     
     # zpt
     #render = ViewPageTemplateFile(

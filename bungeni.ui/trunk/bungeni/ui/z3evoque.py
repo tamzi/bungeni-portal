@@ -4,52 +4,60 @@
 
 """Zope3 + Evoque Templating: http://evoque.gizmojo.org/
 
-Evoque advantages (over ZPT):
-- No server restart needed each time a file-based template is modified.
+Evoque advantages (over Chameleon/ZPT):
+- No server restart needed each time a file-based template is modified (well, I
+  am told this should also be the case with ZPT, but in this setup it is not).
 - A template may invoke other templates (that may be within same collection or 
   within any other collection in the domain).
-- Template inheritance, offering option to move page presentational composition 
-  logic out of the core application.
+- Template inheritance, offering options to easily:
+  - move page presentational composition logic out of core application.
+  - define skins, that may be dynamically switched at runtime as per 
+    user-preference.
 - May be used to generate output in any format, not only X/HTML e.g. JSON, CSS,
-  JavaScript, INI, SQL, etc. 
+  JavaScript, INI, SQL, Python Scripts, etc. 
 - No "XML Situps".
 - Multiple templates may be defined in a single file, if so wished.
 - A direct and immediately obvious, and memorable, syntax.
 - Super fast, simple, extremely flexible, small.
 - Lightweight:
-  - to use Evoque with Zope all you basically need this module + evoque itself 
-    (a 1000 SLOC package); 
+  - to use Evoque with Zope all you basically need is this module + evoque 
+    itself (a 1000 SLOC package); 
   - to use ZPT with Zope you'd need: zope.tal, zope.tales, zope.pagetemplate, 
     zope.app.pagetemplate, z3c.pt, z3c.template, z3c.ptcompat, chameleon.core, 
     chameleon.zpt, chameleon.html, ... ?!?
 - Evoque runs also on Python 3 (as well as on 2.4 and up).
 
-Other Evoque features (that are also supported by ZPT):
+Other Evoque features (also supported by ZPT):
 - May be run in restricted mode (to allow untrusted authors to edit templates).
-- Automatic XML/HTML escaping of all data values, guaranteeing XSS protection (I
-  believe ZPT also has this).
+- Automatic XML/HTML escaping of all data values, guaranteeing XSS protection. 
+  Unlike ZPT, Evoque goes further on this feature, as it even guarantees that
+  data us escpaed once-and-only-once. The ability is less relevant for ZPT 
+  however, as ZPT does not support loading and invoking other templates from 
+  within a template.
 - Evoque, like ZPT, does not allow embedding *python statements* -- meaning 
   there can be no data manipulation except through exposed python code. 
   On the other hand, unlike ZPT, Evoque supports arbitrary *python expressions*, 
-  giving you plenty of flexibility for stating presentation logic, while 
-  retaining good control over the code i.e. to have it run within a restricted 
-  sandbox.
+  giving plenty of flexibility for stating presentation logic while still 
+  retaining good control over the code i.e. is still able to run it within 
+  a restricted sandbox.
   
 Current limitations:
 - A "template" attribute may currently not be specified in a ZCML declaration 
-  -- for now, the "template" should be specified in the class.
+  -- for now, the template forr a ZCML-declared view should be specified in 
+  the class.
 
 Status:
 Exploratory, to first verify that Evoque templates may be used everywhere 
 that ZPT templates are used.
 
-Viewlets and ViewletManagers are confirmed to work, as proven by an 
-implementation of samples of each of these using an evoque template. 
+The "site" main page template, BrowserViews,  Viewlets and ViewletManagers 
+are confirmed to work, as proven by sample implementations of each of 
+these using evoque templates. 
 
 The following still need to be 100% verified with real working examples:
-- Using evoque templates with: a "site" main page template, BrowserViews, 
-  Forms/Widgets (formlib, do these use ZPT templates?), 
-  any other Zope construct that uses a "template".
+- Using evoque templates with: 
+  - Forms/Widgets (formlib, do these use ZPT templates?)
+  - any other Zope construct that uses a "template".
 - i18n catalog extraction: this may simply mean adopting a supported alias for 
   the gettext() function -- the implementation below uses "i18n" as alias, 
   i.e. i18n(messageid) to get the translation for messageid, however the most 
@@ -81,9 +89,6 @@ evoque_ini = {
     "evoque.input_encoding":"utf-8"
 }
 
-# logger
-evoque_logger_name = "evoque"
-
 # The (absolute) path as root location against which to resolve all (relative) 
 # domain/collection paths e.g. the abs path for the deployed application root. 
 # Here we use the folder for the deployed bungeni.ui package:
@@ -106,8 +111,9 @@ additional_collections = {
 
 def get_gettext(i18n_domain, language):
     """Get a _() i18n gettext function bound to domain and language.
-    !+ There must be a better way to do this, but this does not work:
-        zope.i18nmessageid.MessageFactory(self.i18n_domain)
+    !+ There is probably a better way to do this; the following "obvious" way
+       does not work:
+            zope.i18nmessageid.MessageFactory(self.i18n_domain)
     """
     import gettext
     t = gettext.translation(
@@ -124,10 +130,8 @@ i18n_domain_localedirs = {
         __import__("bungeni.core").__file__)), "core/locales"), # !+
 }
 
-# Use this as default i18n domain i.e. set a bound gettext on the evoque 
-# domain's globals dict, that thus will be available to all templates, unless
-# specific templates choose to override it by setting another bound gettext 
-# onto the template's locals dict.
+# Use this as default value for the template's i18n_domain, to which the 
+# the gettext callable set on each template's locals dict is bound.
 default_i18n_domain = "bungeni.ui"
 
 
@@ -178,7 +182,7 @@ def setup_evoque():
         # level = DEBUG
         # handlers =
         # qualname = evoque
-        log = logging.getLogger(evoque_logger_name),
+        log = logging.getLogger("evoque"),
         
         # [collections] int, max loaded templates in a collection
         cache_size = int(evoque_ini.get("evoque.cache_size", 0)), 
@@ -222,8 +226,8 @@ def setup_evoque():
     # set the evoque_domain singleton utility
     set_domain(evoque_domain)
     
-    # log setup finished
-    domain.log.debug(evoque_domain.__dict__)
+    # log setup finished -- via newly set global domain
+    domain.log.debug(domain.__dict__)
 
 
 #
@@ -235,7 +239,7 @@ class _ViewTemplateBase(object):
     Should be overridden by subslasses, not meant to be instantiated directly.
     """
     
-    # defaults for attributes needed to get a template
+    # defaults for attributes needed to get the evoque template
     name = None
     src = None
     collection = None
@@ -243,7 +247,7 @@ class _ViewTemplateBase(object):
     # if set, use this i18n domain, else fallback to global default
     i18n_domain = None
     
-    # these are updated each time a caller does a self.template
+    # these are updated each time a caller view gets this ViewTemplate
     _descriptor_view = None
     _descriptor_type = None
     
@@ -335,6 +339,7 @@ class ViewTemplateString(_ViewTemplateBase):
 class ViewTemplateFile(_ViewTemplateBase):
     """Evoque file-based template used as method of a view 
     defined as a Python class.
+    !+ usage/tests
     """
     def __init__(self, name, src=None, collection=None, i18n_domain=None):
         """
@@ -350,6 +355,7 @@ class ViewTemplateFile(_ViewTemplateBase):
 class PageViewTemplateFile(ViewTemplateFile):
     """A ViewTemplateFile that for *the* browser page response, thus also 
     handles all browser page-related concerns.
+    !+ usage/tests
     """
     content_type = None
     

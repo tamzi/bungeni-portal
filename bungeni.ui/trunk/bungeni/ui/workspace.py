@@ -441,10 +441,13 @@ from bungeni.ui import z3evoque
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 class WorkspaceSectionView(BungeniBrowserView):
-
+    
+    # evoque
+    __call__ = z3evoque.PageViewTemplateFile("workspace.html#section_page")
+    
     # zpt
-    __call__ = ViewPageTemplateFile("templates/workspace-section.pt")
-
+    #__call__ = ViewPageTemplateFile("templates/workspace-section.pt")
+    
     # set on request.layer_data
     user_id = None
     user_group_ids = None

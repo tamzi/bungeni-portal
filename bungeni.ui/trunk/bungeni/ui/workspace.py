@@ -56,27 +56,31 @@ class BungeniBrowserView(BrowserView):
     # ViewletManager.name for the viewlet manager that is providing the 
     # viewlets for this view
     
-    def provide(self):
+    def provide(self, provider_name=None):
         """ () -> str
         
         To give view templates the ability to call on a view-defined provider, 
-        without having to hard-wire the provider name in the template itself
-        i.e. this is to be able to replace template calls such as:
-            <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
-        with:
-            <div tal:replace="structure python:view.provide() />
+        without having to hard-wire the provider name in the template itself,
+        to thus:
+        
+        a) decouple a zope-specific feature (the provider ZPT keyword) out of
+           the templates by making it (for the templates) a generic python call.
+        b) be able to replace template calls such as (using syntax for TAL):
+             <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
+           with:
+             <div tal:replace="structure python:view.provide() />
+        
         The provider_name attribute is factored out so that it is trivial 
         for view subclasses to specify a provider name.
         
-        Also to decouple a zope-specific feature (the provider ZPT keyword) 
-        out of the templates by making it (for the templates) a generic python 
-        call.
         """
         from zope.viewlet.interfaces import IViewletManager
+        if provider_name is None:
+            provider_name = self.provider_name
         provider = component.getMultiAdapter(
                             (self.context, self.request, self),
-                            IViewletManager,
-                            name=self.provider_name)
+                            IViewletManager, 
+                            name=provider_name)
         provider.update()
         return provider.render()
 
@@ -433,13 +437,14 @@ class WorkspaceSchedulingContext(object):
 
 
 # views
+from bungeni.ui import z3evoque
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 class WorkspaceSectionView(BungeniBrowserView):
-    
+
     # zpt
     __call__ = ViewPageTemplateFile("templates/workspace-section.pt")
-    
+
     # set on request.layer_data
     user_id = None
     user_group_ids = None
@@ -453,7 +458,7 @@ class WorkspaceSectionView(BungeniBrowserView):
         u'bungeni.Speaker': interfaces.ISpeakerWorkspace,
         u'bungeni.Clerk': interfaces.IClerkWorkspace
     }
-
+    
     def __init__(self, context, request):
         """self:zope.app.pagetemplate.simpleviewclass.SimpleViewClass -> 
                     templates/workspace-index.pt

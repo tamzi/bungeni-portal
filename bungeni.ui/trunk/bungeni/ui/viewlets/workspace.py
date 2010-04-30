@@ -39,20 +39,18 @@ from bungeni.core.translation import translate_obj
 
 from ploned.ui.viewlet import StructureAwareViewlet
 
-
+'''
 class ViewTemplateFile(z3evoque.ViewTemplateFile):
     """Evoque file-based template classes with conveniently pre-set preferences
-    i.e. the collection and the i18n_domain. 
-    Viewlets here should use this ViewTemplateFile class.
+    e.g. the i18n_domain. Viewlets here should use this ViewTemplateFile class.
     """
-    collection = "bungeni.ui.viewlets"
     i18n_domain = "bungeni.ui"
-
+'''
 
 class WorkspaceViewletManager(WeightOrderedViewletManager):
     
     # evoque
-    template = ViewTemplateFile("workspace.html#manager")
+    template = z3evoque.ViewTemplateFile("workspace.html#viewlet_manager")
     
     # zpt
     #template = ViewPageTemplateFile("templates/workspace.pt")
@@ -65,7 +63,7 @@ class WorkspaceViewletManager(WeightOrderedViewletManager):
 class WorkspaceContextNavigation(StructureAwareViewlet):
     
     # evoque
-    render = ViewTemplateFile("workspace.html#context_navigation")
+    render = z3evoque.ViewTemplateFile("workspace.html#context_navigation")
     
     # zpt
     #render = ViewPageTemplateFile('templates/workspace_context_navigation.pt')

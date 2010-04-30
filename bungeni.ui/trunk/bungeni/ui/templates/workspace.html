@@ -5,6 +5,16 @@
 ]#
 
 
+#[ was: ui/templates/workspace-section.pt ]#
+$begin{section_page}
+    $overlay{ bungeni.html }
+    $begin{content}
+        <h1>${ i18n(view.page_title) }</h1>
+        ${ xml(view.provide()) }
+    $end{content}
+$end{section_page}
+
+
 #[ was: ui/viewlets/templates/workspace.pt ]#
 $begin{viewlet_manager} 
 <div id="bungeni-workspace">

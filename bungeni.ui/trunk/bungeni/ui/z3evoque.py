@@ -230,10 +230,11 @@ def setup_evoque():
 # View Templates
 #
 
-
 class _ViewTemplateBase(object):
     """Evoque template used as method of a view defined as a Python class.
+    Should be overridden by subslasses, not meant to be instantiated directly.
     """
+    
     # defaults for attributes needed to get a template
     name = None
     src = None
@@ -246,12 +247,17 @@ class _ViewTemplateBase(object):
     _descriptor_view = None
     _descriptor_type = None
     
-    def __init__(self, *args, **kw):
-        raise NotImplemented("ViewTemplateBase.__init__ may not be called "
-            "directly. Must be overridden by subslasses.")
+    def __init__(self, name, src, collection, i18n_domain):
+        if name is not None: self.name = name
+        if src is not None: self.src = src
+        if collection is not None: self.collection = collection
+        if i18n_domain is not None: self.i18n_domain = i18n_domain
+        log.debug("%s [%s][%s] %s" % (
+            self.__class__.__name__, collection, name, self))
     
     def __get__(self, view, type_):
         """Non-data descriptor to grab a reference to the caller view.
+        
         For the case of viewlets configured in ZCML, this is an instance of:
             zope.viewlet.metaconfigure.<<SpecificViewletClass>>
         """
@@ -305,7 +311,7 @@ class ViewTemplateString(_ViewTemplateBase):
       >>> vts()
       </somemarkup>
       
-    The above is basically a wrapper to fetch the evoque template form the 
+    The above is basically a wrapper to fetch the evoque template from the 
     domain and render it:      
     
       >>> z3evoque.domain.get_template("test_vts").evoque()
@@ -320,15 +326,12 @@ class ViewTemplateString(_ViewTemplateBase):
             None implies default collection, else 
             str/Collection refer to an existing collection
         """
-        if name is not None: self.name = name
-        if src is not None: self.src = src
-        if collection is not None: self.collection = collection
-        if i18n_domain is not None: self.i18n_domain = i18n_domain
+        super(ViewTemplateFile, self
+                                ).__init__(name, src, collection, i18n_domain)
         # templates from string must be explicitly set onto their collection
         domain.set_template(self.name, src=self.src, 
                                 collection=self.collection, from_string=True)
-        log.debug("ViewTemplateString [%s][%s] %s" % (collection, name, self))
-        
+
 class ViewTemplateFile(_ViewTemplateBase):
     """Evoque file-based template used as method of a view 
     defined as a Python class.
@@ -341,19 +344,51 @@ class ViewTemplateFile(_ViewTemplateBase):
             None implies default collection, else 
             str/Collection refer to an existing collection
         """
-        if name is not None: self.name = name
-        if src is not None: self.src = src
-        if collection is not None: self.collection = collection
-        if i18n_domain is not None: self.i18n_domain = i18n_domain
-        log.debug("ViewTemplateFile [%s][%s] %s" % (collection, name, self))
-        
-# ensure public security setting for these Section attributes
+        super(ViewTemplateFile, self
+                                ).__init__(name, src, collection, i18n_domain)
+
+class PageViewTemplateFile(ViewTemplateFile):
+    """A ViewTemplateFile that for *the* browser page response, thus also 
+    handles all browser page-related concerns.
+    """
+    content_type = None
+    
+    def __init__(self, name, src=None, collection=None, i18n_domain=None,
+                    content_type=None):
+        """
+        name, str, collection: same as for ViewTemplateFile
+        content_type:str, the content_type for the Page response
+        """
+        super(PageViewTemplateFile, self
+                                ).__init__(name, src, collection, i18n_domain)
+        if content_type is not None: self.content_type = content_type
+
+    def __call__(self, *args, **kwds):
+        # set content_type only if it has not been set
+        if self.content_type is not None:
+            response = self._descriptor_view.request.response
+            if not response.getHeader("Content-Type"):
+                response.setHeader("Content-Type", self.content_type)
+        # zope requires that the result that it sets on the HTTP response 
+        # is: either(None, str, zope.publisher.http.IResult). Annoyingly, a 
+        # subclass of str or basestring (needed by the technique used by evoque
+        # for managing guaranteed once-and-only-once automatic escaping of all 
+        # template input data) is not acceptable for zope. And, aadapting to 
+        # IResult does not help as it also requires anyhow that the object is 
+        # a str in the first place. Given that this is the "final" return in 
+        # the render chain of a page template, thus no further escaping will 
+        # be needed, we can anyhow safely cast the result to unicode.
+        return unicode(super(PageViewTemplateFile, self
+                        ).__call__(*args, **kwds))
+
+# ensure public security setting for these attributes
 from zope.security.checker import CheckerPublic, Checker, defineChecker
-defineChecker(ViewTemplateString, Checker({'__call__':CheckerPublic}))
-defineChecker(ViewTemplateFile, Checker({'__call__':CheckerPublic}))
+PUBLIC_ATTRS = {'__call__':CheckerPublic}
+defineChecker(ViewTemplateString, Checker(PUBLIC_ATTRS))
+defineChecker(ViewTemplateFile, Checker(PUBLIC_ATTRS))
+defineChecker(PageViewTemplateFile, Checker(PUBLIC_ATTRS))
 
-
-# View Helpers
+# View Template Helpers
 
 class ViewMapper(object):
     """from: zope.app.pagetemplate.viewpagetemplatefile.ViewMapper"""
@@ -361,24 +396,7 @@ class ViewMapper(object):
         self.ob = ob
         self.request = request
     def __getitem__(self, name):
-        return zope.component.getMultiAdapter((self.ob, self.request), name=name)
+        return zope.component.getMultiAdapter(
+                                        (self.ob, self.request), name=name)
 
-
-'''
-# Idea here is to separate all page-concerns from templates:
-class Page(object):
-    """Wrapper on a ViewTemplate instance, adding page-related features
-    
-    usage: Page(ViewTemplateFile( ... ), "text/x-json")
-    """
-    def __init__(self, view_template, content_type):
-        self.view_template = view_template
-        self.content_type = content_type
-
-    def __call__(self, instance, *args, **kw):
-        response = instance.view_template.request.response
-        if not response.getHeader("Content-Type"):
-            response.setHeader("Content-Type", self.content_type)
-        return instance.view_template(*args, **kw)
-'''
 

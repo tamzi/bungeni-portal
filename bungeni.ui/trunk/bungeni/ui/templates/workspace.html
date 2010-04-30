@@ -4,7 +4,9 @@
     demonstrating multiple templates in a single file
 ]#
 
-$begin{manager} #[ workspace.pt ]#
+
+#[ was: ui/viewlets/templates/workspace.pt ]#
+$begin{viewlet_manager} 
 <div id="bungeni-workspace">
     <dl class="portlet workspace-viewlet listing enableFormTabbing">
     $for{ viewlet in view.viewlets }
@@ -20,9 +22,11 @@ $begin{manager} #[ workspace.pt ]#
         type="text/javascript">setTimeout("location.reload();", 200000);</script>
     $fi
 </div>
-$end{manager}
+$end{viewlet_manager}
 
-$begin{context_navigation} #[ workspace_context_navigation.pt ]#
+
+#[ was: ui/viewlets/templates/workspace_context_navigation.pt ]#
+$begin{context_navigation} 
 <dl class="portlet">
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>

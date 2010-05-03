@@ -54,7 +54,6 @@
                           </span>
                      </span>
                 </span>
-
                 <span class="reporttext" 
                       tal:replace="structure scheduled/item/body_text"
                       tal:condition="python:(scheduled.item.type == 'motion' and view.motion_text == True)"/>
@@ -162,18 +161,7 @@
                                           tal:condition="scheduled/item/owner/last_name | nothing" /> 
                                 </h3>
                           </span>
-<<<<<<< .mine
                          </span>
-=======
-                          <p class="reporttext" tal:content="structure scheduled/item/body_text" tal:condition="view/agenda_text"/>
-                          <span tal:condition="view/display_minutes">
-                            <span tal:condition="scheduled/discussion/body_text | nothing">
-                                <h3 class="reportminutes">Minutes</h3>
-                                <p class="reportminutestext"><span tal:replace="structure scheduled/discussion/body_text"/></p>
-                            </span>
-                        </span>
-                     </span>
->>>>>>> .r6506
                 </span>
                           <span class="reporttext" 
                                 tal:replace="structure scheduled/item/body_text"
@@ -204,18 +192,7 @@
                                 <span tal:replace="scheduled/item/owner/last_name" />
                             </h3>
                         </span>
-<<<<<<< .mine
                      </span>
-=======
-                        <p class="reporttext" tal:content="structure scheduled/item/body_text" tal:condition="view/tabled_document_text"/>
-                        <span tal:condition="view/display_minutes">
-                            <span tal:condition="scheduled/discussion/body_text | nothing">
-                                <h3 class="reportminutes">Minutes</h3>
-                                <p class="reportminutestext"><span tal:replace="structure scheduled/discussion/body_text"/></p>
-                            </span>
-                        </span>
-                   </span>
->>>>>>> .r6506
                 </span>
                         <span class="reporttext" 
                       tal:replace="structure scheduled/item/body_text"

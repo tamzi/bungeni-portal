@@ -45,16 +45,17 @@ from bungeni.models.utils import get_current_parliament_governments
 from bungeni.ui.utils import url, misc, debug
 from bungeni.ui import interfaces
 
-from ploned.ui.interfaces import IViewView
-
-
+# !+ mixin ui.browser.I/ProviderBrowserView
 class BungeniBrowserView(BrowserView):
-    interface.implements(IViewView)
     
     page_title = u" :BungeniBrowserView.page_title: "
-    provider_name = None # str, to be set by subclass, to specify the 
-    # ViewletManager.name for the viewlet manager that is providing the 
-    # viewlets for this view
+    # !+ use content.title instead?
+    # !+ formalize this as part of an IBungeniView
+    #    wrap implementation into a view.title property
+    
+    default_provider_name = None # str, to be set by subclass, to specify the
+    # default ViewletManager.name for the viewlet manager that is providing 
+    # the viewlets for this view
     
     def provide(self, provider_name=None):
         """ () -> str
@@ -76,7 +77,7 @@ class BungeniBrowserView(BrowserView):
         """
         from zope.viewlet.interfaces import IViewletManager
         if provider_name is None:
-            provider_name = self.provider_name
+            provider_name = self.default_provider_name
         provider = component.getMultiAdapter(
                             (self.context, self.request, self),
                             IViewletManager, 
@@ -494,13 +495,13 @@ class WorkspaceSectionView(BungeniBrowserView):
         
 class WorkspacePIView(WorkspaceSectionView):
     page_title = u"Bungeni Workspace"
-    provider_name = "bungeni.workspace"
+    default_provider_name = "bungeni.workspace"
     def __init__(self, context, request):
         super(WorkspacePIView, self).__init__(
                 interfaces.IWorkspacePIContext(context), request)
 
 class WorkspaceArchiveView(WorkspaceSectionView):
-    provider_name = "bungeni.workspace-archive"
+    default_provider_name = "bungeni.workspace-archive"
     page_title = u"Bungeni Workspace Archive"
     def __init__(self, context, request):
         super(WorkspaceArchiveView, self).__init__(

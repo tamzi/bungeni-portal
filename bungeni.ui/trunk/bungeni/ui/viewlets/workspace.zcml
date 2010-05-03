@@ -101,7 +101,6 @@
   
   <!-- MPs Workspace -->
   
-  
    <!--browser:viewlet
      name="bungeni.viewlet.ws-user_id"
      for="*"
@@ -111,7 +110,8 @@
      permission="zope.View"
      weight="1"
      /-->
-     
+
+<!-- XXX-INFO-FOR-PLONE - MR - 2010-05-03
   <browser:viewlet
      name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
@@ -130,7 +130,8 @@
      permission="zope.View"
      weight="10"
      />
-  
+-->
+
    <browser:viewlet
      name="bungeni.workspace.mp-draft"
      for="*"
@@ -177,7 +178,7 @@
 
   <!-- clerks workspace -->
 
-
+<!-- XXX-INFO-FOR-PLONE - MR - 2010-05-03
   <browser:viewlet
      name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
@@ -187,7 +188,7 @@
      permission="zope.View"
      weight="10"
      />
-
+-->
 
   <browser:viewlet
      name="bungeni.workspace.action-required.clerk"
@@ -357,6 +358,7 @@
 
   <!-- speakers workspace -->
 
+<!-- XXX-INFO-FOR-PLONE - MR - 2010-05-03
   <browser:viewlet
      name="bungeni.viewlet.ws-user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
@@ -366,6 +368,7 @@
      permission="zope.View"
      weight="10"
      />
+-->
   
   <browser:viewlet
      name="bungeni.workspace.items-complete"

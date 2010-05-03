@@ -8,7 +8,7 @@ import tempfile
 from zope.security.proxy import removeSecurityProxy
 import htmlentitydefs
 from xml.dom.minidom import parseString
-import tidy
+
 
 def unescape(text):
     def fixup(m):
@@ -33,12 +33,14 @@ def unescape(text):
 
 
 class DownloadODT(BrowserView):
+    
     def __call__(self):
         body_text = removeSecurityProxy(self.context.body_text)
         odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
         #appy.Renderer expects a file name of a file that does not exist.
         tempFileName = os.path.dirname(__file__) + '/tmp/%f.odt' % ( time.time())
         params = {}
+        import tidy
         options = dict(output_xhtml=1, 
                     add_xml_decl=0, 
                     indent=1, 

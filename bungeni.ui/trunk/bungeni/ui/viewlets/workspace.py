@@ -84,6 +84,7 @@ class WorkspaceContextNavigation(StructureAwareViewlet):
 class ViewletBase(viewlet.ViewletBase):
     render = ViewPageTemplateFile('templates/workspace_item_viewlet.pt')
 
+''' XXX-INFO-FOR-PLONE - MR - 2010-05-03
 class UserIdViewlet(viewlet.ViewletBase):
     """Display the user's principal id."""
     principal_id = None
@@ -98,7 +99,7 @@ class UserIdViewlet(viewlet.ViewletBase):
         self.principal_id = model_utils.get_principal_id()
     
     render = ViewPageTemplateFile('../forms/templates/user_id.pt')
-    
+'''
 
 class QuestionInStateViewlet(ViewletBase):
     name = state = None

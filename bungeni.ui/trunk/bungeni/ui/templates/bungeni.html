@@ -6,16 +6,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
     <title>${ i18n(
-        view.page_title or
-        context.title or
-        context.dc.get("title") or
+        view.page_title #[ !+ formalize as a view.title property ]#
+        or 
+        context.title 
+        or
+        context.dc.get("title") 
+        or
         "Bungeni" )
     }</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
 <link rel="xss" href="bungeni.xss" type="text/xss" media="screen" />
-
-
 
 <!-- common -->
 #[ 
@@ -57,18 +58,8 @@
 <link rel="stylesheet" href="/@@/portal/jquery-ui-1.7.1.custom.css" type="text/css" />
 <!-- /common -->
 
-#[ 
-    NOTE: the manual casting to the template's <<quoted-no-more>> string class 
-    (here this it is set to be the qpy.xml class... with respect to TAL, this 
-    wouild be the equivalent of what TAL hardwires as the "structure" keyword) 
-    is needed **for now** because some of the other templates (for pageviews, 
-    viewlets, etc) used to build this response are not being rendered by evoque, 
-    thus the type of their return value will **not** be the same as this 
-    template's <<quoted-no-more>> string class.
-]#
-
 #[
-validator.w3.org:
+approaching valid html: validator.w3.org:
     this view with zpt layout:      30 Errors, 32 warning(s) 
     this view with this layout:     2 Errors, 1 warning(s) 
 
@@ -82,6 +73,26 @@ slots {
 'plone.portalfooter': <function _callback_plone_portalfooter at ...>, 
 'plone.portaltop': <function _callback_plone_portaltop at ...>
 } ]#
+
+
+#[ 
+    NOTE: about the repeated calls to xml() below: 
+    by calling xml(output) we are manually casting the "output" string value 
+    to the qpy.xml <<quoted-no-more>> string class (as per the template 
+    configuration). This should not be required but is needed *for now* 
+    because some of the other templates (for pageviews, viewlets, etc) used 
+    to build this response are not being rendered by evoque, thus the type of 
+    their return value will *not* be the same as this template's 
+    <<quoted-no-more>> string class, and would as a result be incorrectly 
+    escaped. When the whole template evaualtaion stack is evoque, there will 
+    no longer be the need to explicitly declare such returns values as 
+    "escaped".
+    
+    Background: the TAL "equivalent" of of this would be the hard-wired 
+    "structure" template keyword.
+]#
+
+
 
 
 #[ stylesheets ]#
@@ -98,8 +109,8 @@ ${ xml(view.provide("plone-js")) }
   <body class="yui-skin-sam">#[ + for section: section-bungeni-workspace ]#
     <div id="visual-portal-wrapper">
       <div id="portal-top">
-${ xml(view.provide("plone.portalheader")) }
-${ xml(view.provide("plone.portaltools")) }
+      ${ xml(view.provide("plone.portalheader")) }
+      ${ xml(view.provide("plone.portaltools")) }
       </div>
       
       <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>

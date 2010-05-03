@@ -72,6 +72,7 @@ class DownloadODT(BrowserView):
 class  DownloadPDF(BrowserView):
     
     def __call__(self): 
+        import tidy
         body_text = self.context.body_text
         odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
         #appy.Renderer expects a file name of a file that does not exist.

@@ -153,6 +153,7 @@
      weight="100"
      /--> 
 
+<!-- XXX-INFO-FOR-PLONE - MR - 2010-05-03
   <browser:viewlet
      name="bungeni.viewlet.user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
@@ -161,8 +162,7 @@
      permission="zope.View"
      weight="10"
      />
-  <!-- for some reasons committee memberships need to be treated
-  explicitly -->
+  for some reasons committee memberships need to be treated explicitly
   <browser:viewlet
      name="bungeni.viewlet.user_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
@@ -171,7 +171,7 @@
      permission="zope.View"
      weight="10"
      />
-
+-->
      
   <!--browser:viewlet
      name="bungeni.viewlet.ws-user_id"
@@ -192,6 +192,7 @@
      weight="10"
      /-->
 
+<!-- XXX-INFO-FOR-PLONE - MR - 2010-05-03
   <browser:viewlet
      name="bungeni.viewlet.group_id"
      manager="ploned.ui.interfaces.IAboveContentManager"
@@ -200,6 +201,7 @@
      permission="zope.View"
      weight="10"
      />
+-->
   
   <!-- GroupSitting -->
   

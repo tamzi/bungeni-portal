@@ -35,6 +35,7 @@ from bungeni.ui.utils import date
 from fields import BungeniAttributeDisplay
 from interfaces import ISubFormViewletManager
 
+''' XXX-INFO-FOR-PLONE - MR - 2010-05-03
 class GroupIdViewlet(viewlet.ViewletBase):
     """ display the group and parent group
     principal id """
@@ -42,7 +43,6 @@ class GroupIdViewlet(viewlet.ViewletBase):
     my_group_principal_id = None
     
     def __init__( self,  context, request, view, manager ):
-
         self.context = context
         self.request = request
         self.__parent__= context
@@ -58,9 +58,11 @@ class GroupIdViewlet(viewlet.ViewletBase):
         self.my_group_principal_id = trusted.group_principal_id
         #session.close()
         
-    render = ViewPageTemplateFile ('templates/group_id.pt')
+    render = ViewPageTemplateFile('templates/group_id.pt')
+'''
 
 
+''' XXX-INFO-FOR-PLONE - MR - 2010-05-03
 class UserIdViewlet(viewlet.ViewletBase):
     """ display the users
     principal id """
@@ -83,9 +85,8 @@ class UserIdViewlet(viewlet.ViewletBase):
             pass
         
     render = ViewPageTemplateFile ('templates/user_id.pt')
+'''
 
-
-    
     
 class AttributesEditViewlet(ui.core.DynamicFields, ui.viewlet.EditFormViewlet):
     mode = "edit"

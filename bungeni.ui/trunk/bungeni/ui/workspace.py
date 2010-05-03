@@ -45,7 +45,7 @@ from bungeni.models.utils import get_current_parliament_governments
 from bungeni.ui.utils import url, misc, debug
 from bungeni.ui import interfaces
 
-# !+ mixin ui.browser.I/ProviderBrowserView
+# !+ mixin e.g. bungeni.ui.browser.I/ProviderBrowserView
 class BungeniBrowserView(BrowserView):
     
     page_title = u" :BungeniBrowserView.page_title: "
@@ -60,19 +60,24 @@ class BungeniBrowserView(BrowserView):
     def provide(self, provider_name=None):
         """ () -> str
         
-        To give view templates the ability to call on a view-defined provider, 
-        without having to hard-wire the provider name in the template itself,
-        to thus:
+        To decouple a zope-specific feature (the "provider" ZPT keyword) out 
+        of the templates by making it a generic python call.
         
-        a) decouple a zope-specific feature (the provider ZPT keyword) out of
-           the templates by making it (for the templates) a generic python call.
-        b) be able to replace template calls such as (using syntax for TAL):
+        For convenience, a default_provider_name is also added to give view 
+        templates the ability to call on a view-defined provider without 
+        having to hard-wire the provider name in the template itself. 
+        
+        The provider_name attribute is factored out as a class attribute to 
+        make it easier for view subclasses to specify a provider name.
+
+        Example: as far as TAL is concerned, this means the ability to replace 
+        template calls such as:
              <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
            with:
              <div tal:replace="structure python:view.provide() />
-        
-        The provider_name attribute is factored out so that it is trivial 
-        for view subclasses to specify a provider name.
+           or: 
+             <div tal:replace="structure python:view.provide(
+                                            view.default_provider_name) />
         
         """
         from zope.viewlet.interfaces import IViewletManager
@@ -106,7 +111,6 @@ def prepare_user_workspaces(event):
     request = event.request
     application = event.object # is bungeni.core.app.BungeniApp
     destination_url_path = url.get_destination_url_path(request)
-    path_info = request.get("PATH_INFO")
     def need_to_prepare_workspaces(obj, req):
         return (
             # need only to do it when traversing "/", 
@@ -122,13 +126,13 @@ def prepare_user_workspaces(event):
                 # have already been called
                 interfaces.IWorkspaceSectionLayer.providedBy(req)
                 or 
-                # or the request is for *the* Home Page -- in this case
+                # or the request is for *the* Home Page (as in this case
                 # we still need to know the user workspaces to be able to 
-                # redirect appropriately
+                # redirect appropriately)
                 interfaces.IHomePageLayer.providedBy(req)
             )
         )
-    if not need_to_prepare_workspaces(event.object, request):
+    if not need_to_prepare_workspaces(application, request):
         return
     
     # initialize a layer data object, for the views in the layer
@@ -148,7 +152,8 @@ def prepare_user_workspaces(event):
         parliament = get_current_parliament(None)
         assert parliament is not None # force exception
         # we do get_roles under the current parliament as context, but we 
-        # must also ensure that the BungeniApp is along the __parent__ stack:
+        # must also ensure that the BungeniApp is present somewhere along 
+        # the __parent__ stack:
         parliament.__parent__ = application
         roles = get_roles(parliament)
         # "bungeni.Clerk", "bungeni.Speaker", "bungeni.MP"
@@ -195,7 +200,7 @@ def prepare_user_workspaces(event):
     log.info(""" [prepare_user_workspaces] DONE:
         for: [request=%s][path=%s][path_info=%s]
         request.layer_data: %s""" % (
-            id(request), destination_url_path, path_info,
+            id(request), destination_url_path, request.get("PATH_INFO"),
             IAnnotations(request).get("layer_data", None)))
 
 # traversers
@@ -247,9 +252,9 @@ class WorkspaceContainerTraverser(SimpleComponentTraverser):
         elif name=="calendar":
             #return ISchedulingContext(workspace)
             view = component.queryMultiAdapter(
-                        (self.context, request), name="workspace-calendar")
+                        (workspace, request), name="workspace-calendar")
             if view is None:
-                raise NotFound(self.context, name)
+                raise NotFound(workspace, name)
             return view
         
         return super(WorkspaceContainerTraverser, 

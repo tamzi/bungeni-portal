@@ -30,8 +30,8 @@ Evoque advantages (over Chameleon/ZPT):
 Other Evoque features (also supported by ZPT):
 - May be run in restricted mode (to allow untrusted authors to edit templates).
 - Automatic XML/HTML escaping of all data values, guaranteeing XSS protection. 
-  Unlike ZPT, Evoque goes further on this feature, as it even guarantees that
-  data us escpaed once-and-only-once. The ability is less relevant for ZPT 
+  Evoque goes further (than ZPT) on this feature, as it even guarantees that
+  data is escaped once-and-only-once. The ability is less relevant for ZPT 
   however, as ZPT does not support loading and invoking other templates from 
   within a template.
 - Evoque, like ZPT, does not allow embedding *python statements* -- meaning 
@@ -40,19 +40,38 @@ Other Evoque features (also supported by ZPT):
   giving plenty of flexibility for stating presentation logic while still 
   retaining good control over the code i.e. is still able to run it within 
   a restricted sandbox.
-  
+
+ZPT non-features:
+- CLAIM: "ZPT produces only well-formed XML documents."
+  REALITY-CHECK: ZPT is produces well-formed XML snippets, but not valid XML 
+documents (e.g. in our case, the DOCTYPE declaration specified in the main 
+template is being stripped out from the output somewhere in the Chameleon/ZPT 
+stack, thus the document is already invalid as it has no DOCTYPE). 
+And, as far as HTML documents, there is NO help from ZPT to help
+the developer produce valid HTML documents (all sorts of incorrectnesses e.g.
+form elements without action attributes, div elements in the head, etc).
+- CLAIM: "A Page Template is like a model of the pages that it will generate. 
+In particular, it is a valid HTML page."
+  REALITY-CHECK: here's a citation from Paul Everitt (co-founder of Zope 
+Corporation) in an article on developing skins for Zope 3: 
+    "Unfortunately, the original idea of page templates -- that they would be 
+    valid HTML that could be directly edited in an HTML layout tool -- is no 
+    longer true. The <metal:block> element that encloses the template breaks 
+    this feature."
+Well, maybe if you used ZPT without METAL, tis claim might still be true. 
+
 Current limitations:
 - A "template" attribute may currently not be specified in a ZCML declaration 
-  -- for now, the template forr a ZCML-declared view should be specified in 
+  -- for now, the template for a ZCML-declared view should be specified in 
   the class.
 
 Status:
 Exploratory, to first verify that Evoque templates may be used everywhere 
 that ZPT templates are used.
 
-The "site" main page template, BrowserViews,  Viewlets and ViewletManagers 
-are confirmed to work, as proven by sample implementations of each of 
-these using evoque templates. 
+Using Evoque templates with a main "site" main page template, BrowserViews, 
+Viewlets and ViewletManagers is confirmed to work, as proven by sample 
+implementations of each of these using evoque templates. 
 
 The following still need to be 100% verified with real working examples:
 - Using evoque templates with: 
@@ -78,15 +97,18 @@ from evoque.domain import Domain
 # this is the core "high-level config" for evoque
 # !+ should be externalized to the application's config.ini file
 evoque_ini = {
-    "evoque.default_dir":"templates",
-    "evoque.default_template":None,
-    "evoque.restricted":False,
-    "evoque.errors":3,
-    "evoque.cache_size":0,
-    "evoque.auto_reload":2,
-    "evoque.slurpy_directives":True,
-    "evoque.quoting":"xml",
-    "evoque.input_encoding":"utf-8"
+    "evoque.default_dir": "templates",
+    "evoque.default_template": None,
+    "evoque.restricted": False,
+    "evoque.errors": 3,
+    "evoque.cache_size": 0,
+    "evoque.auto_reload": 2,
+    "evoque.slurpy_directives": True,
+    "evoque.quoting": "xml",
+    "evoque.input_encoding": "utf-8",
+    # i18n defaults
+    "evoque.i18n_domain": "bungeni.ui",
+    "evoque.i18n_lang": "en",
 }
 
 # The (absolute) path as root location against which to resolve all (relative) 
@@ -109,35 +131,44 @@ additional_collections = {
 
 # i18n domains
 
-def get_gettext(i18n_domain, language):
-    """Get a _() i18n gettext function bound to domain and language.
-    !+ There is probably a better way to do this; the following "obvious" way
-       does not work:
-            zope.i18nmessageid.MessageFactory(self.i18n_domain)
+# global get_gettext callable
+get_gettext = None
+
+def set_get_gettext():
+    """Set this callable as the z3evoque.get_gettext global function to return 
+    a gettext bound onto an i18n domain and a language. 
+    
+    This function is to be defined and called by the application - 
+    get_gettext itself should have the parameters (i18n_domain, language).
     """
-    import gettext
-    t = gettext.translation(
-        i18n_domain,
-        localedir=i18n_domain_localedirs[i18n_domain],
-        languages=[language])
-    return t.gettext
-
-# (tmp hack) localedirs for i18n domains
-i18n_domain_localedirs = {
-    "bungeni.ui": os.path.join(os.path.dirname(os.path.abspath(
-        __import__("bungeni.ui").__file__)), "ui/locales"),
-    "bungeni.core": os.path.join(os.path.dirname(os.path.abspath(
-        __import__("bungeni.core").__file__)), "core/locales"), # !+
-}
-
-# Use this as default value for the template's i18n_domain, to which the 
-# the gettext callable set on each template's locals dict is bound.
-default_i18n_domain = "bungeni.ui"
+    # localedirs for i18n domains
+    _i18n_domain_localedirs = {
+        "bungeni.ui": os.path.join(os.path.dirname(os.path.abspath(
+            __import__("bungeni.ui").__file__)), "ui/locales"),
+        "bungeni.core": os.path.join(os.path.dirname(os.path.abspath(
+            __import__("bungeni.core").__file__)), "core/locales"), 
+        # !+ this gives incorrect path for "bungeni.core"
+    }
+    def _get_gettext(i18n_domain, language):
+        """Get a _() i18n gettext function bound to domain and language.
+        !+ There is probably a better way to do this; the following "obvious"
+           way does not work:
+                zope.i18nmessageid.MessageFactory(self.i18n_domain)
+        """
+        import gettext
+        t = gettext.translation(
+            i18n_domain,
+            localedir=_i18n_domain_localedirs[i18n_domain],
+            languages=[language])
+        return t.gettext
+    global get_gettext
+    get_gettext = _get_gettext
 
 
 #
 # Setup of the Evoque Domain
 #
+# !+ z3evoque.setup_evoque
 
 # Global evoque domain singleton utility
 # Summary of usage:
@@ -212,20 +243,30 @@ def setup_evoque():
         filters=[]
     )
     
+    # set the evoque_domain singleton utility
+    set_domain(evoque_domain)
+    
+    # from here on, use newly set global domain
+    
     # additional collections
     for name, path in additional_collections.items():
-        evoque_domain.set_collection(name, 
+        domain.set_collection(name, 
             os.path.normpath(os.path.join(abs_root, path)))
     
     # default template (optional) i.e. 
     # what to receive when calling domain.get_template() with no params
     if evoque_ini.get("evoque.default_template"):
-        evoque_domain.get_collection().get_template("", 
+        domain.get_collection().get_template("", 
                 src=evoque_ini.get("evoque.default_template"))
     
-    # set the evoque_domain singleton utility
-    set_domain(evoque_domain)
-    
+    # global i18n gettext, bound onto a fixed (domain, language)
+    if evoque_ini.get("evoque.i18n_domain", None) is not None:
+        i18n_domain = evoque_ini.get("evoque.i18n_domain")
+        i18n_lang = evoque_ini.get("evoque.i18n_lang", "en")
+        domain.set_on_globals(
+                    _ViewTemplateBase.i18n_gettext_alias, 
+                    get_gettext(i18n_domain, i18n_lang))
+        
     # log setup finished -- via newly set global domain
     domain.log.debug(domain.__dict__)
 
@@ -233,6 +274,8 @@ def setup_evoque():
 #
 # View Templates
 #
+# !+ z3evoque.views
+# !+ z3evoque/z3evoque.txt 
 
 class _ViewTemplateBase(object):
     """Evoque template used as method of a view defined as a Python class.
@@ -244,8 +287,9 @@ class _ViewTemplateBase(object):
     src = None
     collection = None
     
-    # if set, use this i18n domain, else fallback to global default
+    # if set, use this as local i18n domain
     i18n_domain = None
+    i18n_gettext_alias = "i18n"
     
     # these are updated each time a caller view gets this ViewTemplate
     _descriptor_view = None
@@ -294,12 +338,13 @@ class _ViewTemplateBase(object):
         namespace["request"] = view.request
         namespace["context"] = view.context
         namespace['views'] = ViewMapper(view.context, view.request)
-        # i18n bound gettext -- try in order: local, or global, or None
-        i18n_domain = default_i18n_domain
+        # i18n local bound gettext -- bind to current user language, using 
+        # either the local i18n_domain or the global i18n_domain
+        i18n_domain = evoque_ini.get("evoque.i18n_domain", None)
         if self.i18n_domain is not None:
             i18n_domain = self.i18n_domain
         if i18n_domain is not None:
-            namespace["i18n"] = get_gettext(
+            namespace[self.i18n_gettext_alias] = get_gettext(
                     i18n_domain, view.request.locale.getLocaleID())
         return namespace
 
@@ -311,15 +356,15 @@ class ViewTemplateString(_ViewTemplateBase):
     To use: 
     
       >>> from bungeni.ui import z3evoque
-      >>> vts = z3evoque.ViewTemplateString("test_vts", "</somemarkup>")
+      >>> vts = z3evoque.ViewTemplateString("test_vts", "<somemarkup/>")
       >>> vts()
-      </somemarkup>
+      <somemarkup/>
       
-    The above is basically a wrapper to fetch the evoque template from the 
-    domain and render it:      
+    The last call above is basically a wrapper to fetch the evoque template 
+    from the domain and render it:      
     
       >>> z3evoque.domain.get_template("test_vts").evoque()
-      </somemarkup>
+      <somemarkup/>
     
     """
     def __init__(self, name, src, collection=None, i18n_domain=None):
@@ -353,7 +398,7 @@ class ViewTemplateFile(_ViewTemplateBase):
                                 ).__init__(name, src, collection, i18n_domain)
 
 class PageViewTemplateFile(ViewTemplateFile):
-    """A ViewTemplateFile that for *the* browser page response, thus also 
+    """A ViewTemplateFile for *the* browser page response, thus also 
     handles all browser page-related concerns.
     !+ usage/tests
     """
@@ -379,11 +424,12 @@ class PageViewTemplateFile(ViewTemplateFile):
         # is: either(None, str, zope.publisher.http.IResult). Annoyingly, a 
         # subclass of str or basestring (needed by the technique used by evoque
         # for managing guaranteed once-and-only-once automatic escaping of all 
-        # template input data) is not acceptable for zope. And, aadapting to 
-        # IResult does not help as it also requires anyhow that the object is 
-        # a str in the first place. Given that this is the "final" return in 
-        # the render chain of a page template, thus no further escaping will 
-        # be needed, we can anyhow safely cast the result to unicode.
+        # template input data) is not acceptable for zope. And, adapting the 
+        # result object to an IResult does not help as it anyhow requires that 
+        # the object is a str in the first place. But, given that this is the 
+        # "final" return in the render chain of a page template, thus no 
+        # further escaping will be needed, we can anyhow safely cast the 
+        # result to unicode.
         return unicode(super(PageViewTemplateFile, self
                         ).__call__(*args, **kwds))
 

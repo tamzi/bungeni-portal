@@ -206,7 +206,6 @@ class RichTextEditor( TextAreaWidget ):
                       dompath:true, 
                       animate:true,
                       focusAtStart:false,
-                      ptags:true,
                       markup:'xhtml'};
             var %(jsid)s_editor = new YAHOO.widget.Editor('%(js_name)s', options); 
             YAHOO.util.Event.on(

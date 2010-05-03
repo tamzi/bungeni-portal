@@ -52,17 +52,19 @@
                                             </span> -->
                               </h3>
                           </span>
-                          <p class="reporttext" tal:content="structure scheduled/item/body_text" tal:condition="view/motion_text" />
-                          <span tal:condition="view/display_minutes">
-                            <span tal:condition="scheduled/discussion/body_text | nothing">
-                                <h3 class="reportminutes">Minutes</h3>
-                                <p class="reportminutestext"><span tal:replace="structure scheduled/discussion/body_text"/></p>
-                            </span>
-                        </span>
                      </span>
                 </span>
+
+                <span class="reporttext" 
+                      tal:replace="structure scheduled/item/body_text"
+                      tal:condition="python:(scheduled.item.type == 'motion' and view.motion_text == True)"/>
                 
-                <!-- Formatting for bills -->
+                <h3 class="reportminutes" 
+                    tal:condition="python:(scheduled.item.type == 'motion' and view.display_minutes == True and scheduled.discussion.body_text != None)">Minutes</h3>   
+                <span tal:condition="python:(scheduled.item.type == 'motion' and view.display_minutes == True and scheduled.discussion.body_text != None)" 
+                      tal:replace="structure scheduled/discussion/body_text"/>
+                        
+                <!-- Formatting for bills -->       
                 <span tal:condition="python:scheduled.item.type == 'bill'">
                     <span tal:condition="view/bill">
                         <h1 tal:condition="scheduled/category  | nothing"
@@ -99,23 +101,20 @@
                         <span tal:condition="view/bill_summary">
                             <span tal:condition="scheduled/item/summary | nothing">
                                 <h3 class="reportsummary">Summary</h3>
-                                <p tal:content="structure scheduled/item/summary"/>
-                            </span>
-                        </span>
-                                
-                        <span tal:condition="view/bill_text">
-                            <p class="reporttext" tal:content="structure scheduled/item/body_text"/>
-                        </span>
-                        <span tal:condition="view/display_minutes">
-                            <span tal:condition="scheduled/discussion/body_text | nothing">
-                                <h3 class="reportminutes">Minutes</h3>
-                                <p class="reportminutestext"><span tal:replace="structure scheduled/discussion/body_text"/></p>
+                                <span tal:content="structure scheduled/item/summary"/>
                             </span>
                         </span>
                     </span>
                 </span>
                 
+                <span class="reporttext" 
+                                tal:replace="structure scheduled/item/body_text"
+                                tal:condition="python:(scheduled.item.type == 'bill' and view.motion_text == True)"/>
                 
+                          <h3 class="reportminutes" 
+                                tal:condition="python:(scheduled.item.type == 'bill' and view.display_minutes == True and scheduled.discussion.body_text != None)">Minutes</h3>   
+                        <span tal:condition="python:(scheduled.item.type == 'bill' and view.display_minutes == True and scheduled.discussion.body_text != None)" 
+                                tal:replace="structure scheduled/discussion/body_text"/>
                 <span tal:condition="python:scheduled.item.type == 'question'" >
                     <span tal:condition="view/question">
                         <h1 tal:condition="scheduled/category  | nothing"
@@ -138,23 +137,17 @@
                                         </span>
                                     </h3>
                                 </span>
-                                <span tal:condition="view/question_text">
-                                    <p class="reporttext" tal:content="structure scheduled/item/body_text"
-                                       tal:condition="scheduled/item/body_text | nothing"/>
-                                </span>
-                                <span tal:condition="view/display_minutes">
-                                    <span tal:condition="scheduled/discussion/body_text | nothing">
-                                        <h3 class="reportminutes">Minutes</h3>
-                                        <p class="reportminutestext"><span tal:replace="structure scheduled/discussion/body_text"/></p>
-                                    </span>
-                                </span>
-                                <!-- <span tal:condition="view/question_response">
-                                    <h4 tal:condition="scheduled/item/response_text | nothing">Response</h4>
-                                    <p tal:replace="structure scheduled/item/response_text" 
-                                       tal:condition="scheduled/item/response_text | nothing"/>
-                                </span> -->
                      </span>
                 </span>
+                
+                <span class="reporttext" 
+                      tal:replace="structure scheduled/item/body_text"
+                      tal:condition="python:(scheduled.item.type == 'question' and view.question_text == True)"/>
+                
+                <h3 class="reportminutes" 
+                    tal:condition="python:(scheduled.item.type == 'question' and view.display_minutes == True and scheduled.discussion.body_text != None)">Minutes</h3>   
+                <span tal:condition="python:(scheduled.item.type == 'question' and view.display_minutes == True and scheduled.discussion.body_text != None)" 
+                      tal:replace="structure scheduled/discussion/body_text"/>
                     
                 <span tal:condition="python:scheduled.item.type == 'agendaitem'">
                     <span tal:condition="view/agenda">
@@ -169,6 +162,9 @@
                                           tal:condition="scheduled/item/owner/last_name | nothing" /> 
                                 </h3>
                           </span>
+<<<<<<< .mine
+                         </span>
+=======
                           <p class="reporttext" tal:content="structure scheduled/item/body_text" tal:condition="view/agenda_text"/>
                           <span tal:condition="view/display_minutes">
                             <span tal:condition="scheduled/discussion/body_text | nothing">
@@ -177,7 +173,17 @@
                             </span>
                         </span>
                      </span>
+>>>>>>> .r6506
                 </span>
+                          <span class="reporttext" 
+                                tal:replace="structure scheduled/item/body_text"
+                                tal:condition="python:(scheduled.item.type == 'agendaitem' and view.motion_text == True)"/>
+                
+                          <h3 class="reportminutes" 
+                                tal:condition="python:(scheduled.item.type == 'agendaitem' and view.display_minutes == True and scheduled.discussion.body_text != None)">Minutes</h3>   
+                        <span tal:condition="python:(scheduled.item.type == 'agendaitem' and view.display_minutes == True and scheduled.discussion.body_text != None)" 
+                                tal:replace="structure scheduled/discussion/body_text"/>
+                     
                     
                 <span tal:condition="python:scheduled.item.type == 'tableddocument'"> 
                     <span tal:condition="view/tabled_document">
@@ -198,6 +204,9 @@
                                 <span tal:replace="scheduled/item/owner/last_name" />
                             </h3>
                         </span>
+<<<<<<< .mine
+                     </span>
+=======
                         <p class="reporttext" tal:content="structure scheduled/item/body_text" tal:condition="view/tabled_document_text"/>
                         <span tal:condition="view/display_minutes">
                             <span tal:condition="scheduled/discussion/body_text | nothing">
@@ -206,7 +215,16 @@
                             </span>
                         </span>
                    </span>
+>>>>>>> .r6506
                 </span>
+                        <span class="reporttext" 
+                      tal:replace="structure scheduled/item/body_text"
+                      tal:condition="python:(scheduled.item.type == 'tableddocument' and view.motion_text == True)"/>
+                
+                <h3 class="reportminutes" 
+                    tal:condition="python:(scheduled.item.type == 'tableddocument' and view.display_minutes == True and scheduled.discussion.body_text != None)">Minutes</h3>   
+                <span tal:condition="python:(scheduled.item.type == 'tableddocument' and view.display_minutes == True and scheduled.discussion.body_text != None)" 
+                      tal:replace="structure scheduled/discussion/body_text"/>
                     
                 
     </tal:loop>

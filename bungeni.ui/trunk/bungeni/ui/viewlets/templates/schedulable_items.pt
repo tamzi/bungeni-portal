@@ -6,9 +6,8 @@
 
 <dd id="fieldset-..." 
     tal:attributes="id string:fieldset-${view/view_name}-for-scheduling" 
-    tal:condition="view/visible"
-    class="items-for-scheduling">
-    <table class="listing grid items-for-scheduling" id="items-for-scheduling" tal:condition="view/items"
+    tal:condition="view/visible">
+    <table class="listing grid" tal:condition="view/items"
         tal:attributes="id string:items-for-scheduling-${view/view_name}">
           <thead>
             <tr>

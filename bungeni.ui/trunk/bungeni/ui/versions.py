@@ -170,6 +170,10 @@ class VersionLogView(BaseForm):
         except IndexError:
             target = context
         view = z3c.schemadiff.browser.DiffView(source, target, self.request)
+        print source
+        print "------------"
+        print target
+        
         self.extra = view(
             *filter(IIModelInterface.providedBy, interface.providedBy(context)))
 

@@ -22,9 +22,9 @@ Evoque advantages (over Chameleon/ZPT):
 - Lightweight:
   - to use Evoque with Zope all you basically need is this module + evoque 
     itself (a 1000 SLOC package); 
-  - to use ZPT with Zope you'd need: zope.tal, zope.tales, zope.pagetemplate, 
-    zope.app.pagetemplate, z3c.pt, z3c.template, z3c.ptcompat, chameleon.core, 
-    chameleon.zpt, chameleon.html, ... ?!?
+  - to use ZPT with Zope it seems that you'd need: zope.tal, zope.tales, 
+    zope.pagetemplate, zope.app.pagetemplate, z3c.pt, z3c.template, 
+    z3c.ptcompat, chameleon.core, chameleon.zpt, chameleon.html, ... ?!?
 - Evoque runs also on Python 3 (as well as on 2.4 and up).
 
 Other Evoque features (also supported by ZPT):
@@ -43,11 +43,11 @@ Other Evoque features (also supported by ZPT):
 
 ZPT non-features:
 - CLAIM: "ZPT produces only well-formed XML documents."
-  REALITY-CHECK: ZPT is produces well-formed XML snippets, but not valid XML 
-documents (e.g. in our case, the DOCTYPE declaration specified in the main 
-template is being stripped out from the output somewhere in the Chameleon/ZPT 
-stack, thus the document is already invalid as it has no DOCTYPE). 
-And, as far as HTML documents, there is NO help from ZPT to help
+  REALITY-CHECK: Chameleon/ZPT may produce well-formed XML snippets, but not 
+necessarily valid XML documents e.g. in our case, the DOCTYPE declaration 
+specified in the main template is being stripped out from the output somewhere 
+in the Chameleon/ZPT stack, thus the document is already invalid as it has no 
+DOCTYPE. And, as far as HTML documents, there is NO help from ZPT to help
 the developer produce valid HTML documents (all sorts of incorrectnesses e.g.
 form elements without action attributes, div elements in the head, etc).
 - CLAIM: "A Page Template is like a model of the pages that it will generate. 
@@ -58,7 +58,8 @@ Corporation) in an article on developing skins for Zope 3:
     valid HTML that could be directly edited in an HTML layout tool -- is no 
     longer true. The <metal:block> element that encloses the template breaks 
     this feature."
-Well, maybe if you used ZPT without METAL, tis claim might still be true. 
+Well, maybe if you used ZPT without METAL, this claim might still be true. But,
+who uses ZPT without METAL?
 
 Current limitations:
 - A "template" attribute may currently not be specified in a ZCML declaration 
@@ -111,23 +112,33 @@ evoque_ini = {
     "evoque.i18n_lang": "en",
 }
 
+# domain root directory (and default_dir)
 # The (absolute) path as root location against which to resolve all (relative) 
 # domain/collection paths e.g. the abs path for the deployed application root. 
 # Here we use the folder for the deployed bungeni.ui package:
 abs_root = os.path.dirname(os.path.abspath(__file__))
+def abs_norm_path(path, abs_root=None):
+    """Utility to turn path into an normalized absolute path"""
+    if abs_root is None:
+        # use parnet of default_dir i.e. of default's collection's dir
+        abs_root = os.path.dirname(domain.get_collection().dir)
+    assert not os.path.isabs(path) # ensure that path is not already absolute
+    return os.path.normpath(os.path.join(abs_root, path))
 
 # Other template collections: name, relative path to abs_root.
-# Convention for collection names: dotted parent package name.
-# !+ Add support for other collection parameters:
-# cache_size, auto_reload, slurpy_directives, quoting, input_encoding, filters
-# Currently each of these is defaulted to what is set on the domain.
-additional_collections = {
-    #"bungeni.ui":"templates", # already the "" default collection (default_dir)
-    "bungeni.ui.viewlets":"viewlets/templates",
+def set_additional_collections():
+    """ Convention for collection names: dotted parent package name.
+    All other non-specified parameters (i.e. cache_size, auto_reload, 
+    slurpy_directives, quoting, input_encoding, filters) are defaulted to 
+    what is set on the domain.
+    """
+    #domain.set_collection("bungeni.ui", abs_norm_path("")) # default collection
+    domain.set_collection("bungeni.ui.viewlets", 
+            abs_norm_path("viewlets/templates"))
     #"bungeni.ui.forms":"forms/templates",
     #"ploned.ui":"../../../ploned.ui/ploned/ui/templates",
     #"alchemist.ui":"../../../alchemist.ui/alchemist/ui/templates"
-}
+    
 
 # i18n domains
 
@@ -194,11 +205,18 @@ def set_domain(evoque_domain):
 class IEvoqueDomain(zope.interface.Interface):
     """Marker for an Evoque Domain instance."""
 
-def setup_evoque():
+def setup_evoque(abs_root=None):
+    # domain root directory (and default_dir)
+    # The (absolute) path as root location against which to resolve all (relative) 
+    # domain/collection paths e.g. the abs path for the deployed application root. 
+    if abs_root is None:
+        # then we use the folder for the parent package
+        abs_root = os.path.dirname(os.path.abspath(__file__))
+    assert os.path.isabs(abs_root) # ensure that path is absolute
     import logging
     evoque_domain = Domain(
         # root folder for the default template collection, must be abspath;
-        os.path.join(abs_root, evoque_ini.get("evoque.default_dir", "")),
+        abs_norm_path(evoque_ini.get("evoque.default_dir", ""), abs_root),
         
         # whether evaluation namespace is restricted or not 
         restricted = evoque_ini.get("evoque.restricted", False),
@@ -248,11 +266,6 @@ def setup_evoque():
     
     # from here on, use newly set global domain
     
-    # additional collections
-    for name, path in additional_collections.items():
-        domain.set_collection(name, 
-            os.path.normpath(os.path.join(abs_root, path)))
-    
     # default template (optional) i.e. 
     # what to receive when calling domain.get_template() with no params
     if evoque_ini.get("evoque.default_template"):
@@ -260,14 +273,15 @@ def setup_evoque():
                 src=evoque_ini.get("evoque.default_template"))
     
     # global i18n gettext, bound onto a fixed (domain, language)
-    if evoque_ini.get("evoque.i18n_domain", None) is not None:
+    if (evoque_ini.get("evoque.i18n_domain", None) is not None and
+        evoque_ini.get("evoque.i18n_lang", None) is not None):
         i18n_domain = evoque_ini.get("evoque.i18n_domain")
-        i18n_lang = evoque_ini.get("evoque.i18n_lang", "en")
+        i18n_lang = evoque_ini.get("evoque.i18n_lang")
         domain.set_on_globals(
                     _ViewTemplateBase.i18n_gettext_alias, 
                     get_gettext(i18n_domain, i18n_lang))
         
-    # log setup finished -- via newly set global domain
+    # log setup finished
     domain.log.debug(domain.__dict__)
 
 

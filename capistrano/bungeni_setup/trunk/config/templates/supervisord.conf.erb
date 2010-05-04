@@ -49,6 +49,13 @@ redirect_stderr = true
 stopsignal = INT
 
 
+[program:openoffice]
+command = soffice -accept='socket,port=2002;urp;' -nologo -nofirststartwizard -headless
+stdout_logfile= <%=buildout_dir%>/openoffice.log
+priority = 70
+redirect_stderr = true
+;stopsignal = INT
+
 
 ;
 ;

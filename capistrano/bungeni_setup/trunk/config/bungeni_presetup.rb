@@ -73,8 +73,7 @@ namespace :bungeni_presetup do
 			"uuid-dev", # for ubuntu 9.04 xapian
 			"openoffice.org-headless", #for generating pdf reports
 			"python-uno", #for generating pdf reports
-			"python-ctypes", #required by tidy
-			"libtidy" #required by tidy
+			"libtidy-dev" #required by tidy
 			#"libaprutil1-dev", # for svn
 			#"swig", # for svn
 			#"xmlto" # for libneon 

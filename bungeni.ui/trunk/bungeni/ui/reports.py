@@ -31,77 +31,74 @@ def unescape(text):
         return text # leave as is
     return re.sub("&#?\w+;", fixup, text)
 
-
-class DownloadODT(BrowserView):
+class DownloadDocument(BrowserView):
     
-    def __call__(self):
-        body_text = removeSecurityProxy(self.context.body_text)
-        odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
-        #appy.Renderer expects a file name of a file that does not exist.
-        tempFileName = os.path.dirname(__file__) + '/tmp/%f.odt' % ( time.time())
-        params = {}
+    #path to the odt template
+    odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
+    def cleanupText(self):
+        '''This function generates an ODT document from the text of a report'''
+        #This should really be at the top of this file.
+        #Leaving it here for the time being so that having 
+        #libtidy is not a requirement to run bungeni
         import tidy
+        body_text = removeSecurityProxy(self.context.body_text)
+        #utidylib options
         options = dict(output_xhtml=1, 
-                    add_xml_decl=0, 
+                    add_xml_decl=1, 
                     indent=1, 
                     tidy_mark=0,
                     output_encoding='utf8')
-        aftertidy = tidy.parseString(str(unescape(body_text)), **options)
+        #remove html entities from the text
+        ubody_text = unescape(body_text)
+        #clean up xhtml using tidy
+        aftertidy = tidy.parseString(ubody_text.encode('utf-8'), **options)
+        #tidy returns a <tidy.lib._Document object>
         dom = parseString(str(aftertidy))
         nodeList = dom.getElementsByTagName("body")
         text = ""
         for childNode in nodeList[0].childNodes:
             text += childNode.toxml()
-        #print text
-        #params['body_text'] = "<b>This is a test</b>"
-        params['body_text'] = text
         dom.unlink()
-        renderer = Renderer(odt_file, params, tempFileName)
+        return text
+
+class DownloadODT(DownloadDocument): 
+    #appy.Renderer expects a file name of a file that does not exist.
+    #TODO Find a better way
+    tempFileName = os.path.dirname(__file__) + '/tmp/%f.odt' % ( time.time())  
+    def __call__(self):
+        params = {}
+        params['body_text'] = self.cleanupText()
+        renderer = Renderer(self.odt_file, params, self.tempFileName)
         renderer.run()
         self.request.response.setHeader('Content-type', 'application/vnd.oasis.opendocument.text')
         self.request.response.setHeader('Content-disposition', 'inline;filename="'+
                                             removeSecurityProxy(self.context.report_type)+"_"+
                                             removeSecurityProxy(self.context.start_date).strftime('%Y-%m-%d')+'.odt"')
-        
-        f = open(tempFileName, 'rb')
+        f = open(self.tempFileName, 'rb')
         doc = f.read()
         f.close()      
-        os.remove(tempFileName)    
+        os.remove(self.tempFileName)    
         return doc  
     
-class  DownloadPDF(BrowserView):
-    
+class  DownloadPDF(DownloadDocument):
+    #appy.Renderer expects a file name of a file that does not exist.
+    #TODO Find a better way
+    tempFileName = os.path.dirname(__file__) + '/tmp/%f.odt' % ( time.time())
+     
     def __call__(self): 
-        import tidy
-        body_text = self.context.body_text
-        odt_file = os.path.dirname(__file__) + '/calendar/agenda.odt'
-        #appy.Renderer expects a file name of a file that does not exist.
-        tempFileName = '/tmp/%f.pdf' % ( time.time())
         params = {}
-        options = dict(output_xhtml=1, 
-                    add_xml_decl=0, 
-                    indent=1, 
-                    tidy_mark=0,
-                    output_encoding='utf8')
-        aftertidy = tidy.parseString(str(unescape(body_text)), **options)
-        dom = parseString(str(aftertidy))
-        nodeList = dom.getElementsByTagName("body")
-        text = ""
-        for childNode in nodeList[0].childNodes:
-            text += childNode.toxml()
-        params['body_text'] = text
-        dom.unlink()
+        params['body_text'] = self.cleanupText()
         #uses system open office and python uno to generate pdf
         #TO DO : fix this to use user python
-        renderer = Renderer(odt_file, params, tempFileName, pythonWithUnoPath="/usr/bin/python2.5")
+        renderer = Renderer(self.odt_file, params, self.tempFileName, pythonWithUnoPath="/usr/bin/python2.5")
         renderer.run()
         self.request.response.setHeader('Content-type', 'application/pdf')
         self.request.response.setHeader('Content-disposition', 'inline;filename="'
                             +removeSecurityProxy(self.context.report_type)+"_"
                             +removeSecurityProxy(self.context.start_date).strftime('%Y-%m-%d')+'.pdf"')
-        f = open(tempFileName, 'rb')
+        f = open(self.tempFileName, 'rb')
         doc = f.read()
         f.close()
-        os.remove(tempFileName)
+        os.remove(self.tempFileName)
         return doc 
         

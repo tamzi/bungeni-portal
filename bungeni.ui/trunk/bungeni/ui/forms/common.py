@@ -42,7 +42,6 @@ from bungeni.core.interfaces import IVersioned
 from bungeni.ui.i18n import _
 from bungeni.models.interfaces import IVersion
 from bungeni.models import domain
-from ploned.ui.interfaces import IViewView
 
 import bungeni.ui.utils as ui_utils
 from bungeni.ui.forms.fields import filterFields
@@ -200,7 +199,6 @@ class PageForm(BaseForm, form.PageForm):
     template = NamedTemplate('alchemist.form')
 
 class DisplayForm(ui.DisplayForm):
-    interface.implements(IViewView)
         
     template = ViewPageTemplateFile('templates/content-view.pt')
     

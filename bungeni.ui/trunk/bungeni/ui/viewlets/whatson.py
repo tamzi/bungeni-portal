@@ -8,7 +8,6 @@ from ore.alchemist import Session
 from sqlalchemy.orm import eagerload, lazyload
 import sqlalchemy.sql.expression as sql
 
-from ploned.ui.interfaces import IViewView
 
 from bungeni.models import domain, schema
 from bungeni.core.globalsettings import getCurrentParliamentId
@@ -19,7 +18,6 @@ from bungeni.ui.cookies import get_date_range
 
 class WhatsOnBrowserView(BrowserView):
     __call__ = ViewPageTemplateFile("templates/whatson.pt")
-    interface.implements(IViewView)
             
     def __init__(self, context, request):
         super(WhatsOnBrowserView, self).__init__(context, request)

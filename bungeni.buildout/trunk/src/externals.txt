@@ -10,7 +10,7 @@ marginalia  -r6514  https://bungeni-portal.googlecode.com/svn/marginalia/trunk
 bungeni.transcipts  -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
  
 # plone 3 skin
-ploned.ui   -r6514   https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
+ploned.ui   -r6532   https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 plone.maintemplate -r36218 https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
 
 # relational database support

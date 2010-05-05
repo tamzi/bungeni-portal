@@ -1,0 +1,54 @@
+# core software
+bungeni.server -r6514   https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
+bungeni.core -r6528     https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
+bungeni.models  -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
+bungeni.portal -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
+bungeni.plonepas  -r6514 https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/trunk/
+bungeni.ui  -r6530  https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
+bungeni.theme.private   -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
+marginalia  -r6514  https://bungeni-portal.googlecode.com/svn/marginalia/trunk
+bungeni.transcipts  -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
+ 
+# plone 3 skin
+ploned.ui   -r6532   https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
+plone.maintemplate -r36218 https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
+
+# relational database support
+ore.alchemist -r393 https://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
+
+# rdb ui components
+alchemist.ui -r393  https://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
+
+# rdb auto generation
+alchemist.catalyst -r393 https://zope-alchemist.googlecode.com/svn/alchemist.catalyst/branches/dynamic-ui
+
+# various traversal mechanisms
+alchemist.traversal -r393 https://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
+
+# zope.securitypolicy rdb implementation
+alchemist.security -r393  https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
+
+# schema diff 
+z3c.schemadiff -r111203 svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
+z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
+
+# shows security information ( principal, permissions, views )
+# usage requires including security-debug.zcml
+# z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk
+
+
+# lovely memcached
+# lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/
+# lovely.responsecache svn://svn.zope.org/repos/main/lovely.responsecache/trunk/ 
+# lovely.remoteinclude svn://svn.zope.org/repos/main/lovely.remoteinclude/trunk/ 
+# lovely.responsecache, allows us to set 
+#svn://svn.zope.org/repos/main/lovely.responsecache/trunk
+# lovely.memcached
+
+bungenicms.theme -r6514 https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk
+bungenicms.policy -r6514  https://bungeni-portal.googlecode.com/svn/bungenicms.policy/trunk
+
+
+# repoze.whooze z3 authentication
+repoze.whooze -r3893 http://svn.repoze.org/repoze.whooze/trunk
+

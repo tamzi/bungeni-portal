@@ -36,7 +36,7 @@ from bungeni.core.translation import translate_obj
 from bungeni.ui.utils import url, date
 from bungeni.ui.cookies import get_date_range
 from bungeni.ui.interfaces import IBusinessSectionLayer, IMembersSectionLayer
-from ploned.ui.interfaces import IViewView
+
 
 def dateFilter(request):
     filter_by = ''
@@ -109,8 +109,6 @@ def get_query(context, request, query=None, domain_model=None):
 
 
 class ContainerListing(container.ContainerListing):
-    interface.implements(IViewView)
-
 
     @property
     def formatter( self ):
@@ -174,7 +172,6 @@ class ContainerListing(container.ContainerListing):
                 name = getattr(descriptor, 'display_name', None)
         if not name:
             name = getattr(self.context, '__name__', None)
-            
         return name
 
 
@@ -224,7 +221,6 @@ class ArchiveIndexRedirect(_IndexRedirect):
 class AdminIndexRedirect(_IndexRedirect):
     index_name = "content"
 
-AdminIndexRedirect
 
 class ContainerJSONTableHeaders( BrowserView ):
 

@@ -11,9 +11,6 @@ from zope.contentprovider.interfaces import IContentProvider
 class IPlonedSkin( IDefaultBrowserLayer ):
     """ plone skin for zope3  """
 
-class IViewView(IBrowserView):
-    """Marker-interface for the 'view' action."""
-
 class IStructuralView(IBrowserView):
     """Marker-interface for views that are structural in the sense
     that they do provide content actions, but they are still content

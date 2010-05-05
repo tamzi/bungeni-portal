@@ -56,7 +56,6 @@ from bungeni.models.utils import get_principal_id
 from bungeni.models.interfaces import IGroupSitting
 from bungeni.server.interfaces import ISettings
 
-from ploned.ui.interfaces import IViewView
 from ploned.ui.interfaces import IStructuralView
 from ore.alchemist.container import stringKey
 from ore.alchemist import Session
@@ -199,7 +198,7 @@ def create_sittings_map(sittings, request):
 class CalendarView(BrowserView):
     """Main calendar view."""
 
-    interface.implements(IViewView, IStructuralView)
+    interface.implements(IStructuralView)
 
     template = ViewPageTemplateFile("dhtmlxcalendar.pt")
     
@@ -265,8 +264,6 @@ class CommitteeCalendarView(CalendarView):
 
 class DailyCalendarView(CalendarView):
     """Daily calendar view."""
-
-    interface.implementsOnly(IViewView)
     
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
@@ -308,8 +305,6 @@ class GroupSittingScheduleView(BrowserView):
     This view presents a sitting and provides a user interface to
     manage the agenda.
     """
-
-    interface.implementsOnly(IViewView)
 
     template = ViewPageTemplateFile("main.pt")
     ajax = ViewPageTemplateFile("ajax.pt")
@@ -426,8 +421,6 @@ class ItemScheduleOrder(BrowserView):
 
 class SittingCalendarView(CalendarView):
     """Sitting calendar view."""
-
-    interface.implementsOnly(IViewView)
     
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
@@ -1018,7 +1011,8 @@ class DhtmlxCalendarSittingsEdit(BrowserView):
         
 class DhtmlxCalendarSittings(BrowserView):
     
-    interface.implements(IViewView, IStructuralView)
+    interface.implements(IStructuralView)
+    
     template = ViewPageTemplateFile('dhtmlxcalendarxml.pt')
     def __init__(self, context, request):
         super(DhtmlxCalendarSittings, self).__init__(

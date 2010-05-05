@@ -24,7 +24,7 @@ from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 import bungeni.ui.utils as ui_utils
-from ploned.ui.interfaces import IViewView
+#from ploned.ui.interfaces import IViewView
 
 def pos_action_in_url(action, request_url):
     """Get index of action in URL, or None."""
@@ -143,10 +143,33 @@ class ContentMenuProvider(object):
         pass
 
     render = ViewPageTemplateFile('templates/contentmenu.pt')
-
+    
+    # !+ WTF:
+    # 
+    # Why does this method even exist? Is not the for/layer/permission etc
+    # declarations in ZCML not enough? After a lot of wasted time, it turns out 
+    # that the reason why the "Add Parliamentary Items..." menu stopped showing 
+    # up in the WokspacePIView was because that view did not provide the 
+    # IViewView interface... that, according to its docstring, is a 
+    # "Marker-interface for the 'view' action.".
+    #
+    # So, either way you look at it, this is both ABUSE usage of an interface 
+    # with a name "IViewView" and adds a totally ARBITRARY condition to be
+    # satisfied (in addition to its already elaborate ZCML config declarations)
+    # for the menu to show up! 
+    # 
+    # Apparently this condition was added in r3832 with the claim that: "Content
+    # menus should only be available for views that provide the 'IViewView' 
+    # interface; this reflects a recent change in behavior in Plone."
+    #
+    # Am now reverting back to have available() always return True, and 
+    # removing the IViewView interface from views that do not have a 'view'
+    # action.
+    # 
     def available(self):
-        return IViewView.providedBy(self.view)
-
+        #return IViewView.providedBy(self.view)
+        return True
+    
     def menu(self):
         menu = zope.component.getUtility(IBrowserMenu, name='plone_contentmenu')
         items = menu.getMenuItems(self.context, self.request)

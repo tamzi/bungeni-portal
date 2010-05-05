@@ -83,7 +83,7 @@ class DownloadODT(DownloadDocument):
 class  DownloadPDF(DownloadDocument):
     #appy.Renderer expects a file name of a file that does not exist.
     #TODO Find a better way
-    tempFileName = os.path.dirname(__file__) + '/tmp/%f.odt' % ( time.time())
+    tempFileName = os.path.dirname(__file__) + '/tmp/%f.pdf' % ( time.time())
      
     def __call__(self): 
         params = {}

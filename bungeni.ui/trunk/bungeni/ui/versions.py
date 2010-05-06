@@ -208,7 +208,7 @@ class VersionLogView(BaseForm):
 #### 
 # Handling of version diffs (implementation of Issue 588)
 # 
-# The DiffView class is pulled from: z3c.schemadiff.browser.py
+# The DiffView class is adapted from: z3c.schemadiff.browser.py
 # The diff() utility is adapted from: z3c.schemadiff.schema.py
 # 
 # The DiffView here is different than the one in schemadiff.browser, as:

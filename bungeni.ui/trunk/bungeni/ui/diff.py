@@ -1,8 +1,6 @@
 import difflib
 import string
 
-from ore.alchemist.model import queryModelDescriptor
-
 def isTag(x): return x[0] == "<" and x[-1] == ">"
 
 def textDiff(a, b):
@@ -57,17 +55,4 @@ def html2list(x, b=0):
             else: cur += c
     out.append(cur)
     return filter(lambda x: x is not '', out)
-
-class TextDiff(object):
-    def __new__(cls, field):
-        descriptor = queryModelDescriptor(field.context.__class__)
-        for model_field in descriptor.fields:
-            if model_field.name == field.__name__:
-                if model_field.differ is not None:
-                    return model_field.differ(field)
-        return object.__new__(cls, field)
-
-class HTMLDiff(object):
-    def html_diff(self, a, b):
-        return textDiff(a, b)
 

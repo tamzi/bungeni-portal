@@ -211,18 +211,17 @@ class VersionLogView(BaseForm):
 # The DiffView class is pulled from: z3c.schemadiff.browser.py
 # The diff() utility is adapted from: z3c.schemadiff.schema.py
 # 
-# The ONLY differences between DiffView here and that in schemadiff.browser are:
-# - in the diff() that is called i.e. the one bdefined below or 
-#   z3c.schemadiff.schema.diff() (that shortcuts any and all IFieldDiff adapter 
-#   genericity by hard-wiring explicit checks on whether not to call 
-#   IFieldDiff.html_diff()!
-# - Uses an evoque template in the default "bungeni.ui" collection.
+# The DiffView here is different than the one in schemadiff.browser, as:
+# - the result of a diff is now always being obtained via .diff.textDiff(), so
+#   it is all much simpler -- note that z3c.schemadiff.schema.diff() was 
+#   anayway shortcutting any and all adapter genericity (for IFieldDiff) by 
+#   hard-wiring explicit checks on whether not to call IFieldDiff.html_diff()!
+# - the template is an evoque template in the default "bungeni.ui" collection.
 # 
 # This implementation also removes all dependencies on the z3c.schemadiff
 # package, that may therefore be removed.
 # 
 
-from difflib import HtmlDiff
 from bungeni.ui import z3evoque
 from bungeni.ui.diff import textDiff
 
@@ -232,8 +231,6 @@ class DiffView(object):
     template = z3evoque.ViewTemplateFile("diff.html")
     context = None
     
-    htmldiff = HtmlDiff(wrapcolumn=60)
-    
     def __init__(self, source, target, request):
         self.source = source
         self.target = target
@@ -241,28 +238,26 @@ class DiffView(object):
     
     def __call__(self, *interfaces):
         results = diff(self.source, self.target, *interfaces)
-
         tables = []
-        for field, result in results.items():
-            try:
-                a, b = result
-            except ValueError:
-                html = result
-            else:
-                html = self.htmldiff.make_table(a, b, context=True)
-            
+        content_changed = False
+        for (field, changed, hresult) in results:
             tables.append({
-                'name': field.__name__,
-                'title': field.title,
-                'html': html})
-        
-        return self.template(tables=tables)
+                "name": field.__name__,
+                "title": field.title,
+                "changed": changed,
+                "html": hresult})
+            if changed:
+                content_changed = True
+        return self.template(tables=tables, content_changed=content_changed)
 
 def diff(source, target, *interfaces):
+    """Get a list of (field, changed, result) 3-tuples, for "diff-able" fields.
+    """
     if not len(interfaces):
         interfaces = interface.providedBy(source)
-    results = {}
+    results = []
     for iface in interfaces:
+        # the order is locked on the order returned by of interface.names()
         for name in iface.names():
             field = iface[name]
             # only consider for diffing fields of this type
@@ -273,6 +268,7 @@ def diff(source, target, *interfaces):
             target_value = bound.query(target, field.default)
             if source_value is None or target_value is None:
                 continue
-            results[field] = textDiff(source_value, target_value)
+            hresult = textDiff(source_value, target_value)
+            results.append((field, bool(hresult!=source_value), hresult))
     return results
 

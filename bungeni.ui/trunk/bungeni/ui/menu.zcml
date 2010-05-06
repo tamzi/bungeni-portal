@@ -662,6 +662,13 @@
      icon="++resource++ui-images/icon_delete.gif"
      permission="bungeni.sitting.Delete"
      />
+  <!-- !+ ??: 
+    should be using:
+        @@/ui-images/ 
+    notation, instead of:
+        ++resource++ui-images/
+    replace everywhere here...
+  -->
 
      
   <browser:menuItem

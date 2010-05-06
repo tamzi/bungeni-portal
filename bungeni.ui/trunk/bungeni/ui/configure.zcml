@@ -20,7 +20,6 @@
   <include package="plone.memoize" />
   <include package="z3c.schemadiff" />
   <!--include package="marginalia" /-->
-  <includeOverrides file="overrides.zcml" />
   
   <!-- TimeZone Definition -->
   <adapter factory=".tz.tzinfo" />

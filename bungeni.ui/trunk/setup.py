@@ -30,7 +30,6 @@ setup(
                          'ore.yui',
                          'z3c.menu.ready2go',			
                          'zc.displayname',
-                         'z3c.schemadiff',
                          'zope.formlib'],
     zip_safe = False,
     )

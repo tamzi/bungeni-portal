@@ -1,3 +1,5 @@
+log = __import__("logging").getLogger("bungeni.ui.versions")
+
 import operator
 
 from zope import interface
@@ -21,9 +23,7 @@ from bungeni.ui.table import TableFormatter
 from bungeni.core.interfaces import IVersioned
 
 from alchemist.ui.core import BaseForm, getSelected
-from zc.table import  column
-
-import z3c.schemadiff.browser
+from zc.table import column
 
 import bungeni.ui.utils as ui_utils
 
@@ -169,13 +169,13 @@ class VersionLogView(BaseForm):
                 target = t
         except IndexError:
             target = context
-        view = z3c.schemadiff.browser.DiffView(source, target, self.request)
-        print source
-        print "------------"
-        print target
+        view = DiffView(source, target, self.request)
         
         self.extra = view(
             *filter(IIModelInterface.providedBy, interface.providedBy(context)))
+        
+        log.debug("handle_diff_version: source=%s target=%s \n%s" % (
+                        source, target, self.extra))
 
 
     def setUpWidgets( self, ignore_request=False):
@@ -204,3 +204,75 @@ class VersionLogView(BaseForm):
     def __call__(self):
         self.update()
         return self.render()
+
+#### 
+# Handling of version diffs (implementation of Issue 588)
+# 
+# The DiffView class is pulled from: z3c.schemadiff.browser.py
+# The diff() utility is adapted from: z3c.schemadiff.schema.py
+# 
+# The ONLY differences between DiffView here and that in schemadiff.browser are:
+# - in the diff() that is called i.e. the one bdefined below or 
+#   z3c.schemadiff.schema.diff() (that shortcuts any and all IFieldDiff adapter 
+#   genericity by hard-wiring explicit checks on whether not to call 
+#   IFieldDiff.html_diff()!
+# - Uses an evoque template in the default "bungeni.ui" collection.
+# 
+# This implementation also removes all dependencies on the z3c.schemadiff
+# package, that may therefore be removed.
+# 
+
+from difflib import HtmlDiff
+from bungeni.ui import z3evoque
+from bungeni.ui.diff import textDiff
+
+class DiffView(object):
+
+    # evoque
+    template = z3evoque.ViewTemplateFile("diff.html")
+    context = None
+    
+    htmldiff = HtmlDiff(wrapcolumn=60)
+    
+    def __init__(self, source, target, request):
+        self.source = source
+        self.target = target
+        self.request = request
+    
+    def __call__(self, *interfaces):
+        results = diff(self.source, self.target, *interfaces)
+
+        tables = []
+        for field, result in results.items():
+            try:
+                a, b = result
+            except ValueError:
+                html = result
+            else:
+                html = self.htmldiff.make_table(a, b, context=True)
+            
+            tables.append({
+                'name': field.__name__,
+                'title': field.title,
+                'html': html})
+        
+        return self.template(tables=tables)
+
+def diff(source, target, *interfaces):
+    if not len(interfaces):
+        interfaces = interface.providedBy(source)
+    results = {}
+    for iface in interfaces:
+        for name in iface.names():
+            field = iface[name]
+            # only consider for diffing fields of this type
+            if not isinstance(field, (schema.Text, schema.TextLine, schema.Set)):
+                continue
+            bound = field.bind(source)
+            source_value = bound.query(source, field.default)
+            target_value = bound.query(target, field.default)
+            if source_value is None or target_value is None:
+                continue
+            results[field] = textDiff(source_value, target_value)
+    return results
+

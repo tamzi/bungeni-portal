@@ -5,15 +5,7 @@
 ]#
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
   <head>
-    <title>${ i18n(
-        view.page_title #[ !+ formalize as a view.title property ]#
-        or 
-        context.title 
-        or
-        context.dc.get("title") 
-        or
-        "Bungeni" )
-    }</title>
+    <title>${ i18n(view.page_title) }</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
 <link rel="xss" href="bungeni.xss" type="text/xss" media="screen" />

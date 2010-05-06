@@ -23,7 +23,7 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-import bungeni.ui.utils as ui_utils
+from bungeni.ui.utils import url
 #from ploned.ui.interfaces import IViewView
 
 def pos_action_in_url(action, request_url):
@@ -85,8 +85,8 @@ class PloneBrowserMenu(BrowserMenu):
         result.sort()
         # !+ replace above with super getMenuItems()
         
-        local_url = ui_utils.url.absoluteURL(object, request)
-        site_url = ui_utils.url.absoluteURL(getSite(), request)
+        local_url = url.absoluteURL(object, request)
+        site_url = url.absoluteURL(getSite(), request)
         request_url = request.getURL()
         
         items = []
@@ -101,7 +101,7 @@ class PloneBrowserMenu(BrowserMenu):
                 submenu = None
                 extra['hideChildren'] = True
             
-            url = make_absolute(item.action, local_url, site_url)
+            _url = make_absolute(item.action, local_url, site_url)
             
             if submenu:
                 for menu in submenu:
@@ -119,7 +119,7 @@ class PloneBrowserMenu(BrowserMenu):
                 'title': title,
                 'description': item.description,
                 'action': item.action,
-                'url': url,
+                'url': _url,
                 'selected': u'',
                 'icon': item.icon,
                 'extra': extra,

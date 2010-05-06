@@ -8,7 +8,8 @@ Evoque advantages (over Chameleon/ZPT):
 - No server restart needed each time a file-based template is modified (well, I
   am told this should also be the case with ZPT, but in this setup it is not).
 - A template may invoke other templates (that may be within same collection or 
-  within any other collection in the domain).
+  within any other collection in the domain), where selection of which template
+  to invoke may also be dynamic (data-driven).
 - Template inheritance, offering options to easily:
   - move page presentational composition logic out of core application.
   - define skins, that may be dynamically switched at runtime as per 
@@ -62,9 +63,11 @@ Well, maybe if you used ZPT without METAL, this claim might still be true. But,
 who uses ZPT without METAL?
 
 Current limitations:
-- A "template" attribute may currently not be specified in a ZCML declaration 
-  -- for now, the template for a ZCML-declared view should be specified in 
-  the class.
+A "template" attribute may currently not be specified in a ZCML declaration -- 
+for now, the template for a ZCML-declared view should be specified in the class.
+But in reality this is actually a good thing, as it removes one dimension of
+redirection in the ZCML i.e. it is actually better to keep the template 
+declaration with the view than in the ZCML.
 
 Status:
 Exploratory, to first verify that Evoque templates may be used everywhere 
@@ -112,25 +115,26 @@ evoque_ini = {
     "evoque.i18n_lang": "en",
 }
 
-# domain root directory (and default_dir)
-# The (absolute) path as root location against which to resolve all (relative) 
-# domain/collection paths e.g. the abs path for the deployed application root. 
-# Here we use the folder for the deployed bungeni.ui package:
-abs_root = os.path.dirname(os.path.abspath(__file__))
-def abs_norm_path(path, abs_root=None):
-    """Utility to turn path into an normalized absolute path"""
-    if abs_root is None:
-        # use parnet of default_dir i.e. of default's collection's dir
-        abs_root = os.path.dirname(domain.get_collection().dir)
-    assert not os.path.isabs(path) # ensure that path is not already absolute
-    return os.path.normpath(os.path.join(abs_root, path))
+def abs_norm_path(path, ABS_BASE=None):
+    """Utility to turn a path into a normalized absolute path with respect to
+    the ABS_PATH as specified by the application.
+    """
+    if ABS_BASE is None:
+        # use parent of default_dir i.e. of default's collection's dir
+        ABS_BASE = os.path.dirname(domain.get_collection().dir)
+    assert not os.path.isabs(path) # ensure that path is NOT already absolute
+    return os.path.normpath(os.path.join(ABS_BASE, path))
 
-# Other template collections: name, relative path to abs_root.
 def set_additional_collections():
-    """ Convention for collection names: dotted parent package name.
-    All other non-specified parameters (i.e. cache_size, auto_reload, 
+    """Define and set additional collections (other than default collection) 
+    onto the evoque domain. 
+    
+    Convention for collection names: dotted parent package name.
+    All other non-specified container parameters (i.e. cache_size, auto_reload, 
     slurpy_directives, quoting, input_encoding, filters) are defaulted to 
     what is set on the domain.
+    
+    The collection's path must be specified relative to ABS_BASE
     """
     #domain.set_collection("bungeni.ui", abs_norm_path("")) # default collection
     domain.set_collection("bungeni.ui.viewlets", 
@@ -205,18 +209,19 @@ def set_domain(evoque_domain):
 class IEvoqueDomain(zope.interface.Interface):
     """Marker for an Evoque Domain instance."""
 
-def setup_evoque(abs_root=None):
-    # domain root directory (and default_dir)
-    # The (absolute) path as root location against which to resolve all (relative) 
-    # domain/collection paths e.g. the abs path for the deployed application root. 
-    if abs_root is None:
-        # then we use the folder for the parent package
-        abs_root = os.path.dirname(os.path.abspath(__file__))
-    assert os.path.isabs(abs_root) # ensure that path is absolute
+def setup_evoque(ABS_BASE=None):
+    
+    # The ABSOLUTE path as reference base location against which to resolve 
+    # all RELATIVE collection paths.
+    if ABS_BASE is None:
+        # then we use the parent folder for this package
+        ABS_BASE = os.path.dirname(os.path.abspath(__file__))
+    assert os.path.isabs(ABS_BASE) # ensure that base path is absolute
+    
     import logging
     evoque_domain = Domain(
         # root folder for the default template collection, must be abspath;
-        abs_norm_path(evoque_ini.get("evoque.default_dir", ""), abs_root),
+        abs_norm_path(evoque_ini.get("evoque.default_dir", ""), ABS_BASE),
         
         # whether evaluation namespace is restricted or not 
         restricted = evoque_ini.get("evoque.restricted", False),
@@ -288,7 +293,7 @@ def setup_evoque(abs_root=None):
 #
 # View Templates
 #
-# !+ z3evoque.views
+# !+ z3evoque.browser
 # !+ z3evoque/z3evoque.txt 
 
 class _ViewTemplateBase(object):
@@ -464,5 +469,57 @@ class ViewMapper(object):
     def __getitem__(self, name):
         return zope.component.getMultiAdapter(
                                         (self.ob, self.request), name=name)
+
+# IViewProvide / View Mixin
+
+class IViewProvide(zope.interface.Interface):
+    """Viewlet manager provider support."""
+    
+    default_provider_name = zope.interface.Attribute("""
+        The name for the default content provider e.g. a viewlet manager, that 
+        is providing e.g.  the viewlets, for this view. May be None, in which 
+        case a provider_name must be explictly passed to provide().""")
+    
+    def provide(provider_name=None):
+        """Get and render the named content provider.
+        
+        To decouple a zope-specific feature (the "provider" ZPT keyword) out 
+        of the templates by making it a generic python call, with provider_name
+        being simply a template variable (thus may be data-driven).
+        
+        For convenience, a default_provider_name is also added to give view 
+        templates the ability to call on a view-defined provider without 
+        having to hard-wire the provider name in the template itself. 
+        
+        The default provider_name attribute is factored out as a class attribute 
+        to make it easier for view subclasses to specify a provider name.
+        
+        Thus, as far as TAL would be concerned, this means the ability to 
+        replace template calls such as:
+             <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
+           with (no name specified uses default_provider_name)
+             <div tal:replace="structure python:view.provide() />
+           or (specify any provider_name we like): 
+             <div tal:replace="structure python:view.provide(
+                                            view.default_provider_name) />
+        """
+
+class ViewProvideMixin(object):
+    zope.interface.implements(IViewProvide)
+    
+    default_provider_name = None
+    
+    def provide(self, provider_name=None):
+        if provider_name is None:
+            provider_name = self.default_provider_name
+        # Is theer a need to parametrize this, part of IViewProvide
+        provider_interface = zope.viewlet.interfaces.IViewletManager 
+        provider = zope.component.getMultiAdapter(
+                            (self.context, self.request, self),
+                            provider_interface,
+                            name=provider_name)
+        provider.update()
+        return provider.render()
+
 
 

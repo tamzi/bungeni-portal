@@ -65,7 +65,7 @@ msgstr "itens"
 
 #: src/bungeni.core/bungeni/core/app.py:171
 msgid "What's on"
-msgstr "what&#39;s on"
+msgstr "what's on"
 
 #: src/bungeni.core/bungeni/core/app.py:179
 msgid "View committees created by the current parliament"

@@ -831,7 +831,7 @@ msgstr "tarehe ya kifo lazima iwekwe ikiwa mtumiaji amefariki"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:319
 msgid "If a user is deceased he must have the status 'D'"
-msgstr "kama mtumiaji amefariki lazima awe na hadhi &#39;d&#39;"
+msgstr "kama mtumiaji amefariki lazima awe na hadhi 'd'"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:329
 msgid "You have to enter an Address"
@@ -1847,7 +1847,7 @@ msgstr "futa ratiba"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:124
 msgid "The 'Add..' menu - for political parties"
-msgstr "menyu ya &#39;ongeza ..&#39; - kwa vyama vya siasa"
+msgstr "menyu ya 'ongeza ..' - kwa vyama vya siasa"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1249
 msgid "Move Scheduling up"
@@ -1922,7 +1922,7 @@ msgstr "jibu"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:147
 msgid "The 'Add...' menu - for committees"
-msgstr "menyu ya &#39;ongeza ...&#39; - kwa kamati"
+msgstr "menyu ya 'ongeza ...' - kwa kamati"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:16
 msgid "Actions for the Administrator"
@@ -1968,11 +1968,11 @@ msgstr "ongeza kikao ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:210
 msgid "The 'Add..' menu - for government"
-msgstr "menyu ya &#39;add ..&#39; - kwa serikali"
+msgstr "menyu ya 'add ..' - kwa serikali"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:22
 msgid "Actions for the 'Business' section"
-msgstr "vitendo vya sehemu ya &#39;shughuli&#39; "
+msgstr "vitendo vya sehemu ya 'shughuli' "
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:225
 #: src/bungeni.ui/bungeni/ui/menu.zcml:783
@@ -1981,7 +1981,7 @@ msgstr "ongeza wizara ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:234
 msgid "The 'Add..' menu - for ministry"
-msgstr "menyu ya &#39;add ..&#39; - kwa wizara"
+msgstr "menyu ya 'add ..' - kwa wizara"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:249
 #: src/bungeni.ui/bungeni/ui/menu.zcml:849
@@ -1990,11 +1990,11 @@ msgstr "ongeza waziri ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:258
 msgid "The 'Add...' menu - for Group Memberships"
-msgstr "menyu ya &#39;ongeza ...&#39; - kwa uanachama katika vikundi"
+msgstr "menyu ya 'ongeza ...' - kwa uanachama katika vikundi"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:27
 msgid "Actions for the 'Members' section"
-msgstr "vitendo vya sehemu ya &#39;watumiaji&#39; "
+msgstr "vitendo vya sehemu ya 'watumiaji' "
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:273
 msgid "Add title..."
@@ -2002,7 +2002,7 @@ msgstr "ongeza kichwa ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:283
 msgid "The 'Add...' menu - for Group Sittings"
-msgstr "menyu ya &#39;ongeza ...&#39; - kwa vikao vya kikundi "
+msgstr "menyu ya 'ongeza ...' - kwa vikao vya kikundi "
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:298
 msgid "Add Attendance..."
@@ -2016,11 +2016,11 @@ msgstr "ongeza kichwa ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:318
 msgid "The 'Add...' menu - for motion"
-msgstr "menyu ya &#39;ongeza ...&#39; - kwa msukumo"
+msgstr "menyu ya 'ongeza ...' - kwa msukumo"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:32
 msgid "Actions for the 'Archive' section"
-msgstr "vitendo vya sehemu ya &#39;nyaraka&#39; "
+msgstr "vitendo vya sehemu ya 'nyaraka' "
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:333
 #: src/bungeni.ui/bungeni/ui/menu.zcml:457
@@ -2040,7 +2040,7 @@ msgstr "ongeza faili ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:353
 msgid "The 'Add...' menu - for bill"
-msgstr "menyu ya &#39;ongeza ...&#39; - kwa muswada"
+msgstr "menyu ya 'ongeza ...' - kwa muswada"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:368
 msgid "Add consignatory..."
@@ -2048,7 +2048,7 @@ msgstr "ongeza saini ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:37
 msgid "Actions for the 'Records' section"
-msgstr "vitendo vya sehemu ya &#39;rekodi&#39; "
+msgstr "vitendo vya sehemu ya 'rekodi' "
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:396
 #: src/bungeni.ui/bungeni/ui/menu.zcml:405
@@ -2067,7 +2067,7 @@ msgstr "peleka muswada katika kikundi ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:433
 msgid "The 'Add...' menu - for question"
-msgstr "menyu ya &#39;ongeza ...&#39;  - kwa swali"
+msgstr "menyu ya 'ongeza ...'  - kwa swali"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:47
 msgid "Actions for Scheduling Discussions"
@@ -2075,7 +2075,7 @@ msgstr "vitendo vya majadiliano ya ratiba"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:484
 msgid "The 'Add...' menu - for tabled document"
-msgstr "menyu ya &#39;ongeza ...&#39;  - kwa hati iliyopendekezwa"
+msgstr "menyu ya 'ongeza ...'  - kwa hati iliyopendekezwa"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:52
 msgid "Actions for Calendar Schedulings"
@@ -2083,15 +2083,15 @@ msgstr "vitendo vya ratiba za kalenda"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:526
 msgid "The 'Add...' menu - for agenda item"
-msgstr "menyu ya &#39;ongeza ...&#39; - kwa pointi za ajenda"
+msgstr "menyu ya 'ongeza ...' - kwa pointi za ajenda"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:550
 msgid "The 'Add...' menu - for offices"
-msgstr "menyu ya &#39;ongeza ...&#39;  - kwa ofisi"
+msgstr "menyu ya 'ongeza ...'  - kwa ofisi"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:57
 msgid "The 'workflow' menu - allows the user to execute workflow transitions"
-msgstr "menyu ya &#39;mchakato wa kazi&#39;  - inaruhusu mtumiaji kufanya mabadiliko ya michakato ya kazi"
+msgstr "menyu ya 'mchakato wa kazi'  - inaruhusu mtumiaji kufanya mabadiliko ya michakato ya kazi"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:580
 msgid "content"
@@ -2111,7 +2111,7 @@ msgstr "nyaraka yangu"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:63
 msgid "The 'Calendar' menu - allows the user to select a scheduling context"
-msgstr "menyu ya &#39;kalenda&#39; - inaruhusu mtumiaji kuchagua muktadha wa ratiba"
+msgstr "menyu ya 'kalenda' - inaruhusu mtumiaji kuchagua muktadha wa ratiba"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:637
 msgid "Add ..."
@@ -2119,7 +2119,7 @@ msgstr "ongeza ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:647
 msgid "The 'Add..' menu - for calendar"
-msgstr "menyu ya &#39;ongeza ..&#39; - kwa kalenda"
+msgstr "menyu ya 'ongeza ..' - kwa kalenda"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:688
 #: src/bungeni.ui/bungeni/ui/menu.zcml:1202
@@ -2128,7 +2128,7 @@ msgstr "futa kikao"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:69
 msgid "The 'Add' menu - allows the user to add content"
-msgstr "menyu ya &#39;ongeza&#39; - inaruhusu mtumiaji kuongeza maudhui"
+msgstr "menyu ya 'ongeza' - inaruhusu mtumiaji kuongeza maudhui"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:698
 msgid "Add Parliament..."
@@ -2155,7 +2155,7 @@ msgstr "ongeza mbunge ..."
 #: src/bungeni.ui/bungeni/ui/menu.zcml:75
 #, fuzzy
 msgid "The 'Translate' menu - allows the user to translate content"
-msgstr "menyu ya &#39;ongeza&#39; - inaruhusu mtumiaji kuongeza maudhui"
+msgstr "menyu ya 'ongeza' - inaruhusu mtumiaji kuongeza maudhui"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:765
 msgid "Add Office..."
@@ -2200,7 +2200,7 @@ msgstr "ongeza anwani ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:88
 msgid "The 'Actions' menu - provides context-specific actions (views)"
-msgstr "menyu ya &#39;vitendo&#39;  - hutoa vitendo vyenye muktadha maalum "
+msgstr "menyu ya 'vitendo'  - hutoa vitendo vyenye muktadha maalum "
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:886
 msgid "Add Delegation..."
@@ -2220,7 +2220,7 @@ msgstr "ongeza hati iliyopendekezwa ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:94
 msgid "The 'Reports' menu - provides reporting actions"
-msgstr "menyu ya &#39;ripoti&#39;  - hutoa vitendo vya ripoti"
+msgstr "menyu ya 'ripoti'  - hutoa vitendo vya ripoti"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:954
 #, fuzzy
@@ -2788,7 +2788,7 @@ msgstr "toa maoni kuhusu mabadiliko ya mchakato wa kazi"
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/workflow.py:150
 msgid "Confirmation required for workflow transition: '${title}'"
-msgstr "hakikisho linahitajika kwa mpito wa mchakato wa kazi: &#39;${title}&#39;"
+msgstr "hakikisho linahitajika kwa mpito wa mchakato wa kazi: '${title}'"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:56
 msgid "Workflow history"

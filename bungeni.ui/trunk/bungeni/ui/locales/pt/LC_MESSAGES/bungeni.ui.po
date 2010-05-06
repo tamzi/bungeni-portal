@@ -830,7 +830,7 @@ msgstr "a data da morte deve ser dada se um usuário está morto"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:319
 msgid "If a user is deceased he must have the status 'D'"
-msgstr "se um usuário é falecido, ele deve ter o status de &#39;d&#39;"
+msgstr "se um usuário é falecido, ele deve ter o status de 'd'"
 
 #: src/bungeni.ui/bungeni/ui/descriptor.py:329
 msgid "You have to enter an Address"
@@ -1973,7 +1973,7 @@ msgstr "&quot;adicionar ..&quot; menu - para o governo"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:22
 msgid "Actions for the 'Business' section"
-msgstr "ações para a seção &#39;negócio&#39;"
+msgstr "ações para a seção 'negócio'"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:225
 #: src/bungeni.ui/bungeni/ui/menu.zcml:783
@@ -2048,7 +2048,7 @@ msgstr "adicionar co-signatário ..."
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:37
 msgid "Actions for the 'Records' section"
-msgstr "ações para a seção &#39;records&#39;"
+msgstr "ações para a seção 'records'"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:396
 #: src/bungeni.ui/bungeni/ui/menu.zcml:405
@@ -2091,7 +2091,7 @@ msgstr "&quot;adicionar ...&quot; menu - para escritórios"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:57
 msgid "The 'workflow' menu - allows the user to execute workflow transitions"
-msgstr "menu &#39;trabalho&#39; - que permite ao usuário executar as transições de workflow"
+msgstr "menu 'trabalho' - que permite ao usuário executar as transições de workflow"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:580
 msgid "content"
@@ -2111,7 +2111,7 @@ msgstr "meu arquivo"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:63
 msgid "The 'Calendar' menu - allows the user to select a scheduling context"
-msgstr "no menu &#39;calendário&#39; - que permite ao usuário selecionar um contexto de programação"
+msgstr "no menu 'calendário' - que permite ao usuário selecionar um contexto de programação"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:637
 msgid "Add ..."
@@ -2128,7 +2128,7 @@ msgstr "apagar sessão"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:69
 msgid "The 'Add' menu - allows the user to add content"
-msgstr "de &#39;adicionar&#39; menu - permite ao usuário adicionar conteúdo"
+msgstr "de 'adicionar' menu - permite ao usuário adicionar conteúdo"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:698
 msgid "Add Parliament..."
@@ -2155,7 +2155,7 @@ msgstr "adicionar mp ..."
 #: src/bungeni.ui/bungeni/ui/menu.zcml:75
 #, fuzzy
 msgid "The 'Translate' menu - allows the user to translate content"
-msgstr "de &#39;adicionar&#39; menu - permite ao usuário adicionar conteúdo"
+msgstr "de 'adicionar' menu - permite ao usuário adicionar conteúdo"
 
 #: src/bungeni.ui/bungeni/ui/menu.zcml:765
 msgid "Add Office..."
@@ -2790,7 +2790,7 @@ msgstr "comentário sobre a mudança do fluxo de trabalho"
 #. Default: ""
 #: src/bungeni.ui/bungeni/ui/workflow.py:150
 msgid "Confirmation required for workflow transition: '${title}'"
-msgstr "confirmação de transição o fluxo de trabalho: &#39;${title}&#39;"
+msgstr "confirmação de transição o fluxo de trabalho: '${title}'"
 
 #: src/bungeni.ui/bungeni/ui/workflow.py:56
 msgid "Workflow history"

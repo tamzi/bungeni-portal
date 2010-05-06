@@ -84,7 +84,7 @@
 
     
   <browser:viewletManager
-     name="bungeni.workspace"
+     name="bungeni.workspace-pi"
      provides=".interfaces.IWorkspaceManager"
      permission="zope.View"
      class=".workspace.WorkspaceViewletManager"

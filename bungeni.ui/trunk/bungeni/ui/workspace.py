@@ -481,7 +481,7 @@ class WorkspaceSectionView(BungeniBrowserView, z3evoque.ViewProvideMixin):
         log.debug("%s.__init__ %s" % (cls_name, debug.interfaces(self)))
         
 class WorkspacePIView(WorkspaceSectionView):
-    default_provider_name = "bungeni.workspace"
+    default_provider_name = "bungeni.workspace-pi"
     def __init__(self, context, request):
         super(WorkspacePIView, self).__init__(
                 interfaces.IWorkspacePIContext(context), request)

@@ -47,11 +47,12 @@ class DownloadDocument(BrowserView):
                     add_xml_decl=1, 
                     indent=1, 
                     tidy_mark=0,
-                    output_encoding='utf8')
+                    char_encoding='utf8',
+                    quote_nbsp=0)
         #remove html entities from the text
         ubody_text = unescape(body_text)
         #clean up xhtml using tidy
-        aftertidy = tidy.parseString(ubody_text.encode('utf-8'), **options)
+        aftertidy = tidy.parseString(ubody_text.encode('utf8'), **options)
         #tidy returns a <tidy.lib._Document object>
         dom = parseString(str(aftertidy))
         nodeList = dom.getElementsByTagName("body")

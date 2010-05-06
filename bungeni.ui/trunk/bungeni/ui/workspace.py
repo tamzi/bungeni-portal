@@ -31,6 +31,7 @@ from bungeni.core.content import Section, QueryContent
 from bungeni.core.proxy import LocationProxy
 from bungeni.core.interfaces import ISchedulingContext
 from bungeni.core.schedule import format_date
+from bungeni.core.dc import IDCDescriptiveProperties
 
 from bungeni.models import interfaces as model_interfaces
 from bungeni.models import domain
@@ -45,50 +46,31 @@ from bungeni.models.utils import get_current_parliament_governments
 from bungeni.ui.utils import url, misc, debug
 from bungeni.ui import interfaces
 
-# !+ mixin e.g. bungeni.ui.browser.I/ProviderBrowserView
+
 class BungeniBrowserView(BrowserView):
     
-    page_title = u" :BungeniBrowserView.page_title: "
-    # !+ use content.title instead?
-    # !+ formalize this as part of an IBungeniView
-    #    wrap implementation into a view.title property
+    # View subclasses may set a custom page_title by overriding this attribute
+    # Note: title values are localized in the template itself.
+    _page_title = None
     
-    default_provider_name = None # str, to be set by subclass, to specify the
-    # default ViewletManager.name for the viewlet manager that is providing 
-    # the viewlets for this view
-    
-    def provide(self, provider_name=None):
-        """ () -> str
-        
-        To decouple a zope-specific feature (the "provider" ZPT keyword) out 
-        of the templates by making it a generic python call.
-        
-        For convenience, a default_provider_name is also added to give view 
-        templates the ability to call on a view-defined provider without 
-        having to hard-wire the provider name in the template itself. 
-        
-        The provider_name attribute is factored out as a class attribute to 
-        make it easier for view subclasses to specify a provider name.
-
-        Example: as far as TAL is concerned, this means the ability to replace 
-        template calls such as:
-             <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
-           with:
-             <div tal:replace="structure python:view.provide() />
-           or: 
-             <div tal:replace="structure python:view.provide(
-                                            view.default_provider_name) />
-        
+    @property
+    def page_title(self):
+        """Formalize view.page_title as a view property to factor the logic for 
+        determining the page title for a view out of the template. 
+        Templates should always simply call view.page_title.
         """
-        from zope.viewlet.interfaces import IViewletManager
-        if provider_name is None:
-            provider_name = self.default_provider_name
-        provider = component.getMultiAdapter(
-                            (self.context, self.request, self),
-                            IViewletManager, 
-                            name=provider_name)
-        provider.update()
-        return provider.render()
+        if self._page_title:
+            return self._page_title
+        if getattr(self.context, "title"):
+            return self.context.title 
+        try:
+            # This is the equivalent of the ZPT expression "context/dc:title"
+            # i.e. to "load the value of the variable context, then find a 
+            # component that adapts that object to Dublin Core and read the 
+            # title attribute of the component."
+            return IDCDescriptiveProperties(self.context).title
+        except:
+            return "Bungeni"
 
 
 def prepare_user_workspaces(event):
@@ -446,7 +428,7 @@ class WorkspaceSchedulingContext(object):
 from bungeni.ui import z3evoque
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-class WorkspaceSectionView(BungeniBrowserView):
+class WorkspaceSectionView(BungeniBrowserView, z3evoque.ViewProvideMixin):
     
     # evoque
     __call__ = z3evoque.PageViewTemplateFile("workspace.html#section_page")
@@ -499,7 +481,6 @@ class WorkspaceSectionView(BungeniBrowserView):
         log.debug("%s.__init__ %s" % (cls_name, debug.interfaces(self)))
         
 class WorkspacePIView(WorkspaceSectionView):
-    page_title = u"Bungeni Workspace"
     default_provider_name = "bungeni.workspace"
     def __init__(self, context, request):
         super(WorkspacePIView, self).__init__(
@@ -507,7 +488,6 @@ class WorkspacePIView(WorkspaceSectionView):
 
 class WorkspaceArchiveView(WorkspaceSectionView):
     default_provider_name = "bungeni.workspace-archive"
-    page_title = u"Bungeni Workspace Archive"
     def __init__(self, context, request):
         super(WorkspaceArchiveView, self).__init__(
                 interfaces.IWorkspaceArchiveContext(context), request)

@@ -17,15 +17,15 @@ msgstr ""
 
 #: src/bungeni.models/bungeni/models/interfaces.py:214
 msgid "Speaker's Office Email"
-msgstr "courrier de bureau du président de l&#39;assemblée"
+msgstr "courrier de bureau du président de l'assemblée"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:216
 msgid "Speaker's Office Notification"
-msgstr "notification de bureau du président de l&#39;assemblée"
+msgstr "notification de bureau du président de l'assemblée"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:217
 msgid "true if the Speakers office wants to be alerted by mailwhenever a bill, motion, question is submitted"
-msgstr "vrai si le bureau du président de l&#39;assemblée souhaite être alerté par courrier quand un projet de loi, un mouvement, une question est soumise"
+msgstr "vrai si le bureau du président de l'assemblée souhaite être alerté par courrier quand un projet de loi, un mouvement, une question est soumise"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:222
 msgid "Clerk's Office Notification"
@@ -41,7 +41,7 @@ msgstr "courrier du commis de bureau "
 
 #: src/bungeni.models/bungeni/models/interfaces.py:231
 msgid "Administrator's Email"
-msgstr "courrier d&#39;administrateur"
+msgstr "courrier d'administrateur"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:232
 msgid "Allow Question Submission"
@@ -57,7 +57,7 @@ msgstr "délai après lequel les questions admissibles sont automatiquement repo
 
 #: src/bungeni.models/bungeni/models/interfaces.py:236
 msgid "Days to Notify Ministry of Pending Response"
-msgstr "jours restants pour notifier ministère en l&#39;attente de la réponse"
+msgstr "jours restants pour notifier ministère en l'attente de la réponse"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:237
 msgid "Timeframe after which the clerksoffice and the ministry is alerted thatquestions that are pending response are not yet answered"
@@ -65,11 +65,11 @@ msgstr "délai au terme duquel le bureau de greffier et le ministère est alert�
 
 #: src/bungeni.models/bungeni/models/interfaces.py:241
 msgid "Days before question scheduled"
-msgstr "jours avant l&#39;ordonnancement d&#39;une question "
+msgstr "jours avant l'ordonnancement d'une question "
 
 #: src/bungeni.models/bungeni/models/interfaces.py:242
 msgid "Days before bill scheduled"
-msgstr "jours avant l&#39;ordonnancement de projet de loi "
+msgstr "jours avant l'ordonnancement de projet de loi "
 
 #: src/bungeni.models/bungeni/models/interfaces.py:243
 msgid "Max Questions Per Sitting"
@@ -97,7 +97,7 @@ msgstr "date de clôture de la cession"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:258
 msgid "Assignment Type"
-msgstr "type d&#39;affectation"
+msgstr "type d'affectation"
 
 #: src/bungeni.models/bungeni/models/interfaces.py:259
 msgid "Status"
@@ -173,7 +173,7 @@ msgstr "ajouter un membre de bureau"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:123
 msgid "Edit office member"
-msgstr "modifier bureau d&#39;un député"
+msgstr "modifier bureau d'un député"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:124
 msgid "Delete office member"
@@ -225,11 +225,11 @@ msgstr "ajouter un utilisateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:147
 msgid "Edit user"
-msgstr "modifier l&#39;utilisateur"
+msgstr "modifier l'utilisateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:148
 msgid "Delete user"
-msgstr "supprimer l&#39;utilisateur"
+msgstr "supprimer l'utilisateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:149
 msgid "View user"
@@ -341,15 +341,15 @@ msgstr "ajouter une adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:195
 msgid "Edit address"
-msgstr "modifier l&#39;adresse"
+msgstr "modifier l'adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:196
 msgid "Delete address"
-msgstr "supprimer l&#39;adresse"
+msgstr "supprimer l'adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:197
 msgid "View address"
-msgstr "voir l&#39;adresse"
+msgstr "voir l'adresse"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:20
 msgid "Delete sitting"
@@ -409,7 +409,7 @@ msgstr "voir le titre / événement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:219
 msgid "View audit log"
-msgstr "voir le journal d&#39;audit"
+msgstr "voir le journal d'audit"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:22
 msgid "Add item scheduling"
@@ -437,11 +437,11 @@ msgstr "voir les commentaires"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:234
 msgid "View Agenda"
-msgstr "voir l&#39;ordre du jour"
+msgstr "voir l'ordre du jour"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:235
 msgid "View 'Votes and Proceedings'"
-msgstr "voir &#39;votes et délibérationsl&#39;"
+msgstr "voir 'votes et délibérationsl'"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:237
 msgid "Add Consignatory"
@@ -457,12 +457,12 @@ msgstr "modifier consignataire"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:24
 msgid "Delete item scheduling"
-msgstr "supprimer l&#39;ordonnancement du point"
+msgstr "supprimer l'ordonnancement du point"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:241
 #: src/bungeni.models/bungeni/models/permissions.zcml:242
 msgid "Add Group Item Assignment"
-msgstr "ajouter un élément d&#39;affectation du groupe "
+msgstr "ajouter un élément d'affectation du groupe "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:243
 msgid "Delete Group Item Assignment"
@@ -502,7 +502,7 @@ msgstr "ajouter traduction"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:27
 msgid "Edit item scheduling discussion"
-msgstr "modifier la discussion d&#39;un élément de planification"
+msgstr "modifier la discussion d'un élément de planification"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:29
 msgid "View sitting attendance"
@@ -586,19 +586,19 @@ msgstr "voir le motion"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:66
 msgid "Add agenda item"
-msgstr "ajouter un élément de l&#39;ordre du jour"
+msgstr "ajouter un élément de l'ordre du jour"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:67
 msgid "Edit agenda item"
-msgstr "modifier le point de l&#39;ordre du jour "
+msgstr "modifier le point de l'ordre du jour "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:68
 msgid "Delete agenda item"
-msgstr "supprimer le point de l&#39;ordre du jour"
+msgstr "supprimer le point de l'ordre du jour"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:69
 msgid "View agenda item"
-msgstr "voir l&#39;élément de l&#39;ordre du jour"
+msgstr "voir l'élément de l'ordre du jour"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:72
 msgid "Add tabled document"
@@ -658,7 +658,7 @@ msgstr "voir le projet de loi"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:93
 msgid "Admin User Record"
-msgstr "dossier administratif d&#39;utilisateur"
+msgstr "dossier administratif d'utilisateur"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:94
 msgid "Edit historical data"
@@ -694,7 +694,7 @@ msgstr "employés de bureau"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "Speaker Office"
-msgstr "bureau du président de l&#39;assemblée"
+msgstr "bureau du président de l'assemblée"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:15
 msgid "Translators  Office"
@@ -729,7 +729,7 @@ msgstr "administrateur de bungeni"
 #~ msgid "Private Notice"
 #~ msgstr "avis privé "
 #~ msgid "Speakers Office"
-#~ msgstr "bureau du président de l&#39;assemblée"
+#~ msgstr "bureau du président de l'assemblée"
 #~ msgid "Written"
 #~ msgstr "écrit"
 #~ msgid "Yes"

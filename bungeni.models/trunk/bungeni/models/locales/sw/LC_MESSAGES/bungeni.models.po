@@ -441,7 +441,7 @@ msgstr "tazama ajenda"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:235
 msgid "View 'Votes and Proceedings'"
-msgstr "tazama &#39;kura na majadiliano&#39;"
+msgstr "tazama 'kura na majadiliano'"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:237
 msgid "Add Consignatory"

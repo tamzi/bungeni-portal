@@ -90,7 +90,7 @@ msgstr "voir les questions émises par le parlement actuel"
 #: src/bungeni.core/bungeni/core/app.py:204
 #, fuzzy
 msgid "View the tabled documents of the current parliament"
-msgstr "voir les documents déposés de l&#39;actuelle parlement"
+msgstr "voir les documents déposés de l'actuelle parlement"
 
 #: src/bungeni.core/bungeni/core/app.py:208
 msgid "Agenda items"
@@ -99,7 +99,7 @@ msgstr "points"
 #: src/bungeni.core/bungeni/core/app.py:210
 #, fuzzy
 msgid "View the agenda items of the current parliament"
-msgstr "voir l&#39;ordre du jour de l&#39;actuelle parlement"
+msgstr "voir l'ordre du jour de l'actuelle parlement"
 
 #: src/bungeni.core/bungeni/core/app.py:220
 msgid "Sittings"
@@ -112,7 +112,7 @@ msgstr "publications parlementaires"
 #: src/bungeni.core/bungeni/core/app.py:228
 #, fuzzy
 msgid "View Agenda and Minutes reports of the current parliament"
-msgstr "voir l&#39;ordre du jour et procès-verbaux des rapports de parlement actuel "
+msgstr "voir l'ordre du jour et procès-verbaux des rapports de parlement actuel "
 
 #: src/bungeni.core/bungeni/core/app.py:234
 msgid "Current"
@@ -243,7 +243,7 @@ msgstr "assis: $group ($start à $end)"
 #: src/bungeni.core/bungeni/core/dc.py:150
 #, fuzzy
 msgid "Sitting scheduled for '$group' ($start to $end)"
-msgstr "séance prévue pour le &#39;$group&#39; ($start à $end)"
+msgstr "séance prévue pour le '$group' ($start à $end)"
 
 #: src/bungeni.core/bungeni/core/dc.py:160
 msgid "Item scheduling"
@@ -390,7 +390,7 @@ msgstr "examiner une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:11
 msgid "Speaker review a question"
-msgstr "président du parlement examen d&#39;une question"
+msgstr "président du parlement examen d'une question"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:12
 msgid "Schedule a question"
@@ -439,7 +439,7 @@ msgstr "examiner une motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:25
 msgid "Speaker review a motion"
-msgstr "président du parlement examen d&#39;une motion"
+msgstr "président du parlement examen d'une motion"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:26
 msgid "Schedule a motion"
@@ -467,7 +467,7 @@ msgstr "assigner un projet de loi à un comité"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:33
 msgid "Reject/Approve a bill"
-msgstr "rejeter / d&#39;approuver un projet de loi"
+msgstr "rejeter / d'approuver un projet de loi"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:34
 msgid "Withdraw a bill"
@@ -487,7 +487,7 @@ msgstr "gérer les adresses des utilisateurs"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:41
 msgid "Submit an agenda item"
-msgstr "soumettre l&#39;ordre du jour"
+msgstr "soumettre l'ordre du jour"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:42
 #, fuzzy
@@ -500,7 +500,7 @@ msgstr "examiner un ordre du jour"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:44
 msgid "Speaker review a agenda item"
-msgstr "président du parlement examen  d&#39;un ordre du jour"
+msgstr "président du parlement examen  d'un ordre du jour"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:45
 msgid "Schedule an agenda item"
@@ -529,7 +529,7 @@ msgstr "examiner un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:52
 msgid "Speaker review a tabled document"
-msgstr "président du parlement examine d&#39;un document déposé"
+msgstr "président du parlement examine d'un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:53
 msgid "Schedule a tabled document"
@@ -545,7 +545,7 @@ msgstr "retirer un document déposé"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:57
 msgid "Change Sitting Status"
-msgstr "modifier l&#39;état du séance"
+msgstr "modifier l'état du séance"
 
 #: src/bungeni.core/bungeni/core/workflows/permissions.zcml:59
 msgid "Deactivate a file"
@@ -850,7 +850,7 @@ msgstr "projet de compte rendu"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:188
 msgid "Draft Agenda"
-msgstr "projet d&#39;ordre du jour"
+msgstr "projet d'ordre du jour"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:189
 msgid "Published Minutes"
@@ -866,11 +866,11 @@ msgstr "ordre du jour publié"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:192
 msgid "Finalize Agenda"
-msgstr "finaliser l&#39;ordre du jour"
+msgstr "finaliser l'ordre du jour"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:194
 msgid "Redraft Agenda"
-msgstr "remanier l&#39;ordre du jour"
+msgstr "remanier l'ordre du jour"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:195
 msgid "Finalize Minutes"
@@ -890,7 +890,7 @@ msgstr "groupe est dissous"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:199
 msgid "Draft - Group not yet Active"
-msgstr "projet - groupe n&#39;est pas encore actif"
+msgstr "projet - groupe n'est pas encore actif"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:20
 msgid "First Reading Postponed"
@@ -968,7 +968,7 @@ msgstr "reporter rapport de lecture"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:25
 msgid "Postpone Second Reading and Whole House Committee"
-msgstr "reporter la deuxième lecture et du comité plénier de l&#39;assemblée"
+msgstr "reporter la deuxième lecture et du comité plénier de l'assemblée"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:256
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:313
@@ -1055,7 +1055,7 @@ msgstr "comité est dissous"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:329
 msgid "Draft - Committee not yet Active"
-msgstr "projet - comité n&#39;est pas encore actif"
+msgstr "projet - comité n'est pas encore actif"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:33
 msgid "Reschedule Whole House Committee"
@@ -1071,7 +1071,7 @@ msgstr "le parlement est dissous"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:338
 msgid "Draft - Parliament not yet Active"
-msgstr "projet - le parlement n&#39;est pas encore actif"
+msgstr "projet - le parlement n'est pas encore actif"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:345
 msgid "Inactive file obsolete"
@@ -1105,7 +1105,7 @@ msgstr "rééchelonner la première lecture"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:46
 msgid "Schedule Whole House Committee"
-msgstr "planifier l&#39;assemblée de la comité de la chambre entière"
+msgstr "planifier l'assemblée de la comité de la chambre entière"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:47
 msgid "Reintroduce"
@@ -1113,7 +1113,7 @@ msgstr "réintroduire"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:48
 msgid "Postpone Whole House Committee"
-msgstr "différer comité plénier de l&#39;assemblée"
+msgstr "différer comité plénier de l'assemblée"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:49
 msgid "Postpone First Reading"
@@ -1208,7 +1208,7 @@ msgstr "doit être clarifiée par greffier"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:68
 msgid "Pending response"
-msgstr "dans l&#39;attente de la réponse"
+msgstr "dans l'attente de la réponse"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:69
 msgid "Submitted to clerk"
@@ -1316,7 +1316,7 @@ msgstr "approuver"
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:308
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:314
 msgid "Elapse"
-msgstr "s&#39;écouler"
+msgstr "s'écouler"
 
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:87
 #: src/bungeni.core/bungeni/core/workflows/wfi18n.pt:104

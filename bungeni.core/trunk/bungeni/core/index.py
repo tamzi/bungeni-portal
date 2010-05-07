@@ -28,7 +28,8 @@ from zope.security.proxy import removeSecurityProxy
 import xappy, os, os.path as path
 import logging
 
-from sqlalchemy.orm.session import Session
+#from sqlalchemy.orm.session import Session
+from ore.alchemist import Session
 from sqlalchemy import exceptions
 from ore.alchemist import container, model
 from ore.xapian import search, queue, interfaces as iindex

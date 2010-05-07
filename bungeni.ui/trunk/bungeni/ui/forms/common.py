@@ -1,5 +1,5 @@
 import logging
-import transaction
+#import transaction
 from copy import copy
 from zope.publisher.interfaces import BadRequest
 from zope import component

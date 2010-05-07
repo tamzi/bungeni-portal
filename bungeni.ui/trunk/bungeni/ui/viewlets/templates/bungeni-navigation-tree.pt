@@ -19,18 +19,15 @@
                           selected node/selected;
                           current python: current and 'navTreeCurrentNode' or ''"
               tal:attributes="class string:navTreeItem visualNoMarker $current">
-            <div>
+
               <a tal:define="selected python: selected and 'navTreeCurrentItem' or ''"
                  tal:attributes="href node/url;
-                                 class string:${selected}">
-                <img width="16" height="16"
+                                 class string:${selected}"
+                ><img width="16" height="16"
                      tal:define="kind node/kind"
                      tal:attributes="src images/icon_?kind.png|images/icon_?kind.gif"
-                     />
-                <span i18n:translate="" tal:content="node/title" />
-              </a>
-            </div>
-            
+                />&nbsp;<span i18n:translate="" tal:replace="node/title" /></a>
+
             <ul tal:condition="is_folderish"
                 tal:attributes="class string:navTree navTreeLevel${nesting_level} navTreeFolderish">
               <tal:nesting define="nesting_level python: nesting_level + 1">

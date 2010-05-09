@@ -299,7 +299,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     """Render a navigation tree."""
 
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
-    template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt') # !+
+    
     path = ()
     
     def __new__(cls, context, request, view, manager):

@@ -48,9 +48,9 @@ ZPT non-features:
 necessarily valid XML documents e.g. in our case, the DOCTYPE declaration 
 specified in the main template is being stripped out from the output somewhere 
 in the Chameleon/ZPT stack, thus the document is already invalid as it has no 
-DOCTYPE. And, as far as HTML documents, there is NO help from ZPT to help
-the developer produce valid HTML documents (all sorts of incorrectnesses e.g.
-form elements without action attributes, div elements in the head, etc).
+DOCTYPE. And, as far as HTML documents are concerned, there is NO help from ZPT 
+to help the developer produce valid HTML documents (all sorts of incorrectnesses 
+e.g. form elements without action attributes, div elements in the head, etc).
 - CLAIM: "A Page Template is like a model of the pages that it will generate. 
 In particular, it is a valid HTML page."
   REALITY-CHECK: here's a citation from Paul Everitt (co-founder of Zope 
@@ -65,9 +65,8 @@ who uses ZPT without METAL?
 Current limitations:
 A "template" attribute may currently not be specified in a ZCML declaration -- 
 for now, the template for a ZCML-declared view should be specified in the class.
-But in reality this is actually a good thing, as it removes one dimension of
-redirection in the ZCML i.e. it is actually better to keep the template 
-declaration with the view than in the ZCML.
+But, I actually see this as a *positive*, a best practice... given that the 
+class's main purpose is to prepare the data for *this* specific template.
 
 Status:
 Exploratory, to first verify that Evoque templates may be used everywhere 
@@ -115,15 +114,16 @@ evoque_ini = {
     "evoque.i18n_lang": "en",
 }
 
-def abs_norm_path(path, ABS_BASE=None):
-    """Utility to turn a path into a normalized absolute path with respect to
-    the ABS_PATH as specified by the application.
+def abs_norm_path(path):
+    """Utility to ensure that a path is a normalized absolute path with respect 
+    to the ABS_PATH as specified by the application. 
+    
+    Note: setup_evoque() must have been already called.
     """
-    if ABS_BASE is None:
-        # use parent of default_dir i.e. of default's collection's dir
-        ABS_BASE = os.path.dirname(domain.get_collection().dir)
-    assert not os.path.isabs(path) # ensure that path is NOT already absolute
-    return os.path.normpath(os.path.join(ABS_BASE, path))
+    if os.path.isabs(os.path.normpath(path)):
+        return os.path.normpath(path)
+    else:
+        return os.path.normpath(os.path.join(ABS_BASE, path))
 
 def set_additional_collections():
     """Define and set additional collections (other than default collection) 
@@ -209,19 +209,23 @@ def set_domain(evoque_domain):
 class IEvoqueDomain(zope.interface.Interface):
     """Marker for an Evoque Domain instance."""
 
-def setup_evoque(ABS_BASE=None):
+# The ABSOLUTE path as reference base location against which to resolve all 
+# RELATIVE collection paths. Initialized in setup_evoque().
+ABS_BASE = None
+
+def setup_evoque(abs_base=None):
     
-    # The ABSOLUTE path as reference base location against which to resolve 
-    # all RELATIVE collection paths.
-    if ABS_BASE is None:
-        # then we use the parent folder for this package
-        ABS_BASE = os.path.dirname(os.path.abspath(__file__))
-    assert os.path.isabs(ABS_BASE) # ensure that base path is absolute
+    if abs_base is None:
+        # then we just use the parent folder for this package
+        abs_base = os.path.dirname(os.path.abspath(__file__))
+    assert os.path.isabs(abs_base) # ensure that base path is absolute
+    global ABS_BASE
+    ABS_BASE = abs_base
     
     import logging
     evoque_domain = Domain(
         # root folder for the default template collection, must be abspath;
-        abs_norm_path(evoque_ini.get("evoque.default_dir", ""), ABS_BASE),
+        abs_norm_path(evoque_ini.get("evoque.default_dir", "")),
         
         # whether evaluation namespace is restricted or not 
         restricted = evoque_ini.get("evoque.restricted", False),
@@ -310,15 +314,14 @@ class _ViewTemplateBase(object):
     i18n_domain = None
     i18n_gettext_alias = "i18n"
     
-    # these are updated each time a caller view gets this ViewTemplate
-    _descriptor_view = None
-    _descriptor_type = None
-    
     def __init__(self, name, src, collection, i18n_domain):
         if name is not None: self.name = name
         if src is not None: self.src = src
         if collection is not None: self.collection = collection
         if i18n_domain is not None: self.i18n_domain = i18n_domain
+        # these are updated each time a caller view gets this ViewTemplate
+        _descriptor_view = None
+        _descriptor_type = None
         log.debug("%s [%s][%s] %s" % (
             self.__class__.__name__, collection, name, self))
     
@@ -470,26 +473,29 @@ class ViewMapper(object):
         return zope.component.getMultiAdapter(
                                         (self.ob, self.request), name=name)
 
-# IViewProvide / View Mixin
+# IViewProvide
 
 class IViewProvide(zope.interface.Interface):
-    """Viewlet manager provider support."""
+    """A view content provider instance."""
     
     default_provider_name = zope.interface.Attribute("""
-        The name for the default content provider e.g. a viewlet manager, that 
-        is providing e.g.  the viewlets, for this view. May be None, in which 
-        case a provider_name must be explictly passed to provide().""")
+        The name for the default content provider (e.g. a viewlet manager, that 
+        is providing the viewlets) for this view provider. May be None, in which 
+        case a provider_name must be explictly passed to __call__().""")
+    provider_interface = zope.interface.Attribute("""
+        The interface for the content provider.""")
+    _view = zope.interface.Attribute("""The calling view.""")
     
-    def provide(provider_name=None):
+    def __call__(provider_name=None):
         """Get and render the named content provider.
         
-        To decouple a zope-specific feature (the "provider" ZPT keyword) out 
-        of the templates by making it a generic python call, with provider_name
-        being simply a template variable (thus may be data-driven).
+        To generalize a zpt-specific feature (the "provider" ZPT keyword) into 
+        a generic python call, with provider_name being simply a template 
+        variable (thus becoming data-driven AND template-engine independent).
         
-        For convenience, a default_provider_name is also added to give view 
+        For convenience, a default_provider_name is added to give view 
         templates the ability to call on a view-defined provider without 
-        having to hard-wire the provider name in the template itself. 
+        having to hard-wire/specify the provider name in the template itself. 
         
         The default provider_name attribute is factored out as a class attribute 
         to make it easier for view subclasses to specify a provider name.
@@ -497,29 +503,49 @@ class IViewProvide(zope.interface.Interface):
         Thus, as far as TAL would be concerned, this means the ability to 
         replace template calls such as:
              <div tal:replace="structure provider:HARD_WIRED_PROVIDER_NAME" />
-           with (no name specified uses default_provider_name)
+           with, if the IViewProvide instance is set on a view attribute 
+           called "provide", and called with no provider name (so defaults to
+           self.default_provider_name):
              <div tal:replace="structure python:view.provide() />
-           or (specify any provider_name we like): 
-             <div tal:replace="structure python:view.provide(
-                                            view.default_provider_name) />
+           or (specify any provider_name we like, here as a literal string): 
+             <div tal:replace="structure python:view.provide('my_provider')" />
+        
+        The Evoque equivalent of this last variation (with an in-palce literal 
+        provider name) would be:
+            ${view.provide("my_provider")}
         """
 
-class ViewProvideMixin(object):
+class ViewProvideBase(object):
     zope.interface.implements(IViewProvide)
     
     default_provider_name = None
+    provider_interface = None
     
-    def provide(self, provider_name=None):
+    def __init__(self, default_provider_name=None, provider_interface=None):
+        if default_provider_name is not None: 
+            self.default_provider_name = default_provider_name
+        if provider_interface is not None: 
+            self.provider_interface = provider_interface
+        # this is updated each time a caller view gets this ViewProvide
+        _view = None
+    
+    def __call__(self, provider_name=None):
         if provider_name is None:
             provider_name = self.default_provider_name
-        # Is theer a need to parametrize this, part of IViewProvide
-        provider_interface = zope.viewlet.interfaces.IViewletManager 
         provider = zope.component.getMultiAdapter(
-                            (self.context, self.request, self),
-                            provider_interface,
+                            (self._view.context, self._view.request, self._view),
+                            self.provider_interface,
                             name=provider_name)
         provider.update()
         return provider.render()
 
+    def __get__(self, view, type_):
+        """Non-data descriptor to grab a reference to the caller view.
+        """
+        self._view = view
+        return self
 
+class ViewProvideViewletManager(ViewProvideBase):
+    provider_interface = zope.viewlet.interfaces.IViewletManager 
+    
 

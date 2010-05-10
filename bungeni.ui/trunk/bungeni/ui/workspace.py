@@ -46,7 +46,7 @@ from bungeni.models.utils import get_current_parliament_governments
 from bungeni.ui.utils import url, misc, debug
 from bungeni.ui import interfaces
 
-
+# !+ move this to ui/browser.py
 class BungeniBrowserView(BrowserView):
     
     # View subclasses may set a custom page_title by overriding this attribute
@@ -69,9 +69,9 @@ class BungeniBrowserView(BrowserView):
             # component that adapts that object to Dublin Core and read the 
             # title attribute of the component."
             return IDCDescriptiveProperties(self.context).title
-        except:
+        except (Exception,):
+            debug.log_exc(sys.exc_info(), log_handler=log.debug)
             return "Bungeni"
-
 
 def prepare_user_workspaces(event):
     """Determine the current principal's workspaces, depending on roles and
@@ -428,7 +428,10 @@ class WorkspaceSchedulingContext(object):
 from bungeni.ui import z3evoque
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-class WorkspaceSectionView(BungeniBrowserView, z3evoque.ViewProvideMixin):
+class WorkspaceSectionView(BungeniBrowserView):
+    
+    # the instance of the ViewProvideViewletManager
+    provide = z3evoque.ViewProvideViewletManager()
     
     # evoque
     __call__ = z3evoque.PageViewTemplateFile("workspace.html#section_page")
@@ -481,14 +484,14 @@ class WorkspaceSectionView(BungeniBrowserView, z3evoque.ViewProvideMixin):
         log.debug("%s.__init__ %s" % (cls_name, debug.interfaces(self)))
         
 class WorkspacePIView(WorkspaceSectionView):
-    default_provider_name = "bungeni.workspace-pi"
     def __init__(self, context, request):
+        self.provide.default_provider_name = "bungeni.workspace-pi"
         super(WorkspacePIView, self).__init__(
                 interfaces.IWorkspacePIContext(context), request)
 
 class WorkspaceArchiveView(WorkspaceSectionView):
-    default_provider_name = "bungeni.workspace-archive"
     def __init__(self, context, request):
+        self.provide.default_provider_name = "bungeni.workspace-archive"
         super(WorkspaceArchiveView, self).__init__(
                 interfaces.IWorkspaceArchiveContext(context), request)
 

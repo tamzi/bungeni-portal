@@ -211,28 +211,25 @@ mapper( domain.GroupMembership, schema.user_group_memberships,
         polymorphic_identity='member',
         )
 
+mapper(domain.MemberOfParliament, schema.parliament_memberships,
+    inherits=domain.GroupMembership,
+    primary_key=[schema.user_group_memberships.c.membership_id], 
+    properties={
+        'constituency':relation(domain.Constituency,
+            primaryjoin=(schema.parliament_memberships.c.constituency_id==
+                            schema.constituencies.c.constituency_id),
+            uselist=False,
+            lazy=False),
+        'constituency_id':[schema.parliament_memberships.c.constituency_id], 
+        'start_date':column_property(
+            schema.user_group_memberships.c.start_date.label('start_date')), 
+        'end_date':column_property(
+            schema.user_group_memberships.c.end_date.label('end_date')),
+    },
+    polymorphic_on=schema.user_group_memberships.c.membership_type,
+    polymorphic_identity='parliamentmember',
+)
 
-
-mapper ( domain.MemberOfParliament , 
-        schema.parliament_memberships,
-         inherits=domain.GroupMembership,
-         primary_key=[schema.user_group_memberships.c.membership_id], 
-          properties={
-            'constituency': relation( domain.Constituency,
-                                primaryjoin=(
-                                schema.parliament_memberships.c.constituency_id==
-                                schema.constituencies.c.constituency_id),
-                              uselist=False,
-                              lazy=False ),
-            'constituency_id':[schema.parliament_memberships.c.constituency_id], 
-            'start_date' :  column_property(schema.user_group_memberships.c.start_date.label('start_date')), 
-            'end_date' :  column_property(schema.user_group_memberships.c.end_date.label('end_date')),
-               
-          },
-        polymorphic_on=schema.user_group_memberships.c.membership_type,
-        polymorphic_identity='parliamentmember' 
-        )
-        
 s_member_of_parliament = rdb.select([schema.user_group_memberships.c.membership_id,
                     schema.user_group_memberships.c.start_date,
                     schema.user_group_memberships.c.end_date,

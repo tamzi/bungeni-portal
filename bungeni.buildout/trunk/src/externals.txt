@@ -1,13 +1,12 @@
 # core software
-bungeni.server -r6514   https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
-bungeni.core -r6528     https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
-bungeni.models  -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
-bungeni.portal -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
+bungeni.server -r6549   https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
+bungeni.core -r6549   https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
+bungeni.models  -r6549  https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
+bungeni.portal -r6549  https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
 bungeni.plonepas  -r6514 https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/trunk/
-bungeni.ui  -r6530  https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
+bungeni.ui  -r6561  https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 bungeni.theme.private   -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.theme.private/trunk/
 marginalia  -r6514  https://bungeni-portal.googlecode.com/svn/marginalia/trunk
-bungeni.transcipts  -r6514  https://bungeni-portal.googlecode.com/svn/bungeni.transcripts/trunk/
  
 # plone 3 skin
 ploned.ui   -r6532   https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
@@ -29,7 +28,7 @@ alchemist.traversal -r393 https://zope-alchemist.googlecode.com/svn/alchemist.tr
 alchemist.security -r393  https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
 
 # schema diff 
-z3c.schemadiff -r111203 svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
+#z3c.schemadiff -r111203 svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
 z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 
 # shows security information ( principal, permissions, views )

@@ -83,6 +83,10 @@ class AppSetup(object):
             default_name="workspace-index",
             publishTraverseResolver=workspace_resolver
         )
+        # Proof-of-concept: support for selective inclusion in breadcrumb trail:
+        # a view marked with an attribute __crumb__=False is NOT included in 
+        # the breadcrumb trail (see ui/viewlets/workspace.py)
+        #self.context["workspace"].__crumb__ = False
         business = self.context["business"] = Section(
             title=_(u"Business"),
             description=_(u"Daily operations of the parliament"),

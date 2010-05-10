@@ -33,10 +33,10 @@ from ploned.ui.menu import make_absolute
 from ploned.ui.menu import pos_action_in_url
 
 from bungeni.core import location
-from bungeni.ui.utils import url as ui_url, debug
+from bungeni.ui.utils import url, debug
 from bungeni.ui import interfaces
 
-def get_parent_chain(context):
+def get_context_chain(context):
     context = proxy.removeSecurityProxy(context)
     chain = []
     while context is not None:
@@ -50,7 +50,7 @@ class SecondaryNavigationViewlet(object):
     def update(self):
         request = self.request
         context = self.context
-        chain = get_parent_chain(context)
+        chain = get_context_chain(context)
         length = len(chain)
         self.items = []
         if length < 2:
@@ -87,22 +87,22 @@ class SecondaryNavigationViewlet(object):
             debug.log_exc(sys.exc_info(), log_handler=log.debug)
             return []
         # OK, do any necessary post-processing of each menu item
-        local_url = ui_url.absoluteURL(container, self.request)
-        site_url = ui_url.absoluteURL(getSite(), self.request)
+        local_url = url.absoluteURL(container, self.request)
+        site_url = url.absoluteURL(getSite(), self.request)
         request_url = self.request.getURL()
         default_view_name = queryDefaultViewName(container, self.request)
         selection = None
         for item in sorted(items, key=lambda item: item['action'], reverse=True):
             action = item['action']
             if default_view_name==action.lstrip('@@'):
-                url = local_url
+                _url = local_url
                 if selection is None:
                     selected = sameProxiedObjects(container, self.context)
             else:
-                url = make_absolute(action, local_url, site_url)
+                _url = make_absolute(action, local_url, site_url)
                 if selection is None:
                     selected = pos_action_in_url(action, request_url)
-            item['url'] = url
+            item['url'] = _url
             item['selected'] = selected and u'selected' or u''
             if selected:
                 # self is marker
@@ -125,13 +125,13 @@ class SecondaryNavigationViewlet(object):
             for workspace in workspaces:
                 log.info("appending menu item for user workspace: %s" % 
                                                                 str(workspace))
-                self.items.append(ui_url.get_menu_item_descriptor(
+                self.items.append(url.get_menu_item_descriptor(
                     workspace.full_name,
                     False,
                     base_url_path,
                     "obj-%s" % workspace.group_id ))
         
-        url = ui_url.absoluteURL(container, request)
+        _url = url.absoluteURL(container, request)
         
         if IReadContainer.providedBy(container):
             #XXX should be the same in all containers ?
@@ -140,7 +140,7 @@ class SecondaryNavigationViewlet(object):
                 if context is None:
                     selected = False
                 else:
-                    selected = ui_url.same_path_names(context.__name__, name)
+                    selected = url.same_path_names(context.__name__, name)
                 item = proxy.removeSecurityProxy(item)
                 if IDCDescriptiveProperties.providedBy(item):
                     title = item.title
@@ -149,16 +149,16 @@ class SecondaryNavigationViewlet(object):
                     title = props.title
                 # only items with valid title
                 if title is not None:
-                    self.items.append(ui_url.get_menu_item_descriptor(
-                                                title, selected, url, name))
+                    self.items.append(url.get_menu_item_descriptor(
+                                                title, selected, _url, name))
         default_view_name = queryDefaultViewName(container, self.request)
         default_view = component.queryMultiAdapter(
             (container, self.request), name=default_view_name)
         if hasattr(default_view, "title") and default_view.title is not None:
-            self.items.insert(0, ui_url.get_menu_item_descriptor(
+            self.items.insert(0, url.get_menu_item_descriptor(
                     default_view.title, 
                     sameProxiedObjects(container, self.context), 
-                    url))
+                    _url))
 
     
 class GlobalSectionsViewlet(viewlet.ViewletBase):
@@ -167,7 +167,7 @@ class GlobalSectionsViewlet(viewlet.ViewletBase):
     
     def update(self):
         context, request = self.context, self.request 
-        base_url = ui_url.absoluteURL(getSite(), request)
+        base_url = url.absoluteURL(getSite(), request)
         item_url = request.getURL()
         
         assert item_url.startswith(base_url)
@@ -216,26 +216,29 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
         self.__parent__= view
         self.manager = manager
         self.path = []
-        self.site_url = ui_url.absoluteURL(getSite(), self.request)
+        self.site_url = url.absoluteURL(getSite(), self.request)
         self.user_name = ''
 
     def _get_path(self, context):
+        """Return the current path as a list
         """
-        Return the current path as a list
-        """
-
         descriptor = None
         name = None 
         path = []
-
-        context = proxy.removeSecurityProxy( context )
+        
+        context = proxy.removeSecurityProxy(context)
         if context is None:
             return path
+        # Proof-of-concept: support for selective inclusion in breadcrumb trail:
+        # a view marked with an attribute __crumb__=False is NOT included in 
+        # the breadcrumb trail (see core/app.py: "workspace" Section)
+        if not getattr(context, "__crumb__", True):
+            return path
         if context.__parent__ is not None:
-            path.extend(
-                self._get_path(context.__parent__))
-
-        url = ui_url.absoluteURL(context, self.request)
+            path.extend(self._get_path(context.__parent__))
+        
+        _url = url.absoluteURL(context, self.request)
+        title = None
         
         if  IAlchemistContent.providedBy(context):
             if IDCDescriptiveProperties.providedBy(context):
@@ -246,15 +249,10 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                     title = props.title
                 else:
                     title = context.short_name
-                    
-            path.append({
-                'name' : title,
-                'url' : url})
-            
         elif IAlchemistContainer.providedBy(context):
             domain_model = context._class 
             try:
-                descriptor = queryModelDescriptor( domain_model )
+                descriptor = queryModelDescriptor(domain_model)
             except:
                 descriptor = None
                 name = ""
@@ -264,21 +262,14 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                     name = getattr(descriptor, 'display_name', None)
             if not name:
                 name = getattr( context, '__name__', None)
-            path.append({
-                'name' : name,
-                'url' : url,
-                })
-
+            title = name
         elif ILocation.providedBy(context) and \
              IDCDescriptiveProperties.providedBy(context):
-            path.append({
-                'name' : context.title,
-                'url' : url,
-                })
-
-
-        return path
+            title = context.title
         
+        path.append({ 'name':title, 'url':_url})
+        return path
+    
     def update(self):
         self.path = self._get_path(self.context)
 
@@ -289,13 +280,12 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
                 'name': self.__parent__.title,
                 'url': None,
                 })
-
         try:
             self.user_name = self.request.principal.login
         except:
             pass
 
-class NavigationTreeViewlet( viewlet.ViewletBase ):
+class NavigationTreeViewlet(viewlet.ViewletBase):
     """Render a navigation tree."""
 
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
@@ -305,7 +295,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     def __new__(cls, context, request, view, manager):
         # we have both primary and secondary navigation, so we won't
         # show the navigation tree unless we're at a depth > 2
-        chain = get_parent_chain(context)[:-2]
+        chain = get_context_chain(context)[:-2]
         if not chain:
             return
 
@@ -350,7 +340,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             items.extend(self.expand(chain))
 
         elif IAlchemistContent.providedBy(context):
-            url = ui_url.absoluteURL(context, self.request)
+            _url = url.absoluteURL(context, self.request)
             if IDCDescriptiveProperties.providedBy(context):
                 title = context.title
             else:
@@ -371,11 +361,11 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     for key, value in kls.__dict__.items()
                     if isinstance(value, ManagedContainerDescriptor)]
                 nodes = []
-                self.expand_containers(nodes, containers, url, chain, None)
+                self.expand_containers(nodes, containers, _url, chain, None)
 
             items.append(
                 {'title': title,
-                 'url': url,
+                 'url': _url,
                  'current': True,
                  'selected': selected,
                  'kind': 'content',
@@ -388,7 +378,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             # 'current' node.
             parent = context.__parent__
             assert parent is not None
-            url = ui_url.absoluteURL(parent, self.request)
+            _url = url.absoluteURL(parent, self.request)
 
             # append managed containers as child nodes
             kls = type(proxy.removeSecurityProxy(parent))
@@ -409,10 +399,10 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             else:
                 containers = [(context.__name__, context)]
                 
-            self.expand_containers(items, containers, url, chain, context)
+            self.expand_containers(items, containers, _url, chain, context)
 
         elif ILocation.providedBy(context):
-            url = ui_url.absoluteURL(context, self.request)
+            _url = url.absoluteURL(context, self.request)
             #props = IDCDescriptiveProperties.providedBy(context) and \
             #    context or IDCDescriptiveProperties(context)
             if IDCDescriptiveProperties.providedBy(context):
@@ -425,7 +415,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             if selected and IReadContainer.providedBy(context):
                 nodes = []
                 try:
-                    self.expand_containers(nodes, context.items(), url, chain, context)
+                    self.expand_containers(nodes, context.items(), _url, chain, context)
                 except:
                     pass
             else:
@@ -433,7 +423,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             i_id = getattr(props, 'id','N/A')
             items.append(
                 {'title': getattr(props, 'title', i_id),
-                 'url': url,
+                 'url': _url,
                  'current': True,
                  'selected': selected,
                  'kind': 'location',
@@ -445,7 +435,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
 
         return items
 
-    def expand_containers(self, items, containers, url, chain=(), context=None):
+    def expand_containers(self, items, containers, _url, chain=(), context=None):
         #seen_context = False
         current = False
         
@@ -478,7 +468,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
 
             items.append(
                 {'title': name,
-                 'url': "%s/%s" % (url.rstrip('/'), key),
+                 'url': "%s/%s" % (_url.rstrip('/'), key),
                  'current': current,
                  'selected': selected,
                  'kind': 'container',
@@ -490,7 +480,7 @@ class TopLevelContainerNavigation(NavigationTreeViewlet):
    def __new__(cls, context, request, view, manager):
         # we have both primary and secondary navigation, so we won't
         # show the navigation tree unless we're at a depth > 2
-        chain = get_parent_chain(context)[:-2]
+        chain = get_context_chain(context)[:-2]
         if len(chain) > 2:
             chain = chain[-2:]
 

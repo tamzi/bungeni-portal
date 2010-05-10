@@ -126,7 +126,7 @@ def prepare_user_workspaces(event):
         user_id=None,
         user_group_ids=None,
         government_id=None,
-        ministry_ids=None,
+        ministries=None, # list of ministries (that are also workspaces)
     )
     
     LD.user_id = get_db_user_id()
@@ -152,7 +152,7 @@ def prepare_user_workspaces(event):
                                     LD.user_id, parliament.group_id)
         LD.government_id = get_current_parliament_governments(
                                     parliament)[0].group_id # IndexError
-        ministries = get_ministries_for_user_in_government(
+        LD.ministries = get_ministries_for_user_in_government(
                                             LD.user_id, LD.government_id)
         log.debug(""" [prepare_user_workspaces]
             user_id:%s
@@ -162,8 +162,8 @@ def prepare_user_workspaces(event):
                 LD.user_id, 
                 parliament.full_name, parliament.group_id, 
                 LD.government_id, 
-                [(m.full_name, m.group_id) for m in ministries] ))
-        for ministry in ministries:
+                [(m.full_name, m.group_id) for m in LD.ministries] ))
+        for ministry in LD.ministries:
             log.debug("adding ministry workspace %s" % ministry)
             LD.workspaces.append(ministry)
     except (Exception,):
@@ -440,7 +440,7 @@ class WorkspaceSectionView(BungeniBrowserView, z3evoque.ViewProvideMixin):
     user_id = None
     user_group_ids = None
     government_id = None
-    ministry_ids = None
+    ministries = None
     
     role_interface_mapping = {
         u'bungeni.Admin': interfaces.IAdministratorWorkspace,
@@ -468,8 +468,8 @@ class WorkspaceSectionView(BungeniBrowserView, z3evoque.ViewProvideMixin):
         self.user_id = LD.user_id
         self.user_group_ids = LD.user_group_ids
         self.government_id = LD.government_id # may be None
-        self.ministry_ids = LD.ministry_ids # may be None
-        if self.ministry_ids:
+        self.ministries = LD.ministries # may be None
+        if self.ministries:
             interface.alsoProvides(self, interfaces.IMinisterWorkspace)
         
         # roles are function of the context, so always recalculate

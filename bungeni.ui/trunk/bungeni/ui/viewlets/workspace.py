@@ -8,6 +8,7 @@ $Id$
 """
 log = __import__("logging").getLogger("bungeni.ui.viewlet.workspace")
 
+import sys
 import datetime
 
 import sqlalchemy.sql.expression as sql
@@ -888,9 +889,9 @@ class MinistryItemsViewlet(ViewletBase):
         """
         session = Session()
         try:
-            ministry_ids = self.__parent__.ministry_ids
-            assert ministry_ids is not None
-        except:
+            ministry_ids = [ m.group_id for m in self.__parent__.ministries ]
+        except (Exception,):
+            debug.log_exc_info(sys.exc_info(), log_handler=log.info)
             ministry_ids = []
         qfilter = domain.Ministry.group_id.in_(ministry_ids)
         ministries = session.query(domain.Ministry).filter(qfilter).order_by(

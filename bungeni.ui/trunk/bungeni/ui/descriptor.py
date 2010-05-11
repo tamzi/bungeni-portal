@@ -182,7 +182,15 @@ def constituency_column(name, title, default=u""):
     def getter(item, formatter):
         obj = translate_obj(item.constituency)
         return obj.name
-    return column.GetterColumn(title, getter ) 
+    return column.GetterColumn(title, getter) 
+
+def party_column(name, title, default=u""):
+    def getter(item, formatter):
+        obj = item.party
+        if obj is not None:
+            return translate_obj(obj).full_name
+        return u"-"
+    return column.GetterColumn(title, getter)
 
 def committee_type_column(name, title, default=u""):
     def getter(item, formatter):
@@ -513,7 +521,7 @@ class GroupMembershipDescriptor(ModelDescriptor):
     custom_validators = [validations.validate_date_range_within_parent, 
         validations.validate_group_membership_dates]
 
-class MpDescriptor (ModelDescriptor):
+class MpDescriptor(ModelDescriptor):
     display_name = _(u"Member of parliament")
     container_name = _(u"Members of parliament")
     
@@ -521,26 +529,29 @@ class MpDescriptor (ModelDescriptor):
               property=schema.Choice(
                 title=_(u"Name"), 
                 source=vocabulary.UserSource(
-                    token_field='user_id', 
-                    title_field='fullname', 
-                    value_field='user_id')),
+                    token_field="user_id", 
+                    title_field="fullname", 
+                    value_field="user_id")),
                 listing_column=user_name_column("user_id", 
-                    _(u'Name'),'user'), 
+                    _(u"Name"),"user"), 
               listing=True,
             ),]
     
     fields.extend(deepcopy(GroupMembershipDescriptor.fields))
     constituencySource=vocabulary.DatabaseSource(domain.Constituency,
-                    token_field='constituency_id', 
-                    title_field='name', 
-                    value_field='constituency_id')
+                    token_field="constituency_id", 
+                    title_field="name", 
+                    value_field="constituency_id")
+    partySource=vocabulary.DatabaseSource(domain.PoliticalParty,
+                    token_field="party_id",
+                    title_field="full_name", 
+                    value_field="party_id")
     fields.extend([ 
         dict(name="elected_nominated", 
             property=schema.Choice(
                 title=_(u"elected/nominated"), 
                 source=vocabulary.ElectedNominated), 
-                listing=True,
-        ),
+                listing=True),
         dict(name="election_nomination_date", 
             property=schema.Date(title=_("Election/Nomination Date"), required=True),
             required=True, 
@@ -550,7 +561,14 @@ class MpDescriptor (ModelDescriptor):
             property=schema.Choice(
                 title=_(u"Constituency"), 
                 source=constituencySource,),
-            listing_column=constituency_column("constituency_id","Constituency"),
+            listing_column=constituency_column("constituency_id", "Constituency"),
+            listing=True),
+        dict(name="party_id",
+            property=schema.Choice(
+                title=_(u"Political Party"),
+                source=partySource,
+                required=False),
+            listing_column=party_column("party_id", "Party"),
             listing=True),
         dict(name="leave_reason", 
             property=schema.Text(title=_("Leave Reason"),required=False)),
@@ -558,8 +576,7 @@ class MpDescriptor (ModelDescriptor):
               property=schema.Text(title=_(u"Notes"), required=False),
               view_widget=HTMLDisplay,
               edit_widget=RichTextEditor,
-              add_widget=RichTextEditor,
-        ),
+              add_widget=RichTextEditor),
     ])
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, 
             SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
@@ -575,9 +592,9 @@ class PartyMemberDescriptor(ModelDescriptor):
               property=schema.Choice(
                 title=_(u"Name"), 
                 source=vocabulary.MemberOfParliamentSource(
-                    'user_id',)),
+                    "user_id",)),
                 listing_column=user_name_column("user_id", 
-                    _(u'Name'),'user'), 
+                    _(u"Name"),"user"), 
               listing=True,
             ),]
     

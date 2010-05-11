@@ -285,7 +285,7 @@ class MemberOfParliament(GroupMembership):
 
 class PoliticalEntity(Group):
     """ Base class for political parties and political groups """
-
+    interface.implements(interfaces.ITranslatable)
     
 class PoliticalParty(PoliticalEntity):
     """ a political party (ouside the parliament)

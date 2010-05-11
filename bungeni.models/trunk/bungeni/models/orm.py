@@ -178,38 +178,33 @@ mapper( domain.Office, schema.offices,
 
    
 
-                
-
 # Ministers and Committee members are defined by their group membership in a 
 # ministry or committee (group)
 
 # we need to specify join clause for user explicitly because we have multiple fk
 # to the user table.
-mapper( domain.GroupMembership, schema.user_group_memberships,
-        properties={
-            'user': relation( domain.User,
-                              primaryjoin=rdb.and_(
-                              schema.user_group_memberships.c.user_id==
-                              schema.users.c.user_id ),
-                              uselist=False,
-                              lazy=False ),
-            'group': relation( domain.Group,
-                               primaryjoin=
-                               schema.user_group_memberships.c.group_id==
-                               schema.groups.c.group_id,
-                               uselist=False,
-                               lazy=True ),
-            'replaced': relation( domain.GroupMembership,
-                                  primaryjoin=
-                                  schema.user_group_memberships.c.replaced_id==
-                                  schema.user_group_memberships.c.membership_id,
-                                  uselist=False,
-                                  lazy=True ),
-            'member_titles': relation( domain.MemberRoleTitle ) 
-            },
-        polymorphic_on=schema.user_group_memberships.c.membership_type,
-        polymorphic_identity='member',
-        )
+mapper(domain.GroupMembership, schema.user_group_memberships,
+    properties={
+        "user":relation(domain.User,
+            primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==
+                schema.users.c.user_id),
+            uselist=False,
+            lazy=False),
+        "group":relation(domain.Group,
+            primaryjoin=(schema.user_group_memberships.c.group_id==
+                schema.groups.c.group_id),
+            uselist=False,
+            lazy=True),
+        "replaced":relation(domain.GroupMembership,
+            primaryjoin=(schema.user_group_memberships.c.replaced_id==
+                schema.user_group_memberships.c.membership_id),
+            uselist=False,
+            lazy=True),
+        "member_titles":relation(domain.MemberRoleTitle)
+    },
+    polymorphic_on=schema.user_group_memberships.c.membership_type,
+    polymorphic_identity="member",
+)
 
 mapper(domain.MemberOfParliament, schema.parliament_memberships,
     inherits=domain.GroupMembership,

@@ -138,3 +138,12 @@ width: 70%;
 tr.yui-dt-last th {
 white-space: nowrap; 
 }
+
+dl.enableFormTabbing dd {
+padding-top:5px;
+}
+
+dl.enableFormTabbing form {
+padding-top:8px;
+}
+

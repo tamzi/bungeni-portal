@@ -79,8 +79,7 @@ class ContentResolver( object ):
     def resolve( self, id ): 
         class_path, oid = id.split('-', 1)
         domain_class = resolve.resolve( class_path )
-        connection = metadata.bind.connect()
-        session = Session( bind=connection)
+        session = Session()
         value_key = container.valueKey( oid )
         return session.query( domain_class ).get( value_key )
 
@@ -135,6 +134,7 @@ class ContentIndexer( object ):
             # and retry the index operation (once)
             log.error("Indexing Connection Hosed, Discarding")
             db_connection = metadata.bind.contextual_connect()
+            db_connection.begin().rollback()
             db_connection.detach()
             db_connection.close()
             if not retry:

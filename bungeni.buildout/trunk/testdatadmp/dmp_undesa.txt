@@ -1320,6 +1320,7 @@ ALTER TABLE public.offices OWNER TO undesa;
 CREATE TABLE parliament_memberships (
     membership_id integer NOT NULL,
     constituency_id integer,
+    party_id integer,
     elected_nominated character varying(1) NOT NULL,
     election_nomination_date date,
     leave_reason character varying(40),
@@ -11272,6 +11273,14 @@ ALTER TABLE ONLY offices
 
 ALTER TABLE ONLY parliament_memberships
     ADD CONSTRAINT parliament_memberships_constituency_id_fkey FOREIGN KEY (constituency_id) REFERENCES constituencies(constituency_id);
+
+
+--
+-- Name: parliament_memberships_party_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: undesa
+--
+
+ALTER TABLE ONLY parliament_memberships
+    ADD CONSTRAINT parliament_memberships_party_id_fkey FOREIGN KEY (party_id) REFERENCES political_parties(party_id);
 
 
 --

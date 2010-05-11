@@ -220,7 +220,13 @@ mapper(domain.MemberOfParliament, schema.parliament_memberships,
                             schema.constituencies.c.constituency_id),
             uselist=False,
             lazy=False),
-        'constituency_id':[schema.parliament_memberships.c.constituency_id], 
+        'constituency_id':[schema.parliament_memberships.c.constituency_id],
+        'party':relation(domain.PoliticalParty,
+            primaryjoin=(schema.parliament_memberships.c.party_id==
+                            schema.political_parties.c.party_id),
+            uselist=False,
+            lazy=False),
+        'party_id':[schema.parliament_memberships.c.party_id],
         'start_date':column_property(
             schema.user_group_memberships.c.start_date.label('start_date')), 
         'end_date':column_property(

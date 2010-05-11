@@ -272,13 +272,15 @@ class ListMemberOfParliament(object):
     """
 
 
-class MemberOfParliament (GroupMembership):
+class MemberOfParliament(GroupMembership):
     """
-    defined by groupmembership and aditional data
+    defined by groupmembership and additional data
     """
     sort_on = ['last_name', 'first_name', 'middle_name']
-    sort_replace = {'user_id': ['last_name', 'first_name'], 'constituency_id':['name']}
-    titles = one2many("titles", "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")
+    sort_replace = {"user_id": ["last_name", "first_name"], 
+        "constituency_id":["name"], "party_id":["name"]}
+    titles = one2many("titles", 
+        "bungeni.models.domain.MemberRoleTitleContainer", "membership_id")
     listings_class = ListMemberOfParliament
 
 class PoliticalEntity(Group):
@@ -288,7 +290,8 @@ class PoliticalEntity(Group):
 class PoliticalParty(PoliticalEntity):
     """ a political party (ouside the parliament)
     """
-    partymembers = one2many("partymembers","bungeni.models.domain.PartyMemberContainer", "group_id")
+    partymembers = one2many("partymembers",
+        "bungeni.models.domain.PartyMemberContainer", "group_id")
 
 class PoliticalGroup(PoliticalEntity):
     """ a political group in a parliament
@@ -592,10 +595,11 @@ class ListConstituency(object):
 class Constituency(Entity):
     """ a locality region, which elects an MP 
     """
-    cdetail = one2many("cdetail", "bungeni.models.domain.ConstituencyDetailContainer", "constituency_id")
+    cdetail = one2many("cdetail", 
+        "bungeni.models.domain.ConstituencyDetailContainer", "constituency_id")
     sort_replace = {'province_id': ['province'], 'region_id': ['region']}
     parliamentmembers = one2many("parliamentmembers", 
-                                 "bungeni.models.domain.MemberOfParliamentContainer", "constituency_id")
+        "bungeni.models.domain.MemberOfParliamentContainer", "constituency_id")
     listings_class = ListConstituency
     interface.implements(interfaces.ITranslatable)
         
@@ -606,14 +610,16 @@ class Region(Entity):
     """
     Region of the constituency
     """
-    constituencies = one2many("constituencies", "bungeni.models.domain.ConstituencyContainer", "region_id") 
+    constituencies = one2many("constituencies", 
+        "bungeni.models.domain.ConstituencyContainer", "region_id")
     interface.implements(interfaces.ITranslatable)
         
 class Province(Entity):
     """
     Province of the Constituency
     """
-    constituencies = one2many("constituencies", "bungeni.models.domain.ConstituencyContainer", "province_id")
+    constituencies = one2many("constituencies", 
+        "bungeni.models.domain.ConstituencyContainer", "province_id")
     interface.implements(interfaces.ITranslatable)
         
 class Country(object):

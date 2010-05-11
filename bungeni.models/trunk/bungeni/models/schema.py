@@ -123,35 +123,36 @@ user_delegations = rdb.Table(
 
 # specific user classes
 parliament_memberships = rdb.Table(
-   "parliament_memberships",
-   metadata,
-   rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), primary_key=True ),
-   rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
-   rdb.Column( "elected_nominated", rdb.String(1), # is the MP elected, nominated, ex officio member, ...
-                rdb.CheckConstraint("elected_nominated in ('E','O','N')"),
-                nullable=False ),
-   rdb.Column( "election_nomination_date", rdb.Date), # nullable=False ),
-   rdb.Column( "leave_reason", rdb.Unicode(40) ),
-
-
-   )
+    "parliament_memberships",
+    metadata,
+    rdb.Column("membership_id", rdb.Integer, 
+        rdb.ForeignKey('user_group_memberships.membership_id'), primary_key=True),
+    rdb.Column("constituency_id", rdb.Integer, 
+        rdb.ForeignKey('constituencies.constituency_id')),
+    # the political party of the MP as of the time he was elected
+    rdb.Column("party_id", rdb.Integer, 
+        rdb.ForeignKey('political_parties.party_id')),
+    # is the MP elected, nominated, ex officio member, ...
+    rdb.Column("elected_nominated", rdb.String(1), 
+        rdb.CheckConstraint("elected_nominated in ('E','O','N')"), nullable=False),
+   rdb.Column("election_nomination_date", rdb.Date), # nullable=False),
+   rdb.Column("leave_reason", rdb.Unicode(40)),
+)
 
 
 
 #########################
 #constituencies
 #########################
-constituencies = rdb.Table(
-   "constituencies",
-   metadata,
-   rdb.Column( "constituency_id", rdb.Integer,  primary_key=True ),
-   rdb.Column( "name", rdb.Unicode(256), nullable=False ),
-   rdb.Column( "province_id", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
-   rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
-   rdb.Column( "start_date", rdb.Date, nullable=False ),
-   rdb.Column( "end_date", rdb.Date ),
-   rdb.Column( "language", rdb.String(5), nullable=False),
-   )
+constituencies = rdb.Table("constituencies", metadata,
+    rdb.Column("constituency_id", rdb.Integer,  primary_key=True),
+    rdb.Column("name", rdb.Unicode(256), nullable=False),
+    rdb.Column("province_id", rdb.Integer, rdb.ForeignKey('provinces.province_id')),
+    rdb.Column("region_id", rdb.Integer, rdb.ForeignKey('regions.region_id')),
+    rdb.Column("start_date", rdb.Date, nullable=False),
+    rdb.Column("end_date", rdb.Date),
+    rdb.Column("language", rdb.String(5), nullable=False),
+)
 
 
 provinces = rdb.Table(
@@ -182,15 +183,14 @@ countries = rdb.Table(
     rdb.Column( "language", rdb.String(5), nullable=False),
     )
         
-constituency_details = rdb.Table(
-    "constituency_details",
-    metadata,
-    rdb.Column( "constituency_detail_id", rdb.Integer,  primary_key=True ),
-    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
-    rdb.Column( "date", rdb.Date, nullable=False ),
-    rdb.Column( "population", rdb.Integer, nullable=False ),
-    rdb.Column( "voters", rdb.Integer, nullable=False ),
-    )
+constituency_details = rdb.Table("constituency_details", metadata,
+    rdb.Column("constituency_detail_id", rdb.Integer, primary_key=True),
+    rdb.Column("constituency_id", rdb.Integer, 
+        rdb.ForeignKey('constituencies.constituency_id')),
+    rdb.Column("date", rdb.Date, nullable=False),
+    rdb.Column("population", rdb.Integer, nullable=False),
+    rdb.Column("voters", rdb.Integer, nullable=False),
+)
 
 
 #######################
@@ -267,15 +267,15 @@ committee_type = rdb.Table(
                 nullable=False ),
     rdb.Column( "language", rdb.String(5), nullable=False),
     )
+
 # political parties (outside the parliament) and political groups in a parliament
-political_parties = rdb.Table(
-   "political_parties",
-   metadata,
-   rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "logo_data", rdb.Binary, ),
-   rdb.Column( "logo_name", rdb.String(127)),
-   rdb.Column( "logo_mimetype", rdb.String(127)),
-   )
+political_parties = rdb.Table("political_parties", metadata,
+    rdb.Column("party_id", rdb.Integer, 
+        rdb.ForeignKey('groups.group_id'), primary_key=True),
+    rdb.Column("logo_data", rdb.Binary),
+    rdb.Column("logo_name", rdb.String(127)),
+    rdb.Column("logo_mimetype", rdb.String(127)),
+)
 
 ###
 #  the personal role of a user in terms of their membership this group
@@ -736,20 +736,23 @@ MotionSequence = rdb.Sequence('motion_number_sequence', metadata)
 # by the Speaker. The Number is reset at the start of each new session
 # with the first motion assigned the number 1
 
-motions = rdb.Table(
-   "motions",
-   metadata,
-   rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True ),
-   rdb.Column( "motion_number", rdb.Integer),
-   rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question
-   rdb.Column( "public", rdb.Boolean ),
-   rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
-   rdb.Column( "entered_by_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
-   rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
-   rdb.Column( "notice_date", rdb.Date ),
-   # Receive  Notifications -> triggers notification on workflow change
-   rdb.Column( "receive_notification", rdb.Boolean, default=True ),
-   )
+motions = rdb.Table("motions", metadata,
+    rdb.Column("motion_id", rdb.Integer, 
+        rdb.ForeignKey('parliamentary_items.parliamentary_item_id'), primary_key=True),
+    rdb.Column("motion_number", rdb.Integer),
+    rdb.Column("approval_date", rdb.Date), # date speaker approved the question
+    rdb.Column("public", rdb.Boolean),
+    rdb.Column("seconder_id", rdb.Integer, 
+        rdb.ForeignKey('users.user_id')), 
+    rdb.Column("entered_by_id", rdb.Integer, 
+        rdb.ForeignKey('users.user_id')),
+    # if the motion was sponsored by a party
+    rdb.Column("party_id", rdb.Integer, 
+        rdb.ForeignKey('political_parties.party_id')),
+    rdb.Column("notice_date", rdb.Date ),
+    # Receive Notifications -> triggers notification on workflow change
+    rdb.Column("receive_notification", rdb.Boolean, default=True),
+)
 
 motion_changes = make_changes_table( motions, metadata )
 motion_versions = make_versions_table( motions, metadata, parliamentary_items )

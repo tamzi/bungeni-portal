@@ -35,6 +35,7 @@ from ploned.ui.menu import pos_action_in_url
 from bungeni.core import location
 from bungeni.ui.utils import url, debug
 from bungeni.ui import interfaces
+from bungeni.ui import z3evoque
 
 def get_context_chain(context):
     context = proxy.removeSecurityProxy(context)
@@ -45,7 +46,12 @@ def get_context_chain(context):
     return chain
 
 class SecondaryNavigationViewlet(object):
-    render = ViewPageTemplateFile("templates/secondary-navigation.pt")
+    
+    # evoque
+    render = z3evoque.ViewTemplateFile("navigation.html#secondary")
+    # !+                                       , i18n_domain="bungeni.core")
+    # zpt
+    #render = ViewPageTemplateFile("templates/secondary-navigation.pt")
     
     def update(self):
         request = self.request
@@ -127,7 +133,8 @@ class SecondaryNavigationViewlet(object):
                                                                 str(workspace))
                 self.items.append(url.get_menu_item_descriptor(
                     workspace.full_name,
-                    False,
+                    pos_action_in_url("/workspace/obj-%s"%workspace.group_id,
+                        request.getURL()),
                     base_url_path,
                     "obj-%s" % workspace.group_id ))
         
@@ -162,7 +169,12 @@ class SecondaryNavigationViewlet(object):
 
     
 class GlobalSectionsViewlet(viewlet.ViewletBase):
-    render = ViewPageTemplateFile('templates/sections.pt')
+    # evoque
+    render = z3evoque.ViewTemplateFile("navigation.html#sections")
+    
+    # zpt
+    #render = ViewPageTemplateFile('templates/sections.pt')
+    
     selected_portal_tab = None
     
     def update(self):
@@ -208,7 +220,11 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
     Render the breadcrumbs to show a user his current location.
     
     """
-    render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )
+    # evoque
+    render = z3evoque.ViewTemplateFile("navigation.html#breadcrumbs")
+    
+    # zpt
+    #render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )
 
     def __init__( self,  context, request, view, manager ):
         self.context = context
@@ -267,7 +283,9 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
              IDCDescriptiveProperties.providedBy(context):
             title = context.title
         
-        path.append({ 'name':title, 'url':_url})
+        if title is not None:
+            path.append({ 'name':title, 'url':_url})
+        
         return path
     
     def update(self):
@@ -284,10 +302,15 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
             self.user_name = self.request.principal.login
         except:
             pass
+    
 
 class NavigationTreeViewlet(viewlet.ViewletBase):
     """Render a navigation tree."""
-
+    
+    # evoque !+ requires evoque svn HEAD
+    #render = z3evoque.ViewTemplateFile("navigation.html#tree")
+    
+    # zpt
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
     
     path = ()

@@ -67,6 +67,15 @@ class BungeniAttributeDisplay(DynamicFields, DisplayFormViewlet):
     def setUpWidgets(self, ignore_request=False):
         languages = get_all_languages()
         self.form_fields = filterFields(self.context, self.form_fields)
+        
+        #do not display empty form fields
+        omit_names = []
+        for f in self.form_fields:
+            val = getattr(self.context, f.__name__)
+            if val is None:
+                omit_names.append(f.__name__)
+        self.form_fields = self.form_fields.omit(*omit_names)
+        
         lang = self.request.locale.getLocaleID()
         try:
             translation = get_translation_for(self.context, lang)

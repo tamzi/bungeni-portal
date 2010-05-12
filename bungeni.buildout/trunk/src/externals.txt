@@ -10,7 +10,6 @@ marginalia  -r6514  https://bungeni-portal.googlecode.com/svn/marginalia/trunk
  
 # plone 3 skin
 ploned.ui   -r6532   https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
-plone.maintemplate -r36218 https://svn.plone.org/svn/plone/sandbox/plone.maintemplate/
 
 # relational database support
 ore.alchemist -r393 https://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
@@ -28,7 +27,6 @@ alchemist.traversal -r393 https://zope-alchemist.googlecode.com/svn/alchemist.tr
 alchemist.security -r393  https://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
 
 # schema diff 
-#z3c.schemadiff -r111203 svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
 z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 
 # shows security information ( principal, permissions, views )
@@ -44,8 +42,6 @@ z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/tags/0.2.3
 #svn://svn.zope.org/repos/main/lovely.responsecache/trunk
 # lovely.memcached
 
-bungenicms.theme -r6514 https://bungeni-portal.googlecode.com/svn/bungenicms.theme/trunk
-bungenicms.policy -r6514  https://bungeni-portal.googlecode.com/svn/bungenicms.policy/trunk
 
 
 # repoze.whooze z3 authentication

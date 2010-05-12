@@ -397,7 +397,7 @@ class ViewTemplateString(_ViewTemplateBase):
             None implies default collection, else 
             str/Collection refer to an existing collection
         """
-        super(ViewTemplateFile, self
+        super(ViewTemplateString, self
                                 ).__init__(name, src, collection, i18n_domain)
         # templates from string must be explicitly set onto their collection
         domain.set_template(self.name, src=self.src, 

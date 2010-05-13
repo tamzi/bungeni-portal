@@ -12,16 +12,6 @@
      directory="js"
      layer="ploned.ui.interfaces.IPlonedSkin"
      />
-    <browser:resourceDirectory
-     name="codebase"
-     directory="js/dhtmlxScheduler/codebase"
-     layer="ploned.ui.interfaces.IPlonedSkin"
-     />
-     <browser:resourceDirectory
-     name="imgs"
-     directory="js/dhtmlxScheduler/codebase/imgs"
-     layer="ploned.ui.interfaces.IPlonedSkin"
-     />
   <browser:viewlet
      name="bungeni-plugins"
      for="*"

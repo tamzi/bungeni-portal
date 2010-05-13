@@ -453,7 +453,16 @@
      weight="7"
      />
   
-  
+  <browser:viewlet
+     name="bungeni.workspace.minister-in-progress"
+     for="*"
+     manager=".interfaces.IWorkspaceManager"
+     class=".workspace.InProgressMinistryItemsViewlet"
+     view="bungeni.ui.interfaces.IMinisterWorkspace"
+     permission="zope.View"
+     weight="20"
+     />
+
   <!-- Workspace Archive -->
 
    <browser:viewlet

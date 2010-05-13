@@ -918,6 +918,15 @@ class WrittenMinistryQuestionsViewlet(MinistryItemsViewlet):
     ]
     response_types = ['W']
 
+class InProgressMinistryItemsViewlet(MinistryItemsViewlet):
+    """
+    going through the workflow in clerks/speakers office
+    """
+    name = _("in progress")
+    states = [
+        question_wf_state[u"response_submitted"].id,
+        ]
+    list_id = "items-in-progress"
 
 class DraftSittingsViewlet(viewlet.ViewletBase):
     render = ViewPageTemplateFile ('templates/workspace_sitting_viewlet.pt')

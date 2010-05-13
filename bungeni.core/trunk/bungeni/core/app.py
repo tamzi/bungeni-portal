@@ -85,7 +85,7 @@ class AppSetup(object):
         )
         # Proof-of-concept: support for selective inclusion in breadcrumb trail:
         # a view marked with an attribute __crumb__=False is NOT included in 
-        # the breadcrumb trail (see ui/viewlets/workspace.py)
+        # the breadcrumb trail (see ui/viewlets/navigation.py)
         #self.context["workspace"].__crumb__ = False
         business = self.context["business"] = Section(
             title=_(u"Business"),

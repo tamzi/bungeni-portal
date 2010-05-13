@@ -41,23 +41,25 @@ class actions:
 
 
     @staticmethod
-    def create(info,context):
+    def create(info, context):
         """
         create a question -> state.draft, grant all rights to owner
         deny right to add supplementary questions.
         """
+        print "QUESTION CREATE:", info, context
         utils.setQuestionDefaults(info, context)
         user_id = get_principal_id()
         if user_id:
-            zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
+            zope.securitypolicy.interfaces.IPrincipalRoleMap(context
                 ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
-        owner_id = utils.getOwnerId( context )
+        owner_id = utils.getOwnerId(context)
+        print "                ", user_id, owner_id
         if owner_id and (owner_id != user_id):
-            zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
+            zope.securitypolicy.interfaces.IPrincipalRoleMap(context
                 ).assignRoleToPrincipal(u'bungeni.Owner', owner_id)
 
     @staticmethod
-    def makePrivate(info,context):
+    def makePrivate(info, context):
         """
         a question that is not being asked
         """

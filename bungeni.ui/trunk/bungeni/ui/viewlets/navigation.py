@@ -45,6 +45,36 @@ def get_context_chain(context):
         context = context.__parent__
     return chain
 
+def get_title_from_context(context):
+    title = None
+    if IAlchemistContent.providedBy(context):
+        if IDCDescriptiveProperties.providedBy(context):
+            title = context.title
+        else:
+            props = IDCDescriptiveProperties(context, None)
+            if props is not None:
+                title = props.title
+            else:
+                title = context.short_name
+    elif IAlchemistContainer.providedBy(context):
+        domain_model = context._class 
+        try:
+            descriptor = queryModelDescriptor(domain_model)
+        except:
+            descriptor = None
+            name = ""
+        if descriptor:
+            name = getattr(descriptor, 'container_name', None)
+            if name is None:
+                name = getattr(descriptor, 'display_name', None)
+        if not name:
+            name = getattr(context, '__name__', None)
+        title = name
+    elif ILocation.providedBy(context) and \
+         IDCDescriptiveProperties.providedBy(context):
+        title = context.title
+    return title
+
 class SecondaryNavigationViewlet(object):
     
     # evoque
@@ -254,34 +284,7 @@ class BreadCrumbsViewlet(viewlet.ViewletBase):
             path.extend(self._get_path(context.__parent__))
         
         _url = url.absoluteURL(context, self.request)
-        title = None
-        
-        if  IAlchemistContent.providedBy(context):
-            if IDCDescriptiveProperties.providedBy(context):
-                title = context.title
-            else:
-                props = IDCDescriptiveProperties(context, None)
-                if props is not None:
-                    title = props.title
-                else:
-                    title = context.short_name
-        elif IAlchemistContainer.providedBy(context):
-            domain_model = context._class 
-            try:
-                descriptor = queryModelDescriptor(domain_model)
-            except:
-                descriptor = None
-                name = ""
-            if descriptor:
-                name = getattr(descriptor, 'container_name', None)
-                if name is None:
-                    name = getattr(descriptor, 'display_name', None)
-            if not name:
-                name = getattr( context, '__name__', None)
-            title = name
-        elif ILocation.providedBy(context) and \
-             IDCDescriptiveProperties.providedBy(context):
-            title = context.title
+        title = get_title_from_context(context)
         
         if title is not None:
             path.append({ 'name':title, 'url':_url})

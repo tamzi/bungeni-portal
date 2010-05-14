@@ -23,3 +23,6 @@
 .dhx_cal_light{
     width:632px;
 }
+.dhx_repeat_right {
+    padding:0; !important;
+}

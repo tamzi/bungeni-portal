@@ -2548,7 +2548,7 @@ msgstr "sections"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:15
 msgid "From: ${whats_on_start_date} to: ${whats_on_end_date}"
-msgstr "from: ${whatsonstartdate} to: ${whatsonenddate}"
+msgstr "from: ${whats_on_start_date} to: ${whats_on_end_date}"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/whatson.pt:7
 msgid "What's on"

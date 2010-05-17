@@ -37,7 +37,7 @@ from bungeni.core.translation import get_language_by_name
 from bungeni.core.translation import get_default_language
 from bungeni.core.translation import is_translation
 from bungeni.core.translation import get_translation_for
-#from bungeni.core.translation import CurrentLanguageVocabulary
+from bungeni.core.translation import CurrentLanguageVocabulary
 from bungeni.core.interfaces import IVersioned
 from bungeni.ui.i18n import _
 from bungeni.models.interfaces import IVersion

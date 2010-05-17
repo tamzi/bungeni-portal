@@ -45,8 +45,10 @@
   <grant permission="zope.View" role="bungeni.Everybody" /> 
 
   <!-- admin section -->
-  <grant permission="zope.ManageSite" role="bungeni.Clerk" />      
-  <grant permission="zope.ManageSite" role="bungeni.Speaker" />
+  <!-- managesite permission had been given to clerk and speaker users to enable such 
+users to have a administration tab - and also to allow such users to have content translation access 
+unfortunatly this has many side effects - including clerk and speaker users being able to see draft
+items created by other users, so this hack has been removed -->
 
   <!-- translation -->
   

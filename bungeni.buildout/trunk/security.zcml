@@ -176,10 +176,14 @@ should be defined by workflow not static here ! -->
   <grant permission="bungeni.event.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.event.Delete" role="bungeni.Clerk" />
   
+  <grant permission="bungeni.event.Add" role="bungeni.Speaker" />
+  <grant permission="bungeni.event.Edit" role="bungeni.Speaker" />
+  <grant permission="bungeni.event.Delete" role="bungeni.Speaker" />
   
-  <grant permission="bungeni.delegation.Add" role="bungeni.Owner" />
-  <grant permission="bungeni.delegation.Edit" role="bungeni.Owner" />
-  <grant permission="bungeni.delegation.Delete" role="bungeni.Owner" />
+  
+  <grant permission="bungeni.consignatory.Add" role="bungeni.Owner" />
+  <grant permission="bungeni.consignatory.Edit" role="bungeni.Owner" />
+  <grant permission="bungeni.consignatory.Delete" role="bungeni.Owner" />
   
   <grant permission="bungeni.reports.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.reports.Edit" role="bungeni.Speaker" /> 

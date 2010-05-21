@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N35-ADD01-AssignRole-MP</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N35-ADD01-AssignRole-MP</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=parliaments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Parliament of the Republic of Bungeni</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=members of parliament</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@id='contentActionMenus']/li[1]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.user_id</td>
+	<td>label=P01-MPname MP_1</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-03-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.elected_nominated</td>
+	<td>label=elected</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__election_nomination_date__date</td>
+	<td>1970-01-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.constituency_id</td>
+	<td>label=P01-Constituency 1</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.user_id</td>
+	<td>label=P01-MPname MP_2</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-03-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.elected_nominated</td>
+	<td>label=elected</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__election_nomination_date__date</td>
+	<td>1970-01-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.constituency_id</td>
+	<td>label=P01-Constituency 2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.user_id</td>
+	<td>label=P01-MPname MP_3</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-03-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.elected_nominated</td>
+	<td>label=elected</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__election_nomination_date__date</td>
+	<td>1970-01-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.constituency_id</td>
+	<td>label=P01-Constituency 3</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.user_id</td>
+	<td>label=P01-MPname MP_4</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-03-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.elected_nominated</td>
+	<td>label=elected</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__election_nomination_date__date</td>
+	<td>1970-01-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.constituency_id</td>
+	<td>label=P01-Constituency 4</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.user_id</td>
+	<td>label=P01-MPname MP_5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-03-22</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__election_nomination_date__date</td>
+	<td>1970-01-22</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.elected_nominated</td>
+	<td>label=elected</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

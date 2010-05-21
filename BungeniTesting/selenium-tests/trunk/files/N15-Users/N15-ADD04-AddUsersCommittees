@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N15-ADD04-AddUsersCommittees</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N15-ADD04-AddUsersCommittees</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@id='contentActionMenus']/li[1]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Ms.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Committee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CO_1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CO_1@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Committee.CO_1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1930-01-01</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_m6665af43.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Ms.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Committee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CO_2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CO_2@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Committee.CO_2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1932-01-01</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_m6665af43.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Mr.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Committee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CO_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CO_3@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Committee.CO_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1936-02-02</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_2612d998.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Mr.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Committee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CO_4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CO_4@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Committee.CO_4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1944-02-03</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_3a5562be.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Mr.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Committee</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CO_5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CO_5@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Committee.CO_5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1944-05-03</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_3a5562be.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

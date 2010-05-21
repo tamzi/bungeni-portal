@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N37-03-add title to Political Group Member</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N37-03-add title to Political Group Member</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=parliaments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-Parliament of the Republic of Bungeni</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Parliament of the Republic of Bungeni</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-Political Group 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Political Group 1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-MPname MP_1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MPname MP_1</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='titles-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.title_name_id</td>
+	<td>label=Spokesperson</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-04-25</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.address_type_id</td>
+	<td>label=Office</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.po_box</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Spokesperson</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Spokesperson</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-Political Group 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Political Group 2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-MPname MP_2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MPname MP_2</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='titles-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.title_name_id</td>
+	<td>label=Member</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-04-25</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.address_type_id</td>
+	<td>label=Office</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.po_box</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Member</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Member</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-Political Group 3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Political Group 3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-MPname MP_3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MPname MP_3</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='titles-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.title_name_id</td>
+	<td>label=Spokesperson</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-04-25</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.address_type_id</td>
+	<td>label=Office</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.po_box</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Spokesperson</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Spokesperson</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-Political Group 4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Political Group 4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-MPname MP_4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MPname MP_4</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='titles-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.title_name_id</td>
+	<td>label=Deputy Leader</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-04-25</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.address_type_id</td>
+	<td>label=Office</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.po_box</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Deputy Leader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Deputy Leader</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Political groups</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-Political Group 5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Political Group 5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=P01-MPname MP_5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MPname MP_5</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='titles-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.title_name_id</td>
+	<td>label=Secretary</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//option[@value='14']</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-04-25</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.address_type_id</td>
+	<td>label=Office</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.po_box</td>
+	<td>11111</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=Secretary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Secretary</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

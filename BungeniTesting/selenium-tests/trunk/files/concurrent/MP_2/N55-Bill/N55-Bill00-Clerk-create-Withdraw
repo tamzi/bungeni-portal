@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N55-Bill00-Clerk-create-Withdraw</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N55-Bill00-Clerk-create-Withdraw</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-Clerk.CL_2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[1]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='bills-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>form.short_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.short_name</td>
+	<td>P01-MP_2-Bill 0CL_2</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.bill_type_id</td>
+	<td>label=Public Bill</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.ministry_id</td>
+	<td>label=M2 - P01-Ministry 2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-submit-bill']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>workflow-transition-withdraw-gazetted</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.note</td>
+	<td>message withdraw</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.withdraw</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

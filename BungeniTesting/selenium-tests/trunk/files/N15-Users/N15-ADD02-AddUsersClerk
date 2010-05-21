@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N15-ADD02-AddUsersClerk</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N15-ADD02-AddUsersClerk</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=users</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@id='contentActionMenus']/li[1]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Ms.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Clerk</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CL_1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CL_1@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Clerk.CL_1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1948-10-09</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_m5eea7621.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Ms.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Clerk</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CL_2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CL_2@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Clerk.CL_2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1943-10-09</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_m5eea7621.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Mr.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Clerk</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CL_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CL_3@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Clerk.CL_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>form.gender.0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1938-02-02</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_7ddf8f1f.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Mr.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Clerk</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CL_4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CL_4@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Clerk.CL_4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>form.gender.0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1937-01-09</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_3a5562be.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.titles</td>
+	<td>Mr.</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.first_name</td>
+	<td>P01-Clerk</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.last_name</td>
+	<td>CL_5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.email</td>
+	<td>CL_5@parl.com</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.login</td>
+	<td>P01-Clerk.CL_5</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form._password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>form.gender.0</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__date_of_birth__date</td>
+	<td>1939-01-09</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_country</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.birth_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.current_nationality</td>
+	<td>label=Kenya</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.image</td>
+	<td>/opt/selenium/Images/Face_html_3a5562be.gif</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

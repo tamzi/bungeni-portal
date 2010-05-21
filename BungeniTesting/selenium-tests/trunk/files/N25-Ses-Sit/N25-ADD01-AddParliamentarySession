@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N25-ADD01-AddParliamentarySession</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N25-ADD01-AddParliamentarySession</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=administration</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=parliaments</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-Parliament of the Republic of Bungeni</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=parliamentary sessions</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//ul[@id='contentActionMenus']/li[1]/a/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>form.full_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.short_name</td>
+	<td>PS1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.full_name</td>
+	<td>P01-Parliamentary Session 1</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-02-15</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__end_date__date</td>
+	<td>1970-06-15</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>form.full_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.short_name</td>
+	<td>PS2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.full_name</td>
+	<td>P01-Parliamentary Session 2</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1970-09-14</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__end_date__date</td>
+	<td>1970-12-20</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>form.full_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.short_name</td>
+	<td>PS3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.full_name</td>
+	<td>P01-Parliamentary Session 3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1974-02-15</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__end_date__date</td>
+	<td>1974-06-15</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642061646420616e6f74686572</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>form.full_name</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.short_name</td>
+	<td>PS4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.full_name</td>
+	<td>P01-Parliamentary Session 4</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__start_date__date</td>
+	<td>1974-09-14</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form__end_date__date</td>
+	<td>1974-12-20</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

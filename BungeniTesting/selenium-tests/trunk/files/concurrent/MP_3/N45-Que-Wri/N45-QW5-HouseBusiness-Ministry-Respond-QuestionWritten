@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://selenium-ide.openqa.org/profiles/test-case">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="selenium.base" href="" />
+<title>N45-QW5-HouseBusiness-Ministry-Respond-QuestionWritten</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">N45-QW5-HouseBusiness-Ministry-Respond-QuestionWritten</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>waitForElementPresent</td>
+	<td>login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-MPname.MP_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='add_content']/dt/a/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='questions-add']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.short_name</td>
+	<td>P01-MP_3-Question N04</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.ministry_id</td>
+	<td>label=M3 - P01-Ministry 3</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.question_type</td>
+	<td>label=private notice</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.response_type</td>
+	<td>label=written</td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>form.language</td>
+	<td>label=English</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[2]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-submit-to-clerk']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-Clerk.CL_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MP_3-Question N03</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-received-by-clerk']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>workflow-transition-require-edit-by-mp</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.note</td>
+	<td>Text changes</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.4e6565647320436c6172696669636174696f6e206279204d50</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-MPname.MP_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MP_3-Question N03</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-resubmit-clerk']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-Clerk.CL_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MP_3-Question N03</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-received-by-clerk']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-complete-received']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-HouseBusiness.HB_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MP_3-Question N03</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>//a[@id='workflow-transition-require-amendment']/span</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>form.note</td>
+	<td>comment on this</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.4e6565647320436c6172696669636174696f6e</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-Clerk.CL_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MP_3-Question N03</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=edit</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>form.actions.5361766520616e642076696577</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>workflow-transition-complete-clarify</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>login</td>
+	<td>P01-HouseBusiness.HB_3</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>password</td>
+	<td>member</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>actions.login</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=P01-MP_3-Question N03</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>//dl[@id='plone-contentmenu-workflow']/dt/a/span[3]</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>workflow-transition-approve-complete</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

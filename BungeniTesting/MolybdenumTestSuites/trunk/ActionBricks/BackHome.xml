@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<brickrepo includetags="" excludetags="" loops="1" label="backHome" brickrepo="test.xml">
-  <brick name="BackHome" desc="go back to the Home Page">
-    <command command="open" target="http://192.168.0.48:8080/" value="" desc=""/>
-    <command command="clickAndWait" target="id=portal-logo" value="" desc=""/>
-  </brick>
-</brickrepo>

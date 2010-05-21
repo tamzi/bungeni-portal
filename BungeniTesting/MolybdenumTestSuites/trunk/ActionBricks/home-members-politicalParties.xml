@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<brickrepo>
-  <brick name="Home->members->politicalGroups" desc="Home->members->politicalGroups">
-    <command command="open" target="http://192.168.0.48:8080/" value="" desc=""/>
-    <command command="clickAndWait" target="link=Members" value="" desc=""/>
-    <command command="clickAndWait" target="link=Political groups" value="" desc=""/>
-  </brick>
-</brickrepo>

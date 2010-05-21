@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<selenium-testsuite label="">
-  <test name="captured" desc="Automatically created during capturing">
-    <brick name="HB_Committee" desc=""/>
-    <command command="click" target="id=fieldsetlegend-display-form-workspace" value="" desc=""/>
-  </test>
-</selenium-testsuite>

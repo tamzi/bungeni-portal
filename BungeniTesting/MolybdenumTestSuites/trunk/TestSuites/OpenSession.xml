@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<selenium-testsuite label="Business->Session" loops="1" includetags="" excludetags="" brickrepo="file:///home/undesa/Desktop/BungeniTesting/ActionBricks/Business-%3ESession.xml">
-  <test name="ParliamentarySession" desc="test of a parliamentary session">
-    <brick name="Business->Session" desc=""/>
-    <command command="clickAndWait" target="link=eeee" value="" desc=""/>
-    <tags/>
-  </test>
-</selenium-testsuite>

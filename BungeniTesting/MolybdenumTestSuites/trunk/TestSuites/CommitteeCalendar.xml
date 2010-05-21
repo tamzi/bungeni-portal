@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<selenium-testsuite label="">
-  <test name="captured" desc="Automatically created during capturing">
-    <brick name="HB_Committee" desc=""/>
-    <command command="clickAndWait" target="link=Calendar" value="" desc=""/>
-    <command command="click" target="xpath=//A[contains(text(), '→')]" value="" desc=""/>
-  </test>
-</selenium-testsuite>

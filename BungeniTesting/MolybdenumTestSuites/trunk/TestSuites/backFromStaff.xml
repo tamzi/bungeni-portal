@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<selenium-testsuite label="">
-  <test name="captured" desc="Automatically created during capturing">
-    <command command="open" target="http://192.168.0.48:8080/business/committees/obj-194/committeestaff/obj-3431" value="" desc=""/>
-    <command command="clickAndWait" target="link=Staff" value="" desc=""/>
-    <command command="clickAndWait" target="link=HB" value="" desc=""/>
-  </test>
-</selenium-testsuite>

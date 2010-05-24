@@ -1823,7 +1823,8 @@ CREATE TABLE role_titles (
     membership_id integer NOT NULL,
     title_name_id integer NOT NULL,
     start_date date NOT NULL,
-    end_date date
+    end_date date,
+    language character varying(5) DEFAULT 'en'::character varying NOT NULL
 );
 
 
@@ -5813,22 +5814,22 @@ COPY resources (resource_id, resource_type_id, short_name, description, language
 -- Data for Name: role_titles; Type: TABLE DATA; Schema: public; Owner: undesa
 --
 
-COPY role_titles (role_title_id, membership_id, title_name_id, start_date, end_date) FROM stdin;
-2	1	1	2001-03-23	\N
-3	2	2	2001-03-23	\N
-4	3	3	2001-03-23	\N
-5	4	4	2001-03-23	\N
-6	5	4	2001-03-23	\N
-7	6	14	2001-04-25	\N
-8	7	16	2001-04-25	\N
-9	8	14	2001-04-25	\N
-10	9	13	2001-04-25	\N
-11	10	15	2001-04-25	\N
-12	21	5	2001-01-15	\N
-13	22	5	2001-01-15	\N
-14	23	5	2001-01-15	\N
-15	24	5	2001-01-15	\N
-16	25	5	2001-01-15	\N
+COPY role_titles (role_title_id, membership_id, title_name_id, start_date, end_date, language) FROM stdin;
+2	1	1	2001-03-23	\N	en
+3	2	2	2001-03-23	\N	en
+4	3	3	2001-03-23	\N	en
+5	4	4	2001-03-23	\N	en
+6	5	4	2001-03-23	\N	en
+7	6	14	2001-04-25	\N	en
+8	7	16	2001-04-25	\N	en
+9	8	14	2001-04-25	\N	en
+10	9	13	2001-04-25	\N	en
+11	10	15	2001-04-25	\N	en
+12	21	5	2001-01-15	\N	en
+13	22	5	2001-01-15	\N	en
+14	23	5	2001-01-15	\N	en
+15	24	5	2001-01-15	\N	en
+16	25	5	2001-01-15	\N	en
 \.
 
 

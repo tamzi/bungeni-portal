@@ -365,6 +365,7 @@ role_titles = rdb.Table(
     rdb.ForeignKey('user_role_types.user_role_type_id'), nullable=False ),
     rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False),
     rdb.Column( "end_date", rdb.Date ),
+    rdb.Column( "language", rdb.String(5), nullable=False),
     )
 
 

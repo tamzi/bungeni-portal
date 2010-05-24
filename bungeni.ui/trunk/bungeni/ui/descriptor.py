@@ -952,6 +952,7 @@ class MemberRoleTitleDescriptor(ModelDescriptor):
                     _(u'End Date')), 
                     edit_widget=DateWidget, 
                     add_widget=DateWidget), 
+       LanguageField("language"),
     ] + address_fields
     
     

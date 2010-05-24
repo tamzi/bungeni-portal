@@ -988,8 +988,8 @@ class CommitteeStaffDescriptor(ModelDescriptor):
             SubstitudedEndDate, InactiveNoEndDate]
         
 class PoliticalPartyDescriptor(GroupDescriptor):
-    display_name = _(u"Political party")
-    container_name = _(u"Political parties")
+    display_name = _(u"political party")
+    container_name = _(u"political parties")
     custom_validators = [validations.validate_date_range_within_parent,]
     
     fields = deepcopy(GroupDescriptor.fields )
@@ -1008,8 +1008,8 @@ class PoliticalPartyDescriptor(GroupDescriptor):
     schema_invariants = [EndAfterStart]
     
 class PoliticalGroupDescriptor(PoliticalPartyDescriptor):
-    display_name = _(u"Political group")
-    container_name = _(u"Political groups")
+    display_name = _(u"political group")
+    container_name = _(u"political groups")
        
     fields = deepcopy(PoliticalPartyDescriptor.fields )
    
@@ -1856,7 +1856,8 @@ class SittingDescriptor(ModelDescriptor):
     custom_validators = [validations.validate_date_range_within_parent,
                          validations.validate_start_date_equals_end_date,
                          validations.validate_venues,
-                         validations.validate_non_overlapping_sitting]
+                         #validations.validate_non_overlapping_sitting
+                         ]
 
     public_wfstates = [sitting_wf_state[u'published-agenda'].id,
                        sitting_wf_state[u'draft-minutes'].id,

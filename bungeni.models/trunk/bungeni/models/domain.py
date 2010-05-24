@@ -648,7 +648,7 @@ class MemberRoleTitle(Entity):
     The role title a member has in a specific context
     and one official addresse for a official role
     """
-    
+    interface.implements(interfaces.ITranslatable)
 
 
 class MinistryInParliament(object):

@@ -196,7 +196,7 @@ from '%(directory)s/data/demodata/sitting_attendance.csv'
 csv;
 
 
-COPY "public"."role_titles" ("membership_id", "title_name_id", "start_date", "end_date") 
+COPY "public"."role_titles" ("membership_id", "title_name_id", "start_date", "end_date", "language") 
 FROM '%(directory)s/data/demodata/role_titles.csv' csv ;
 
 INSERT INTO addresses (role_title_id)

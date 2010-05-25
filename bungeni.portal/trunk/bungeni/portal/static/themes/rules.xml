@@ -3,13 +3,11 @@
   <theme href="/static/themes/layout.html" />
   <match path="regex:.*/(emptypage)$"
  	 abort="1" />
-  <match path="regex:^/(members/current)/obj-(.)+(/)?(view)?$"
-         class="member-links" /> 
   <match path="/"
          class="primary" />
 
-  <rule class="member-links">
-    <pyquery pyref="bungeni.portal/static/themes/rules:image_links" />    
+  <rule class="image-links">
+
    </rule>    
   
   <rule class="primary">
@@ -24,7 +22,7 @@
     
     <replace content="children:#portal-personaltools :not(.navigation)"
             theme="children:#portal-personaltools" />
-
+    <pyquery pyref="bungeni.portal/static/themes/rules:image_links" />    
     <!-- breadcrumbs -->
     <append content="children:#portal-breadcrumbs" theme="children:#portal-breadcrumbs" />
     <!-- content -->

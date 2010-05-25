@@ -19,7 +19,7 @@ def image_links(content, theme, resource_fetcher, log):
     """
     Use absolute links to the members image and political groups logo.
     """
-    link_value  = str(content('#region-content').html())
+    link_value  = str(content('#region-content').html().encode("utf-8"))
     to_replace = 'file-image/image'
     to_replace = ['file-image/image', 'file-image/logo_data']
     for image in to_replace:

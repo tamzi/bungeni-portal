@@ -324,6 +324,7 @@ class AddForm(BaseForm, ui.AddForm):
     @form.action(_(u"Save and view"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data):
         for key in data.keys():
+            print "KEY->", key
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
         ob = self.createAndAdd(data)
@@ -342,8 +343,7 @@ class AddForm(BaseForm, ui.AddForm):
         self.request.response.redirect(self._next_url)
         session.close()
         
-    @form.action(_(u"Save"),
-                 condition=form.haveInputWidgets, validator='validateAdd')
+    @form.action(_(u"Save"), condition=form.haveInputWidgets)
     def handle_add_edit( self, action, data ):
         for key in data.keys():
             if isinstance(data[key], str): 

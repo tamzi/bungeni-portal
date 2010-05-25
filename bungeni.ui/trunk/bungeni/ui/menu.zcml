@@ -146,7 +146,7 @@
   <browser:menuItem
      menu="party_additems"
      for="bungeni.models.interfaces.IPoliticalGroup"
-     title="Add political group member..."
+     title="add political group member..."
      action="./partymembers/add"
      permission="bungeni.politicalgroupmember.Add"
      />

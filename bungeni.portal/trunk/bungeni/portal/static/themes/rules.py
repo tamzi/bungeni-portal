@@ -17,22 +17,21 @@ def add_section_links(content, theme, resource_fetcher, log):
 
 def image_links(content, theme, resource_fetcher, log):
     """
-    Use absolute links to the members profile image.
+    Use absolute links to the members image and political groups logo.
     """
     link_value  = str(content('#region-content').html())
     to_replace = 'file-image/image'
-    if to_replace in link_value:    
-        if 'file-image/image' in link_value:
-            to_replace = 'file-image/image'
-        link_id= content('#portal-breadcrumbs a:last-child')
-        link_id = str(link_id).split('href="')
-        link_id = str(link_id[1]).split('">')[0]
-        link_node = content('#region-content')
-        new_value = link_value.replace('./'+to_replace, 
-                                        str(link_id)+'/file-image/image')
-        link_node.replaceWith(new_value)
+    to_replace = ['file-image/image', 'file-image/logo_data']
+    for image in to_replace:
+        if image in link_value:
+            link_id= content('#portal-breadcrumbs a:last-child')
+            link_id = str(link_id).split('href="')
+            link_id = str(link_id[1]).split('">')[0]
+            link_node = content('#region-content')
+            new_value = link_value.replace('./'+image, 
+                                        str(link_id)+'/'+image)
+            link_node.replaceWith('<div id="region-content" class="documentContent">' + new_value + '</div>')
 
-        
 
 def add_plone_tabs(content, theme, resource_fetcher, log):
     """

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-14 13:01+0300\n"
+"PO-Revision-Date: 2010-05-20 17:03+0300\n"
 "Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -297,7 +297,7 @@ msgstr "ver membro da comissão "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Add committee staff"
-msgstr "add pessoal da comissão"
+msgstr "adicionar pessoal da comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "Edit committee staff"
@@ -305,7 +305,7 @@ msgstr "verifique pessoal da comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:178
 msgid "Delete committee staff"
-msgstr "apagar pessoal da comissão"
+msgstr "deletar pessoal da comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:179
 msgid "View committee staff"
@@ -530,7 +530,7 @@ msgstr "editar comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:37
 msgid "Delete committee"
-msgstr "excluir comissão"
+msgstr "deletar comissão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:38
 msgid "View committee"
@@ -538,7 +538,7 @@ msgstr "ver comissão "
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:42
 msgid "Add Question"
-msgstr "adicionar pergunta"
+msgstr "adicionar questão"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:43
 msgid "Edit Question"

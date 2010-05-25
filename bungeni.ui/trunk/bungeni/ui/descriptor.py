@@ -585,8 +585,8 @@ class MpDescriptor(ModelDescriptor):
                                                                
 class PartyMemberDescriptor(ModelDescriptor):
     """membership of a user in a party"""
-    display_name=_(u"Party member")
-    container_name=_(u"Party members")
+    display_name=_(u"member")
+    container_name=_(u"members")
     
     fields = [dict(name="user_id",
               property=schema.Choice(

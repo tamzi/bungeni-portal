@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-15 16:53+0300\n"
+"PO-Revision-Date: 2010-05-20 17:13+0300\n"
 "Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -297,7 +297,7 @@ msgstr "tazama mwanachama wa kamati"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:176
 msgid "Add committee staff"
-msgstr "ongeza kamati ya wafanyikazi"
+msgstr "ongeza wafanyikazi wa kamati"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:177
 msgid "Edit committee staff"
@@ -325,7 +325,7 @@ msgstr "hariri mwanachama wa kikundi cha kisiasa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:187
 msgid "Delete political group member"
-msgstr "futa mwanachama wa kundi la kisiasa"
+msgstr "futa mwanachama wa kikundi cha kisiasa"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:188
 msgid "View political group member"

@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Mon Apr 12 12:54:47 2010\n"
-"PO-Revision-Date: 2010-04-13 11:25+0300\n"
+"PO-Revision-Date: 2010-05-24 11:23+0300\n"
 "Last-Translator: peter <kamero@parliaments.info>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -121,7 +121,7 @@ msgstr "modifier le gouvernement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:105
 msgid "Delete government"
-msgstr "supprimer gouvernement"
+msgstr "supprimer le gouvernement"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:106
 msgid "View government"
@@ -441,7 +441,7 @@ msgstr "voir l'ordre du jour"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:235
 msgid "View 'Votes and Proceedings'"
-msgstr "voir 'votes et délibérationsl'"
+msgstr "voir 'votes et délibérations'"
 
 #: src/bungeni.models/bungeni/models/permissions.zcml:237
 msgid "Add Consignatory"
@@ -690,7 +690,7 @@ msgstr "ministre"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:13
 msgid "Clerks Office"
-msgstr "employés de bureau"
+msgstr "bureau du greffier"
 
 #: src/bungeni.models/bungeni/models/roles.zcml:14
 msgid "Speaker Office"

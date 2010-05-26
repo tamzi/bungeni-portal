@@ -140,10 +140,10 @@ white-space: nowrap;
 }
 
 dl.enableFormTabbing dd {
-padding-top:5px;
+padding-top:15px;
 }
 
 dl.enableFormTabbing form {
-padding-top:8px;
+padding-top:1px;
 }
 

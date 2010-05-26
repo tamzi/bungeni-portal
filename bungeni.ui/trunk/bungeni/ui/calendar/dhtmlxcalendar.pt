@@ -34,7 +34,7 @@
                 scheduler.locale.labels.agenda_tab = "Upcoming";
                 scheduler.init('scheduler_here', null, "week");
                 scheduler.setLoadMode("month");
-                scheduler.load("dhtmlxcalendar?uid="+scheduler.uid());
+                scheduler.load("/dhtmlxcalendar?uid="+scheduler.uid());
                 
                 scheduler.form_blocks["my_editor"]={
 		            render:function(sns){
@@ -68,6 +68,7 @@
                 
                 scheduler.config.lightbox.sections=[	
                         { name:"description", height:200, type:"my_editor" },
+                        {name:"recurring", height:115, type:"recurring", map_to:"rec_type", button:"recurring"},
 		                { name:"time", height:72, type:"time", map_to:"auto"}	
 	                ]
                 

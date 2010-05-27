@@ -1,26 +1,26 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       metal:use-macro="context/@@standard_macros/page">
-     <!-- <script type="text/javascript" src="dhtmlxscheduler_debug.js"
+     <!-- <script type="text/javascript" src="dhtmlxscheduler_debug.js"        
             tal:attributes="src context/++resource++dhtmlxscheduler.js"></script>
       <link rel="stylesheet" type="text/css" media="all" href="dhtmlxscheduler.css"
         tal:attributes="href context/++resource++dhtmlxscheduler.css" /> 
-      <script type="text/javascript" src="dhtmlxschedulerinit.js"
+      <script type="text/javascript" src="dhtmlxschedulerinit.js"        
             tal:attributes="src context/++resource++dhtmlxcalendarinit.js"></script> -->
       <tal:block metal:fill-slot="header">
-        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'fr'" src="locale_fr.js"
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'fr'" src="locale_fr.js"        
             tal:attributes="src context/++resource++locale_fr.js">
         </script>
-        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'es'" src="locale_es.js"
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'es'" src="locale_es.js"        
             tal:attributes="src context/++resource++locale_es.js">
         </script>
-        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'it'" src="locale_it.js"
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'it'" src="locale_it.js"        
             tal:attributes="src context/++resource++locale_it.js">
         </script>
-        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'sw'" src="locale_sw.js"
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'sw'" src="locale_sw.js"        
             tal:attributes="src context/++resource++locale_sw.js">
         </script>
-        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'pt'" src="locale_pt.js"
+        <script type="text/javascript" charset="utf-8" tal:condition="python:view.display_language == 'pt'" src="locale_pt.js"        
             tal:attributes="src context/++resource++locale_pt.js">
         </script>
         <script type="text/javascript">
@@ -39,7 +39,7 @@
                 scheduler.form_blocks["my_editor"]={
 		            render:function(sns){
 			            return  '<span tal:replace="structure view/sitting_details_form"/>'
-			
+			                      
 		            },
 		            set_value:function(node,value,ev){
 			            //node.childNodes[1].value=ev.type||"";
@@ -58,7 +58,7 @@
 			            //return node.childNodes[1].value;
 			            ev.type = $("#select_sitting_type").val();
 			            //ev.text = $("#select_sitting_type").options[ev.type].text;
-			
+			            
 			            ev.language = $("#select_sitting_lang").val();
 			            ev.venue = $("#select_sitting_venue").val();
 		            },
@@ -68,7 +68,6 @@
                 
                 scheduler.config.lightbox.sections=[	
                         { name:"description", height:200, type:"my_editor" },
-                        {name:"recurring", height:115, type:"recurring", map_to:"rec_type", button:"recurring"},
 		                { name:"time", height:72, type:"time", map_to:"auto"}	
 	                ]
                 
@@ -119,4 +118,4 @@
 		        </div>		
 	        </div>
       </div>
-</html>
+</html>  

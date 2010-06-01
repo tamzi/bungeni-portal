@@ -13,6 +13,7 @@ from alchemist.catalyst import ui
 from zope.traversing.browser import absoluteURL
 from zope.component import getMultiAdapter
 from bungeni import models
+from zope.security.proxy import removeSecurityProxy
 
 class MainView(BrowserView):
     def __call__(self):
@@ -47,9 +48,62 @@ class MainView(BrowserView):
         for t in transcripts:
             t.version_link = absoluteURL(t, self.context)  + '/version'
             new_t.append(t);
-        import pdb; pdb.set_trace();
         return transcripts
+
+class EditMediaPath(ui.EditForm):
+    class IEditMediaPathForm(interface.Interface):
+        media_path = schema.URI(
+                            title=u'Media URL',
+                            description=u'URL of the Media File',
+                            required=True)
         
+    template = namedtemplate.NamedTemplate('alchemist.form')
+    form_fields = form.Fields(IEditMediaPathForm)
+    
+    def __init__(self, context, request):
+        super(EditMediaPath, self).__init__(context, request)
+        
+    
+    def setUpWidgets(self, ignore_request=False):
+        class context:
+            media_path = None
+            
+        self.adapters = {
+            self.IEditMediaPathForm: context
+            }
+        self.widgets = form.setUpEditWidgets(
+            self.form_fields, self.prefix, self.context, self.request,
+            adapters=self.adapters, ignore_request=ignore_request)
+    
+    def update(self):
+        super(EditMediaPath, self).update()
+        set_widget_errors(self.widgets, self.errors)
+
+    def validate(self, action, data):    
+        errors = super(EditMediaPath, self).validate(action, data)
+        return errors
+        
+    @form.action(_(u"Save"))  
+    def handle_save(self, action, data):
+        session = Session()
+        trusted = removeSecurityProxy(self.context)
+        sitting = session.query(domain.Sitting).get(trusted.sitting_id)
+        #import pdb; pdb.set_trace()
+        if sitting is None:
+            sitting = domain.Sitting()
+            sitting.sitting_id =  trusted.sitting_id
+            sitting.media_path =  data['media_path']     
+            session.add(sitting)
+        else:
+            sitting.media_path =  data['media_path']
+        session.commit()
+        self._next_url = absoluteURL(self.context, self.request)
+        
+    @form.action(_(u"Cancel"))  
+    def handle_cancel(self, action, data):
+        self._next_url = absoluteURL(self.context, self.request) 
+        
+            
 class Add(ui.AddForm):
     class IReportingForm(interface.Interface):
         start_time = schema.TextLine(

@@ -4,8 +4,8 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     xmlns:i18n="http://namespaces.zope.org/i18n"
     i18n_domain="bungeni.ui">
-    
-    <!-- menus -->
+
+    <!-- MENUS -->
     
     <!-- Top-level sections *may* define a ZCML menu for navigating to 
          sub-sections, see SecondaryNavigationViewlet: -->
@@ -19,77 +19,60 @@
     <browser:menu id="archive_navigation" title="Actions Archive" />
     -->
 
-  <browser:menu
-     id="sitting_actions"
-     title="Actions for Calendar Sittings"
-     />
-
-  <browser:menu
-     id="discussion_actions"
-     title="Actions for Scheduling Discussions"
-     />
-
-  <browser:menu
-     id="scheduling_actions"
-     title="Actions for Calendar Schedulings"
-     />
-
-  <browser:menu
-     id="context_workflow"
-     title="The 'workflow' menu - allows the user to execute workflow transitions"
-     class=".menu.WorkflowMenu"
-     />
-
-  <browser:menu
-     id="context_calendar"
-     title="The 'Calendar' menu - allows the user to select a scheduling context"
-     class=".menu.CalendarMenu"
-     />
-
-  <browser:menu
-     id="context_add_parliamentary_content"
-     title="The 'Add' menu - allows the user to add content"
-     class="ploned.ui.menu.PloneBrowserMenu"
-     />
-
-  <browser:menu
-    id="context_translate"
-    title="The 'Translate' menu - allows the user to translate content"
-    class=".menu.TranslateMenu"
-  />
-  
-  <!--
+    <browser:menu id="sitting_actions"
+        title="Actions for Calendar Sittings"
+    />
+    <browser:menu id="discussion_actions"
+        title="Actions for Scheduling Discussions"
+    />
+    <browser:menu id="scheduling_actions"
+        title="Actions for Calendar Schedulings"
+    />
+    <browser:menu id="context_workflow"
+        title="The 'workflow' menu - allows user to execute workflow transitions"
+        class=".menu.WorkflowMenu"
+    />
+    <browser:menu id="context_calendar"
+        title="The 'Calendar' menu - allows user to select a scheduling context"
+        class=".menu.CalendarMenu"
+    />
+    <browser:menu id="context_add_parliamentary_content"
+        title="The 'Add' menu - allows user to add content"
+        class="ploned.ui.menu.PloneBrowserMenu"
+    />
+    <browser:menu id="context_translate"
+        title="The 'Translate' menu - allows user to translate content"
+        class=".menu.TranslateMenu"
+    />
+    <!-- 
+    Translation language options are dynamic, so we define an adapter to 
+    determine these at runtime, for all views of ITranslatable objects.
+    
     !+ business/whats-on (as admin): 
-    the translate content menu (green bar) is incorrectly appearing the 
-    view menu (left column) is incorrectly appearing
+    - the translate content menu (green bar) is incorrectly appearing  
+    - the view menu (left column) is incorrectly appearing
 
-    !+ why is the * needed in the for=" ... *" below? 
-    If removed, the menu does not appear!
+    !+ why is the * needed in the for=" ... *" below, for menu to appear ?!?
     NOTE: ZCML translates a "*" to None. And as of Zope 3.3, 
-    adapting None or Interface is equivalent. 
-  -->
-  <adapter
-    for="bungeni.models.interfaces.ITranslatable *"
-    name="plone.contentmenu.translation"
-    factory=".menu.TranslationSubMenuItem"
-    permission="bungeni.translation.Add"
-    provides="ploned.ui.interfaces.IContentMenuItem" 
-  />
+    adapting None or Interface is equivalent.
+    -->
+    <adapter name="plone.contentmenu.translation"
+        for="bungeni.models.interfaces.ITranslatable *"
+        factory=".menu.TranslationSubMenuItem"
+        permission="bungeni.translation.Add"
+        provides="ploned.ui.interfaces.IContentMenuItem" 
+    />
+    <browser:menu id="context_actions"
+        title="The 'Actions' menu - provides context-specific actions (views)"
+        class="ploned.ui.menu.PloneBrowserMenu"
+    />
+    <browser:menu id="reporting_actions"
+        title="The 'Reports' menu - provides reporting actions"
+        class="ploned.ui.menu.PloneBrowserMenu"
+    />
 
-  <browser:menu
-     id="context_actions"
-     title="The 'Actions' menu - provides context-specific actions (views)"
-     class="ploned.ui.menu.PloneBrowserMenu"
-     />
-
-  <browser:menu
-     id="reporting_actions"
-     title="The 'Reports' menu - provides reporting actions"
-     class="ploned.ui.menu.PloneBrowserMenu"
-     />
-
-  <!-- content submenus -->
-
+    <!-- CONTENT SUBMENUS -->
+    
     <browser:subMenuItem
         menu="plone_contentmenu"
         for=".interfaces.IWorkspacePIContext"
@@ -954,25 +937,23 @@
      permission="bungeni.session.Delete"
      />
 
-
-  <browser:menuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.domain.QuestionContainer"
-     title="Add Question..."
-     action="./add"
-     permission="bungeni.question.Add"
-    layer=".interfaces.IAdminSectionLayer"
-     order="100"
-     />
-
-  <browser:menuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.domain.MotionContainer"
-     title="Add Motion..."
-     action="./add"
-     permission="bungeni.motion.Add"
-     order="100"
-     />
+    <!-- Same menuItem, in the 2 specific layers. 
+         cannot use browser:menuItems and specify only layer in the sub items !
+    -->
+    <browser:menuItem menu="plone_contentmenu"
+        for="bungeni.models.domain.QuestionContainer"
+        permission="bungeni.question.Add"
+        title="Add Question..."
+        action="./add"
+        layer=".interfaces.IWorkspaceOrAdminSectionLayer"
+    />
+    <browser:menuItem menu="plone_contentmenu"
+        for="bungeni.models.domain.MotionContainer"
+        title="Add Motion..."
+        action="./add"
+        permission="bungeni.motion.Add"
+        layer=".interfaces.IWorkspaceOrAdminSectionLayer"
+    />
 
   <browser:menuItem
      menu="plone_contentmenu"
@@ -1021,35 +1002,6 @@
      action="/business/bills/add"
      permission="bungeni.bill.Add"
      layer=".interfaces.IBusinessSectionLayer"
-     order="100"
-     />
-
-  <browser:menuItem
-     menu="plone_contentmenu"
-     for="bungeni.core.interfaces.IMotionAddContext"
-     title="Add Motion..."
-     action="/business/motions/add"
-     permission="bungeni.motion.Add"
-     order="100"
-     />
-
-  <browser:menuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.domain.Motion"
-     title="Add new Motion..."
-     action="/business/motions/add"
-     permission="bungeni.motion.Add"
-     layer=".interfaces.IBusinessSectionLayer"
-     order="100"
-     />
-
-  <browser:menuItem
-     menu="plone_contentmenu"
-     for="bungeni.models.domain.MotionContainer"
-     title="Add Motion..."
-     action="./add"
-     permission="bungeni.motion.Add"
-     layer=".interfaces.IArchiveSectionLayer"
      order="100"
      />
 
@@ -1240,79 +1192,66 @@
      order="11"
      />
 
-  <!-- menu items -->
-  
-  <browser:menuItem
-     menu="context_add_parliamentary_content"
-     for="*"
-     title="Bill"
-     action="bills/add"
-     permission="bungeni.bill.Add"
-     />
-
-  <browser:menuItem
-     menu="context_add_parliamentary_content"
-     for="*"
-     title="Motion"
-     action="motions/add"
-     permission="bungeni.motion.Add"
-     />
-
-  <browser:menuItem
-     menu="context_add_parliamentary_content"
-     for="*"
-     title="Question"
-     action="questions/add"
-     permission="bungeni.question.Add"
-  /><!-- this is the one appearing in /workspace/pi -->
-
-
-  <browser:menuItem
-     menu="context_add_parliamentary_content"
-     for="*"
-     title="Agenda item"
-     action="agendaitems/add"
-     permission="bungeni.agendaitem.Add"
-     />
-     
-  <browser:menuItem
-     menu="context_add_parliamentary_content"
-     for="*"
-     title="Tabled document"
-     action="tableddocuments/add"
-     permission="bungeni.tableddocument.Add"
-     />
-
-
-  <!--browser:menuItem
+    <!-- MENU ITEMS -->
+    
+    <!-- context_add_parliamentary_content sub-menu -->
+    <browser:menuItem menu="context_add_parliamentary_content"
+        for="*"
+        title="Bill"
+        action="bills/add"
+        permission="bungeni.bill.Add"
+    />
+    <browser:menuItem menu="context_add_parliamentary_content"
+        for="*"
+        title="Motion"
+        action="motions/add"
+        permission="bungeni.motion.Add"
+    />
+    <browser:menuItem menu="context_add_parliamentary_content"
+        for="*"
+        title="Question"
+        action="questions/add"
+        permission="bungeni.question.Add"
+    /><!-- this is the one appearing in /workspace/pi -->
+    <browser:menuItem menu="context_add_parliamentary_content"
+        for="*"
+        title="Agenda item"
+        action="agendaitems/add"
+        permission="bungeni.agendaitem.Add"
+    />
+    <browser:menuItem menu="context_add_parliamentary_content"
+        for="*"
+        title="Tabled document"
+        action="tableddocuments/add"
+        permission="bungeni.tableddocument.Add"
+    />
+    <!--browser:menuItem
      for="ore.alchemist.interfaces.IAlchemistContainer"
      menu="context_actions"
      title="Listing"
      action="index"
-     /-->
-
-  <!-- primary navigation (top-level sections) -->
+    /-->
+    
+    <!-- PRIMARY NAVIGATION (top-level sections) -->
   
-  <!-- site_actions menu defined in ploned/ui/menu.zcml -->
-  <!-- CONVENTION: the action of each site top-section is made to point 
-        directly the primary sub-section (the INDEX) that it contains.
-  -->
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     action="/"
-     title="Workspace"
-     permission="zope.View"
-  />
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     layer=".interfaces.IBungeniSkin"
-     action="/"
-     title="Home"
-     permission="zope.Public"
-  /><!-- Notes on "/" action: 
+    <!-- site_actions menu defined in ploned/ui/menu.zcml -->
+    <!-- CONVENTION: the action of each site top-section is made to point 
+         directly the primary sub-section (the INDEX) that it contains.
+    -->
+    <browser:menuItem menu="site_actions"
+        for="*"
+        layer=".interfaces.IBungeniAuthenticatedSkin"
+        action="/"
+        title="Workspace"
+        permission="zope.View"
+    />
+    <browser:menuItem menu="site_actions"
+        for="*"
+        layer=".interfaces.IBungeniSkin"
+        action="/"
+        title="Home"
+        permission="zope.Public"
+    /><!-- Notes on "/" action: 
     a) when authenticated, Home "/" is actually Workspace. It would be better 
         to have the workspace action be "/workspace/pi" (as per CONVENTION 
         above) as opposed to be the same as for not-authenticated Home 
@@ -1320,75 +1259,61 @@
         to be displayed even when the user *is* authenticated.
     b) the zope.View "/" menuItem is first because the first matched menuItem 
         is used.
-  -->
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/business/whats-on"
-     title="Business"
-     permission="zope.Public"
-  />
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/members/current"
-     title="Members"
-     permission="zope.Public"
-  />
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/archive/browse"
-     title="Archive"
-     permission="zope.Public"
-  />
-  <browser:menuItem
-     menu="site_actions"
-     for="*"
-     title="Administration"
-     action="/admin/content"
-     layer=".interfaces.IBungeniAuthenticatedSkin"
-     permission="zope.ManageSite"
-  />
-
-
-  <browser:menuItem
-     menu="context_actions"
-     for="ore.alchemist.interfaces.IAlchemistContent"
-     action="view"
-     title="Info"
-     order="0"
-     />
-  
-  <browser:menuItem
-     menu="context_actions"
-     for="ore.alchemist.interfaces.IAlchemistContent"
-     action="edit"
-     title="Edit"
-     order="10"
-     permission="zope.ManageContent"
-     />
-     
-  <browser:menuItem
-     menu="context_actions"
-     for="bungeni.models.interfaces.IBill"
-     action="edit"
-     title="Edit"
-     order="10"
-     permission="bungeni.bill.Edit"
-     />
-
-  <browser:menuItem
-     menu="context_actions"
-     for="bungeni.models.interfaces.IBill"
-     action="delete"
-     title="Delete"
-     order="10"
-     permission="bungeni.bill.Delete"
-     />
-     
-  <browser:menuItem
-     menu="context_actions"
+    -->
+    <browser:menuItem menu="site_actions"
+        for="*"
+        action="/business/whats-on"
+        title="Business"
+        permission="zope.Public"
+    />
+    <browser:menuItem menu="site_actions"
+        for="*"
+        action="/members/current"
+        title="Members"
+        permission="zope.Public"
+    />
+    <browser:menuItem menu="site_actions"
+        for="*"
+        action="/archive/browse"
+        title="Archive"
+        permission="zope.Public"
+    />
+    <browser:menuItem menu="site_actions"
+        for="*"
+        title="Administration"
+        action="/admin/content"
+        layer=".interfaces.IBungeniAuthenticatedSkin"
+        permission="zope.ManageSite"
+    />
+    
+    <browser:menuItem menu="context_actions"
+        for="ore.alchemist.interfaces.IAlchemistContent"
+        action="view"
+        title="Info"
+        order="0"
+    />
+    <browser:menuItem menu="context_actions"
+        for="ore.alchemist.interfaces.IAlchemistContent"
+        action="edit"
+        title="Edit"
+        order="10"
+        permission="zope.ManageContent"
+    />
+    <browser:menuItem menu="context_actions"
+        for="bungeni.models.interfaces.IBill"
+        action="edit"
+        title="Edit"
+        order="10"
+        permission="bungeni.bill.Edit"
+    />
+    <browser:menuItem menu="context_actions"
+        for="bungeni.models.interfaces.IBill"
+        action="delete"
+        title="Delete"
+        order="10"
+        permission="bungeni.bill.Delete"
+    />
+    <browser:menuItem menu="context_actions"
      for="bungeni.models.interfaces.IQuestion"
      action="edit"
      title="Edit"

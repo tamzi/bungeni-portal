@@ -14,7 +14,7 @@ from zope.traversing.browser import absoluteURL
 from zope.component import getMultiAdapter
 from bungeni import models
 from zope.security.proxy import removeSecurityProxy
-
+from zope.formlib.form import AddForm
 class MainView(BrowserView):
     def __call__(self):
         self.group = self.get_group()
@@ -66,7 +66,13 @@ class EditMediaPath(ui.EditForm):
     
     def setUpWidgets(self, ignore_request=False):
         class context:
-            media_path = None
+            session = Session()
+            trusted = removeSecurityProxy(self.context)
+            sitting = session.query(domain.Sitting).get(trusted.sitting_id)
+            if sitting is not None:
+                media_path = sitting.media_path
+            else:
+                media_path = None
             
         self.adapters = {
             self.IEditMediaPathForm: context
@@ -97,14 +103,15 @@ class EditMediaPath(ui.EditForm):
         else:
             sitting.media_path =  data['media_path']
         session.commit()
+        #import pdb; pdb.set_trace()
         self._next_url = absoluteURL(self.context, self.request)
-        
+        self.request.response.redirect(self._next_url)
     @form.action(_(u"Cancel"))  
     def handle_cancel(self, action, data):
         self._next_url = absoluteURL(self.context, self.request) 
-        
+        self.request.response.redirect(self._next_url)
             
-class Add(ui.AddForm):
+class Add(AddForm):
     class IReportingForm(interface.Interface):
         start_time = schema.TextLine(
             title=_(u"Start Time"),
@@ -119,9 +126,9 @@ class Add(ui.AddForm):
                    required=False,
                    )
         
-    template = namedtemplate.NamedTemplate('alchemist.form')
+    #template = namedtemplate.NamedTemplate('alchemist.form')
+    template = ViewPageTemplateFile('empty.pt')
     form_fields = form.Fields(IReportingForm)
-    
     def setUpWidgets(self, ignore_request=False):
         class context:
             start_time = None

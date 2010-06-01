@@ -1,12 +1,14 @@
 <metal:block define-macro="body">
     <link rel="stylesheet" type="text/css" media="all" href="transcripts.css"
       tal:attributes="href context/++resource++transcripts.css" /> 
+    <script type="text/javascript" src="transcript.js"
+     tal:attributes="src context/++resource++transcripts.js"></script>
     <metal:main> 
     <div id="transcripts_main">
         <div id="transcript_video">
             <span tal:content="view/sitting_id"/><br/>
             <span tal:condition="view/sitting_media_path | nothing">
-	            <video src="http://192.168.0.20/media/aug-5.ogg" controls="controls" width="400" height="300">
+	            <video tal:attributes="src view/sitting_media_path" controls="controls" width="400" height="300">
                     your browser does not support the video tag
                 </video>
             </span>
@@ -19,6 +21,8 @@
                 <legend >
                     <a href="javascript:add_transcript()">New transcript</a>
                 </legend>
+                <div id="new_transcript">
+                </div>
                 <tal:loop tal:repeat="transcript view/transcripts">
                     <fieldset id="transcript_fieldset" >
                         <legend>

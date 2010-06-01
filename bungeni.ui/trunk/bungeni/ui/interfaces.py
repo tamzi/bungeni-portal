@@ -49,9 +49,10 @@ class IBusinessWhatsOnSectionLayer(IDefaultBrowserLayer):
 class IMembersSectionLayer(IDefaultBrowserLayer):
     """Requests for an object within the members section."""
 
-class IAdminSectionLayer(IDefaultBrowserLayer):
+class IWorkspaceOrAdminSectionLayer(IDefaultBrowserLayer):
+    """Requests for an object within the workspace OR admin section."""
+class IAdminSectionLayer(IWorkspaceOrAdminSectionLayer):
     """Requests for an object within the admin section."""
-
-class IWorkspaceSectionLayer(IDefaultBrowserLayer):
+class IWorkspaceSectionLayer(IWorkspaceOrAdminSectionLayer):
     """Requests for an object within the workspace section."""
 

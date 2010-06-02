@@ -793,6 +793,20 @@ mapper(domain.ScheduledItemDiscussion, schema.item_discussion)
 # items scheduled for a sitting
 # expressed as a join between item and schedule
 
+s_consignatories  = rdb.select([schema.consignatories.c.item_id,
+                    schema.consignatories.c.user_id.label('consignatory'),
+                    (schema.users.c.first_name + ' ' +
+                    schema.users.c.last_name).label('user_id'),
+                    schema.users.c.first_name,
+                    schema.users.c.middle_name,
+                    schema.users.c.last_name,
+                    ],
+                    from_obj=[
+                        schema.consignatories.join(schema.users)
+                        ],
+                              ).alias('list_consignatories')
+
+mapper( domain.ListConsignatory, s_consignatories)
 
        
 mapper( domain.Consignatory, schema.consignatories,

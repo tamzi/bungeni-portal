@@ -549,12 +549,14 @@ class Bill(ParliamentaryItem):
 BillChange = ItemLog.makeLogFactory("BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
-
+class ListConsignatory(object):
+    pass
+    
 class Consignatory(Entity):
     """
     Consignatories for a Bill or Motion
     """
-
+    listings_class = ListConsignatory
 
 
 #############

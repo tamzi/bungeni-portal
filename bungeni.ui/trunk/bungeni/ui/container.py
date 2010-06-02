@@ -401,7 +401,7 @@ class ContainerJSONListing( BrowserView ):
             nodes.append(ob)
         self.set_size = len(nodes)
         return nodes[start : start + limit]
-
+    #TODO: Merge this getbatch code with the one in ContainerWFStatesJSONListing below
     def getBatch( self, start=0, limit=20):
         order_by = self.getSort()
         context = proxy.removeSecurityProxy( self.context )
@@ -422,11 +422,12 @@ class ContainerJSONListing( BrowserView ):
         nodes = self._get_secured_batch(query, start, limit)
         t_nodes = []
         for node in nodes:
-            t_nodes.append(translate_obj(node))
+            try:
+                t_nodes.append(translate_obj(node))
+            except (AssertionError,): # node is not ITranslatable 
+                t_nodes.append(node)
         batch = self._jsonValues( t_nodes, self.fields, self.context )
         return batch
-
-
             
 
     def _jsonValues( self, nodes, fields, context):

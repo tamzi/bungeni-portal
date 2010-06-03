@@ -116,7 +116,7 @@ class AppSetup(object):
             title=_(u"Committees"),
             marker=interfaces.ICommitteeAddContext,
             description=_(u"View committees created by the current parliament"))
-
+        
         business[u"bills"] = QueryContent(
             container_getter(get_current_parliament, 'bills'),
             title=_(u"Bills"),

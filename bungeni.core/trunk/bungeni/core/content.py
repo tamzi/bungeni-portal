@@ -117,7 +117,7 @@ class Section(OrderedContainer):
             assert self.publishTraverseResolver is not None
             return self.publishTraverseResolver(self, request, name)
         except (AssertionError,):
-            pass # self.publishTraverseResolver is None, not callable
+            pass # self.publishTraverseResolver is None, not an error
         except (NotFound,):
             pass # this is not really an error
             #debug.log_exc_info(sys.exc_info(), log.debug)

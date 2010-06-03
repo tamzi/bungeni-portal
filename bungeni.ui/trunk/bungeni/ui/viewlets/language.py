@@ -28,13 +28,13 @@ import datetime
 
 class LanguageViewlet(object):
     """Language selection viewlet."""
-
+    
     render = ViewPageTemplateFile("templates/language.pt")
     showFlags = False
     available = True
     
     def update(self):
-    
+        
         def css_class(language):
             css_attr = None
             if language == selected:
@@ -45,28 +45,28 @@ class LanguageViewlet(object):
                 else:
                     css_attr = 'available'
             return css_attr
-            
+        
         def language_name(language): 
-            langname = language.get('native',None)
+            langname = language.get('native', None)
             if langname == None:
                 langname = language.get('name')
             return langname
-                                                   
+        
         translations = get_available_translations(self.context)
         if hasattr(self.context,'language'):
             translations[self.context.language] = None
         languages = get_all_languages()
         selected = self.request.locale.getLocaleID()
         url = ui_utils.url.absoluteURL(getSite(), self.request)
-
+        
         self.languages = [{
             'code': language,
-            'flag': url+languages[language].get('flag',''),
+            'flag': url+languages[language].get('flag', ''),
             'name': language_name(languages[language]),
             'css_class': css_class(language),
             'url': "%s/change-language?language=%s" % (url, language),
             } for language in languages]
-            
+
 class ChangeLanguage(BrowserView):
 
     def __call__(self):

@@ -25,7 +25,7 @@ class ISpeakerWorkspace(IBrowserView):
     """Speaker's workspace."""
 class IClerkWorkspace(IBrowserView):
     """Clerk's workspace."""
-class IAdministratorWorkspace(IBrowserView):
+class IAdministratorWorkspace(IBrowserView): # !+ remove out
     """Administrator's workspace."""
 class IMinisterWorkspace(IBrowserView):
     """Minister's workspace."""

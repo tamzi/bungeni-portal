@@ -17,7 +17,6 @@ setup(name='bungeni',
                    ],
 
       packages=find_packages(),
-      namespace_packages=['bungeni','bungeni.core', 'bungeni.server', 'bungeni.portal','bungeni.ui','bungeni.models'],
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
@@ -81,15 +80,21 @@ setup(name='bungeni',
                         'zc.displayname',
                         'zope.formlib',
 			],
-      entry_points =  """
-	      [paste.app_factory]
-	      main = bungeni.server.startup:application_factory
-
-	      [paste.filter_app_factory]
-	      deliverance = bungeni.portal.middleware:make_deliverance_middleware
-
-	      """
-      )
+      entry_points = 
+	{
+	'console_scripts' : [
+		'bungeni-reset-db = bungeni.core.schema:reset_database',
+                'bungeni-sync-index = bungeni.core.index:reset_index',		
+		],
+	'paste.app_factory' : [
+		'main = bungeni.server.startup:application_factory',
+		'static = bungeni.portal.app:make_static_serving_app'
+		],
+	'paste.filter_app_factory' : [
+		'deliverance = bungeni.portal.middleware:make_deliverance_middleware'
+		]	
+	}
+ )
 
 
 

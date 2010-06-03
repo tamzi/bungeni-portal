@@ -157,12 +157,13 @@ def set_get_gettext():
     get_gettext itself should have the parameters (i18n_domain, language).
     """
     # localedirs for i18n domains
+    import bungeni.ui
+    import bungeni.core
     _i18n_domain_localedirs = {
         "bungeni.ui": os.path.join(os.path.dirname(os.path.abspath(
-            __import__("bungeni.ui").__file__)), "ui/locales"),
+            bungeni.ui.__file__)), "locales"),
         "bungeni.core": os.path.join(os.path.dirname(os.path.abspath(
-            __import__("bungeni.core").__file__)), "core/locales"), 
-        # !+ this gives incorrect path for "bungeni.core"
+            bungeni.core.__file__)), "locales"), 
     }
     def _get_gettext(i18n_domain, language):
         """Get a _() i18n gettext function bound to domain and language.

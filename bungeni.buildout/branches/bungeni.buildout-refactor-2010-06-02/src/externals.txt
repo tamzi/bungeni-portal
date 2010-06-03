@@ -5,7 +5,7 @@
 #bungeni.portal -r6640  https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
 #bungeni.plonepas  -r6514 https://bungeni-portal.googlecode.com/svn/bungeni.plonepas/trunk/
 #bungeni.ui  -r6655  https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
-marginalia  -r6514  https://bungeni-portal.googlecode.com/svn/marginalia/trunk
+marginalia   https://bungeni-portal.googlecode.com/svn/marginalia/branches/marginalia-refactor-2010-06-02/
  
 # plone 3 skin
 ploned.ui   -r6532   https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/

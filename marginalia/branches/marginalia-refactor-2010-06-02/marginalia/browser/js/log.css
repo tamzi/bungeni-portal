@@ -1,0 +1,11 @@
+/*
+ * $Id: log.css 20 2007-06-05 05:31:49Z geof.glass $
+ */
+
+#log li
+{
+	margin: 1em 0;
+	padding: 0;
+	list-style-type: none;
+	color: red;
+}

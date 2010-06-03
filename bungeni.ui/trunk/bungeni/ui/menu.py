@@ -2,15 +2,15 @@ import operator
 import datetime
 
 from zope import component
-
 from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
-from zope.app.publisher.browser.menu import BrowserMenu
 from zope.app.publisher.interfaces.browser import IBrowserMenu
+from zope.app.publisher.browser.menu import BrowserMenu
 from zope.app.publisher.browser.menu import BrowserSubMenuItem
 from zope.security import checkPermission
-import z3c.menu.ready2go.item
 from zope.i18n import translate
+
+import z3c.menu.ready2go.item
 
 from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
 
@@ -24,11 +24,19 @@ from bungeni.core import schedule
 from bungeni.core.globalsettings import getCurrentParliamentId
 
 from bungeni.ui.i18n import  _
-from bungeni.ui.utils import url as ui_url
+from bungeni.ui.utils import url as ui_url, debug
 from bungeni.ui import interfaces
 
-#Following added inorder to fix issue 319. needs review
+# r5327 - following added inorder to fix issue 319. needs review
 
+''' !+ add mechanism for a better overview/control of menu order
+MENU_ORDER = [
+    None,
+    "CalendarSubMenuItem", # 10
+    "WorkflowSubMenuItem", # 40 
+    "TranslationSubMenuItem", # 50
+]
+'''
 
 def get_actions(name, context, request):
     menu = component.getUtility(IBrowserMenu, name)
@@ -123,10 +131,16 @@ class AdminAction(GlobalMenuItem):
         
 
 class TranslationSubMenuItem(BrowserSubMenuItem):
+    # Note: 
+    # BrowserSubMenuItem is a BrowserView but BrowserMenu is just an object.
+    
     title = _(u'label_translate', default=u'Language:')
     submenuId = 'context_translate'
     order = 50
-
+    
+    #def __init__(self, context, request):
+    #    super(TranslationSubMenuItem, self).__init__(context, request)
+    
     @property
     def extra(self):
         language = get_language(self.context)
@@ -156,7 +170,7 @@ class TranslateMenu(BrowserMenu):
     @property
     def current_language(self):
         return "en"
-
+    
     def getMenuItems(self, context, request):
         """Return menu item entries in a TAL-friendly form."""
         url = ui_url.absoluteURL(context, request)
@@ -166,40 +180,32 @@ class TranslateMenu(BrowserMenu):
             results = []
             for name, obj in get_all_languages().items():
                 title = obj['name']
-                
                 # skip the current language
-                if name == language:
+                if name==language:
                     continue
-
-                translation_id = available.get(name)
-                selected = translation_id is not None
-
                 action_url = url + '/translate?language=%s' % name
-
                 extra = {'id': 'translation-action-%s' % name,
                          'separator': None,
                          'class': ''}
-                
+                translation_id = available.get(name)
                 results.append(
                     dict(title=title,
                          description="",
                          action=action_url,
-                         selected=selected,
+                         selected=translation_id is not None,
                          icon=None,
                          extra=extra,
                          submenu=None))
-                         
             return results
         else:
             return None
-
+    
 
 class WorkflowSubMenuItem(BrowserSubMenuItem):
     title = _(u'label_state', default=u'State:')
     submenuId = 'context_workflow'
     order = 40
-
-
+    
     def __new__(cls, context, request):
         # this is currently the only way to make sure this menu only
         # 'adapts' to a workflowed context; the idea is that the

@@ -90,6 +90,9 @@
     z-index: 4;
     border-left: 1px solid #74ae0b;
 }
+.contentActions li.context_actions {
+    float: left;
+}
 .contentActions a {
     text-decoration: none;
     color: #578308;

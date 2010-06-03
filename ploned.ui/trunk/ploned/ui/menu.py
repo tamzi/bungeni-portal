@@ -23,7 +23,7 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.component.hooks import getSite
 from zope.app.pagetemplate import ViewPageTemplateFile
 
-from bungeni.ui.utils import url
+from bungeni.ui.utils import url, debug
 #from ploned.ui.interfaces import IViewView
 
 def pos_action_in_url(action, request_url):
@@ -94,6 +94,13 @@ class PloneBrowserMenu(BrowserMenu):
         current_pos = -1
         
         for index, (order, iface_index, title, item) in enumerate(result):
+            
+            # !+ for some reason, for the generic container listing views, the 
+            # context_actions menu comes out with a single item pointing to 
+            # "@@index" i.e. itself... we ignore it:
+            if item.action=="@@index":
+                continue
+            
             extra = item.extra or {'id': action_to_id(item.action)}
             if IBrowserSubMenuItem.providedBy(item):
                 submenu = getMenu(item.submenuId, object, request)
@@ -175,3 +182,4 @@ class ContentMenuProvider(object):
         items = menu.getMenuItems(self.context, self.request)
         items.reverse()
         return items
+

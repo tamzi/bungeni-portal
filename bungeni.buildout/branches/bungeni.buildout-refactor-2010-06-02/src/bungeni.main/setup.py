@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-setup(name='bungeni.main',
+setup(name='bungeni',
       version='0.2',
       description="server packaging, deployment, startup of bungeni server",
       long_description="",
@@ -17,7 +17,7 @@ setup(name='bungeni.main',
                    ],
 
       packages=find_packages(),
-      namespace_packages=['bungeni'],
+      namespace_packages=['bungeni','bungeni.core', 'bungeni.server', 'bungeni.portal','bungeni.ui','bungeni.models'],
       include_package_data=True,
       zip_safe=False,
       install_requires=['setuptools',
@@ -88,15 +88,7 @@ setup(name='bungeni.main',
 	      [paste.filter_app_factory]
 	      deliverance = bungeni.portal.middleware:make_deliverance_middleware
 
-	      [paste.app_factory]
-	      static = bungeni.portal.app:make_static_serving_app
-	      """,
-	      {
-	        'console_scripts':[
-	            'bungeni-reset-db = bungeni.core.schema:reset_database',
-        	    'bungeni-sync-index = bungeni.core.index:reset_index',
-	            ]
-              },
+	      """
       )
 
 

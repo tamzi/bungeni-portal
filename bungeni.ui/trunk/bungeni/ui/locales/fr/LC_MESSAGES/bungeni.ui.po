@@ -2833,68 +2833,97 @@ msgstr "groupe principale inconnu"
 
 #~ msgid "If a user is deceased he must have the status D"
 #~ msgstr "si un utilisateur est décédé il doit avoir l'état d"
+
 #~ msgid "A Date of Death must be given if a user is deceased"
 #~ msgstr "une date de décès doit être accordée si un utilisateur est décédé"
+
 #~ msgid "If a user is deceased he must have the status 'D'"
 #~ msgstr "si un utilisateur est décédé il doit avoir l'état 'd'"
+
 #~ msgid "Attach a file"
 #~ msgstr "joindre un fichier"
+
 #~ msgid "Actions for the Administrator"
 #~ msgstr "actions pour l'administrateur"
+
 #~ msgid "Actions for the 'Business' section"
 #~ msgstr "actions pour la section 'business'"
+
 #~ msgid "Actions for the 'Members' section"
 #~ msgstr "actions pour la section 'membres'"
+
 #~ msgid "Actions for the 'Archive' section"
 #~ msgstr "actions pour la section 'archives'"
+
 #~ msgid "Actions for the 'Records' section"
 #~ msgstr "actions pour la section 'dossiers'"
+
 #~ msgid "box_sessions"
 #~ msgstr "sessions"
+
 #~ msgid "box_members"
 #~ msgstr "membres"
+
 #~ msgid "Add items by dragging to schedule."
 #~ msgstr "ajouter des éléments en les faisant glisser le calendrier prévu."
+
 #~ msgid "Tasks"
 #~ msgstr "tâches"
+
 #~ msgid "Create Motion"
 #~ msgstr "créer un motion"
+
 #~ msgid "Create Question"
 #~ msgstr "créer une question"
+
 #~ msgid "Create Bill"
 #~ msgstr "créer un projet de loi"
+
 #~ msgid "Add Category..."
 #~ msgstr "ajouter une catégorie ..."
+
 #~ msgid "$x"
 #~ msgstr "$x"
 
 #, fuzzy
 #~ msgid "Identifer"
 #~ msgstr "identificateur"
+
 #~ msgid "Motion amendment"
 #~ msgstr "modification de motion"
+
 #~ msgid "Motion amendments"
 #~ msgstr "modifications de motion"
+
 #~ msgid "Motion Amendment Text"
 #~ msgstr "texte de modification de motion"
+
 #~ msgid "Vote Date"
 #~ msgstr "date du vote"
+
 #~ msgid "Accepted"
 #~ msgstr "accepté"
+
 #~ msgid "Category"
 #~ msgstr "catégorie"
+
 #~ msgid "Categories"
 #~ msgstr "catégories"
+
 #~ msgid "Short name"
 #~ msgstr "dénomination"
+
 #~ msgid "Dissolution date"
 #~ msgstr "date de dissolution"
+
 #~ msgid "My Motions"
 #~ msgstr "mes propositions"
+
 #~ msgid "Items that failed to be tabled"
 #~ msgstr "les articles qui n'ont pas été déposés"
+
 #~ msgid "My Questions"
 #~ msgstr "mes questions"
+
 #~ msgid "roll call identifier"
 #~ msgstr "identificateur de rote"
-

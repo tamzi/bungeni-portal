@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<portlets
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+   i18n:domain="plone">
+
+  <assignment
+     remove="true"     
+     manager="plone.leftcolumn"
+     category="context"
+     key="/"
+     type="portlets.Navigation"
+     name="navigation"
+     />  
+  
+  <assignment
+     remove="true"     
+     manager="plone.rightcolumn"
+     category="context"
+     key="/"
+     type="portlets.Calendar"
+     name="calendar"
+     />
+  
+</portlets>

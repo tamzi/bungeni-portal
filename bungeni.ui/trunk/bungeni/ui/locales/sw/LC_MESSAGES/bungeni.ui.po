@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Wed May 19 14:13:44 2010\n"
-"PO-Revision-Date: 2010-06-04 12:05+0300\n"
+"PO-Revision-Date: 2010-06-04 13:12+0300\n"
 "Last-Translator: UN/DESA <undesa@apkn.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: sw\n"
@@ -124,7 +124,7 @@ msgstr "kura na tangulizi"
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:961
 #: src/bungeni.ui/bungeni/ui/calendar/browserbkcp.py:1111
 msgid "This form generates the “votes and proceedings” report"
-msgstr "$type - ${start}-${end}"
+msgstr "Hii form inasakinisha ripoti ya kura na tangulizi"
 
 #: src/bungeni.ui/bungeni/ui/calendar/browser.py:962
 #: src/bungeni.ui/bungeni/ui/calendar/browserbkcp.py:1112

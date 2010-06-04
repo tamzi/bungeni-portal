@@ -3,15 +3,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: Wed May 19 14:13:44 2010\n"
-"PO-Revision-Date: 2010-04-15 16:54+0300\n"
-"Last-Translator: peter <kamero@parliaments.info>\n"
+"PO-Revision-Date: 2010-06-04 12:05+0300\n"
+"Last-Translator: UN/DESA <undesa@apkn.org>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sw\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Pootle 2.0.3\n"
 "Language-Code: en\n"
 "Domain: DOMAIN\n"
-"Plural-Forms: nplurals=1; plural=0\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Language-Name: English\n"
 
@@ -2549,7 +2551,7 @@ msgstr "hakuna pointi"
 
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/scheduling.pt:9
 msgid "Add items to schedule by clicking on them"
-msgstr ""
+msgstr "Ongeza vipengele kwenye ratiba kwa kuvibonyeza"
 
 #. Default: "Sections"
 #: src/bungeni.ui/bungeni/ui/viewlets/templates/sections.pt:2
@@ -2857,7 +2859,7 @@ msgstr "pointi katika nyaraka"
 
 #: src/bungeni.ui/bungeni/ui/workspace.py:392
 msgid "Unknown principal group"
-msgstr ""
+msgstr "Kikundi kisichofahamika"
 
 #~ msgid "If a user is deceased he must have the status D"
 #~ msgstr "kama mtumiaji amefariki lazima awe na hadhi d"

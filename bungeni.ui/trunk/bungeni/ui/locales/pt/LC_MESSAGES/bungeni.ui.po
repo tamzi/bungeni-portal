@@ -2821,70 +2821,98 @@ msgstr "principal grupo desconhecido"
 
 #~ msgid "If a user is deceased he must have the status D"
 #~ msgstr "se um usuário é falecido, ele deve ter o status d"
+
 #~ msgid "A Date of Death must be given if a user is deceased"
 #~ msgstr "a data da morte deve ser dada se um usuário está morto"
+
 #~ msgid "If a user is deceased he must have the status 'D'"
 #~ msgstr "se um usuário é falecido, ele deve ter o status de 'd'"
 
 #, fuzzy
 #~ msgid "Attach a file"
 #~ msgstr "arquivos anexados"
+
 #~ msgid "Actions for the Administrator"
 #~ msgstr "ações para o administrador"
+
 #~ msgid "Actions for the 'Business' section"
 #~ msgstr "ações para a seção 'negócio'"
+
 #~ msgid "Actions for the 'Members' section"
 #~ msgstr "ações para a seção &quot;membros&quot;"
+
 #~ msgid "Actions for the 'Archive' section"
 #~ msgstr "ações para a seção &quot;arquivo&quot;"
+
 #~ msgid "Actions for the 'Records' section"
 #~ msgstr "ações para a seção 'records'"
+
 #~ msgid "box_sessions"
 #~ msgstr "sessões"
+
 #~ msgid "box_members"
 #~ msgstr "membros"
+
 #~ msgid "Add items by dragging to schedule."
 #~ msgstr "adicionar itens arrastando a programação."
+
 #~ msgid "Tasks"
 #~ msgstr "tarefas"
+
 #~ msgid "Create Motion"
 #~ msgstr "criar um movimento"
+
 #~ msgid "Create Question"
 #~ msgstr "criar questão"
+
 #~ msgid "Create Bill"
 #~ msgstr "criar conta"
+
 #~ msgid "Add Category..."
 #~ msgstr "adicionar categoria ..."
+
 #~ msgid "$x"
 #~ msgstr "$x"
 
 #, fuzzy
 #~ msgid "Identifer"
 #~ msgstr "identificador"
+
 #~ msgid "Motion amendment"
 #~ msgstr "alteração de movimento"
+
 #~ msgid "Motion amendments"
 #~ msgstr "alterações do movimento"
+
 #~ msgid "Motion Amendment Text"
 #~ msgstr "texto a alteração proposta"
+
 #~ msgid "Vote Date"
 #~ msgstr "data de votação"
+
 #~ msgid "Accepted"
 #~ msgstr "aceita"
+
 #~ msgid "Category"
 #~ msgstr "categoria"
+
 #~ msgid "Categories"
 #~ msgstr "categorias"
+
 #~ msgid "Short name"
 #~ msgstr "nome abreviado"
+
 #~ msgid "Dissolution date"
 #~ msgstr "data da dissolução"
+
 #~ msgid "My Motions"
 #~ msgstr "meus movimentos"
+
 #~ msgid "Items that failed to be tabled"
 #~ msgstr "itens que deixaram de ser apresentadas"
+
 #~ msgid "My Questions"
 #~ msgstr "minhas perguntas"
+
 #~ msgid "roll call identifier"
 #~ msgstr "identificador de chamada"
-

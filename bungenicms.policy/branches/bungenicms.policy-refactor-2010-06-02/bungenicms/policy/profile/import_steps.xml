@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<import-steps>
+  
+  <import-step
+     id="bungenicms.policy.setup_members_folder"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.setup_members_folder"
+     title="Set up members folder">
+  </import-step>
+  
+  <import-step
+     id="bungenicms.policy.setup_application_folders"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.setup_application_folders"
+     title="Set up application folders">
+  </import-step>
+  
+  <import-step
+     id="bungenicms.policy.setup_who_authentication"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.setup_who_authentication"
+     title="Set up ``repoze.who`` authentication">
+  </import-step>
+  
+  <import-step
+     id="bungenicms.policy.setup_plonepas"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.setup_plonepas"
+     title="Set up ``bungeni.plonepas`` authentication">
+  </import-step>
+  
+  <import-step
+     id="bungenicms.policy.setup_z2_roles"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.setup_z2_roles"
+     title="Set up Zope 2 roles">
+  </import-step>
+  
+  <import-step
+     id="bungenicms.policy.update_authenticated_users_group"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.update_authenticated_users_group"
+     title="Update the Authenticated Users group roles">
+    <dependency step="bungenicms.policy.setuphandlers.setup_z2_roles"/>
+  </import-step>
+
+  <import-step
+     id="bungenicms.policy.setup_group_workspaces"
+     version="1"
+     handler="bungenicms.policy.setuphandlers.setup_group_workspaces"
+     title="Set up group workspaces">
+  </import-step>
+  
+  
+</import-steps>

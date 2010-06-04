@@ -20,15 +20,13 @@
   
   <!-- authenticated users are members -->
   
-  <grant role="zope.Member"
-         principal="zope.Authenticated" />
+  <grant role="zope.Member" principal="zope.Authenticated" />
 
   <!-- manager grants -->
   
   <grantAll role="zope.Manager" />
   
-  <grant role="zope.Manager"
-         principal="zope.manager" />  
+  <grant role="zope.Manager" principal="zope.manager" />
 
 
   <!-- Anonymous grants -->
@@ -39,10 +37,10 @@
   <!-- generic view permission grants -->
 
   <grant permission="zope.View" role="bungeni.MP" />
-  <grant permission="zope.View" role="bungeni.Clerk" />      
+  <grant permission="zope.View" role="bungeni.Clerk" />
   <grant permission="zope.View" role="bungeni.Speaker" />
-  <grant permission="zope.View" role="bungeni.Owner" /> 
-  <grant permission="zope.View" role="bungeni.Everybody" /> 
+  <grant permission="zope.View" role="bungeni.Owner" />
+  <grant permission="zope.View" role="bungeni.Everybody" />
 
   <!-- admin section -->
   <!-- managesite permission had been given to clerk and speaker users to enable such 
@@ -70,10 +68,10 @@ items created by other users, so this hack has been removed -->
   <grant permission="bungeni.itemschedulecategory.Add" role="bungeni.Speaker" />
 
 
-  <grant permission="bungeni.sittingattendance.Add" role="bungeni.Clerk" />  
+  <grant permission="bungeni.sittingattendance.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.sittingattendance.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.sittingattendance.Delete" role="bungeni.Clerk" />
-  <grant permission="bungeni.sittingattendance.Add" role="bungeni.Speaker" />  
+  <grant permission="bungeni.sittingattendance.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.sittingattendance.Edit" role="bungeni.Speaker" />
   <grant permission="bungeni.sittingattendance.Delete" role="bungeni.Speaker" />
   
@@ -81,9 +79,9 @@ items created by other users, so this hack has been removed -->
        note that the workflow sets these permissions 
        on a workflow state change -->  
   
-  <grant permission="bungeni.question.Add" role="bungeni.MP" />    
-  <grant permission="bungeni.question.Add" role="bungeni.Clerk" />      
-  <grant permission="bungeni.question.Add" role="bungeni.Speaker" />        
+  <grant permission="bungeni.question.Add" role="bungeni.MP" />
+  <grant permission="bungeni.question.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.question.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.question.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.question.View" role="bungeni.Owner" />
@@ -96,26 +94,26 @@ items created by other users, so this hack has been removed -->
   <grant permission="bungeni.motion.View" role="bungeni.Owner" />
 
   <grant permission="bungeni.tableddocument.Add" role="bungeni.MP" />
-  <grant permission="bungeni.tableddocument.Add" role="bungeni.Clerk" />  
-  <grant permission="bungeni.tableddocument.Add" role="bungeni.Speaker" />    
+  <grant permission="bungeni.tableddocument.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.tableddocument.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.tableddocument.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.tableddocument.Delete" role="bungeni.Owner" />
   <grant permission="bungeni.tableddocument.View" role="bungeni.Owner" />
   
-  <grant permission="bungeni.agendaitem.Add" role="bungeni.Clerk" />  
-  <grant permission="bungeni.agendaitem.Add" role="bungeni.Speaker" />  
+  <grant permission="bungeni.agendaitem.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.agendaitem.Add" role="bungeni.Speaker" />
   <!--grant permission="bungeni.agendaitem.Add" role="bungeni.MP" /-->
   <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
   <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />
-  <grant permission="bungeni.agendaitem.View" role="bungeni.Owner" />    
-      
+  <grant permission="bungeni.agendaitem.View" role="bungeni.Owner" />
+  
   <grant permission="bungeni.parliament.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Edit" role="bungeni.Clerk" />
   <grant permission="bungeni.parliament.Delete" role="bungeni.Clerk" />
 
   <grant permission="bungeni.committee.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.committee.Edit" role="bungeni.Clerk" />
-  <grant permission="bungeni.committee.Delete" role="bungeni.Clerk" />  
+  <grant permission="bungeni.committee.Delete" role="bungeni.Clerk" />
   
   <grant permission="bungeni.office.Add" role="bungeni.Clerk" />
   <grant permission="bungeni.office.Edit" role="bungeni.Clerk" />
@@ -154,19 +152,20 @@ items created by other users, so this hack has been removed -->
       
   <grant permission="bungeni.auditlog.View" role="bungeni.Everybody" />
   
-<!-- XXX the permissions to add/edit/view amendments and annotatios 
-should be defined by workflow not static here ! -->  
-  
-  <!--grant permission="bungeni.amendment.Edit" role="bungeni.Everybody" />
+<!-- XXX the permissions to add/edit/view amendments and annotatios should 
+be defined by workflow not static here !
+
+  <grant permission="bungeni.amendment.Edit" role="bungeni.Everybody" />
   <grant permission="bungeni.amendment.View" role="bungeni.Everybody" />
   
   <grant permission="bungeni.comment.Edit" role="bungeni.Everybody" />
-  <grant permission="bungeni.comment.View" role="bungeni.Everybody" /-->  
+  <grant permission="bungeni.comment.View" role="bungeni.Everybody" />  
+-->  
 
   <grant permission="bungeni.minutes.View" role="bungeni.Clerk" />
-  <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />   
+  <grant permission="bungeni.minutes.View" role="bungeni.Speaker" />
   <grant permission="bungeni.agenda.View" role="bungeni.Clerk" />
-  <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />   
+  <grant permission="bungeni.agenda.View" role="bungeni.Speaker" />
   
   <grant permission="bungeni.event.Add" role="bungeni.Speaker" />
   <grant permission="bungeni.event.Edit" role="bungeni.Speaker" />

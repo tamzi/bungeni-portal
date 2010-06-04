@@ -1,0 +1,78 @@
+/*
+  <dtml-with base_properties>
+  <dtml-call "REQUEST.set('portal_url', portal_url())">
+*/
+
+body {
+  font: 69% Verdana, sans-serif;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+  text-align:justify;
+}
+
+h1, h2 {
+  color: #C8631B;
+}
+
+a span.hovertooltip {
+  display: none;
+}
+ 
+a:hover {
+  background-color: #EEEEEE;
+}
+
+/* The above hover change defeats the
+  IE/Win display changing bug */
+a:hover span.hovertooltip {
+  position: absolute;
+  display: block;
+  background: #f4e0b5;
+  border: 1px solid #FBAE0A;
+  color: #6A0803;
+}
+
+body.popup {
+  background-color:#ffffff;
+}
+
+ul#portal-globalnav {
+  padding:0.5px 0 0 2em;
+
+}
+
+.visualGhosted {
+  opacity: 0.2;
+  moz-opacity: 0.2;
+  khtml-opacity: 0.2;
+  filter: alpha(opacity=20);
+}
+
+/* Handling external links */
+#content a[href^="http:"],
+#content a.link-external,
+#content span.link-external a {
+  background: none;
+}
+
+#content span.link-https a {
+  background: none;
+}
+
+#send_button {
+  float: right;
+  padding: 4px 5px 2px 2px;
+}
+
+#print_button {
+  float: right;
+  padding: 4px 0px 2px 2px;
+}
+
+#export_button {
+  float: right;
+  padding: 4px 10px 2px 2px;
+}
+
+/* </dtml-with> */

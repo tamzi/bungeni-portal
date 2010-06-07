@@ -36,7 +36,7 @@ ploneFormTabbing._toggleFactory = function(container, tab_ids, panel_ids) {
 };
 
 ploneFormTabbing._buildTabs = function(container, legends) {
-    var threshold = 6;
+    var threshold = 7; // if num tabs >7, then TABS are rendered as a SELECT!
     var tab_ids = [];
     var panel_ids = [];
 

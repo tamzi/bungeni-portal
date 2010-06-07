@@ -14,6 +14,7 @@ from ore.alchemist import Session
 
 import bungeni.models.interfaces as interfaces
 import bungeni.models.domain as domain
+from bungeni.models.utils import get_principal_id
 from bungeni.core.app import BungeniApp
 import bungeni.core.interfaces
 import bungeni.core.globalsettings as prefs
@@ -81,11 +82,18 @@ def unset_group_local_role(context):
     IPrincipalRoleMap(ctx).unsetRoleForPrincipal(
             role, group.group_principal_id)
 
-
 def getOwnerId(context):
     if context:
         owner_id = getattr(context, 'owner_id', None)
         return dbutils.get_user_login(owner_id)
+
+def user_is_not_context_owner(context):
+    """Test if current user is NOT the context owner e.g. for when the Clerk 
+    creates a parliamentary item on behalf of an MP.
+    """
+    user_id = get_principal_id()
+    owner_id = getOwnerId(context)
+    return user_id!=owner_id
 
 def createVersion(info, context):
     """Create a new version of an object and return it."""

@@ -474,13 +474,10 @@ class DraftBillViewlet(BillItemsViewlet):
         self.query = bills
 
 
-
-class ItemInStageViewlet( ViewletBase ):
-    """
-    Group parliamentary items per stage:
-    e.g. action required, in progress, answered/debated,
-    'dead' (withdrawn, elapsed, inadmissible)
-    
+# !+ rename OwnItemsInStageViewlet
+class ItemInStageViewlet(ViewletBase):
+    """Group parliamentary items per stage e.g. action required, in progress, 
+    answered/debated, 'dead' (withdrawn, elapsed, inadmissible).
     """
     name = "Items in Stage"
     states = []
@@ -492,7 +489,7 @@ class ItemInStageViewlet( ViewletBase ):
             'bill']
     
     def getData(self):
-        """return the data of the query
+        """Return the data of the query.
         """
         data_list = []
         results = self.query.all()
@@ -521,35 +518,32 @@ class ItemInStageViewlet( ViewletBase ):
         return data_list
 
     def update(self):
-        """
-        refresh the query
+        """Refresh the query.
         """
         session = Session()
         try:
             user_id = self.__parent__.user_id
         except:
             user_id = None
-        qfilter = sql.and_( domain.ParliamentaryItem.owner_id == user_id,
-                domain.ParliamentaryItem.status.in_(self.states),
-                domain.ParliamentaryItem.type.in_(self.types )
-                            )
-        self.query = session.query(domain.ParliamentaryItem).filter(
-                qfilter).order_by(
-            domain.ParliamentaryItem.parliamentary_item_id.desc())
+        qfilter = sql.and_(
+                        domain.ParliamentaryItem.owner_id==user_id,
+                        domain.ParliamentaryItem.status.in_(self.states),
+                        domain.ParliamentaryItem.type.in_(self.types) )
+        self.query = session.query(domain.ParliamentaryItem).filter(qfilter
+            ).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc())
 
-class AllItemsInStageViewlet( ItemInStageViewlet ): 
+class AllItemsInStageViewlet(ItemInStageViewlet): 
 
     def update(self):
-        """
-        refresh the query
+        """Refresh the query.
         """
         session = Session()
         qfilter = sql.and_(
                 domain.ParliamentaryItem.status.in_(self.states),
                 domain.ParliamentaryItem.type.in_(self.types )
                     )
-        self.query = session.query(domain.ParliamentaryItem).filter(qfilter).order_by(
-            domain.ParliamentaryItem.parliamentary_item_id.desc()) 
+        self.query = session.query(domain.ParliamentaryItem).filter(qfilter
+            ).order_by(domain.ParliamentaryItem.parliamentary_item_id.desc()) 
             
 
 
@@ -681,7 +675,6 @@ class AllItemArchiveViewlet(AllItemsInStageViewlet):
             'question',
             'agendaitem',
             'tableddocument']
-            
     name = _("Archived Items")
     states = [
         question_wf_state[u"response_complete"].id,
@@ -705,8 +698,8 @@ class AllItemArchiveViewlet(AllItemsInStageViewlet):
         bill_wf_state[u"rejected"].id ,
         ]
     list_id = "items-archived"
-    
-class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ): 
+
+class ClerkItemActionRequiredViewlet(AllItemsInStageViewlet):
     types = ['motion',
             'question',
             'agendaitem',
@@ -729,6 +722,18 @@ class ClerkItemActionRequiredViewlet( AllItemsInStageViewlet ):
         tableddocument_wf_state[u"clarify_clerk"].id,
     ]
     list_id = "items-action-required"
+
+class ClerkItemsWorkingDraftViewlet(AllItemsInStageViewlet):
+    name = _("draft items")
+    states = [#motion_wf_state[u"working_draft"].id,
+        question_wf_state[u"working_draft"].id,
+        #agendaitem_wf_state[u"working_draft"].id,
+        #tableddocument_wf_state[u"working_draft"].id,
+        #bill_wf_state[u"working_draft"].id,
+    ]
+    list_id = "clerk-items-working-draft"
+class SpeakerItemsWorkingDraftViewlet(ClerkItemsWorkingDraftViewlet):
+    list_id = "speaker-items-working-draft"
 
 class SpeakersClerkItemActionRequiredViewlet(ClerkItemActionRequiredViewlet):
     name = _("pending with the clerk")

@@ -324,7 +324,7 @@ class AddForm(BaseForm, ui.AddForm):
     @form.action(_(u"Save and view"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data):
         for key in data.keys():
-            print "KEY->", key
+            print "[handle_add_save] KEY:%s VALUE:%s" % (key, data[key])
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
         ob = self.createAndAdd(data)
@@ -348,7 +348,7 @@ class AddForm(BaseForm, ui.AddForm):
         for key in data.keys():
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
-        ob = self.createAndAdd( data )
+        ob = self.createAndAdd(data)
         name = self.context.domain_model.__name__
         if not self._next_url:
             self._next_url = ui_utils.url.absoluteURL(ob, self.request ) + \
@@ -359,7 +359,7 @@ class AddForm(BaseForm, ui.AddForm):
         for key in data.keys():
             if isinstance(data[key], str): 
                 data[key] = unescape(data[key])
-        self.createAndAdd( data )
+        self.createAndAdd(data)
         name = self.context.domain_model.__name__
 
         if not self._next_url:

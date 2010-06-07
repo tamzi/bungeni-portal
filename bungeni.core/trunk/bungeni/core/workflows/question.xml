@@ -1,10 +1,26 @@
 <?xml version="1.0"?>
-<workflow
-   id="question-workflow"
+<workflow id="question-workflow"
    title="Question Workflow"
    description="A question"
    domain="bungeni.ui"
    initial_state="">
+    
+    <state id="working_draft" title="Working Draft">
+        <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
+        <grant permission="bungeni.question.Edit" role="bungeni.Speaker" />
+        <grant permission="bungeni.question.Delete" role="bungeni.Clerk" />
+        <grant permission="bungeni.question.Delete" role="bungeni.Speaker" />
+        <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+        <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+        <grant permission="zope.View" role="bungeni.Clerk" />
+        <grant permission="zope.View" role="bungeni.Speaker" />
+        <grant permission="zope.View" role="bungeni.Owner" />
+        <deny permission="bungeni.question.Add" role="bungeni.MP" />
+        <deny permission="zope.View" role="bungeni.MP" />
+        <deny permission="zope.View" role="bungeni.Minister" />
+        <deny permission="zope.View" role="bungeni.Everybody" /> 
+        <deny permission="zope.View" role="bungeni.Anybody" />
+  </state>
 
   <state id="draft" title="Draft">
     <grant permission="bungeni.question.Edit" role="bungeni.Owner" />
@@ -89,7 +105,6 @@
     <grant permission="bungeni.response.Edit" role="bungeni.Clerk" />
     <grant permission="bungeni.response.View" role="bungeni.Clerk" />
   </state>
-
   
   <state id="debate_adjourned" title="Debate adjourned">
   </state>
@@ -117,17 +132,12 @@
     <grant permission="bungeni.response.View" role="bungeni.Anybody" />
   </state>
 
-
-
   <state id="deferred" title="Deferred">
   </state>
-
   <state id="postponed" title="Postponed">
   </state>
-
   <state id="elapsed" title="Elapsed">
   </state>
-
 
   <state id="debated" title="Debated">
     <deny permission="bungeni.question.Edit" role="bungeni.Clerk" />
@@ -157,17 +167,24 @@
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
     <deny permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
   </state>
-
-  <transition 
-     id="create"
-     title="Create"
-     trigger="automatic"
-     source=""
-     destination="draft"
-     action="bungeni.core.workflows.question.actions.create"
-     condition=""
-     />
-
+    
+    <transition id="create"
+        title="Create"
+        trigger="automatic"
+        source=""
+        destination="draft"
+        action="bungeni.core.workflows.question.actions.create"
+        condition=""
+    />
+    <transition id="create-on-behalf-of"
+        title="Create"
+        trigger="automatic"
+        source=""
+        destination="working_draft"
+        action="bungeni.core.workflows.question.actions.create"
+        condition="bungeni.core.workflows.question.conditions.user_is_not_context_owner"
+    />
+    
   <transition 
      id="submit-to-clerk"
      title="Submit to Clerk"
@@ -183,7 +200,7 @@
      id="received-by-clerk"
      title="Receive"
      trigger="manual"
-     source="submitted"
+     source="working_draft submitted"
      destination="received"
      permission="bungeni.question.Recieve"
      action="bungeni.core.workflows.question.actions.received_by_clerk"
@@ -191,17 +208,23 @@
      event=".interfaces.IQuestionReceivedEvent"
      />
   
-  <!--If a question is flagged by the Clerk /' Speakers office as 
-      "requiring editing by the MP" (e.g. missing data etc.) the system sends 
-      a notification to the MP to access the question and review it according 
-      to Speaker/Clerk's  office remarks. 
-      A new version of the question will be created, once the question is modified and saved.
+  <!--
+    If a question is flagged by the Clerk /' Speakers office as 
+    "requiring editing by the MP" (e.g. missing data etc.) the system sends 
+    a notification to the MP to access the question and review it according 
+    to Speaker/Clerk's office remarks. 
+    
+    A question in working_draft at the clerks office may also be sent to the
+    MP, for review/clarifications.
+    
+    A new version of the question will be created, once the question is 
+    modified and saved.
     -->
   <transition 
      id="require-edit-by-mp"
      title="Needs Clarification by MP"
      trigger="manual"
-     source="received"
+     source="working_draft received"
      destination="clarify_mp"
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.actions.require_edit_by_mp"
@@ -625,6 +648,5 @@
      require_confirmation="true"
      event=""
      />
-
 
 </workflow>

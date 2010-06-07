@@ -1,5 +1,7 @@
 # encoding: utf-8
 
+log = __import__("logging").getLogger("bungeni.core")
+
 from zope import component
 from bungeni.core.workflows.notification import Notification
 from bungeni.core.workflows import interfaces
@@ -13,7 +15,7 @@ from bungeni.models.utils import get_principal_id
 import bungeni.core.workflows.utils as utils
 import zope.securitypolicy.interfaces
 
-class conditions:
+class conditions(object):
     @staticmethod
     def is_scheduled(info, context):
         return dbutils.isItemScheduled(context.question_id)
@@ -31,57 +33,58 @@ class conditions:
     def is_oral_response(info, context):
         return context.response_type == u"O"
 
-class actions:
+    @staticmethod
+    def user_is_not_context_owner(info, context):
+        return utils.user_is_not_context_owner(context)
+
+class actions(object):
     @staticmethod
     def denyAllWrites(question):
-        """
-        remove all rights to change the question from all involved roles
+        """Remove all rights to change the question from all involved roles.
         """
         pass
 
-
     @staticmethod
     def create(info, context):
-        """
-        create a question -> state.draft, grant all rights to owner
+        """Create a question -> state.draft, grant all rights to owner
         deny right to add supplementary questions.
         """
-        print "QUESTION CREATE:", info, context
-        utils.setQuestionDefaults(info, context)
+        q = context # context is the newly created question
+        log.debug("[QUESTION CREATE] [%s] [%s]" % (info, q))
+        utils.setQuestionDefaults(info, q)
         user_id = get_principal_id()
         if user_id:
-            zope.securitypolicy.interfaces.IPrincipalRoleMap(context
-                ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
-        owner_id = utils.getOwnerId(context)
-        print "                ", user_id, owner_id
-        if owner_id and (owner_id != user_id):
-            zope.securitypolicy.interfaces.IPrincipalRoleMap(context
+            zope.securitypolicy.interfaces.IPrincipalRoleMap(q
+                            ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
+        owner_id = utils.getOwnerId(q)
+        log.debug("        user_id:%s owner_id:%s" % (user_id, owner_id))
+        if owner_id and (owner_id!=user_id):
+            zope.securitypolicy.interfaces.IPrincipalRoleMap(q
                 ).assignRoleToPrincipal(u'bungeni.Owner', owner_id)
-
+    
+    '''
     @staticmethod
     def makePrivate(info, context):
-        """
-        a question that is not being asked
+        """A question that is not being asked.
         """
         pass
 
     @staticmethod
     def reDraft(info, context):
         """
-
         """
         pass
-
+    '''
+    
     @staticmethod
-    def submit_to_clerk(info,context):
-        """
-        a question submitted to the clerks office, the owner cannot edit it anymore
-        the clerk has no edit rights until it is recieved
+    def submit_to_clerk(info, context):
+        """A question submitted to the clerks office, the owner cannot edit it 
+        anymore the clerk has no edit rights until it is recieved.
         """
         utils.setSubmissionDate(info, context)
 
     @staticmethod
-    def received_by_clerk( info, context ):
+    def received_by_clerk(info, context):
         """
         the question is recieved by the clerks office, 
         the clerk can edit the question

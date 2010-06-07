@@ -199,9 +199,14 @@
      permission="zope.View"
      weight="10"
      />
-
-
-
+    <browser:viewlet name="bungeni.workspace.working-draft.clerk"
+        for="*"
+        manager=".interfaces.IWorkspaceManager"
+        class=".workspace.ClerkItemsWorkingDraftViewlet"
+        view="bungeni.ui.interfaces.IClerkWorkspace"
+        permission="zope.View"
+        weight="15"
+    />
   <browser:viewlet
      name="bungeni.workspace.reviewed.clerk"
      for="*"
@@ -211,7 +216,6 @@
      permission="zope.View"
      weight="20"
      />
-
   <browser:viewlet
      name="bungeni.workspace.items-approved.clerk"
      for="*"
@@ -221,7 +225,6 @@
      permission="zope.View"
      weight="25"
      />
-
   <browser:viewlet
      name="bungeni.workspace.items-pending-schedule.clerk"
      for="*"
@@ -231,7 +234,6 @@
      permission="zope.View"
      weight="30"
      />
-
   <browser:viewlet
      name="bungeni.workspace.sittings.clerk"
      for="*"
@@ -241,8 +243,6 @@
      permission="zope.View"
      weight="40"
      />
-
-
   <browser:viewlet
      name="bungeni.workspace.questions-pending.clerk"
      for="*"
@@ -380,6 +380,15 @@
      weight="10"
      />
      
+    <browser:viewlet name="bungeni.workspace.working-draft.speaker"
+        for="*"
+        manager=".interfaces.IWorkspaceManager"
+        class=".workspace.SpeakerItemsWorkingDraftViewlet"
+        view="bungeni.ui.interfaces.ISpeakerWorkspace"
+        permission="zope.View"
+        weight="15"
+    />
+
   <browser:viewlet
      name="bungeni.workspace.items-approved.speaker"
      for="*"
@@ -399,7 +408,6 @@
      permission="zope.View"
      weight="30"
      />
-
 
   <browser:viewlet
      name="bungeni.workspace.items-pending"

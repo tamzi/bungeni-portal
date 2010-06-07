@@ -43,7 +43,7 @@ class actions(object):
         """Remove all rights to change the question from all involved roles.
         """
         pass
-
+    
     @staticmethod
     def create(info, context):
         """Create a question -> state.draft, grant all rights to owner
@@ -82,164 +82,128 @@ class actions(object):
         anymore the clerk has no edit rights until it is recieved.
         """
         utils.setSubmissionDate(info, context)
-
+    
     @staticmethod
     def received_by_clerk(info, context):
-        """
-        the question is recieved by the clerks office, 
-        the clerk can edit the question
+        """The question is recieved by the clerks office, 
+        the clerk can edit the question.
         """
         utils.createVersion(info, context)
-
+    
     @staticmethod
-    def withdraw( info, context ):
+    def withdraw(info, context):
+        """A question can be withdrawn by the owner, it is visible to ...
+        and cannot be edited by anyone.
         """
-        a question can be withdrawn by the owner, it is  visible to ...
-        and cannot be edited by anyone
-        """
-
-        utils.setQuestionScheduleHistory(info,context)
-
-
-
+        utils.setQuestionScheduleHistory(info, context)
+    
     @staticmethod
-    def elapse(info,context):
-        """
-        A question that could not be answered or debated, 
-        it is visible to ... and cannot be edited
-        """
-
-        pass
-
-
-    @staticmethod
-    def defer(info,context):
-        """
-        A question that cannot be debated it is available for scheduling
-        but cannot be edited
+    def elapse(info, context):
+        """A question that could not be answered or debated, 
+        it is visible to ... and cannot be edited.
         """
         pass
-
-
-
+    
     @staticmethod
-    def send_to_ministry(info,context):
-        """
-        A question sent to a ministry for a written answer, 
-        it cannot be edited, the ministry can add a written response
-        """
-        utils.setMinistrySubmissionDate(info,context)
-
-    @staticmethod
-    def respondWriting(info,context):
-        """
-        A written response from a ministry
+    def defer(info, context):
+        """A question that cannot be debated it is available for scheduling
+        but cannot be edited.
         """
         pass
-
-
+    
     @staticmethod
-    def require_edit_by_mp(info,context):
+    def send_to_ministry(info, context):
+        """A question sent to a ministry for a written answer, 
+        it cannot be edited, the ministry can add a written response.
         """
-        A question is unclear and requires edits/amendments by the MP
-        Only the MP is able to edit it, the clerks office looses edit rights
-        """
-        utils.createVersion(info,context)
- 
-
-
-
+        utils.setMinistrySubmissionDate(info, context)
+    
     @staticmethod
-    def require_amendment(info,context):
-        """
-        A question is send back from the speakers office 
-        the clerks office for clarification
-        """
-        utils.createVersion(info,context)
- 
-
-    @staticmethod
-    def reject(info,context):
-        """
-        A question that is not admissible, 
-        Nobody is allowed to edit it
+    def respondWriting(info, context):
+        """A written response from a ministry.
         """
         pass
-
+    
     @staticmethod
-    def postpone(info,context):
+    def require_edit_by_mp(info, context):
+        """A question is unclear and requires edits/amendments by the MP
+        Only the MP is able to edit it, the clerks office looses edit rights.
         """
-        A question that was scheduled but could not be debated,
+        utils.createVersion(info, context)
+    
+    @staticmethod
+    def require_amendment(info, context):
+        """A question is send back from the speakers office 
+        the clerks office for clarification.
+        """
+        utils.createVersion(info, context)
+    
+    @staticmethod
+    def reject(info, context):
+        """A question that is not admissible, 
+        Nobody is allowed to edit it.
+        """
+        pass
+    
+    @staticmethod
+    def postpone(info, context):
+        """A question that was scheduled but could not be debated,
         it is available for rescheduling.
         """
-        utils.setQuestionScheduleHistory(info,context)
-
-
+        utils.setQuestionScheduleHistory(info, context)
+    
     @staticmethod
-    def complete(info,context):
+    def complete(info, context):
+        """A question is marked as complete by the clerks office, 
+        it is available to the speakers office for review.
         """
-        A question is marked as complete by the clerks office, 
-        it is available to the speakers office for review
-        """
-        utils.createVersion(info,context)
-        utils.setSubmissionDate(info, context) 
-
-
+        utils.createVersion(info, context)
+        utils.setSubmissionDate(info, context)
+    
     @staticmethod
-    def schedule(info,context):
-        """
-        the question gets scheduled no one can edit the question,
-        a response may be added
+    def schedule(info, context):
+        """The question gets scheduled no one can edit the question,
+        a response may be added.
         """
         pass
-
-
+    
     @staticmethod
-    def complete_clarify(info,context):
+    def complete_clarify(info, context):
+        """A question that requires clarification/amendmends,
+        is resubmitted by the clerks office to the speakers office.
         """
-        a question that requires clarification/amendmends
-        is  resubmitted by the clerks office to the speakers office
-        """
-        utils.createVersion(info,context)
-
-
+        utils.createVersion(info, context)
+    
     @staticmethod
-    def respondSitting(info,context):
-        """
-        A question was debated, the question cannot be edited, 
-        the clerks office can add a response
+    def respondSitting(info, context):
+        """A question was debated, the question cannot be edited, 
+        the clerks office can add a response.
         """
         pass
-
-
+    
     @staticmethod
-    def answer(info,context):
-        """
-        the response was reviewed by the clerks office, 
+    def answer(info, context):
+        """The response was reviewed by the clerks office, 
         the question is visible, if the question was a written question
         supplementary question now can be asked. 
         """
         pass
-
-
+    
     @staticmethod
-    def mp_clarify(info,context):
+    def mp_clarify(info, context):
+        """Send from the clerks office to the mp for clarification 
+        the MP can edit it the clerk cannot.
         """
-        send from the clerks office to the mp for clarification 
-        the MP can edit it the clerk cannot
-        """
-        utils.createVersion(info,context)
-
-
-
+        utils.createVersion(info, context)
+    
     @staticmethod
-    def approve(info,context):
+    def approve(info, context):
+        """The question is admissible and can be send to ministry,
+        or is available for scheduling in a sitting.
         """
-        the question is admissible and can be send to ministry,
-        or is available for scheduling in a sitting
-        """
-        utils.setApprovalDate(info,context)
-   
+        utils.setApprovalDate(info, context)
+
+
 class SendNotificationToMemberUponReceipt(Notification):
     component.adapts(interfaces.IQuestionReceivedEvent)
 
@@ -249,11 +213,11 @@ class SendNotificationToMemberUponReceipt(Notification):
     @property
     def subject(self):
         return u'Question received: %s' % self.context.short_name
-
+    
     @property
     def condition(self):
         return self.context.receive_notification
-
+    
     @property
     def from_address(self):
         return prefs.getClerksOfficeEmail()
@@ -264,16 +228,16 @@ class SendNotificationToClerkUponSubmit(Notification):
     We need to settings from a global registry to determine whether to
     send this notification and where to send it to.
     """
-
+    
     component.adapts(interfaces.IQuestionSubmittedEvent)
-
+    
     body = _('notification_email_to_clerk_upon_submit_of_question',
              default="Question submitted")
-
+    
     @property
     def subject(self):
         return u'Question submitted: %s' % self.context.short_name
-
+    
     @property
     def condition(self):
         return prefs.getClerksOfficeRecieveNotification()
@@ -285,16 +249,16 @@ class SendNotificationToClerkUponSubmit(Notification):
 class SendNotificationToMemberUponReject(Notification):
     """Issued when a question was rejected by the speakers office.
     Sends a notice that the Question was rejected"""
-
+    
     component.adapts(interfaces.IQuestionRejectedEvent)
-
+    
     body = _('notification_email_to_member_upon_rejection_of_question',
              default="Question rejected")
-
+    
     @property
     def subject(self):
         return u'Question rejected: %s' % self.context.short_name
-
+    
     @property
     def condition(self):
         return self.context.receive_notification
@@ -306,16 +270,16 @@ class SendNotificationToMemberUponReject(Notification):
 class SendNotificationToMemberUponNeedsClarification(Notification):
     """Issued when a question needs clarification by the MP
     sends a notice that the question needs clarification"""
-
+    
     component.adapts(interfaces.IQuestionClarifyEvent)
-
+    
     body = _('notification_email_to_member_upon_need_clarification_of_question',
              default="Your question needs to be clarified")
-
+    
     @property
     def subject(self):
         return u'Question needs clarification: %s' % self.context.short_name
-
+    
     @property
     def condition(self):
         return self.context.receive_notification
@@ -480,8 +444,7 @@ class SendNotificationToMemberUponAnswer(Notification):
     @property
     def from_address(self):
         return prefs.getClerksOfficeEmail()
-        
-        
+
 class SendNotificationToMemberUponDebate(Notification):
     """Issued when a questions answer was reviewed by Clerk's office.
     sends a notice that the question was either debated or recieved a

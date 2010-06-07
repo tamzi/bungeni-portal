@@ -22,6 +22,7 @@ from bungeni.core.translation import get_all_languages
 from bungeni.core.translation import get_available_translations
 from bungeni.core import schedule
 from bungeni.core.globalsettings import getCurrentParliamentId
+from bungeni.core.schedule import PlenarySchedulingContext
 
 from bungeni.ui.i18n import  _
 from bungeni.ui.utils import url as ui_url, debug
@@ -380,11 +381,15 @@ class CalendarMenu(BrowserMenu):
         results = []
         for context in contexts:
             group = context.get_group()
-            if group.group_id == group_id:
+            if group.group_id==group_id:
                 continue
             
             url = ui_url.absoluteURL(context, request)
-
+            # !+ the url for the Plenary is incorrectly calculated to be 
+            # "/calendar" when in a committee calendar view
+            if isinstance(context, PlenarySchedulingContext):
+                url = "/business/sittings"
+            
             extra = {'id': 'calendar-link-%s' % group.group_id,
                      'separator': None,
                      'class': ''}
@@ -402,3 +407,4 @@ class CalendarMenu(BrowserMenu):
         results.sort(key=operator.itemgetter("title"))
 
         return results
+

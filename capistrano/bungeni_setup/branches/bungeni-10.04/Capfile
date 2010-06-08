@@ -1,0 +1,31 @@
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+Dir['vendor/plugins/*/recipes/*.rb'].each { |plugin| load(plugin) }
+load 'config/manual_configs'
+load 'config/download_urls.rb'
+load 'config/commonfunctions'
+load 'config/bungeni_presetup'
+load 'config/bungeniconfigvars'
+load 'config/bungeniconfiglocalcache'
+## Varnish 
+#load 'config/varnishconfigvars'
+#load 'config/varnish_presetup'
+#load 'config/varnish_tasks'
+### Bungeni
+load 'config/bungeni_tasks'
+load 'config/bungeni_update'
+load 'config/bungeni_install'
+load 'config/bungeni_services'
+### now for plone stuff
+load 'config/plone_presetup'
+load 'config/ploneconfigvars'
+load 'config/plone_tasks'
+load 'config/plone_install'
+load 'config/plone_update'
+#### now for portal stuff
+load 'config/portalconfigvars'
+load 'config/portal_tasks'
+load 'config/portal_install'
+load 'config/portal_update'
+### now run deploy.rb
+load 'config/deploy'
+

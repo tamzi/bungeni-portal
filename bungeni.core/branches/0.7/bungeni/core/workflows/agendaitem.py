@@ -6,20 +6,23 @@ from bungeni.core.workflows import interfaces
 from bungeni.core import globalsettings as prefs
 from bungeni.core.i18n import _
 import zope.securitypolicy.interfaces
-import bungeni.core.workflows.utils as utils
-from bungeni.core.workflows import dbutils
+from bungeni.core.workflows import dbutils, utils
 from bungeni.models.utils import get_principal_id
 
 class conditions(object):
+
     @staticmethod
     def is_scheduled(info, context):
         return dbutils.isItemScheduled(context.agenda_item_id)
 
+    @staticmethod
+    def user_is_not_context_owner(info, context):
+        return not utils.user_is_context_owner(context)
+
 class actions(object):
     @staticmethod
     def denyAllWrites(agenda_item):
-        """
-        remove all rights to change the question from all involved roles
+        """Remove all rights to change the question from all involved roles.
         """
     #    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( agenda_item )
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.edit', u'bungeni.Owner' )
@@ -30,11 +33,11 @@ class actions(object):
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.Clerk' )
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.Speaker' )
     #    rpm.denyPermissionToRole( 'bungeni.agenda_item.delete', u'bungeni.MP' )
-
+    
     @staticmethod
     def postpone(info,context):
         utils.setAgendaItemHistory(info,context)
-
+    
     @staticmethod
     def create( info, context ):
         user_id = get_principal_id()
@@ -47,16 +50,15 @@ class actions(object):
         if owner_id and (owner_id != user_id):
             zope.securitypolicy.interfaces.IPrincipalRoleMap( context 
                 ).assignRoleToPrincipal( u'bungeni.Owner', owner_id)
-
+    
     @staticmethod
     def submit( info, context ):
         utils.setSubmissionDate(info, context)
-
-
+    
     @staticmethod
     def received_by_clerk( info, context ):
         utils.createVersion(info, context)
-
+    
     @staticmethod
     def require_edit_by_mp( info, context ):
         utils.createVersion(info,context)

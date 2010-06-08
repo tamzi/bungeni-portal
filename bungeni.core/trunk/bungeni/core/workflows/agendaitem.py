@@ -10,12 +10,12 @@ import bungeni.core.workflows.utils as utils
 from bungeni.core.workflows import dbutils
 from bungeni.models.utils import get_principal_id
 
-class conditions:
+class conditions(object):
     @staticmethod
     def is_scheduled(info, context):
         return dbutils.isItemScheduled(context.agenda_item_id)
 
-class actions:
+class actions(object):
     @staticmethod
     def denyAllWrites(agenda_item):
         """

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <workflow id="question-workflow"
-   title="Question Workflow"
-   description="A question"
-   domain="bungeni.ui"
-   initial_state="">
+    title="Question Workflow"
+    description="A question"
+    domain="bungeni.ui"
+    initial_state="">
     
     <state id="working_draft" title="Working Draft">
         <grant permission="bungeni.question.Edit" role="bungeni.Clerk" />
@@ -316,7 +316,7 @@
     <!--
     Or send to the mp for clarification.
     -->
-  <transition id="mp-clarify"
+    <transition id="mp-clarify"
         title="Needs Clarification by MP"
         trigger="manual"
         source="clarify_clerk"
@@ -396,8 +396,7 @@
         condition="bungeni.core.workflows.question.conditions.is_ministry_set"
         event=".interfaces.IQuestionSentToMinistryEvent"
         require_confirmation="true"
-     />
-
+    />
     <transition id="submit-response"
         title="Submit Response"
         trigger="manual"

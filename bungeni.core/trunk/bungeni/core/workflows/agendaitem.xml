@@ -1,25 +1,42 @@
 <?xml version="1.0"?>
-<workflow
-   id="agenda-item-workflow"
-   title="Agenda Item Workflow"
-   description="Agenda Item"
-   domain="bungeni.ui"
-   initial_state="">
-
-  <state id="draft" title="Draft">
-    <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
-    <grant permission="zope.View" role="bungeni.Owner" />
-    <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />
-    <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
-    <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
-    <deny permission="zope.View" role="bungeni.MP" />
-    <deny permission="zope.View" role="bungeni.Clerk" />
-    <deny permission="zope.View" role="bungeni.Speaker" />
-    <deny permission="zope.View" role="bungeni.Minister" />
-    <deny permission="zope.View" role="bungeni.Everybody" /> 
-    <deny permission="zope.View" role="bungeni.Anybody" />
-  </state>
-
+<workflow id="agenda-item-workflow"
+    title="Agenda Item Workflow"
+    description="Agenda Item"
+    domain="bungeni.ui"
+    initial_state="">
+    
+    <state id="working_draft" title="Working Draft">
+        <grant permission="zope.View" role="bungeni.Clerk" />
+        <grant permission="bungeni.agendaitem.Edit" role="bungeni.Clerk" />
+        <grant permission="bungeni.agendaitem.Delete" role="bungeni.Clerk" />
+        <grant permission="bungeni.fileattachment.Add" role="bungeni.Clerk" />
+        <grant permission="bungeni.fileattachment.Edit" role="bungeni.Clerk" />
+        <grant permission="zope.View" role="bungeni.Speaker" />
+        <grant permission="bungeni.agendaitem.Edit" role="bungeni.Speaker" />
+        <grant permission="bungeni.agendaitem.Delete" role="bungeni.Speaker" />
+        <grant permission="bungeni.fileattachment.Add" role="bungeni.Speaker" />
+        <grant permission="bungeni.fileattachment.Edit" role="bungeni.Speaker" />
+        <deny permission="zope.View" role="bungeni.Owner" />
+        <deny permission="zope.View" role="bungeni.MP" />
+        <deny permission="zope.View" role="bungeni.Minister" />
+        <deny permission="zope.View" role="bungeni.Everybody" /> 
+        <deny permission="zope.View" role="bungeni.Anybody" />
+    </state>
+    
+    <state id="draft" title="Draft">
+        <grant permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
+        <grant permission="zope.View" role="bungeni.Owner" />
+        <grant permission="bungeni.agendaitem.Delete" role="bungeni.Owner" />
+        <grant permission="bungeni.fileattachment.Add" role="bungeni.Owner" />
+        <grant permission="bungeni.fileattachment.Edit" role="bungeni.Owner" />
+        <deny permission="zope.View" role="bungeni.MP" />
+        <deny permission="zope.View" role="bungeni.Clerk" />
+        <deny permission="zope.View" role="bungeni.Speaker" />
+        <deny permission="zope.View" role="bungeni.Minister" />
+        <deny permission="zope.View" role="bungeni.Everybody" /> 
+        <deny permission="zope.View" role="bungeni.Anybody" />
+    </state>
+    
   <state id="submitted" title="Submitted">
     <deny permission="bungeni.agendaitem.Edit" role="bungeni.Owner" />
     <deny permission="bungeni.fileattachment.Add" role="bungeni.Owner" />

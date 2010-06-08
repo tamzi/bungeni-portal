@@ -1,0 +1,64 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:db="http://namespaces.objectrealms.net/rdb"
+           xmlns:xapian="http://namespaces.objectrealms.net/xapian"
+           i18n_domain="bungeni">
+
+  <!-- Bind Application Model to Database -->
+  <include package="zope.app.zcmlfiles" />
+
+  <include package="ore.alchemist" file="meta.zcml" />
+  <include package="ore.alchemist" />
+  <include package="alchemist.catalyst" file="meta.zcml" />
+  <include package="alchemist.ui" />
+
+  <include package="bungeni.core" />
+
+  <db:bind
+     engine="bungeni-db"
+     metadata=".schema.metadata" />
+  
+  <class class=".document.SimpleDocument">
+    <implements
+        interface=".interfaces.IMarginaliaAnnotatable"
+        />
+    <require
+        permission="zope.View"
+        interface=".interfaces.ISimpleDocument"
+        />
+    <require
+        permission="zope.ManageContent"
+        set_schema=".interfaces.ISimpleDocument"
+        />
+  </class>
+
+  <interface 
+      interface=".interfaces.ISimpleDocument"
+      type="zope.app.content.interfaces.IContentType"
+      /> 
+
+  <interface 
+      interface=".interfaces.IMarginaliaAnnotation"
+      type="zope.app.content.interfaces.IContentType"
+      /> 
+
+  <adapter
+       for="marginalia.interfaces.ISimpleDocument"
+       provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
+       factory="marginalia.document.SimpleDocumentAnnotationAdaptor"
+       />
+
+  <utility
+      component=".document.documentFactory"
+      name="marginalia.SimpleDocument"
+      permission="zope.Public"
+      />
+
+  <include package=".browser" />
+
+  <browser:resourceDirectory
+     name="imagesmarginalia"
+     directory="images"
+     />
+
+</configure>

@@ -1,0 +1,35 @@
+/* 
+** Bungeni Marginalia annotation styles
+*/
+
+.hentry .notes li button.annotation-link {
+    background-image:url(link.gif);
+}
+
+.hentry em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry .entry-content em.annotation ins {
+   color:black;
+}
+
+.hentry .entry-content em.annotation del {
+   display:none;
+}

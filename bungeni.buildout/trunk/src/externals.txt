@@ -1,9 +1,9 @@
 # core software
 bungeni.server -r6549   https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
-bungeni.core -r6682   https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
+bungeni.core -r6708   https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
 bungeni.models  -r6629  https://bungeni-portal.googlecode.com/svn/bungeni.models/trunk/
 bungeni.portal -r6683  https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk/
-bungeni.ui  -r6695  https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
+bungeni.ui  -r6709  https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 marginalia  -r6514  https://bungeni-portal.googlecode.com/svn/marginalia/trunk
  
 # plone 3 skin

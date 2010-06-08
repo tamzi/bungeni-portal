@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+
+  <browser:page
+      for="marginalia.interfaces.ISimpleDocument"
+      name="index.html"
+      class=".document.ViewDocument"
+      permission="zope.View"
+      />
+
+<!--
+  <configure package="zope.app.preview">
+    <browser:page
+        for="marginalia.interfaces.ISimpleDocument"
+        name="preview.html"
+        template="preview.pt"
+        permission="zope.ManageContent"
+        menu="zmi_views" title="Preview"
+        />
+  </configure>
+-->
+
+  <browser:page
+      for="marginalia.interfaces.ISimpleDocument"
+      name="edit.html"
+      class=".document.DocumentEditForm"
+      permission="zope.ManageContent" 
+      menu="zmi_views" title="Edit"
+      />
+
+  <adapter
+      factory=".document.form_template"
+      for=".document.DocumentEditForm"
+      name="simpledocument.form"
+      />
+
+  <browser:addMenuItem
+      title="SimpleDocument"
+      factory="marginalia.SimpleDocument"
+      view="marginalia.SimpleDocument"
+      permission="zope.ManageContent"
+      />
+
+  <browser:page
+      for="zope.app.container.interfaces.IAdding"
+      name="marginalia.SimpleDocument"
+      class=".document.DocumentAddForm"
+      permission="zope.ManageContent" 
+      />
+
+  <adapter
+      factory=".document.form_template"
+      for=".document.DocumentAddForm"
+      name="simpledocument.form"
+      />
+
+  <!-- Annotatable -->
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="annote.html"
+      template="annote.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Comment"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="amend.html"
+      template="amend.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Amendment"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="annotate.html"
+      template="marginalia.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Comment FullScreen"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="amendment.html"
+      template="amendment.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Amendment FullScreen"
+      />
+
+   <browser:menuItem
+     menu="context_actions"
+     for="marginalia.interfaces.IMarginaliaAnnotatable"
+     action="annote.html"
+     title="Comment"
+     />
+
+   <browser:menuItem
+     menu="context_actions"
+     for="marginalia.interfaces.IMarginaliaAnnotatable"
+     action="amend.html"
+     title="Amend"
+     />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="annotate"
+      class="marginalia.browser.templates.MarginaliaPage"
+      permission="zope.View"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="amendment"
+      class="marginalia.browser.templates.AmendmentPage"
+      permission="zope.View"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="download"
+      class="marginalia.browser.templates.DownloadPage"
+      permission="zope.View"
+      />
+
+  <!-- Style Sheet -->
+  <browser:resource name="marginalia.css" file="js/marginalia.css" />
+  <browser:resource name="marginaliaadmin.css" file="js/marginaliaadmin.css" />
+
+  <!-- Javascript files -->
+
+  <browser:resource name="3rd-party.js" file="js/3rd-party.js" />
+
+  <browser:resourceDirectory
+     name="jsmarginalia"
+     directory="js"
+     />
+
+  <browser:resourceDirectory
+     name="jsexternal"
+     directory="js/3rd-party"
+     />
+
+  <!-- Allowing PUT and DELETE requests -->
+    
+  <publisher
+      name="MARGINALIA"
+      factory="ore.wsgiapp.publication.BrowserFactory"
+      methods="PUT DELETE"
+      mimetypes="*"
+      priority="10"
+      />
+
+</configure>
